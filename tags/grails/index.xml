@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grails on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/grails/</link>
+    <description>Recent content in Grails on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/grails/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>來架個網站吧-14.網站開發-4-MVC-1-view</title>
+      <link>http://pollochang.work/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/</guid>
+      <description>來架個網站吧-14.網站開發-4-MVC-1-view tags: 來架個網站吧 Grails 我是目錄
+想了又想，決定還是從畫面開始講起，雖然跟我自己的開發習慣不一樣。因為在我自己學習網站開發的階段是從畫面開始學習，也許這樣對初學者會比較容易上手。後來工作三、四年之後，逐漸會先把系統的資料處理流程先構築完畢，接下來在處理使用者或是API介面部份，最後在修整程式細節。
+今天主要是把網站畫面構築出來，這邊我主要使用的技術如下:
+bootstrap v4 bootstrap-table jQuery 新增 Controller 在新增畫面之前，首先新增一個Controller。一個Controller代表ContextPath後的第一個Path。而第二個Path代表Controller裡的Action。
+接下來就用IDEA完成新增DictController.groovy
+grails-app/controllers/dict/DictController.groovy 在Controllers資料夾中按下右鍵 選擇新增Grails Controller 輸入要新增的Controller，這次是: DictController 新增成功後就會在Controllers下中建立一個DictController.groovy檔案。 新增 laylout: 在新增一個view之前，建議先完成一個layout(母板)，以下是這次是要要新增 layout 所需要的檔案。
+stylesheet: grails-app/assets/stylesheets/dict-main.css javascript: grails-app/assets/javascripts/dict-main.js laylout: grails-app/views/layouts/dict-main.gsp 目錄結構如下
+grails-app ├── assets │ ├── javascripts │ │ ├── bootstrap.js │ │ ├── bootstrap.js.map │ │ ├── bootstrap.min.js │ │ ├── bootstrap.min.js.map │ │ ├── dict-main.js │ │ ├── jquery-3.5.1.js │ │ ├── jquery-3.5.1.min.js │ │ ├── jquery-3.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-15.網站開發-5-MVC-2-Domain</title>
+      <link>http://pollochang.work/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/</guid>
+      <description>來架個網站吧-15.網站開發-5-MVC-2-Domain tags: 來架個網站吧 Grails 我是目錄
+昨天完成新增畫面之後，接下來就是建立 domain 啦！在Grails設計框架之中，原則上資料酷的一張table是對到一個 Domain Class，本次要新增的table 在篇中: 來架個網站吧-10.資料規劃，就有提到，於是我在這邊就不多做闡述。新增完成 Table 之後，接下來是新增幾筆測試資料。如下:
+INSERT INTO public.dict ( word, radical, total_strokes, out_strokes, mpc, explanation) VALUES(&amp;#39;一&amp;#39;, &amp;#39;一&amp;#39;, 1, 0, &amp;#39;一&amp;#39;, &amp;#39;(1) 自ㄗˋ然ㄖㄢˊ數ㄕㄨˋ的˙ㄉㄜ第ㄉㄧˋ一ㄧ位ㄨㄟˋ。大ㄉㄚˋ寫ㄒㄧㄝˇ作ㄗㄨㄛˋ「壹ㄧ」，阿ㄚ拉ㄌㄚ伯ㄅㄛˊ數ㄕㄨˋ字ㄗˋ作ㄗㄨㄛˋ「１」。 (2)單ㄉㄢ個˙ㄍㄜ、不ㄅㄨˊ是ㄕˋ多ㄉㄨㄛ數ㄕㄨˋ的˙ㄉㄜ。如ㄖㄨˊ：「一ㄧˊ個˙ㄍㄜ」、「一ㄧˋ張ㄓㄤ紙ㄓˇ」。 (3) 相ㄒㄧㄤ同ㄊㄨㄥˊ、一ㄧˊ致ㄓˋ。如ㄖㄨˊ：「一ㄧˋ模ㄇㄛˊ一ㄧˊ樣ㄧㄤˋ」、「大ㄉㄚˋ小ㄒㄧㄠˇ不ㄅㄨˋ一ㄧ」。 (4) 專ㄓㄨㄢ注ㄓㄨˋ、純ㄔㄨㄣˊ正ㄓㄥˋ。如ㄖㄨˊ：「一ㄧˋ心ㄒㄧㄣ一ㄧˊ意ㄧˋ」、「用ㄩㄥˋ情ㄑㄧㄥˊ專ㄓㄨㄢ一ㄧ」。 (5)全ㄑㄩㄢˊ、整ㄓㄥˇ。如ㄖㄨˊ：「一ㄧˋ身ㄕㄣ臭ㄔㄡˋ汗ㄏㄢˋ」、「一ㄧˋ生ㄕㄥ一ㄧˊ世ㄕˋ」。 (6) 每ㄇㄟˇ。如ㄖㄨˊ：「一ㄧˋ班ㄅㄢ四ㄙˋ十ㄕˊ人ㄖㄣˊ」、「一ㄧˊ頁ㄧㄝˋ六ㄌㄧㄡˋ百ㄅㄞˇ字ㄗˋ」。 (7) 才ㄘㄞˊ、剛ㄍㄤ剛ㄍㄤ。如ㄖㄨˊ：「一ㄧˋ聽ㄊㄧㄥ就ㄐㄧㄡˋ懂ㄉㄨㄥˇ」、「天ㄊㄧㄢ一ㄧˊ亮ㄌㄧㄤˋ，他ㄊㄚ便ㄅㄧㄢˋ起ㄑㄧˇ床ㄔㄨㄤˊ。」 (8)放ㄈㄤˋ在ㄗㄞˋ兩ㄌㄧㄤˇ重ㄔㄨㄥˊ疊ㄉㄧㄝˊ的˙ㄉㄜ動ㄉㄨㄥˋ詞ㄘˊ之ㄓ間ㄐㄧㄢ，表ㄅㄧㄠˇ示ㄕˋ短ㄉㄨㄢˇ暫ㄓㄢˋ或ㄏㄨㄛˋ略ㄌㄩㄝˋ微ㄨㄟˊ嘗ㄔㄤˊ試ㄕˋ的˙ㄉㄜ意ㄧˋ思˙ㄙ。如ㄖㄨˊ：「動ㄉㄨㄥˋ一ㄧ動ㄉㄨㄥˋ」、「問ㄨㄣˋ一ㄧ問ㄨㄣˋ」、「聞ㄨㄣˊ一ㄧ聞ㄨㄣˊ」。 (9) 另ㄌㄧㄥˋ外ㄨㄞˋ的˙ㄉㄜ。如ㄖㄨˊ：「蟬ㄔㄢˊ，一ㄧˋ名ㄇㄧㄥˊ知ㄓ了ㄌㄧㄠˇ。」 (10)一ㄧˊ旦ㄉㄢˋ。表ㄅㄧㄠˇ示ㄕˋ假ㄐㄧㄚˇ設ㄕㄜˋ的˙ㄉㄜ語ㄩˇ氣ㄑㄧˋ。如ㄖㄨˊ：「一ㄧˋ失ㄕ足ㄗㄨˊ成ㄔㄥˊ千ㄑㄧㄢ古ㄍㄨˇ恨ㄏㄣˋ」。&amp;#39; ); INSERT INTO public.dict ( word, radical, total_strokes, out_strokes, mpc, explanation) VALUES(&amp;#39;團&amp;#39;, &amp;#39;囗&amp;#39;, 14, 11, &amp;#39;ㄊㄨㄢˊ&amp;#39;, &amp;#39;(1)圓ㄩㄢˊ形ㄒㄧㄥˊ的˙ㄉㄜ。如ㄖㄨˊ：「團ㄊㄨㄢˊ扇ㄕㄢˋ」。 (2)集ㄐㄧˊ結ㄐㄧㄝˊ成ㄔㄥˊ球ㄑㄧㄡˊ狀ㄓㄨㄤˋ的˙ㄉㄜ事ㄕˋ物ㄨˋ。如ㄖㄨˊ：「麵ㄇㄧㄢˋ團ㄊㄨㄢˊ」、「紙ㄓˇ團ㄊㄨㄢˊ」、「肉ㄖㄡˋ團ㄊㄨㄢˊ」。 (3)聚ㄐㄩˋ集ㄐㄧˊ、凝ㄋㄧㄥˊ結ㄐㄧㄝˊ。如ㄖㄨˊ：「團ㄊㄨㄢˊ拜ㄅㄞˋ」、「團ㄊㄨㄢˊ購ㄍㄡˋ」、「團ㄊㄨㄢˊ結ㄐㄧㄝˊ」、「團ㄊㄨㄢˊ聚ㄐㄩˋ」、「團ㄊㄨㄢˊ圓ㄩㄢˊ」、「團ㄊㄨㄢˊ團ㄊㄨㄢˊ露ㄌㄨˋ珠ㄓㄨ」。 (4)同ㄊㄨㄥˊ類ㄌㄟˋ性ㄒㄧㄥˋ質ㄓˊ的˙ㄉㄜ物ㄨˋ體ㄊㄧˇ大ㄉㄚˋ量ㄌㄧㄤˋ結ㄐㄧㄝˊ集ㄐㄧˊ的˙ㄉㄜ聚ㄐㄩˋ合ㄏㄜˊ物ㄨˋ。如ㄖㄨˊ：「星ㄒㄧㄥ團ㄊㄨㄢˊ」、「疑ㄧˊ團ㄊㄨㄢˊ」、「冷ㄌㄥˇ氣ㄑㄧˋ團ㄊㄨㄢˊ」。 (5)因ㄧㄣ特ㄊㄜˋ定ㄉㄧㄥˋ性ㄒㄧㄥˋ質ㄓˊ或ㄏㄨㄛˋ共ㄍㄨㄥˋ同ㄊㄨㄥˊ目ㄇㄨˋ的ㄉㄧˋ而ㄦˊ組ㄗㄨˇ織ㄓ聚ㄐㄩˋ集ㄐㄧˊ的˙ㄉㄜ群ㄑㄩㄣˊ體ㄊㄧˇ。如ㄖㄨˊ：「團ㄊㄨㄢˊ體ㄊㄧˇ」、「社ㄕㄜˋ團ㄊㄨㄢˊ」、「馬ㄇㄚˇ戲ㄒㄧˋ團ㄊㄨㄢˊ」、「旅ㄌㄩˇ行ㄒㄧㄥˊ團ㄊㄨㄢˊ」、「合ㄏㄜˊ唱ㄔㄤˋ團ㄊㄨㄢˊ」。 (6)形ㄒㄧㄥˊ容ㄖㄨㄥˊ轉ㄓㄨㄢˇ圈ㄑㄩㄢ的˙ㄉㄜ樣ㄧㄤˋ子ㄗˇ。如ㄖㄨˊ：「團ㄊㄨㄢˊ團ㄊㄨㄢˊ轉ㄓㄨㄢˋ」、「團ㄊㄨㄢˊ團ㄊㄨㄢˊ打ㄉㄚˇ轉ㄓㄨㄢˋ」。 (7)軍ㄐㄩㄣ隊ㄉㄨㄟˋ的˙ㄉㄜ編ㄅㄧㄢ制ㄓˋ之ㄓ一ㄧ。如ㄖㄨˊ：「軍ㄐㄩㄣ團ㄊㄨㄢˊ」。 (8)量ㄌㄧㄤˋ詞ㄘˊ。A&amp;gt;用ㄩㄥˋ於ㄩˊ計ㄐㄧˋ算ㄙㄨㄢˋ團ㄊㄨㄢˊ狀ㄓㄨㄤˋ物ㄨˋ的˙ㄉㄜ單ㄉㄢ位ㄨㄟˋ。如ㄖㄨˊ：「一ㄧˋ團ㄊㄨㄢˊ毛ㄇㄠˊ線ㄒㄧㄢˋ」、「兩ㄌㄧㄤˇ團ㄊㄨㄢˊ泥ㄋㄧˊ巴ㄅㄚ」。B&amp;gt;用ㄩㄥˋ於ㄩˊ計ㄐㄧˋ算ㄙㄨㄢˋ成ㄔㄥˊ團ㄊㄨㄢˊ狀ㄓㄨㄤˋ態ㄊㄞˋ的˙ㄉㄜ單ㄉㄢ位ㄨㄟˋ。「一ㄧˋ團ㄊㄨㄢˊ亂ㄌㄨㄢˋ」、「一ㄧˋ團ㄊㄨㄢˊ和ㄏㄜˊ氣ㄑㄧˋ」、「擠ㄐㄧˇ成ㄔㄥˊ一ㄧˋ團ㄊㄨㄢˊ」。&amp;#39; ); INSERT INTO public.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-16.網站開發-6-MVC-3-Service</title>
+      <link>http://pollochang.work/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/</guid>
+      <description>來架個網站吧-16.網站開發-6-MVC-3-Service tags: 來架個網站吧 Grails 我是目錄
+新增 Service 在Service/dict資料夾中按下右鍵。 選擇新增Grails Domain Class。 程式說明 在 Service 的文件中主要是處理資料流程，一般API並不會直接觸及Service。在這邊我比較請向處理單一 Domain Class 的資料處理，也就是說有一張 Domain 就會對一個 Service。
+Service 通常會有事物流程 @Transactional，在執行 新增、修改、刪除 時還蠻常用到。
+而在程式中 GrailsParameterMap ，是前端表單傳入的數值，繼承自 java.util.Map，回傳的資料如下:
+[searchWord:一, controller:dict, action:filter] 查詢的方式，這邊我是用 createCriteria 來操作查詢。完成執行查詢之後，將資料轉成 bootstrap table 所需要的資料格式，如下：
+{ &amp;#34;total&amp;#34;: 1, &amp;#34;rows&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;word&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;radical&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;totalStrokes&amp;#34;: 1, &amp;#34;outStrokes&amp;#34;: 0, &amp;#34;mpc&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;explanation&amp;#34;: &amp;#34;....&amp;#34; } ] } grails-app/services/dict/DictService.groovy package dict import grails.gorm.transactions.Transactional import grails.web.servlet.mvc.GrailsParameterMap @Transactional //事物 class DictService { LinkedHashMap filter(GrailsParameterMap params) { LinkedHashMap result = [:] String word = params?</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-17.網站開發-7-MVC-4-Controller</title>
+      <link>http://pollochang.work/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/</guid>
+      <description>來架個網站吧-17.網站開發-7-MVC-4-Controller tags: 來架個網站吧 Grails 我是目錄
+今天讓我們回到第14天一開始建立的 Controller 。
+Grails Controller 是一般API會直接觸及的程式，在這邊主要是處理業務流程。Controller 中有兩項比較常被用到: render、redirect。
+render render 是表明要回傳的資料。資料可以是TEXT、JSON、view、templates等形式。在程式中的寫會是如下:
+class ExampleController { def dictService def index(){ render(view: &amp;#34;example&amp;#34;) } /** * 查詢 * @return */ JSON filter(){ LinkedHashMap result = dictService.filter(params) render result as JSON } } redirect redirect 顧名思義是跳轉的概念。會在 Web Server 中使用 HTTP 通訊協定重新導向到新增目的地。在程式中的寫會是如下:
+class ExampleController { def index(){ redirect controller: &amp;#39;dict&amp;#39;, action: &amp;#39;index&amp;#39; ,id: &amp;#39;test&amp;#39; } def goToGoogle(){ redirect(url: &amp;#34;http://www.google.com&amp;#34;) } } 在這邊有草過一個坑: 在 redirect 中參數 id 傳遞中文需要進行 URL encode，不然出現下列類似錯誤</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-18-網站開發-8-最後的最後</title>
+      <link>http://pollochang.work/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/</guid>
+      <description>來架個網站吧-18-網站開發-8-最後的最後 tags: 來架個網站吧 Grails 我是目錄
+前一個星期大致上把Grails 的框架很概略的帶過一遍，這邊我先在 gsp 頁面把 dictController.filter 寫進入。最後成果如下：
+&amp;lt;%@ page contentType=&amp;#34;text/html;charset=UTF-8&amp;#34; %&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta name=&amp;#34;layout&amp;#34; content=&amp;#34;dict-main&amp;#34;/&amp;gt; &amp;lt;link href=&amp;#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34;&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;g:form name=&amp;#34;searchForm&amp;#34; &amp;gt; &amp;lt;div class=&amp;#34;form-group input-group&amp;#34;&amp;gt; &amp;lt;h3&amp;gt;&amp;lt;label for=&amp;#34;searchWord&amp;#34;&amp;gt;請輸入查詢的詞彙&amp;lt;/label&amp;gt;&amp;lt;/h3&amp;gt; &amp;lt;div class=&amp;#34;input-group mb-3&amp;#34;&amp;gt; &amp;lt;g:textField id=&amp;#34;searchWord&amp;#34; name=&amp;#34;searchWord&amp;#34; class=&amp;#34;form-control&amp;#34; aria-describedby=&amp;#34;searchWordHelp&amp;#34; /&amp;gt; &amp;lt;div class=&amp;#34;input-group-append&amp;#34;&amp;gt; &amp;lt;g:submitButton id=&amp;#34;searchButton&amp;#34; name=&amp;#34;searchButton&amp;#34; value=&amp;#34;查詢&amp;#34; class=&amp;#34;btn btn-outline-primary&amp;#34; type=&amp;#34;button&amp;#34; onclick=&amp;#34;refreshTable()&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;small id=&amp;#34;searchWordHelp&amp;#34; class=&amp;#34;form-text text-muted&amp;#34;&amp;gt;嘗試輸入: 天&amp;lt;/small&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/g:form&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;h3&amp;gt;查詢結果&amp;lt;/h3&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;table id=&amp;#34;resultTable&amp;#34; data-toggle=&amp;#34;table&amp;#34;&amp;gt; &amp;lt;thead&amp;gt; &amp;lt;tr class=&amp;#34;tr-class&amp;#34;&amp;gt; &amp;lt;th data-field=&amp;#34;word&amp;#34; data-formatter=&amp;#34;wordFormatter&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;單字(注音)&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;radical&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;部首&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;totalStrokes&amp;#34; data-formatter=&amp;#34;totalStrokesFormatter&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;總筆畫數/部首外筆畫&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;explanation&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;解釋&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;/thead&amp;gt; &amp;lt;/tbody&amp;gt; &amp;lt;/table&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;script&amp;gt; function refreshTable() { jQuery(&amp;#39;#resultTable&amp;#39;).</description>
+    </item>
+    
+  </channel>
+</rss>

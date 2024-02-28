@@ -1,0 +1,605 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 來架個網站吧 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - A website called PolloChang 工作筆記" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+        <link href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/index.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/index.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+
+<main id="main">
+
+<div class="layui-fluid list-show" >
+    <div class="layui-row">
+        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12">
+            <div class="list-show-title">
+                <h1>These are my blogs</h1>
+                <h2>and also my life</h2>
+            </div>
+        </div>
+        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12" style="text-align:center;">
+            <img src="/self/img/undraw_chat_bot_kli5.png" class="list-title-pic">
+        </div>
+    </div>
+</div>
+
+<div class="layui-container">
+        
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-11.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-1-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88/">
+            <h2 class="">來架個網站吧-11.網站開發-1: 建立專案</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-11.網站開發-1: 建立專案 tags: 來架個網站吧 我是目錄
+建立 git 儲存庫 不管是新增一個實驗性的網站功能，或是範例的程式，能導入git是一個不做的選擇。所以在這邊我先在gitHub開一個儲存庫:ironman-dict
+新增完成之後就是直接把git專案下載到本機中: ...
+             <a href="/post/1000-11.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-1-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-12.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-2-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-1/">
+            <h2 class="">來架個網站吧-12.網站開發-2: 設定環境參數-</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-12.網站開發-2: 設定環境參數-1 tags: 來架個網站吧 Grails 我是目錄
+昨天可以開啟專案之後，新增最主要的工作內容就是把專案連上資料庫
+安裝開發資料庫 安裝 資料庫版本: postgresql 15 因為 postgresql 官方網站已經有詳細的安裝步驟，在這邊就不 ...
+             <a href="/post/1000-12.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-2-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-13.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-3-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-2/">
+            <h2 class="">來架個網站吧-13.網站開發-3: 設定環境參數-2</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-13.網站開發-3: 設定環境參數-2 tags: 來架個網站吧 Grails 我是目錄
+昨天本來想要一口氣講完，但是發現篇幅好像有點長，所以決定切兩部份。
+設定專案環境參數 grails-app/conf/application.yml --- grails: profile: ...
+             <a href="/post/1000-13.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-3-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-2/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/">
+            <h2 class="">來架個網站吧-14.網站開發-4-MVC-1-view</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-14.網站開發-4-MVC-1-view tags: 來架個網站吧 Grails 我是目錄
+想了又想，決定還是從畫面開始講起，雖然跟我自己的開發習慣不一樣。因為在我自己學習網站開發的階段是從畫面開始學習，也許這樣對初學者會比較容易上手。後來工作三、四年之後，逐漸會先把系統的資料處理流程 ...
+             <a href="/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/">
+            <h2 class="">來架個網站吧-15.網站開發-5-MVC-2-Domain</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-15.網站開發-5-MVC-2-Domain tags: 來架個網站吧 Grails 我是目錄
+昨天完成新增畫面之後，接下來就是建立 domain 啦！在Grails設計框架之中，原則上資料酷的一張table是對到一個 Domain Class，本次要新增的table 在篇中: 來架個 ...
+             <a href="/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/">
+            <h2 class="">來架個網站吧-16.網站開發-6-MVC-3-Service</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-16.網站開發-6-MVC-3-Service tags: 來架個網站吧 Grails 我是目錄
+新增 Service 在Service/dict資料夾中按下右鍵。 選擇新增Grails Domain Class。 程式說明 在 Service 的文件中主要是處理資料流程，一般API並 ...
+             <a href="/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/">
+            <h2 class="">來架個網站吧-17.網站開發-7-MVC-4-Controller</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-17.網站開發-7-MVC-4-Controller tags: 來架個網站吧 Grails 我是目錄
+今天讓我們回到第14天一開始建立的 Controller 。
+Grails Controller 是一般API會直接觸及的程式，在這邊主要是處理業務流程。Controller 中有兩 ...
+             <a href="/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/">
+            <h2 class="">來架個網站吧-18-網站開發-8-最後的最後</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-18-網站開發-8-最後的最後 tags: 來架個網站吧 Grails 我是目錄
+前一個星期大致上把Grails 的框架很概略的帶過一遍，這邊我先在 gsp 頁面把 dictController.filter 寫進入。最後成果如下：
+&lt;%@ page ...
+             <a href="/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-19.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%A1%AC%E9%AB%94%E8%A8%AD%E5%82%99%E6%BA%96%E5%82%99/">
+            <h2 class="">來架個網站吧-19.網站環境建置-硬體設備準備</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-19.網站環境建置-硬體設備準備 tags: 來架個網站吧 我是目錄
+依現在的 x86 硬體設備大多都可以架設網站了，與機臺式的機器相比只差別穩定與維護容易的差別。
+先講講我認為的差別在於「降低硬體損壞造成系統異常風險」。
+以機架式伺服器: DELL R720 來說，硬碟通常是 ...
+             <a href="/post/1000-19.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%A1%AC%E9%AB%94%E8%A8%AD%E5%82%99%E6%BA%96%E5%82%99/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/1000-20.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E6%9E%B6%E8%A8%AD%E8%99%9B%E6%93%AC%E6%A9%9F%E5%B9%B3%E5%8F%B0/">
+            <h2 class="">來架個網站吧-20.網站環境建置-架設虛擬機平台</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				來架個網站吧-20.網站環境建置-架設虛擬機平台 tags: 來架個網站吧 我是目錄
+虛擬機平台 虛擬機平台很多種，在自己在玩的環境可以準備自己熟悉會是想玩的就可以。通常常見的平台有下列幾項：
+VMWare Oracle VM Oracle VM VirtualBox KVM proxmox ...
+             <a href="/post/1000-20.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E6%9E%B6%E8%A8%AD%E8%99%9B%E6%93%AC%E6%A9%9F%E5%B9%B3%E5%8F%B0/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+
+    
+<div class="pager">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/"><i class="layui-icon">&#xe65a;</i></a>
+        </button>
+        
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/"><i class="layui-icon">&#xe603;</i></a>
+        </button>
+        
+        
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/page/3/"><i class="layui-icon">&#xe602;</i></a>
+        </button>
+        
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/%E4%BE%86%E6%9E%B6%E5%80%8B%E7%B6%B2%E7%AB%99%E5%90%A7/page/3/"><i class="layui-icon">&#xe65b;</i></a>
+        </button>
+    </div>
+</div>
+
+</div>
+
+</main>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>postgresql on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/postgresql/</link>
+    <description>Recent content in postgresql on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>來架個網站吧-22.網站環境建置-安裝資料庫</title>
+      <link>http://pollochang.work/post/1000-22.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%AE%89%E8%A3%9D%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-22.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%AE%89%E8%A3%9D%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <description>來架個網站吧-22.網站環境建置-安裝資料庫 tags: 來架個網站吧 postgresql 我是目錄
+昨天安裝完虛擬機範本之後，接下來就是安裝資料庫啦～
+安裝資料庫可以說是一向大工程。小弟我本人三生有幸，天地父母都很寵我～讓我在目前短短職涯6年多一點點可以碰到
+平價
+奢華
+古董
+這三個資料庫，資料庫對我來說是一項深水莫測，頂點遙不可及的領域，因此我還是碰了一兩下子。
+在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部屬可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
+奢華莫非 Oracle 莫屬，之前碰了 Fujitsu SPARC M12 外加 Oracle 當時最新版的，當時一張光碟在手宛如北市套房在我一樣。(有更貴的聽說還有)也是我目前碰過性能最好的資料庫，他的 RAC (Real Application Clusters)架構真的可以讓資料庫可連線數量近乎無限擴張，可以不用擔心資料庫連線不足問題。 有可能會造成程式越寫越爛，佔用調超多資料庫連線
+古董目前就碰到 DB2 5.5 而已。
+上述畢竟是工作經驗而已，其實也沒有什麼好炫耀的，因為還只是小小菜鳥而已。轉化成自己的經驗才是寶貴。
+以下是我針對本期的平價菜單，希望大家可以飽食滿意。
+環境規劃 OS:Debian 12 DB: Postgresql-15 安裝指令 安裝指令原則上，我是直接採取官方的說明。
+sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &amp;#39;echo &amp;#34;deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - sudo apt -y install postgresql-15 配置注意事項 在正式環境配置方面，大致上需要處理以下：</description>
+    </item>
+    
+  </channel>
+</rss>

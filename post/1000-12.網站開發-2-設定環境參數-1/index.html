@@ -1,0 +1,735 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 來架個網站吧-12.網站開發-2: 設定環境參數- </title>
+    
+    
+    <meta content="linux, 2023 iThome 鐵人賽, 來架個網站吧" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 來架個網站吧-12.網站開發-2: 設定環境參數-1 tags: 來架個網站吧 Grails 我是目錄
+昨天可以開啟專案之後，新增最主要的工作內容就是把專案連上資料庫
+安裝開發資料庫 安裝 資料庫版本: postgresql 15 因為 postgresql 官方網站已經有詳細的安裝步驟，在這邊就不贅述。
+postgresql 下載網址: https://www.postgresql.org/download/
+開資料庫 安裝完成資料庫之後，就可以建立資料庫，指令如下:
+進入資料庫 sudo -u postgres psql 執行sql -- 新增資料庫 CREATE DATABASE ironman_dict_db; -- 新增資料庫角色 CREATE ROLE dict_dba NOINHERIT; -- 授予 dict_dba 角色可連線至 ironman_dict_db 資料庫 GRANT CONNECT ON DATABASE ironman_dict_db TO dict_dba; -- 授予 dict_dba 在 DATABASE 所有權限 GRANT ALL ON DATABASE ironman_dict_db to dict_dba; -- 新增 dict_ap 使用者 CREATE USER dict_ap WITH PASSWORD &#39;LF2." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>來架個網站吧-12.網站開發-2: 設定環境參數-</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="來架個網站吧-12網站開發-2-設定環境參數-1">來架個網站吧-12.網站開發-2: 設定環境參數-1</h1>
+<h6 id="tags-來架個網站吧-grails">tags: <code>來架個網站吧</code> <code>Grails</code></h6>
+<p><a href="https://ithelp.ithome.com.tw/articles/10317824">我是目錄</a></p>
+<hr>
+<p>昨天可以開啟專案之後，新增最主要的工作內容就是把專案連上資料庫</p>
+<h2 id="安裝開發資料庫">安裝開發資料庫</h2>
+<h3 id="安裝">安裝</h3>
+<ul>
+<li>資料庫版本: postgresql 15</li>
+</ul>
+<p>因為 postgresql 官方網站已經有詳細的安裝步驟，在這邊就不贅述。</p>
+<p>postgresql 下載網址: <a href="https://www.postgresql.org/download/">https://www.postgresql.org/download/</a></p>
+<h3 id="開資料庫">開資料庫</h3>
+<p>安裝完成資料庫之後，就可以建立資料庫，指令如下:</p>
+<ul>
+<li>進入資料庫</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -u postgres psql
+</span></span></code></pre></div><ul>
+<li>執行sql</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 新增資料庫
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> ironman_dict_db;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 新增資料庫角色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ROLE</span> dict_dba NOINHERIT;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 授予 dict_dba 角色可連線至 ironman_dict_db 資料庫
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> ironman_dict_db <span style="color:#66d9ef">TO</span> dict_dba;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 授予 dict_dba 在 DATABASE 所有權限
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> ironman_dict_db <span style="color:#66d9ef">to</span> dict_dba;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 新增 dict_ap 使用者
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> dict_ap <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;LF2.net&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 把 dict_ap (user role) 加入 dict (group role) 中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> dict_ap <span style="color:#66d9ef">TO</span> dict_dba;
+</span></span></code></pre></div><h2 id="設定專案環境參數">設定專案環境參數</h2>
+<p>確認專案可以正常部屬之後，接下就是針對當前的專案環境修改內容。主要修改下列文件</p>
+<ul>
+<li>gradle.properties</li>
+<li>build.gradle</li>
+<li>grails-app/conf/application.yml</li>
+</ul>
+<h3 id="gradleproperties">gradle.properties</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#a6e22e">grailsVersion</span><span style="color:#f92672">=</span><span style="color:#e6db74">5.3.3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">grailsGradlePluginVersion</span><span style="color:#f92672">=</span><span style="color:#e6db74">5.3.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">groovyVersion</span><span style="color:#f92672">=</span><span style="color:#e6db74">3.0.11</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">gorm.version</span><span style="color:#f92672">=</span><span style="color:#e6db74">7.3.3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">org.gradle.daemon</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">org.gradle.parallel</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">org.gradle.jvmargs</span><span style="color:#f92672">=</span><span style="color:#e6db74">-Dfile.encoding=UTF-8 -Xmx1024M</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">springBootVersion</span><span style="color:#f92672">=</span><span style="color:#e6db74">2.7.13</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">hibernateCore</span><span style="color:#f92672">=</span><span style="color:#e6db74">5.6.15.Final</span>
+</span></span></code></pre></div><ul>
+<li>grailsVersion: 當前的grails版本</li>
+<li><a href="https://mvnrepository.com/artifact/org.grails/grails-gradle-plugin">grailsGradlePluginVersion</a>: 當前的Grails Gradle Plugin版本，通常與 <code>grailsVersion</code> 一致</li>
+<li><a href="https://mvnrepository.com/artifact/org.codehaus.groovy/groovy">groovyVersion</a>: groovy 版本，建議只升級小版本號，跨中間版本號有可能出現can&rsquo;t not find symbol。</li>
+<li><a href="https://mvnrepository.com/artifact/org.grails/grails-datastore-gorm">gorm.version</a>: Grails GORM 版本，建議只升級小版本號。</li>
+<li><a href="https://mvnrepository.com/artifact/org.springframework.boot/spring-boot">springBootVersion</a>: 這個參數是我自行新增的，主要是為了更新 spring Boot，建議只升級小版本號。</li>
+<li><a href="https://mvnrepository.com/artifact/org.hibernate/hibernate-core">hibernateCore</a>: 這個參數是我自行新增的，主要是為了更新 hibernate Core，建議只升級小版本號。</li>
+</ul>
+<h3 id="buildgradle">build.gradle</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>buildscript <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        maven <span style="color:#f92672">{</span> url <span style="color:#e6db74">&#34;https://plugins.gradle.org/m2/&#34;</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        maven <span style="color:#f92672">{</span> url <span style="color:#e6db74">&#34;https://repo.grails.org/grails/core&#34;</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    dependencies <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        classpath <span style="color:#e6db74">&#34;org.grails:grails-gradle-plugin:$grailsGradlePluginVersion&#34;</span>
+</span></span><span style="display:flex;"><span>        classpath <span style="color:#e6db74">&#34;gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.6&#34;</span>
+</span></span><span style="display:flex;"><span>        classpath <span style="color:#e6db74">&#34;org.grails.plugins:hibernate5:7.3.0&#34;</span>
+</span></span><span style="display:flex;"><span>        classpath <span style="color:#e6db74">&#34;com.bertramlabs.plugins:asset-pipeline-gradle:3.4.7&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>version <span style="color:#e6db74">&#34;0.1&#34;</span>
+</span></span><span style="display:flex;"><span>group <span style="color:#e6db74">&#34;ironman.dict&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;eclipse&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;idea&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;war&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;org.grails.grails-web&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;com.github.erdi.webdriver-binaries&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;org.grails.grails-gsp&#34;</span>
+</span></span><span style="display:flex;"><span>apply plugin:<span style="color:#e6db74">&#34;com.bertramlabs.asset-pipeline&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>repositories <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    mavenCentral<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    maven <span style="color:#f92672">{</span> url <span style="color:#e6db74">&#34;https://repo.grails.org/grails/core&#34;</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>configurations <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    developmentOnly
+</span></span><span style="display:flex;"><span>    runtimeClasspath <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        extendsFrom developmentOnly
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    developmentOnly<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-devtools&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    compileOnly <span style="color:#e6db74">&#34;io.micronaut:micronaut-inject-groovy&#34;</span>
+</span></span><span style="display:flex;"><span>    console <span style="color:#e6db74">&#34;org.grails:grails-console&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-logging:${springBootVersion}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-validation:${springBootVersion}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-core&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-web-boot&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-logging&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-rest&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-databinding&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-i18n&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-services&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-url-mappings&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails:grails-plugin-interceptors&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:cache&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:async&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:scaffolding&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:hibernate5&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.hibernate:hibernate-core:${hibernateCore}&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:events&#34;</span>
+</span></span><span style="display:flex;"><span>    implementation <span style="color:#e6db74">&#34;org.grails.plugins:gsp&#34;</span>
+</span></span><span style="display:flex;"><span>    profile <span style="color:#e6db74">&#34;org.grails.profiles:web&#34;</span>
+</span></span><span style="display:flex;"><span>    runtimeOnly <span style="color:#e6db74">&#34;org.glassfish.web:el-impl:2.2.1-b05&#34;</span>
+</span></span><span style="display:flex;"><span>    runtimeOnly <span style="color:#e6db74">&#34;org.apache.tomcat:tomcat-jdbc&#34;</span>
+</span></span><span style="display:flex;"><span>    runtimeOnly <span style="color:#e6db74">&#34;javax.xml.bind:jaxb-api:2.3.1&#34;</span>
+</span></span><span style="display:flex;"><span>    runtimeOnly <span style="color:#e6db74">&#34;com.bertramlabs.plugins:asset-pipeline-grails:3.4.7&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;io.micronaut:micronaut-inject-groovy&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.grails:grails-gorm-testing-support&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.mockito:mockito-core&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.grails:grails-web-testing-support&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.grails.plugins:geb&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.seleniumhq.selenium:selenium-remote-driver:4.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.seleniumhq.selenium:selenium-api:4.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>    testImplementation <span style="color:#e6db74">&#34;org.seleniumhq.selenium:selenium-support:4.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>    testRuntimeOnly <span style="color:#e6db74">&#34;org.seleniumhq.selenium:selenium-chrome-driver:4.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>    testRuntimeOnly <span style="color:#e6db74">&#34;org.seleniumhq.selenium:selenium-firefox-driver:4.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// https://mvnrepository.com/artifact/org.postgresql/postgresql
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    implementation group: <span style="color:#e6db74">&#39;org.postgresql&#39;</span><span style="color:#f92672">,</span> name: <span style="color:#e6db74">&#39;postgresql&#39;</span><span style="color:#f92672">,</span> version: <span style="color:#e6db74">&#39;42.6.0&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//hikaricp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    implementation <span style="color:#e6db74">&#34;com.zaxxer:HikariCP:5.0.1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bootRun <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    ignoreExitValue <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">jvmArgs</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;-Dspring.output.ansi.enabled=always&#39;</span><span style="color:#f92672">,</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;-noverify&#39;</span><span style="color:#f92672">,</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;-XX:TieredStopAtLevel=1&#39;</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;-Xmx1024m&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    sourceResources sourceSets<span style="color:#f92672">.</span><span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>    String springProfilesActive <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;spring.profiles.active&#39;</span>
+</span></span><span style="display:flex;"><span>    systemProperty springProfilesActive<span style="color:#f92672">,</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>springProfilesActive<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tasks<span style="color:#f92672">.</span><span style="color:#a6e22e">withType</span><span style="color:#f92672">(</span>GroovyCompile<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    configure<span style="color:#f92672">(</span>groovyOptions<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        forkOptions<span style="color:#f92672">.</span><span style="color:#a6e22e">jvmArgs</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;-Xmx1024m&#39;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tasks<span style="color:#f92672">.</span><span style="color:#a6e22e">withType</span><span style="color:#f92672">(</span>Test<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    useJUnitPlatform<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>webdriverBinaries <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">().</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;GITHUB_ACTIONS&#39;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        chromedriver <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2.45.0&#39;</span>
+</span></span><span style="display:flex;"><span>            fallbackTo32Bit <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        geckodriver <span style="color:#e6db74">&#39;0.30.0&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tasks<span style="color:#f92672">.</span><span style="color:#a6e22e">withType</span><span style="color:#f92672">(</span>Test<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    systemProperty <span style="color:#e6db74">&#34;geb.env&#34;</span><span style="color:#f92672">,</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;geb.env&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    systemProperty <span style="color:#e6db74">&#34;geb.build.reportsDir&#34;</span><span style="color:#f92672">,</span> reporting<span style="color:#f92672">.</span><span style="color:#a6e22e">file</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;geb/integrationTest&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">().</span><span style="color:#a6e22e">containsKey</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;GITHUB_ACTIONS&#39;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        systemProperty <span style="color:#e6db74">&#39;webdriver.chrome.driver&#39;</span><span style="color:#f92672">,</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;webdriver.chrome.driver&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        systemProperty <span style="color:#e6db74">&#39;webdriver.gecko.driver&#39;</span><span style="color:#f92672">,</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;webdriver.gecko.driver&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        systemProperty <span style="color:#e6db74">&#39;webdriver.chrome.driver&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${System.getenv(&#39;CHROMEWEBDRIVER&#39;)}/chromedriver&#34;</span>
+</span></span><span style="display:flex;"><span>        systemProperty <span style="color:#e6db74">&#39;webdriver.gecko.driver&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${System.getenv(&#39;GECKOWEBDRIVER&#39;)}/geckodriver&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>assets <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    minifyJs <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    minifyCss <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>grails 專案所有中的 plugin 都是在這邊設定。另外，初始化的 <code>gradle.properties</code> 文件，預設會有 H2 相關套件記得移除。</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-01.%E5%89%8D%E8%A8%80/">
+                                <h3 class="">來架個網站吧-01.前言</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-02.技術分工-1: 需求訪談與分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/">
+                                <h3 class="">來架個網站吧-03.技術分工-2: 需求訪談</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-04.技術分工-3: 需求分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/">
+                                <h3 class="">來架個網站吧-05.技術分工-4: 系統開發</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

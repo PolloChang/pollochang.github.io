@@ -1,0 +1,599 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 來架個網站吧-08.開發環境建置 </title>
+    
+    
+    <meta content="linux, 2023 iThome 鐵人賽, 來架個網站吧" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 來架個網站吧-08.開發環境建置 tags: 來架個網站吧 我是目錄
+所以我要如何開發網站？ 網站，最基本的功能是有目的的資訊交流平台。所以開發一個網站需要先探討，是為誰建立的？使用目的是什？接下來才是後續的系統流程設計與開發。
+這邊我先設定架設網站的目標：給中學生查詢的網站字典。之後架設網站時，我會以我自己在學生時期的經驗為範本，逐步構出需求。
+在架設網站的資金預算方面是零元。沒有說錯是零元！身為窮到只剩下技術的「工程屍」錢都拿去養家餬口了，再沒有金主的贊助下預算一切都是零元。
+以下開放贊助
+確認好需求目標之後，就是先想出要如何完成需求目標啦！以下是我的方案：
+開發的技術框架是使用Grails，資料庫方面是使用Postgreql。 網站平台會採用硬體自架硬體平台，然後使用Proxmox作為虛擬機平台。網站的作業系統會以Debian為主。 上線之後是「維運」的開始。在網路的世界中，沒有一個網站是永遠沒有意外的。一定會有人發現系統問題，一定會出現網站失去服務功能。當出現意外時，要如何處置，還有要怎麼讓開發者(團隊)知到出現問題，是網站的生命週期中很重要的一環。而且「維運」這一階段，從第一次上線或是開發階段就已經開始，直到網停止服務的當下才會結束。另外，這部份也是佔最多「人力」、「金錢」、「物力」資源的部份。 開發環境建置 在學習程式語言時，必須先建立開發環境。不過等等！有些人想要踏入軟體工程這門領域前，想先看看自己是不是真的要往這方面發展。沒有關係，現在也有線上的環境，只要能打開電腦而且連上網路，就可以開始練習了。關於這一系列我找了下面幾個線上環境供參考：
+JAVA: https://www.learnjavaonline.org/ SQL: https://www.learnsqlonline.org/ JavaScript: https://www.learn-js.org/ HTML: https://www.learn-html.org/ 如果一開始有遲疑，經過線上得初始之臺確定要踏進來，那就開始建立自己的開發環境吧！
+先說建立開發環境時會遇到的狀況吧！
+「每個人建立開發環境遇到錯誤時，不一定會是相同的狀況。」
+或許，是每個人的電腦環境不一樣，或許是自己忘記設定某項參數等等，都有可能。但是別怕！有Google。一邊除錯一邊上網尋找解答一邊嘗試，是現在開發過程的必經之路。因為人腦記憶有限，即始今天可以解決河內塔問題，五年十年之後，當下也不一定能立刻解決。不過經過上網搜尋，或是詢問別人後，或許就可以找回之前的記憶，如何處理。
+一個放置筆記的工具 這是非常重要的事情。筆記可以是紙本筆記本也可以是電子形式的，只要可以記下工作上遇上的困難、解決困難的工具都可以。
+開發的過程中，記得養成記筆記得習慣。最好是習慣每天寫下自己坐下哪些事情。
+有了這些紀錄，之後需要回想工作上某件事情時，速度會比較快。
+而我自己做筆記的工具是vscode &#43; git，一方面是可以接近免費達到跨裝置跨平台，一方面單純我習慣用筆記本做紀錄而已。
+開發工具-intelliJ IDEA 先說好，我沒有為他打廣告。只是我覺得很好用而已。另外，學習完程式語言的基本功後，就是不斷學習各個框架的用法，這時IDEA就是很好的學習工具，因為他可以自動提示用法，甚至可以很輕鬆找到 source code 是怎寫，在職場學習上市很不錯的唷。
+資料庫: postgresql 這邊我是舉一個資料庫為例，學習資料庫不必每種資料庫都摸的徹底，對於網站程式開發人員熟悉一種資料庫即可，畢竟現在很多程式框架已經作到程式與資料庫隔離。但是這邊也必須提醒一下，如果未來想持續在網站領域發展的，就必須清楚了解一種資料庫的行為，對日後系統效能調校上會很有幫助。
+網站框架: Grails 想想10幾年前寫一個網站，在JAVA 生態是用 J2EE 規範中建立伺服器網站。每一項程式細節功能，如資料庫操作、網頁畫面呈現必須透過開發工程師一項一項開發。自從有了框架概念之後，網站的開發工程師就不必在開發每項系統功能注意資料庫連線有關閉、HTML 有寫錯等等，就可以很專心處理程式業務邏輯上的開發。
+在這次的系統我以 Grails 為開發框架，沒有什麼原因，只是我比校熟悉而已。
+在這邊我也不教Grails 如何使用，畢竟獲取學習資源且自我閱讀學習是一個資訊專業人事必備的技能，天下技術如此多，要學習靠自己吧！下列是學習資源:
+grails 官方網站 邊看邊學Groovy/Grails/Gradle 系列 intellij Grails plugin Getting Started With Grails 以上就是開發環境會用的的工具啦！" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>來架個網站吧-08.開發環境建置</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="來架個網站吧-08開發環境建置">來架個網站吧-08.開發環境建置</h1>
+<h6 id="tags-來架個網站吧">tags: <code>來架個網站吧</code></h6>
+<p><a href="https://ithelp.ithome.com.tw/articles/10317824">我是目錄</a></p>
+<hr>
+<h2 id="所以我要如何開發網站">所以我要如何開發網站？</h2>
+<p>網站，最基本的功能是有目的的資訊交流平台。所以開發一個網站需要先探討，是為誰建立的？使用目的是什？接下來才是後續的系統流程設計與開發。</p>
+<p>這邊我先設定架設網站的目標：給中學生查詢的網站字典。之後架設網站時，我會以我自己在學生時期的經驗為範本，逐步構出需求。</p>
+<p>在架設網站的資金預算方面是零元。沒有說錯是零元！身為窮到只剩下技術的「工程屍」錢都拿去養家餬口了，再沒有金主的贊助下預算一切都是零元。</p>
+<p><del>以下開放贊助</del></p>
+<p>確認好需求目標之後，就是先想出要如何完成需求目標啦！以下是我的方案：</p>
+<ul>
+<li>開發的技術框架是使用Grails，資料庫方面是使用Postgreql。</li>
+<li>網站平台會採用硬體自架硬體平台，然後使用Proxmox作為虛擬機平台。網站的作業系統會以Debian為主。</li>
+<li>上線之後是「維運」的開始。在網路的世界中，沒有一個網站是永遠沒有意外的。一定會有人發現系統問題，一定會出現網站失去服務功能。當出現意外時，要如何處置，還有要怎麼讓開發者(團隊)知到出現問題，是網站的生命週期中很重要的一環。而且「維運」這一階段，從第一次上線或是開發階段就已經開始，直到網停止服務的當下才會結束。另外，這部份也是佔最多「人力」、「金錢」、「物力」資源的部份。</li>
+</ul>
+<h2 id="開發環境建置">開發環境建置</h2>
+<p>在學習程式語言時，必須先建立開發環境。不過等等！有些人想要踏入軟體工程這門領域前，想先看看自己是不是真的要往這方面發展。沒有關係，現在也有線上的環境，只要能打開電腦而且連上網路，就可以開始練習了。關於這一系列我找了下面幾個線上環境供參考：</p>
+<ul>
+<li>JAVA: <a href="https://www.learnjavaonline.org/">https://www.learnjavaonline.org/</a></li>
+<li>SQL: <a href="https://www.learnsqlonline.org/">https://www.learnsqlonline.org/</a></li>
+<li>JavaScript: <a href="https://www.learn-js.org/">https://www.learn-js.org/</a></li>
+<li>HTML: <a href="https://www.learn-html.org/">https://www.learn-html.org/</a></li>
+</ul>
+<p>如果一開始有遲疑，經過線上得初始之臺確定要踏進來，那就開始建立自己的開發環境吧！</p>
+<p>先說建立開發環境時會遇到的狀況吧！</p>
+<p>「每個人建立開發環境遇到錯誤時，不一定會是相同的狀況。」</p>
+<p>或許，是每個人的電腦環境不一樣，或許是自己忘記設定某項參數等等，都有可能。但是別怕！有Google。一邊除錯一邊上網尋找解答一邊嘗試，是現在開發過程的必經之路。因為人腦記憶有限，即始今天可以解決河內塔問題，五年十年之後，當下也不一定能立刻解決。不過經過上網搜尋，或是詢問別人後，或許就可以找回之前的記憶，如何處理。</p>
+<h2 id="一個放置筆記的工具">一個放置筆記的工具</h2>
+<p>這是非常重要的事情。筆記可以是紙本筆記本也可以是電子形式的，只要可以記下工作上遇上的困難、解決困難的工具都可以。</p>
+<p>開發的過程中，記得養成記筆記得習慣。最好是習慣每天寫下自己坐下哪些事情。</p>
+<p>有了這些紀錄，之後需要回想工作上某件事情時，速度會比較快。</p>
+<p>而我自己做筆記的工具是vscode + git，一方面是可以接近免費達到跨裝置跨平台，一方面單純我習慣用筆記本做紀錄而已。</p>
+<h2 id="開發工具-intellij-idea">開發工具-intelliJ IDEA</h2>
+<p>先說好，我沒有為他打廣告。只是我覺得很好用而已。另外，學習完程式語言的基本功後，就是不斷學習各個框架的用法，這時IDEA就是很好的學習工具，因為他可以自動提示用法，甚至可以很輕鬆找到 source code 是怎寫，在職場學習上市很不錯的唷。</p>
+<h2 id="資料庫-postgresql">資料庫: postgresql</h2>
+<p>這邊我是舉一個資料庫為例，學習資料庫不必每種資料庫都摸的徹底，對於網站程式開發人員熟悉一種資料庫即可，畢竟現在很多程式框架已經作到程式與資料庫隔離。但是這邊也必須提醒一下，如果未來想持續在網站領域發展的，就必須清楚了解一種資料庫的行為，對日後系統效能調校上會很有幫助。</p>
+<h2 id="網站框架-grails">網站框架: Grails</h2>
+<p>想想10幾年前寫一個網站，在JAVA 生態是用 J2EE 規範中建立伺服器網站。每一項程式細節功能，如資料庫操作、網頁畫面呈現必須透過開發工程師一項一項開發。自從有了<code>框架</code>概念之後，網站的開發工程師就不必在開發每項系統功能注意資料庫連線有關閉、HTML 有寫錯等等，就可以很專心處理程式業務邏輯上的開發。</p>
+<p>在這次的系統我以 Grails 為開發框架，沒有什麼原因，只是我比校熟悉而已。</p>
+<p>在這邊我也不教Grails 如何使用，畢竟獲取學習資源且自我閱讀學習是一個資訊專業人事必備的技能，天下技術如此多，要學習靠自己吧！下列是學習資源:</p>
+<ul>
+<li><a href="https://grails.org/">grails 官方網站</a></li>
+<li><a href="https://ithelp.ithome.com.tw/users/20072603/ironman/586">邊看邊學Groovy/Grails/Gradle 系列</a></li>
+<li><a href="https://plugins.jetbrains.com/plugin/18504-grails">intellij Grails plugin</a></li>
+<li><a href="https://medium.com/developer-circles-lusaka/getting-started-with-grails-c27c40fd94c2">Getting Started With Grails</a></li>
+</ul>
+<p>以上就是開發環境會用的的工具啦！</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-01.%E5%89%8D%E8%A8%80/">
+                                <h3 class="">來架個網站吧-01.前言</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-02.技術分工-1: 需求訪談與分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/">
+                                <h3 class="">來架個網站吧-03.技術分工-2: 需求訪談</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-04.技術分工-3: 需求分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/">
+                                <h3 class="">來架個網站吧-05.技術分工-4: 系統開發</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

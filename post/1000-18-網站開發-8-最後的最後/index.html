@@ -1,0 +1,674 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 來架個網站吧-18-網站開發-8-最後的最後 </title>
+    
+    
+    <meta content="linux, 2023 iThome 鐵人賽, Grails, 來架個網站吧" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 來架個網站吧-18-網站開發-8-最後的最後 tags: 來架個網站吧 Grails 我是目錄
+前一個星期大致上把Grails 的框架很概略的帶過一遍，這邊我先在 gsp 頁面把 dictController.filter 寫進入。最後成果如下：
+&lt;%@ page contentType=&#34;text/html;charset=UTF-8&#34; %&gt; &lt;html&gt; &lt;head&gt; &lt;meta name=&#34;layout&#34; content=&#34;dict-main&#34;/&gt; &lt;link href=&#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css&#34; rel=&#34;stylesheet&#34;&gt; &lt;script src=&#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; &lt;div class=&#34;container&#34;&gt; &lt;div class=&#34;row&#34;&gt; &lt;div class=&#34;col&#34;&gt; &lt;g:form name=&#34;searchForm&#34; &gt; &lt;div class=&#34;form-group input-group&#34;&gt; &lt;h3&gt;&lt;label for=&#34;searchWord&#34;&gt;請輸入查詢的詞彙&lt;/label&gt;&lt;/h3&gt; &lt;div class=&#34;input-group mb-3&#34;&gt; &lt;g:textField id=&#34;searchWord&#34; name=&#34;searchWord&#34; class=&#34;form-control&#34; aria-describedby=&#34;searchWordHelp&#34; /&gt; &lt;div class=&#34;input-group-append&#34;&gt; &lt;g:submitButton id=&#34;searchButton&#34; name=&#34;searchButton&#34; value=&#34;查詢&#34; class=&#34;btn btn-outline-primary&#34; type=&#34;button&#34; onclick=&#34;refreshTable()&#34; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;small id=&#34;searchWordHelp&#34; class=&#34;form-text text-muted&#34;&gt;嘗試輸入: 天&lt;/small&gt; &lt;/div&gt; &lt;/g:form&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;row&#34;&gt; &lt;div class=&#34;col&#34;&gt; &lt;h3&gt;查詢結果&lt;/h3&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;row&#34;&gt; &lt;div class=&#34;col&#34;&gt; &lt;table id=&#34;resultTable&#34; data-toggle=&#34;table&#34;&gt; &lt;thead&gt; &lt;tr class=&#34;tr-class&#34;&gt; &lt;th data-field=&#34;word&#34; data-formatter=&#34;wordFormatter&#34; data-valign=&#34;middle&#34;&gt;單字(注音)&lt;/th&gt; &lt;th data-field=&#34;radical&#34; data-valign=&#34;middle&#34;&gt;部首&lt;/th&gt; &lt;th data-field=&#34;totalStrokes&#34; data-formatter=&#34;totalStrokesFormatter&#34; data-valign=&#34;middle&#34;&gt;總筆畫數/部首外筆畫&lt;/th&gt; &lt;th data-field=&#34;explanation&#34; data-valign=&#34;middle&#34;&gt;解釋&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;script&gt; function refreshTable() { jQuery(&#39;#resultTable&#39;)." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>來架個網站吧-18-網站開發-8-最後的最後</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="來架個網站吧-18-網站開發-8-最後的最後">來架個網站吧-18-網站開發-8-最後的最後</h1>
+<h6 id="tags-來架個網站吧-grails">tags: <code>來架個網站吧</code> <code>Grails</code></h6>
+<p><a href="https://ithelp.ithome.com.tw/articles/10317824">我是目錄</a></p>
+<hr>
+<p>前一個星期大致上把Grails 的框架很概略的帶過一遍，這邊我先在 gsp 頁面把 dictController.filter 寫進入。最後成果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;</span>%@ page contentType=&#34;text/html;charset=UTF-8&#34; %&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;layout&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dict-main&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">g:form</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchForm&#34;</span> &gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group input-group&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h3</span>&gt;&lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchWord&#34;</span>&gt;請輸入查詢的詞彙&lt;/<span style="color:#f92672">label</span>&gt;&lt;/<span style="color:#f92672">h3</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input-group mb-3&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">g:textField</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchWord&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchWord&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">aria-describedby</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchWordHelp&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input-group-append&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">g:submitButton</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchButton&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchButton&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;查詢&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-outline-primary&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;button&#34;</span> <span style="color:#a6e22e">onclick</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;refreshTable()&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>                    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">small</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchWordHelp&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-text text-muted&#34;</span>&gt;嘗試輸入: 天&lt;/<span style="color:#f92672">small</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">g:form</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">h3</span>&gt;查詢結果&lt;/<span style="color:#f92672">h3</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">table</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;resultTable&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">thead</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tr-class&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">data-field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;word&#34;</span> <span style="color:#a6e22e">data-formatter</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wordFormatter&#34;</span> <span style="color:#a6e22e">data-valign</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle&#34;</span>&gt;單字(注音)&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">data-field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;radical&#34;</span> <span style="color:#a6e22e">data-valign</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle&#34;</span>&gt;部首&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">data-field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;totalStrokes&#34;</span> <span style="color:#a6e22e">data-formatter</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;totalStrokesFormatter&#34;</span> <span style="color:#a6e22e">data-valign</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle&#34;</span>&gt;總筆畫數/部首外筆畫&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">data-field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;explanation&#34;</span> <span style="color:#a6e22e">data-valign</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle&#34;</span>&gt;解釋&lt;/<span style="color:#f92672">th</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">tr</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">thead</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">tbody</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">table</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">refreshTable</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">jQuery</span>(<span style="color:#e6db74">&#39;#resultTable&#39;</span>).<span style="color:#a6e22e">bootstrapTable</span>(<span style="color:#e6db74">&#39;refresh&#39;</span>, {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;${createLink(controller: &#34;dict&#34;,action: &#34;filter&#34;)}/?&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">jQuery</span>(<span style="color:#e6db74">&#39;#searchForm&#39;</span>).<span style="color:#a6e22e">serialize</span>()
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">wordFormatter</span>(<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">row</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">returnVal</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">word</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;(&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">mpc</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">returnVal</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">totalStrokesFormatter</span>(<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">row</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">returnVal</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">totalStrokes</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">outStrokes</span> ;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">returnVal</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>執行完成後，操作一次程式沒有超出預期的流程，接下來就可以把專案包成 war 檔準備發佈出去了。</p>
+<p>Grails 包 war 的指令如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grails test war
+</span></span></code></pre></div><p>當然在 intellij idea 可以透過下面方式執行</p>
+<p><img src="pic/day-18-war-1.png" alt="day-18-war-1"></p>
+<ol>
+<li>在 command line 輸入 <code>test war</code></li>
+<li>建立Configuation 後執行</li>
+</ol>
+<p>執行後在 Run Console 出現下列訊息:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java ...
+</span></span><span style="display:flex;"><span>SLF4J: Defaulting to no-operation <span style="color:#f92672">(</span>NOP<span style="color:#f92672">)</span> logger implementation
+</span></span><span style="display:flex;"><span>SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder <span style="color:#66d9ef">for</span> further details.
+</span></span><span style="display:flex;"><span>&gt; Task :assetCompile
+</span></span><span style="display:flex;"><span>&gt; Task :compileJava NO-SOURCE
+</span></span><span style="display:flex;"><span>&gt; Task :compileGroovy
+</span></span><span style="display:flex;"><span>&gt; Task :buildProperties
+</span></span><span style="display:flex;"><span>&gt; Task :processResources UP-TO-DATE
+</span></span><span style="display:flex;"><span>&gt; Task :classes
+</span></span><span style="display:flex;"><span>&gt; Task :bootWarMainClassName
+</span></span><span style="display:flex;"><span>&gt; Task :compileWebappGroovyPages NO-SOURCE
+</span></span><span style="display:flex;"><span>&gt; Task :compileGroovyPages
+</span></span><span style="display:flex;"><span>&gt; Task :bootWar
+</span></span><span style="display:flex;"><span>&gt; Task :war
+</span></span><span style="display:flex;"><span>&gt; Task :assemble
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>You can use <span style="color:#e6db74">&#39;--warning-mode all&#39;</span> to show the individual deprecation warnings and determine <span style="color:#66d9ef">if</span> they come from your own scripts or plugins.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>See https://docs.gradle.org/7.2/userguide/command_line_interface.html#sec:command_line_warnings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BUILD SUCCESSFUL in 27s
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span> actionable tasks: <span style="color:#ae81ff">7</span> executed, <span style="color:#ae81ff">1</span> up-to-date
+</span></span><span style="display:flex;"><span>|Built application to build/libs using environment: test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Process finished with exit code <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>而包好war檔會在 <code>build/libs</code> 目錄中。包好war檔之後接下來就可以準備部屬到正式環境了！</p>
+<p>對於整個系統生命週期而言，完成開發後才是真正的開始。</p>
+<p>開發完成後，通常會有許多小蟲蟲附加在新的成品裡面。通常造成這種現況成因有可能是工程人員熬夜加班趕工功能，也有可能是甲方與乙方溝通不良導致雙方對於系統更能定義的落差造成的。即使沒有明顯的系統問題，在營運期間系統也會因時代變遷讓系統功能漸漸顯得落後、老舊、操作不便，在網站系統中更會發生瀏覽器不再支援某項功能，讓網站系統發生嚴重異常，例如：IE Only Syetem。以上種種因素都會後續維護、功能增修直至系統不再被使用。</p>
+<p>網站開發的部份就先到這裡，接下來換成網站營運的部份。</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/">
+                                <h3 class="">來架個網站吧-14.網站開發-4-MVC-1-view</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/">
+                                <h3 class="">來架個網站吧-15.網站開發-5-MVC-2-Domain</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/">
+                                <h3 class="">來架個網站吧-16.網站開發-6-MVC-3-Service</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/">
+                                <h3 class="">來架個網站吧-17.網站開發-7-MVC-4-Controller</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+        <a href="/tags/grails/">
+            <span class="layui-badge " style="vertical-align: 2px;">Grails</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-01.%E5%89%8D%E8%A8%80/">
+                                <h3 class="">來架個網站吧-01.前言</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

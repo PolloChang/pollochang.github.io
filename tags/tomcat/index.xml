@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tomcat on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/tomcat/</link>
+    <description>Recent content in tomcat on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/tomcat/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>來架個網站吧-23.網站環境建置-建立AP</title>
+      <link>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</guid>
+      <description>來架個網站吧-23.網站環境建置-建立AP tags: 來架個網站吧 tomcat 我是目錄
+Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部屬的 Servlet容器。
+然而tomcat受歡迎的背後，卻也背負不少的CVE認證，所以這邊我會先說明一下如何建立安全？的tomcat 服務。以下是濃縮版本，當然也歡迎在留言區補充～
+建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部屬tomcat服務會做的一些事項:
+移除 tomcat 版本號 禁止自動部屬 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：
+&amp;lt;Connector server=&amp;#34;application server&amp;#34; /&amp;gt; 但是這樣的作法在 404 頁面 時仍然會出現 tomcat 版本資訊。為了解決這個狀況，目前現行可靠的作法是把 catalina.jar 打開之後，修改 ServerInfo.properties 裡面的資訊。
+一行指令版本 export tomcatHome=&amp;#34;/opt/apache-tomcat&amp;#34; &amp;amp;&amp;amp;\ export tomcatVersion=&amp;#34;7.0.109&amp;#34; &amp;amp;&amp;amp;\ export javaHome=&amp;#34;/usr/local/jvm/jdk17_latest&amp;#34; &amp;amp;&amp;amp;\ mkdir -p ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar.bk &amp;amp;&amp;amp;\ unzip -q ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar -d ${tomcatHome}/catalina_jar-${tomcatVersion}/ &amp;amp;&amp;amp;\ sed -i &amp;#39;/^server.</description>
+    </item>
+    
+  </channel>
+</rss>

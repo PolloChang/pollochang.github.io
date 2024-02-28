@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2023 iThome 鐵人賽 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/2023-ithome-%E9%90%B5%E4%BA%BA%E8%B3%BD/</link>
+    <description>Recent content in 2023 iThome 鐵人賽 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/2023-ithome-%E9%90%B5%E4%BA%BA%E8%B3%BD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>來架個網站吧-01.前言</title>
+      <link>http://pollochang.work/post/1000-01.%E5%89%8D%E8%A8%80/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-01.%E5%89%8D%E8%A8%80/</guid>
+      <description>來架個網站吧-01.前言 tags: 來架個網站吧 這一系列的文章，我想把我自己學習架設網站的學習過程一步一步敘述出來，從零基礎開始到一個網站的誕生。順便在撰寫文章的過程中，更精進這方面的技術與吸收。
+目錄 來架個網站吧-1.前言 為什麼要開發網站 在開發網站之前，通常我會先問一句：「未什麼要開發網站？」。這一句非常重要。之所以重要的原因是，今天開發一個網站是一件複雜的事情，當然也有可以是一件很簡單的事情。從簡單的說起，一台數莓派就可完成一個網站架設了，複雜到使用多個雲進行架設。不過這一系列我不會講如何使用 Google Cloud、 Amazon Web Services等等三方提供的雲端服務架設，因為在下小弟我沒有經驗。
+所以我的鐵人賽可以收工打包回家啦！
+這三十天，小弟我會帶大家如何從零開始打造一個自己專屬網站，帶給不一樣 很傳統 的網站系統。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-02.技術分工-1: 需求訪談與分析</title>
+      <link>http://pollochang.work/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/</guid>
+      <description>來架個網站吧-02.技術分工-1: 需求訪談與分析 tags: 來架個網站吧 我是目錄
+需求訪談與分析 如今網站系統是複雜的 複雜的永遠都是人 ，一個完整的網站精髓在於完整體驗。所謂完整除了包含漂亮的網頁介面(UI)、流暢的使用者設計(UX)、進行巧江蕙演唱會門票不怕網路塞車(效能)、不怕在網站輸入手機電話號碼後三十分鐘就接到詢問貸款的電話(安全)，上述都是現今網站的基本要素，最重要在於進入當前的網站是為了要完成蛇模事情？
+為了探討「使用目的」這件事，網站的工程人員有專人、專責？處理需求蒐集，並且依據所蒐集到的資料整理成一個網站業務流程。簡單如：線上字典，複雜如：Google Cloud。
+以下是線上字典的業務流程:
+使用者進入網站 -&amp;gt; 使用者輸入要搜尋的文字 -&amp;gt; 使用者執行查詢 -&amp;gt; 網站系統搜尋資料庫 -&amp;gt; 網站系統將搜尋的結果拋回使用者 -&amp;gt; 使用者獲得訊息 上述的網站業務流程看似簡單，但是加入以下條件，也有可能讓網站的業務流程開始變得複雜：
+每分鐘都會有1萬名使用者進行操作。 則網站的業務流程有可能會變成這樣
+使用者進入網站 -&amp;gt; 使用者輸入要搜尋的文字 網站系統搜尋資料庫 ↗ ↘ (快取沒有資料) ↘ ↗ ↘ -&amp;gt; 使用者執行查詢 -&amp;gt; 網站系統從搜尋快取資料庫 ↘ ↘---------------------&amp;gt; 網站系統將搜尋的結果拋回使用者 -&amp;gt; 使用者獲得訊息 通常每加一項對網站的要求(需求)，在設計網站功能規劃時就得多加一項以上功能或是導入令一向技術。因此一個「完整體驗」的網站通常需求訪談與分析的工作不可少。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-03.技術分工-2: 需求訪談</title>
+      <link>http://pollochang.work/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/</guid>
+      <description>來架個網站吧-03.技術分工-2: 需求訪談 tags: 來架個網站吧 我是目錄
+建置一個系統中最重要的環節是什麼？開發技術？酷炫時尚的操作介面？
+我覺得最重要的一環就是先釐清做系統是為了要完成那些事情，例如：記帳、管理團隊任務、想知道字的讀音、字詞的意思&amp;hellip;&amp;hellip;等。在這一系列我以字典為需求出發。
+需求出現: 「霽」這個字怎念 先在我接收到一項需求：字要怎麼念。
+首先在回答字要怎念的時候，以下是我腦中迴路會出現的思路：
+誰在問？ 學生。 為什麼要問？ 因為同學的名字他不會念。 在什麼時候想到這個問題的？ 載課堂上的時候。 在哪裡想到的這個問題？ 在305教室。 要回答哪些訊息？ 尋找字的讀音。 上述的的思路即是需求訪談時需要向訪談者探討的問題，必須要把自己當成對方肚子李的蛔蟲理解它提出問題(需求)背後的目的。
+另外，在需求訪談的過程中，有時需要幫受訪者衍生提問來探究更細節的需求。例如：
+誰在問？ 請問你是新來的學生嘛？ 為什麼要問？ 最近是不是很長遇到不會念的姓名？ 在什麼時候想到這個問題的？ 除了在課堂上的時候想問，在哪時候也有相同的疑惑？ 在哪裡想到的這個問題？ 除了在教室以外，在圖書館已會遇到一樣狀況嘛？ 要回答哪些訊息？ 你想知道這個字的含意嘛？ 上述就是我在工作實務中常用到的思路，當然僅憑這一點思方式仍然是不夠的，有時候也會向訪談者提出需求相關的文件，或是親身體驗對方的困境，來更深一步探討對方所面臨的需求。
+文字紀錄的重要性-人性本忘 我深深相信一件事: 人性本忘。
+忘記，是人類與生性來的本能。因此文字紀錄是很種要的事情，這邊不推薦用語音或是影像紀錄方式，主要是查閱、搜索不易。剛剛有提到「需求訪談完成的當下最好先整理初對方的需求與對方初步確認」這項動作，原因是訪談完當下通常是雙方記憶最清晰的時間，也會是日後回想需求的起始點。
+還有一項是請訪問者與受訪者雙方見證需求文字敘述的真實性，因為有一方對一項需求不認帳，對系統功能有可能是重大的。
+中介人 在商業開發上，有時候訪問者與受訪者的關係是屬於不信任的，必要時可以請出雙方信任的第三者參與需求訪談。避免日後開發完系統功能卻無法完成上線的窘境。
+以上是我這幾年在網站領域的一點心得，有疏漏請不吝色指教。
+需求文件 為了寫這系列的文章，我特異簡化很多需求訪談中的詳細，以下是簡便板的需求文件:
+今天是9月10日，在世新大學有一位從美國來台灣就讀的大一年級的新生，同時他也是華僑說著一口流利的中文，但是不太認識中文字。無法將講義、同學的名子的文字念出發音及理解字詞的意思。同學希望有一個網站可以很順手的查詢字的意思。 </description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-04.技術分工-3: 需求分析</title>
+      <link>http://pollochang.work/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/</guid>
+      <description>來架個網站吧-04.技術分工-3: 需求分析 tags: 來架個網站吧 我是目錄
+需求分析 經過依整天的需求訪談，可以說是燒掉不少腦細胞呀！不過訪談完成之後必須得得做整理，我相信經過一整晚的睡眠整理？前一天的需求應該都在腦袋瓜中整理的有理有序吧？但是當工程師拿到訪談的文件，有絕大部分的機率不會著手開發。這是為什呢？
+想想看昨天的需求文件吧：
+今天是9月10日，在世新大學有一位從美國來台灣就讀的大一年級的新生，同時他也是華僑說著一口流利的中文，但是不太認識中文字。無法將講義、同學的名字的文字念出發音及理解字詞的意思。同學希望有一個網站可以很順手的查詢字的意思。 但是在工程師的腦中有 接收資料、分析資料、拋出資料，在前端工程的眼中只有如何呈現給使用者資訊 僅憑這一點敘述，會讓各個不同的工程師發會想像完成網站的一部分。以系統流程來說好了：後端工程師可能會會認為使用者(大學生)在網頁中輸入任何一個中文字，將使用者輸入的內容丟進資料庫查詢出結果，再將查詢結果資訊丟給使用者即可。在前端工程師的角度可能就是畫出一個可以給使用者輸入的文字方塊，丟給伺服器查詢，等到伺服器回傳資料再顯示給使用者。如果這時候沒有事先規範好前端、後端要如何完成查「查尋文字意思」的系統流程，有很大個機率會出現前端丟給後端資料，後端接收不到的狀況，反之亦然。我這邊只是舉個前後端的例子，在我的工作經驗中，有的情況是一條龍流程：需求訪談、需求分析、系統開發、系統測試、系統上線;也有情況是，多人一起完程一個階段任入。一個人在不同時期點會有不同的思考角度，例如：我在大學一直追求Java的程式如何寫到簡潔，到了現在是如何透過程式撰寫優美的SOP。更何況是兩人以上的合作模式。了減少不同思考角度間的溝通成本，因此在需求分析階段需要把下列事項定義清楚：
+系統使用者 誰會使用系統 系統目標 這個系統是為了處理什模事情 系統流程 要如何完成事情 隱藏的需求 拿到需求敘述後，第一步事先依敘述畫出一個資訊流程：
+(大學生)在網頁中輸入要搜尋的文字 (系統)在資料庫中搜尋文字的資料 (系統)將文字資訊呈現在網頁中 (大學生)在網頁中知道文字的資訊 畫完資訊流程後，會發現「資料庫」裡面的資料從哪裡來？裡面的資料誰要輸入？
+所以這就是在需求訪談的結果沒有提及的隱藏需求，通常遇到這種需求會需要再向受訪者確認，更糟的是由分析師自行發揮想像力因應隱藏需求的設計方案。以下就是這次舉例隱藏需求的設計方案：
+由志願者將中文「字」、「詞」的文意資訊，在網頁中輸入儲存至系統中。 系統使用者 在上述的需求敘述中，有一個明確的使用者:「不識字的人」</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-05.技術分工-4: 系統開發</title>
+      <link>http://pollochang.work/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/</guid>
+      <description>來架個網站吧-05.技術分工-4: 系統開發 tags: 來架個網站吧 我是目錄
+需求訪談完成之後就是開始動工啦～
+已目前的經驗來說，在需求訪談與分析階段，技術能不能達到要求都不是重點，本身的重點是技術如何滿足需求。以目前大部分公司的開發階段會切成以下類別：
+前端 後端 前端 與 後端 在網站工程中，常常聽到「前端」與「後端」，但是什麼是前端？什麼是後端？
+以我自己本身的經驗，對一般人比較能理解的說法是：用瀏覽器開一個網站，眼睛看得到絕大部分都是前端技術，眼睛看不到的都是後端技術。但是在時務經驗中，前端技術也可以寫後端，例如：Note.js。後端技術也可以應用在瀏覽器，例如：Java Applet。原則上技術本質是中性的，沒有絕對只有適合而已。在工作中，後端工程師也會需要處理前端丟過來的問題，進而協助前端如何處理資料傳輸的問題。前端也會需要如何用JavaScript產生文件的時後。在網站領域做了一段時間，兩端多少都需要碰到，只是早晚問題。
+這一系列開始，我會介紹程式基礎。程式語言基礎的部份，我選擇JAVA。沒有其他原因，就我自己比較熟悉而已。接下來會介紹資料資料庫，以及如何操作。整體後端大略介紹完後，不會開始介紹前端基礎技術HTML、CSS、JavaScript，因為我真的不懂。
+前端 前端領域在我剛開始進入這個領域時只需要下列技能:
+切版 HTML CSS javaScript 現在除了要會切版之外，還要學會如何接API、做OAuth 2.0&amp;hellip;&amp;hellip;等等，幾乎快跟五年前的後端處理的事情融合了，只能說資訊技術前進的很快。當然在這塊領域上我也只能follow大致上的方向，畢竟時間與經歷有限。所以無法帶給大家深廣的資訊。
+後端 後端的領域中，不外乎是處理業務邏輯為主，當然偶爾處理一下古老前後端不分離的技術框架，例如：JSP。
+10幾年前，剛接觸資訊領域時當時是以JEE框架為主流，也就是良葛格當時的主力作品:Servlet/JSP，然而在五年前踏入這個行業時，Spring則是當時火紅的技術框架，當時的所有的技術論壇真的是春天滿天飛呀～
+資料庫 資料庫規劃開發也是在網站應用系統功能中，佔重要比重很高的一向技術。因為每個網站近乎一定有資料庫運作。在這個領域我認為是最難處理的一部分，因為沒有什麼好或不好的資料設計。
+為什麼這樣說？
+以規劃主鍵來說：雙主鍵很適合做報表產製為目的的設計，因為後續撈報表很容易知道這張資料表的要紀錄的業務主要資訊。流水主鍵設計很適合做物件導向李的資料，一筆資料代表一個物件。
+另外，還要依需求資料與硬體規劃等設計合適的資料型態、索引、table space、資料表分頁、資料庫分庫。
+在資料庫的運作上也得考慮要做或能不能做高可用性(high availability)。
+虛擬 x 容器 這邊講的虛擬是指作業系統安裝在虛擬環境中，如: VMWare。容器，例如: docker。
+在網站系統當中，通常會直接採用虛擬化服務，因為可以靈活配置系統運算效能。在網站應用程式伺服器通常會配置在容器中，容器有比虛擬機更靈活的水平擴展能力，建立一容器服務可以在短短的幾秒鐘完成服務部屬。
+系統測試 開發完成之後，一定要做測試而且最好是單元測試。
+大部分的人一定會跟你說：「要做單元測試。」就好比參加只考時考試券寫完要做檢查一樣(話說指考好像沒了)。但現實是，開發完成之後，通常隔天系統就要交付給客戶測試啦～
+台灣？的環境使然，雖然現在無法做、明天還是無法做。
+只要提倡再久一點，讓名為「滿天窗的系統bug」的子彈再飛一會兒或許客戶就會重視，騰出專案時間與預算來做。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-06.技術分工-5: 系統維運</title>
+      <link>http://pollochang.work/post/1000-06.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E7%B6%AD%E9%81%8B/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-06.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E7%B6%AD%E9%81%8B/</guid>
+      <description>來架個網站吧-06.技術分工-5: 系統維運 tags: 來架個網站吧 我是目錄
+維運 網站架設好之後沒有人管理，這個網站不久會「死」。不是鬼月剛過完我想鬼故事。
+通常死因很多，通常有以下幾點:
+吃太飽，脹死: 網站日誌在一小段時間增長太多，把硬碟空間塞滿，導致系統逐漸癱瘓。 頭腦燒，忙死： 網站程式問題造成系統突發崩潰。 無法反應，慢死： 網站流入超出預期的使用人數，造成網站系統反應慢。 沒有能量，餓死： 某某電力公司發電廠跳脫，UPS電力耗盡，網站預警關機。 為了預防、解決上述狀況，維運的工作不可少。好的維運人員可以避免因上述發事件發生網站異常。所以，停電了！但是維運人員在滑手機、網站沒有出現狀況，是好事！該加薪！
+資安 給我你的電話號碼，我不要。給我一所學校師生的電話號碼，即使一桶金交換我也願意。
+試想，得到電話號碼可以做什麼？
+「兒子呀～你現在在哪裡？快來救我～～～」、「先生您好，您符合30萬放款資格，手續費0元。」、「恭喜王○○，獲得iphone15 pro ，請附上郵資以便寄送」&amp;hellip;&amp;hellip;等資訊是否接收過？
+如果覺得只是詐騙而已，但是一天四、五則訊息、電話，不會覺得被騷擾、煩躁？
+資安這一塊領域最近在網站變得如此重要，以往網站開發全面以功能導向，如今必須把資安面向當作基本考慮因素。以前會覺得是有專責即可，今天得從需求訪談開始就得考慮。
+所以，網站工程人員，辛苦了！該加薪！
+專案管理: 實際上分工有好也有壞，但壞處可以透過「溝通」解決 不過後來我入職到現在，也不是一直都接觸這些。也許是環境因素讓我在後端領域可是碰了不少，如：SpringBoot衍生框架、資料庫、作業系統、虛擬化設備&#39; 容器伺服器、硬體設備、網路設備&amp;hellip;&amp;hellip;等，要說接觸的廣也好，說廣兒不精也好，我都接受這些看法。重點是能夠如何解決當前問題與規劃未來系統運作才是我目前的工作重點。
+話說回來，越多人開發、開發時程越久、生命週期越久的網站，「溝通」越顯的重要。
+這時後專案管理師的功能就出現啦！有人負責規劃一個網站的開發進度、支援生命週期要到什麼時候&amp;hellip;&amp;hellip;等，讓技術人員可以專心處理網站開發上的各種難題是一件好事。工程人員也可以不用講客戶聽不懂的程式語言給人聽啦～
+專案管理的部份我完全外行，推這一系列的文章給大家: 轉職PM在IT業的生存之道
+整體技術介紹完之後，我想簡單介紹程式撰寫習慣。因為這項關係到日後接手的工程師或是一年以後的自己。
+再來是進入這系列的重點：如何開發網站。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-07.程式撰寫習慣</title>
+      <link>http://pollochang.work/post/1000-07.%E7%A8%8B%E5%BC%8F%E6%92%B0%E5%AF%AB%E7%BF%92%E6%85%A3/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-07.%E7%A8%8B%E5%BC%8F%E6%92%B0%E5%AF%AB%E7%BF%92%E6%85%A3/</guid>
+      <description>來架個網站吧-07.程式撰寫習慣 tags: 來架個網站吧 我是目錄
+程式碼風格，是一件很抽象的事情。但是在團隊中風格一致，似乎很重要。
+我鮮強調一次是，「似乎」。
+讓我來說說吧 一個網站只有一個工程師開發。程式碼風格不一致(應該)沒有關係。例如，縮排、命名規則不一致、包含與更動業務邏輯前的程式片段，如下列範例:
+public class Main { public static void main(String[] args) { int user_input = 0; //for(int i=1;i&amp;lt;=9;i++) { // for(int j=1;j&amp;lt;=i;j++) { // System.out.print(j+&amp;#34;×&amp;#34;+i+&amp;#34;=&amp;#34;+i*j+&amp;#34;\t&amp;#34;); // } // System.out.println(); // } int Not_too_good = 60; int OK = 80; int good = 100;String showMsg = &amp;#34;&amp;#34;; if(user_input &amp;lt; Not_too_good){ showMsg = &amp;#34;Not too good&amp;#34;; }else if(user_input &amp;lt; OK){ showMsg = &amp;#34;Not bad&amp;#34;;}else if(user_input &amp;lt; good){ showMsg = &amp;#34;OK&amp;#34;; }else{ showMsg = &amp;#34;Good&amp;#34;; } System.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-08.開發環境建置</title>
+      <link>http://pollochang.work/post/1000-08.%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-08.%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE/</guid>
+      <description>來架個網站吧-08.開發環境建置 tags: 來架個網站吧 我是目錄
+所以我要如何開發網站？ 網站，最基本的功能是有目的的資訊交流平台。所以開發一個網站需要先探討，是為誰建立的？使用目的是什？接下來才是後續的系統流程設計與開發。
+這邊我先設定架設網站的目標：給中學生查詢的網站字典。之後架設網站時，我會以我自己在學生時期的經驗為範本，逐步構出需求。
+在架設網站的資金預算方面是零元。沒有說錯是零元！身為窮到只剩下技術的「工程屍」錢都拿去養家餬口了，再沒有金主的贊助下預算一切都是零元。
+以下開放贊助
+確認好需求目標之後，就是先想出要如何完成需求目標啦！以下是我的方案：
+開發的技術框架是使用Grails，資料庫方面是使用Postgreql。 網站平台會採用硬體自架硬體平台，然後使用Proxmox作為虛擬機平台。網站的作業系統會以Debian為主。 上線之後是「維運」的開始。在網路的世界中，沒有一個網站是永遠沒有意外的。一定會有人發現系統問題，一定會出現網站失去服務功能。當出現意外時，要如何處置，還有要怎麼讓開發者(團隊)知到出現問題，是網站的生命週期中很重要的一環。而且「維運」這一階段，從第一次上線或是開發階段就已經開始，直到網停止服務的當下才會結束。另外，這部份也是佔最多「人力」、「金錢」、「物力」資源的部份。 開發環境建置 在學習程式語言時，必須先建立開發環境。不過等等！有些人想要踏入軟體工程這門領域前，想先看看自己是不是真的要往這方面發展。沒有關係，現在也有線上的環境，只要能打開電腦而且連上網路，就可以開始練習了。關於這一系列我找了下面幾個線上環境供參考：
+JAVA: https://www.learnjavaonline.org/ SQL: https://www.learnsqlonline.org/ JavaScript: https://www.learn-js.org/ HTML: https://www.learn-html.org/ 如果一開始有遲疑，經過線上得初始之臺確定要踏進來，那就開始建立自己的開發環境吧！
+先說建立開發環境時會遇到的狀況吧！
+「每個人建立開發環境遇到錯誤時，不一定會是相同的狀況。」
+或許，是每個人的電腦環境不一樣，或許是自己忘記設定某項參數等等，都有可能。但是別怕！有Google。一邊除錯一邊上網尋找解答一邊嘗試，是現在開發過程的必經之路。因為人腦記憶有限，即始今天可以解決河內塔問題，五年十年之後，當下也不一定能立刻解決。不過經過上網搜尋，或是詢問別人後，或許就可以找回之前的記憶，如何處理。
+一個放置筆記的工具 這是非常重要的事情。筆記可以是紙本筆記本也可以是電子形式的，只要可以記下工作上遇上的困難、解決困難的工具都可以。
+開發的過程中，記得養成記筆記得習慣。最好是習慣每天寫下自己坐下哪些事情。
+有了這些紀錄，之後需要回想工作上某件事情時，速度會比較快。
+而我自己做筆記的工具是vscode + git，一方面是可以接近免費達到跨裝置跨平台，一方面單純我習慣用筆記本做紀錄而已。
+開發工具-intelliJ IDEA 先說好，我沒有為他打廣告。只是我覺得很好用而已。另外，學習完程式語言的基本功後，就是不斷學習各個框架的用法，這時IDEA就是很好的學習工具，因為他可以自動提示用法，甚至可以很輕鬆找到 source code 是怎寫，在職場學習上市很不錯的唷。
+資料庫: postgresql 這邊我是舉一個資料庫為例，學習資料庫不必每種資料庫都摸的徹底，對於網站程式開發人員熟悉一種資料庫即可，畢竟現在很多程式框架已經作到程式與資料庫隔離。但是這邊也必須提醒一下，如果未來想持續在網站領域發展的，就必須清楚了解一種資料庫的行為，對日後系統效能調校上會很有幫助。
+網站框架: Grails 想想10幾年前寫一個網站，在JAVA 生態是用 J2EE 規範中建立伺服器網站。每一項程式細節功能，如資料庫操作、網頁畫面呈現必須透過開發工程師一項一項開發。自從有了框架概念之後，網站的開發工程師就不必在開發每項系統功能注意資料庫連線有關閉、HTML 有寫錯等等，就可以很專心處理程式業務邏輯上的開發。
+在這次的系統我以 Grails 為開發框架，沒有什麼原因，只是我比校熟悉而已。
+在這邊我也不教Grails 如何使用，畢竟獲取學習資源且自我閱讀學習是一個資訊專業人事必備的技能，天下技術如此多，要學習靠自己吧！下列是學習資源:
+grails 官方網站 邊看邊學Groovy/Grails/Gradle 系列 intellij Grails plugin Getting Started With Grails 以上就是開發環境會用的的工具啦！</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-09.系統流程規劃</title>
+      <link>http://pollochang.work/post/1000-09.%E7%B3%BB%E7%B5%B1%E6%B5%81%E7%A8%8B%E8%A6%8F%E5%8A%83/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-09.%E7%B3%BB%E7%B5%B1%E6%B5%81%E7%A8%8B%E8%A6%8F%E5%8A%83/</guid>
+      <description>來架個網站吧-09.系統流程規劃 tags: 來架個網站吧 我是目錄
+昨天大致上說明了開發環境準備的工作，於是可以開始著手開始開發了。在大學時期的我通常一直是這認為的。
+在網站開發之前，得先有系統設計。就讓我繼續拿線上字典的例子繼續吧！
+確認需求項目 在規劃系統流程之前，首要事項是確認需求項目。下列是我歸納的需求項目：
+系統使用者: 初淺識字的人 使用者需求: 透過文字搜尋詞彙語意 預期使用人數(處理效能要求): 每分鐘10次查詢 系統資料來源: 國語小字典 資訊流程： (大學生)在網頁中輸入要搜尋的文字 (系統)在資料庫中搜尋文字的資料 (系統)將文字資訊呈現在網頁中 (大學生)在網頁中知道文字的資訊 規劃系統流程 在學生時期有以下列資訊圖表示：
+User Case 系統流程圖 領域模型圖(DFD資料流程圖) 但是在職場上實際上往往只有「系統流程圖」，原因很簡單，與需求確認的對象往往看不懂。因為我認為圖示用來溝通的，如果對方有很大一部份都看不懂，必須得花費一小時甚至更久先聽完解說，聽完之後或許不會立刻了解。有了一兩次實物經驗後，在跟客戶對談前，系統流程圖夠表達雙方認定的作業流程即可。
+以下就是這次的系統流程規劃：
+系統雛型 網站功能如果有提供使用者介面，做好先做雛型畫面，而且雛型畫面必須與不同觀點的人參預討論，通常會邀請下列人參預：系統開發人員、前端技術人員、需求訪談者、系統使用者。
+通常會優先跟需求訪談者、系統使用者初次確認系統畫面，在此次確認的項目如下：
+系統功能 操作流程順暢 系統雛型如下
+確認沒有問題之後，才會跟系統開發人員、前端技術人員說明系統雛型。如果這階段有人說技術難很高時就會採減法策略，優先不處理與業務不相關的項目，以我自己來說就是畫面要很漂亮、很美麗(我只繪畫火柴人程度而已)。如果技術難以克服的項目與系統主要業務項目重疊時，會採用小步快跑策略。把技術難以達成的業務項目再切割，例如系統要承受每分鐘10次查詢這項需求可以做完查詢功能再探討如何達成目標。
+以上就是系統流程規劃部份，接下來就要進入資料規劃。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-10.資料規劃</title>
+      <link>http://pollochang.work/post/1000-10.%E8%B3%87%E6%96%99%E8%A6%8F%E5%8A%83/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-10.%E8%B3%87%E6%96%99%E8%A6%8F%E5%8A%83/</guid>
+      <description>來架個網站吧-10.資料規劃 tags: 來架個網站吧 我是目錄
+完成需求訪談與系統流程規劃後，接下來就是資料規劃。
+恩～距離打程式碼真的還有一段路 XDDD
+在規劃資料表前需要考慮一些因素
+系統資料來源 系統功能 使用的技術框架 未來資料成長量 上述因素是我在規劃資料表時必須考慮的因素。
+系統資料來源 這次的需求資料來源是國語小字典，下圖是資料的部份擷圖。
+乍看之下，有一點亂
+觀察資料之後，可以設計下列資料表欄位:
+[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度] 單字: word / 文字 / 1 部首: radical / 文字 / 1 總筆畫數: total_strokes / 數值 / N/A 部首外筆畫: out_strokes / 數值 / N/A 注音: mpc / 文字 / 4 解釋: explanation / 很多文字 / N/A 系統功能 看完資料之後，接下來要將系統功能加入考慮因素。此次的功能有搜尋單字、系統要承受每分鐘10次查詢，所以欄位單字會開定長。
+[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度] 單字: word / 定長文字 / 1 部首: radical / 文字 / 1 總筆畫數: total_strokes / 數值 / N/A 部首外筆畫: out_strokes / 數值 / N/A 注音: mpc / 文字 / 4 解釋: explanation / 很多文字 / N/A 使用的技術框架 技術框架也會影響資料規劃，本次是使用下列技術:</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-11.網站開發-1: 建立專案</title>
+      <link>http://pollochang.work/post/1000-11.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-1-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-11.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-1-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88/</guid>
+      <description>來架個網站吧-11.網站開發-1: 建立專案 tags: 來架個網站吧 我是目錄
+建立 git 儲存庫 不管是新增一個實驗性的網站功能，或是範例的程式，能導入git是一個不做的選擇。所以在這邊我先在gitHub開一個儲存庫:ironman-dict
+新增完成之後就是直接把git專案下載到本機中:
+grails 開發環境部屬 JDK Grails 本身是 JVM Base 的框架，因此記得下載 JDK，本次採用 JDK17。
+grails 建立專案之前，首先去官方網站下載 Grails SDK，本次採用 Grails5.3.3。
+官方網站下載頁面: https://grails.org/download.html
+下載完成之後見得解壓縮。
+intellij 我自己是習慣使用 IntelliJ IDEA Ultimate進行開發，在Grails 3.0.17 版本以前還有 Eclipse、NetBeans這兩個IDE可以選擇，之後久只剩下 IntelliJ IDEA Ultimate。當然 vim、NotePad++等文字編輯器依然可以進行開發。
+另外，在 IntelliJ IDEA Ultimate 2022 之後需要自行下載 Grails Plugin才能正常部屬。
+建立專案 新增完git專案之後，接下來是新增一個Grials專案，步驟如下：
+打開 intellij 選擇新New Project 新增grails類型專案 輸入專案目錄位置，點擊Finish 等一會兒時間專案就自動建立完成 啟動前建議先修改一下啟動參數，避免多個專案同時啟動出現port衝導致專案無法啟動的狀況 設定 File encodings 為 UTF8 這部份主要是解決grails-apps/i18n 裡的多國語言設定呈現亂碼的狀況。
+點擊右上角的啟動按鈕就可以檢查專案可以正常啟動 </description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-12.網站開發-2: 設定環境參數-</title>
+      <link>http://pollochang.work/post/1000-12.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-2-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-1/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-12.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-2-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-1/</guid>
+      <description>來架個網站吧-12.網站開發-2: 設定環境參數-1 tags: 來架個網站吧 Grails 我是目錄
+昨天可以開啟專案之後，新增最主要的工作內容就是把專案連上資料庫
+安裝開發資料庫 安裝 資料庫版本: postgresql 15 因為 postgresql 官方網站已經有詳細的安裝步驟，在這邊就不贅述。
+postgresql 下載網址: https://www.postgresql.org/download/
+開資料庫 安裝完成資料庫之後，就可以建立資料庫，指令如下:
+進入資料庫 sudo -u postgres psql 執行sql -- 新增資料庫 CREATE DATABASE ironman_dict_db; -- 新增資料庫角色 CREATE ROLE dict_dba NOINHERIT; -- 授予 dict_dba 角色可連線至 ironman_dict_db 資料庫 GRANT CONNECT ON DATABASE ironman_dict_db TO dict_dba; -- 授予 dict_dba 在 DATABASE 所有權限 GRANT ALL ON DATABASE ironman_dict_db to dict_dba; -- 新增 dict_ap 使用者 CREATE USER dict_ap WITH PASSWORD &amp;#39;LF2.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-13.網站開發-3: 設定環境參數-2</title>
+      <link>http://pollochang.work/post/1000-13.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-3-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-2/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-13.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-3-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E5%8F%83%E6%95%B8-2/</guid>
+      <description>來架個網站吧-13.網站開發-3: 設定環境參數-2 tags: 來架個網站吧 Grails 我是目錄
+昨天本來想要一口氣講完，但是發現篇幅好像有點長，所以決定切兩部份。
+設定專案環境參數 grails-app/conf/application.yml --- grails: profile: web codegen: defaultPackage: ironman.dict gorm: reactor: # Whether to translate GORM events into Reactor events # Disabled by default for performance reasons events: false info: app: name: &amp;#39;@info.app.name@&amp;#39; version: &amp;#39;@info.app.version@&amp;#39; grailsVersion: &amp;#39;@info.app.grailsVersion@&amp;#39; spring: jmx: unique-names: true main: banner-mode: &amp;#34;off&amp;#34; groovy: template: check-template-location: false devtools: restart: additional-exclude: - &amp;#39;*.gsp&amp;#39; - &amp;#39;**/*.gsp&amp;#39; - &amp;#39;*.gson&amp;#39; - &amp;#39;**/*.gson&amp;#39; - &amp;#39;logback.groovy&amp;#39; - &amp;#39;*.properties&amp;#39; environments: development: management: endpoints: enabled-by-default: true web: base-path: &amp;#39;/actuator&amp;#39; exposure: include: &amp;#39;*&amp;#39; production: management: endpoints: enabled-by-default: false --- grails: mime: disable: accept: header: userAgents: - Gecko - WebKit - Presto - Trident types: all: &amp;#39;*/*&amp;#39; atom: application/atom+xml css: text/css csv: text/csv form: application/x-www-form-urlencoded html: - text/html - application/xhtml+xml js: text/javascript json: - application/json - text/json multipartForm: multipart/form-data pdf: application/pdf rss: application/rss+xml text: text/plain hal: - application/hal+json - application/hal+xml xml: - text/xml - application/xml urlmapping: cache: maxsize: 1000 controllers: defaultScope: singleton converters: encoding: UTF-8 views: default: codec: html gsp: encoding: UTF-8 htmlcodec: xml codecs: expression: html scriptlet: html taglib: none staticparts: none --- hibernate: cache: queries: false use_second_level_cache: false use_query_cache: false dataSource: pooled: true jmxExport: true driverClassName: org.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-14.網站開發-4-MVC-1-view</title>
+      <link>http://pollochang.work/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/</guid>
+      <description>來架個網站吧-14.網站開發-4-MVC-1-view tags: 來架個網站吧 Grails 我是目錄
+想了又想，決定還是從畫面開始講起，雖然跟我自己的開發習慣不一樣。因為在我自己學習網站開發的階段是從畫面開始學習，也許這樣對初學者會比較容易上手。後來工作三、四年之後，逐漸會先把系統的資料處理流程先構築完畢，接下來在處理使用者或是API介面部份，最後在修整程式細節。
+今天主要是把網站畫面構築出來，這邊我主要使用的技術如下:
+bootstrap v4 bootstrap-table jQuery 新增 Controller 在新增畫面之前，首先新增一個Controller。一個Controller代表ContextPath後的第一個Path。而第二個Path代表Controller裡的Action。
+接下來就用IDEA完成新增DictController.groovy
+grails-app/controllers/dict/DictController.groovy 在Controllers資料夾中按下右鍵 選擇新增Grails Controller 輸入要新增的Controller，這次是: DictController 新增成功後就會在Controllers下中建立一個DictController.groovy檔案。 新增 laylout: 在新增一個view之前，建議先完成一個layout(母板)，以下是這次是要要新增 layout 所需要的檔案。
+stylesheet: grails-app/assets/stylesheets/dict-main.css javascript: grails-app/assets/javascripts/dict-main.js laylout: grails-app/views/layouts/dict-main.gsp 目錄結構如下
+grails-app ├── assets │ ├── javascripts │ │ ├── bootstrap.js │ │ ├── bootstrap.js.map │ │ ├── bootstrap.min.js │ │ ├── bootstrap.min.js.map │ │ ├── dict-main.js │ │ ├── jquery-3.5.1.js │ │ ├── jquery-3.5.1.min.js │ │ ├── jquery-3.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-15.網站開發-5-MVC-2-Domain</title>
+      <link>http://pollochang.work/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-15.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-5-mvc-2-domain/</guid>
+      <description>來架個網站吧-15.網站開發-5-MVC-2-Domain tags: 來架個網站吧 Grails 我是目錄
+昨天完成新增畫面之後，接下來就是建立 domain 啦！在Grails設計框架之中，原則上資料酷的一張table是對到一個 Domain Class，本次要新增的table 在篇中: 來架個網站吧-10.資料規劃，就有提到，於是我在這邊就不多做闡述。新增完成 Table 之後，接下來是新增幾筆測試資料。如下:
+INSERT INTO public.dict ( word, radical, total_strokes, out_strokes, mpc, explanation) VALUES(&amp;#39;一&amp;#39;, &amp;#39;一&amp;#39;, 1, 0, &amp;#39;一&amp;#39;, &amp;#39;(1) 自ㄗˋ然ㄖㄢˊ數ㄕㄨˋ的˙ㄉㄜ第ㄉㄧˋ一ㄧ位ㄨㄟˋ。大ㄉㄚˋ寫ㄒㄧㄝˇ作ㄗㄨㄛˋ「壹ㄧ」，阿ㄚ拉ㄌㄚ伯ㄅㄛˊ數ㄕㄨˋ字ㄗˋ作ㄗㄨㄛˋ「１」。 (2)單ㄉㄢ個˙ㄍㄜ、不ㄅㄨˊ是ㄕˋ多ㄉㄨㄛ數ㄕㄨˋ的˙ㄉㄜ。如ㄖㄨˊ：「一ㄧˊ個˙ㄍㄜ」、「一ㄧˋ張ㄓㄤ紙ㄓˇ」。 (3) 相ㄒㄧㄤ同ㄊㄨㄥˊ、一ㄧˊ致ㄓˋ。如ㄖㄨˊ：「一ㄧˋ模ㄇㄛˊ一ㄧˊ樣ㄧㄤˋ」、「大ㄉㄚˋ小ㄒㄧㄠˇ不ㄅㄨˋ一ㄧ」。 (4) 專ㄓㄨㄢ注ㄓㄨˋ、純ㄔㄨㄣˊ正ㄓㄥˋ。如ㄖㄨˊ：「一ㄧˋ心ㄒㄧㄣ一ㄧˊ意ㄧˋ」、「用ㄩㄥˋ情ㄑㄧㄥˊ專ㄓㄨㄢ一ㄧ」。 (5)全ㄑㄩㄢˊ、整ㄓㄥˇ。如ㄖㄨˊ：「一ㄧˋ身ㄕㄣ臭ㄔㄡˋ汗ㄏㄢˋ」、「一ㄧˋ生ㄕㄥ一ㄧˊ世ㄕˋ」。 (6) 每ㄇㄟˇ。如ㄖㄨˊ：「一ㄧˋ班ㄅㄢ四ㄙˋ十ㄕˊ人ㄖㄣˊ」、「一ㄧˊ頁ㄧㄝˋ六ㄌㄧㄡˋ百ㄅㄞˇ字ㄗˋ」。 (7) 才ㄘㄞˊ、剛ㄍㄤ剛ㄍㄤ。如ㄖㄨˊ：「一ㄧˋ聽ㄊㄧㄥ就ㄐㄧㄡˋ懂ㄉㄨㄥˇ」、「天ㄊㄧㄢ一ㄧˊ亮ㄌㄧㄤˋ，他ㄊㄚ便ㄅㄧㄢˋ起ㄑㄧˇ床ㄔㄨㄤˊ。」 (8)放ㄈㄤˋ在ㄗㄞˋ兩ㄌㄧㄤˇ重ㄔㄨㄥˊ疊ㄉㄧㄝˊ的˙ㄉㄜ動ㄉㄨㄥˋ詞ㄘˊ之ㄓ間ㄐㄧㄢ，表ㄅㄧㄠˇ示ㄕˋ短ㄉㄨㄢˇ暫ㄓㄢˋ或ㄏㄨㄛˋ略ㄌㄩㄝˋ微ㄨㄟˊ嘗ㄔㄤˊ試ㄕˋ的˙ㄉㄜ意ㄧˋ思˙ㄙ。如ㄖㄨˊ：「動ㄉㄨㄥˋ一ㄧ動ㄉㄨㄥˋ」、「問ㄨㄣˋ一ㄧ問ㄨㄣˋ」、「聞ㄨㄣˊ一ㄧ聞ㄨㄣˊ」。 (9) 另ㄌㄧㄥˋ外ㄨㄞˋ的˙ㄉㄜ。如ㄖㄨˊ：「蟬ㄔㄢˊ，一ㄧˋ名ㄇㄧㄥˊ知ㄓ了ㄌㄧㄠˇ。」 (10)一ㄧˊ旦ㄉㄢˋ。表ㄅㄧㄠˇ示ㄕˋ假ㄐㄧㄚˇ設ㄕㄜˋ的˙ㄉㄜ語ㄩˇ氣ㄑㄧˋ。如ㄖㄨˊ：「一ㄧˋ失ㄕ足ㄗㄨˊ成ㄔㄥˊ千ㄑㄧㄢ古ㄍㄨˇ恨ㄏㄣˋ」。&amp;#39; ); INSERT INTO public.dict ( word, radical, total_strokes, out_strokes, mpc, explanation) VALUES(&amp;#39;團&amp;#39;, &amp;#39;囗&amp;#39;, 14, 11, &amp;#39;ㄊㄨㄢˊ&amp;#39;, &amp;#39;(1)圓ㄩㄢˊ形ㄒㄧㄥˊ的˙ㄉㄜ。如ㄖㄨˊ：「團ㄊㄨㄢˊ扇ㄕㄢˋ」。 (2)集ㄐㄧˊ結ㄐㄧㄝˊ成ㄔㄥˊ球ㄑㄧㄡˊ狀ㄓㄨㄤˋ的˙ㄉㄜ事ㄕˋ物ㄨˋ。如ㄖㄨˊ：「麵ㄇㄧㄢˋ團ㄊㄨㄢˊ」、「紙ㄓˇ團ㄊㄨㄢˊ」、「肉ㄖㄡˋ團ㄊㄨㄢˊ」。 (3)聚ㄐㄩˋ集ㄐㄧˊ、凝ㄋㄧㄥˊ結ㄐㄧㄝˊ。如ㄖㄨˊ：「團ㄊㄨㄢˊ拜ㄅㄞˋ」、「團ㄊㄨㄢˊ購ㄍㄡˋ」、「團ㄊㄨㄢˊ結ㄐㄧㄝˊ」、「團ㄊㄨㄢˊ聚ㄐㄩˋ」、「團ㄊㄨㄢˊ圓ㄩㄢˊ」、「團ㄊㄨㄢˊ團ㄊㄨㄢˊ露ㄌㄨˋ珠ㄓㄨ」。 (4)同ㄊㄨㄥˊ類ㄌㄟˋ性ㄒㄧㄥˋ質ㄓˊ的˙ㄉㄜ物ㄨˋ體ㄊㄧˇ大ㄉㄚˋ量ㄌㄧㄤˋ結ㄐㄧㄝˊ集ㄐㄧˊ的˙ㄉㄜ聚ㄐㄩˋ合ㄏㄜˊ物ㄨˋ。如ㄖㄨˊ：「星ㄒㄧㄥ團ㄊㄨㄢˊ」、「疑ㄧˊ團ㄊㄨㄢˊ」、「冷ㄌㄥˇ氣ㄑㄧˋ團ㄊㄨㄢˊ」。 (5)因ㄧㄣ特ㄊㄜˋ定ㄉㄧㄥˋ性ㄒㄧㄥˋ質ㄓˊ或ㄏㄨㄛˋ共ㄍㄨㄥˋ同ㄊㄨㄥˊ目ㄇㄨˋ的ㄉㄧˋ而ㄦˊ組ㄗㄨˇ織ㄓ聚ㄐㄩˋ集ㄐㄧˊ的˙ㄉㄜ群ㄑㄩㄣˊ體ㄊㄧˇ。如ㄖㄨˊ：「團ㄊㄨㄢˊ體ㄊㄧˇ」、「社ㄕㄜˋ團ㄊㄨㄢˊ」、「馬ㄇㄚˇ戲ㄒㄧˋ團ㄊㄨㄢˊ」、「旅ㄌㄩˇ行ㄒㄧㄥˊ團ㄊㄨㄢˊ」、「合ㄏㄜˊ唱ㄔㄤˋ團ㄊㄨㄢˊ」。 (6)形ㄒㄧㄥˊ容ㄖㄨㄥˊ轉ㄓㄨㄢˇ圈ㄑㄩㄢ的˙ㄉㄜ樣ㄧㄤˋ子ㄗˇ。如ㄖㄨˊ：「團ㄊㄨㄢˊ團ㄊㄨㄢˊ轉ㄓㄨㄢˋ」、「團ㄊㄨㄢˊ團ㄊㄨㄢˊ打ㄉㄚˇ轉ㄓㄨㄢˋ」。 (7)軍ㄐㄩㄣ隊ㄉㄨㄟˋ的˙ㄉㄜ編ㄅㄧㄢ制ㄓˋ之ㄓ一ㄧ。如ㄖㄨˊ：「軍ㄐㄩㄣ團ㄊㄨㄢˊ」。 (8)量ㄌㄧㄤˋ詞ㄘˊ。A&amp;gt;用ㄩㄥˋ於ㄩˊ計ㄐㄧˋ算ㄙㄨㄢˋ團ㄊㄨㄢˊ狀ㄓㄨㄤˋ物ㄨˋ的˙ㄉㄜ單ㄉㄢ位ㄨㄟˋ。如ㄖㄨˊ：「一ㄧˋ團ㄊㄨㄢˊ毛ㄇㄠˊ線ㄒㄧㄢˋ」、「兩ㄌㄧㄤˇ團ㄊㄨㄢˊ泥ㄋㄧˊ巴ㄅㄚ」。B&amp;gt;用ㄩㄥˋ於ㄩˊ計ㄐㄧˋ算ㄙㄨㄢˋ成ㄔㄥˊ團ㄊㄨㄢˊ狀ㄓㄨㄤˋ態ㄊㄞˋ的˙ㄉㄜ單ㄉㄢ位ㄨㄟˋ。「一ㄧˋ團ㄊㄨㄢˊ亂ㄌㄨㄢˋ」、「一ㄧˋ團ㄊㄨㄢˊ和ㄏㄜˊ氣ㄑㄧˋ」、「擠ㄐㄧˇ成ㄔㄥˊ一ㄧˋ團ㄊㄨㄢˊ」。&amp;#39; ); INSERT INTO public.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-16.網站開發-6-MVC-3-Service</title>
+      <link>http://pollochang.work/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-16.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-6-mvc-3-service/</guid>
+      <description>來架個網站吧-16.網站開發-6-MVC-3-Service tags: 來架個網站吧 Grails 我是目錄
+新增 Service 在Service/dict資料夾中按下右鍵。 選擇新增Grails Domain Class。 程式說明 在 Service 的文件中主要是處理資料流程，一般API並不會直接觸及Service。在這邊我比較請向處理單一 Domain Class 的資料處理，也就是說有一張 Domain 就會對一個 Service。
+Service 通常會有事物流程 @Transactional，在執行 新增、修改、刪除 時還蠻常用到。
+而在程式中 GrailsParameterMap ，是前端表單傳入的數值，繼承自 java.util.Map，回傳的資料如下:
+[searchWord:一, controller:dict, action:filter] 查詢的方式，這邊我是用 createCriteria 來操作查詢。完成執行查詢之後，將資料轉成 bootstrap table 所需要的資料格式，如下：
+{ &amp;#34;total&amp;#34;: 1, &amp;#34;rows&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;word&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;radical&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;totalStrokes&amp;#34;: 1, &amp;#34;outStrokes&amp;#34;: 0, &amp;#34;mpc&amp;#34;: &amp;#34;一&amp;#34;, &amp;#34;explanation&amp;#34;: &amp;#34;....&amp;#34; } ] } grails-app/services/dict/DictService.groovy package dict import grails.gorm.transactions.Transactional import grails.web.servlet.mvc.GrailsParameterMap @Transactional //事物 class DictService { LinkedHashMap filter(GrailsParameterMap params) { LinkedHashMap result = [:] String word = params?</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-17.網站開發-7-MVC-4-Controller</title>
+      <link>http://pollochang.work/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-17.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-7-mvc-4-controller/</guid>
+      <description>來架個網站吧-17.網站開發-7-MVC-4-Controller tags: 來架個網站吧 Grails 我是目錄
+今天讓我們回到第14天一開始建立的 Controller 。
+Grails Controller 是一般API會直接觸及的程式，在這邊主要是處理業務流程。Controller 中有兩項比較常被用到: render、redirect。
+render render 是表明要回傳的資料。資料可以是TEXT、JSON、view、templates等形式。在程式中的寫會是如下:
+class ExampleController { def dictService def index(){ render(view: &amp;#34;example&amp;#34;) } /** * 查詢 * @return */ JSON filter(){ LinkedHashMap result = dictService.filter(params) render result as JSON } } redirect redirect 顧名思義是跳轉的概念。會在 Web Server 中使用 HTTP 通訊協定重新導向到新增目的地。在程式中的寫會是如下:
+class ExampleController { def index(){ redirect controller: &amp;#39;dict&amp;#39;, action: &amp;#39;index&amp;#39; ,id: &amp;#39;test&amp;#39; } def goToGoogle(){ redirect(url: &amp;#34;http://www.google.com&amp;#34;) } } 在這邊有草過一個坑: 在 redirect 中參數 id 傳遞中文需要進行 URL encode，不然出現下列類似錯誤</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-18-網站開發-8-最後的最後</title>
+      <link>http://pollochang.work/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-18-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-8-%E6%9C%80%E5%BE%8C%E7%9A%84%E6%9C%80%E5%BE%8C/</guid>
+      <description>來架個網站吧-18-網站開發-8-最後的最後 tags: 來架個網站吧 Grails 我是目錄
+前一個星期大致上把Grails 的框架很概略的帶過一遍，這邊我先在 gsp 頁面把 dictController.filter 寫進入。最後成果如下：
+&amp;lt;%@ page contentType=&amp;#34;text/html;charset=UTF-8&amp;#34; %&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta name=&amp;#34;layout&amp;#34; content=&amp;#34;dict-main&amp;#34;/&amp;gt; &amp;lt;link href=&amp;#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34;&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;g:form name=&amp;#34;searchForm&amp;#34; &amp;gt; &amp;lt;div class=&amp;#34;form-group input-group&amp;#34;&amp;gt; &amp;lt;h3&amp;gt;&amp;lt;label for=&amp;#34;searchWord&amp;#34;&amp;gt;請輸入查詢的詞彙&amp;lt;/label&amp;gt;&amp;lt;/h3&amp;gt; &amp;lt;div class=&amp;#34;input-group mb-3&amp;#34;&amp;gt; &amp;lt;g:textField id=&amp;#34;searchWord&amp;#34; name=&amp;#34;searchWord&amp;#34; class=&amp;#34;form-control&amp;#34; aria-describedby=&amp;#34;searchWordHelp&amp;#34; /&amp;gt; &amp;lt;div class=&amp;#34;input-group-append&amp;#34;&amp;gt; &amp;lt;g:submitButton id=&amp;#34;searchButton&amp;#34; name=&amp;#34;searchButton&amp;#34; value=&amp;#34;查詢&amp;#34; class=&amp;#34;btn btn-outline-primary&amp;#34; type=&amp;#34;button&amp;#34; onclick=&amp;#34;refreshTable()&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;small id=&amp;#34;searchWordHelp&amp;#34; class=&amp;#34;form-text text-muted&amp;#34;&amp;gt;嘗試輸入: 天&amp;lt;/small&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/g:form&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;h3&amp;gt;查詢結果&amp;lt;/h3&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;row&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col&amp;#34;&amp;gt; &amp;lt;table id=&amp;#34;resultTable&amp;#34; data-toggle=&amp;#34;table&amp;#34;&amp;gt; &amp;lt;thead&amp;gt; &amp;lt;tr class=&amp;#34;tr-class&amp;#34;&amp;gt; &amp;lt;th data-field=&amp;#34;word&amp;#34; data-formatter=&amp;#34;wordFormatter&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;單字(注音)&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;radical&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;部首&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;totalStrokes&amp;#34; data-formatter=&amp;#34;totalStrokesFormatter&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;總筆畫數/部首外筆畫&amp;lt;/th&amp;gt; &amp;lt;th data-field=&amp;#34;explanation&amp;#34; data-valign=&amp;#34;middle&amp;#34;&amp;gt;解釋&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;/thead&amp;gt; &amp;lt;/tbody&amp;gt; &amp;lt;/table&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;script&amp;gt; function refreshTable() { jQuery(&amp;#39;#resultTable&amp;#39;).</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-19.網站環境建置-硬體設備準備</title>
+      <link>http://pollochang.work/post/1000-19.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%A1%AC%E9%AB%94%E8%A8%AD%E5%82%99%E6%BA%96%E5%82%99/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-19.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%A1%AC%E9%AB%94%E8%A8%AD%E5%82%99%E6%BA%96%E5%82%99/</guid>
+      <description>來架個網站吧-19.網站環境建置-硬體設備準備 tags: 來架個網站吧 我是目錄
+依現在的 x86 硬體設備大多都可以架設網站了，與機臺式的機器相比只差別穩定與維護容易的差別。
+先講講我認為的差別在於「降低硬體損壞造成系統異常風險」。
+以機架式伺服器: DELL R720 來說，硬碟通常是做Raid5降硬碟損壞造成資料遺失風險，在電源供應器也有兩顆互為備援，降低電源故障影響系統的風險。一般零售的個人電腦大多不會有複數零件以上的設計。但是對於實驗性質的網站來說不會是一個問題，因為系統癱瘓是可以被忍受的。
+以這次實驗性質的網站中，因為預算十分有限，只能從二手網收購汰換下來的電腦架設。總計約2000元，以下是我的規格。
+CPU: i5-7400 CPU RAM: DDR4 16GB Disk: 2T 硬體設備主要是用Proxmox架設虛擬機平台，在計算硬體可用效能空間來說，記憶體會預先被虛擬機平台佔用調2GB，硬碟空間大約會被佔用約80GB(還要預留存放ISO image)，因此以下是實際可供虛擬機使用的效能空間：
+CPU: i5-7400 CPU RAM: DDR4 14GB Disk: 1.9T 在過往的經驗有拿過ACRE Veriton L480 (RAM: 4GB)做為虛擬機平台，但是部屬完一個VM就差不多用完記憶體，因此在這邊建議要建立虛擬機平台記憶體需要16GB以上有足夠的記憶體分配給虛擬機。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-20.網站環境建置-架設虛擬機平台</title>
+      <link>http://pollochang.work/post/1000-20.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E6%9E%B6%E8%A8%AD%E8%99%9B%E6%93%AC%E6%A9%9F%E5%B9%B3%E5%8F%B0/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-20.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E6%9E%B6%E8%A8%AD%E8%99%9B%E6%93%AC%E6%A9%9F%E5%B9%B3%E5%8F%B0/</guid>
+      <description>來架個網站吧-20.網站環境建置-架設虛擬機平台 tags: 來架個網站吧 我是目錄
+虛擬機平台 虛擬機平台很多種，在自己在玩的環境可以準備自己熟悉會是想玩的就可以。通常常見的平台有下列幾項：
+VMWare Oracle VM Oracle VM VirtualBox KVM proxmox VMWare 大家或許都有碰過，畢竟介面簡單容易上手，我覺得是他的特色。但是免費版本的 VMware Workstation Player中，我記得只要關閉虛擬機視窗後，虛擬機就會進入暫停狀態，我認為比較不合適作為這次題目的虛擬機平台。如果有錢買VMware Workstation Player Pro 或是 vsphere 真的很適合，這是目前我用過中最容易上手的虛擬機平台。
+功能可以參考這系列: IT系統建置 系列
+Oracle VM 這個比較冷門一點，但是重點是Free(自由的)。
+雖然是 Oracle 惡霸 推出的，功能上與 vsphere 相差不多，只是文件比較少，加上Oracle 未來也不在提供支援了，在這邊簡單提到一下。
+Oracle VM VirtualBox 這個我比較推薦給大家當作玩具玩，畢竟大部分的人通常家裡的電腦不會專門做虛擬機平台，VirtualBox可以在家裡的電腦中滿足對虛擬機的好奇。
+KVM 等等，先說好我不是講KVM切換器。
+如果你跟我一樣是習慣用Linux 當作日常使用的作業系統，KVM Qemu Libvirt 會是一個很合適的選項，技術資源相當豐富(但是絕大多是英文)。而且可以玩一些黑技術，如：X群暉、X Apple、X esxi&amp;hellip;&amp;hellip;模擬一些昂貴平台等，原則上只要是 類unix系統 為底的平台都可以模擬。我主要是拿來研究功能導入，節省新設備導入的時間成本。
+proxmox proxmox 作為開源的虛擬平台，很適合拿來做網站建置。操作容易上手，在中文文件也豐富，只要會安裝windows就會安裝 proxmox(安裝步驟只要一直按下一步就好)。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-21.網站環境建置-建立虛擬機範本</title>
+      <link>http://pollochang.work/post/1000-21.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E6%A9%9F%E7%AF%84%E6%9C%AC/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-21.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E6%A9%9F%E7%AF%84%E6%9C%AC/</guid>
+      <description>來架個網站吧-21.網站環境建置-建立虛擬機範本 tags: 來架個網站吧 我是目錄
+建立網站環境前，建議可以預先建立網站環境範本，未來在部屬資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。
+事前規劃 我的範本規劃如下
+OS: Debian 12 CPU: 4Core Ram: 4GB Disk: 50GB /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 common software: qemu-guest-agent vim firewalld wget curl autofs rsync tmux aide auditd 新增虛擬機 點擊「『Create VM」 輸入虛擬機名稱 選擇ISO image 勾選Qemu Agent 輸入預設要配置的磁碟大小 輸入要配置的CPU數量 輸入要配置的記憶體大小 確認網卡 確認虛擬機訊息 安裝作業系統 作業系統發行版本: Debian12 建議事項 安裝時處理項目 獨立磁區: 這部份主要是依據政府組態基準(GCB)設定，tmp是預防維運人員塞太大檔案造成系統功能異常。每的獨立磁區大小是實際狀況分配。 /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 切割的完成的設定截圖如下：</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-22.網站環境建置-安裝資料庫</title>
+      <link>http://pollochang.work/post/1000-22.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%AE%89%E8%A3%9D%E8%B3%87%E6%96%99%E5%BA%AB/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-22.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%AE%89%E8%A3%9D%E8%B3%87%E6%96%99%E5%BA%AB/</guid>
+      <description>來架個網站吧-22.網站環境建置-安裝資料庫 tags: 來架個網站吧 postgresql 我是目錄
+昨天安裝完虛擬機範本之後，接下來就是安裝資料庫啦～
+安裝資料庫可以說是一向大工程。小弟我本人三生有幸，天地父母都很寵我～讓我在目前短短職涯6年多一點點可以碰到
+平價
+奢華
+古董
+這三個資料庫，資料庫對我來說是一項深水莫測，頂點遙不可及的領域，因此我還是碰了一兩下子。
+在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部屬可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
+奢華莫非 Oracle 莫屬，之前碰了 Fujitsu SPARC M12 外加 Oracle 當時最新版的，當時一張光碟在手宛如北市套房在我一樣。(有更貴的聽說還有)也是我目前碰過性能最好的資料庫，他的 RAC (Real Application Clusters)架構真的可以讓資料庫可連線數量近乎無限擴張，可以不用擔心資料庫連線不足問題。 有可能會造成程式越寫越爛，佔用調超多資料庫連線
+古董目前就碰到 DB2 5.5 而已。
+上述畢竟是工作經驗而已，其實也沒有什麼好炫耀的，因為還只是小小菜鳥而已。轉化成自己的經驗才是寶貴。
+以下是我針對本期的平價菜單，希望大家可以飽食滿意。
+環境規劃 OS:Debian 12 DB: Postgresql-15 安裝指令 安裝指令原則上，我是直接採取官方的說明。
+sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &amp;#39;echo &amp;#34;deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - sudo apt -y install postgresql-15 配置注意事項 在正式環境配置方面，大致上需要處理以下：</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-23.網站環境建置-建立AP</title>
+      <link>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</guid>
+      <description>來架個網站吧-23.網站環境建置-建立AP tags: 來架個網站吧 tomcat 我是目錄
+Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部屬的 Servlet容器。
+然而tomcat受歡迎的背後，卻也背負不少的CVE認證，所以這邊我會先說明一下如何建立安全？的tomcat 服務。以下是濃縮版本，當然也歡迎在留言區補充～
+建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部屬tomcat服務會做的一些事項:
+移除 tomcat 版本號 禁止自動部屬 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：
+&amp;lt;Connector server=&amp;#34;application server&amp;#34; /&amp;gt; 但是這樣的作法在 404 頁面 時仍然會出現 tomcat 版本資訊。為了解決這個狀況，目前現行可靠的作法是把 catalina.jar 打開之後，修改 ServerInfo.properties 裡面的資訊。
+一行指令版本 export tomcatHome=&amp;#34;/opt/apache-tomcat&amp;#34; &amp;amp;&amp;amp;\ export tomcatVersion=&amp;#34;7.0.109&amp;#34; &amp;amp;&amp;amp;\ export javaHome=&amp;#34;/usr/local/jvm/jdk17_latest&amp;#34; &amp;amp;&amp;amp;\ mkdir -p ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar.bk &amp;amp;&amp;amp;\ unzip -q ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar -d ${tomcatHome}/catalina_jar-${tomcatVersion}/ &amp;amp;&amp;amp;\ sed -i &amp;#39;/^server.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-24.網站環境建置-編譯nginx</title>
+      <link>http://pollochang.work/post/1000-24.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%B7%A8%E8%AD%AFnginx/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-24.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%B7%A8%E8%AD%AFnginx/</guid>
+      <description>來架個網站吧-24.網站環境建置-編譯nginx tags: 來架個網站吧 nginx 我是目錄
+最近工作真的忙到不可開交，庫存已經耗盡，所以我拿筆記檔一下 XDDD
+話說是筆記，不過我還是加點解說吧～
+想要用 CentOS7 為底的環境，想說目前(202310)還是有很多無法完成脫離 CentOS7 穩定的環境吧！但是這個平台雖穩，但也日益老舊，許多跳鍵也漸漸不再支援了，就讓我為他在附上一點色彩吧。
+version 考慮到 CentOS7 本身的 OpenSSL 已經不符合網路安全要求，因此我這邊是另外獨自從 OpenSSL 官網下載原始碼編譯。
+nginx: 1.22.1 OS: CentOS7 openssl: 1.1.1s 安裝編譯套件 yum update -y yum install -y gcc* openssl-devel pcre* patch git 設定參數 export compileRPMPath=&amp;#34;/home/pollo/nginx-build&amp;#34; 準備要的 module sticky-module: 這部份是我參考其他人作法保留的。 nginx-module-vts nginx_upstream_check_module nginx_cookie_flag_module: 進行覆載平衡時作為黏著使用，避免登入系統後突然跳到其他AP，不過隨著Redis 等記憶體資料庫的使用，似乎也不太需要了。 ModSecurity: 我想把nginx 加一點 WAF 功能 mkdir -p ${compileRPMPath} cd ${compileRPMPath} #下載指定版本的nginx export nginxVersion=&amp;#34;1.22.1&amp;#34; wget http://nginx.org/download/nginx-$nginxVersion.tar.gz tar -xzf nginx-$nginxVersion.tar.gz ln -sf nginx-$nginxVersion nginx ## 此版號為1.</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-25.網站工作軟思維</title>
+      <link>http://pollochang.work/post/1000-25.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-25.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD/</guid>
+      <description>來架個網站吧-25.網站工作軟思維 tags: 來架個網站吧 我是目錄
+這二十幾天來都是一直在分享架設網站技術，從需求訪談、需求分析、開發網站、建置網站，本來下一個階段就是網站維運的部份了。後來看了參賽主題 [Modern Web] ，到底要怎麼保有現代化網頁技術?
+是不斷學習新的流行框架？還是不斷深究舊有的技術框架？但是作為資訊網站最終的目的在於傳遞資訊，網頁設計的再花俏也不過僅僅如此而已。或許Debain官方網站首頁有做到精髓，簡單的設計沒有響應式、沒有太多太花俏的設計就表達了最重要的資訊: 下載Debian。
+於是接下來幾天讓我稍稍的脫離一下「眼睛」看得見的部份，讓我寫一下在變化快速的現代網站技術中，身為專業的資訊工程師業保有哪些心法。或許明年回頭看我自己的作品，看到這邊可以知道過一年想法改變了多少。
+接下來就讓我「看見」(https://tv.apple.com/tw/show/%E6%9C%AB%E6%97%A5%E5%85%89%E6%98%8E/umc.cmc.3s4mgg2y7h95fks9gnc4pw13m)
+這一部電視劇真心推薦，真的會讓人真正的看見</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-26.網站工作軟思維-不會</title>
+      <link>http://pollochang.work/post/1000-26.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E4%B8%8D%E6%9C%83/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-26.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E4%B8%8D%E6%9C%83/</guid>
+      <description>來架個網站吧-26.網站工作軟思維-不會 tags: 來架個網站吧 我是目錄
+這篇算是我最近的工作寫照吧。因為碰了不該碰的領域，不會知道自己不會，只知道自己不會。
+以前在專案當中預到了程式腳本都是五大碼、程式腳本共計五千多個檔案，這些要轉成萬國碼的時，也是相同的狀況。焦頭爛額的狀持續一個月也無法整理初一個頭緒，陷入一個終於解決一項問題卻發現有更多未知的狀況。這都還不是最糟的。
+身邊，沒人知道如何處理。
+對於一個團隊、或是自己是屬於從零到一的過程中往往是最痛苦的階段。可以很樂觀看待說：明天一定可以解決！也可以悲觀的看待：今天怎模又是一樣的狀況。不過對我來說，當天沒有辦法解決的問題我只會說，「我放棄了」，然後明天照樣繼續默默接手做下去，工作而已。
+在資訊領域中，一個人不可能全部都懂，一個團隊也不可能一直有人知道怎做，是一向充滿未知的領域。不過很慶幸的是，在資訊軟體領域往往都是「人」去定義的世界，只要軟體能跑就有辦法解讀創造軟體的人的想法、當時的時空背景。有時候在翻閱使碼時，就好比像翻閱歷史文本一樣，有時候要先有一點時空背景認知才可以理解未什麼要這樣設計。
+以上是我工作以來一點點的心得。
+不過，等等！我怎在看 F5 BIG IP 的設定&amp;hellip;&amp;hellip;
+說好的程式碼呢？</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-27.網站工作軟思維-簡單管理_隨手筆記</title>
+      <link>http://pollochang.work/post/1000-27.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E7%B0%A1%E5%96%AE%E7%AE%A1%E7%90%86_%E9%9A%A8%E6%89%8B%E7%AD%86%E8%A8%98/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-27.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E7%B0%A1%E5%96%AE%E7%AE%A1%E7%90%86_%E9%9A%A8%E6%89%8B%E7%AD%86%E8%A8%98/</guid>
+      <description>來架個網站吧-27.網站工作軟思維-簡單管理_隨手筆記 tags: 來架個網站吧 我是目錄
+在這邊我絕對不會講一個團隊要如何完成專案，我只講個人。
+因為工程師的工作性質往往偏向於單人完成單一項目作業，如何規劃把工作項目完成便是一項很重要的事情。以我目前的工作內容往往是研究如何解決問題，雖然沒有明定要求說要何時處理完畢，但是當我收到需求會問下列事情：
+問題內容是什麼？ 希望如何處理？ 為什麼要使用此方式處理？ 需要在哪個時候完成？ 用這些問題簡單區分一下收到要處理的事情重要性質。
+接下來，隨手紀錄處理問題的步驟更為重要，最好是先做紀錄在執行是最好的。特別是直接在生產環境中直接處理更要「先紀錄下來即將要做的事情在執行」。往往在親上問題火線時，會因為壓力造成疏忽。先紀錄再執行的最主要目的是強迫自己在當下保有有條理的執行事情，另一方面是為了事後追蹤處理過程是否恰檔。
+最後在紀錄工作中比較難執行的項目是「持續每天紀錄所作的事」。不用紀錄很詳細，條列式紀錄今天大概處理哪些事情即可。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-28.網站工作軟思維-面對使用者</title>
+      <link>http://pollochang.work/post/1000-28.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E9%9D%A2%E5%B0%8D%E4%BD%BF%E7%94%A8%E8%80%85/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-28.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E9%9D%A2%E5%B0%8D%E4%BD%BF%E7%94%A8%E8%80%85/</guid>
+      <description>來架個網站吧-28.網站工作軟思維-面對使用者 tags: 來架個網站吧 我是目錄
+在網站開發領域當中，在台灣的工程師往往會面對到自己開發出來的使用者吧？可以說談灣的產業向來如此。我第一份的工作內容是「客服工程師」，工作內容是：接電話、deb bug、外加文書打雜。現在回想起來真的是一項 煩心、煩力、煩嘴 的工作崗位，是一個對職涯無法發展長久的工作型態。不過在這個工作中崗位，我可以知道如何幫使用者表達「情緒」。
+有時候使用者會報怨系統好難使用、系統又掛了、突然要求幫忙修改資料&amp;hellip;&amp;hellip;等突發的狀況，而且有時話中挾著殺氣聲。身為第一線的受害者，一開始當然會直接向主管反應，不過似乎過了一季也還是一樣。
+工作有電話紀錄，一開始我也不是很認真在記。發現在過往與主管溝通中，缺乏證據說名使用者不滿。發現這點之後我變很「認真」的紀錄每一通的電話內容，等累積滿兩週一後，把問題類型與程式加以分類繪製成曲線圖項主管報告(其實有點像股票的柱狀圖)，說：你再不解決現況，我這邊得到的電話越來越多。有了使用者的「情緒曲線圖」這個工具，我這邊的電話似乎漸漸的減少，過了半年之後我也開始有空閒的時間可以研究偷懶我喜歡的技術。
+後來工作接觸到需求訪談分析，因為是暨有的系統功能擴充，同時也會真正接觸到使用者是如何實際操作系統。透過使用者操作系統的實際觀察，其實可以很清楚知道系統設計的操作細節需要進行改進，對網站開發人員是一件難得的經歷。不過要讓使用者放心的在工程師面前操作，前提之下要先學會讓對方放下心防。不然對方只會一直問：這樣操作是對的嘛？
+到了這兩年已經轉成技術後勤部門，每天碰的就只是技術文件、各式硬體、各式軟體、各式技術需求，坦白說就只是碰機器人，跟人類的對談往往也不過短短一百多句而已。最近突然要直接去客戶處理系統問題，發現要開口溝通真的比當初踏入這份領域時困難的多。
+網站最終的使用者還是人，因此有機會可以傾聽一下使用者的聲音，或許可以知道網站系統不足的地方。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-29.網站工作軟思維-好奇嘗試</title>
+      <link>http://pollochang.work/post/1000-29.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E5%A5%BD%E5%A5%87%E5%98%97%E8%A9%A6/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-29.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E5%A5%BD%E5%A5%87%E5%98%97%E8%A9%A6/</guid>
+      <description>來架個網站吧-29.網站工作軟思維-好奇嘗試 tags: 來架個網站吧 我是目錄
+現在網站資訊變化快速，在這個節奏速度快如飛箭的洪流中，保有持續的學習動力是對資訊專業人員很重要的事情。
+在目前的工作經驗中隨著處理問題的愈多，發現除了要學習新的技術框架之外，在必要的時候也得學習十幾年前的技術(如:DB2)。畢竟舊有的系統可以繼續提供他的服務，必然有他的價值存在。然而，需要有什麼動力來保持持續學習呢？我給我的答案是「好奇」。
+在學習網站資訊世界中「好奇」是嘗試新技術的動力，可以每個都試一下。試一下 CSS 排版、試一下虛擬機、有機會就嘗試用 SPARC 電腦就用吧，永遠都不要排斥眼前到手的機會，不管當下會不會都試試看。在資訊技術領域有一個特質、複製成本低、失敗成本低。如果害怕失敗就不敢去嘗試，那就項辦法複製一樣的環境吧，在自己複製的環境中勇敢的不斷去嘗試。</description>
+    </item>
+    
+    <item>
+      <title>來架個網站吧-30.網站工作軟思維-試著學會說人話</title>
+      <link>http://pollochang.work/post/1000-30.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E8%A9%A6%E8%91%97%E5%AD%B8%E6%9C%83%E8%AA%AA%E4%BA%BA%E8%A9%B1/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-30.%E7%B6%B2%E7%AB%99%E5%B7%A5%E4%BD%9C%E8%BB%9F%E6%80%9D%E7%B6%AD-%E8%A9%A6%E8%91%97%E5%AD%B8%E6%9C%83%E8%AA%AA%E4%BA%BA%E8%A9%B1/</guid>
+      <description>來架個網站吧-30.網站工作軟思維-試著學會說人話 tags: 來架個網站吧 我是目錄
+網站在我的觀點中就是在人類世界中扮演資訊交換的角色，而資訊工程師只不過是把人類的語言轉變成電腦世界的語言並讓執行提供服務而已。我希望未來的自己別只專注在技術而已，同時也要注意需求動向這樣才不會落入技術的牢房中。另外，也繼續保持分享技術知識的習慣，唯有透過與人分享更可以更有效率的將技術轉化成自己內在的知識。
+終於到了最後一天啦～這是我第二年參加鐵人賽，不過今年的鐵人賽對我來說相當的鐵人。怎說呢？首先在第七天我意外的手術開刀，躺了整整一天，那天我趁著手術當天凌晨趕快發文。再來是工作上碰到了系統問題，必須騰出時間研究，持續好幾天一邊研究問題、一邊打文章發文。再來就是二十天突然中了A型流感燒了兩天40度，發燒那幾天根本無法思考，全憑意志發文。所以先給我自己鼓勵一下。
+最後一天，我想給我未來的自己的軟思維是「試著說人話」。希望未來五年，不會因工作而逐漸喪失與使用者溝通的能力。</description>
+    </item>
+    
+  </channel>
+</rss>

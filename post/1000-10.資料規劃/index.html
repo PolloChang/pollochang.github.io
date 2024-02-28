@@ -1,0 +1,642 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 來架個網站吧-10.資料規劃 </title>
+    
+    
+    <meta content="linux, 2023 iThome 鐵人賽, 來架個網站吧" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 來架個網站吧-10.資料規劃 tags: 來架個網站吧 我是目錄
+完成需求訪談與系統流程規劃後，接下來就是資料規劃。
+恩～距離打程式碼真的還有一段路 XDDD
+在規劃資料表前需要考慮一些因素
+系統資料來源 系統功能 使用的技術框架 未來資料成長量 上述因素是我在規劃資料表時必須考慮的因素。
+系統資料來源 這次的需求資料來源是國語小字典，下圖是資料的部份擷圖。
+乍看之下，有一點亂
+觀察資料之後，可以設計下列資料表欄位:
+[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度] 單字: word / 文字 / 1 部首: radical / 文字 / 1 總筆畫數: total_strokes / 數值 / N/A 部首外筆畫: out_strokes / 數值 / N/A 注音: mpc / 文字 / 4 解釋: explanation / 很多文字 / N/A 系統功能 看完資料之後，接下來要將系統功能加入考慮因素。此次的功能有搜尋單字、系統要承受每分鐘10次查詢，所以欄位單字會開定長。
+[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度] 單字: word / 定長文字 / 1 部首: radical / 文字 / 1 總筆畫數: total_strokes / 數值 / N/A 部首外筆畫: out_strokes / 數值 / N/A 注音: mpc / 文字 / 4 解釋: explanation / 很多文字 / N/A 使用的技術框架 技術框架也會影響資料規劃，本次是使用下列技術:" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>來架個網站吧-10.資料規劃</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="來架個網站吧-10資料規劃">來架個網站吧-10.資料規劃</h1>
+<h6 id="tags-來架個網站吧">tags: <code>來架個網站吧</code></h6>
+<p><a href="https://ithelp.ithome.com.tw/articles/10317824">我是目錄</a></p>
+<hr>
+<p>完成需求訪談與系統流程規劃後，接下來就是資料規劃。</p>
+<p>恩～距離打程式碼真的還有一段路 XDDD</p>
+<p>在規劃資料表前需要考慮一些因素</p>
+<ul>
+<li>系統資料來源</li>
+<li>系統功能</li>
+<li>使用的技術框架</li>
+<li>未來資料成長量</li>
+</ul>
+<p>上述因素是我在規劃資料表時必須考慮的因素。</p>
+<h2 id="系統資料來源">系統資料來源</h2>
+<p>這次的需求資料來源是<a href="https://language.moe.gov.tw/001/Upload/Files/site_content/M0001/respub/dict_mini_download.html">國語小字典</a>，下圖是資料的部份擷圖。</p>
+<p><img src="pic/day-10-1-%E5%9C%8B%E8%AA%9E%E5%B0%8F%E5%AD%97%E5%85%B8.png" alt="國語小字典"></p>
+<p><del>乍看之下，有一點亂</del></p>
+<p>觀察資料之後，可以設計下列資料表欄位:</p>
+<ul>
+<li>[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度]</li>
+<li>單字: word / 文字 / 1</li>
+<li>部首: radical / 文字 / 1</li>
+<li>總筆畫數: total_strokes / 數值 / N/A</li>
+<li>部首外筆畫: out_strokes / 數值  / N/A</li>
+<li>注音: mpc / 文字 / 4</li>
+<li>解釋: explanation / 很多文字 / N/A</li>
+</ul>
+<h2 id="系統功能">系統功能</h2>
+<p>看完資料之後，接下來要將系統功能加入考慮因素。此次的功能有<code>搜尋</code>單字、<code>系統要承受每分鐘10次查詢</code>，所以欄位<code>單字</code>會開定長。</p>
+<ul>
+<li>[項目]: [規劃欄位英文名稱] / [欄位資料型態]/ [長度]</li>
+<li>單字: word / <code>定長文字</code> / 1</li>
+<li>部首: radical / 文字 / 1</li>
+<li>總筆畫數: total_strokes / 數值 / N/A</li>
+<li>部首外筆畫: out_strokes / 數值  / N/A</li>
+<li>注音: mpc / 文字 / 4</li>
+<li>解釋: explanation / 很多文字 / N/A</li>
+</ul>
+<h2 id="使用的技術框架">使用的技術框架</h2>
+<p>技術框架也會影響資料規劃，本次是使用下列技術:</p>
+<ul>
+<li>資料庫: Postgresql-15</li>
+<li>框架(Framework): Grails</li>
+</ul>
+<p>以資料庫來說，<code>可變動文字</code>型態，在Oracle 會是以 <code>varchar2</code>，如果資料欄位中預期會有中文字則會採用<code>nvarchar2</code>，在postgresql需要規劃<code>varchar</code>即可。</p>
+<p>本次是使用postgresql，所以下列是加入資料庫因素的資料表欄位:</p>
+<ul>
+<li>[項目]: [規劃欄位英文名稱] / [欄位資料型態]</li>
+<li>單字: word / char(1)</li>
+<li>部首: radical / varchar(1)</li>
+<li>總筆畫數: total_strokes / integer</li>
+<li>部首外筆畫: out_strokes / integer</li>
+<li>注音: mpc / varchar(4)</li>
+<li>解釋: explanation / text</li>
+</ul>
+<p>另外在程式技術框架，因為<code>Grails</code> 是採用事先約定規則，因此在規劃資料需要多開下列欄位</p>
+<ul>
+<li><a href="https://docs.grails.org/latest/ref/Database%20Mapping/id.html">id</a></li>
+<li><a href="https://docs.grails.org/latest/ref/Database%20Mapping/version.html">version</a></li>
+<li><a href="https://docs.grails.org/latest/ref/Database%20Mapping/autoTimestamp.html">dateCreated</a></li>
+<li><a href="https://docs.grails.org/latest/ref/Database%20Mapping/autoTimestamp.html">lastUpdated</a></li>
+</ul>
+<p>以下是這次資料表的完整規劃</p>
+<ul>
+<li>[項目]: [規劃欄位英文名稱] / [欄位資料型態] / [其他]</li>
+<li>id: id / bigint</li>
+<li>version: version / integer</li>
+<li>dateCreated: date_created / timestamp</li>
+<li>lastUpdated: last_updated / timestamp</li>
+<li>單字: word / char(1)</li>
+<li>部首: radical / varchar(1)</li>
+<li>總筆畫數: total_strokes / integer</li>
+<li>部首外筆畫: out_strokes / integer</li>
+<li>注音: mpc / varchar(4)</li>
+<li>解釋: explanation / text</li>
+</ul>
+<h2 id="table-schema">table schema</h2>
+<p>以下是最後完成的table schema</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> dict(
+</span></span><span style="display:flex;"><span>  id bigint <span style="color:#66d9ef">generated</span> always <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">identity</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">version</span> integer <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  date_created <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>  last_updated <span style="color:#66d9ef">timestamp</span>,
+</span></span><span style="display:flex;"><span>  word char(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  radical varchar(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  total_strokes integer,
+</span></span><span style="display:flex;"><span>  out_strokes integer,
+</span></span><span style="display:flex;"><span>  mpc varchar(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>  explanation text,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> dict_pk <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (id)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">table</span> dict <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;字典&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.word <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;單字&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.radical <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;部首&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.total_strokes <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;總筆畫數&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.out_strokes <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;部首外筆畫&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.mpc <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;注音&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> dict.explanation <span style="color:#66d9ef">is</span> <span style="color:#e6db74">&#39;解釋&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">unique</span> <span style="color:#66d9ef">index</span> dict_un1 <span style="color:#66d9ef">on</span> dict (word);
+</span></span></code></pre></div></div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-01.%E5%89%8D%E8%A8%80/">
+                                <h3 class="">來架個網站吧-01.前言</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-02.技術分工-1: 需求訪談與分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/">
+                                <h3 class="">來架個網站吧-03.技術分工-2: 需求訪談</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">
+                                <h3 class="">來架個網站吧-04.技術分工-3: 需求分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/">
+                                <h3 class="">來架個網站吧-05.技術分工-4: 系統開發</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
+            <span class="layui-badge " style="vertical-align: 2px;">來架個網站吧</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
+            <span class="layui-badge " style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>
