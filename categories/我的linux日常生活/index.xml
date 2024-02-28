@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>我的linux日常生活 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/%E6%88%91%E7%9A%84linux%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB/</link>
+    <description>Recent content in 我的linux日常生活 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E6%88%91%E7%9A%84linux%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的linux日常生活-2.Linux選擇</title>
+      <link>http://pollochang.work/post/002-linux%E9%81%B8%E6%93%87/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/002-linux%E9%81%B8%E6%93%87/</guid>
+      <description>我的linux日常生活-2.Linux選擇 tags: 我的linux日常生活 在學習Linux的過程中，我接觸了這些的發行版本有 Ubuntu 、 CentOS 、 OpenSUSE 、 Debian ，我就針對我嘗試的經驗分享給大家吧。
+Ubuntu 20.04 LTS Ubuntu 想必是大部分人一開始接觸 Linux 的發行版本，我也是不例外。在日常生活中使用的體驗上是真的很不錯，就跟windows 沒有甚麼太大的差異，如果日常生活中使用電腦的目的只有上上網、看個影片，加上處理文書打打字，我是推薦使用這個版本。
+一開始我是用 Ubuntu ，但是把它當作我自己的工作環境，對於我來說它預設安裝太多軟體，我希望作業系統能占我硬體資源設備越少越好而且還要適合我自己，所以大約用了半年多的時間我就換其他的發行版本。
+在操作上有一個bug，就是只要多點選幾次目錄清單Gnome 就會當掉，雖然有嘗試處理，但是還是一樣。
+CentOS 7 CentOS 跟客戶的作業系統是一樣的，但是在實際操作上，有發現無法正常使用 NetBeans 6.7 ，所以就不使用此作業系統。
+後來 RedHat 公司宣布不再維護 CentOS 8 ，這真的讓我很震驚。
+OpenSUSE 跟客戶的作業系統一樣是 RedHat 體系，但是一樣無法正常使用 NetBeans 6.7 ，所以不使用此作業系統。
+Debian 10 最後我是採用這個發行版本。使用的第一個原因是「穩定」，相對的是套件的軟體版可能較舊。會選擇的原因，主要是「穩定」。因為我不想在我未來的三年內因為作業系統出了狀況，而去花費心思解決。
+花費心思的原因，接下來我會用之後的文章一一講給大家聽。
+Data type mapping for other data types:
+Oracle SQL Server 1 BFILE Pointer to binary file, ⇐ 4G VARCHAR(255) 2 BINARY_FLOAT 32-bit floating-point number REAL 3 BINARY_DOUBLE 64-bit floating-point number DOUBLE PRECISION 4 BLOB Binary large object, ⇐ 4G VARBINARY(max) 5 CHAR(n), CHARACTER(n) Fixed-length string, 1 ⇐ n ⇐ 2000 CHAR(n), CHARACTER(n) 6 CLOB Character large object, ⇐ 4G VARCHAR(max) 7 DECIMAL(p,s), DEC(p,s) Fixed-point number DECIMAL(p,s), DEC(p,s) 8 DOUBLE PRECISION Floating-point number FLOAT 9 FLOAT(p) Floating-point number FLOAT 10 INTEGER, INT 38 digits integer DECIMAL(38) 11 LONG Character data, ⇐ 2G VARCHAR(max) 12 LONG RAW Binary data, ⇐ 2G VARBINARY(max) 13 NCHAR(n) Fixed-length UTF-8 string, 1 ⇐ n ⇐ 2000 NCHAR(n) 14 NCHAR VARYING(n) Varying-length UTF-8 string, 1 ⇐ n ⇐ 4000 NVARCHAR(n) 15 NCLOB Variable-length Unicode string, ⇐ 4G NVARCHAR(max) 16 NUMBER(p,0), NUMBER(p) 8-bit integer, 1 &amp;lt;= p &amp;lt; 3 TINYINT (0 to 255) 16-bit integer, 3 &amp;lt;= p &amp;lt; 5 SMALLINT 32-bit integer, 5 &amp;lt;= p &amp;lt; 9 INT 64-bit integer, 9 &amp;lt;= p &amp;lt; 19 BIGINT Fixed-point number, 19 &amp;lt;= p &amp;lt;= 38 DECIMAL(p) 17 NUMBER(p,s) Fixed-point number, s &amp;gt; 0 DECIMAL(p,s) 18 NUMBER, NUMBER(*) Floating-point number FLOAT 19 NUMERIC(p,s) Fixed-point number NUMERIC(p,s) 20 NVARCHAR2(n) Varying-length UTF-8 string, 1 ⇐ n ⇐ 4000 NVARCHAR(n) 21 RAW(n) Variable-length binary string, 1 ⇐ n ⇐ 2000 VARBINARY(n) 22 REAL Floating-point number FLOAT 23 ROWID Physical row address CHAR(18) 24 SMALLINT 38 digits integer DECIMAL(38) 25 UROWID(n) Logical row addresses, 1 ⇐ n ⇐ 4000 VARCHAR(n) 26 VARCHAR(n) Variable-length string, 1 ⇐ n ⇐ 4000 VARCHAR(n) 27 VARCHAR2(n) Variable-length string, 1 ⇐ n ⇐ 4000 VARCHAR(n) 28 XMLTYPE XML data XML </description>
+    </item>
+    
+  </channel>
+</rss>

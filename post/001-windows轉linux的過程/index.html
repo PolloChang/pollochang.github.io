@@ -1,0 +1,678 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 01-windows轉Linux的過程 </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 01-windows轉Linux的過程 只是為了工作用而已 在大學時就有開始自己接觸 Ubuntu 了，記得第一次接觸是大學時，筆記型電腦越跑越慢，所以決定重新安裝作業系統。依稀記得看到Ubuntu 的桌面可以3D翻轉切換覺得很炫，所以決定安裝看看。安裝一陣子，其實也沒有一陣子啦！也不過一天而已，發現沒有辦法安裝我最喜歡的遊戲—坦克世界，所以隔天我立刻安裝回windows了。
+後來工作後，在執行某次專案時，有一向需求是windows 2003 轉成 Linux。為了在短短三個月的開發期程，我乾脆把開發環境一次改成Linux ，只是為了把所有在Linux出現的 Bug 快速清除而已。
+作業系統評估 在選擇作業系統中，我其實是有很明確的方向：目標是在工作中完全使用Linux。因此我列下在工作中會使用到的工具，並找出有相容Linux版本，如果沒有就得尋找替代方案。
+下列是我之前評估的清單
+軟體項目 有發行或相容Linux Linux 替代方案 只能安裝在windows intelliJ IDEA 2019 以上 有 Netbeans 6.7 有 JDK 1.4 以上 有 MS Office Liber Office v Line Line Chrome 版 v notepad&#43;&#43; vs code Toad for DB2 DBeaver Toad for Oracle DBeaver mockup draw io Chrome 有 Internet Explorer(IE) v Forti Client 有 微軟新注音 新酷音 Soap UI 有 Git-Tutorials smart git jmeter 有 Microsoft Defender ClamTK Spotify 有 kettle 有 Git 有 7-zip 有 BIPublisherDesktop v 一個痛苦轉變 為了工作，我必須把當時工作的電腦安裝 Linux ，但是工作主力主機也不可能說重新安裝就重新安裝。畢竟我自己也需要適應不同作業系統的操作邏輯，所以決定買一台筆電試試看。物色了幾天決定是 「DELL Latitude E7270」 這種機型，決定是原廠有拍胸脯保證一定可以安裝 ubuntu 14." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 01-windows轉Linux的過程</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-01-windows轉linux的過程">我的Linux生活日記 01-windows轉Linux的過程</h1>
+<h2 id="只是為了工作用而已">只是為了工作用而已</h2>
+<p>在大學時就有開始自己接觸 Ubuntu 了，記得第一次接觸是大學時，筆記型電腦越跑越慢，所以決定重新安裝作業系統。依稀記得看到Ubuntu 的桌面可以3D翻轉切換覺得很炫，所以決定安裝看看。安裝一陣子，其實也沒有一陣子啦！也不過一天而已，發現沒有辦法安裝我最喜歡的遊戲—坦克世界，所以隔天我立刻安裝回windows了。</p>
+<p>後來工作後，在執行某次專案時，有一向需求是windows 2003 轉成 Linux。為了在短短三個月的開發期程，我乾脆把開發環境一次改成Linux ，只是為了把所有在Linux出現的 Bug 快速清除而已。</p>
+<h2 id="作業系統評估">作業系統評估</h2>
+<p>在選擇作業系統中，我其實是有很明確的方向：目標是在工作中完全使用Linux。因此我列下在工作中會使用到的工具，並找出有相容Linux版本，如果沒有就得尋找替代方案。</p>
+<p>下列是我之前評估的清單</p>
+<table>
+<thead>
+<tr>
+<th>軟體項目</th>
+<th>有發行或相容Linux</th>
+<th>Linux 替代方案</th>
+<th>只能安裝在windows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>intelliJ IDEA 2019 以上</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Netbeans 6.7</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JDK 1.4 以上</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MS Office</td>
+<td></td>
+<td>Liber Office</td>
+<td>v</td>
+</tr>
+<tr>
+<td>Line</td>
+<td></td>
+<td>Line Chrome 版</td>
+<td>v</td>
+</tr>
+<tr>
+<td>notepad++</td>
+<td></td>
+<td>vs code</td>
+<td></td>
+</tr>
+<tr>
+<td>Toad for DB2</td>
+<td></td>
+<td>DBeaver</td>
+<td></td>
+</tr>
+<tr>
+<td>Toad for Oracle</td>
+<td></td>
+<td>DBeaver</td>
+<td></td>
+</tr>
+<tr>
+<td>mockup</td>
+<td></td>
+<td>draw  io</td>
+<td></td>
+</tr>
+<tr>
+<td>Chrome</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Internet Explorer(IE)</td>
+<td></td>
+<td></td>
+<td>v</td>
+</tr>
+<tr>
+<td>Forti Client</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>微軟新注音</td>
+<td></td>
+<td>新酷音</td>
+<td></td>
+</tr>
+<tr>
+<td>Soap UI</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Git-Tutorials</td>
+<td></td>
+<td>smart git</td>
+<td></td>
+</tr>
+<tr>
+<td>jmeter</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Microsoft Defender</td>
+<td></td>
+<td>ClamTK</td>
+<td></td>
+</tr>
+<tr>
+<td>Spotify</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kettle</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Git</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7-zip</td>
+<td>有</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BIPublisherDesktop</td>
+<td></td>
+<td></td>
+<td>v</td>
+</tr>
+</tbody>
+</table>
+<h2 id="一個痛苦轉變">一個痛苦轉變</h2>
+<p>為了工作，我必須把當時工作的電腦安裝 Linux ，但是工作主力主機也不可能說重新安裝就重新安裝。畢竟我自己也需要適應不同作業系統的操作邏輯，所以決定買一台筆電試試看。物色了幾天決定是 「DELL Latitude E7270」 這種機型，決定是原廠有拍胸脯保證一定可以安裝 ubuntu 14.04，所以決定買來試試看。喔喔喔，忘了說，是買二手筆電，價格大約在一萬初。</p>
+<p>對了，我這邊需要做一個小小時間線整理。這件事的發生時間是2019年08月。而 ubuntu 14.04 的發行日期是:2014年04月17日，中止支援日期是:2019年04月25日。</p>
+<p>考慮到 ubuntu 14.04 已經中止支援後，於是為電腦安裝 ubuntu 18.04 LTS。安裝完之後發現，電腦規格跑不動桌面系統，難道我買筆電只能移除桌面系統，然後用vim 開發 Java 網站，而且重點是我還得連 windows server 遠端桌面，不能沒有桌面系統呀！為了避免這場憾事發生，於使問了google 大神好久，一番糾結後決定嘗試安裝幾個發行版本: CentOS、Debian、openSUSE。</p>
+<h3 id="centos-7">CentOS 7</h3>
+<p>這是我第一個選擇的版本，主要原因是這次的專案就是要轉成這個版本。但是在實際操作上，有發現無法正常使用 NetBeans 6.7 ，所以就不使用此作業系統。後來 RedHat 宣布不再維護 CentOS 8 ，這真的讓我很震驚。</p>
+<h3 id="opensuse">openSUSE</h3>
+<p>跟客戶的作業系統一樣是 RedHat 體系，但是一樣無法正常使用 NetBeans 6.7 ，所以不使用此作業系統。我覺的他綠色變色龍真的很可愛。</p>
+<h3 id="debian">Debian</h3>
+<p>Debian 是最後我選定的版本。選定的原因是，我規劃的開發工具可以很好的運行在這個版本上面。而且作業系統暫用的資源也很少，即使我安裝 Debian test (未來傳說的 Debian) Ｇnome桌面版本 ，開完 intellij IDEA 容然可以很順暢的運行，但是在相同的機器中安裝 Ubuntu 22.04 Gnome 桌面版本，裝開完機後打開 intellij IDEA 用起來卡卡的。</p>
+<p>以上是我在這台機器安裝、測試軟體、測試、再安裝、在測試&hellip;&hellip;循環測試的一點小心得。</p>
+<h3 id="最後我要開賽啦">最後我要開賽啦</h3>
+<p>原本我是要星期一開賽的。但是基於突如其來的工作、家庭等洪水事件，所以到今天終於開賽啦！希望我的第一次可以順利完成三十天！</p>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://zh.m.wikipedia.org/zh-tw/Ubuntu">維基百科: Ubuntu</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/007-%E7%A1%AC%E7%A2%9F%E5%88%86%E5%89%B2/">
+                                <h3 class="">我的Linux生活日記 07-硬碟分割</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

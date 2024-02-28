@@ -1,0 +1,577 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的linux日常生活-2.Linux選擇 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的linux日常生活-2.Linux選擇 tags: 我的linux日常生活 在學習Linux的過程中，我接觸了這些的發行版本有 Ubuntu 、 CentOS 、 OpenSUSE 、 Debian ，我就針對我嘗試的經驗分享給大家吧。
+Ubuntu 20.04 LTS Ubuntu 想必是大部分人一開始接觸 Linux 的發行版本，我也是不例外。在日常生活中使用的體驗上是真的很不錯，就跟windows 沒有甚麼太大的差異，如果日常生活中使用電腦的目的只有上上網、看個影片，加上處理文書打打字，我是推薦使用這個版本。
+一開始我是用 Ubuntu ，但是把它當作我自己的工作環境，對於我來說它預設安裝太多軟體，我希望作業系統能占我硬體資源設備越少越好而且還要適合我自己，所以大約用了半年多的時間我就換其他的發行版本。
+在操作上有一個bug，就是只要多點選幾次目錄清單Gnome 就會當掉，雖然有嘗試處理，但是還是一樣。
+CentOS 7 CentOS 跟客戶的作業系統是一樣的，但是在實際操作上，有發現無法正常使用 NetBeans 6.7 ，所以就不使用此作業系統。
+後來 RedHat 公司宣布不再維護 CentOS 8 ，這真的讓我很震驚。
+OpenSUSE 跟客戶的作業系統一樣是 RedHat 體系，但是一樣無法正常使用 NetBeans 6.7 ，所以不使用此作業系統。
+Debian 10 最後我是採用這個發行版本。使用的第一個原因是「穩定」，相對的是套件的軟體版可能較舊。會選擇的原因，主要是「穩定」。因為我不想在我未來的三年內因為作業系統出了狀況，而去花費心思解決。
+花費心思的原因，接下來我會用之後的文章一一講給大家聽。
+Data type mapping for other data types:
+Oracle SQL Server 1 BFILE Pointer to binary file, ⇐ 4G VARCHAR(255) 2 BINARY_FLOAT 32-bit floating-point number REAL 3 BINARY_DOUBLE 64-bit floating-point number DOUBLE PRECISION 4 BLOB Binary large object, ⇐ 4G VARBINARY(max) 5 CHAR(n), CHARACTER(n) Fixed-length string, 1 ⇐ n ⇐ 2000 CHAR(n), CHARACTER(n) 6 CLOB Character large object, ⇐ 4G VARCHAR(max) 7 DECIMAL(p,s), DEC(p,s) Fixed-point number DECIMAL(p,s), DEC(p,s) 8 DOUBLE PRECISION Floating-point number FLOAT 9 FLOAT(p) Floating-point number FLOAT 10 INTEGER, INT 38 digits integer DECIMAL(38) 11 LONG Character data, ⇐ 2G VARCHAR(max) 12 LONG RAW Binary data, ⇐ 2G VARBINARY(max) 13 NCHAR(n) Fixed-length UTF-8 string, 1 ⇐ n ⇐ 2000 NCHAR(n) 14 NCHAR VARYING(n) Varying-length UTF-8 string, 1 ⇐ n ⇐ 4000 NVARCHAR(n) 15 NCLOB Variable-length Unicode string, ⇐ 4G NVARCHAR(max) 16 NUMBER(p,0), NUMBER(p) 8-bit integer, 1 &lt;= p &lt; 3 TINYINT (0 to 255) 16-bit integer, 3 &lt;= p &lt; 5 SMALLINT 32-bit integer, 5 &lt;= p &lt; 9 INT 64-bit integer, 9 &lt;= p &lt; 19 BIGINT Fixed-point number, 19 &lt;= p &lt;= 38 DECIMAL(p) 17 NUMBER(p,s) Fixed-point number, s &gt; 0 DECIMAL(p,s) 18 NUMBER, NUMBER(*) Floating-point number FLOAT 19 NUMERIC(p,s) Fixed-point number NUMERIC(p,s) 20 NVARCHAR2(n) Varying-length UTF-8 string, 1 ⇐ n ⇐ 4000 NVARCHAR(n) 21 RAW(n) Variable-length binary string, 1 ⇐ n ⇐ 2000 VARBINARY(n) 22 REAL Floating-point number FLOAT 23 ROWID Physical row address CHAR(18) 24 SMALLINT 38 digits integer DECIMAL(38) 25 UROWID(n) Logical row addresses, 1 ⇐ n ⇐ 4000 VARCHAR(n) 26 VARCHAR(n) Variable-length string, 1 ⇐ n ⇐ 4000 VARCHAR(n) 27 VARCHAR2(n) Variable-length string, 1 ⇐ n ⇐ 4000 VARCHAR(n) 28 XMLTYPE XML data XML " name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的linux日常生活-2.Linux選擇</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e6%97%a5%e5%b8%b8%e7%94%9f%e6%b4%bb/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的linux日常生活</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux日常生活-2linux選擇">我的linux日常生活-2.Linux選擇</h1>
+<h6 id="tags-我的linux日常生活">tags: <code>我的linux日常生活</code></h6>
+<p>在學習Linux的過程中，我接觸了這些的發行版本有 Ubuntu 、 CentOS 、 OpenSUSE 、 Debian ，我就針對我嘗試的經驗分享給大家吧。</p>
+<h2 id="ubuntu-2004-lts">Ubuntu 20.04 LTS</h2>
+<p>Ubuntu 想必是大部分人一開始接觸 Linux 的發行版本，我也是不例外。在日常生活中使用的體驗上是真的很不錯，就跟windows 沒有甚麼太大的差異，如果日常生活中使用電腦的目的只有上上網、看個影片，加上處理文書打打字，我是推薦使用這個版本。</p>
+<p>一開始我是用 Ubuntu ，但是把它當作我自己的工作環境，對於我來說它預設安裝太多軟體，我希望作業系統能占我硬體資源設備越少越好而且還要適合我自己，所以大約用了半年多的時間我就換其他的發行版本。</p>
+<p>在操作上有一個bug，就是只要多點選幾次目錄清單Gnome 就會當掉，雖然有嘗試處理，但是還是一樣。</p>
+<h2 id="centos-7">CentOS 7</h2>
+<p>CentOS 跟客戶的作業系統是一樣的，但是在實際操作上，有發現無法正常使用 NetBeans 6.7 ，所以就不使用此作業系統。</p>
+<p>後來 RedHat 公司宣布不再維護 CentOS 8 ，這真的讓我很震驚。</p>
+<h2 id="opensuse">OpenSUSE</h2>
+<p>跟客戶的作業系統一樣是 RedHat 體系，但是一樣無法正常使用 NetBeans 6.7 ，所以不使用此作業系統。</p>
+<h2 id="debian-10">Debian 10</h2>
+<p>最後我是採用這個發行版本。使用的第一個原因是「穩定」，相對的是套件的軟體版可能較舊。會選擇的原因，主要是「穩定」。因為我不想在我未來的三年內因為作業系統出了狀況，而去花費心思解決。</p>
+<p>花費心思的原因，接下來我會用之後的文章一一講給大家聽。</p>
+<p>Data type mapping for other data types:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Oracle</strong></th>
+<th><strong>SQL Server</strong></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>BFILE</td>
+<td>Pointer to binary file, ⇐ 4G</td>
+<td>VARCHAR(255)</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>BINARY_FLOAT</td>
+<td>32-bit floating-point number</td>
+<td>REAL</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>BINARY_DOUBLE</td>
+<td>64-bit floating-point number</td>
+<td>DOUBLE PRECISION</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>BLOB</td>
+<td>Binary large object, ⇐ 4G</td>
+<td>VARBINARY(max)</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>CHAR(<em>n</em>), CHARACTER(<em>n</em>)</td>
+<td>Fixed-length string, 1 ⇐ <em>n</em> ⇐ 2000</td>
+<td>CHAR(<em>n</em>), CHARACTER(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="https://www.sqlines.com/oracle/datatypes/clob" title="oracle:datatypes:clob">CLOB</a></td>
+<td>Character large object, ⇐ 4G</td>
+<td>VARCHAR(max)</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>DECIMAL(<em>p,s</em>), DEC(<em>p,s</em>)</td>
+<td>Fixed-point number</td>
+<td>DECIMAL(<em>p,s</em>), DEC(<em>p,s</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>DOUBLE PRECISION</td>
+<td>Floating-point number</td>
+<td>FLOAT</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>FLOAT(<em>p</em>)</td>
+<td>Floating-point number</td>
+<td>FLOAT</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>INTEGER, INT</td>
+<td>38 digits integer</td>
+<td>DECIMAL(38)</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>LONG</td>
+<td>Character data, ⇐ 2G</td>
+<td>VARCHAR(max)</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>LONG RAW</td>
+<td>Binary data, ⇐ 2G</td>
+<td>VARBINARY(max)</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>NCHAR(<em>n</em>)</td>
+<td>Fixed-length UTF-8 string, 1 ⇐ <em>n</em> ⇐ 2000</td>
+<td>NCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>NCHAR VARYING(<em>n</em>)</td>
+<td>Varying-length UTF-8 string, 1 ⇐ <em>n</em> ⇐ 4000</td>
+<td>NVARCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>NCLOB</td>
+<td>Variable-length Unicode string, ⇐ 4G</td>
+<td>NVARCHAR(max)</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>NUMBER(<em>p</em>,0), NUMBER(<em>p</em>)</td>
+<td>8-bit integer, 1 &lt;= <em>p</em> &lt; 3</td>
+<td>TINYINT</td>
+<td>(0 to 255)</td>
+</tr>
+<tr>
+<td>16-bit integer, 3 &lt;= <em>p</em> &lt; 5</td>
+<td>SMALLINT</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32-bit integer, 5 &lt;= <em>p</em> &lt; 9</td>
+<td>INT</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>64-bit integer, 9 &lt;= <em>p</em> &lt; 19</td>
+<td>BIGINT</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Fixed-point number, 19 &lt;= <em>p</em> &lt;= 38</td>
+<td>DECIMAL(<em>p</em>)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>NUMBER(<em>p,s</em>)</td>
+<td>Fixed-point number, s &gt; 0</td>
+<td>DECIMAL(<em>p,s</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>NUMBER, NUMBER(*)</td>
+<td>Floating-point number</td>
+<td>FLOAT</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>NUMERIC(<em>p,s</em>)</td>
+<td>Fixed-point number</td>
+<td>NUMERIC(<em>p,s</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>NVARCHAR2(<em>n</em>)</td>
+<td>Varying-length UTF-8 string, 1 ⇐ <em>n</em> ⇐ 4000</td>
+<td>NVARCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td><a href="https://www.sqlines.com/oracle/datatypes/raw" title="oracle:datatypes:raw">RAW(n)</a></td>
+<td>Variable-length binary string, 1 ⇐ n ⇐ 2000</td>
+<td>VARBINARY(n)</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>REAL</td>
+<td>Floating-point number</td>
+<td>FLOAT</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>ROWID</td>
+<td>Physical row address</td>
+<td>CHAR(18)</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>SMALLINT</td>
+<td>38 digits integer</td>
+<td>DECIMAL(38)</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>UROWID(<em>n</em>)</td>
+<td>Logical row addresses, 1 ⇐ <em>n</em> ⇐ 4000</td>
+<td>VARCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>VARCHAR(<em>n</em>)</td>
+<td>Variable-length string, 1 ⇐ <em>n</em> ⇐ 4000</td>
+<td>VARCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>VARCHAR2(<em>n</em>)</td>
+<td>Variable-length string, 1 ⇐ <em>n</em> ⇐ 4000</td>
+<td>VARCHAR(<em>n</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>XMLTYPE</td>
+<td>XML data</td>
+<td>XML</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,748 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 12.老闆要我連VPN-FrotiClient </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 12.老闆要我連VPN-FrotiClient 之前在工作中時有遇到要安裝VPN 端點工具，而VPN 的環境是用 Forticlient 實踐的。在官方網站中也有針對 Linux 開發，所以只需要去官方下載Linux 版本就可以了！怎樣，是不是比想像中還要簡單呀！
+FrotiClient 下載 FrotiClient 下載
+在這邊我們直接下載 僅限 FortiClient VPN 就可以了。
+然後針對Linux 是 Debian 還是 RedHat 系列下載對應的軟體包，我是Debain 所以就下載 .deb。
+安裝 $ sudo apt install ./forticlient_vpn_7.0.0.0018_amd64.deb 設定連線 安裝完成之後，開始 fortiClient 連線視窗，依VPN 伺服器的設定就可以了。
+或是帥氣的下指令也是可以
+新增連線 $ /opt/forticlient/fortivpn edit my_vpn_name ===================== Create new VPN profile: my_vpn_name ===================== Remote Gateway: xxx.xxx.xxx.xxx Port [default=443]: xxx Authentication (1.prompt / 2.save / 3.disable) [default=1]: 2 Username: xxxxx Client Certificate (.p12 file URL) [default=None]: Do not Warn Invalid Server Certificate (y/n) [default=n]: y 使用連線 /opt/forticlient/fortivpn connect my_vpn_name 錯誤訊息 Cannot autolaunch D-Bus without X11 $DISPLAY 當初我在伺服器上安裝 VPN 端點時就出現這個問題。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 12.老闆要我連VPN-FrotiClient</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-12老闆要我連vpn-froticlient">我的Linux生活日記 12.老闆要我連VPN-FrotiClient</h1>
+<p>之前在工作中時有遇到要安裝VPN 端點工具，而VPN 的環境是用 Forticlient 實踐的。在官方網站中也有針對 Linux 開發，所以只需要去官方下載Linux 版本就可以了！怎樣，是不是比想像中還要簡單呀！</p>
+<h2 id="froticlient">FrotiClient</h2>
+<h3 id="下載">下載</h3>
+<p><a href="https://www.fortinet.com/tw/???/product-downloads#vpn">FrotiClient 下載</a></p>
+<p>在這邊我們直接下載 <code>僅限 FortiClient VPN</code> 就可以了。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220925/20128528spWSKJMOkc.png" alt="https://ithelp.ithome.com.tw/upload/images/20220925/20128528spWSKJMOkc.png"></p>
+<p>然後針對Linux 是 Debian 還是 RedHat 系列下載對應的軟體包，我是Debain 所以就下載 <code>.deb</code>。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220925/2012852809t8gc4Z94.png" alt="https://ithelp.ithome.com.tw/upload/images/20220925/2012852809t8gc4Z94.png"></p>
+<h3 id="安裝">安裝</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo apt install ./forticlient_vpn_7.0.0.0018_amd64.deb 
+</span></span></code></pre></div><h3 id="設定連線">設定連線</h3>
+<p>安裝完成之後，開始 fortiClient 連線視窗，依VPN 伺服器的設定就可以了。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220925/20128528qNpRrKvYDz.png" alt="https://ithelp.ithome.com.tw/upload/images/20220925/20128528qNpRrKvYDz.png"></p>
+<p>或是帥氣的下指令也是可以</p>
+<ol>
+<li>新增連線</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ /opt/forticlient/fortivpn edit my_vpn_name
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=====================</span>
+</span></span><span style="display:flex;"><span>Create new VPN profile: my_vpn_name
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=====================</span>
+</span></span><span style="display:flex;"><span>Remote Gateway: xxx.xxx.xxx.xxx
+</span></span><span style="display:flex;"><span>  Port <span style="color:#f92672">[</span>default<span style="color:#f92672">=</span>443<span style="color:#f92672">]</span>: xxx
+</span></span><span style="display:flex;"><span>Authentication <span style="color:#f92672">(</span>1.prompt / 2.save / 3.disable<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">]</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  Username: xxxxx
+</span></span><span style="display:flex;"><span>Client Certificate <span style="color:#f92672">(</span>.p12 file URL<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>default<span style="color:#f92672">=</span>None<span style="color:#f92672">]</span>: 
+</span></span><span style="display:flex;"><span>Do not Warn Invalid Server Certificate <span style="color:#f92672">(</span>y/n<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>default<span style="color:#f92672">=</span>n<span style="color:#f92672">]</span>: y
+</span></span></code></pre></div><ol start="2">
+<li>使用連線</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/opt/forticlient/fortivpn connect my_vpn_name
+</span></span></code></pre></div><h3 id="錯誤訊息">錯誤訊息</h3>
+<h4 id="cannot-autolaunch-d-bus-without-x11-display">Cannot autolaunch D-Bus without X11 $DISPLAY</h4>
+<p>當初我在伺服器上安裝 VPN 端點時就出現這個問題。</p>
+<ul>
+<li>錯誤的起手勢</li>
+</ul>
+<p>解決思路很簡單，<code>without X11</code> 就是說沒有 GUI 的套件呀！就安裝就好了！然後就把肥大的桌面系統安裝起來～把20GB 的雲端虛擬磁碟空間吃滿～ 然後再跟老闆說磁碟空間不夠趕快買！</p>
+<p><del>最後就被炒魷魚了</del></p>
+<ul>
+<li>正確起手勢</li>
+</ul>
+<p>檢視問題思路：</p>
+<ol>
+<li>為什麼在我的 Linux 開發環境沒有出現這種錯誤訊息？</li>
+</ol>
+<p>因為雲端虛擬機是最小安裝，不會有桌面視窗軟體。而 FrotiClient 是建立在 GUI 中開發的，所以 X11 套件是必要，但是磁碟空間又很小要怎辦？ <del>使用老闆的鈔能力</del></p>
+<ol start="2">
+<li>尋找替代方案。</li>
+</ol>
+<p>通常我遇到的問題有百分之 99.9999 都是別人遇過的，問 Googole <code>Cannot autolaunch D-Bus without X11 $DISPLAY forticlient</code> 就會得到答案。解決方式是使用: <code>openfortivpn</code> 。</p>
+<h2 id="openfortivpn">openfortivpn</h2>
+<p>為了在最小安裝環境中解決 FortiClient 無法連，必須得安裝 <code>openfortivpn</code></p>
+<h3 id="安裝-openfortivpn">安裝 openfortivpn</h3>
+<p>請養成不使用的軟體就移除或不安裝的習慣，先移除 forticlient 吧！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt remove forticlient
+</span></span><span style="display:flex;"><span>sudo apt autoremove
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install openfortivpn
+</span></span></code></pre></div><h3 id="設定連線-1">設定連線</h3>
+<ol>
+<li>測試連線</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo openfortivpn xxx.xxx.xxx.xxx:xxx -u xxxx
+</span></span></code></pre></div><p>第一次連線有可會遇到錯訊息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo openfortivpn xxx.xxx.xxx.xxx:xxx -u xxxx
+</span></span><span style="display:flex;"><span>WARN:   Bad port in config file: <span style="color:#e6db74">&#34;0&#34;</span>.
+</span></span><span style="display:flex;"><span>VPN account password: 
+</span></span><span style="display:flex;"><span>ERROR:  Gateway certificate validation failed, and the certificate digest in not in the local whitelist. If you trust it, rerun with:
+</span></span><span style="display:flex;"><span>ERROR:      --trusted-cert <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ERROR:  or add this line to your config file:
+</span></span><span style="display:flex;"><span>ERROR:      trusted-cert <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ERROR:  Gateway certificate:
+</span></span><span style="display:flex;"><span>ERROR:      subject:
+</span></span><span style="display:flex;"><span>ERROR:          C<span style="color:#f92672">=</span>US
+</span></span><span style="display:flex;"><span>ERROR:          ST<span style="color:#f92672">=</span>California
+</span></span><span style="display:flex;"><span>ERROR:          L<span style="color:#f92672">=</span>Sunnyvale
+</span></span><span style="display:flex;"><span>ERROR:          O<span style="color:#f92672">=</span>Fortinet
+</span></span><span style="display:flex;"><span>ERROR:          OU<span style="color:#f92672">=</span>FortiGate
+</span></span><span style="display:flex;"><span>ERROR:          CN<span style="color:#f92672">=</span>xxxxxxxxxxxxx
+</span></span><span style="display:flex;"><span>ERROR:          emailAddress<span style="color:#f92672">=</span>???@mail.com
+</span></span><span style="display:flex;"><span>ERROR:      issuer:
+</span></span><span style="display:flex;"><span>ERROR:          C<span style="color:#f92672">=</span>US
+</span></span><span style="display:flex;"><span>ERROR:          ST<span style="color:#f92672">=</span>California
+</span></span><span style="display:flex;"><span>ERROR:          L<span style="color:#f92672">=</span>Sunnyvale
+</span></span><span style="display:flex;"><span>ERROR:          O<span style="color:#f92672">=</span>Fortinet
+</span></span><span style="display:flex;"><span>ERROR:          OU<span style="color:#f92672">=</span>Certificate Authority
+</span></span><span style="display:flex;"><span>ERROR:          CN<span style="color:#f92672">=</span>???
+</span></span><span style="display:flex;"><span>ERROR:          emailAddress<span style="color:#f92672">=</span>???@mail.com
+</span></span><span style="display:flex;"><span>ERROR:      sha256 digest:
+</span></span><span style="display:flex;"><span>ERROR:          <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>INFO:   Closed connection to gateway.
+</span></span><span style="display:flex;"><span>ERROR:  Gateway certificate validation failed, and the certificate digest in not in the local whitelist. If you trust it, rerun with:
+</span></span><span style="display:flex;"><span>ERROR:      --trusted-cert <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ERROR:  or add this line to your config file:
+</span></span><span style="display:flex;"><span>ERROR:      trusted-cert <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ERROR:  Gateway certificate:
+</span></span><span style="display:flex;"><span>ERROR:      subject:
+</span></span><span style="display:flex;"><span>ERROR:          C<span style="color:#f92672">=</span>US
+</span></span><span style="display:flex;"><span>ERROR:          ST<span style="color:#f92672">=</span>California
+</span></span><span style="display:flex;"><span>ERROR:          L<span style="color:#f92672">=</span>Sunnyvale
+</span></span><span style="display:flex;"><span>ERROR:          O<span style="color:#f92672">=</span>Fortinet
+</span></span><span style="display:flex;"><span>ERROR:          OU<span style="color:#f92672">=</span>FortiGate
+</span></span><span style="display:flex;"><span>ERROR:          CN<span style="color:#f92672">=</span>xxxxxxxxxxxxx
+</span></span><span style="display:flex;"><span>ERROR:          emailAddress<span style="color:#f92672">=</span>???@mail.com
+</span></span><span style="display:flex;"><span>ERROR:      issuer:
+</span></span><span style="display:flex;"><span>ERROR:          C<span style="color:#f92672">=</span>US
+</span></span><span style="display:flex;"><span>ERROR:          ST<span style="color:#f92672">=</span>California
+</span></span><span style="display:flex;"><span>ERROR:          L<span style="color:#f92672">=</span>Sunnyvale
+</span></span><span style="display:flex;"><span>ERROR:          O<span style="color:#f92672">=</span>Fortinet
+</span></span><span style="display:flex;"><span>ERROR:          OU<span style="color:#f92672">=</span>Certificate Authority
+</span></span><span style="display:flex;"><span>ERROR:          CN<span style="color:#f92672">=</span>???
+</span></span><span style="display:flex;"><span>ERROR:          emailAddress<span style="color:#f92672">=</span>???@mail.com
+</span></span><span style="display:flex;"><span>ERROR:      sha256 digest:
+</span></span><span style="display:flex;"><span>ERROR:          <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>INFO:   Could not log out.
+</span></span></code></pre></div><ol start="2">
+<li>再一次執行</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo openfortivpn xxx.xxx.xxx.xxx:xxx -u xxxx --trusted-cert <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo openfortivpn xxx.xxx.xxx.xxx:xxx -u xxxx --trusted-cert <span style="color:#f92672">[</span>連線憑證<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WARN:   Bad port in config file: <span style="color:#e6db74">&#34;0&#34;</span>.
+</span></span><span style="display:flex;"><span>VPN account password: 
+</span></span><span style="display:flex;"><span>INFO:   Connected to gateway.
+</span></span><span style="display:flex;"><span>INFO:   Authenticated.
+</span></span><span style="display:flex;"><span>INFO:   Remote gateway has allocated a VPN.
+</span></span><span style="display:flex;"><span>INFO:   Got addresses: <span style="color:#f92672">[</span>xyx.xyx.xyx.xyx<span style="color:#f92672">]</span>, ns <span style="color:#f92672">[</span>0.0.0.0, 0.0.0.0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>INFO:   negotiation complete
+</span></span><span style="display:flex;"><span>INFO:   Got addresses: <span style="color:#f92672">[</span>xyx.xyx.xyx.xyx<span style="color:#f92672">]</span>, ns <span style="color:#f92672">[</span>0.0.0.0, 0.0.0.0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>INFO:   negotiation complete
+</span></span><span style="display:flex;"><span>INFO:   negotiation complete
+</span></span><span style="display:flex;"><span>INFO:   Interface ppp0 is UP.
+</span></span><span style="display:flex;"><span>INFO:   Setting new routes...
+</span></span><span style="display:flex;"><span>WARN:   Route to gateway exists already.
+</span></span><span style="display:flex;"><span>INFO:   Adding VPN nameservers...
+</span></span><span style="display:flex;"><span>INFO:   Tunnel is up and running.
+</span></span></code></pre></div><p>看到 <code>Tunnel is up and running.</code> 代表已經連接成功了！接下來連線就是每次人工下啦！但是&hellip;剛剛我是說在雲端主機上耶！怎麽辦？</p>
+<p>當然是寫成文件直接執行啦！</p>
+<h3 id="編寫設定文件">編寫設定文件</h3>
+<p><code>/etc/openfortivpn/config</code> 這份文件是 openforticlient 的預設腳本，但是我的命運總是多喘的，我有早上連接A VPN 晚上連 B VPN 的需求，總不能我每天上午6點起床設定一次，下午下班前再設定一次是多累人的事，要是這樣我就摔碗說：請別人做。<del>老子不幹了！</del></p>
+<ul>
+<li>編寫 A文件 : /etc/openfortivpn/vpn1.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo openfortivpn -c /etc/openfortivpn/vpn1.conf
+</span></span></code></pre></div><ul>
+<li>執行測試</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo openfortivpn -c /etc/openfortivpn/vpn1.conf
+</span></span><span style="display:flex;"><span>INFO:   Connected to gateway.
+</span></span><span style="display:flex;"><span>INFO:   Authenticated.
+</span></span><span style="display:flex;"><span>INFO:   Remote gateway has allocated a VPN.
+</span></span><span style="display:flex;"><span>INFO:   Got addresses: <span style="color:#f92672">[</span>xyx.xyx.xyx.xyx<span style="color:#f92672">]</span>, ns <span style="color:#f92672">[</span>0.0.0.0, 0.0.0.0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>INFO:   negotiation complete
+</span></span><span style="display:flex;"><span>INFO:   negotiation complete
+</span></span><span style="display:flex;"><span>INFO:   Interface ppp0 is UP.
+</span></span><span style="display:flex;"><span>INFO:   Setting new routes...
+</span></span><span style="display:flex;"><span>WARN:   Route to gateway exists already.
+</span></span><span style="display:flex;"><span>INFO:   Adding VPN nameservers...
+</span></span><span style="display:flex;"><span>INFO:   Tunnel is up and running.
+</span></span><span style="display:flex;"><span>INFO:   Cancelling threads...
+</span></span><span style="display:flex;"><span>INFO:   Setting ppp interface down.
+</span></span><span style="display:flex;"><span>INFO:   Restoring routes...
+</span></span><span style="display:flex;"><span>INFO:   Removing VPN nameservers...
+</span></span><span style="display:flex;"><span>INFO:   pppd: The link was terminated by the modem hanging up.
+</span></span><span style="display:flex;"><span>INFO:   Terminated pppd.
+</span></span><span style="display:flex;"><span>INFO:   Closed connection to gateway.
+</span></span><span style="display:flex;"><span>INFO:   Logged out.
+</span></span></code></pre></div><ul>
+<li>寫成服務</li>
+</ul>
+<p>/etc/systemd/system/openfortivpn-vpn1.service</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>OpenFortiVPN <span style="color:#66d9ef">for</span> vpn1
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target
+</span></span><span style="display:flex;"><span>Documentation<span style="color:#f92672">=</span>man:openfortivpn<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>simple
+</span></span><span style="display:flex;"><span>PrivateTmp<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>ExecStartPre<span style="color:#f92672">=</span>/usr/bin/sleep <span style="color:#ae81ff">30</span> <span style="color:#75715e"># 等待網路服務完成啟動</span>
+</span></span><span style="display:flex;"><span>ExecStartPre<span style="color:#f92672">=</span>/usr/bin/ping -q -c3 -w60 8.8.4.4 <span style="color:#75715e"># 檢查網路有通</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/openfortivpn -c /etc/openfortivpn/vpn1.conf <span style="color:#75715e"># 執行VPN 服務</span>
+</span></span><span style="display:flex;"><span>OOMScoreAdjust<span style="color:#f92672">=</span>-100
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><p>這邊設定我需要說明一下配置，因為網路服務並不會一開機就執行，所以必須等待網路服務完成啟動再執行。</p>
+<ul>
+<li>啟動服務</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl start openfortivpn-vpn1
+</span></span></code></pre></div><ul>
+<li>測試</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ping xxx.xxx.xxx.xxx
+</span></span><span style="display:flex;"><span>PING xxx.xxx.xxx.xxx <span style="color:#f92672">(</span>xxx.xxx.xxx.xxx<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from xxx.xxx.xxx.xxx: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">63</span> time<span style="color:#f92672">=</span>79.1 ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from xxx.xxx.xxx.xxx: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">63</span> time<span style="color:#f92672">=</span>49.9 ms
+</span></span><span style="display:flex;"><span>^C
+</span></span><span style="display:flex;"><span>--- xxx.xxx.xxx.xxx ping statistics ---
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> packets transmitted, <span style="color:#ae81ff">2</span> received, 0% packet loss, time 2ms
+</span></span><span style="display:flex;"><span>rtt min/avg/max/mdev <span style="color:#f92672">=</span> 49.931/64.537/79.144/14.608 ms
+</span></span></code></pre></div><ul>
+<li>設定開機時啟動</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable openfortivpn-vpn1
+</span></span></code></pre></div><h3 id="設定-keepalive">設定 keepAlive</h3>
+<p>在 forticlient Server 有設定閒置連線逾時強制離線，我記得預設是4 分鐘。所以必須設定 keepAlive。</p>
+<p>我的處理方式是設定排程每分鐘ping VPN 裡面的一台主機解決。</p>
+<p>/usr/local/bin/checkVPN.sh</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>export check;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! /usr/bin/ping -c <span style="color:#ae81ff">1</span> -q xxx.xxx.xxx.xxx &gt; /dev/null
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    check<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Y&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    check<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;N&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># echo $check</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$check<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    systemctl restart openfortivpn-vpn1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>crontab -e</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*/10 * * * *  /usr/local/bin/checkVPN.sh;
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<p><a href="https://officeguide.cc/linux-openfortivpn-fortinet-ppp-ssl-vpn-client-tutorial-examples/">Linux 使用 openfortivpn 連線至 Fortinet VPN 伺服器建立 PPP+SSL VPN 教學與範例</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

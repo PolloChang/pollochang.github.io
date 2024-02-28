@@ -1,0 +1,601 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 17.Linux主機選購(一) </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 17.Linux主機選購(一) 今天不探究技術，來講點生活方的問題吧：我想買一台Linux主機在我的家裡用,主機要怎選?
+其實會問這句話或是這一類的問題，通常對自己的電腦使用需求有一定的了解程度，但是對硬體方面也許就不太熟悉。
+但是在分析這個問題之前，先把需求退回到初始的層次：為什麼要買電腦？
+為什麼要買電腦？ 學生時期 我記得在大學的時候有問學校老師，我要買什麼規格的電腦？當時老師就先回問我：我買電腦要做什麼？我回：為了要做作業呀！
+做作業 我讀的是資訊傳播學系，在四年的課綱中會學到 修圖、影片剪輯、Java 程式開發、網頁開發、做文書報告等等方面，所以用到的軟體可能有 Adobe photoshop、 Adobe premiere、JDK、Office 等。這邊我是已我過去的經歷做比喻，詳細還是要看各位學校課綱規劃。
+玩遊戲 我一直都是坦克世界的愛好者，所以我希望電腦可以玩。
+上網 這個不用說了吧，在家一定會打開電腦看影片，螢幕比手機大看得比較爽。(別想歪)
+以上就是我在大學時期的主要需求。透過以上需求可以分析會用的軟體
+Adobe photoshop Adobe premiere JDK Office 坦克世界 瀏覽器 為了回應依開始的問題 「我想買一台Linux主機在我的家裡用,主機要怎選?」
+首先必須先調查上述這些軟體有做 Linux 支援？像是 Adobe 、坦克世界 、MS Office 一定是沒有的。
+接下來就是探究沒有做 Linux 支援的話，在 Linux 有對應功能體？像是 Adobe photoshop 是 GIMP、Adobe premiere 是 Kdenlive 或是OpenShot、 MS Office 是 LiberOffice
+最後是沒有支援 Linux 的部份。通常知名遊戲或是3A大作只有支援 windows ，像是上面提到的 坦克世界 。
+清楚知道哪些軟體可以支援Linux 的狀況後，接下來就是問問自己真的一定只要使用Linux？或許在學生時期用 windows 會比較好，因為可以打很多遊戲。對後面這句話才是重點！因為再大學生時期我有把電腦安裝 ubuntu過，過了三天的新鮮感後就安裝回 windows 了，最大原因是我想打的遊戲只有在windows出現。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 17.Linux主機選購(一)</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-17linux主機選購一">我的Linux生活日記 17.Linux主機選購(一)</h1>
+<p>今天不探究技術，來講點生活方的問題吧：<strong>我想買一台Linux主機在我的家裡用,主機要怎選?</strong></p>
+<p>其實會問這句話或是這一類的問題，通常對自己的電腦使用需求有一定的了解程度，但是對硬體方面也許就不太熟悉。</p>
+<p>但是在分析這個問題之前，先把需求退回到初始的層次：<strong>為什麼要買電腦？</strong></p>
+<h2 id="為什麼要買電腦">為什麼要買電腦？</h2>
+<h3 id="學生時期">學生時期</h3>
+<p>我記得在大學的時候有問學校老師，我要買什麼規格的電腦？當時老師就先回問我：我買電腦要做什麼？我回：為了要做作業呀！</p>
+<ul>
+<li>做作業</li>
+</ul>
+<p>我讀的是資訊傳播學系，在四年的課綱中會學到 修圖、影片剪輯、Java 程式開發、網頁開發、做文書報告等等方面，所以用到的軟體可能有 Adobe photoshop、 Adobe premiere、JDK、Office 等。這邊我是已我過去的經歷做比喻，詳細還是要看各位學校課綱規劃。</p>
+<ul>
+<li>玩遊戲</li>
+</ul>
+<p>我一直都是坦克世界的愛好者，所以我希望電腦可以玩。</p>
+<ul>
+<li>上網</li>
+</ul>
+<p>這個不用說了吧，在家一定會打開電腦看影片，螢幕比手機大看得比較爽。(別想歪)</p>
+<p>以上就是我在大學時期的主要需求。透過以上需求可以分析會用的軟體</p>
+<ol>
+<li>Adobe photoshop</li>
+<li>Adobe premiere</li>
+<li>JDK</li>
+<li>Office</li>
+<li>坦克世界</li>
+<li>瀏覽器</li>
+</ol>
+<p>為了回應依開始的問題 「我想買一台Linux主機在我的家裡用,主機要怎選?」</p>
+<p>首先必須先調查上述這些軟體有做 Linux 支援？像是 Adobe 、坦克世界 、MS Office 一定是沒有的。</p>
+<p>接下來就是探究沒有做 Linux 支援的話，在 Linux 有對應功能體？像是 Adobe photoshop 是 GIMP、Adobe premiere 是 <a href="https://kdenlive.org/zh/">Kdenlive</a> 或是<a href="https://www.openshot.org/zh-hant/">OpenShot</a>、 MS Office 是 <a href="https://zh-tw.libreoffice.org/">LiberOffice</a></p>
+<p>最後是沒有支援 Linux 的部份。通常知名遊戲或是3A大作只有支援 windows ，像是上面提到的 坦克世界 。</p>
+<p>清楚知道哪些軟體可以支援Linux 的狀況後，接下來就是問問自己真的一定只要使用Linux？或許在學生時期用 windows 會比較好，因為可以打很多遊戲。對後面這句話才是重點！因為再大學生時期我有把電腦安裝 ubuntu過，過了三天的新鮮感後就安裝回 windows 了，最大原因是我想打的遊戲只有在windows出現。</p>
+<h3 id="工作時期">工作時期</h3>
+<p>到了工作接段，買什麼電腦很看重工作環境。有人是作行政，需要長時間在外的業務、經理、長期在辦公桌期的軟體工程師等等。對電腦的需求不盡相同。以下我就對幾點提出。</p>
+<ul>
+<li>長效、省電</li>
+</ul>
+<p>講到長效省電，一定是windows 商業筆電 或是 MacBook 比較好。在 Linux 的筆電通常不是吃香，主要是驅動軟體的支援度，除非是選擇 DELL、HP、Lenovo 等商務筆電有支援 Linux 型號在不插電的狀況下會比就久。是多久，我是沒有實測過。</p>
+<ul>
+<li>文書行政</li>
+</ul>
+<p>文書行政類的工作仍然推薦使用 windows 比較好，因為目前在各個公家機關仍然是以微軟系列作為行政文書作業的軟體主流。LiberOfiice 會遇到與 MS Office 排版不同的問題，會很痛苦。</p>
+<ul>
+<li>軟體開發類</li>
+</ul>
+<p>這部份就看個人的工作面向而定。以我的工作項目主要是網站開發、系統佈屬，而網站系統以Linux 為主，自然就以 Linux 會比較順手以減少作業系統轉換的工作精神損耗。畢竟在編輯系統文件時可以不用碰到該死的換行格式不同造成系統無啟動的風險，我是在說 yaml 檔。</p>
+<p>所以在工作時期要選擇使用什麼作業系統，有很大依部份因素是看工作內容而定。那Linux主機怎選之前，先問問自己在生活上有什麼因素限制作業系統的選擇？ 如果沒有，又很想嘗試看看 Linux ，明天就待我分享當初嘗鮮到跳坑的歷程吧。</p>
+<h2 id="自行組裝電腦">自行組裝電腦</h2>
+<p>老實說目前市面販售的硬體絕大部分都可以讓 Linux 正常運作，即使買零件自行組裝也不是問題。只要不是買太冷門的零件盡量買耳熟能詳的就可以。</p>
+<ul>
+<li>主機板：技嘉、華碩、華擎。</li>
+<li>記憶體：三星、創見、芝奇、十銓&hellip;&hellip;等。</li>
+</ul>
+<p>其實比較保險選擇硬體零件的方式事先去各場昌的官網上查詢有提供 Linux 驅動，以下是我之前買電腦整理的。</p>
+<ul>
+<li>Intel® 無線網路卡: <a href="https://www.intel.com.tw/content/www/tw/zh/support/articles/000005511/wireless.html">https://www.intel.com.tw/content/www/tw/zh/support/articles/000005511/wireless.html</a></li>
+<li>realtek: <a href="https://www.realtek.com/zh-tw/downloads">https://www.realtek.com/zh-tw/downloads</a></li>
+<li>nvidia: <a href="https://www.nvidia.com/zh-tw/drivers/unix/">https://www.nvidia.com/zh-tw/drivers/unix/</a></li>
+<li>AMD Radeon™ 顯示卡: <a href="https://www.amd.com/zh-hant/support/linux-drivers">https://www.amd.com/zh-hant/support/linux-drivers</a></li>
+</ul>
+<p>在各個發行板的論壇上也會有人詢問硬體規格的支援，如果硬體官網沒有很明確釋出 Linux 版本可以先去論壇上找找看有人用過</p>
+<ul>
+<li>archlinux: <a href="https://bbs.archlinux.org/">https://bbs.archlinux.org/</a></li>
+<li>kali: <a href="https://www.kali.org/get-kali/#kali-arm">https://www.kali.org/get-kali/#kali-arm</a></li>
+<li>fedora: <a href="https://fedora-tw.org/">https://fedora-tw.org/</a></li>
+</ul>
+<h2 id="購買筆記型電腦">購買筆記型電腦</h2>
+<p>因為筆記型電腦不像是自行組裝一樣，在零組件選擇上沒有如此自由，所以購買實惠盡量挑選本身就會標榜支援Linux 的品牌型號。例如下列：</p>
+<ul>
+<li>DELL Latitude</li>
+<li>DELL Precision</li>
+<li>Lenovo IdeaPad</li>
+<li>Lenovo ThinkPad</li>
+</ul>
+<p>在 Lenovo 官方網站中就有明確列出哪些是有對 Linux 支援的。</p>
+<p><a href="https://support.lenovo.com/tw/zh/solutions/pd031426">https://support.lenovo.com/tw/zh/solutions/pd031426</a></p>
+<p>另外在社群中也有人分享自己是用那一款型號運行那一個 Linux 發行版本：<a href="https://linux-laptop.net/">Linux on Laptops</a></p>
+<p>在台灣也有人做 Linux 個人電腦販售，先說好我沒有收他們的廣告費，只是覺的做小眾市場的店家加上又符合我的胃口可以推一下：<a href="https://www.linuxyes.com/">LinuxYes 競陽科技</a>。</p>
+<p>當然，不想花多金錢也可以買一台二手的玩玩看。像我自己就是買一台二手的使用，雖然機型是舊了一些，但是至少可以降低學習的金錢成本，等到對於Linux 熟悉之後再買自己喜歡的規格也是不錯的選擇。</p>
+<p>以上就是我在跳入 Linux 個人電腦領域的一點小心得。其實會寫這篇主要是想到當初進入時，在台灣是相對極小眾，身邊有沒有人使用過這樣的案例，多多少少會有些害怕。怕如果投入了，失敗怎辦？我要怎麼挑零組件，會不會挑到不支援的？</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

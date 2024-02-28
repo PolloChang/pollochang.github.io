@@ -1,0 +1,689 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 21.使用者帳號管理 </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 21.使用者帳號管理 今天來簡單說明一下帳號管理的部份，我以 Gnome 的使用介面會比較親進一些。
+新增使用者 位置如下
+settings &gt;&gt; Details &gt;&gt; Users 到使用者管理頁面之後，需要先解鎖。密碼就是你登入的密碼。
+點擊 「add user」
+輸入要新增的使用者資訊
+點擊 「add」
+之後就會出現剛剛新增使用者的資訊在使用者管理頁面中
+看完以上，是不是覺得跟在 windows 上一樣簡單。接下來看看剛剛一番操作之後系統發生什麼變化呢？
+帳號資訊: /etc/passwd 系統會將使用者資訊紀錄在這個文件中：/etc/passwd
+&gt; $ cat /etc/passwd | grep pollochang pollochang❌1001:1001:pollochang,,,:/home/pollochang:/bin/bash 以冒號 : 為分隔欄位
+帳號名稱 密碼: 因為密碼都紀錄在 /etc/shadow 文件中，所以這裡是以 x 表示 UID: 使用者在系統的唯一代號 GID: 使用者群組代號 使用者資訊說明欄位 使用者家目錄 使用者預設shell 名稱 密碼資訊: /etc/shadow 以冒號 : 為分隔欄位
+root@JamesChangNB:~# cat /etc/shadow | grep pollochang pollochang:$6$JaseGnZpc.VeUeCM$/iu963R2FHzoGV5zBkh390weaQ0osO3wwE54xobUX8I6llYULw/004iL8mvUVAFfq9SraOPBWV97.EgPhslvt.:19269:0:99999:7::: Username(使用者名稱)
+Password(密碼): 這裡已經是加密過後資訊
+規則為: $[加密方式]$[加鹽]$[值]
+加密方式" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 21.使用者帳號管理</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-21使用者帳號管理">我的Linux生活日記 21.使用者帳號管理</h1>
+<p>今天來簡單說明一下帳號管理的部份，我以 Gnome 的使用介面會比較親進一些。</p>
+<h2 id="新增使用者">新增使用者</h2>
+<p>位置如下</p>
+<pre tabindex="0"><code>settings &gt;&gt; Details &gt;&gt; Users
+</code></pre><ol>
+<li>
+<p>到使用者管理頁面之後，需要先解鎖。密碼就是你登入的密碼。</p>
+</li>
+<li>
+<p>點擊 「add user」</p>
+</li>
+<li>
+<p>輸入要新增的使用者資訊</p>
+</li>
+<li>
+<p>點擊 「add」</p>
+</li>
+<li>
+<p>之後就會出現剛剛新增使用者的資訊在使用者管理頁面中</p>
+</li>
+</ol>
+<p>看完以上，是不是覺得跟在 windows 上一樣簡單。接下來看看剛剛一番操作之後系統發生什麼變化呢？</p>
+<h2 id="帳號資訊-etcpasswd">帳號資訊: /etc/passwd</h2>
+<p>系統會將使用者資訊紀錄在這個文件中：<code>/etc/passwd</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; $ cat /etc/passwd | grep pollochang
+</span></span><span style="display:flex;"><span>pollochang❌1001:1001:pollochang,,,:/home/pollochang:/bin/bash
+</span></span></code></pre></div><p>以冒號 <code>:</code> 為分隔欄位</p>
+<ol>
+<li>帳號名稱</li>
+<li>密碼: 因為密碼都紀錄在 <code>/etc/shadow</code> 文件中，所以這裡是以 <code>x</code> 表示</li>
+<li>UID: 使用者在系統的唯一代號</li>
+<li>GID: 使用者群組代號</li>
+<li>使用者資訊說明欄位</li>
+<li>使用者家目錄</li>
+<li>使用者預設shell 名稱</li>
+</ol>
+<h2 id="密碼資訊-etcshadow">密碼資訊: /etc/shadow</h2>
+<p>以冒號 <code>:</code> 為分隔欄位</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@JamesChangNB:~# cat /etc/shadow | grep pollochang
+</span></span><span style="display:flex;"><span>pollochang:$6$JaseGnZpc.VeUeCM$/iu963R2FHzoGV5zBkh390weaQ0osO3wwE54xobUX8I6llYULw/004iL8mvUVAFfq9SraOPBWV97.EgPhslvt.:19269:0:99999:7:::
+</span></span></code></pre></div><ol>
+<li>
+<p>Username(使用者名稱)</p>
+</li>
+<li>
+<p>Password(密碼): 這裡已經是加密過後資訊</p>
+<p>規則為: $[加密方式]$[加鹽]$[值]</p>
+<p><strong>加密方式</strong></p>
+<ol>
+<li><code>$1$</code> : <a href="https://zh.wikipedia.org/zh-tw/MD5">MD5</a></li>
+<li><code>$2a$</code> : <a href="https://zh.wikipedia.org/zh-tw/Blowfish">Blowfish</a></li>
+<li><code>$2y$</code> : <a href="https://zh.wikipedia.org/zh-tw/Blowfish">Blowfish</a></li>
+<li><code>$5$</code> : <a href="https://zh.m.wikipedia.org/zh-tw/SHA-2">SHA-256</a></li>
+<li><code>$6$</code> : SHA-512</li>
+</ol>
+</li>
+<li>
+<p>Last password change(密碼更動時間)</p>
+</li>
+<li>
+<p>Minimum(密碼不可以更動天數)</p>
+</li>
+<li>
+<p>Maximum(密碼有效天數): <code>99999</code> 表示永久有效</p>
+</li>
+<li>
+<p>Warn(密碼快失效前發出警告訊息)</p>
+</li>
+<li>
+<p>Inactive（允許密碼過期後可變更密碼天)</p>
+</li>
+<li>
+<p>Expire(密碼到期)：以 1970 年 1 月 1 日以來的天數表示(<a href="https://zh.wikipedia.org/zh-tw/UNIX%E6%97%B6%E9%97%B4">UNIX 時間元年</a>)</p>
+</li>
+</ol>
+<h2 id="密碼設定相關">密碼設定相關</h2>
+<p><a href="https://www.ithome.com.tw/news/148415">資安及國安</a>，在2021年被政府大聲倡導之後，作業系統帳戶安全變成這幾年資安集合的重點，所以這邊我也提及一下密碼相關設定吧。</p>
+<h3 id="設定密碼必須相隔-7-天才能換">設定密碼必須相隔 7 天才能換</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -m <span style="color:#ae81ff">7</span> pollochang
+</span></span></code></pre></div><h3 id="設定密碼-30-天必須重新設定">設定密碼 30 天必須重新設定</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -M <span style="color:#ae81ff">30</span> pollochang
+</span></span></code></pre></div><h3 id="設定密碼到期前-5-天發處警告訊息">設定密碼到期前 5 天發處警告訊息</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -W <span style="color:#ae81ff">5</span> pollochang
+</span></span></code></pre></div><h3 id="密碼原則-etclogindefs">密碼原則-/etc/login.defs</h3>
+<p>以上是針對目前已經存在系統上的帳戶資訊做設定，未來新增帳號後需要可以透過 密碼原則文件 <code>/etc/login.defs</code> 做處理</p>
+<p>這份檔案類似模板，只會影響到新加的使用者，對於已經存在的使用者並不影響</p>
+<ul>
+<li>PASS_MAX_DAYS 99999 #密碼最大有效期</li>
+<li>PASS_MIN_DAYS 0 #兩次修改密碼的最小間隔時間</li>
+<li>PASS_MIN_LEN 5 #密碼最小長度，對於root無效, 此參數於 CentOS 已失效，改用 system-auth，須於 /etc/pam.d/system-auth 設定</li>
+<li>PASS_WARN_AGE 7 #密碼過期前多少天開始提示</li>
+</ul>
+<h3 id="設定密碼複雜度規則">設定密碼複雜度規則</h3>
+<p>debian 需要安裝 libpam-pwquality</p>
+<p>/etc/pam.d/system-auth &raquo; centos
+/etc/pam.d/system-auth-ac 強制使用強密碼（使用者密碼安全配置）</p>
+<ul>
+<li>minlen=N: 密碼長度+分數後的最小值</li>
+<li>lcredit: 密碼中若包含小寫字元，所得的分數
+<ul>
+<li>lcredit=-1 至少包含1個小寫字母</li>
+</ul>
+</li>
+<li>ucredit: 密碼中若包含大寫字元，所得的分數
+<ul>
+<li>ucredit=-1 至少包含1個大寫字母</li>
+</ul>
+</li>
+<li>dcredit=N: 密碼中若包含數字，所得的分數。若 N 大於或等於 0，則此數值代表密碼中的數字對密碼長度 minlen 的最大額外貢獻值。預設值為 0，代表數字沒有任何額外貢獻值。若 N 小於 0，則此數值代表密碼中至少要包含多少個數字。
+<ul>
+<li>dcredit=-1 至少包含1個數字</li>
+</ul>
+</li>
+<li>ocredit: 密碼中若包含其他字元，所得的分數
+<ul>
+<li>ocredit=-1 至少包含1個特殊字元</li>
+</ul>
+</li>
+<li>debug: 啟用除錯功能，將除錯資訊輸出至 syslog。</li>
+<li>retry=N: 設定使用者輸入密碼的最高嘗試次數，當密碼輸入超過 N 次就會產生錯誤。</li>
+<li>difok=N: 設定新密碼中必須有 N 個字元要與舊密碼不同，預設值為 1。若設定為 0 則代表停用相似度檢測，只要新密碼與舊密碼不要完全一樣即可。</li>
+<li>dcredit=N</li>
+<li>lcredit=N: 若 N 大於或等於 0，則此數值代表密碼中的小寫英文字母對密碼長度 minlen 的最大額外貢獻值。預設值為 0，代表小寫英文字母沒有任何額外貢獻值。若 N 小於 0，則此數值代表密碼中至少要包含多少個小寫英文字母。</li>
+<li>ocredit=N: 若 N 大於或等於 0，則此數值代表密碼中的特殊字元（除了數字、英文字母之外的字元）對密碼長度 minlen 的最大額外貢獻值。預設值為 0，代表特殊字元沒有任何額外貢獻值。若 N 小於 0，則此數值代表密碼中至少要包含多少個特殊字元。\</li>
+<li>minclass=N: 密碼中至少須包含 N 類型的字元，可用的字元類型有小寫英文字母、大寫英文字母、數字與特殊字元四類。</li>
+<li>maxrepeat=N: 密碼中相同的字元最多只能連續出現 N 個，若一個字元連續出現超過 N 次，則密碼就會被拒絕使用。</li>
+<li>maxsequence=N: 密碼中有規則的單調（monotonic）字元最多只能連續出現 N 個，若單調字元連續出現超過 N 次，則密碼就會被拒絕使用。常見的單調字元有 12345、fedcb。</li>
+<li>maxclassrepeat=N: 密碼中有相同類型的字元（大小寫字母、數字、特殊字元）最多只能連續出現 N 個，若相同類型字元連續出現超過 N 次，則密碼就會被拒絕使用。</li>
+<li>gecoscheck=N: 若 N 為非 0 的數值，則檢查 /etc/passwd 的各 GECOS 欄位中，長度超過三的單字是否有被包含在密碼中。預設值為 0，代表不檢查。</li>
+<li>dictcheck=N: 若 N 為非 0 的數值，則檢查密碼是否包含於字典檔中，目前使用 cracklib 所提供的字典檔進行檢測。預設值為 1，代表進行本項檢測。</li>
+<li>usercheck=N: 若 N 為非 0 的數值，則檢查密碼是否包含使用者名稱。預設值為 1，代表進行本項檢測。</li>
+<li>enforcing=N: 若 N 為非 0 的數值，則當密碼不合格時，就強制退回密碼，讓使用者重設，若設定為 0，則當密碼不合格時就只會顯示警告訊息。預設值為 1。</li>
+<li>badwords=word1 word2 word3 &hellip;: 指定密碼中不可以包含的字串。</li>
+<li>dictpath=/path/to/dict: 自訂 cracklib 字典檔路徑。</li>
+<li>enforce_for_root: 設定 root 管理者亦需遵守密碼檢查的各種規定。此功能預設為關閉，代表 root 管理者輸入不符合規定的密碼時，只會顯示警告訊息，但是依然可以使用指定的密碼。</li>
+<li>local_users_only: 指定 pam_pwquality 模組只針對存在於 /etc/passwd 的使用者進行密碼品質檢查。</li>
+</ul>
+<p>針對上面提到的分數，舉例來說如果設定值是 minlen=8 lcredit=1 ucredit=1 dcredit=0 ocredit=0</p>
+<p>那麼即使使用者的密碼只有 6 個字：ATGByujn，但是因為密碼包含了大小寫，所以另外拿了 2 分
+因此 6+2=8，還是會滿足了 minlen=8 的設定</p>
+<ul>
+<li>RedHat</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>password    requisite     pam_cracklib.so try_first_pass retry<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> type<span style="color:#f92672">=</span> minlen<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span> lcredit<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ucredit<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> dcredit<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ocredit<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><ul>
+<li>Debian</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>password        requisite                       pam_pwquality.so retry<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span> minlen<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>
+</span></span></code></pre></div><h3 id="帳戶密碼資訊">帳戶密碼資訊</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -l pollochang
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@JamesChangNB:~# chage -l pollochang
+</span></span><span style="display:flex;"><span>Last password change                                    : Oct 04, <span style="color:#ae81ff">2022</span>
+</span></span><span style="display:flex;"><span>Password expires                                        : Nov 03, <span style="color:#ae81ff">2022</span>
+</span></span><span style="display:flex;"><span>Password inactive                                       : never
+</span></span><span style="display:flex;"><span>Account expires                                         : never
+</span></span><span style="display:flex;"><span>Minimum number of days between password change          : <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>Maximum number of days between password change          : <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>Number of days of warning before password expires       : <span style="color:#ae81ff">5</span>
+</span></span></code></pre></div><h2 id="gcb-政府組態基準">GCB 政府組態基準</h2>
+<p>在 GBC 規範中有提及帳戶資訊安全，我覺得可以嘗試部屬在你我的電腦中，在<a href="https://download.nccst.nat.gov.tw/attachfilegcb/TWGCB-01-008_Red%20Hat%20Enterprise%20Linux%208%E6%94%BF%E5%BA%9C%E7%B5%84%E6%85%8B%E5%9F%BA%E6%BA%96%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6v1.0_1100924.pdf">TWGCB-01-008_Red Hat Enterprise Linux 8政府組態基準說明文件v1.0_1100924.pdf</a> 第196頁 第208項 至 第226頁</p>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://www.cyberciti.biz/faq/understanding-etcshadow-file/">Understanding /etc/shadow file format on Linux</a></p>
+<p><a href="https://officeguide.cc/linux-user-password-period-of-use-configuration-tutorial-examples/">Linux 設定使用者密碼使用期限教學與範例</a></p>
+<p><a href="https://www.itread01.com/articles/1476252642.html">/etc/login.defs</a></p>
+<p><a href="https://openfind.zendesk.com/hc/zh-tw/articles/5387177369871-Linux-%E5%AF%86%E7%A2%BC%E5%8E%9F%E5%89%87%E8%A8%AD%E5%AE%9A">Linux 密碼原則設定</a></p>
+<p><a href="https://www.itread01.com/ifiex.html">Linux多次登入失敗使用者被鎖定使用Pam_Tally2解鎖</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

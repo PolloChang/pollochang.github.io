@@ -1,0 +1,571 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 30.學習資源 </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 30.學習資源 今天是最後一天了，連續發文30天真的不容易，過程中需要排除萬難騰出寶貴的時間寫。最後一天就來寫我自己的學習資源吧！
+打造學習環境 學習Linux，首先必須想辦法把環境建立起來，讀在多的理論知識知道再多的指令，沒有一個環境去實做永遠都是資訊或是紙上的文字紀錄而已。必須將所得到的紀錄、技術資訊實做一遍才會知道遺漏了哪些技術細節。以 rsync 指令為例。例如需要將本機的 /home/tomcat/catalina 底下所有的文件同步到 192.168.56.2 的相同目錄中，在網路上找到的資訊後所下的指令是 rsync -ruptl /home/tomcat/catalina tomcat@192.168.56.2:/home/tomcat/catalina 但是會發現無法正常運作。可能會出現不同類型的錯誤，如目標主機沒有安裝 rsync 套件、主機網路環境有阻擋 port 22、目標主機目錄權限不足等等。上述這些狀況必須在實做上才會知道。
+另外在學習的過程中一定會出現失敗，或是想知道別人說絕對不能下的指令，如：sudo rm -rf /。沒有允須失敗的環境是很難放心執行所學到的新事物。這時虛擬環境就很重要了。如今虛擬環境已經可以不用像以前一樣安裝虛擬機器，如：KVM、VirtualBox、VMware。用Docker 就可以實現Linux不同發行板版本，虛擬環境建置成本低很多。當然虛擬機還是有他的價值在，快照就是 docker 無法達成的項目。
+網路資源 在操作上有問題最快尋找解答的方式就是透過搜尋引擎尋找，但是要確保資訊正確需要經過數月甚至幾年的經驗累積。以下是大家公認上，在學習Linux 資訊品質比較好的網站。
+鳥哥的 Linux 私房菜 網站：https://linux.vbird.org/
+鳥哥大大沒有人會質疑吧！在架設伺服器方面，鳥站是不錯的學習資源，重點是品質很好的中文學習資源。
+SUSE Linux Enterprise Server 管理指南 網站：https://documentation.suse.com/zh-tw/sles/15-SP2/html/SLES-all/book-sle-admin.html
+Product Documentation for Red Hat Enterprise Linux SUSE Linux 、Red Hat 官方網站也是很好的學習資源，而且可以切換成 英文/中文 介面。可以透過中英對照習得英文原文的術語，未來在面對問題時可以更快獲得解決問題的資訊。
+Debian 參考手冊 Debian 官方的中文手冊，內容是很豐富的。
+軟體資源 centos centos 已經算是進入產品生命週期的終點，但是未來的10年內仍然會有他的身影。
+debian
+Kernel.org git repositories
+想知道linux 是哪些軟體組成的嗎？Kernel.org 可以讓你一探究竟。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 30.學習資源</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-30學習資源">我的Linux生活日記 30.學習資源</h1>
+<p>今天是最後一天了，連續發文30天真的不容易，過程中需要排除萬難騰出寶貴的時間寫。最後一天就來寫我自己的學習資源吧！</p>
+<h2 id="打造學習環境">打造學習環境</h2>
+<p>學習Linux，首先必須想辦法把環境建立起來，讀在多的理論知識知道再多的指令，沒有一個環境去實做永遠都是資訊或是紙上的文字紀錄而已。必須將所得到的紀錄、技術資訊實做一遍才會知道遺漏了哪些技術細節。以 <code>rsync</code> 指令為例。例如需要將本機的 <code>/home/tomcat/catalina</code> 底下所有的文件同步到 <code>192.168.56.2</code> 的相同目錄中，在網路上找到的資訊後所下的指令是 <code>rsync -ruptl /home/tomcat/catalina tomcat@192.168.56.2:/home/tomcat/catalina</code> 但是會發現無法正常運作。可能會出現不同類型的錯誤，如目標主機沒有安裝 rsync 套件、主機網路環境有阻擋 port 22、目標主機目錄權限不足等等。上述這些狀況必須在實做上才會知道。</p>
+<p>另外在學習的過程中一定會出現失敗，或是想知道別人說絕對不能下的指令，如：<code>sudo rm -rf /</code>。沒有允須失敗的環境是很難放心執行所學到的新事物。這時虛擬環境就很重要了。如今虛擬環境已經可以不用像以前一樣安裝虛擬機器，如：KVM、VirtualBox、VMware。用Docker 就可以實現Linux不同發行板版本，虛擬環境建置成本低很多。當然虛擬機還是有他的價值在，快照就是 docker 無法達成的項目。</p>
+<h2 id="網路資源">網路資源</h2>
+<p>在操作上有問題最快尋找解答的方式就是透過搜尋引擎尋找，但是要確保資訊正確需要經過數月甚至幾年的經驗累積。以下是大家公認上，在學習Linux 資訊品質比較好的網站。</p>
+<ul>
+<li><a href="https://linux.vbird.org/">鳥哥的 Linux 私房菜</a></li>
+</ul>
+<p>網站：https://linux.vbird.org/</p>
+<p>鳥哥大大沒有人會質疑吧！在架設伺服器方面，鳥站是不錯的學習資源，重點是品質很好的中文學習資源。</p>
+<ul>
+<li><a href="https://documentation.suse.com/zh-tw/sles/15-SP2/html/SLES-all/book-sle-admin.html">SUSE Linux Enterprise Server 管理指南</a></li>
+</ul>
+<p>網站：https://documentation.suse.com/zh-tw/sles/15-SP2/html/SLES-all/book-sle-admin.html</p>
+<ul>
+<li><a href="https://access.redhat.com/documentation/zh-tw/red_hat_enterprise_linux/">Product Documentation for Red Hat Enterprise Linux</a></li>
+</ul>
+<p>SUSE Linux 、Red Hat 官方網站也是很好的學習資源，而且可以切換成 英文/中文 介面。可以透過中英對照習得英文原文的術語，未來在面對問題時可以更快獲得解決問題的資訊。</p>
+<ul>
+<li><a href="https://www.debian.org/doc/manuals/debian-reference/">Debian 參考手冊</a></li>
+</ul>
+<p>Debian 官方的中文手冊，內容是很豐富的。</p>
+<h2 id="軟體資源">軟體資源</h2>
+<ul>
+<li><a href="https://vault.centos.org/">centos</a></li>
+</ul>
+<p>centos 已經算是進入產品生命週期的終點，但是未來的10年內仍然會有他的身影。</p>
+<ul>
+<li>
+<p><a href="https://cdimage.debian.org/mirror/">debian</a></p>
+</li>
+<li>
+<p><a href="https://git.kernel.org/">Kernel.org git repositories</a></p>
+</li>
+</ul>
+<p>想知道linux 是哪些軟體組成的嗎？Kernel.org 可以讓你一探究竟。</p>
+<h2 id="書籍">書籍</h2>
+<ul>
+<li>邁向Linux工程師之路：Superuser一定要懂的技術與運用</li>
+</ul>
+<p>ISBN: 9789864344383</p>
+<p>在維運上有很多基礎知識可以從這本書取得。</p>
+<ul>
+<li>乾脆一次搞清楚：最完整詳細網路協定全書</li>
+</ul>
+<p>ISBN: 9789865501396</p>
+<p>如果有架設網站需求，可以看看這一本。作者把網路環境描述的就像介紹你家附近每一條道路一樣，讓網路更親近自己的生活。而且Linux 在設定防火牆時多多少少需要有一點網路基礎知識。</p>
+<p>今年的人生目標終於達成其中之一！三十天連續發文真的不容易，比大學教期末報告還要痛苦。這三十天整理自己的筆記、重現環境、重現錯誤等等等等，在每天短短一小時完成。時間就如此一點點，堅持不間斷三十天就是完整的一天多一點的時間。這三十天就像是我這幾年來學習 Linux 的縮影，從個人電腦環境到伺服器叢集架設管理，東西很多雜而且技術不斷更新，永遠寫不完，也永遠學不完。</p>
+<p>這一系列我盡可能寫日常生活中會應用到的項目，畢竟不人人都會去管理伺服器，但是大多數人至少會碰筆電、個人電腦，也許是我自己的處女座，也許是工作環境比較少與人溝通，在文章用詞上生疏許多，也許是我自己目前最缺乏的部份。希望明年的作品內容可以更淺顯易懂。</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

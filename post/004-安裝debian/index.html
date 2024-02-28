@@ -1,0 +1,739 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 02-安裝Debian </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 02-安裝Debian 今天讓我詳細介紹如何安裝Debian吧！老實說安裝Debian步驟真的超多的。我記得我第一次接觸Debian 10 安裝時，有點不知所措。因為步驟真的比Ubuntu 、CentOS 多好多，因此我在這邊簡單帶一下安裝步驟。
+Debian 簡介: 自由(free) 的信仰 說到Debian 這個發行版本，一定得提到 free 、 none-free 。首先這邊需要很嚴肅的跟大家說 free 這一詞是 自由 的意思，意指該軟體可以被世界上任何一個人使用、複製甚至販售，而不是 免費 的意思。none-free 就是不符合上述 free 的規範啦。所以從官方網站下載的一定是 free 的版本。
+這個觀念很重要，如過是硬體有 intel 無線網卡，需要特別需要去找 iwlwifi 在安裝前準備。第一次安裝我舊碰到這個問題，可花費我兩三天的時間去處理。
+另外我想介紹 Debian 的原因是: 他的安裝步驟很多 它是我接觸過作業系統中，有多都是以Debian 為基底去做改良，例如：ubuntu、Proxmox VE、OpenSwitch OPX、kali。所以學習使用Debian 投資報酬率很高。(我覺的啦)
+下載 Debain 官方網址: https://www.debian.org/ 一進入官方網站，你會發現這個官網真陽春，真的好像是我會寫出的網站排版：HTML 加 CSS 簡單稍微排版。然而在首頁的右下方就出現一個大大個下載，提供你下載。
+: https://cdimage.debian.org/mirror/debian/dists/ 如果想要下載之前版本的版本可以從這個網站下載，當然也可以下載Debain 衍生的發行板，如：Ubuntu、kali。
+下載及準備驅動軟體 Debian 的官網入口有提供小型安裝檔，只有300多MB 而已，不過安裝過程當中建議連接網路，如果有安裝面環境需求時會需要從網路上下載套件。如果安裝的環境中，網路環境相當堪憂，我這邊建議去準備8GB 以上的隨身碟，並且到網路穩定的環境下載自己要的版本DVD/USB 版本。
+我兩台電腦安裝的經驗當中，筆電我是下載DVD/USB 版本，選擇的當案是「debian-live-10.9.0-amd64-gnome.iso」，因為當時安裝的網路環境只有300kbps/s，相當慢。而自己組裝桌機時，是使用小型安裝檔。兩者安裝的流程其實是一樣，只差DVD/USB 版本只是預先將桌面環境下載下來而已。
+關於驅動軟體，對於 Linux 不熟悉的人來說都有聽過一個傳聞，就是安裝Linux 需要自己另外去硬體廠商網站下載Linux 版本的驅動軟體。其實這個傳聞的聽說，我也是說聽說啦！是聽說以前的確需要特別去找，但是已我的經驗當中，絕大部分的驅動軟體都可以不用自行去下載，如果你是用Ubuntu自然更不會遇到這個問題。
+但是當我安裝Debian 時卻碰到 筆電的無線網卡無法辨認的問題，後來我上網查筆電的規格後，發現無線網卡是Intel ，加上Debian 有將軟體類型區分 main、contrib、non-free、non-us，所以我必須特去找Intel的驅動軟體iwlwifi" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 02-安裝Debian</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-02-安裝debian">我的Linux生活日記 02-安裝Debian</h1>
+<p>今天讓我詳細介紹如何安裝Debian吧！老實說安裝Debian步驟真的超多的。我記得我第一次接觸Debian 10 安裝時，有點不知所措。因為步驟真的比Ubuntu 、CentOS 多好多，因此我在這邊簡單帶一下安裝步驟。</p>
+<h2 id="debian-簡介-自由free-的信仰">Debian 簡介: 自由(free) 的信仰</h2>
+<p>說到Debian 這個發行版本，一定得提到 <code>free</code> 、 <code>none-free</code> 。首先這邊需要很嚴肅的跟大家說 <code>free</code> 這一詞是 <code>自由</code> 的意思，意指該軟體可以被世界上任何一個人使用、複製甚至販售，而不是 <code>免費</code> 的意思。<code>none-free</code> 就是不符合上述 free 的規範啦。所以從官方網站下載的一定是 free 的版本。</p>
+<p>這個觀念很重要，如過是硬體有 intel 無線網卡，需要特別需要去找 <a href="https://wiki.debian.org/iwlwifi">iwlwifi</a> 在安裝前準備。第一次安裝我舊碰到這個問題，可花費我兩三天的時間去處理。</p>
+<p>另外我想介紹 Debian 的原因是: <del>他的安裝步驟很多</del> 它是我接觸過作業系統中，有多都是以Debian 為基底去做改良，例如：ubuntu、Proxmox VE、OpenSwitch OPX、kali。所以學習使用Debian 投資報酬率很高。(我覺的啦)</p>
+<h2 id="下載-debain">下載 Debain</h2>
+<ul>
+<li>官方網址: <a href="https://www.debian.org/">https://www.debian.org/</a></li>
+</ul>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220915/20128528sAaGVQRtVG.png" alt="https://ithelp.ithome.com.tw/upload/images/20220915/20128528sAaGVQRtVG.png"></p>
+<p>一進入官方網站，你會發現這個官網真陽春，真的好像是我會寫出的網站排版：HTML 加 CSS 簡單稍微排版。然而在首頁的右下方就出現一個大大個下載，提供你下載。</p>
+<ul>
+<li>: <a href="https://cdimage.debian.org/mirror/debian/dists/">https://cdimage.debian.org/mirror/debian/dists/</a></li>
+</ul>
+<p>如果想要下載之前版本的版本可以從這個網站下載，當然也可以下載Debain 衍生的發行板，如：Ubuntu、kali。</p>
+<h2 id="下載及準備驅動軟體">下載及準備驅動軟體</h2>
+<p>Debian 的官網入口有提供小型安裝檔，只有300多MB 而已，不過安裝過程當中建議連接網路，如果有安裝面環境需求時會需要從網路上下載套件。如果安裝的環境中，網路環境相當堪憂，我這邊建議去準備8GB 以上的隨身碟，並且到網路穩定的環境下載自己要的版本DVD/USB 版本。</p>
+<p>我兩台電腦安裝的經驗當中，筆電我是下載DVD/USB 版本，選擇的當案是「<a href="https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-10.9.0-amd64-gnome.iso">debian-live-10.9.0-amd64-gnome.iso</a>」，因為當時安裝的網路環境只有300kbps/s，相當慢。而自己組裝桌機時，是使用小型安裝檔。兩者安裝的流程其實是一樣，只差DVD/USB 版本只是預先將桌面環境下載下來而已。</p>
+<p>關於驅動軟體，對於 Linux 不熟悉的人來說都有聽過一個傳聞，就是安裝Linux 需要自己另外去硬體廠商網站下載Linux 版本的驅動軟體。其實這個傳聞的聽說，我也是說聽說啦！是聽說以前的確需要特別去找，但是已我的經驗當中，絕大部分的驅動軟體都可以不用自行去下載，如果你是用Ubuntu自然更不會遇到這個問題。</p>
+<p>但是當我安裝Debian 時卻碰到 筆電的無線網卡無法辨認的問題，後來我上網查筆電的規格後，發現無線網卡是Intel ，加上Debian 有將軟體類型區分 main、contrib、non-free、non-us，所以我必須特去找Intel的驅動軟體<a href="https://wiki.debian.org/iwlwifi">iwlwifi</a></p>
+<p>我這邊簡單說明為什麼會有這樣的區分：主要是Debian 希望在這個平台上所有的軟體都是高純度的自由軟體，可以被自由使用的，但是現實當中一個軟體的誕生並非是開發者/團體絕對的無私的為軟體世界開發。說白一點，工程師也要吃飯，工程師後面也有老闆要賺錢向投資者交待，因此才會區分這些類別。</p>
+<ul>
+<li>main: Debian 最主要的系統組成成份。</li>
+<li>contrib: 本身是自由軟體，但是與其他非自由軟體有相依性。</li>
+<li>non-free: 非自由軟體。</li>
+<li>non-us: 這類大多是專利相關軟體。</li>
+</ul>
+<p>關於安裝的細節步驟，我就不多做敘述。因為很多人寫過，而且在針對文書處理機安裝的過程中真的只是下一步，頂多打個帳號密碼，選擇想要的桌面環境就結束了。除非是真的要安裝伺服器主機才會去特別調整硬碟資雲分配&hellip;&hellip;等等。</p>
+<p>安裝詳細的步驟官方的最詳細，不然用關鍵字「安裝Debian」就會出現很多相關的處理方式，例如：<a href="https://kknews.cc/zh-tw/code/x65jrpo.html">圖解 Debian 10（Buster）安裝步驟</a></p>
+<h2 id="安裝-debian">安裝 Debian</h2>
+<ol>
+<li>安裝菜單</li>
+</ol>
+<p>選擇第一個 <code>Graphical install</code> 圖形安裝，有提供滑鼠安裝，也比較平易近人。第二個項目 <code>Install</code> 你會看到Dos 年代的畫面風格，只能透過鍵盤安裝，不過很容易就上手的。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285285h2wrJHDa2.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285285h2wrJHDa2.png"></p>
+<ol start="2">
+<li>選擇語系</li>
+</ol>
+<p>這邊我習慣使用英文語系，<del>因為外國的月亮比較圓</del> 主要是未來發現不懂的操作，英文資源比較好找，如果是中文語系，需要先翻譯成英文，但是我英文能力普普啊! 為了能夠打中文，安裝完成後必須再安裝中文語系。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dt9XsO2zWs.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dt9XsO2zWs.png"></p>
+<ol start="3">
+<li>選擇所在地區</li>
+</ol>
+<p>生在台灣就選 Taiwan 呀！</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528zuCcKdcZZ4.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528zuCcKdcZZ4.png"></p>
+<ol start="4">
+<li>選擇所在地區：其他</li>
+</ol>
+<p>但是台灣在哪呢？怎摸跟世界地圖一樣難找！先選擇 <code>Other</code> 。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528VvaeMLkpAh.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528VvaeMLkpAh.png"></p>
+<ol start="5">
+<li>選擇所在地區：亞洲</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528bRlfq3Uiye.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528bRlfq3Uiye.png"></p>
+<ol start="6">
+<li>選擇所在地區：台灣</li>
+</ol>
+<p>花費了三個步驟終於找到啦！但是在 Redhat 體系 或是 ubuntu 的安裝檔點點地圖就設定完成了。也許地圖選擇是有版權的吧(我猜)。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528qvnV53zzu7.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528qvnV53zzu7.png"></p>
+<ol start="7">
+<li>選擇語系：en_US.UTF-8</li>
+</ol>
+<p>記得要選擇 UTF8 唷！不然生在台灣會有很多 罕見字 (難字) 在未來會看不到。雖然 UTF8 還是會有中文字不到，例如：新北市坪林區大林里「?」(魚逮 ㄉㄞˋ)魚堀。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dNDMYH6GrY.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dNDMYH6GrY.png"></p>
+<ol start="8">
+<li>選擇鍵盤配置</li>
+</ol>
+<p>這邊選擇美式鍵盤</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528oInLbdA9MQ.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528oInLbdA9MQ.png"></p>
+<ol start="9">
+<li>進行讀取安裝光碟</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285282pFoesgOYm.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285282pFoesgOYm.png"></p>
+<ol start="10">
+<li>選擇網路</li>
+</ol>
+<p>這邊就選擇可以上網的網路接孔吧。不用怕選錯，因為連不上網路還會跳回來這一步。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285287LowFS6NG2.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285287LowFS6NG2.png"></p>
+<ol start="11">
+<li>進行網路配置</li>
+</ol>
+<p>系統會自動探索網際網路。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528d6Rkl8UTNW.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528d6Rkl8UTNW.png"></p>
+<ol start="12">
+<li>輸入主機名稱</li>
+</ol>
+<p>探索到網路世界後，接下來就是跟大家說我是誰。<del>不然大家就會問你的名子</del></p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528B4dAfbP8TK.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528B4dAfbP8TK.png"></p>
+<ol start="13">
+<li>輸入網站</li>
+</ol>
+<p>在這邊如果未來規劃是網站伺服器或是郵件伺服器，如：zimbra，可以在這個步驟填寫自己的Domain。不填沒有關係，安裝完成之後改 <code>/etc/hosts</code> 文件即可。如果是作為桌面使用，可以按下一步。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528UE8UvWn7p2.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528UE8UvWn7p2.png"></p>
+<ol start="14">
+<li>輸入root密碼</li>
+</ol>
+<p>強烈建議不填 root 密碼，讓 root 不允許登入。 <del>這樣資安稽核就可以安心通過一項了，或是導入GCB就少一項設定。</del></p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528psVgKjdxSd.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528psVgKjdxSd.png"></p>
+<ol start="15">
+<li>輸入使用者名稱</li>
+</ol>
+<p>輸入你的大名。例如：<code>POLLOCHANG</code>。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528d0Fl85Wrcb.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528d0Fl85Wrcb.png"></p>
+<ol start="16">
+<li>輸入使用者帳號</li>
+</ol>
+<p>輸入你的小名。例如： <code>pollochang</code> 。<del>不就大小寫差別？</del></p>
+<p>對於linux 帳號命名這邊建議用<code>英文小寫</code>加<code>阿拉伯數字</code>就可以，主要是未來有安裝老舊的軟體有應用到linux帳號，大寫英文可能會作為該軟體的帳號，例如：<a href="https://www.ibm.com/docs/zh-tw/db2/9.7?topic=requirements-db2-users-groups">DB2</a>。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528K2fblT8m0x.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528K2fblT8m0x.png"></p>
+<ol start="17">
+<li>輸入使用者密碼</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528u9Xp6GNLTY.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528u9Xp6GNLTY.png"></p>
+<ol start="18">
+<li>規劃硬碟</li>
+</ol>
+<p>選擇第一項: <code>Guided- use entire disk</code>，如過是安裝在虛擬機上，可以選擇 <code>Guided- use entire disk and set up LVM</code> 未來空充硬碟會比較方便。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528vayFEQeogr.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528vayFEQeogr.png"></p>
+<ol start="19">
+<li>選擇硬碟</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528PvxpQ26WNn.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528PvxpQ26WNn.png"></p>
+<ol start="20">
+<li>選擇硬碟分割模式</li>
+</ol>
+<p>這邊選擇第一項，讓電腦自動配置。<del>這個年頭電腦除了會挑選花生，也會切硬碟唷！</del></p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528j1yUgA5iqH.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528j1yUgA5iqH.png"></p>
+<ol start="21">
+<li>規劃分割硬碟</li>
+</ol>
+<p>電腦切割的結果，如果不喜歡也可以自己切。自己切記得 <code>swap</code> 要切出來，至少512MB ，不然之後可能會遇到很奇怪的問題。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528HAnGie0ATV.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528HAnGie0ATV.png"></p>
+<ol start="22">
+<li>再次確認硬碟分割規劃</li>
+</ol>
+<p>沒問題就按下 yes 。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528ZDCs4urgd4.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528ZDCs4urgd4.png"></p>
+<ol start="23">
+<li>執行硬碟分割</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528cDjbVtkbOj.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528cDjbVtkbOj.png"></p>
+<ol start="24">
+<li>詢問有其他安裝光碟</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285285djmWWJR5A.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285285djmWWJR5A.png"></p>
+<ol start="25">
+<li>選擇 mirror 地理位置</li>
+</ol>
+<p>根據你地理上最近的地區選擇吧。<del>但是我地理不好啊！跟索隆一樣</del></p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285287PLWFjVtLQ.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285287PLWFjVtLQ.png"></p>
+<ol start="26">
+<li>選擇 mirror 網站</li>
+</ol>
+<p>隨便選，開心就好。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dpQJpQcViU.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dpQJpQcViU.png"></p>
+<ol start="27">
+<li>設定 Proxy</li>
+</ol>
+<p>主機所在的網路環境沒有特殊要求就不用設。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285281ECd7dIv6P.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285281ECd7dIv6P.png"></p>
+<ol start="28">
+<li>設定 apt</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285287GNe8Ttua0.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285287GNe8Ttua0.png"></p>
+<ol start="29">
+<li>安裝系統</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285288BazLqHuFt.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285288BazLqHuFt.png"></p>
+<ol start="30">
+<li>詢問將安裝過程分享給Debian社群</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528MLMJnauKZC.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528MLMJnauKZC.png"></p>
+<ol start="31">
+<li>詢問安裝桌面</li>
+</ol>
+<p>一般我是習慣選擇 <code>Gnome</code>，如果要遠端桌面使用的話建議就 <del>不要裝！大家都透過SSH直接遠端</del> 選擇 <code>xfce</code>。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528C7nlAjbY90.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528C7nlAjbY90.png"></p>
+<ol start="32">
+<li>安裝 boot loader</li>
+</ol>
+<p>這步驟很重要，請選擇 yes!有一次我選擇 NO ，安裝完之後就傻傻的從頭安裝。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528wDI5A24geu.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528wDI5A24geu.png"></p>
+<ol start="33">
+<li>選擇磁區</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dUqTR2GQlN.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528dUqTR2GQlN.png"></p>
+<ol start="34">
+<li>安裝 boot loader 畫面</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/20128528xWeeyhqoyB.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/20128528xWeeyhqoyB.png"></p>
+<ol start="35">
+<li>安裝完畢畫面</li>
+</ol>
+<p>經過最短路徑 35 個步驟終於安裝完啦！不得不說安裝 Debian 不看前人或官方的安裝指引，真的有種在走迷宮的感覺。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220914/201285283nw5BPpQdI.png" alt="https://ithelp.ithome.com.tw/upload/images/20220914/201285283nw5BPpQdI.png"></p>
+<h2 id="安裝問題處理">安裝問題處理</h2>
+<h3 id="intel-無線網卡驅動程式">Intel 無線網卡驅動程式</h3>
+<p>這是我安裝Debian 第一個遇到的問題，處理方式是將對別人處理好的<a href="http://ftp.br.debian.org/debian/pool/non-free/f/firmware-nonfree/firmware-iwlwifi_20210315-2_all.deb">deb</a>檔，下載後放到令一個空白隨身碟中，記得需要把deb當放在隨身碟第一層目錄，不然會安裝驅動失敗。</p>
+<p>在安裝的過程當中系統會提示你，有找到不認識的硬體設備，可以透過準備好的安裝檔案裝。這時你就可以把剛剛準備好的隨身碟依照指示安裝到電腦當中。</p>
+<h3 id="nvidia-安裝驅動">nVidia 安裝驅動</h3>
+<p>這個問題是發生在我組裝電腦的上面。</p>
+<p>安裝完電腦就可已正常啟動並且運作，但是常常運作到一半系統畫面就無緣無故當機。</p>
+<p>通常電腦當機的原因有</p>
+<ol>
+<li>硬體問題</li>
+<li>驅動程式問題</li>
+<li>軟體問題</li>
+</ol>
+<p>我的檢測方式是，當發生當機時，看看Linux 是不是可以透過其他電腦ping 檢測可以接通，如果可以代表CPU、RAM等等電腦計算功能都是正常運作，剩下就是螢幕上的顯示功能。</p>
+<p>在我安裝組裝電腦時，沒有特別去安裝硬體官方網站上所推出的驅動程式，想說就都用公用的驅動應該沒有問題吧！反正我頂多就只是個高級文書人員而已。</p>
+<p>後來我去下載險卡的驅動程式後，用到一半系統畫面突然死當的狀況就被解決了。</p>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://www.debian.org/CD/faq/#firmware">在哪裡可以找到 non-free （非自由的）光碟映像檔？</a></p>
+<p><a href="https://blog.darkthread.net/blog/debian-non-free-firmware/">黑暗執行緒—Debian 與 Non-Free Firmware</a></p>
+<p><a href="https://www.ibm.com/docs/zh-tw/db2/9.7?topic=requirements-db2-users-groups">DB2 使用者及群組 (Linux 及 UNIX)</a></p>
+<p><a href="https://github.com/open-switch/opx-docs/wiki/OpenSwitch-OPX-system-overview">OpenSwitch OPX system overview</a></p>
+<p><a href="https://docs.huihoo.com/gnu_linux/debian/tutorial/Debian-Install-Guide-5.html">5.3 以垂直的觀點來看 Debian 軟體的分佈：main、contrib、non-free、non-us </a></p>
+<p><a href="https://wiki.debian.org/iwlwifi">Intel Wireless WiFi Link, Wireless-N, Advanced-N, Ultimate-N devices</a></p>
+<p><a href="https://www.debian.org/distrib/index.zh-tw.html">取得 Debian</a></p>
+<p><a href="https://www.debian.org/releases/sarge/i386/index.html.zh_TW">Debian GNU/Linux 安裝手冊</a></p>
+<p><a href="https://kknews.cc/zh-tw/code/x65jrpo.html">圖解 Debian 10（Buster）安裝步驟</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/007-%E7%A1%AC%E7%A2%9F%E5%88%86%E5%89%B2/">
+                                <h3 class="">我的Linux生活日記 07-硬碟分割</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

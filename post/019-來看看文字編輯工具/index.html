@@ -1,0 +1,998 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 19.來看看文字編輯工具-vim </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 19.來看看文字編輯工具-vim 使用電腦一定會用到文字編輯工具，在熟悉的微軟世界是記事本，那在Linux 是什麼呢？Text Editor，是我第一次使用的工具，同時也是Gnome桌面預設的文字編輯工具。不過還有很多種類下就帶大家看看有哪些。
+視窗 Gnome Text Editor 這是從 ubuntu 開始接觸 Linux 會碰到的文字編輯工具，功能跟微軟的記事本一樣簡單容易上手，而且也用語法亮度顯示，到現在開發還是會當作輔助工具。
+notepadqq 作為一個工程師常常需要打開不同語言的腳本，原本在windows我自己是習慣使用Notepad&#43;&#43;，但是踏進linux之後發現Notepad&#43;&#43; 只能透過wine執行，後來我在網路上找到了 notepadqq ，下面是在Debian安裝的方式：
+新增下面兩個資套件來源 sudo touch /etc/apt/sources.list.d/notepadqq.list sudo echo &#34;deb http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&#34; &gt;&gt; /etc/apt/sources.list.d/notepadqq.list sudo echo &#34;deb-src http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&#34; &gt;&gt; /etc/apt/sources.list.d/notepadqq.list 新增公鑰 sudo apt-key adv --recv-key --keyserver keyserver.ubuntu.com 63DE9CD4 更新並安裝 sudo apt update &amp;&amp; sudo apt -y install notepadqq 終端機 vi vi 是大部分 Linux 發行版本在終端機裡一定有的文字編輯工具，級是在最小安裝版本也會有。在使用上有三個模式：
+一般模式 進入vi 之後就是一般模式，在這個模式下可以瀏覽文件內容。除了瀏覽文件內容以外還可以進行剪下整行、複製整行等工作
+剪下整行: 鍵盤直接輸入 dd
+複製整行: 鍵盤直接輸入 yy" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 19.來看看文字編輯工具-vim</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-19來看看文字編輯工具-vim">我的Linux生活日記 19.來看看文字編輯工具-vim</h1>
+<p>使用電腦一定會用到文字編輯工具，在熟悉的微軟世界是<code>記事本</code>，那在Linux 是什麼呢？<code>Text Editor</code>，是我第一次使用的工具，同時也是Gnome桌面預設的文字編輯工具。不過還有很多種類下就帶大家看看有哪些。</p>
+<h2 id="視窗">視窗</h2>
+<h3 id="gnome-text-editor">Gnome Text Editor</h3>
+<p>這是從 ubuntu 開始接觸 Linux 會碰到的文字編輯工具，功能跟微軟的記事本一樣簡單容易上手，而且也用語法亮度顯示，到現在開發還是會當作輔助工具。</p>
+<h3 id="notepadqq">notepadqq</h3>
+<p>作為一個工程師常常需要打開不同語言的腳本，原本在windows我自己是習慣使用Notepad++，但是踏進linux之後發現Notepad++ 只能透過wine執行，後來我在網路上找到了 notepadqq ，下面是在Debian安裝的方式：</p>
+<ol>
+<li>新增下面兩個資套件來源</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo touch /etc/apt/sources.list.d/notepadqq.list
+</span></span><span style="display:flex;"><span>sudo echo <span style="color:#e6db74">&#34;deb http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&#34;</span> &gt;&gt; /etc/apt/sources.list.d/notepadqq.list
+</span></span><span style="display:flex;"><span>sudo echo <span style="color:#e6db74">&#34;deb-src http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&#34;</span> &gt;&gt; /etc/apt/sources.list.d/notepadqq.list
+</span></span></code></pre></div><ol start="2">
+<li>新增公鑰</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-key adv --recv-key --keyserver keyserver.ubuntu.com 63DE9CD4
+</span></span></code></pre></div><ol start="3">
+<li>更新並安裝</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt -y install notepadqq
+</span></span></code></pre></div><h2 id="終端機">終端機</h2>
+<h3 id="vi">vi</h3>
+<p>vi 是大部分 Linux 發行版本在終端機裡一定有的文字編輯工具，級是在最小安裝版本也會有。在使用上有三個模式：</p>
+<ul>
+<li>一般模式</li>
+</ul>
+<p>進入vi 之後就是一般模式，在這個模式下可以瀏覽文件內容。除了瀏覽文件內容以外還可以進行<code>剪下整行</code>、<code>複製整行</code>等工作</p>
+<p><strong>剪下整行</strong>: 鍵盤直接輸入 dd</p>
+<p><strong>複製整行</strong>: 鍵盤直接輸入 yy</p>
+<p><strong>將剛剛剪下/複製的內容插入到下一行</strong>: pp</p>
+<p><strong>將剛剛剪下/複製的內容插入到上一行</strong>: PP</p>
+<ul>
+<li>編輯模式</li>
+</ul>
+<p>在一般模式下輸入<code>i</code>就可以進入<code>編輯模式</code>，在這個模式中就可以打字啦</p>
+<ul>
+<li>指令列模式</li>
+</ul>
+<p>在一般模式下輸入<code>:</code>就可以進入<code>指令列模式</code>，比較常用的功能像<code>儲存</code>、<code>關閉文件並離開</code></p>
+<p><strong>儲存</strong>: 鍵盤直接輸入 w</p>
+<p><strong>強制儲存</strong>: 鍵盤直接輸入 w!</p>
+<p><strong>關閉文件並離開</strong>: 鍵盤直接輸入 q</p>
+<p><strong>強制關閉文件並離開</strong>: 鍵盤直接輸入 q!</p>
+<p>當然也可以做儲存後關閉: 鍵盤直接輸入 wq</p>
+<h3 id="vim">vim</h3>
+<p>vim 是 vi 的加強版，也是我自己比較長使用的文字編輯工具，主要是他有支援豐富的語法亮度，還有很多外掛可以用，所以明天我會介紹我的配置啦！</p>
+<p>接下來分享我自己在工作機上常用的 vim設定，我沒有設定得很複雜，能讓文件簡單清楚顯示就是我的目標。畢竟我沒有打算將 vim 變成 IDE的夢想。</p>
+<h4 id="命令列模式">命令列模式</h4>
+<pre tabindex="0"><code>:%s/search_from/replace_to/g
+</code></pre><h4 id="vimrc-個人化設定">vimrc 個人化設定</h4>
+<h5 id="註解">註解</h5>
+<p>註解 <code>&quot; </code> 雙引號</p>
+<pre tabindex="0"><code>&#34; 這是註解
+</code></pre><h5 id="用空格代替tab鍵">用空格代替Tab鍵</h5>
+<p>有時候撰寫 yaml 文件就會手癢按下 <code>tab</code> ，我覺的這個功能對我來說非常重要。</p>
+<pre tabindex="0"><code>set et &#34; expandtab,用空格代替Tab鍵
+</code></pre><h5 id="語法識別">語法識別</h5>
+<p>會自動識別語法，我想是依據副檔名吧。</p>
+<pre tabindex="0"><code>syntax enable
+</code></pre><h5 id="顯示游標所在的列">顯示游標所在的列</h5>
+<pre tabindex="0"><code>set cursorline
+</code></pre><h5 id="顯示游標所在的行">顯示游標所在的行</h5>
+<pre tabindex="0"><code>set cursorcolumn
+</code></pre><h5 id="自動判斷編碼">自動判斷編碼</h5>
+<p>打開未知的中文文件編碼非常重要，不然會出現一片亂碼。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34; 自動判斷編碼
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set fileencodings=utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if has(&#34;</span>multi_byte<span style="color:#e6db74">&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">else
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    echoerr &#34;</span>If +multi_byte is not included, you should compile Vim with big features.<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">endif
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set encoding=utf-8
+</span></span></span></code></pre></div><h5 id="顯示行號">顯示行號</h5>
+<p>雖然 vim 右下角忌諱顯示行號，但是在每行的左邊要跟 PM 或是跟同事溝通時會比較方便。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set nu
+</span></span></code></pre></div><h5 id="自動換行">自動換行</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set wrap <span style="color:#e6db74">&#34; 自動換行
+</span></span></span></code></pre></div><h5 id="插件">插件</h5>
+<h6 id="套件管理工具">套件管理工具</h6>
+<ul>
+<li>下載管理工具</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</span></span></code></pre></div><ul>
+<li>執行安裝</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vim +PluginInstall
+</span></span></code></pre></div><ul>
+<li>腳本</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34; Vundle start
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set rtp+=~/.vim/bundle/Vundle.vim
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">call vundle#begin()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> Your plugin start
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; Your plugin end 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">call vundle#end()            &#34;</span> required
+</span></span><span style="display:flex;"><span>filetype plugin indent on    <span style="color:#e6db74">&#34; required
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> Vundle end
+</span></span></code></pre></div><h6 id="markdown">Markdown</h6>
+<p>常常用 markdown 作筆記下面這幾個套件很實用。</p>
+<ul>
+<li>安裝</li>
+</ul>
+<pre tabindex="0"><code>Plugin &#39;gabrielelana/vim-markdown&#39;
+Plugin &#39;tyru/open-browser.vim&#39;
+Plugin &#39;kannokanno/previm&#39;
+</code></pre><h6 id="nerdtree">NERDTree</h6>
+<ul>
+<li>安裝</li>
+</ul>
+<pre tabindex="0"><code>Plugin &#39;preservim/nerdtree&#39;
+</code></pre><ul>
+<li>NERDTree 快捷鍵</li>
+</ul>
+<pre tabindex="0"><code>ctrl + w + h    光標 focus 左側樹形目錄
+ctrl + w + l    光標 focus 右側文件顯示窗口
+ctrl + w + w    光標自動在左右側窗口切換
+ctrl + w + r    移動當前窗口的佈局位置
+</code></pre><h5 id="我自己常用的設定">我自己常用的設定</h5>
+<p>最後附上我自己的設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34; 個人化設定
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set et                  &#34;</span> expandtab,用空格代替Tab鍵
+</span></span><span style="display:flex;"><span>set background<span style="color:#f92672">=</span>dark
+</span></span><span style="display:flex;"><span>set cursorline          <span style="color:#e6db74">&#34; 顯示游標所在的列
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set cursorcolumn        &#34;</span> 顯示游標所在的行
+</span></span><span style="display:flex;"><span>set wrap                <span style="color:#e6db74">&#34; 自動換行
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set nu                  &#34;</span> 自動換行
+</span></span><span style="display:flex;"><span>set t_Co<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>            <span style="color:#e6db74">&#34; 指定 vim 的顏色
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> 自動判斷編碼
+</span></span><span style="display:flex;"><span>set fileencodings<span style="color:#f92672">=</span>utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> has<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;multi_byte&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    echoerr <span style="color:#e6db74">&#34;If +multi_byte is not included, you should compile Vim with big features.&#34;</span>
+</span></span><span style="display:flex;"><span>endif
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set encoding<span style="color:#f92672">=</span>utf-8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; Vundle start
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set rtp+=~/.vim/bundle/Vundle.vim
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">call vundle#begin()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> let Vundle manage Vundle, required
+</span></span><span style="display:flex;"><span>Plugin <span style="color:#e6db74">&#39;VundleVim/Vundle.vim&#39;</span>
+</span></span><span style="display:flex;"><span>Plugin <span style="color:#e6db74">&#39;vim-airline/vim-airline&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; Your plugin start
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> NERDTree
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>autocmd vimenter * NERDTree                  <span style="color:#e6db74">&#34; 自動開啟Nerdtree
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">let g:NERDTreeWinSize = 25                    &#34;</span> 設定 NERDTree 視窗大小
+</span></span><span style="display:flex;"><span>map &lt;F5&gt; :NERDTreeToggle&lt;CR&gt;                  <span style="color:#e6db74">&#34; 開啟/關閉nerdtree快捷鍵
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">autocmd vimenter * if !argc()|NERDTree|endif  &#34;</span> 開啟vim時如果沒有檔案自動開啟NERDTree
+</span></span><span style="display:flex;"><span>autocmd bufenter * <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>winnr<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;</span>$<span style="color:#e6db74">&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> exists<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;b:NERDTree&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> b:NERDTree.isTabTree<span style="color:#f92672">())</span> | q | endif <span style="color:#e6db74">&#34;當NERDTree為剩下的唯一視窗時自動關閉
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">let g:NERDTreeDirArrowExpandable = &#39;▸&#39;        &#34;</span> NERDTree 圖標
+</span></span><span style="display:flex;"><span>let g:NERDTreeDirArrowCollapsible <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;▾&#39;</span>       <span style="color:#e6db74">&#34; NERDTree 圖標
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">let g:NERDTreeHidden=0                        &#34;</span>不顯示隱藏檔案
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;       let NERDTreeMinimalUI = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span>       let NERDTreeDirArrows <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>let g:NERDTreeNodeDelimiter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\u00a0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; git
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Plugin &#39;airblade/vim-gitgutter&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set updatetime=200                           &#34;</span> 每兩秒檢查一次有差異
+</span></span><span style="display:flex;"><span>highlight GitGutterAdd    ctermfg<span style="color:#f92672">=</span>blue
+</span></span><span style="display:flex;"><span>highlight GitGutterChange ctermfg<span style="color:#f92672">=</span>green
+</span></span><span style="display:flex;"><span>highlight GitGutterDelete ctermfg<span style="color:#f92672">=</span>red
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; nerdtree
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Plugin &#39;preservim/nerdtree&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span> Your plugin end 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>call vundle#end<span style="color:#f92672">()</span>            <span style="color:#e6db74">&#34; required
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">filetype plugin indent on    &#34;</span> required
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34; Vundle end
+</span></span></span></code></pre></div><hr>
+<h4 id="常用快捷建">常用快捷建</h4>
+<ul>
+<li>
+<p><code>Crtl + w w</code> 循环所有窗口</p>
+</li>
+<li>
+<p><code>Crtl + w h</code> 让你离开一个窗口</p>
+</li>
+<li>
+<p><code>Crtl + w j</code> 把你拉下窗户</p>
+</li>
+<li>
+<p><code>Crtl + w k</code> 带你上一个窗口</p>
+</li>
+<li>
+<p><code>Crtl + w l</code> 带你到一个窗口</p>
+</li>
+</ul>
+<h4 id="套件管理工具-1">套件管理工具</h4>
+<ul>
+<li>下載管理工具</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</span></span></code></pre></div><ul>
+<li>執行安裝</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vim +PluginInstall
+</span></span></code></pre></div><h4 id="nerdtree-安裝">NERDTree 安裝</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd ~
+</span></span><span style="display:flex;"><span>mkdir nerdtree
+</span></span><span style="display:flex;"><span>cd nerdtree
+</span></span><span style="display:flex;"><span>wget http://www.vim.org/scripts/download_script.php?src_id<span style="color:#f92672">=</span><span style="color:#ae81ff">17123</span> -O nerdtree.zip 
+</span></span><span style="display:flex;"><span>unzip nerdtree.zip
+</span></span><span style="display:flex;"><span>mkdir -p ~/.vim/<span style="color:#f92672">{</span>plugin,doc<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>cp ~/nerdtree/plugin/NERD_tree.vim ~/.vim/plugin/
+</span></span><span style="display:flex;"><span>cp ~/nerdtree/doc/NERD_tree.txt ~/.vim/doc/
+</span></span><span style="display:flex;"><span>vim ~/.vimrc
+</span></span><span style="display:flex;"><span>加入：map &lt;F5&gt; :NERDTreeToggle&lt;CR&gt;
+</span></span></code></pre></div><ul>
+<li>NERDTree 快捷鍵</li>
+</ul>
+<pre tabindex="0"><code>ctrl + w + h    光標 focus 左側樹形目錄
+ctrl + w + l    光標 focus 右側文件顯示窗口
+ctrl + w + w    光標自動在左右側窗口切換
+ctrl + w + r    移動當前窗口的布局位置
+o       在已有窗口中打開文件、目錄或書簽，並跳到該窗口
+go      在已有窗口 中打開文件、目錄或書簽，但不跳到該窗口
+t       在新 Tab 中打開選中文件/書簽，並跳到新 Tab
+T       在新 Tab 中打開選中文件/書簽，但不跳到新 Tab
+i       split 一個新窗口打開選中文件，並跳到該窗口
+gi      split 一個新窗口打開選中文件，但不跳到該窗口
+s       vsplit 一個新窗口打開選中文件，並跳到該窗口
+gs      vsplit 一個新 窗口打開選中文件，但不跳到該窗口
+!       執行當前文件
+O       遞歸打開選中 結點下的所有目錄
+x       合攏選中結點的父目錄
+X       遞歸 合攏選中結點下的所有目錄
+e       Edit the current dif
+雙擊    相當於 NERDTree-o
+中鍵    對文件相當於 NERDTree-i，對目錄相當於 NERDTree-e
+D       刪除當前書簽
+P       跳到根結點
+p       跳到父結點
+K       跳到當前目錄下同級的第一個結點
+J       跳到當前目錄下同級的最後一個結點
+k       跳到當前目錄下同級的前一個結點
+j       跳到當前目錄下同級的後一個結點
+C       將選中目錄或選中文件的父目錄設為根結點
+u       將當前根結點的父目錄設為根目錄，並變成合攏原根結點
+U       將當前根結點的父目錄設為根目錄，但保持展開原根結點
+r       遞歸刷新選中目錄
+R       遞歸刷新根結點
+m       顯示文件系統菜單
+cd      將 CWD 設為選中目錄
+I       切換是否顯示隱藏文件
+f       切換是否使用文件過濾器
+F       切換是否顯示文件
+B       切換是否顯示書簽
+q       關閉 NerdTree 窗口
+?       切換是否顯示 Quick Help
+:tabnew [++opt選項] ［＋cmd］ 文件      建立對指定文件新的tab
+:tabc   關閉當前的 tab
+:tabo   關閉所有其他的 tab
+:tabs   查看所有打開的 tab
+:tabp   前一個 tab
+:tabn   後一個 tab
+</code></pre><pre tabindex="0"><code>功能	                    快捷键	      解释
+新建文件	                ma	          在要创建文件的目录中按命令 ma然后键入你要创建的文件名称即可。
+删除文件	                md	          在要删除的文件上按命令md然后输入y回车即可。
+移动文件/修改文件名	      mm	          在要修改的文件上按命令mm然后输入对应的目录和名称回车即可。
+设置当前目录为项目根目录	C	            在要设置为根目录的目录上按命令C【大写】即可。（刚学vim的时候总是不小心按到u命令把不必要的目录设置成了我的项目根目录，当时一直没找到比较好的解决方案很尴尬只能重启vim解决现在只要按C命令改回来即可）
+查看当前文件所在目录	  :NERDTreeFind	  执行命令 :NERDTreeFind 或则在.vimrc中添加 map &lt;leader&gt;v :NERDTreeFind&lt;CR&gt; 全局使用 &lt;leader&gt;v命令(我的是,v)直接显示当前文件所在目录。
+</code></pre><h4 id="bash-support">bash-support</h4>
+<h5 id="安裝">安裝</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd ~/Doenloads
+</span></span><span style="display:flex;"><span>wget -O bash-support.zip http://www.vim.org/scripts/download_script.php?src_id<span style="color:#f92672">=</span><span style="color:#ae81ff">9890</span>
+</span></span><span style="display:flex;"><span>mkdir ~/.vim <span style="color:#75715e"># if the directory does not exist already</span>
+</span></span><span style="display:flex;"><span>cd ~/.vim
+</span></span><span style="display:flex;"><span>unzip ~/Doenloads/bash-support.zip
+</span></span></code></pre></div><p>新增 ~/.vimrc 內容</p>
+<pre tabindex="0"><code>filetype plugin on
+</code></pre><h5 id="bash-support-常用快捷鍵">bash-support 常用快捷鍵</h5>
+<pre tabindex="0"><code>\sc case in … esac
+\sl elif then
+\sf for in do done
+\sfo for ((…)) do done
+\si if then fi
+\sie if then else fi
+\ss select in do done
+\st until do done
+\sw while do done
+\sfu function
+\se echo ­e “\n”
+\sp printf “\n”
+</code></pre><h5 id="常用功能">常用功能</h5>
+<ul>
+<li>搜尋並取代字串</li>
+</ul>
+<pre tabindex="0"><code>:%s/search_from/replace_to/g
+</code></pre><h4 id="自己的配置">自己的配置</h4>
+<pre tabindex="0"><code>set nocompatible              &#34; be iMproved, required
+filetype off                  &#34; required
+set et                        &#34; expandtab,用空格代替Tab鍵
+au InsertLeave *.eml write    &#34; 每次退出插入模式時自動儲存
+
+&#34; 語法識別
+syntax enable
+&#34; 終端機背景色 : dark / light
+set background=dark
+
+&#34; 執行程式
+nmap &lt;F8&gt; :call CompileRun()&lt;CR&gt;
+func! CompileRun()
+    exec &#34;w&#34;
+    
+    if &amp;filetype == &#39;python&#39;
+        exec &#34; !time python3 %&#34;
+    elseif &amp;filetype == &#39;java&#39;
+        exec &#34; !javac %&#34;
+    exec &#34; !time java %&lt;&#34;
+        elseif &amp;filetype == &#39;sh&#39;
+    exec &#34;w !bash&#34;
+    endif
+endfunc
+
+filetype plugin on
+
+&#34; vim-bash-support
+let g:BASH_AuthorName   = &#39;PolloChang&#39;
+let g:BASH_Email        = &#39;jameschangwork@gmail.com&#39;
+let g:BASH_Company      = &#39;Open Source Corporation&#39;
+
+ 
+&#34; set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+&#34; alternatively, pass a path where Vundle should install plugins
+&#34;call vundle#begin(&#39;~/some/path/here&#39;)
+
+
+&#34; let Vundle manage Vundle, required
+Plugin &#39;VundleVim/Vundle.vim&#39;
+Plugin &#39;vim-airline/vim-airline&#39;
+Plugin &#39;airblade/vim-gitgutter&#39;
+Plugin &#39;preservim/nerdtree&#39;
+&#34;autocmd vimenter * NERDTree  &#34;自動開啟Nerdtree
+let g:NERDTreeWinSize = 25 &#34;設定 NERDTree 視窗大小
+&#34;開啟/關閉nerdtree快捷鍵
+map &lt;F5&gt; :NERDTreeToggle&lt;CR&gt;
+&#34;開啟vim時如果沒有檔案自動開啟NERDTree
+autocmd vimenter * if !argc()|NERDTree|endif
+&#34;當NERDTree為剩下的唯一視窗時自動關閉
+autocmd bufenter * if (winnr(&#34;$&#34;) == 1 &amp;&amp; exists(&#34;b:NERDTree&#34;) &amp;&amp; b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = &#39;▸&#39;
+let g:NERDTreeDirArrowCollapsible = &#39;▾&#39;
+let g:NERDTreeHidden=0     &#34;不顯示隱藏檔案
+&#34;       let NERDTreeMinimalUI = 1
+&#34;       let NERDTreeDirArrows = 1
+let g:NERDTreeNodeDelimiter = &#34;\u00a0&#34;
+
+Plugin &#39;xuyuanp/nerdtree-git-plugin&#39;
+let g:NERDTreeGitStatusShowIgnored = 1
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ &#34;Modified&#34;  : &#34;✹&#34;,
+    \ &#34;Staged&#34;    : &#34;✚&#34;,
+    \ &#34;Untracked&#34; : &#34;✭&#34;,
+    \ &#34;Renamed&#34;   : &#34;➜&#34;,
+    \ &#34;Unmerged&#34;  : &#34;═&#34;,
+    \ &#34;Deleted&#34;   : &#34;✖&#34;,
+    \ &#34;Dirty&#34;     : &#34;✗&#34;,
+    \ &#34;Clean&#34;     : &#34;✔︎&#34;,
+    \ &#39;Ignored&#39;   : &#39;☒&#39;,
+    \ &#34;Unknown&#34;   : &#34;?&#34;
+    \ }
+
+
+Plugin &#39;ryanoasis/vim-devicons&#39;
+set encoding=UTF-8
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+
+Plugin &#39;tiagofumo/vim-nerdtree-syntax-highlight&#39;
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1
+let g:NERDTreeHighlightFoldersFullName = 1
+let s:brown = &#34;905532&#34;
+let s:aqua =  &#34;3AFFDB&#34;
+let s:blue = &#34;689FB6&#34;
+let s:darkBlue = &#34;44788E&#34;
+let s:purple = &#34;834F79&#34;
+let s:lightPurple = &#34;834F79&#34;
+let s:red = &#34;AE403F&#34;
+let s:beige = &#34;F5C06F&#34;
+let s:yellow = &#34;F09F17&#34;
+let s:orange = &#34;D4843E&#34;
+let s:darkOrange = &#34;F16529&#34;
+let s:pink = &#34;CB6F6F&#34;
+let s:salmon = &#34;EE6E73&#34;
+let s:green = &#34;8FAA54&#34;
+let s:Turquoise = &#34;40E0D0&#34;
+let s:lightGreen = &#34;31B53E&#34;
+let s:white = &#34;FFFFFF&#34;
+let s:rspec_red = &#34;FE405F&#34;
+let s:git_orange = &#34;F54D27&#34;
+let s:gray = &#34;808A87&#34;
+let g:NERDTreeExtensionHighlightColor = {} &#34; this line is needed to avoid error
+let g:NERDTreeExtensionHighlightColor[&#39;o&#39;] = s:gray &#34; sets the color of o files to blue
+let g:NERDTreeExtensionHighlightColor[&#39;h&#39;] = s:blue &#34; sets the color of h files to blue
+let g:NERDTreeExtensionHighlightColor[&#39;c&#39;] = s:green &#34; sets the color of c files to blue
+let g:NERDTreeExtensionHighlightColor[&#39;cpp&#39;] = s:green &#34; sets the color of cpp files to blue
+let g:NERDTreeExtensionHighlightColor[&#39;c++&#39;] = s:green
+
+Plugin &#39;itspriddle/vim-shellcheck&#39;
+
+
+&#34; Markdown 插件
+Plugin &#39;gabrielelana/vim-markdown&#39;
+Plugin &#39;tyru/open-browser.vim&#39;
+Plugin &#39;kannokanno/previm&#39;
+
+&#34; All of your Plugins must be added before the following line
+call vundle#end()            &#34; required
+filetype plugin indent on    &#34; required
+&#34; To ignore plugin indent changes, instead use:
+&#34;filetype plugin on
+&#34;
+&#34; Brief help
+&#34; :PluginList       - lists configured plugins
+&#34; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+&#34; :PluginSearch foo - searches for foo; append `!` to refresh local cache
+&#34; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+&#34;
+&#34; see :h vundle for more details or wiki for FAQ
+&#34; Put your non-Plugin stuff after this line
+&#34;
+
+&#34; git set
+set updatetime=200
+highlight GitGutterAdd    ctermfg=blue
+highlight GitGutterChange ctermfg=green
+highlight GitGutterDelete ctermfg=red
+
+&#34; 個人化設定
+&#34;
+set t_Co=256
+set cursorline &#34; 顯示游標所在的列
+&#34; hi CursorLine cterm=none ctermbg=DarkMagenta ctermfg=White
+set cursorcolumn &#34; 顯示游標所在的行
+
+&#34; 自動判斷編碼
+set fileencodings=utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
+if has(&#34;multi_byte&#34;)
+
+else
+    echoerr &#34;If +multi_byte is not included, you should compile Vim with big features.&#34;
+endif
+
+set encoding=utf-8
+
+set wrap &#34; 自動換行
+set nu
+
+set history=1000
+</code></pre><h2 id="參考資料">參考資料</h2>
+<p><a href="https://www.itread01.com/content/1526713097.html">Vim樹狀目錄插件NERDTree安裝和使用</a></p>
+<p><a href="https://ithelp.ithome.com.tw/articles/10258222">【Vim 編輯器 配置指南】訂製個人的編輯神器</a></p>
+<p><a href="https://www.thegeekstuff.com/2009/02/make-vim-as-your-bash-ide-using-bash-support-plugin/">Make Vim as Your Bash-IDE Using bash-support Plugin</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,733 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中 </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中 昨天有新增一塊LVM test-lv，今天我們要新增一塊 1GB 硬碟並規劃在 test-lv 裡進行線上擴容。
+情境敘述 新增一開硬碟，並且把空間放置在已經存在的 Logical Volume 中。
+步驟 虛擬機新增硬碟 取得硬碟資訊，確認實際要格式化那一顆硬碟 計劃分割表 新增 physical volume 擴充 Volume Group 進行 LV 擴充 虛擬機新增硬碟 取得硬碟資訊，確認實際要格式化那一顆硬碟 取得目前掛載資訊 $ sudo df -h # 檢查目前的硬碟狀況 Filesystem Size Used Avail Use% Mounted on udev 478M 0 478M 0% /dev tmpfs 99M 3.0M 96M 4% /run /dev/vda1 19G 1.5G 17G 9% / tmpfs 494M 0 494M 0% /dev/shm tmpfs 5.0M 0 5.0M 0% /run/lock tmpfs 494M 0 494M 0% /sys/fs/cgroup /dev/mapper/test--pv--1-test--lv 4." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-09-lvm-新增硬碟到原本的lvm中">我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中</h1>
+<p>昨天有新增一塊LVM <code>test-lv</code>，今天我們要新增一塊 1GB 硬碟並規劃在 <code>test-lv</code> 裡進行線上擴容。</p>
+<h2 id="情境敘述">情境敘述</h2>
+<p>新增一開硬碟，並且把空間放置在已經存在的 Logical Volume 中。</p>
+<h2 id="步驟">步驟</h2>
+<ol>
+<li>虛擬機新增硬碟</li>
+<li>取得硬碟資訊，確認實際要格式化那一顆硬碟</li>
+<li>計劃分割表</li>
+<li>新增 physical volume</li>
+<li>擴充 Volume Group</li>
+<li>進行 LV 擴充</li>
+</ol>
+<h2 id="虛擬機新增硬碟">虛擬機新增硬碟</h2>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220922/20128528Ix8xTSj743.png" alt="https://ithelp.ithome.com.tw/upload/images/20220922/20128528Ix8xTSj743.png"></p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220922/20128528uJfJNolMFH.png" alt="https://ithelp.ithome.com.tw/upload/images/20220922/20128528uJfJNolMFH.png"></p>
+<h2 id="取得硬碟資訊確認實際要格式化那一顆硬碟">取得硬碟資訊，確認實際要格式化那一顆硬碟</h2>
+<ol>
+<li>取得目前掛載資訊</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo df -h <span style="color:#75715e"># 檢查目前的硬碟狀況</span>
+</span></span><span style="display:flex;"><span>Filesystem                        Size  Used Avail Use% Mounted on
+</span></span><span style="display:flex;"><span>udev                              478M     <span style="color:#ae81ff">0</span>  478M   0% /dev
+</span></span><span style="display:flex;"><span>tmpfs                              99M  3.0M   96M   4% /run
+</span></span><span style="display:flex;"><span>/dev/vda1                          19G  1.5G   17G   9% /
+</span></span><span style="display:flex;"><span>tmpfs                             494M     <span style="color:#ae81ff">0</span>  494M   0% /dev/shm
+</span></span><span style="display:flex;"><span>tmpfs                             5.0M     <span style="color:#ae81ff">0</span>  5.0M   0% /run/lock
+</span></span><span style="display:flex;"><span>tmpfs                             494M     <span style="color:#ae81ff">0</span>  494M   0% /sys/fs/cgroup
+</span></span><span style="display:flex;"><span>/dev/mapper/test--pv--1-test--lv  4.9G   24K  4.6G   1% /test-disk
+</span></span><span style="display:flex;"><span>tmpfs                              99M     <span style="color:#ae81ff">0</span>   99M   0% /run/user/1000
+</span></span></code></pre></div><ol start="2">
+<li>列出硬碟所有資訊</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo fdisk -l <span style="color:#75715e"># 列出所有的硬碟狀況</span>
+</span></span><span style="display:flex;"><span>Disk /dev/vda: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Disklabel type: dos
+</span></span><span style="display:flex;"><span>Disk identifier: 0x1d8cb10f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device     Boot    Start      End  Sectors  Size Id Type
+</span></span><span style="display:flex;"><span>/dev/vda1  *        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">39942143</span> <span style="color:#ae81ff">39940096</span>   19G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>/dev/vda2       <span style="color:#ae81ff">39944190</span> <span style="color:#ae81ff">41940991</span>  <span style="color:#ae81ff">1996802</span>  975M  <span style="color:#ae81ff">5</span> Extended
+</span></span><span style="display:flex;"><span>/dev/vda5       <span style="color:#ae81ff">39944192</span> <span style="color:#ae81ff">41940991</span>  <span style="color:#ae81ff">1996800</span>  975M <span style="color:#ae81ff">82</span> Linux swap / Solaris
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/vdb: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Disklabel type: gpt
+</span></span><span style="display:flex;"><span>Disk identifier: A03E9FA4-9352-451B-A944-0D32AAD6D44B
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device     Start      End  Sectors Size Type
+</span></span><span style="display:flex;"><span>/dev/vdb1   <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">10485726</span> <span style="color:#ae81ff">10483679</span>   5G Linux filesystem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/vdc: <span style="color:#ae81ff">1</span> GiB, <span style="color:#ae81ff">1073741824</span> bytes, <span style="color:#ae81ff">2097152</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/test--pv--1-test--lv: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5351931904</span> bytes, <span style="color:#ae81ff">10452992</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span></code></pre></div><p>由 第一項 與 第二項 可以得知這次要處理的硬碟為 <code>/dev/vdc</code>。</p>
+<h2 id="計劃分割表">計劃分割表</h2>
+<p>檢查完之後一樣先規劃分割計畫。</p>
+<ol>
+<li>執行硬碟分割</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo gdisk /dev/vdc
+</span></span></code></pre></div><ul>
+<li>詳細資訊</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo gdisk /dev/vdc
+</span></span><span style="display:flex;"><span>GPT fdisk <span style="color:#f92672">(</span>gdisk<span style="color:#f92672">)</span> version 1.0.3
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Partition table scan:
+</span></span><span style="display:flex;"><span>  MBR: not present
+</span></span><span style="display:flex;"><span>  BSD: not present
+</span></span><span style="display:flex;"><span>  APM: not present
+</span></span><span style="display:flex;"><span>  GPT: not present
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Creating new GPT entries.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Command <span style="color:#f92672">(</span>? <span style="color:#66d9ef">for</span> help<span style="color:#f92672">)</span>: n
+</span></span><span style="display:flex;"><span>Partition number <span style="color:#f92672">(</span>1-128, default 1<span style="color:#f92672">)</span>: 
+</span></span><span style="display:flex;"><span>First sector <span style="color:#f92672">(</span>34-2097118, default <span style="color:#f92672">=</span> 2048<span style="color:#f92672">)</span> or <span style="color:#f92672">{</span>+-<span style="color:#f92672">}</span>size<span style="color:#f92672">{</span>KMGTP<span style="color:#f92672">}</span>: 
+</span></span><span style="display:flex;"><span>Last sector <span style="color:#f92672">(</span>2048-2097118, default <span style="color:#f92672">=</span> 2097118<span style="color:#f92672">)</span> or <span style="color:#f92672">{</span>+-<span style="color:#f92672">}</span>size<span style="color:#f92672">{</span>KMGTP<span style="color:#f92672">}</span>: 
+</span></span><span style="display:flex;"><span>Current type is <span style="color:#e6db74">&#39;Linux filesystem&#39;</span>
+</span></span><span style="display:flex;"><span>Hex code or GUID <span style="color:#f92672">(</span>L to show codes, Enter <span style="color:#f92672">=</span> 8300<span style="color:#f92672">)</span>: 
+</span></span><span style="display:flex;"><span>Changed type of partition to <span style="color:#e6db74">&#39;Linux filesystem&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Command <span style="color:#f92672">(</span>? <span style="color:#66d9ef">for</span> help<span style="color:#f92672">)</span>: w
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+</span></span><span style="display:flex;"><span>PARTITIONS!!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Do you want to proceed? <span style="color:#f92672">(</span>Y/N<span style="color:#f92672">)</span>: y
+</span></span><span style="display:flex;"><span>OK; writing new GUID partition table <span style="color:#f92672">(</span>GPT<span style="color:#f92672">)</span> to /dev/vdc.
+</span></span><span style="display:flex;"><span>The operation has completed successfully.
+</span></span></code></pre></div><ol start="2">
+<li>檢查硬碟資訊</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo fdisk -l <span style="color:#75715e"># 列出所有的硬碟狀況</span>
+</span></span><span style="display:flex;"><span>Disk /dev/vda: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Disklabel type: dos
+</span></span><span style="display:flex;"><span>Disk identifier: 0x1d8cb10f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device     Boot    Start      End  Sectors  Size Id Type
+</span></span><span style="display:flex;"><span>/dev/vda1  *        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">39942143</span> <span style="color:#ae81ff">39940096</span>   19G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>/dev/vda2       <span style="color:#ae81ff">39944190</span> <span style="color:#ae81ff">41940991</span>  <span style="color:#ae81ff">1996802</span>  975M  <span style="color:#ae81ff">5</span> Extended
+</span></span><span style="display:flex;"><span>/dev/vda5       <span style="color:#ae81ff">39944192</span> <span style="color:#ae81ff">41940991</span>  <span style="color:#ae81ff">1996800</span>  975M <span style="color:#ae81ff">82</span> Linux swap / Solaris
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/vdb: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Disklabel type: gpt
+</span></span><span style="display:flex;"><span>Disk identifier: A03E9FA4-9352-451B-A944-0D32AAD6D44B
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device     Start      End  Sectors Size Type
+</span></span><span style="display:flex;"><span>/dev/vdb1   <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">10485726</span> <span style="color:#ae81ff">10483679</span>   5G Linux filesystem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/vdc: <span style="color:#ae81ff">1</span> GiB, <span style="color:#ae81ff">1073741824</span> bytes, <span style="color:#ae81ff">2097152</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Disklabel type: gpt
+</span></span><span style="display:flex;"><span>Disk identifier: 5A7BACE7-A982-45A4-A577-D4039E0A605D
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device     Start     End Sectors  Size Type
+</span></span><span style="display:flex;"><span>/dev/vdc1   <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">2097118</span> <span style="color:#ae81ff">2095071</span> 1023M Linux filesystem
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/test--pv--1-test--lv: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5351931904</span> bytes, <span style="color:#ae81ff">10452992</span> sectors
+</span></span><span style="display:flex;"><span>Units: sectors of <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span><span style="display:flex;"><span>I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+</span></span></code></pre></div><p>規劃完之後發現 <code>/dev/vdc1</code> 就是剛剛切出來的新鮮硬碟啦！</p>
+<h2 id="新增-physical-volume">新增 physical volume</h2>
+<p>再來是新增一塊 physical volume</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pvcreate /dev/vdc1
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo pvcreate /dev/vdc1
+</span></span><span style="display:flex;"><span>  Physical volume <span style="color:#e6db74">&#34;/dev/vdc1&#34;</span> successfully created.
+</span></span></code></pre></div><h2 id="擴充-volume-group">擴充 Volume Group</h2>
+<p>把新增的 physical volume 加入至昨天新增的 Volume Group <code>test-pv-1</code> 中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo vgextend test-pv-1 /dev/vdc1
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo  vgextend test-pv-1 /dev/vdc1
+</span></span><span style="display:flex;"><span>  Volume group <span style="color:#e6db74">&#34;test-pv-1&#34;</span> successfully extended
+</span></span></code></pre></div><p>如果依開始不清楚要加入到那一塊 physical volume 可以先查詢</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo lvdisplay
+</span></span><span style="display:flex;"><span>  --- Logical volume ---
+</span></span><span style="display:flex;"><span>  LV Path                /dev/test-pv-1/test-lv
+</span></span><span style="display:flex;"><span>  LV Name                test-lv
+</span></span><span style="display:flex;"><span>  VG Name                test-pv-1 <span style="color:#75715e"># 這邊可以得知要擴充的 physical volume</span>
+</span></span><span style="display:flex;"><span>... 內容省略
+</span></span></code></pre></div><h2 id="進行-lv-擴充">進行 LV 擴充</h2>
+<ol>
+<li>檢查要擴充的 LV Path</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo lvdisplay
+</span></span><span style="display:flex;"><span>  --- Logical volume ---
+</span></span><span style="display:flex;"><span>  LV Path                /dev/test-pv-1/test-lv
+</span></span><span style="display:flex;"><span>  LV Name                test-lv
+</span></span><span style="display:flex;"><span>  VG Name                test-pv-1
+</span></span><span style="display:flex;"><span>  LV UUID                T0V5dm-tnLT-EpyZ-LnWM-FSfL-u2r1-xzZ2cs
+</span></span><span style="display:flex;"><span>  LV Write Access        read/write
+</span></span><span style="display:flex;"><span>  LV Creation host, time pollochangVM, 2022-09-20 23:37:16 +0800
+</span></span><span style="display:flex;"><span>  LV Status              available
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># open                 1</span>
+</span></span><span style="display:flex;"><span>  LV Size                4.98 GiB
+</span></span><span style="display:flex;"><span>  Current LE             <span style="color:#ae81ff">319</span>
+</span></span><span style="display:flex;"><span>  Segments               <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  Allocation             inherit
+</span></span><span style="display:flex;"><span>  Read ahead sectors     auto
+</span></span><span style="display:flex;"><span>  - currently set to     <span style="color:#ae81ff">256</span>
+</span></span><span style="display:flex;"><span>  Block device           253:0
+</span></span></code></pre></div><ol start="2">
+<li>執行</li>
+</ol>
+<p>在這邊我把新增硬碟空間位置通通加進去。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo lvextend -l+100%FREE /dev/test-pv-1/test-lv
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo lvextend -l+100%FREE /dev/test-pv-1/test-lv
+</span></span><span style="display:flex;"><span>  Size of logical volume test-pv-1/test-lv changed from 4.98 GiB <span style="color:#f92672">(</span><span style="color:#ae81ff">319</span> extents<span style="color:#f92672">)</span> to &lt;5.97 GiB <span style="color:#f92672">(</span><span style="color:#ae81ff">382</span> extents<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>  Logical volume test-pv-1/test-lv successfully resized.
+</span></span></code></pre></div><ol start="3">
+<li>調整檔案系統大小</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo resize2fs -p /dev/test-pv-1/test-lv
+</span></span></code></pre></div><p>如果磁碟格式是 xfs 需要用 <code>xfs_growfs</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo xfs_growfs /dev/test-pv-1/test-lv
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo resize2fs -p /dev/test-pv-1/test-lv
+</span></span><span style="display:flex;"><span>resize2fs 1.44.5 <span style="color:#f92672">(</span>15-Dec-2018<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Filesystem at /dev/test-pv-1/test-lv is mounted on /test-disk; on-line resizing required
+</span></span><span style="display:flex;"><span>old_desc_blocks <span style="color:#f92672">=</span> 1, new_desc_blocks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>The filesystem on /dev/test-pv-1/test-lv is now <span style="color:#ae81ff">1564672</span> <span style="color:#f92672">(</span>4k<span style="color:#f92672">)</span> blocks long.
+</span></span></code></pre></div><ol start="4">
+<li>檢查</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo df -h <span style="color:#75715e"># 檢查目前的硬碟狀況</span>
+</span></span><span style="display:flex;"><span>Filesystem                        Size  Used Avail Use% Mounted on
+</span></span><span style="display:flex;"><span>/dev/mapper/test--pv--1-test--lv  5.8G   24K  5.5G   1% /test-disk
+</span></span></code></pre></div><p>可以比對一開始的結果發現容量有增加 1GB。</p>
+<p>如果文章內容有錯，請不吝色請教 m)(.__.)(m)Thank you.</p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

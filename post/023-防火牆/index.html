@@ -1,0 +1,698 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 23.防火牆-firewalld </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 23.防火牆-firewalld firewalld 今天來跟大家介紹防火牆。在日常生活中還是得設定防火牆確保陌生人不會隨意進入自己的主機中。在Debian 為底的系統中主要是以 ufw(簡易防火牆) 為主，但是在網站系統中我比較會以 firewalld 為主，畢竟在伺服器里都會有一個或是兩個以上的網段、網卡要管理。今天就介紹比較常用的設定方式。
+另外在 debian 10 有安裝 KVM 或是 ubuntu 20.04 LTS 有安裝 docker 就不建議使用 firewalld ，因為當前版本會導致KVM 網路 或是 docker 網路異常。此問題在下一個發行版才有獲得解決。
+zone-區域簡介 firewalld 的概念事先將網卡劃分區塊(zone)，每張網卡就好比是家裡的每一扇門，而區域就是主臥、客廳、室外。我舉幾個比較常用的區域：
+public 顧名思義就是公眾區域，好比家裡的大門是通往外面的世界，逼安只會允許公開的服務接口通過，如：22
+trusted 就像是自己房間區域一樣，可以允許所有的連線連接主機裡面的服務。
+libvirt libvirt 是比校特殊的區域，主要是處理 KVM 的網路介面。而且只有 KVM 的網路介面可以到此區域，同時KVM 網路介面也無法加入到其他區域。原因可能是是過度階段，未來版本可能就沒有了。
+安裝防火牆 Debian Debian 如果要使用firewalld 建議先將預設的防火牆移除在安裝 firewalld
+apt remove ufw apt install firewalld CentOS7 yum install firewalld 查詢版本 firewall-cmd --version 新增網卡至特定區域 先查詢網卡 ip addr 設定網卡 sudo firewall-cmd --permanent --zone=trusted --change-interface=eth0 檢視防火牆規則 firewall-cmd --list-all 查詢那協正在運作的 zone firewall-cmd --get-active-zones 重新讀取設定 firewall-cmd --reload 下列範例我都會加 --permanent 永久設置選項，加了此選項必須重新讀取才會生效。如果不加永久選項，執行設定之後就會立刻生效，但是重新開機會是重新啟動 firewalld 就會回到設定前的狀態。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 23.防火牆-firewalld</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-23防火牆-firewalld">我的Linux生活日記 23.防火牆-firewalld</h1>
+<h2 id="firewalld">firewalld</h2>
+<p>今天來跟大家介紹防火牆。在日常生活中還是得設定防火牆確保陌生人不會隨意進入自己的主機中。在Debian 為底的系統中主要是以 ufw(簡易防火牆) 為主，但是在網站系統中我比較會以 <a href="https://firewalld.org/">firewalld</a> 為主，畢竟在伺服器里都會有一個或是兩個以上的網段、網卡要管理。今天就介紹比較常用的設定方式。</p>
+<p>另外在 debian 10 有安裝 KVM 或是 ubuntu 20.04 LTS 有安裝 docker 就不建議使用 firewalld ，因為當前版本會導致KVM 網路 或是 docker 網路異常。此問題在下一個發行版才有獲得解決。</p>
+<h3 id="zone-區域簡介">zone-區域簡介</h3>
+<p>firewalld 的概念事先將網卡劃分區塊(zone)，每張網卡就好比是家裡的每一扇門，而區域就是主臥、客廳、室外。我舉幾個比較常用的區域：</p>
+<ul>
+<li>public</li>
+</ul>
+<p>顧名思義就是公眾區域，好比家裡的大門是通往外面的世界，逼安只會允許公開的服務接口通過，如：22</p>
+<ul>
+<li>trusted</li>
+</ul>
+<p>就像是自己房間區域一樣，可以允許所有的連線連接主機裡面的服務。</p>
+<ul>
+<li>libvirt</li>
+</ul>
+<p>libvirt 是比校特殊的區域，主要是處理 KVM 的網路介面。而且只有 KVM 的網路介面可以到此區域，同時KVM 網路介面也無法加入到其他區域。原因可能是是<code>過度</code>階段，未來版本可能就沒有了。</p>
+<h3 id="安裝防火牆">安裝防火牆</h3>
+<ul>
+<li>Debian</li>
+</ul>
+<p>Debian 如果要使用firewalld 建議先將預設的防火牆移除在安裝 firewalld</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove ufw
+</span></span><span style="display:flex;"><span>apt install firewalld
+</span></span></code></pre></div><ul>
+<li>CentOS7</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install firewalld
+</span></span></code></pre></div><h3 id="查詢版本">查詢版本</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --version
+</span></span></code></pre></div><h3 id="新增網卡至特定區域">新增網卡至特定區域</h3>
+<ol>
+<li>先查詢網卡</li>
+</ol>
+<pre tabindex="0"><code>ip addr
+</code></pre><ol start="2">
+<li>設定網卡</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>trusted --change-interface<span style="color:#f92672">=</span>eth0
+</span></span></code></pre></div><h3 id="檢視防火牆規則">檢視防火牆規則</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --list-all
+</span></span></code></pre></div><h3 id="查詢那協正在運作的-zone">查詢那協正在運作的 zone</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --get-active-zones
+</span></span></code></pre></div><h3 id="重新讀取設定">重新讀取設定</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --reload
+</span></span></code></pre></div><p>下列範例我都會加 <code>--permanent</code> 永久設置選項，加了此選項必須重新讀取才會生效。如果不加永久選項，執行設定之後就會立刻生效，但是重新開機會是重新啟動 firewalld 就會回到設定前的狀態。</p>
+<h3 id="新增刪除-服務">新增/刪除 服務</h3>
+<p>採用服務規則時要記住實際上只會開預設的port，例如<code>http</code> 預設是走 <code>80</code> ，如果網頁伺服器實際上是走 <code>10010</code> 一樣會被擋下來唷！</p>
+<p>常見的連接埠可以參考linux 這份文件 <code>/etc/services</code></p>
+<p>當然更多資訊可以從這裡得知 <a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml">Service Name and Transport Protocol Port Number Registry</a></p>
+<ul>
+<li>新增</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --add-service<span style="color:#f92672">=</span>http
+</span></span></code></pre></div><ul>
+<li>移除</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --remove-service<span style="color:#f92672">=</span>http
+</span></span></code></pre></div><h3 id="新增刪除-port">新增/刪除 port</h3>
+<ul>
+<li>新增</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>4848/tcp
+</span></span></code></pre></div><ul>
+<li>移除</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --remove-port<span style="color:#f92672">=</span>4848/tcp
+</span></span></code></pre></div><h3 id="允許特定網段ip-通過">允許特定網段、IP 通過</h3>
+<p>這部份我是直接用 <code>rich-rule</code> 處理，因為我就是不想多記一點指令。</p>
+<ul>
+<li>新增</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.1&#34; accept&#39;</span>
+</span></span><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.0/24&#34; accept&#39;</span>
+</span></span></code></pre></div><ul>
+<li>移除</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --remove-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.1&#34; accept&#39;</span>
+</span></span><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --remove-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.0/24&#34; accept&#39;</span>
+</span></span></code></pre></div><h3 id="允許特定網段ip-通過-指定-port">允許特定網段、IP 通過 指定 port</h3>
+<ul>
+<li>新增</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.1&#34; port protocol=&#34;tcp&#34; port=&#34;33899&#34; accept&#39;</span>
+</span></span><span style="display:flex;"><span>firewall-cmd --permanent --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.0/24&#34; port protocol=&#34;tcp&#34; port=&#34;33899&#34; accept&#39;</span>
+</span></span></code></pre></div><ul>
+<li>移除</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --remove-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.1&#34; port protocol=&#34;tcp&#34; port=&#34;33899&#34; accept&#39;</span>
+</span></span><span style="display:flex;"><span>firewall-cmd --permanent --remove-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.0/24&#34; port protocol=&#34;tcp&#34; port=&#34;33899&#34; accept&#39;</span>
+</span></span></code></pre></div><h2 id="iptables">iptables</h2>
+<p>有項需求是這樣的：有一台虛擬機有安裝資料庫 MySQL，在資安規劃上只允許系統 網頁伺服器 及 控制主機 向 資料庫服務 連接，而且禁止該虛擬機連到其他設備。</p>
+<p>上述需求要怎麼完成呢？如果是昨天說到的防火牆 firewalld 是可以做到的，但是在維護上會很困難，因為 firewalld的主要原則是網路流向從外進入主機嚴謹，從主機內部到外部網路環境寬鬆，而上述需求剛剛好跟 firewalld 衝突。不同的需求有不同合適工具可以達成，今天就用 <code>iptables</code> 完成這項需求。</p>
+<h3 id="需求分析">需求分析</h3>
+<p>設定之前必須先規劃防火牆，但是規劃之前做重要的事釐清網路環境。首先必須先知道該虛擬機的網卡IP。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ip addr
+</span></span><span style="display:flex;"><span>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">65536</span> qdisc noqueue state UNKNOWN group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span style="display:flex;"><span>    inet 127.0.0.1/8 scope host lo
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>3: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc mq state UP group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether 7c:2a:31:fa:6b:7b brd ff:ff:ff:ff:ff:ff
+</span></span><span style="display:flex;"><span>    inet 192.168.1.11/24 brd 192.168.1.255 scope global dynamic noprefixroute wlp1s0
+</span></span><span style="display:flex;"><span>       valid_lft 85410sec preferred_lft 85410sec
+</span></span><span style="display:flex;"><span>    inet6 2404:0:8038:d3bf:1182:9247:af40:4002/64 scope global dynamic noprefixroute 
+</span></span><span style="display:flex;"><span>       valid_lft 297sec preferred_lft 117sec
+</span></span><span style="display:flex;"><span>    inet6 fe80::3c62:bfc7:cd45:4644/64 scope link noprefixroute 
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span></code></pre></div><p>然後連線的 網頁伺服器主機IP 有：192.168.56.3、192.168.56.4。控制台主機IP是：192.168.56.90。</p>
+<p>另外這台主機操作方式主要是透過 ssh 遠端操控的，所以有一項隱性需求：必須保持 SSH 連線暢通。</p>
+<p>還有很重要一項，必須讓其他主機 ping 的到該虛擬機，因為該網路是公共空間，有不同人共同管理。</p>
+<p>所以這次範例的防火牆規劃是這樣的：</p>
+<ol>
+<li>允許 port 3306 對 192.168.56.3、192.168.56.4 開放。</li>
+<li>允許 port ssh 對 192.168.56.90 開放。</li>
+<li>允許 ping。</li>
+<li>其餘連線一律丟棄。</li>
+<li>對外連線一律不通。</li>
+</ol>
+<h3 id="實做">實做</h3>
+<p>iptables 設定一有一個原則：開放最小的優先設定，越大越後設定。</p>
+<ol>
+<li>清空 iptables 規則</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -F
+</span></span><span style="display:flex;"><span>iptables -X
+</span></span><span style="display:flex;"><span>iptables -Z
+</span></span></code></pre></div><ol start="2">
+<li>INPUT: 新增 lo 網卡</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I INPUT <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> -i lo -j ACCEPT
+</span></span></code></pre></div><ol start="3">
+<li>INPUT: 允許 port 3306 對 192.168.56.3、192.168.56.4 開放</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I INPUT <span style="color:#ae81ff">2</span> -i eth0 -s 192.168.56.3/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">3306</span> -j ACCEPT
+</span></span><span style="display:flex;"><span>iptables -I INPUT <span style="color:#ae81ff">3</span> -i eth0 -s 192.168.56.4/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">3306</span> -j ACCEPT
+</span></span></code></pre></div><ol start="4">
+<li>INPUT: 允許 port ssh 對 192.168.56.90 開放。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I INPUT <span style="color:#ae81ff">4</span> -i eth0 -s 192.168.56.90/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">22</span> -j ACCEPT
+</span></span></code></pre></div><ol start="5">
+<li>INPUT: icmp</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -A INPUT -i eth0 -s 0.0.0.0/32 -p icmp --icmp-type <span style="color:#ae81ff">8</span> -j ACCEPT
+</span></span></code></pre></div><ol start="6">
+<li>INPUT: 其餘連線一律丟棄。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -A INPUT -i eth0 -s 0.0.0.0/0 -j DROP
+</span></span></code></pre></div><ol start="7">
+<li>OUTPUT: 允許 port 3306 對 192.168.56.3、192.168.56.4 開放</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I OUTPUT <span style="color:#ae81ff">1</span> -i eth0 -s 192.168.56.3/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">3306</span> -j ACCEPT
+</span></span><span style="display:flex;"><span>iptables -I OUTPUT <span style="color:#ae81ff">2</span> -i eth0 -s 192.168.56.4/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">3306</span> -j ACCEP
+</span></span></code></pre></div><ol start="8">
+<li>OUTPUT: 允許 port ssh 對 192.168.56.90 開放。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I OUTPUT <span style="color:#ae81ff">3</span> -i eth0 -s 192.168.56.90/32 -p tcp -m multiport --destination-port <span style="color:#ae81ff">22</span> -j ACCEPT
+</span></span></code></pre></div><ol start="9">
+<li>OUTPUT: icmp</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I OUTPUT <span style="color:#ae81ff">4</span> -i eth0 -s 0.0.0.0/32 -p icmp --icmp-type <span style="color:#ae81ff">8</span> -j ACCEPT
+</span></span></code></pre></div><ol start="10">
+<li>OUTPUT: 對外連線一律不通。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -A OUTPUT -i eth0 -s 0.0.0.0/0 -j DROP
+</span></span><span style="display:flex;"><span>iptables -A OUTPUT -s x.x.x.x/32 -j DROP
+</span></span><span style="display:flex;"><span>service iptables save
+</span></span></code></pre></div><ol start="11">
+<li>儲存連線</li>
+</ol>
+<ul>
+<li>CentOS6</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service iptables save
+</span></span></code></pre></div><ul>
+<li>CentOS7</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables-save &gt; /etc/sysconfig/iptables
+</span></span></code></pre></div><p>設定防火牆有一點必須注意，要竭盡可能離主機近一點，因為總有手臭、恍神的時候，把自己擋在防火牆外。這時候 螢幕、鍵盤、滑鼠 或是 console 就重要了。</p>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-sg-zh_tw-4/ch-ports.html">Red Hat Enterprise Linux 4: 安全性設定手冊 附錄 C. 常見的連接埠</a></p>
+<p><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1468914">Libvirt managed bridge won&rsquo;t use firewalld zone after reboot</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

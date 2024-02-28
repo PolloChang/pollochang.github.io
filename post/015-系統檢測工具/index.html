@@ -1,0 +1,683 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 15.系統檢測工具 </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 15.系統檢測工具 今天我整理一下之前自己在Linux 家用或工作主機上檢視統硬體的方法。
+CPU lscpu lscpu可以取得CPU的架構(x86, x86_64&hellip;等等)、核心數量、執行緒數量、頻率(從不同核心的運行頻率中挑選最大的來顯示)和快取大小。使用方法很簡單，直接在終端機輸入以下指令即可
+lscpu 執行結果 &gt; $ lscpu Architecture: x86_64 CPU op-mode(s): 32-bit, 64-bit Byte Order: Little Endian Address sizes: 39 bits physical, 48 bits virtual CPU(s): 4 On-line CPU(s) list: 0-3 Thread(s) per core: 2 Core(s) per socket: 2 Socket(s): 1 NUMA node(s): 1 Vendor ID: GenuineIntel CPU family: 6 Model: 78 Model name: Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz Stepping: 3 CPU MHz: 2884." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 15.系統檢測工具</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-15系統檢測工具">我的Linux生活日記 15.系統檢測工具</h1>
+<p>今天我整理一下之前自己在Linux 家用或工作主機上檢視統硬體的方法。</p>
+<h2 id="cpu">CPU</h2>
+<h3 id="lscpu">lscpu</h3>
+<p>lscpu可以取得CPU的架構(x86, x86_64&hellip;等等)、核心數量、執行緒數量、頻率(從不同核心的運行頻率中挑選最大的來顯示)和快取大小。使用方法很簡單，直接在終端機輸入以下指令即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lscpu
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; $ lscpu
+</span></span><span style="display:flex;"><span>Architecture:        x86_64
+</span></span><span style="display:flex;"><span>CPU op-mode<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:      32-bit, 64-bit
+</span></span><span style="display:flex;"><span>Byte Order:          Little Endian
+</span></span><span style="display:flex;"><span>Address sizes:       <span style="color:#ae81ff">39</span> bits physical, <span style="color:#ae81ff">48</span> bits virtual
+</span></span><span style="display:flex;"><span>CPU<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:              <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>On-line CPU<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> list: 0-3
+</span></span><span style="display:flex;"><span>Thread<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> per core:  <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>Core<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> per socket:  <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>Socket<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:           <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>NUMA node<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:        <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Vendor ID:           GenuineIntel
+</span></span><span style="display:flex;"><span>CPU family:          <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>Model:               <span style="color:#ae81ff">78</span>
+</span></span><span style="display:flex;"><span>Model name:          Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-6300U CPU @ 2.40GHz
+</span></span><span style="display:flex;"><span>Stepping:            <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>CPU MHz:             2884.014
+</span></span><span style="display:flex;"><span>CPU max MHz:         3000.0000
+</span></span><span style="display:flex;"><span>CPU min MHz:         400.0000
+</span></span><span style="display:flex;"><span>BogoMIPS:            4992.00
+</span></span><span style="display:flex;"><span>Virtualization:      VT-x
+</span></span><span style="display:flex;"><span>L1d cache:           32K
+</span></span><span style="display:flex;"><span>L1i cache:           32K
+</span></span><span style="display:flex;"><span>L2 cache:            256K
+</span></span><span style="display:flex;"><span>L3 cache:            3072K
+</span></span><span style="display:flex;"><span>NUMA node0 CPU<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:   0-3
+</span></span><span style="display:flex;"><span>Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d arch_capabilities
+</span></span></code></pre></div><h3 id="cpuinfo">cpuinfo</h3>
+<p>Linux系統會將部分CPU的資訊即時地存在於記憶體中，對應的檔案路徑在「/proc/cpuinfo」，可以使用以下指令來查看這個檔案路徑所儲存的內容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/cpuinfo
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<p>我這邊就不放了，因為他會把每一顆核心詳細資訊列出。</p>
+<h4 id="查看cpu的運行頻率">查看CPU的運行頻率</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/cpuinfo | grep MHz
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat /proc/cpuinfo | grep MHz
+</span></span><span style="display:flex;"><span>cpu MHz         : 2100.008
+</span></span><span style="display:flex;"><span>cpu MHz         : 2098.189
+</span></span><span style="display:flex;"><span>cpu MHz         : 2100.010
+</span></span><span style="display:flex;"><span>cpu MHz         : 2099.967
+</span></span></code></pre></div><h4 id="如果想要每秒自動取得目前的cpu頻率">如果想要每秒自動取得目前的CPU頻率</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>watch -n <span style="color:#ae81ff">1</span> <span style="color:#e6db74">&#34;cat /proc/cpuinfo | grep MHz&#34;</span>
+</span></span></code></pre></div><h3 id="sensors">sensors</h3>
+<h4 id="安裝">安裝</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install lm-sensors
+</span></span></code></pre></div><h3 id="設定">設定</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yes | sudo sensors-detect
+</span></span></code></pre></div><h4 id="查看cpu的溫度">查看CPU的溫度</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>watch -n <span style="color:#ae81ff">1</span> <span style="color:#e6db74">&#34;sensors&#34;</span>  
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iwlwifi_1-virtual-0
+</span></span><span style="display:flex;"><span>Adapter: Virtual device
+</span></span><span style="display:flex;"><span>temp1:        +35.0°C  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dell_smm-virtual-0
+</span></span><span style="display:flex;"><span>Adapter: Virtual device
+</span></span><span style="display:flex;"><span>fan1:        <span style="color:#ae81ff">3504</span> RPM
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>acpitz-acpi-0
+</span></span><span style="display:flex;"><span>Adapter: ACPI interface
+</span></span><span style="display:flex;"><span>temp1:        +25.0°C  <span style="color:#f92672">(</span>crit <span style="color:#f92672">=</span> +107.0°C<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>coretemp-isa-0000
+</span></span><span style="display:flex;"><span>Adapter: ISA adapter
+</span></span><span style="display:flex;"><span>Package id 0:  +48.0°C  <span style="color:#f92672">(</span>high <span style="color:#f92672">=</span> +100.0°C, crit <span style="color:#f92672">=</span> +100.0°C<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Core 0:        +47.0°C  <span style="color:#f92672">(</span>high <span style="color:#f92672">=</span> +100.0°C, crit <span style="color:#f92672">=</span> +100.0°C<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Core 1:        +46.0°C  <span style="color:#f92672">(</span>high <span style="color:#f92672">=</span> +100.0°C, crit <span style="color:#f92672">=</span> +100.0°C<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pch_skylake-virtual-0
+</span></span><span style="display:flex;"><span>Adapter: Virtual device
+</span></span><span style="display:flex;"><span>temp1:        +46.0°C  
+</span></span></code></pre></div><h2 id="硬碟健康檢測">硬碟健康檢測</h2>
+<p>自從我工作的電腦 nvme SSD 硬碟無預警壞掉之後，我就在想有什麽工具可以知道SSD健康度，後來我找到這兩款：<code>smartmontools</code> <code>nvme-cli</code></p>
+<h3 id="smartmontools">smartmontools</h3>
+<p><code>smartmontools</code>可以檢測 SATA 介面， nvme 介面無法</p>
+<h4 id="安裝-1">安裝</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install smartmontools
+</span></span></code></pre></div><h4 id="使用方式">使用方式</h4>
+<ul>
+<li>支援畫面</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo smartctl -i /dev/sdb | grep <span style="color:#e6db74">&#34;SMART support is&#34;</span>
+</span></span><span style="display:flex;"><span>SMART support is: Available - device has SMART capability.
+</span></span><span style="display:flex;"><span>SMART support is: Enabled
+</span></span></code></pre></div><ul>
+<li>不支援畫面</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo smartctl -i /dev/nvme0n1
+</span></span><span style="display:flex;"><span>smartctl 7.2 2020-12-30 r5155 <span style="color:#f92672">[</span>x86_64-linux-5.10.0-13-amd64<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>local build<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span> 2002-20, Bruce Allen, Christian Franke, www.smartmontools.org
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> START OF INFORMATION SECTION <span style="color:#f92672">===</span>
+</span></span><span style="display:flex;"><span>Model Number:                       XPG GAMMIX S50 Lite
+</span></span><span style="display:flex;"><span>Serial Number:                      2K462LQJ9JR7
+</span></span><span style="display:flex;"><span>Firmware Version:                   82A7T9PA
+</span></span><span style="display:flex;"><span>PCI Vendor/Subsystem ID:            0x1cc1
+</span></span><span style="display:flex;"><span>IEEE OUI Identifier:                0x486834
+</span></span><span style="display:flex;"><span>Controller ID:                      <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>NVMe Version:                       1.4
+</span></span><span style="display:flex;"><span>Number of Namespaces:               <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Namespace <span style="color:#ae81ff">1</span> Size/Capacity:          1,024,209,543,168 <span style="color:#f92672">[</span>1.02 TB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Namespace <span style="color:#ae81ff">1</span> Utilization:            67,701,051,392 <span style="color:#f92672">[</span>67.7 GB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Namespace <span style="color:#ae81ff">1</span> Formatted LBA Size:     <span style="color:#ae81ff">512</span>
+</span></span><span style="display:flex;"><span>Local Time is:                      Mon Apr <span style="color:#ae81ff">11</span> 09:42:11 <span style="color:#ae81ff">2022</span> CST
+</span></span></code></pre></div><h3 id="nvme-cli">nvme-cli</h3>
+<p><code>nvme-cli</code> 只能支援 nvme 介面</p>
+<h4 id="安裝-2">安裝</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install nvme-cli
+</span></span></code></pre></div><h4 id="檢視-nvme-介面列表">檢視 nvme 介面列表</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nvme list
+</span></span><span style="display:flex;"><span>Node             SN                   Model                                    Namespace Usage                      Format           FW Rev  
+</span></span><span style="display:flex;"><span>---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+</span></span><span style="display:flex;"><span>/dev/nvme0n1     202628D66F33         CT500P1SSD8                              <span style="color:#ae81ff">1</span>         500.11  GB / 500.11  GB    <span style="color:#ae81ff">512</span>   B +  <span style="color:#ae81ff">0</span> B   P3CR021 
+</span></span></code></pre></div><h4 id="檢視nvme硬碟詳細資訊">檢視nvme硬碟詳細資訊</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo watch -n <span style="color:#ae81ff">1</span> nvme smart-log /dev/nvme0n1 <span style="color:#75715e"># 動態檢視</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nvme smart-log /dev/nvme0n1
+</span></span><span style="display:flex;"><span>Smart Log <span style="color:#66d9ef">for</span> NVME device:nvme0n1 namespace-id:ffffffff
+</span></span><span style="display:flex;"><span>critical_warning                    : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>temperature                         : <span style="color:#ae81ff">33</span> C
+</span></span><span style="display:flex;"><span>available_spare                     : 100%
+</span></span><span style="display:flex;"><span>available_spare_threshold           : 5%
+</span></span><span style="display:flex;"><span>percentage_used                     : 1%
+</span></span><span style="display:flex;"><span>data_units_read                     : 4,457,364
+</span></span><span style="display:flex;"><span>data_units_written                  : 6,119,233
+</span></span><span style="display:flex;"><span>host_read_commands                  : 65,279,454
+</span></span><span style="display:flex;"><span>host_write_commands                 : 101,740,695
+</span></span><span style="display:flex;"><span>controller_busy_time                : 2,024
+</span></span><span style="display:flex;"><span>power_cycles                        : <span style="color:#ae81ff">880</span>
+</span></span><span style="display:flex;"><span>power_on_hours                      : 2,525
+</span></span><span style="display:flex;"><span>unsafe_shutdowns                    : <span style="color:#ae81ff">160</span>
+</span></span><span style="display:flex;"><span>media_errors                        : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>num_err_log_entries                 : <span style="color:#ae81ff">264</span>
+</span></span><span style="display:flex;"><span>Warning Temperature Time            : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Critical Composite Temperature Time : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Temperature Sensor <span style="color:#ae81ff">1</span>                : <span style="color:#ae81ff">33</span> C
+</span></span><span style="display:flex;"><span>Thermal Management T1 Trans Count   : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Thermal Management T2 Trans Count   : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Thermal Management T1 Total Time    : <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Thermal Management T2 Total Time    : <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h2 id="其他">其他</h2>
+<h3 id="檢查usb-等設備">檢查USB 等設備</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>udevadm monitor
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3434.892293<span style="color:#f92672">]</span> add      /devices/pci0000:00/0000:00:14.0/usb1/1-1 <span style="color:#f92672">(</span>usb<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3434.893220<span style="color:#f92672">]</span> add      /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.0 <span style="color:#f92672">(</span>usb<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3434.893454<span style="color:#f92672">]</span> bind     /devices/pci0000:00/0000:00:14.0/usb1/1-1 <span style="color:#f92672">(</span>usb<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>UDEV  <span style="color:#f92672">[</span>3434.935105<span style="color:#f92672">]</span> add      /devices/pci0000:00/0000:00:14.0/usb1/1-1 <span style="color:#f92672">(</span>usb<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3435.021095<span style="color:#f92672">]</span> add      /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.0/host2 <span style="color:#f92672">(</span>scsi<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3435.022326<span style="color:#f92672">]</span> add      /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.0/host2/scsi_host/host2 <span style="color:#f92672">(</span>scsi_host<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">[</span>3435.022768<span style="color:#f92672">]</span> bind     /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.0 <span style="color:#f92672">(</span>usb<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h3 id="檢查-scsi-總線上有哪些串流設備">檢查 SCSI 總線上有哪些串流設備</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo lsscsi
+</span></span></code></pre></div><ul>
+<li>執行結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>2:0:0:0<span style="color:#f92672">]</span>    disk    General  UDisk            5.00  /dev/sda 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>N:0:0:1<span style="color:#f92672">]</span>    disk    CT500P1SSD8__1                  /dev/nvme0n1
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<p><a href="https://www.w3help.cc/a/202109/921495.html">Ubuntu監測nvme ssd溫度及健康狀況</a></p>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>

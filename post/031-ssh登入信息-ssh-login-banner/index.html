@@ -1,0 +1,628 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的Linux生活日記 31.ssh登入信息-ssh login banner </title>
+    
+    
+    <meta content="linux, 我的Linux生活日記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 31.ssh登入信息-ssh login banner 範本 /etc/profile.d/ssh-login-info.sh #!/bin/sh # # @Time : 2023-09-14 # @Author : PolloChang # @Desc : ssh login banner export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;&amp; : || return 0 # os upSeconds=&#34;$(cut -d. -f1 /proc/uptime)&#34; secs=$((${upSeconds}%60)) mins=$((${upSeconds}/60%60)) hours=$((${upSeconds}/3600%24)) days=$((${upSeconds}/86400)) UPTIME_INFO=$(printf &#34;%d days, %02dh %02dm %02ds&#34; &#34;$days&#34; &#34;$hours&#34; &#34;$mins&#34; &#34;$secs&#34;) if [ -f /etc/oracle-release ] ; then PRETTY_NAME=$(&lt; /etc/oracle-release) elif [ -f /etc/oracle-release ] ; then PRETTY_NAME=$(&lt; /etc/redhat-release) elif [ -f /etc/debian_version ]; then DIST_VER=$(&lt;/etc/debian_version) PRETTY_NAME=&#34;$(grep PRETTY_NAME /etc/os-release | sed -e &#39;s/PRETTY_NAME=//g&#39; -e &#39;s/&#34;//g&#39;) ($DIST_VER)&#34; else PRETTY_NAME=$(cat /etc/*-release | grep &#34;PRETTY_NAME&#34; | sed -e &#39;s/PRETTY_NAME=//g&#39; -e &#39;s/&#34;//g&#39;) fi if [[ -d &#34;/system/app/&#34; &amp;&amp; -d &#34;/system/priv-app&#34; ]]; then model=&#34;$(getprop ro." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote  markdown-body single-title" >
+                    <h1>我的Linux生活日記 31.ssh登入信息-ssh login banner</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux生活日記-31ssh登入信息-ssh-login-banner">我的Linux生活日記 31.ssh登入信息-ssh login banner</h1>
+<h2 id="範本">範本</h2>
+<ul>
+<li>/etc/profile.d/ssh-login-info.sh</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># @Time    : 2023-09-14</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># @Author  : PolloChang</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># @Desc    : ssh login banner</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+</span></span><span style="display:flex;"><span>shopt -q login_shell <span style="color:#f92672">&amp;&amp;</span> : <span style="color:#f92672">||</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># os</span>
+</span></span><span style="display:flex;"><span>upSeconds<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cut -d. -f1 /proc/uptime<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>secs<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#e6db74">${</span>upSeconds<span style="color:#e6db74">}</span><span style="color:#f92672">%</span><span style="color:#ae81ff">60</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>mins<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#e6db74">${</span>upSeconds<span style="color:#e6db74">}</span><span style="color:#f92672">/</span><span style="color:#ae81ff">60</span><span style="color:#f92672">%</span><span style="color:#ae81ff">60</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>hours<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#e6db74">${</span>upSeconds<span style="color:#e6db74">}</span><span style="color:#f92672">/</span><span style="color:#ae81ff">3600</span><span style="color:#f92672">%</span><span style="color:#ae81ff">24</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>days<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#e6db74">${</span>upSeconds<span style="color:#e6db74">}</span><span style="color:#f92672">/</span><span style="color:#ae81ff">86400</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>UPTIME_INFO<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#34;%d days, %02dh %02dm %02ds&#34;</span> <span style="color:#e6db74">&#34;</span>$days<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$hours<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$mins<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$secs<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f /etc/oracle-release <span style="color:#f92672">]</span> ; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    PRETTY_NAME<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>&lt; /etc/oracle-release<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> -f /etc/oracle-release <span style="color:#f92672">]</span> ; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    PRETTY_NAME<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>&lt; /etc/redhat-release<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> -f /etc/debian_version <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>   DIST_VER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>&lt;/etc/debian_version<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>   PRETTY_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>grep PRETTY_NAME /etc/os-release | sed -e <span style="color:#e6db74">&#39;s/PRETTY_NAME=//g&#39;</span> -e  <span style="color:#e6db74">&#39;s/&#34;//g&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> (</span>$DIST_VER<span style="color:#e6db74">)&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    PRETTY_NAME<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat /etc/*-release | grep <span style="color:#e6db74">&#34;PRETTY_NAME&#34;</span> | sed -e <span style="color:#e6db74">&#39;s/PRETTY_NAME=//g&#39;</span> -e <span style="color:#e6db74">&#39;s/&#34;//g&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -d <span style="color:#e6db74">&#34;/system/app/&#34;</span> <span style="color:#f92672">&amp;&amp;</span> -d <span style="color:#e6db74">&#34;/system/priv-app&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>getprop ro.product.brand<span style="color:#66d9ef">)</span><span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>getprop ro.product.model<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> -f /sys/devices/virtual/dmi/id/product_name <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>        -f /sys/devices/virtual/dmi/id/product_version <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>&lt; /sys/devices/virtual/dmi/id/product_name<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34; </span><span style="color:#66d9ef">$(</span>&lt; /sys/devices/virtual/dmi/id/product_version<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> -f /sys/firmware/devicetree/base/model <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>&lt; /sys/firmware/devicetree/base/model<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> -f /tmp/sysinfo/model <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>&lt; /tmp/sysinfo/model<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MODEL_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>model<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>KERNEL<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>uname -srmo<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>USER_NUM<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>who -u | wc -l<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>RUNNING<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ps ax | wc -l | tr -d <span style="color:#e6db74">&#34; &#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disk</span>
+</span></span><span style="display:flex;"><span>totaldisk<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>df -h -x devtmpfs -x tmpfs -x debugfs -x aufs -x overlay --total 2&gt;/dev/null | tail -1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>disktotal<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>awk <span style="color:#e6db74">&#39;{print $2}&#39;</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>totaldisk<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>diskused<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>awk <span style="color:#e6db74">&#39;{print $3}&#39;</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>totaldisk<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>diskusedper<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>awk <span style="color:#e6db74">&#39;{print $5}&#39;</span> <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>totaldisk<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>DISK_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\033[0;33m</span><span style="color:#e6db74">${</span>diskused<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m of \033[1;34m</span><span style="color:#e6db74">${</span>disktotal<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m disk space used (\033[0;33m</span><span style="color:#e6db74">${</span>diskusedper<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cpu</span>
+</span></span><span style="display:flex;"><span>cpu<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>awk -F<span style="color:#e6db74">&#39;:&#39;</span> <span style="color:#e6db74">&#39;/^model name/ {print $2}&#39;</span> /proc/cpuinfo | uniq | sed -e <span style="color:#e6db74">&#39;s/^[ \t]*//&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>cpun<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>grep -c <span style="color:#e6db74">&#39;^processor&#39;</span> /proc/cpuinfo<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>cpuc<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#39;^cpu cores&#39;</span> /proc/cpuinfo | tail -1 | awk <span style="color:#e6db74">&#39;{print $4}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>cpup<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#39;^physical id&#39;</span> /proc/cpuinfo | wc -l<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>CPU_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>cpu<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span>cpup<span style="color:#e6db74">}</span><span style="color:#e6db74">P </span><span style="color:#e6db74">${</span>cpuc<span style="color:#e6db74">}</span><span style="color:#e6db74">C </span><span style="color:#e6db74">${</span>cpun<span style="color:#e6db74">}</span><span style="color:#e6db74">L&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get the load averages</span>
+</span></span><span style="display:flex;"><span>read one five fifteen rest &lt; /proc/loadavg
+</span></span><span style="display:flex;"><span>LOADAVG_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\033[0;33m</span><span style="color:#e6db74">${</span>one<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m / </span><span style="color:#e6db74">${</span>five<span style="color:#e6db74">}</span><span style="color:#e6db74"> / </span><span style="color:#e6db74">${</span>fifteen<span style="color:#e6db74">}</span><span style="color:#e6db74"> with \033[1;34m</span><span style="color:#66d9ef">$((</span> cpun*cpuc <span style="color:#66d9ef">))</span><span style="color:#e6db74">\033[0m core(s) at \033[1;34m</span><span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#39;^cpu MHz&#39;</span> /proc/cpuinfo | tail -1 | awk <span style="color:#e6db74">&#39;{print $4}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">\033 MHz&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mem</span>
+</span></span><span style="display:flex;"><span>MEM_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat /proc/meminfo | awk <span style="color:#e6db74">&#39;/MemTotal:/{total=$2/1024/1024;next} /MemAvailable:/{use=total-$2/1024/1024; printf(&#34;\033[0;33m%.2fGiB\033[0m of \033[1;34m%.2fGiB\033[0m RAM used (\033[0;33m%.2f%%\033[0m)&#34;,use,total,(use/total)*100);}&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># network</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># extranet_ip=&#34; and $(curl -s ip.cip.cc)&#34;</span>
+</span></span><span style="display:flex;"><span>IP_INFO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ip a | grep glo | awk <span style="color:#e6db74">&#39;{print $2}&#39;</span> | head -1 | cut -f1 -d/<span style="color:#66d9ef">)</span><span style="color:#e6db74">${</span>extranet_ip<span style="color:#66d9ef">:-</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># user login</span>
+</span></span><span style="display:flex;"><span>user<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>whoami<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>path<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>home<span style="color:#f92672">=</span>$HOME
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># * Calculate last login</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># info</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> Information as of: \033[1;34m</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d %T&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mProduct\033[0m............: </span><span style="color:#e6db74">${</span>MODEL_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mOS\033[0m.................: </span><span style="color:#e6db74">${</span>PRETTY_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mKernel\033[0m.............: </span><span style="color:#e6db74">${</span>KERNEL<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mCPU\033[0m................: </span><span style="color:#e6db74">${</span>CPU_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mHostname\033[0m...........: \033[1;34m</span><span style="color:#66d9ef">$(</span>hostname<span style="color:#66d9ef">)</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mIP Addresses\033[0m.......: \033[1;34m</span><span style="color:#e6db74">${</span>IP_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mUptime\033[0m.............: \033[0;33m</span><span style="color:#e6db74">${</span>UPTIME_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mMemory\033[0m.............: </span><span style="color:#e6db74">${</span>MEM_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mLoad Averages\033[0m......: </span><span style="color:#e6db74">${</span>LOADAVG_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mDisk Usage\033[0m.........: </span><span style="color:#e6db74">${</span>DISK_INFO<span style="color:#e6db74">}</span><span style="color:#e6db74"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mUsers online\033[0m.......: \033[1;34m</span><span style="color:#e6db74">${</span>USER_NUM<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mRunning Processes\033[0m..: \033[1;34m</span><span style="color:#e6db74">${</span>RUNNING<span style="color:#e6db74">}</span><span style="color:#e6db74">\033[0m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mlastlog1\033[0m...........: </span><span style="color:#66d9ef">$(</span>last -i -d -n <span style="color:#ae81ff">1</span> -w | head -1<span style="color:#66d9ef">)</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mlastlog2\033[0m...........: </span><span style="color:#66d9ef">$(</span>last -i -d -n <span style="color:#ae81ff">2</span> -w | head -2 | tail -1<span style="color:#66d9ef">)</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mlastlog3\033[0m...........: </span><span style="color:#66d9ef">$(</span>last -i -d -n <span style="color:#ae81ff">3</span> -w | head -3 | tail -1<span style="color:#66d9ef">)</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mlastlog4\033[0m...........: </span><span style="color:#66d9ef">$(</span>last -i -d -n <span style="color:#ae81ff">4</span> -w | head -4 |tail -1<span style="color:#66d9ef">)</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> \033[0;1;31mlogincount\033[0m.........: </span><span style="color:#66d9ef">$(</span> users | wc -w<span style="color:#66d9ef">)</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">0755</span> /etc/profile.d/ssh-login-info.sh
+</span></span></code></pre></div><p>zsh 設定在 <code>~/.zshrc</code> 文件的一開始</p>
+<h2 id="ascii-art">ASCII art</h2>
+<ul>
+<li>轉置工具: <a href="https://ascii-generator.site/t/">https://ascii-generator.site/t/</a></li>
+<li>圖片: <a href="https://www.asciiart.eu">https://www.asciiart.eu</a></li>
+</ul>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/">
+                                <h3 class="">我的Linux生活日記 01-windows轉Linux的過程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/004-%E5%AE%89%E8%A3%9Ddebian/">
+                                <h3 class="">我的Linux生活日記 02-安裝Debian</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/">
+                                <h3 class="">我的Linux生活日記 03-建立一個友善的終端機人機介面</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/">
+                                <h3 class="">我的Linux生活日記 032-history時間戳記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/">
+                                <h3 class="">我的Linux生活日記 04-一些電腦基本設定</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/028.kvm/">
+                        <h3 class="">我的Linux生活日記 28.KVM</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>
