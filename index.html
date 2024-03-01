@@ -15,8 +15,8 @@
     
 
     
-        <link href="/index.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
-        <link href="/index.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
     
 
     
@@ -54,6 +54,10 @@
         
 
         
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+            
+        
 
         
         <li class="layui-nav-item" id="nav_small">
@@ -66,6 +70,10 @@
                 <dd><a href="/post/">Posts</a></dd>
                 
 
+                
+                    
+                        <dd><a href="/about">About</a></dd>
+                    
                 
             </dl>
         </li>
@@ -89,8 +97,8 @@ layui.use('element', function(){
     <div class="layui-row about">
         <div class="layui-col-xs12 layui-col-sm4 layui-col-md4 about_left">
             <img class="lazyload about_portrait" data-src="/self/img/avater.jpg" />
-            <h1> Authors </h1>
-            <h2> Intro </h2>
+            <h1> PolloChang </h1>
+            <h2> 我是一隻雞 </h2>
             
             
             
@@ -98,7 +106,7 @@ layui.use('element', function(){
         </div>
         <div class="layui-col-xs12 layui-col-sm8 layui-col-md8 about_right">
             <h1>Biography</h1>
-            <h2></h2>
+            <h2>test</h2>
         </div>
     </div>
 </div>
@@ -111,7 +119,51 @@ layui.use('element', function(){
                 
                     
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/worknot-20240301/">
+            <h2 class="">Worknot 20240301</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle-18c/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle 18c</span>
+        </a>
+    
+        <a href="/tags/oracle-rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle RAC</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
+環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理  ...
+             <a href="/post/worknot-20240301/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
             <h2 class="">我的Linux生活日記 Debian 使用心得-2022.04</h2>
         </a>
@@ -126,7 +178,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -136,7 +188,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -151,7 +203,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
             <h2 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h2>
         </a>
@@ -166,7 +218,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -176,7 +228,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -190,7 +242,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
             <h2 class="">我的Linux生活日記 30.學習資源</h2>
         </a>
@@ -205,7 +257,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -215,7 +267,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -230,7 +282,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
             <h2 class="">我的Linux生活日記 29.如何從小使用Linux</h2>
         </a>
@@ -245,7 +297,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -255,7 +307,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -269,7 +321,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/028.kvm/">
             <h2 class="">我的Linux生活日記 28.KVM</h2>
         </a>
@@ -284,7 +336,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -294,7 +346,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -308,7 +360,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/027-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-windowsclientfornfs/">
             <h2 class="">我的Linux生活日記 27.分享資料夾-windows client for nfs</h2>
         </a>
@@ -323,7 +375,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -333,7 +385,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -348,7 +400,7 @@ layui.use('element', function(){
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/026-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-autofs/">
             <h2 class="">我的Linux生活日記 26.分享資料夾-autofs</h2>
         </a>
@@ -363,7 +415,7 @@ layui.use('element', function(){
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -373,7 +425,7 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -389,7 +441,7 @@ madir -p /mnt/nfs/centos7 mount ...
     </blockquote>
 
                     
-                            <blockquote class="self-elem-quote " style="background-color:#FFFFFF;margin-top: 10px;">
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/post/025-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-nfsserver/">
             <h2 class="">我的Linux生活日記 25.分享資料夾-nfs Server</h2>
         </a>
@@ -404,7 +456,7 @@ madir -p /mnt/nfs/centos7 mount ...
 
     
         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge " style="vertical-align: 2px;">我的Linux生活日記</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
         </a>
     
 
@@ -414,7 +466,7 @@ madir -p /mnt/nfs/centos7 mount ...
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge " style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -429,53 +481,113 @@ madir -p /mnt/nfs/centos7 mount ...
     </blockquote>
 
                     
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/023-%E9%98%B2%E7%81%AB%E7%89%86/">
+            <h2 class="">我的Linux生活日記 23.防火牆-firewalld</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 23.防火牆-firewalld firewalld 今天來跟大家介紹防火牆。在日常生活中還是得設定防火牆確保陌生人不會隨意進入自己的主機中。在Debian 為底的系統中主要是以 ufw(簡易防火牆) 為主，但是在網站系統中我比較會以 firewalld 為主，畢竟在伺服器里 ...
+             <a href="/post/023-%E9%98%B2%E7%81%AB%E7%89%86/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
                 
             </div>
 
             <div class="layui-col-md4 layui-col-sm4 layui-col-xs12">
 
                 
+                <input id="search" type="text" name="search" placeholder="Intra-Site Search" autocomplete="off" class="layui-input">
+                <script type="text/javascript">
+                    $("#search").keyup(function(event){
+                        if(event.keyCode ==13){
+                            document.location = "https://www.google.com/search?q=" + $("#search").val() + "+site%3Ahttp:\/\/pollochang.work\/"
+                        }
+                    });
+                </script>
+                
 
                 
                     <h1><a href="/categories">categories</a> </h1>
                     
                         <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-                            <span class="layui-badge " style="margin: 5px">來架個網站吧</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">來架個網站吧</span>
+                        </a>
+                    
+                        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">工作雜記</span>
                         </a>
                     
                         <a href="/categories/%e6%88%91%e7%9a%84linux%e6%97%a5%e5%b8%b8%e7%94%9f%e6%b4%bb/">
-                            <span class="layui-badge " style="margin: 5px">我的linux日常生活</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">我的linux日常生活</span>
                         </a>
                     
                         <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-                            <span class="layui-badge " style="margin: 5px">我的linux生活日記</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">我的linux生活日記</span>
                         </a>
                     
                 
                     <h1><a href="/tags">tags</a> </h1>
                     
                         <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-                            <span class="layui-badge " style="margin: 5px">2023-ithome-鐵人賽</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">2023-ithome-鐵人賽</span>
                         </a>
                     
                         <a href="/tags/grails/">
-                            <span class="layui-badge " style="margin: 5px">grails</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">grails</span>
                         </a>
                     
                         <a href="/tags/linux/">
-                            <span class="layui-badge " style="margin: 5px">linux</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">linux</span>
                         </a>
                     
                         <a href="/tags/nginx/">
-                            <span class="layui-badge " style="margin: 5px">nginx</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">nginx</span>
+                        </a>
+                    
+                        <a href="/tags/oracle-18c/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">oracle-18c</span>
+                        </a>
+                    
+                        <a href="/tags/oracle-rac/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">oracle-rac</span>
                         </a>
                     
                         <a href="/tags/postgresql/">
-                            <span class="layui-badge " style="margin: 5px">postgresql</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">postgresql</span>
                         </a>
                     
                         <a href="/tags/tomcat/">
-                            <span class="layui-badge " style="margin: 5px">tomcat</span>
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">tomcat</span>
                         </a>
                     
                 
@@ -491,7 +603,7 @@ madir -p /mnt/nfs/centos7 mount ...
     
     
     <div class="layui-container">
-        <p class="copyright">&copy; All rights reserved. Powered by <a href='https://gohugo.io' style='color:#FFFFFF'>Hugo</a> and <a href='https://github.com/ertuil/erblog' style='color:#FFFFFF'>Erblog</a>.</p>
+        <p class="copyright">PolloChang</p>
     </div>
 </footer>
 

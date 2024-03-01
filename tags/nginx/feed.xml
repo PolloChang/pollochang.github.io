@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nginx on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/nginx/</link>
+    <description>Recent content in nginx on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/nginx/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>來架個網站吧-24.網站環境建置-編譯nginx</title>
+      <link>http://pollochang.work/post/1000-24.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%B7%A8%E8%AD%AFnginx/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/1000-24.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E7%B7%A8%E8%AD%AFnginx/</guid>
+      <description>來架個網站吧-24.網站環境建置-編譯nginx tags: 來架個網站吧 nginx 我是目錄
+最近工作真的忙到不可開交，庫存已經耗盡，所以我拿筆記檔一下 XDDD
+話說是筆記，不過我還是加點解說吧～
+想要用 CentOS7 為底的環境，想說目前(202310)還是有很多無法完成脫離 CentOS7 穩定的環境吧！但是這個平台雖穩，但也日益老舊，許多跳鍵也漸漸不再支援了，就讓我為他在附上一點色彩吧。
+version 考慮到 CentOS7 本身的 OpenSSL 已經不符合網路安全要求，因此我這邊是另外獨自從 OpenSSL 官網下載原始碼編譯。
+nginx: 1.22.1 OS: CentOS7 openssl: 1.1.1s 安裝編譯套件 yum update -y yum install -y gcc* openssl-devel pcre* patch git 設定參數 export compileRPMPath=&amp;#34;/home/pollo/nginx-build&amp;#34; 準備要的 module sticky-module: 這部份是我參考其他人作法保留的。 nginx-module-vts nginx_upstream_check_module nginx_cookie_flag_module: 進行覆載平衡時作為黏著使用，避免登入系統後突然跳到其他AP，不過隨著Redis 等記憶體資料庫的使用，似乎也不太需要了。 ModSecurity: 我想把nginx 加一點 WAF 功能 mkdir -p ${compileRPMPath} cd ${compileRPMPath} #下載指定版本的nginx export nginxVersion=&amp;#34;1.22.1&amp;#34; wget http://nginx.org/download/nginx-$nginxVersion.tar.gz tar -xzf nginx-$nginxVersion.tar.gz ln -sf nginx-$nginxVersion nginx ## 此版號為1.</description>
+    </item>
+    
+  </channel>
+</rss>

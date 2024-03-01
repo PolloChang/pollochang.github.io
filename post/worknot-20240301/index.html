@@ -1,0 +1,405 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Worknot 20240301 </title>
+    
+    
+    <meta content="Oracle 18c, Oracle RAC, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
+環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理 因為最近一次檢查是發現audit所在的 tablespace 空間快滿了，加上發生資料庫遠端連線無法正常連線，所以只能進入資料庫本機檢查。
+進入資料庫主機 切換帳號到oracle 操作 su - oracle 執行 sqlplus sqlplus / as sysdba 執行下列SQL檢查 select a.TABLESPACE_NAME, to_char(a.BYTES/(1024*1024),&#39;999,999&#39;) &#34;Size(MB)&#34;, to_char(round((a.BYTES-b.BYTES)/(1024*1024),0),&#39;999,999&#39;) &#34;Used(MB)&#34;, to_char(b.BYTES/(1024*1024),&#39;999,999&#39;) &#34;Avail(MB)&#34; from (select TABLESPACE_NAME, sum(BYTES) &#34;BYTES&#34; from dba_data_files group by tablespace_name) a, (select TABLESPACE_NAME,sum(BYTES) &#34;BYTES&#34; from dba_free_space group by tablespace_name) b where a.TABLESPACE_NAME=b.TABLESPACE_NAME; 經過檢查確定發現AUD_TBS確定已經滿了。經詢問過DBA協助判斷確認需要增加新的 datafile ，因為一個datafile預設最大只能到32GB。
+TABLESPACE_NAME Size(MB) Used(MB) Avail(MB ------------------------------ -------- -------- -------- AUD_TBS 32,768 32,740 28 TBS_1 258,048 160,335 97,713 TBS_2 25,600 24,241 1,359 事後我也發現可以從 dba_data_files 檢查 欄位: BLOCKS 與 MAXBLOCKS 值是否相等判斷 datafile 是否滿。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/about">About</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Worknot 20240301</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle-18c/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle 18c</span>
+        </a>
+    
+        <a href="/tags/oracle-rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle RAC</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。</p>
+<h2 id="環境">環境</h2>
+<ul>
+<li>OS: OracleLinux7</li>
+<li>DataBase: Oracle 18c RAC</li>
+</ul>
+<h2 id="進入資料庫檢查-tablespace-空間是否足夠-並著手處理">進入資料庫檢查 Tablespace 空間是否足夠 並著手處理</h2>
+<p>因為最近一次檢查是發現audit所在的 tablespace 空間快滿了，加上發生資料庫遠端連線無法正常連線，所以只能進入資料庫本機檢查。</p>
+<ol>
+<li>進入資料庫主機</li>
+<li>切換帳號到oracle 操作</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - oracle
+</span></span></code></pre></div><ol start="3">
+<li>執行 sqlplus</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlplus / as sysdba
+</span></span></code></pre></div><ol start="4">
+<li>執行下列SQL檢查</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> a.TABLESPACE_NAME, to_char(a.BYTES<span style="color:#f92672">/</span>(<span style="color:#ae81ff">1024</span><span style="color:#f92672">*</span><span style="color:#ae81ff">1024</span>),<span style="color:#e6db74">&#39;999,999&#39;</span>) <span style="color:#e6db74">&#34;Size(MB)&#34;</span>, to_char(round((a.BYTES<span style="color:#f92672">-</span>b.BYTES)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">1024</span><span style="color:#f92672">*</span><span style="color:#ae81ff">1024</span>),<span style="color:#ae81ff">0</span>),<span style="color:#e6db74">&#39;999,999&#39;</span>) <span style="color:#e6db74">&#34;Used(MB)&#34;</span>, to_char(b.BYTES<span style="color:#f92672">/</span>(<span style="color:#ae81ff">1024</span><span style="color:#f92672">*</span><span style="color:#ae81ff">1024</span>),<span style="color:#e6db74">&#39;999,999&#39;</span>) <span style="color:#e6db74">&#34;Avail(MB)&#34;</span> <span style="color:#66d9ef">from</span> (<span style="color:#66d9ef">select</span> TABLESPACE_NAME, <span style="color:#66d9ef">sum</span>(BYTES) <span style="color:#e6db74">&#34;BYTES&#34;</span> <span style="color:#66d9ef">from</span> dba_data_files <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> tablespace_name) a, (<span style="color:#66d9ef">select</span> TABLESPACE_NAME,<span style="color:#66d9ef">sum</span>(BYTES) <span style="color:#e6db74">&#34;BYTES&#34;</span> <span style="color:#66d9ef">from</span> dba_free_space <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> tablespace_name) b <span style="color:#66d9ef">where</span> a.TABLESPACE_NAME<span style="color:#f92672">=</span>b.TABLESPACE_NAME;
+</span></span></code></pre></div><p>經過檢查確定發現<code>AUD_TBS</code>確定已經滿了。經詢問過DBA協助判斷確認需要增加新的 datafile ，因為一個datafile<code>預設最大只能到32GB</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>TABLESPACE_NAME                <span style="color:#66d9ef">Size</span>(MB) Used(MB) Avail(MB
+</span></span><span style="display:flex;"><span><span style="color:#75715e">------------------------------ -------- -------- --------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>AUD_TBS                          <span style="color:#ae81ff">32</span>,<span style="color:#ae81ff">768</span>   <span style="color:#ae81ff">32</span>,<span style="color:#ae81ff">740</span>       <span style="color:#ae81ff">28</span>
+</span></span><span style="display:flex;"><span>TBS_1                           <span style="color:#ae81ff">258</span>,<span style="color:#ae81ff">048</span>  <span style="color:#ae81ff">160</span>,<span style="color:#ae81ff">335</span>   <span style="color:#ae81ff">97</span>,<span style="color:#ae81ff">713</span>
+</span></span><span style="display:flex;"><span>TBS_2                            <span style="color:#ae81ff">25</span>,<span style="color:#ae81ff">600</span>   <span style="color:#ae81ff">24</span>,<span style="color:#ae81ff">241</span>    <span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">359</span>
+</span></span></code></pre></div><p>事後我也發現可以從 <code>dba_data_files</code> 檢查 欄位: <code>BLOCKS</code> 與 <code>MAXBLOCKS</code> 值是否相等判斷 datafile 是否滿。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> dba_data_files <span style="color:#66d9ef">where</span> TABLESPACE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;AUD_TBS&#39;</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>FILE_NAME FILE_ID TABLESPACE_NAME BYTES BLOCKS STATUS RELATIVE_FNO AUT MAXBYTES MAXBLOCKS INCREMENT_BY USER_BYTES USER_BLOCKS ONLINE_ LOST_WR
+</span></span><span style="display:flex;"><span><span style="color:#75715e">------------------------------------------------------------------------------------------ ------------------------------ ---------- ---------- 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">+</span><span style="color:#66d9ef">DATA</span><span style="color:#f92672">/</span>SOCDB<span style="color:#f92672">/</span>DATAFILE<span style="color:#f92672">/</span>aud_tbs.<span style="color:#ae81ff">0000</span>.<span style="color:#ae81ff">0000000000</span> <span style="color:#ae81ff">39</span> AUD_TBS <span style="color:#ae81ff">3</span>.<span style="color:#ae81ff">4360</span>E<span style="color:#f92672">+</span><span style="color:#ae81ff">10</span> <span style="color:#ae81ff">4194302</span> AVAILABLE <span style="color:#ae81ff">39</span> YES <span style="color:#ae81ff">3</span>.<span style="color:#ae81ff">4360</span>E<span style="color:#f92672">+</span><span style="color:#ae81ff">10</span> <span style="color:#ae81ff">4194302</span> <span style="color:#ae81ff">12800</span> <span style="color:#ae81ff">3</span>.<span style="color:#ae81ff">4359</span>E<span style="color:#f92672">+</span><span style="color:#ae81ff">10</span> <span style="color:#ae81ff">4194168</span> ONLINE <span style="color:#66d9ef">OFF</span>
+</span></span></code></pre></div><ol start="5">
+<li>新增datafile</li>
+</ol>
+<p>因為這次處理的Oracle是使用Oracle RAC處理指令如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SQL</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">ALTER</span> TABLESPACE AUD_TBS <span style="color:#66d9ef">ADD</span> DATAFILE <span style="color:#e6db74">&#39;+DATA&#39;</span> <span style="color:#66d9ef">SIZE</span> <span style="color:#ae81ff">20480</span>M AUTOEXTEND <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">NEXT</span> <span style="color:#ae81ff">100</span>M MAXSIZE UNLIMITED;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Tablespace altered.
+</span></span></code></pre></div><p>如果是單機板處理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">--先查詢 tbs1 目前擁有的 datafile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> tablespace_name, file_name <span style="color:#66d9ef">FROM</span> dba_data_files <span style="color:#66d9ef">WHERE</span> tablespace_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;tbs1&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--新增tablespace
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> tablespace tbs1 <span style="color:#66d9ef">add</span> datafile <span style="color:#e6db74">&#39;/[select path]/[tbs1_1].dbf&#39;</span> <span style="color:#66d9ef">size</span> <span style="color:#ae81ff">100</span>M AUTOEXTEND <span style="color:#66d9ef">ON</span> MAXSIZE UNLIMITED;
+</span></span></code></pre></div><h2 id="我很好奇">我很好奇</h2>
+<p>在這幾次的處理經驗中，我一直很好奇為什麼只能單一個tabespace只能開到32G，後來在<a href="https://medium.com/@arunshinde/maximum-datafile-size-in-an-oracle-database-5ef4687ab19d">MAXIMUM DATAFILE SIZE IN AN ORACLE DATABASE</a>有提到 一個 datafile 裡可以允許存放 4,194,303 Block。 Block Size 如果是 8k 則最大的限制是 32GB，大致上如下表。</p>
+<pre tabindex="0"><code>Block Size | Maximum Datafile Size
+— — — — — — — — — — — — — — —
+2k 4194303 * 2k = 8 GB
+4k 4194303 * 4k = 16 GB
+8k 4194303 * 8k = 32 GB
+16k 4194303 * 16k = 64 GB
+32k 4194303 * 32k = 128 GB
+</code></pre><p>在Oracle 10g 中有介紹 BIGFILE tablespace，而 BIGFILE tablespace 只能存在單一個 datafile。然而一個datafile可以存放 4,294,967,295 Block。容量設計上如下表:</p>
+<pre tabindex="0"><code>Block Size | Maximum Datafile Size
+— — — — — — — — — — — — — — —
+2k 4294967295 * 2k = 8 TB
+4k 4294967295 * 4k = 16 TB
+8k 4294967295 * 8k = 32 TB
+16k 4294967295 * 16k = 64 TB
+32k 4294967295 * 32k = 128 TB
+</code></pre><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://johnchen2.webnode.tw/news/oracle-tablespace-%E7%A9%BA%E9%96%93%E6%9F%A5%E8%A9%A2/">Oracle Tablespace 空間查詢</a></li>
+<li><a href="https://medium.com/@arunshinde/maximum-datafile-size-in-an-oracle-database-5ef4687ab19d">MAXIMUM DATAFILE SIZE IN AN ORACLE DATABASE</a></li>
+</ul>
+</div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240301/">
+                        <h3 class="">Worknot 20240301</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle-18c/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle 18c</span>
+        </a>
+    
+        <a href="/tags/oracle-rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle RAC</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">PolloChang</p>
+    </div>
+</footer>
+
+</body>
+</html>

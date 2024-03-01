@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>我的Linux生活日記 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/%E6%88%91%E7%9A%84linux%E7%94%9F%E6%B4%BB%E6%97%A5%E8%A8%98/</link>
+    <description>Recent content in 我的Linux生活日記 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E6%88%91%E7%9A%84linux%E7%94%9F%E6%B4%BB%E6%97%A5%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的Linux生活日記 01-windows轉Linux的過程</title>
+      <link>http://pollochang.work/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/001-windows%E8%BD%89linux%E7%9A%84%E9%81%8E%E7%A8%8B/</guid>
+      <description>我的Linux生活日記 01-windows轉Linux的過程 只是為了工作用而已 在大學時就有開始自己接觸 Ubuntu 了，記得第一次接觸是大學時，筆記型電腦越跑越慢，所以決定重新安裝作業系統。依稀記得看到Ubuntu 的桌面可以3D翻轉切換覺得很炫，所以決定安裝看看。安裝一陣子，其實也沒有一陣子啦！也不過一天而已，發現沒有辦法安裝我最喜歡的遊戲—坦克世界，所以隔天我立刻安裝回windows了。
+後來工作後，在執行某次專案時，有一向需求是windows 2003 轉成 Linux。為了在短短三個月的開發期程，我乾脆把開發環境一次改成Linux ，只是為了把所有在Linux出現的 Bug 快速清除而已。
+作業系統評估 在選擇作業系統中，我其實是有很明確的方向：目標是在工作中完全使用Linux。因此我列下在工作中會使用到的工具，並找出有相容Linux版本，如果沒有就得尋找替代方案。
+下列是我之前評估的清單
+軟體項目 有發行或相容Linux Linux 替代方案 只能安裝在windows intelliJ IDEA 2019 以上 有 Netbeans 6.7 有 JDK 1.4 以上 有 MS Office Liber Office v Line Line Chrome 版 v notepad++ vs code Toad for DB2 DBeaver Toad for Oracle DBeaver mockup draw io Chrome 有 Internet Explorer(IE) v Forti Client 有 微軟新注音 新酷音 Soap UI 有 Git-Tutorials smart git jmeter 有 Microsoft Defender ClamTK Spotify 有 kettle 有 Git 有 7-zip 有 BIPublisherDesktop v 一個痛苦轉變 為了工作，我必須把當時工作的電腦安裝 Linux ，但是工作主力主機也不可能說重新安裝就重新安裝。畢竟我自己也需要適應不同作業系統的操作邏輯，所以決定買一台筆電試試看。物色了幾天決定是 「DELL Latitude E7270」 這種機型，決定是原廠有拍胸脯保證一定可以安裝 ubuntu 14.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 02-安裝Debian</title>
+      <link>http://pollochang.work/post/004-%E5%AE%89%E8%A3%9Ddebian/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/004-%E5%AE%89%E8%A3%9Ddebian/</guid>
+      <description>我的Linux生活日記 02-安裝Debian 今天讓我詳細介紹如何安裝Debian吧！老實說安裝Debian步驟真的超多的。我記得我第一次接觸Debian 10 安裝時，有點不知所措。因為步驟真的比Ubuntu 、CentOS 多好多，因此我在這邊簡單帶一下安裝步驟。
+Debian 簡介: 自由(free) 的信仰 說到Debian 這個發行版本，一定得提到 free 、 none-free 。首先這邊需要很嚴肅的跟大家說 free 這一詞是 自由 的意思，意指該軟體可以被世界上任何一個人使用、複製甚至販售，而不是 免費 的意思。none-free 就是不符合上述 free 的規範啦。所以從官方網站下載的一定是 free 的版本。
+這個觀念很重要，如過是硬體有 intel 無線網卡，需要特別需要去找 iwlwifi 在安裝前準備。第一次安裝我舊碰到這個問題，可花費我兩三天的時間去處理。
+另外我想介紹 Debian 的原因是: 他的安裝步驟很多 它是我接觸過作業系統中，有多都是以Debian 為基底去做改良，例如：ubuntu、Proxmox VE、OpenSwitch OPX、kali。所以學習使用Debian 投資報酬率很高。(我覺的啦)
+下載 Debain 官方網址: https://www.debian.org/ 一進入官方網站，你會發現這個官網真陽春，真的好像是我會寫出的網站排版：HTML 加 CSS 簡單稍微排版。然而在首頁的右下方就出現一個大大個下載，提供你下載。
+: https://cdimage.debian.org/mirror/debian/dists/ 如果想要下載之前版本的版本可以從這個網站下載，當然也可以下載Debain 衍生的發行板，如：Ubuntu、kali。
+下載及準備驅動軟體 Debian 的官網入口有提供小型安裝檔，只有300多MB 而已，不過安裝過程當中建議連接網路，如果有安裝面環境需求時會需要從網路上下載套件。如果安裝的環境中，網路環境相當堪憂，我這邊建議去準備8GB 以上的隨身碟，並且到網路穩定的環境下載自己要的版本DVD/USB 版本。
+我兩台電腦安裝的經驗當中，筆電我是下載DVD/USB 版本，選擇的當案是「debian-live-10.9.0-amd64-gnome.iso」，因為當時安裝的網路環境只有300kbps/s，相當慢。而自己組裝桌機時，是使用小型安裝檔。兩者安裝的流程其實是一樣，只差DVD/USB 版本只是預先將桌面環境下載下來而已。
+關於驅動軟體，對於 Linux 不熟悉的人來說都有聽過一個傳聞，就是安裝Linux 需要自己另外去硬體廠商網站下載Linux 版本的驅動軟體。其實這個傳聞的聽說，我也是說聽說啦！是聽說以前的確需要特別去找，但是已我的經驗當中，絕大部分的驅動軟體都可以不用自行去下載，如果你是用Ubuntu自然更不會遇到這個問題。
+但是當我安裝Debian 時卻碰到 筆電的無線網卡無法辨認的問題，後來我上網查筆電的規格後，發現無線網卡是Intel ，加上Debian 有將軟體類型區分 main、contrib、non-free、non-us，所以我必須特去找Intel的驅動軟體iwlwifi</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 03-建立一個友善的終端機人機介面</title>
+      <link>http://pollochang.work/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/003-%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E5%8F%8B%E5%96%84%E7%9A%84%E7%B5%82%E7%AB%AF%E6%A9%9F%E4%BA%BA%E6%A9%9F%E7%95%8C%E9%9D%A2/</guid>
+      <description>我的Linux生活日記 03-建立一個友善的終端機人機介面 既然都安裝Lunx而且畢生都得跟Linux 為伍，必須得跟文字介面為伍。但是我記性偏偏不好，大腦記憶體只有256KB少的可憐，所以安裝完Linux第一件事情是優化文字介面。
+安裝必要套件 sudo apt -y install curl wget git 下載字型 下載 Meslo Nerd Font 讓 terminal 可以正常顯示icon
+MesloLGS NF Regular.ttf MesloLGS NF Bold.ttf MesloLGS NF Italic.ttf sudo mkdir -p /usr/local/share/fonts/custom sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf sudo fc-cache -v -f 安裝 Tabby terminal 官方網站: https://tabby.sh/
+下載網址: https://github.com/Eugeny/tabby/releases
+安裝指令
+curl -s https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash sudo apt install tabby-terminal 設定字型為 MesloLGS NF</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 032-history時間戳記</title>
+      <link>http://pollochang.work/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/032-history%E6%99%82%E9%96%93%E6%88%B3%E8%A8%98/</guid>
+      <description>我的Linux生活日記 032-history時間戳記 history 時間戳記
+未配置前 pollochang@debian-12-template:~$ history 1 sudo apt update 2 sudo apt install qemu-guest-agent vim firewalld wget curl autofs rsync 3 sudo vim /etc/profile.d/ssh-login-info.sh 4 sudo chmod +x /etc/profile.d/ssh-login-info.sh 5 sudo apt install tmux 6 history 配置後 pollochang@debian-12-template:~$ history 1 2023-09-18 16:10:55 sudo -i 2 2023-09-18 16:10:55 sudo apt update 3 2023-09-18 16:10:55 sudo apt install qemu-guest-agent vim firewalld wget curl autofs rsync 4 2023-09-18 16:10:55 sudo vim /etc/profile.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 04-一些電腦基本設定</title>
+      <link>http://pollochang.work/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/</guid>
+      <description>我的Linux生活日記 04-一些電腦基本設定 接下來就是一些電腦基本設定啦。由於這次是以個人電腦使用取向為方向，所以原則上電腦設定的部份已圖形介面為主。以下就是新安裝電腦之後會用的設定。
+移除娛樂性質軟體 apt remove aisleriot four-in-a-row gnome-2048 gnome-chess gnome-games gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin lightsoff hitori swell-foop tali gnome-tetravex quadrapassel five-or-more cheese gnome-weather gnome-sound-recorder transmission-gtk transmission-common gnome-music gnome-system-monitor gnome-characters gnome-maps 設定快捷鍵-Tabby 進入設定 settings &amp;gt; Devices &amp;gt; keboard 新增快捷鍵 輸入 tabby 按下你想要的設定：像我就已經習慣 ubuntu 呼叫終端機的方式 Ctrl + Alt + t 設定閒置關閉螢幕並鎖上 工作一天8小時，人總會離開電腦座位的，離開的過程中無法確保家中的小貓、工作調皮的同事會對你未完成的系統加什麼好料，因此養成離開座位就螢幕就上鎖的好習慣。但是偶爾還是會不小心忘記上鎖，所以在這邊記得設定閒置上鎖。
+settings &amp;gt; Power &amp;gt; Power Saving 安裝防火牆 我認為防火牆是必須膽安裝的，因為在開發軟體的過程中本機可能會安裝一些可以對外服務的工具，例如：docker、tomcat、postgresql。因此防火牆是基本要安裝的。
+至於是ufw、firewalld、iptables或是其他選項，我自己目前是比較傾向安裝firewalld。主要是目前碰到的環境系統預設的還是以firewalld為主，然而在Debian 10 的版本我最後是選擇安裝ufw，原因是在處理KVM 網路時會出現問題。 Debian 11 已經沒有這個狀況。
+安裝 ufw sudo apt install ufw 啟動防火牆 sudo systemctl start ufw sudo systemctl status ufw 筆電設定蓋上螢幕不進入休眠狀態 設定 /etc/systemd/logind.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 07-硬碟分割</title>
+      <link>http://pollochang.work/post/007-%E7%A1%AC%E7%A2%9F%E5%88%86%E5%89%B2/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/007-%E7%A1%AC%E7%A2%9F%E5%88%86%E5%89%B2/</guid>
+      <description>我的Linux生活日記 07-硬碟分割 最近忙到爆炸了，所以我就拿很久以前的筆記發文偷懶，算是在工作中寫筆記的好處吧?
+最近在工作上有一顆新的硬碟新增到主機上，順便紀錄一下處理步驟吧。
+處理步驟如下：
+取得硬碟資訊，確認實際要格式化那一顆硬碟 規劃硬碟分割格式 執行分割 新增要掛載的目標目錄 掛載目錄 取得硬碟 UUID 寫入 fstab 取得硬碟資訊 在分割硬碟之前記得先確認一下新增硬碟的詳細資訊，例如：硬碟容量大小等等。如果不知道可以下df -h記下哪些硬碟已經被使用了，之接下來檢查目前有哪些硬碟還沒有被掛載就可以知道目標的硬碟資訊。
+debian10@debian10:~$ df -h # 檢查目前的硬碟狀況 Filesystem Size Used Avail Use% Mounted on udev 2.0G 0 2.0G 0% /dev tmpfs 395M 5.5M 390M 2% /run /dev/vda1 49G 2.0G 44G 5% / tmpfs 2.0G 0 2.0G 0% /dev/shm tmpfs 5.0M 0 5.0M 0% /run/lock tmpfs 2.0G 0 2.0G 0% /sys/fs/cgroup tmpfs 375M 0 375M 0% /run/user/1000 再用 fdisk -l查詢要新增的硬碟是那一顆。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 08-LVM-新增硬碟-LVM</title>
+      <link>http://pollochang.work/post/008-%E6%96%B0%E5%A2%9E%E7%A1%AC%E7%A2%9F-lvm/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/008-%E6%96%B0%E5%A2%9E%E7%A1%AC%E7%A2%9F-lvm/</guid>
+      <description>我的Linux生活日記 08-LVM-新增硬碟-LVM Physical Drivers / Partitions / PV(Physical Volume) / VG(Volume Group) / LV(Logical Volume) 的相互關係 情境敘述 新增一顆5GB的硬碟，並以 LVM ( Logical Volume Management ) 管理空間。硬碟檔案格式為 ext4。
+新增硬碟步驟 虛擬機新增硬碟 取得硬碟資訊，確認實際要格式化那一顆硬碟 計劃分割表 新增 physical volume 新增 Volume Group 檢查 Volume Group 可以配置的大小 將 Volume Group 可用的空間加入 Logical Volume 硬碟分割 掛載硬碟 虛擬機新增硬碟 首先未虛擬機新增一顆5 GB 的硬碟吧！
+虛擬機這邊我是用 kvm/qemu，下面是新增的步驟。
+取得硬碟資訊，確認實際要格式化那一顆硬碟 取得目前掛載資訊 $ sudo df -h # 檢查目前的硬碟狀況 Filesystem Size Used Avail Use% Mounted on udev 479M 0 479M 0% /dev tmpfs 99M 3.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中</title>
+      <link>http://pollochang.work/post/009-lvm-%E6%96%B0%E5%A2%9E%E7%A1%AC%E7%A2%9F%E5%88%B0%E5%8E%9F%E6%9C%AC%E7%9A%84lvm%E4%B8%AD/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/009-lvm-%E6%96%B0%E5%A2%9E%E7%A1%AC%E7%A2%9F%E5%88%B0%E5%8E%9F%E6%9C%AC%E7%9A%84lvm%E4%B8%AD/</guid>
+      <description>我的Linux生活日記 09-LVM-新增硬碟到原本的LVM中 昨天有新增一塊LVM test-lv，今天我們要新增一塊 1GB 硬碟並規劃在 test-lv 裡進行線上擴容。
+情境敘述 新增一開硬碟，並且把空間放置在已經存在的 Logical Volume 中。
+步驟 虛擬機新增硬碟 取得硬碟資訊，確認實際要格式化那一顆硬碟 計劃分割表 新增 physical volume 擴充 Volume Group 進行 LV 擴充 虛擬機新增硬碟 取得硬碟資訊，確認實際要格式化那一顆硬碟 取得目前掛載資訊 $ sudo df -h # 檢查目前的硬碟狀況 Filesystem Size Used Avail Use% Mounted on udev 478M 0 478M 0% /dev tmpfs 99M 3.0M 96M 4% /run /dev/vda1 19G 1.5G 17G 9% / tmpfs 494M 0 494M 0% /dev/shm tmpfs 5.0M 0 5.0M 0% /run/lock tmpfs 494M 0 494M 0% /sys/fs/cgroup /dev/mapper/test--pv--1-test--lv 4.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 10-Debian 使用心得</title>
+      <link>http://pollochang.work/post/010-debian%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/010-debian%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</guid>
+      <description>我的Linux生活日記 10-Debian 使用心得 最近工作忙炸了，所以我厚臉皮用很久以前的文章檔一下～
+心得 當初會接觸Debian 這個作業系統是因為我想找一個穩定的發行板，也確實Debian 相比Ubuntu 穩定很多，很少在更新作業系統後出現問題。
+踏入Debian 初期，常常發現有驅動軟體安裝不了，例如：intel wifi 、nVidia 顯卡驅動程式等等。後來才發現是這個自由社群的政策，同時也漸漸理解何謂是 free、none-free。但對於一個一個平凡的使用者來說，可以順順的用就好了，
+後來也有嘗試使用test版本。Test 版本也算穩定，我自己是在筆記型電腦安裝 bookworm 測試版本。在某次的更新過後，出現了藍芽無法啟用、新酷音輸入法無法輸入注音，對於把筆電當作生產力工具的我是無法忍受的事情，最後只能安裝Debian buster。
+下列是 Debian buster 、Debian bullseye 、Debian bookworm 一點心得
+Debian buster 這個版本我覺的是三個中，最穩定的版本。穩定其實也是預設的軟體相對比較舊所換來的。如果要使用比較新穎的功能就無法。
+目前，這個版本比較適合安裝在我自己的生產力筆記型電腦中，因為這三者中是最穩定的。
+Debian bullseye 目前我自己的工作主機是使用這個版本，會挑這個版本原因是我有買較新的硬體設備(2011.02自己組的主機)，在這個版本自帶的驅動程式比 buster 相較穩定。
+Debian bookworm 在我的筆記型電腦有一段時間是安裝這個版本。會挑選這個主因是看上 Gnome 40 自帶的觸控版操做模式，但是目前正在測試階段，在某次更新後藍芽、注音輸入法接無法操作後就安裝回 buster 版本。
+但不得不說這個版本在筆電上有很好的電耗比，我曾經在電池滿格狀況下忘記關機，待機一天也只掉50%，而在 buster 卻掉了80%。
+等到 bookworm 轉為 stable 時，我會想升級到這個版本。
+以上是我使用 Debian 一點小小心得。繼續加班 m)&amp;hellip;QAQ&amp;hellip;(m</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 11.將非安裝軟體新增到程式清單</title>
+      <link>http://pollochang.work/post/011-%E5%B0%87%E9%9D%9E%E5%AE%89%E8%A3%9D%E8%BB%9F%E9%AB%94%E6%96%B0%E5%A2%9E%E5%88%B0%E7%A8%8B%E5%BC%8F%E6%B8%85%E5%96%AE/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/011-%E5%B0%87%E9%9D%9E%E5%AE%89%E8%A3%9D%E8%BB%9F%E9%AB%94%E6%96%B0%E5%A2%9E%E5%88%B0%E7%A8%8B%E5%BC%8F%E6%B8%85%E5%96%AE/</guid>
+      <description>我的Linux生活日記 11.將非安裝軟體新增到程式清單 在現實工作中，有許多軟體釋免安裝的，例如：iReport、kettle、intellij idea。
+大多數免安裝軟體的啟動方式都會在軟體的 bin 資料夾中找到類似 start.sh 的檔案，這時候只需要在終端機下 bash [軟體根目錄]/bin/start.sh 就可以啟動了。
+但是看到Gome 的華麗桌面難道Linux 不可以向 Windows 一樣在程式清單新增啟動程式的小圖案，方便在使用過程中找出程式？
+答案是可以的，只要在下列目錄新增文件就可以。
+/usr/share/applications 是顯示在所有使用者的顯示清單中。 ~/.local/share/applications 只會縣市在當前使用者的程式清單中。 在上述目錄底下新增 [xxxxx.desktop] 系統就會自動新增程式捷徑到程式單清單中。
+這次我以 kettle 軟體當範例：
+首先直接新增一個捷徑配置檔 PentahoDataIntegration.desktop
+sudo vim /usr/share/applications/PentahoDataIntegration.desktop 輸入以下內容:
+[Desktop Entry] Version=1.0 # 指這份文件的版本 Type=Application # [必須填] Name=PentahoData # [必須填]要顯示的程式說明 Path=/usr/local/etc/data-integration Icon=/usr/local/etc/data-integration/spoon.ico # 要顯示的icon Exec=/usr/local/etc/data-integration/spoon.sh # 要執行的檔案位址，當type 是 Application 才會有意義 Comment=PentahoData # 說明 Categories=Development;IDE;ETL; # 程式歸類 Terminal=false 結果如圖
+上述範例只是我比較常用的詳細的話可以閱讀Desktop Entry Specification這篇
+參考資料 Desktop Entry创建Linux程序的快捷方式 Kyunban</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 12.老闆要我連VPN-FrotiClient</title>
+      <link>http://pollochang.work/post/012-%E8%80%81%E9%97%86%E8%A6%81%E6%88%91%E9%80%A3vpn-froticlient/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/012-%E8%80%81%E9%97%86%E8%A6%81%E6%88%91%E9%80%A3vpn-froticlient/</guid>
+      <description>我的Linux生活日記 12.老闆要我連VPN-FrotiClient 之前在工作中時有遇到要安裝VPN 端點工具，而VPN 的環境是用 Forticlient 實踐的。在官方網站中也有針對 Linux 開發，所以只需要去官方下載Linux 版本就可以了！怎樣，是不是比想像中還要簡單呀！
+FrotiClient 下載 FrotiClient 下載
+在這邊我們直接下載 僅限 FortiClient VPN 就可以了。
+然後針對Linux 是 Debian 還是 RedHat 系列下載對應的軟體包，我是Debain 所以就下載 .deb。
+安裝 $ sudo apt install ./forticlient_vpn_7.0.0.0018_amd64.deb 設定連線 安裝完成之後，開始 fortiClient 連線視窗，依VPN 伺服器的設定就可以了。
+或是帥氣的下指令也是可以
+新增連線 $ /opt/forticlient/fortivpn edit my_vpn_name ===================== Create new VPN profile: my_vpn_name ===================== Remote Gateway: xxx.xxx.xxx.xxx Port [default=443]: xxx Authentication (1.prompt / 2.save / 3.disable) [default=1]: 2 Username: xxxxx Client Certificate (.p12 file URL) [default=None]: Do not Warn Invalid Server Certificate (y/n) [default=n]: y 使用連線 /opt/forticlient/fortivpn connect my_vpn_name 錯誤訊息 Cannot autolaunch D-Bus without X11 $DISPLAY 當初我在伺服器上安裝 VPN 端點時就出現這個問題。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 13.常用指令(一)</title>
+      <link>http://pollochang.work/post/013-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%B8%80/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/013-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%B8%80/</guid>
+      <description>我的Linux生活日記 13.常用指令(一) 學習Linux 當中，用圖形界面是我依開始接觸的起步方式，但是我當初會接觸Linux 的原因是工作關係，加上在網路上的資源大多數是以CLI 為操作界面，所以如何透過文字界面操作就變成我在學習路上必經的過程。
+其實，在處理一些重複的事情，透過指令方式會比透過圖形界面來的有效率，例如：上傳檔案到不同的主機上。前提得學會如何下指令，接下來這邊就介紹在日常生活中常用的指令。
+登入系統 ssh 在Linux 世界中，登入方式很長透過SSH 服務登入，指令如下：
+# ssh [userName]@[ip] -p [port] jameschang@JamesChangNB:~$ ssh pollochang@192.168.56.3 -p 22 pollochang@192.168.56.3&amp;#39;s password: ssh 就是只透過 ssh 協定連接要遠端的主機
+pollochang 就是使用者帳號
+192.168.56.3 是你要登入主機的IP
+-p 22 指透過阜號 22 登入，不過這邊通常不用特別定，預設就是22 port。
+按下 enter 之後就會進行登入，有連接成功後對方的系統就會要求你輸入登入密碼啦～
+登入成功就會進入這個畫面
+****Linux pollochangWorking 4.19.0-17-amd64 #1 SMP Debian 4.19.194-2 (2021-06-21) x86_64 The programs included with the Debian GNU/Linux system are free software; the exact distribution terms for each program are described in the individual files in /usr/share/doc/*/copyright.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 13.常用指令(二)</title>
+      <link>http://pollochang.work/post/014-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%BA%8C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/014-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%BA%8C/</guid>
+      <description>將文件內容輸出到終端機 cat 如果需要檢視文件內容，而且輸入到終端機畫面可以使用cat
+jameschang@JamesChangNB:~/下載$ cat test.txt 測試文字 english 將文件內容輸出到終端機 more 如果文件比較大，如 20MB 用 more 可以用作為輸出緩衝，讓終端機不會一下輸出所有文件內容。
+more /var/log/tomcat/catalina.out 將文件內容輸出到終端機 tail 可以作為日誌文件輸出工具
+tail -f /var/log/tomcat/catalina.out 搜尋文件內容 grep 如果需要搜尋文件內容關鍵字可以使用grep，用法如下：
+jameschang@JamesChangNB:~/下載$ cat test.txt | grep english english # [文件內容] | grep [關鍵字] 編輯文件工具 vim 在linux 中常內建的文字編輯器是vi或是vim，用法如下
+jameschang@JamesChangNB:~/下載$ vim test.txt 常用快捷鍵
+:w -&amp;gt; 儲存
+:q -&amp;gt; 離開
+:q! -&amp;gt; 不儲存直接離開
+i -&amp;gt; 編輯
+:wq -&amp;gt; 儲存後離開
+dd -&amp;gt; 刪除該行文字
+yy -&amp;gt; 複製該行文件
+p -&amp;gt; 複製文字後，將複製內容輸入選擇的下行</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 15.系統檢測工具</title>
+      <link>http://pollochang.work/post/015-%E7%B3%BB%E7%B5%B1%E6%AA%A2%E6%B8%AC%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/015-%E7%B3%BB%E7%B5%B1%E6%AA%A2%E6%B8%AC%E5%B7%A5%E5%85%B7/</guid>
+      <description>我的Linux生活日記 15.系統檢測工具 今天我整理一下之前自己在Linux 家用或工作主機上檢視統硬體的方法。
+CPU lscpu lscpu可以取得CPU的架構(x86, x86_64&amp;hellip;等等)、核心數量、執行緒數量、頻率(從不同核心的運行頻率中挑選最大的來顯示)和快取大小。使用方法很簡單，直接在終端機輸入以下指令即可
+lscpu 執行結果 &amp;gt; $ lscpu Architecture: x86_64 CPU op-mode(s): 32-bit, 64-bit Byte Order: Little Endian Address sizes: 39 bits physical, 48 bits virtual CPU(s): 4 On-line CPU(s) list: 0-3 Thread(s) per core: 2 Core(s) per socket: 2 Socket(s): 1 NUMA node(s): 1 Vendor ID: GenuineIntel CPU family: 6 Model: 78 Model name: Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz Stepping: 3 CPU MHz: 2884.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 16.筆電環境設定</title>
+      <link>http://pollochang.work/post/016-%E7%AD%86%E9%9B%BB%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/016-%E7%AD%86%E9%9B%BB%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A/</guid>
+      <description>我的Linux生活日記 16.筆電環境設定 Linux 除了安裝在桌面主機或是虛擬中，我已經把Linux 安裝在筆電裡三四年了，儼然已經成了我日常生活的一部分。在使用的經驗，筆電需要設定一些事項在使用上會比較順手，也或許我挑選的發行板是 Debian 相較 Ubuntu 較陽春需要堆花一點心思。
+觸控手勢-fusuma 如果你是把Ubuntu安裝在筆記行電腦中，在操作的過程中多窩少少會需要依賴觸控板，這邊我還蠻推薦 fusuma 這套軟體。因為這挑可以自由的設定觸控板手勢。然而在 Gnome 42 以後觸控手勢我覺的已經可以不用另外設定了，預設就已經很好用。
+安裝指令如下：
+sudo apt-get install libinput-tools sudo apt-get install ruby sudo gem install fusuma sudo apt-get install xdotool gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled mkdir -p ~/.config/fusuma ＃建立觸控板手勢參數檔 vim ~/.config/fusuma/config.yml #設定觸控板手勢 安裝完成之後將設定輸入到 ~/.config/fusuma/config.yml，下面試我自己行慣的設定
+swipe: 3: left: command: &amp;#39;xdotool key alt+Left&amp;#39; #上一個歷程 right: command: &amp;#39;xdotool key alt+Right&amp;#39; #下一個歷程 up: command: &amp;#39;xdotool key super+Up&amp;#39; #開新分頁 down: command: &amp;#39;xdotool key super+Down&amp;#39; #關閉程式 4: left: command: &amp;#39;xdotool key super+Right&amp;#39; #將視窗移至右邊 right: command: &amp;#39;xdotool key super+Left&amp;#39; #將視窗移至左邊 up: command: &amp;#39;xdotool key super+a&amp;#39; #顯示應用程式 down: command: &amp;#39;xdotool key super&amp;#39; #顯示概覽 pinch: 2: in: command: &amp;#39;xdotool key ctrl+plus&amp;#39; #縮小 threshold: 0.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 17.Linux主機選購(一)</title>
+      <link>http://pollochang.work/post/017-linux%E4%B8%BB%E6%A9%9F%E9%81%B8%E8%B3%BC/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/017-linux%E4%B8%BB%E6%A9%9F%E9%81%B8%E8%B3%BC/</guid>
+      <description>我的Linux生活日記 17.Linux主機選購(一) 今天不探究技術，來講點生活方的問題吧：我想買一台Linux主機在我的家裡用,主機要怎選?
+其實會問這句話或是這一類的問題，通常對自己的電腦使用需求有一定的了解程度，但是對硬體方面也許就不太熟悉。
+但是在分析這個問題之前，先把需求退回到初始的層次：為什麼要買電腦？
+為什麼要買電腦？ 學生時期 我記得在大學的時候有問學校老師，我要買什麼規格的電腦？當時老師就先回問我：我買電腦要做什麼？我回：為了要做作業呀！
+做作業 我讀的是資訊傳播學系，在四年的課綱中會學到 修圖、影片剪輯、Java 程式開發、網頁開發、做文書報告等等方面，所以用到的軟體可能有 Adobe photoshop、 Adobe premiere、JDK、Office 等。這邊我是已我過去的經歷做比喻，詳細還是要看各位學校課綱規劃。
+玩遊戲 我一直都是坦克世界的愛好者，所以我希望電腦可以玩。
+上網 這個不用說了吧，在家一定會打開電腦看影片，螢幕比手機大看得比較爽。(別想歪)
+以上就是我在大學時期的主要需求。透過以上需求可以分析會用的軟體
+Adobe photoshop Adobe premiere JDK Office 坦克世界 瀏覽器 為了回應依開始的問題 「我想買一台Linux主機在我的家裡用,主機要怎選?」
+首先必須先調查上述這些軟體有做 Linux 支援？像是 Adobe 、坦克世界 、MS Office 一定是沒有的。
+接下來就是探究沒有做 Linux 支援的話，在 Linux 有對應功能體？像是 Adobe photoshop 是 GIMP、Adobe premiere 是 Kdenlive 或是OpenShot、 MS Office 是 LiberOffice
+最後是沒有支援 Linux 的部份。通常知名遊戲或是3A大作只有支援 windows ，像是上面提到的 坦克世界 。
+清楚知道哪些軟體可以支援Linux 的狀況後，接下來就是問問自己真的一定只要使用Linux？或許在學生時期用 windows 會比較好，因為可以打很多遊戲。對後面這句話才是重點！因為再大學生時期我有把電腦安裝 ubuntu過，過了三天的新鮮感後就安裝回 windows 了，最大原因是我想打的遊戲只有在windows出現。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 19.來看看文字編輯工具-vim</title>
+      <link>http://pollochang.work/post/019-%E4%BE%86%E7%9C%8B%E7%9C%8B%E6%96%87%E5%AD%97%E7%B7%A8%E8%BC%AF%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/019-%E4%BE%86%E7%9C%8B%E7%9C%8B%E6%96%87%E5%AD%97%E7%B7%A8%E8%BC%AF%E5%B7%A5%E5%85%B7/</guid>
+      <description>我的Linux生活日記 19.來看看文字編輯工具-vim 使用電腦一定會用到文字編輯工具，在熟悉的微軟世界是記事本，那在Linux 是什麼呢？Text Editor，是我第一次使用的工具，同時也是Gnome桌面預設的文字編輯工具。不過還有很多種類下就帶大家看看有哪些。
+視窗 Gnome Text Editor 這是從 ubuntu 開始接觸 Linux 會碰到的文字編輯工具，功能跟微軟的記事本一樣簡單容易上手，而且也用語法亮度顯示，到現在開發還是會當作輔助工具。
+notepadqq 作為一個工程師常常需要打開不同語言的腳本，原本在windows我自己是習慣使用Notepad++，但是踏進linux之後發現Notepad++ 只能透過wine執行，後來我在網路上找到了 notepadqq ，下面是在Debian安裝的方式：
+新增下面兩個資套件來源 sudo touch /etc/apt/sources.list.d/notepadqq.list sudo echo &amp;#34;deb http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&amp;#34; &amp;gt;&amp;gt; /etc/apt/sources.list.d/notepadqq.list sudo echo &amp;#34;deb-src http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu trusty main&amp;#34; &amp;gt;&amp;gt; /etc/apt/sources.list.d/notepadqq.list 新增公鑰 sudo apt-key adv --recv-key --keyserver keyserver.ubuntu.com 63DE9CD4 更新並安裝 sudo apt update &amp;amp;&amp;amp; sudo apt -y install notepadqq 終端機 vi vi 是大部分 Linux 發行版本在終端機裡一定有的文字編輯工具，級是在最小安裝版本也會有。在使用上有三個模式：
+一般模式 進入vi 之後就是一般模式，在這個模式下可以瀏覽文件內容。除了瀏覽文件內容以外還可以進行剪下整行、複製整行等工作
+剪下整行: 鍵盤直接輸入 dd
+複製整行: 鍵盤直接輸入 yy</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 21.使用者帳號管理</title>
+      <link>http://pollochang.work/post/021-%E4%BD%BF%E7%94%A8%E8%80%85%E5%B8%B3%E8%99%9F%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/021-%E4%BD%BF%E7%94%A8%E8%80%85%E5%B8%B3%E8%99%9F%E7%AE%A1%E7%90%86/</guid>
+      <description>我的Linux生活日記 21.使用者帳號管理 今天來簡單說明一下帳號管理的部份，我以 Gnome 的使用介面會比較親進一些。
+新增使用者 位置如下
+settings &amp;gt;&amp;gt; Details &amp;gt;&amp;gt; Users 到使用者管理頁面之後，需要先解鎖。密碼就是你登入的密碼。
+點擊 「add user」
+輸入要新增的使用者資訊
+點擊 「add」
+之後就會出現剛剛新增使用者的資訊在使用者管理頁面中
+看完以上，是不是覺得跟在 windows 上一樣簡單。接下來看看剛剛一番操作之後系統發生什麼變化呢？
+帳號資訊: /etc/passwd 系統會將使用者資訊紀錄在這個文件中：/etc/passwd
+&amp;gt; $ cat /etc/passwd | grep pollochang pollochang❌1001:1001:pollochang,,,:/home/pollochang:/bin/bash 以冒號 : 為分隔欄位
+帳號名稱 密碼: 因為密碼都紀錄在 /etc/shadow 文件中，所以這裡是以 x 表示 UID: 使用者在系統的唯一代號 GID: 使用者群組代號 使用者資訊說明欄位 使用者家目錄 使用者預設shell 名稱 密碼資訊: /etc/shadow 以冒號 : 為分隔欄位
+root@JamesChangNB:~# cat /etc/shadow | grep pollochang pollochang:$6$JaseGnZpc.VeUeCM$/iu963R2FHzoGV5zBkh390weaQ0osO3wwE54xobUX8I6llYULw/004iL8mvUVAFfq9SraOPBWV97.EgPhslvt.:19269:0:99999:7::: Username(使用者名稱)
+Password(密碼): 這裡已經是加密過後資訊
+規則為: $[加密方式]$[加鹽]$[值]
+加密方式</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 22.系統更新</title>
+      <link>http://pollochang.work/post/022-%E7%B3%BB%E7%B5%B1%E6%9B%B4%E6%96%B0/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/022-%E7%B3%BB%E7%B5%B1%E6%9B%B4%E6%96%B0/</guid>
+      <description>我的Linux生活日記 22.系統更新 一套可以應付日常生活工作的Linux 是由不同軟體組成的，只要是人撰寫的程式一定會有 Bug，這些系統問題被修復以後就會需要更新，以下是更新系統的方式。
+apt Debian 系列的套件管理工具，Debian 官方網站有詳細的使用方式，這邊我介紹日常生活中常用到的幾個。
+更新套件清單 sudo apt update 檢視可以更新的套件 apt list --upgradable 更新套件 sudo apt upgrade 移除已不需要的套件 sudo apt autoremove &amp;gt; $ apt list --upgradable Listing... Done google-chrome-stable/stable 106.0.5249.91-1 amd64 [upgradable from: 106.0.5249.61-1] libhttp-daemon-perl/oldstable 6.01-3+deb10u1 all [upgradable from: 6.01-3] 使用 deb 檔案更新或安裝 sudo apt install ./[安裝檔].deb yum RedHat 系列的套件管理工具
+更新所有的套件 這部份等同Debian 的 apt upgrade &amp;amp;&amp;amp; apt autoremove
+sudo yum update 檢視可以更新的套件 yum check-update 原機系統升級 我比較少做這種事情，如果是實體機器做系統升級，我是直接重新安裝升級，順便整理電腦。甚至直接買新的硬碟直接安裝。比較不建議原機直接系統升級。主要原因有一個：無法還原到升級之前的狀況。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 23.防火牆-firewalld</title>
+      <link>http://pollochang.work/post/023-%E9%98%B2%E7%81%AB%E7%89%86/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/023-%E9%98%B2%E7%81%AB%E7%89%86/</guid>
+      <description>我的Linux生活日記 23.防火牆-firewalld firewalld 今天來跟大家介紹防火牆。在日常生活中還是得設定防火牆確保陌生人不會隨意進入自己的主機中。在Debian 為底的系統中主要是以 ufw(簡易防火牆) 為主，但是在網站系統中我比較會以 firewalld 為主，畢竟在伺服器里都會有一個或是兩個以上的網段、網卡要管理。今天就介紹比較常用的設定方式。
+另外在 debian 10 有安裝 KVM 或是 ubuntu 20.04 LTS 有安裝 docker 就不建議使用 firewalld ，因為當前版本會導致KVM 網路 或是 docker 網路異常。此問題在下一個發行版才有獲得解決。
+zone-區域簡介 firewalld 的概念事先將網卡劃分區塊(zone)，每張網卡就好比是家裡的每一扇門，而區域就是主臥、客廳、室外。我舉幾個比較常用的區域：
+public 顧名思義就是公眾區域，好比家裡的大門是通往外面的世界，逼安只會允許公開的服務接口通過，如：22
+trusted 就像是自己房間區域一樣，可以允許所有的連線連接主機裡面的服務。
+libvirt libvirt 是比校特殊的區域，主要是處理 KVM 的網路介面。而且只有 KVM 的網路介面可以到此區域，同時KVM 網路介面也無法加入到其他區域。原因可能是是過度階段，未來版本可能就沒有了。
+安裝防火牆 Debian Debian 如果要使用firewalld 建議先將預設的防火牆移除在安裝 firewalld
+apt remove ufw apt install firewalld CentOS7 yum install firewalld 查詢版本 firewall-cmd --version 新增網卡至特定區域 先查詢網卡 ip addr 設定網卡 sudo firewall-cmd --permanent --zone=trusted --change-interface=eth0 檢視防火牆規則 firewall-cmd --list-all 查詢那協正在運作的 zone firewall-cmd --get-active-zones 重新讀取設定 firewall-cmd --reload 下列範例我都會加 --permanent 永久設置選項，加了此選項必須重新讀取才會生效。如果不加永久選項，執行設定之後就會立刻生效，但是重新開機會是重新啟動 firewalld 就會回到設定前的狀態。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 25.分享資料夾-nfs Server</title>
+      <link>http://pollochang.work/post/025-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-nfsserver/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/025-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-nfsserver/</guid>
+      <description>我的Linux生活日記 25.分享資料夾-nfs Server 最近工作上有做目錄共用的功能，主要是 linux 主機間共享目錄而已，所以這邊就順便整理之前的筆記吧！
+另外我自己工作主機及自己件的環境是以 Debian為主，所以這邊就附上 Debian 與 CentOS 的用法，原則上使用差異沒有很大。
+安裝 CentOS7 sudo yum install nfs-utils Debian 10 sudo apt install nfs-kernel-server nfs-common 啟動服務 CentOS6 service nfs start chkconfig nfs on chkconfig rpcbind on CentOS7 sudo systemctl start rpcbind sudo systemctl restart nfs Debian 10,Oracle Linux 9 sudo systemctl start nfs-server 設定要分享的目錄 假設是 /share 要分享
+sudo mkdir -p /share sudo chmod 777 /share 設定文件: /etc/exports # 目標目錄 要分享的IP 使用權限 /share 192.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 26.分享資料夾-autofs</title>
+      <link>http://pollochang.work/post/026-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-autofs/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/026-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-autofs/</guid>
+      <description>我的Linux生活日記 26.分享資料夾-autofs 昨天已經安裝完 nfs server 接下來就是其他主機安裝端點工具啦！有兩個處理方式：mount 以及 autofs。
+mount mount 指令如下：
+madir -p /mnt/nfs/centos7 mount 192.168.56.173:/share /mnt/nfs/centos7 但是不建議這樣做，主要是網路不通無法掛載遠端目錄時會在成PRC服務逾時，間接拖垮系統效能。接下來是建議使用 autofs 掛載目錄。
+安裝 Debian sudo apt install autofs CentOS7 sudo yum install autofs 編輯設定文件 這邊我直接新增文件，如果沒有 /etc/auto.master.d 這個目錄可以進入 /etc/auto.master 這份文件直接編輯
+/etc/auto.master.d/jc-share.autofs # [掛載目錄] [遠端配置文件] [參數] /mnt/nfs /etc/jc-share.nfs --timeout=10 上述文件中 /mnt/nfs 不需要特別新增，autofs會在掛載時自動處理。
+/etc/jc-share.nfs # [資料夾名稱] [掛載參數] [遠端主機分享目錄] centos7 -fstype=nfs,vers=4,rw 192.168.56.173:/share 測試 sudo automount -f -v 失敗畫面 Starting automounter version 5.1.2, master map /etc/auto.master using kernel protocol version 5.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 27.分享資料夾-windows client for nfs</title>
+      <link>http://pollochang.work/post/027-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-windowsclientfornfs/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/027-%E5%88%86%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE-windowsclientfornfs/</guid>
+      <description>我的Linux生活日記 27.分享資料夾-windows client for nfs 昨天介紹了 autofs，但是Linux 要與 windows 共享目錄時，通常會使用 samba 工具。其實 windows 現在也可以讀取nfs Server 共享目錄。
+以下用 windows server 2019 做示範。
+安裝 開啟 Server Manager 點擊 add roles and features 點擊 Role-based or feature-based installation 選取要設定的伺服器 勾選 Client for NFS 點擊 install 設定 # mount.exe [IP]:/[分享路徑] [掛載磁碟] mount.exe 192.168.56.173:/share E:\ 已知問題 在不同類型 檔名/目錄 打中文名稱會出現亂碼。
+參考資料 Configure NFS Client on Windows Server 2019</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 28.KVM</title>
+      <link>http://pollochang.work/post/028.kvm/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/028.kvm/</guid>
+      <description>我的Linux生活日記 28.KVM 在 Linux 中可以透過建立 KVM「核心基礎虛擬機器 (Kernel-based Virtual Machine；KVM）」 建立不同作業系統環境，無論是 RedHat 、Debian 或是 windows 都可以建立。在學習 Linux 的過程是不錯的學習工具。
+啟動 CPU 虛擬化技術 這部份需要進入 BIOS 開啟，AMD 是 VT , Intel 是 VT-x、VT-d 或 VT-c 。
+檢查硬體資源是否支援 虛擬技術 啟動之後可以下指令檢查
+grep --color --perl-regexp &amp;#39;vmx|svm&amp;#39; /proc/cpuinfo 安裝 安裝指令 sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo adduser pollochang libvirt-qemu sudo adduser pollochang libvirt KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &amp;#34;/tmp/osinfo-db.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 29.如何從小使用Linux</title>
+      <link>http://pollochang.work/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/</guid>
+      <description>我的Linux生活日記 29.如何從小使用Linux 今天這個主題來討論電腦教育吧。小朋友依開始接觸電腦作業系統有百分之六十以上的機率會是windows ，學校預先安裝、教學的也是。至少從我以前小學三年級開始，教室後面的安裝的作業系統就是windows98，每當下課時就會等待電腦開機，和三四位同學共八支手擠在104K的鍵盤上完小朋友期打交。到大學作業畢業的期末報告必須使用 MS Office 產出 docx 格式。這邊我想闡述的是，打從我從小接觸電腦的一開始到大學畢業這段求學期間，在認識電腦的領域方面已經被微軟給統治了。不過我今天也沒有想要牴觸或是說他不好，只是想要怎讓在求學的學生認識其他作業系統/平台。
+以家長的身份，我敢說我是有能力讓我自己的小朋友認識Linux ，有能力打造不同作業平台的作業環境，從桌面系統，我可以使用 Gnome、文書可以使用 Liber Office等等，讓小朋友接觸不同的平台。
+在學校，可以在電腦教室中分別安裝不同類型的作業系統、在課程設計上可以往跨平台的軟體方向設計。
+這樣的學習環境設計，可以讓學生多接觸不同的作業系統，探索不同的操作模式。未來成人後，也不會被單一的軟體給綁住使用電腦的模式。
+Linux 不只單單在伺服器領域發展而已，在桌面應用領域其實也有。操作的流暢度其實不輸給 windows。還記得以前在玩 ubuntu 14.04 時很常遇到應外程式清單卡住甚必須重啟 x-window 才有辦法解決。現在的狀況已經沒有。在操作上 Gnome 的桌面越來越偏向 Mac OS ，而 xfce 很輕巧、很自由？ KDE 嘛～感覺就是 KDE，有他的專屬風格。一個平台上有不同操作風格是 windows、Mac OS 沒有的。這是優點也是缺點。缺點是在設計課程時必須花費心思把操作模式專注在一項，或是探究共通的操作教育 command line 就解決了 。在軟體操作設計上有可能會增加設計、開發難度 通通給我上雲端 。也許這是自由的代價，必須等使用者、開發者、設計者等既得利益者協調完才有最佳的處理方式，也許這一天永遠等不到但是會在每次新的發行版次中一步一步更接近所有人的期望。
+目前安裝Linux 作業系統到使用他的桌面環境，其實不會很難上手。安裝上其實可以簡單的按下一步完成安裝，桌面使用上也不太接觸到臭蟲。一個平台越多人使用，在未來他的操作有可能更人性化、系統問題有可能會更少。所以別害怕使用少眾(至少在桌面領域上市這樣)的平台，也別被單一一種平台給限制住作業方向。
+掰完這個主題內容了，發現教育這一塊對我來說，好陌生。為什麼匯寫這篇呢？就只是和我另一伴的完笑話。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 30.學習資源</title>
+      <link>http://pollochang.work/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/</guid>
+      <description>我的Linux生活日記 30.學習資源 今天是最後一天了，連續發文30天真的不容易，過程中需要排除萬難騰出寶貴的時間寫。最後一天就來寫我自己的學習資源吧！
+打造學習環境 學習Linux，首先必須想辦法把環境建立起來，讀在多的理論知識知道再多的指令，沒有一個環境去實做永遠都是資訊或是紙上的文字紀錄而已。必須將所得到的紀錄、技術資訊實做一遍才會知道遺漏了哪些技術細節。以 rsync 指令為例。例如需要將本機的 /home/tomcat/catalina 底下所有的文件同步到 192.168.56.2 的相同目錄中，在網路上找到的資訊後所下的指令是 rsync -ruptl /home/tomcat/catalina tomcat@192.168.56.2:/home/tomcat/catalina 但是會發現無法正常運作。可能會出現不同類型的錯誤，如目標主機沒有安裝 rsync 套件、主機網路環境有阻擋 port 22、目標主機目錄權限不足等等。上述這些狀況必須在實做上才會知道。
+另外在學習的過程中一定會出現失敗，或是想知道別人說絕對不能下的指令，如：sudo rm -rf /。沒有允須失敗的環境是很難放心執行所學到的新事物。這時虛擬環境就很重要了。如今虛擬環境已經可以不用像以前一樣安裝虛擬機器，如：KVM、VirtualBox、VMware。用Docker 就可以實現Linux不同發行板版本，虛擬環境建置成本低很多。當然虛擬機還是有他的價值在，快照就是 docker 無法達成的項目。
+網路資源 在操作上有問題最快尋找解答的方式就是透過搜尋引擎尋找，但是要確保資訊正確需要經過數月甚至幾年的經驗累積。以下是大家公認上，在學習Linux 資訊品質比較好的網站。
+鳥哥的 Linux 私房菜 網站：https://linux.vbird.org/
+鳥哥大大沒有人會質疑吧！在架設伺服器方面，鳥站是不錯的學習資源，重點是品質很好的中文學習資源。
+SUSE Linux Enterprise Server 管理指南 網站：https://documentation.suse.com/zh-tw/sles/15-SP2/html/SLES-all/book-sle-admin.html
+Product Documentation for Red Hat Enterprise Linux SUSE Linux 、Red Hat 官方網站也是很好的學習資源，而且可以切換成 英文/中文 介面。可以透過中英對照習得英文原文的術語，未來在面對問題時可以更快獲得解決問題的資訊。
+Debian 參考手冊 Debian 官方的中文手冊，內容是很豐富的。
+軟體資源 centos centos 已經算是進入產品生命週期的終點，但是未來的10年內仍然會有他的身影。
+debian
+Kernel.org git repositories
+想知道linux 是哪些軟體組成的嗎？Kernel.org 可以讓你一探究竟。</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 31.ssh登入信息-ssh login banner</title>
+      <link>http://pollochang.work/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/</guid>
+      <description>我的Linux生活日記 31.ssh登入信息-ssh login banner 範本 /etc/profile.d/ssh-login-info.sh #!/bin/sh # # @Time : 2023-09-14 # @Author : PolloChang # @Desc : ssh login banner export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;amp;&amp;amp; : || return 0 # os upSeconds=&amp;#34;$(cut -d. -f1 /proc/uptime)&amp;#34; secs=$((${upSeconds}%60)) mins=$((${upSeconds}/60%60)) hours=$((${upSeconds}/3600%24)) days=$((${upSeconds}/86400)) UPTIME_INFO=$(printf &amp;#34;%d days, %02dh %02dm %02ds&amp;#34; &amp;#34;$days&amp;#34; &amp;#34;$hours&amp;#34; &amp;#34;$mins&amp;#34; &amp;#34;$secs&amp;#34;) if [ -f /etc/oracle-release ] ; then PRETTY_NAME=$(&amp;lt; /etc/oracle-release) elif [ -f /etc/oracle-release ] ; then PRETTY_NAME=$(&amp;lt; /etc/redhat-release) elif [ -f /etc/debian_version ]; then DIST_VER=$(&amp;lt;/etc/debian_version) PRETTY_NAME=&amp;#34;$(grep PRETTY_NAME /etc/os-release | sed -e &amp;#39;s/PRETTY_NAME=//g&amp;#39; -e &amp;#39;s/&amp;#34;//g&amp;#39;) ($DIST_VER)&amp;#34; else PRETTY_NAME=$(cat /etc/*-release | grep &amp;#34;PRETTY_NAME&amp;#34; | sed -e &amp;#39;s/PRETTY_NAME=//g&amp;#39; -e &amp;#39;s/&amp;#34;//g&amp;#39;) fi if [[ -d &amp;#34;/system/app/&amp;#34; &amp;amp;&amp;amp; -d &amp;#34;/system/priv-app&amp;#34; ]]; then model=&amp;#34;$(getprop ro.</description>
+    </item>
+    
+    <item>
+      <title>我的Linux生活日記 Debian 使用心得-2022.04</title>
+      <link>http://pollochang.work/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</guid>
+      <description>我的Linux生活日記 Debian 使用心得-2022.04 tags: 我的linux日常生活 Debian 當初會接觸Debian 這個作業系統是因為我想找一個穩定的發行板，也確實Debian 相比Ubuntu 穩定很多，很少在更新作業系統後出現問題。
+踏入Debian 初期，常常發現有驅動軟體安裝不了，例如：intel wifi 、nVidia 顯卡驅動程式等等。後來才發現是這個自由社群的政策，同時也漸漸理解何謂是 free、none-free。但對於一個一個平凡的使用者來說，可以順順的用就好了，
+後來也有嘗試使用test版本。Test 版本也算穩定，我自己是在筆記型電腦安裝 bookworm 測試版本。在某次的更新過後，出現了藍芽無法啟用、新酷音輸入法無法輸入注音，對於把筆電當作生產力工具的我是無法忍受的事情，最後只能安裝Debian buster。
+下列是 Debian buster 、Debian bullseye 、Debian bookworm 一點心得
+Debian buster 這個版本我覺的是三個中，最穩定的版本。穩定其實也是預設的軟體相對比較舊所換來的。如果要使用比較新穎的功能就無法。
+目前，這個版本比較適合安裝在我自己的生產力筆記型電腦中，因為這三者中是最穩定的。
+Debian bullseye 目前我自己的工作主機是使用這個版本，會挑這個版本原因是我有買較新的硬體設備(2011.02自己組的主機)，在這個版本自帶的驅動程式比 buster 相較穩定。
+Debian bookworm 在我的筆記型電腦有一段時間是安裝這個版本。會挑選這個主因是看上 Gnome 40 自帶的觸控版操做模式，但是目前正在測試階段，在某次更新後藍芽、注音輸入法接無法操作後就安裝回 buster 版本。
+但不得不說這個版本在筆電上有很好的電耗比，我曾經在電池滿格狀況下忘記關機，待機一天也只掉50%，而在 buster 卻掉了80%。
+等到 bookworm 轉為 stable 時，我會想升級到這個版本。
+以上是我使用 Debian 一點小小心得。繼續加班 m)&amp;hellip;QAQ&amp;hellip;(m</description>
+    </item>
+    
+  </channel>
+</rss>
