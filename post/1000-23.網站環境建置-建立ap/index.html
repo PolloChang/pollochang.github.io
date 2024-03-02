@@ -22,6 +22,15 @@ Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以�
     
 
     
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
 
     
 
@@ -57,7 +66,9 @@ Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以�
 
         
             
-                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/zone/">Zone</a></li>
             
         
 
@@ -74,7 +85,9 @@ Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以�
 
                 
                     
-                        <dd><a href="/about">About</a></dd>
+                        <dd><a href="/about/">About</a></dd>
+                    
+                        <dd><a href="/zone/">Zone</a></dd>
                     
                 
             </dl>
@@ -203,6 +216,15 @@ layui.use('element', function(){
 </span></span></code></pre></div><h3 id="刪除-webapps-內所有服務">刪除 webapps 內所有服務</h3>
 <p>最後，如果 tomcat 是從官方網站下載的，記得把原有在 <code>webapps</code> 裡的服務通通都刪除，我相信絕大多時候都不會用到。</p>
 </div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
             </div>
         </div>
 
@@ -613,7 +635,7 @@ layui.use('element', function(){
     
     
     <div class="layui-container">
-        <p class="copyright">PolloChang</p>
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

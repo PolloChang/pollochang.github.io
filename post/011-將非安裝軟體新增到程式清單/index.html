@@ -26,6 +26,15 @@ sudo vim /usr/share/applications/PentahoDataIntegration.desktop 輸入以下內�
     
 
     
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
 
     
 
@@ -61,7 +70,9 @@ sudo vim /usr/share/applications/PentahoDataIntegration.desktop 輸入以下內�
 
         
             
-                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/zone/">Zone</a></li>
             
         
 
@@ -78,7 +89,9 @@ sudo vim /usr/share/applications/PentahoDataIntegration.desktop 輸入以下內�
 
                 
                     
-                        <dd><a href="/about">About</a></dd>
+                        <dd><a href="/about/">About</a></dd>
+                    
+                        <dd><a href="/zone/">Zone</a></dd>
                     
                 
             </dl>
@@ -163,6 +176,15 @@ layui.use('element', function(){
 <p><a href="https://www.freedesktop.org/wiki/">freedesktop.org</a></p>
 <p><a href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html">Desktop Entry Specification</a></p>
 </div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
             </div>
         </div>
 
@@ -573,7 +595,7 @@ layui.use('element', function(){
     
     
     <div class="layui-container">
-        <p class="copyright">PolloChang</p>
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

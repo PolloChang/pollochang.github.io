@@ -21,6 +21,15 @@ class ExampleController { def index(){ redirect controller: &#39;dict&#39;, acti
     
 
     
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
 
     
 
@@ -56,7 +65,9 @@ class ExampleController { def index(){ redirect controller: &#39;dict&#39;, acti
 
         
             
-                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/zone/">Zone</a></li>
             
         
 
@@ -73,7 +84,9 @@ class ExampleController { def index(){ redirect controller: &#39;dict&#39;, acti
 
                 
                     
-                        <dd><a href="/about">About</a></dd>
+                        <dd><a href="/about/">About</a></dd>
+                    
+                        <dd><a href="/zone/">Zone</a></dd>
                     
                 
             </dl>
@@ -207,6 +220,15 @@ layui.use('element', function(){
 <p><a href="https://blog.niclin.tw/2020/03/31/avoid-http-header-use-underscore/">API 設計時必須注意的 HTTP header 底線問題</a></p>
 <p><a href="https://datatracker.ietf.org/doc/html/rfc822#section-3.1.2">RFP822 3.1.2: STRUCTURE OF HEADER FIELDS</a></p>
 </div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
             </div>
         </div>
 
@@ -633,7 +655,7 @@ layui.use('element', function(){
     
     
     <div class="layui-container">
-        <p class="copyright">PolloChang</p>
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

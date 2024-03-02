@@ -29,6 +29,15 @@ sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &#39;echo &#34;deb http://apt.po
     
 
     
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
 
     
 
@@ -64,7 +73,9 @@ sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &#39;echo &#34;deb http://apt.po
 
         
             
-                <li class="layui-nav-item" id="nav_big"><a href="/about">About</a></li>
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">About</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/zone/">Zone</a></li>
             
         
 
@@ -81,7 +92,9 @@ sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &#39;echo &#34;deb http://apt.po
 
                 
                     
-                        <dd><a href="/about">About</a></dd>
+                        <dd><a href="/about/">About</a></dd>
+                    
+                        <dd><a href="/zone/">Zone</a></dd>
                     
                 
             </dl>
@@ -239,6 +252,15 @@ log_statement = &#39;ddl&#39; # option: none, ddl, mod, all，預設為: none，
 <p>確認都沒有問題之後，最後就是設定防火牆。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.1&#34; port protocol=&#34;tcp&#34; port=&#34;5432&#34; accept&#39;</span>
 </span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
             </div>
         </div>
 
@@ -649,7 +671,7 @@ log_statement = &#39;ddl&#39; # option: none, ddl, mod, all，預設為: none，
     
     
     <div class="layui-container">
-        <p class="copyright">PolloChang</p>
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 
