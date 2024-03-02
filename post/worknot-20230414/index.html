@@ -1,0 +1,649 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - GC實驗: String 相接 與 系統效能 關係 </title>
+    
+    
+    <meta content="java, java GC, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
+實驗目的 了解String 相接 與 系統效能 關係
+實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m -XX:&#43;UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:&#43;CMSScavengeBeforeRemark -XX:&#43;ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:&#43;UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:&#43;UseCMSInitiatingOccupancyOnly -XX:&#43;CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:&#43;DisableExplicitGC -verbose:gc -server 實驗項目 實驗項目: 單純 String 接拼 實驗程式碼 public class TestString{ public static void main(String[] args){ String test = &#34;&#34;; for(int i = 0; i &lt;- 50000; i&#43;&#43;&gt;){ test &#43;= &#34;1234&#34;&#43;&#34;5678&#34;; } } } 實驗項目: StringBuffer 接字串 實驗程式碼 public class TestString{ public static void main(String[] args){ StringBuffer test = new StringBuffer(); for(int i = 0; i &lt;- 50000; i&#43;&#43;&gt;){ test." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>GC實驗: String 相接 與 系統效能 關係</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2023-04-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java</span>
+        </a>
+    
+        <a href="/tags/java-gc/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java GC</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。</p>
+<h2 id="實驗目的">實驗目的</h2>
+<p>了解String 相接 與 系統效能 關係</p>
+<h2 id="實踐環境">實踐環境</h2>
+<ul>
+<li>java version: java 6</li>
+</ul>
+<h2 id="實驗環境">實驗環境</h2>
+<pre tabindex="0"><code>-Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m  -XX:+UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSScavengeBeforeRemark -XX:+ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly -XX:+CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:+DisableExplicitGC -verbose:gc -server
+</code></pre><h2 id="實驗項目">實驗項目</h2>
+<h3 id="實驗項目-單純-string-接拼">實驗項目: 單純 String 接拼</h3>
+<h4 id="實驗程式碼">實驗程式碼</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestString</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>    String test <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;-</span> 50000<span style="color:#f92672">;</span> i<span style="color:#f92672">++&gt;){</span>
+</span></span><span style="display:flex;"><span>      test <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;1234&#34;</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;5678&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="實驗項目-stringbuffer-接字串">實驗項目: StringBuffer 接字串</h3>
+<h4 id="實驗程式碼-1">實驗程式碼</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestString</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>    StringBuffer test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuffer<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;-</span> 50000<span style="color:#f92672">;</span> i<span style="color:#f92672">++&gt;){</span>
+</span></span><span style="display:flex;"><span>      test<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1234&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5678&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="實驗項目-stringbuilder-接字串">實驗項目: StringBuilder 接字串</h3>
+<h4 id="實驗程式碼-2">實驗程式碼</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestString</span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>    StringBuilder test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;-</span> 50000<span style="color:#f92672">;</span> i<span style="color:#f92672">++&gt;){</span>
+</span></span><span style="display:flex;"><span>      test<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1234&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;5678&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="實踐結果">實踐結果</h2>
+<script type="text/javascript" src= '/js/pdf-js/build/pdf.js'></script>
+
+<style>
+  #embed-pdf-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 20vh;
+     
+  }
+  
+  .pdf-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  #the-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  
+  .pdf-loadingWrapper {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 350px;
+  }
+  
+  .pdf-loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #d2d0d0;;
+    border-radius: 50%;
+    border-top-color: #383838;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  
+  
+  
+  
+  
+  #overlayText {
+    word-wrap: break-word;
+    display: grid;
+    justify-content: end;
+  }
+  
+  #overlayText a {
+    position: relative;
+    top: 10px;
+    right: 4px;
+    color: #000;
+    margin: auto;
+    background-color: #eeeeee;
+    padding: 0.3em 1em;
+    border: solid 2px;
+    border-radius: 12px;
+    border-color: #00000030;
+    text-decoration: none;
+  }
+  
+  #overlayText svg {
+    height: clamp(1em, 2vw, 1.4em);
+    width:  clamp(1em, 2vw, 1.4em);
+  }
+  
+  
+  
+  @keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  </style><div class="embed-pdf-container" id="embed-pdf-container-71ecbb84">
+    <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-71ecbb84">
+        <div class="pdf-loading" id="pdf-loading-71ecbb84"></div>
+    </div>
+    <div id="overlayText">
+      <a href="/file/20230414-experiment-GC.pdf" aria-label="Download" download>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+            <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
+        </svg>
+      </a>
+    </div>
+    <canvas class="pdf-canvas" id="pdf-canvas-71ecbb84"></canvas>
+</div>
+
+<div class="pdf-paginator" id="pdf-paginator-71ecbb84">
+    <button id="pdf-prev-71ecbb84">Previous</button>
+    <button id="pdf-next-71ecbb84">Next</button> &nbsp; &nbsp;
+    <span>
+      <span class="pdf-pagenum" id="pdf-pagenum-71ecbb84"></span> / <span class="pdf-pagecount" id="pdf-pagecount-71ecbb84"></span>
+    </span>
+    <a class="pdf-source" id="pdf-source-71ecbb84" href="/file/20230414-experiment-GC.pdf">[pdf]</a>
+</div>
+
+<noscript>
+View the PDF file <a class="pdf-source" id="pdf-source-noscript-71ecbb84" href="/file/20230414-experiment-GC.pdf">here</a>.
+</noscript>
+
+<script type="text/javascript">
+    (function(){
+    var url = '\/file\/20230414-experiment-GC.pdf';
+
+    var hidePaginator = "true" === "true";
+    var hideLoader = "true" === "true";
+    var selectedPageNum = parseInt("1") || 1;
+
+    
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+    
+    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/pollochang.work\/" + 'js/pdf-js/build/pdf.worker.js';
+
+    
+    var pdfDoc = null,
+        pageNum = selectedPageNum,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 3,
+        canvas = document.getElementById('pdf-canvas-71ecbb84'),
+        ctx = canvas.getContext('2d'),
+        paginator = document.getElementById("pdf-paginator-71ecbb84"),
+        loadingWrapper = document.getElementById('pdf-loadingWrapper-71ecbb84');
+
+
+    
+    showPaginator();
+    showLoader();
+
+    
+
+    function renderPage(num) {
+      pageRendering = true;
+      
+      pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          showContent();
+
+          if (pageNumPending !== null) {
+            
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      
+      document.getElementById('pdf-pagenum-71ecbb84').textContent = num;
+    }
+
+    
+
+    function showContent() {
+      loadingWrapper.style.display = 'none';
+      canvas.style.display = 'block';
+    }
+
+    
+
+    function showLoader() {
+      if(hideLoader) return
+      loadingWrapper.style.display = 'flex';
+      canvas.style.display = 'none';
+    }
+
+    
+
+    function showPaginator() {
+      if(hidePaginator) return
+      paginator.style.display = 'block';
+    }
+
+    
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    
+
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('pdf-prev-71ecbb84').addEventListener('click', onPrevPage);
+
+    
+
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('pdf-next-71ecbb84').addEventListener('click', onNextPage);
+
+    
+
+    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      var numPages = pdfDoc.numPages;
+      document.getElementById('pdf-pagecount-71ecbb84').textContent = numPages;
+
+      
+      if(pageNum > numPages) {
+        pageNum = numPages
+      }
+
+      
+      renderPage(pageNum);
+    });
+    })();
+</script>
+
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240301/">
+                        <h3 class="">Worknot 20240301</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle-18c/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle 18c</span>
+        </a>
+    
+        <a href="/tags/oracle-rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle RAC</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <h3 class="">我的Linux生活日記 Debian 使用心得-2022.04</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+                        <h3 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+                        <h3 class="">我的Linux生活日記 30.學習資源</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+                        <h3 class="">我的Linux生活日記 29.如何從小使用Linux</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
