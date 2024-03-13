@@ -1,0 +1,634 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - linux與windows共享目錄 samba </title>
+    
+    
+    <meta content="Linux, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 安裝samba sudo apt install samba 設定共享目錄 sudo vim /etc/samba/smb.conf
+[localgit] comment = dadatong path = /home/pollochang/data/localGit browsable = yes guest ok = no read only = no create mask = 0755 [software] comment = dadatong path = /home/pollochang/data/software browsable = yes guest ok = no read only = yes create mask = 0755 [data] comment = dadatong path = /home/jameschang/data browsable = yes guest ok = no read only = no create mask = 0755 [tes1] comment = tes1 path = /home/jc/tes1 browsable = yes guest ok = no read only = no workgroup = oinstall create mode = 0775 #從Client端建立檔案後，建立之檔案權限會設定為create mode的值 directory mode = 2770 #從Client端建立目錄後，建立之目錄權限會設定為directory mode的值 valid users = @oinstall #可登入SAMBA的帳號白名單列表，可直接指定帳號清單，或是以 @開頭表示可使用的群組，指定的user一定要是系統上存在的帳號，否則是無效的。如 root, @user 表示允許root帳號與 @user群組中的帳號使用 新增 samba 的使用者 pollochang@pollochang-GL72-7RDX:~$ sudo smbpasswd -a jameschang New SMB password: Retype new SMB password: Failed to add entry for user jameschang." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>linux與windows共享目錄 samba</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="安裝samba">安裝samba</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install samba
+</span></span></code></pre></div><h2 id="設定共享目錄">設定共享目錄</h2>
+<p>sudo vim /etc/samba/smb.conf</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>localgit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    comment <span style="color:#f92672">=</span> dadatong
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> /home/pollochang/data/localGit
+</span></span><span style="display:flex;"><span>    browsable <span style="color:#f92672">=</span> yes
+</span></span><span style="display:flex;"><span>    guest ok <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    read only <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    create mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0755</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>software<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    comment <span style="color:#f92672">=</span> dadatong
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> /home/pollochang/data/software
+</span></span><span style="display:flex;"><span>    browsable <span style="color:#f92672">=</span> yes
+</span></span><span style="display:flex;"><span>    guest ok <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    read only <span style="color:#f92672">=</span> yes
+</span></span><span style="display:flex;"><span>    create mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0755</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>data<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    comment <span style="color:#f92672">=</span> dadatong
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> /home/jameschang/data
+</span></span><span style="display:flex;"><span>    browsable <span style="color:#f92672">=</span> yes
+</span></span><span style="display:flex;"><span>    guest ok <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    read only <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    create mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0755</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>tes1<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    comment <span style="color:#f92672">=</span> tes1
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> /home/jc/tes1
+</span></span><span style="display:flex;"><span>    browsable <span style="color:#f92672">=</span> yes
+</span></span><span style="display:flex;"><span>    guest ok <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    read only <span style="color:#f92672">=</span> no
+</span></span><span style="display:flex;"><span>    workgroup <span style="color:#f92672">=</span> oinstall
+</span></span><span style="display:flex;"><span>    create mode <span style="color:#f92672">=</span> <span style="color:#ae81ff">0775</span> <span style="color:#75715e">#從Client端建立檔案後，建立之檔案權限會設定為create mode的值</span>
+</span></span><span style="display:flex;"><span>	directory mode <span style="color:#f92672">=</span> <span style="color:#ae81ff">2770</span> <span style="color:#75715e">#從Client端建立目錄後，建立之目錄權限會設定為directory mode的值</span>
+</span></span><span style="display:flex;"><span>    valid users <span style="color:#f92672">=</span> @oinstall <span style="color:#75715e">#可登入SAMBA的帳號白名單列表，可直接指定帳號清單，或是以 @開頭表示可使用的群組，指定的user一定要是系統上存在的帳號，否則是無效的。如 root, @user 表示允許root帳號與 @user群組中的帳號使用</span>
+</span></span></code></pre></div><h2 id="新增-samba-的使用者">新增 samba 的使用者</h2>
+<pre tabindex="0"><code>pollochang@pollochang-GL72-7RDX:~$ sudo smbpasswd -a jameschang
+New SMB password:
+Retype new SMB password:
+Failed to add entry for user jameschang.
+</code></pre><p>注意：新增的使用者必須是要linux 的現有的使用者</p>
+<h2 id="重啟-samba-服務">重啟 samba 服務</h2>
+<pre tabindex="0"><code>pollochang@pollochang-GL72-7RDX:~$ sudo service smbd restart
+</code></pre><h2 id="防火牆">防火牆</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;10.192.1.0/24&#34; port protocol=&#34;tcp&#34; port=&#34;137&#34; accept&#39;</span> <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;10.192.1.0/24&#34; port protocol=&#34;tcp&#34; port=&#34;138&#34; accept&#39;</span> <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;10.192.1.0/24&#34; port protocol=&#34;tcp&#34; port=&#34;139&#34; accept&#39;</span> <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;10.192.1.103&#34; port protocol=&#34;tcp&#34; port=&#34;8080&#34; accept&#39;</span>
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E6%99%82%E9%96%93/">
+                                <h3 class="">Linux 係統時間</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/">
+                                <h3 class="">Linux 壓縮相關</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/">
+                                <h3 class="">Linux 字型安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/">
+                                <h3 class="">Linux 硬體檢測相關指令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                                <h3 class="">Linux 筆電常用命令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-2/">
+                        <h3 class="">MSSQL 雜記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-1/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240309/">
+                        <h3 class="">Linux 發行板核心版本整理</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux-kernel/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux Kernel</span>
+        </a>
+    
+        <a href="/tags/rhel_3/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_3</span>
+        </a>
+    
+        <a href="/tags/rhel_4/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_4</span>
+        </a>
+    
+        <a href="/tags/rhel_5/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_5</span>
+        </a>
+    
+        <a href="/tags/rhel_6/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_6</span>
+        </a>
+    
+        <a href="/tags/rhel_7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_7</span>
+        </a>
+    
+        <a href="/tags/rhel_8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_8</span>
+        </a>
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+        <a href="/tags/oracle-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle Linux</span>
+        </a>
+    
+        <a href="/tags/rocky-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Rocky Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240307/">
+                        <h3 class="">Oracle 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-07</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e8%87%aa%e5%ad%b8%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">自學筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

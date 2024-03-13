@@ -17,5 +17,14 @@
 Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
     </item>
     
+    <item>
+      <title>筆記型電腦安裝 Debian 調整</title>
+      <link>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</guid>
+      <description>筆記型電腦 調整 筆記型電腦插入滑鼠裝置自動關閉滑鼠板 Gnome gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled-on-external-mouse 我發現在 Debian 10 (Gnome3.30.2) 不會正常作用 電源管理 tlp sudo apt install tlp tlp-rdw sudo tlp start sudo tlp-stat -s sudo systemctl enable tlp 參考資料 GNOME: How To Disable The Touchpad When A Mouse Is Plugged In And While Typing</description>
+    </item>
+    
   </channel>
 </rss>

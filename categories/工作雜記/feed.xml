@@ -78,6 +78,183 @@ TABLESPACE_NAME Size(MB) Used(MB) Avail(MB ------------------------------ ------
     </item>
     
     <item>
+      <title>git CLI</title>
+      <link>http://pollochang.work/post/2024-02-28-git-cli/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-git-cli/</guid>
+      <description>commit git commit -m &amp;#34;描述&amp;#34; add 新增要紀錄的檔案
+git add . 切換分支 git checkout develop pull ❯ git pull hint: You have divergent branches and need to specify how to reconcile them. hint: You can do so by running one of the following commands sometime before hint: your next pull: hint: hint: git config pull.rebase false # merge hint: git config pull.rebase true # rebase hint: git config pull.ff only # fast-forward only hint: hint: You can replace &amp;#34;git config&amp;#34; with &amp;#34;git config --global&amp;#34; to set a default hint: preference for all repositories.</description>
+    </item>
+    
+    <item>
+      <title>html轉pdf-wkhtmltopdf</title>
+      <link>http://pollochang.work/post/2024-02-28-html%E8%BD%89pdf/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-html%E8%BD%89pdf/</guid>
+      <description>官方網站-wkhtmltopdf
+安裝檔 wkhtmltox_0.12.6.1-2.bullseye_amd64.deb CLI wkhtmltopdf 附件二-OS-作業系統日誌-差異備份-20231026_tmp.html 附件二-OS-作業系統日誌-差異備份-20231026.pdf </description>
+    </item>
+    
+    <item>
+      <title>Linux 係統時間</title>
+      <link>http://pollochang.work/post/2024-02-28-%E6%99%82%E9%96%93/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E6%99%82%E9%96%93/</guid>
+      <description>sudo date -s &amp;#34;2022/05/05 18:44:15&amp;#34; 若要查詢硬體時鐘（RTC）的時間，可以使用 hwclock：
+若要將係統時間寫入硬體時鐘，可以使用 -w 參數：
+sudo hwclock -w 係統時區校正 先設定時區 sudo timedatectl set-timezone Asia/Taipei ╰─ timedatectl Local time: Wed 2022-05-04 16:21:52 CST Universal time: Wed 2022-05-04 08:21:52 UTC RTC time: Wed 2022-05-04 08:21:52 Time zone: Asia/Taipei (CST, +0800) System clock synchronized: yes NTP service: active RTC in local TZ: no 校時查詢 [aaa@test ~]$ ntpq -p remote refid st t when poll reach delay offset jitter ============================================================================== *172.</description>
+    </item>
+    
+    <item>
+      <title>Linux 壓縮相關</title>
+      <link>http://pollochang.work/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/</guid>
+      <description>7z 安裝 sudo apt-get install p7zip-full p7zip-rar 解壓縮到指定輸出目錄 7z x &amp;#34;dir1.zip&amp;#34; -o &amp;#34;dir1&amp;#34; zip 安裝 apt install zip unzip 解壓縮到指定輸出目錄 unzip -q test.zip -d /tmp 參考資料 Linux 安裝 7zip</description>
+    </item>
+    
+    <item>
+      <title>Linux 字型安裝</title>
+      <link>http://pollochang.work/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/</guid>
+      <description>019.字型安裝 apt 安裝 sudo apt install ttf-mscorefonts-installer sudo apt install ttf-wqy-microhei ttf-wqy-zenhei # 中文字型 cd ~/下載 sudo mkdir -p /usr/share/fonts/custom &amp;amp;&amp;amp;\ sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf &amp;amp;&amp;amp;\ sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf &amp;amp;&amp;amp;\ sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf &amp;amp;&amp;amp;\ sudo fc-cache -v -f </description>
+    </item>
+    
+    <item>
+      <title>Linux 硬體檢測相關指令</title>
+      <link>http://pollochang.work/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/</guid>
+      <description>檢查住機板型號 ❯ sudo dmidecode -t 2 # dmidecode 3.3 Getting SMBIOS data from sysfs. SMBIOS 3.0.0 present. Handle 0x0002, DMI type 2, 15 bytes Base Board Information Manufacturer: ASUSTeK COMPUTER INC. Product Name: PRIME B250M-K Version: Rev X.0x Serial Number: 161190432104045 Asset Tag: Default string Features: Board is a hosting board Board is replaceable Location In Chassis: Default string Chassis Handle: 0x0003 Type: Motherboard Contained Object Handles: 0 檢查USB 等設備 udevadm monitor KERNEL[3434.</description>
+    </item>
+    
+    <item>
+      <title>Linux 筆電常用命令</title>
+      <link>http://pollochang.work/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>檢查電池容量 upower -i /org/freedesktop/UPower/devices/battery_BAT0 </description>
+    </item>
+    
+    <item>
+      <title>Linux 連接iPhone讀取照片</title>
+      <link>http://pollochang.work/post/2024-02-28-%E9%80%A3%E6%8E%A5iphone%E8%AE%80%E5%8F%96%E7%85%A7%E7%89%87/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E9%80%A3%E6%8E%A5iphone%E8%AE%80%E5%8F%96%E7%85%A7%E7%89%87/</guid>
+      <description>安裝 iFuse jameschang@debian:~$ sudo apt-get install ifuse Reading package lists... Done Building dependency tree... Done Reading state information... Done The following NEW packages will be installed: ifuse 0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded. Need to get 15.7 kB of archives. After this operation, 48.1 kB of additional disk space will be used. Get:1 http://deb.debian.org/debian bullseye/main amd64 ifuse amd64 1.1.4~git20181007.3b00243-1 [15.7 kB] Fetched 15.7 kB in 2s (7,099 B/s) Selecting previously unselected package ifuse.</description>
+    </item>
+    
+    <item>
+      <title>linux與windows共享目錄 samba</title>
+      <link>http://pollochang.work/post/2024-02-28-linux%E8%88%87windows%E5%85%B1%E4%BA%AB%E7%9B%AE%E9%8C%84/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-linux%E8%88%87windows%E5%85%B1%E4%BA%AB%E7%9B%AE%E9%8C%84/</guid>
+      <description>安裝samba sudo apt install samba 設定共享目錄 sudo vim /etc/samba/smb.conf
+[localgit] comment = dadatong path = /home/pollochang/data/localGit browsable = yes guest ok = no read only = no create mask = 0755 [software] comment = dadatong path = /home/pollochang/data/software browsable = yes guest ok = no read only = yes create mask = 0755 [data] comment = dadatong path = /home/jameschang/data browsable = yes guest ok = no read only = no create mask = 0755 [tes1] comment = tes1 path = /home/jc/tes1 browsable = yes guest ok = no read only = no workgroup = oinstall create mode = 0775 #從Client端建立檔案後，建立之檔案權限會設定為create mode的值 directory mode = 2770 #從Client端建立目錄後，建立之目錄權限會設定為directory mode的值 valid users = @oinstall #可登入SAMBA的帳號白名單列表，可直接指定帳號清單，或是以 @開頭表示可使用的群組，指定的user一定要是系統上存在的帳號，否則是無效的。如 root, @user 表示允許root帳號與 @user群組中的帳號使用 新增 samba 的使用者 pollochang@pollochang-GL72-7RDX:~$ sudo smbpasswd -a jameschang New SMB password: Retype new SMB password: Failed to add entry for user jameschang.</description>
+    </item>
+    
+    <item>
+      <title>sell 日誌 function</title>
+      <link>http://pollochang.work/post/2024-02-28-shell%E7%9B%B8%E9%97%9C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-shell%E7%9B%B8%E9%97%9C/</guid>
+      <description>日誌時間 #日誌名稱 log=&amp;#34;./log/checkWbsite.log&amp;#34; #操作日誌存放路徑 fsize=2000000 #如果日誌大小超過上限，則儲存舊日誌，重新生成日誌檔案 exec 2&amp;gt;&amp;gt;$log #如果執行過程中有錯誤資訊均輸出到日誌檔案中 #日誌函式 #引數 #引數一，級別，INFO ,WARN,ERROR #引數二，內容 #返回值 function zc_log(){ #判斷格式 if [ 2 -gt $# ] then echo &amp;#34;parameter not right in zc_log function&amp;#34; ; return ; fi if [ -e &amp;#34;$log&amp;#34; ] then touch $log fi #當前時間 local curtime; curtime=`date +%Y%m%d%H%M%S` #判斷檔案大小 local cursize ; cursize=`cat $log | wc -c` ; if [ $fsize -lt $cursize ] then mv $log $curtime&amp;#34;.out&amp;#34; touch $log ; fi #寫入檔案 echo &amp;#34;$curtime $*&amp;#34; &amp;gt;&amp;gt; $log; } </description>
+    </item>
+    
+    <item>
+      <title>在CLI 製作開機USB</title>
+      <link>http://pollochang.work/post/2024-02-28-%E8%A3%BD%E4%BD%9C%E9%96%8B%E6%A9%9Fusb/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E8%A3%BD%E4%BD%9C%E9%96%8B%E6%A9%9Fusb/</guid>
+      <description>最近再把我自己的另一台筆電重新安裝。趁重新安裝時，安裝Debian，因為我已經很習慣用這個作業系統工作了。安裝完成之後，發現原本抓的有臭蟲，所以就上網重新安裝一次。
+之前製作USB開機碟都是在windows上，而在Linux上卻沒有用過，因此順便紀錄一下過程。
+工具 unetbootin 原本我都是用Rufus，但是只有支援Windows。於是我找到Unetbootin這個懶人工具。
+下載連結UNetbootin for Debian (64-bit) for Linux
+安裝
+suod apt install ./unetbootin_575-1_amd64.deb 需要root 執行 執行時記得需要用root權限執行，不然會讀不到USB隨身碟。
+jameschang@JamesChangNB:~/下載$ xhost local:root non-network local connections being added to access control list jameschang@JamesChangNB:~/下載$ sudo QT_X11_NO_MITSHM=1 /usr/bin/unetbootin jameschang@JamesChangNB:df -Th /dev/sdb1 vfat 58G 2.9G 56G 5% /media/jameschang/D-LIVE 10_1 jameschang@JamesChangNB:~/下載$ sudo umount /dev/sdb1 jameschang@JamesChangNB:~/下載$ sudo mkfs.vfat /dev/sdb1 mkfs.fat 4.1 (2017-01-24)
+jameschang@JamesChangNB:sudo dd if=/home/jameschang/debs/debian-10.10.0-amd64-netinst.iso of=/dev/sdb1
+sudo cp /home/jameschang/debs/debian-10.10.0-amd64-netinst.iso /dev/sdb1
+fdisk /dev/sdb1
+mkfs.vfat -I /dev/sdb1
+參考資料 UNetbootin for Debian (64-bit) for Linux</description>
+    </item>
+    
+    <item>
+      <title>安裝Docker</title>
+      <link>http://pollochang.work/post/2024-02-28-%E5%AE%89%E8%A3%9Ddocker/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E5%AE%89%E8%A3%9Ddocker/</guid>
+      <description>OS: Debian 10 Debian 11
+初次安裝先移除舊相關套件 sudo apt-get remove docker docker-engine docker.io containerd runc 安裝 加入 gpg sudo apt-get update sudo apt-get install \ apt-transport-https \ ca-certificates \ curl \ gnupg \ lsb-release curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg echo \ &amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \ $(lsb_release -cs) stable&amp;#34; | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null 安裝docker 引擎 sudo apt-get update sudo apt-get install docker-ce docker-ce-cli containerd.io 將使用者加入docker群組 sudo usermod -aG docker [userName] 安裝docker-compose https://github.</description>
+    </item>
+    
+    <item>
+      <title>我的linux日常生活-6.安裝開發工具</title>
+      <link>http://pollochang.work/post/2024-02-28-%E5%AE%89%E8%A3%9D%E9%96%8B%E7%99%BC%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E5%AE%89%E8%A3%9D%E9%96%8B%E7%99%BC%E5%B7%A5%E5%85%B7/</guid>
+      <description>我的linux日常生活-6.安裝開發工具 tags: 我的linux日常生活 git 下面是git 安裝指令與設定方式
+安裝
+sudo apt install git 設定 git
+git config --global user.name PolloChang git config --global user.email james89926282@gmail.com git config --global core.editor &amp;#34;vim&amp;#34; 產生金鑰並取得公鑰
+ssh-keygen cat /home/jameschang/.ssh/id_rsa.pub 之後再把公鑰上傳到git sever 就可以了
+檢查有成功
+ssh -T git@github.com 遠端桌面軟體-Remmina Remmina 是我比較習慣的遠端桌面軟體，它可以支援ssh、sftp、RDP等，常用的遠端通訊定。
+一般安裝Ubuntu 時，通常就已經內建了。
+安裝指令如下：
+sudo apt install remmina 系統監控工具-nmon nmon 是在終端機顯示的監控工具，可以即時監控系統的狀況，也可以長時間採集系統資訊。下面為安裝方法：
+sudo apt install nmon 下面為即時監控的指令
+nmon 文字編輯器-vim Debian、Ubuntu 通常不自帶 vim 編輯器，所以需要特別安裝。
+sudo apt install vim 流程圖與雛型工具-draw.io DrowIO 是我比較常用來繪製流程圖與雛型，雖然它可以直接在瀏覽器直接繪畫，但是先決條件網路品質必須要很好，像我在家如果需要加班（好命苦）時，手機網路有時候會收不到訊號，所以必須獨立安裝軟體。</description>
+    </item>
+    
+    <item>
+      <title>筆記型電腦安裝 Debian 調整</title>
+      <link>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</guid>
+      <description>筆記型電腦 調整 筆記型電腦插入滑鼠裝置自動關閉滑鼠板 Gnome gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled-on-external-mouse 我發現在 Debian 10 (Gnome3.30.2) 不會正常作用 電源管理 tlp sudo apt install tlp tlp-rdw sudo tlp start sudo tlp-stat -s sudo systemctl enable tlp 參考資料 GNOME: How To Disable The Touchpad When A Mouse Is Plugged In And While Typing</description>
+    </item>
+    
+    <item>
+      <title>輸入法相關</title>
+      <link>http://pollochang.work/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/</guid>
+      <description>設定中文輸入法 在windows時我習慣是使用微軟新注音輸入法，轉到Linux 的替代方案是新酷音。以下是我安裝新酷音的步驟。
+至於輸入法框架，因為是使用 Gnome 桌面系統，在試過 fcitx 與 ibus 之後，最後是 ibus 比較能再大多數軟體上正常運作。fcitx 在有些時候會出現閃退或無法輸入中文字的狀況，至於是什麼原因就沒有仔細探究。
+設定中文語系 sudo apt install locales-all sudo dpkg-reconfigure locales 選擇語系編碼 選擇主要語系 這邊我習慣選擇 en_US.UTF8，讓系統介面顯示英文為主。
+選擇完之後系統就會自動開始設定。 ❯ sudo dpkg-reconfigure locales Generating locales (this might take a while)... en_US.UTF-8... done zh_TW.BIG5... done zh_TW.EUC-TW... done zh_TW.UTF-8... done Generation complete. 安裝新酷音 sudo apt install ibus-chewing chewing-editor 新酷音字詞編輯工具 sudo apt install chewing-editor liber-office 中文介面 sudo apt install libreoffice-l10n-zh-tw 下載新酷音詞庫 這邊我直接分享給大家我的檔案吧，這是我平時會使用的詞彙。
+匯入新酷音詞庫 開啟剛剛安裝的 chewing-editor 按下匯入就可以了。</description>
+    </item>
+    
+    <item>
+      <title>關閉IPv6</title>
+      <link>http://pollochang.work/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/</guid>
+      <description> /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 sudo sysctl -p ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
+    </item>
+    
+    <item>
       <title>GC實驗: String 相接 與 系統效能 關係</title>
       <link>http://pollochang.work/post/worknot-20230414/</link>
       <pubDate>Fri, 14 Apr 2023 20:53:54 +0800</pubDate>

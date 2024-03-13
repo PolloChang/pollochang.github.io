@@ -1,0 +1,624 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 輸入法相關 </title>
+    
+    
+    <meta content="Linux, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 設定中文輸入法 在windows時我習慣是使用微軟新注音輸入法，轉到Linux 的替代方案是新酷音。以下是我安裝新酷音的步驟。
+至於輸入法框架，因為是使用 Gnome 桌面系統，在試過 fcitx 與 ibus 之後，最後是 ibus 比較能再大多數軟體上正常運作。fcitx 在有些時候會出現閃退或無法輸入中文字的狀況，至於是什麼原因就沒有仔細探究。
+設定中文語系 sudo apt install locales-all sudo dpkg-reconfigure locales 選擇語系編碼 選擇主要語系 這邊我習慣選擇 en_US.UTF8，讓系統介面顯示英文為主。
+選擇完之後系統就會自動開始設定。 ❯ sudo dpkg-reconfigure locales Generating locales (this might take a while)... en_US.UTF-8... done zh_TW.BIG5... done zh_TW.EUC-TW... done zh_TW.UTF-8... done Generation complete. 安裝新酷音 sudo apt install ibus-chewing chewing-editor 新酷音字詞編輯工具 sudo apt install chewing-editor liber-office 中文介面 sudo apt install libreoffice-l10n-zh-tw 下載新酷音詞庫 這邊我直接分享給大家我的檔案吧，這是我平時會使用的詞彙。
+匯入新酷音詞庫 開啟剛剛安裝的 chewing-editor 按下匯入就可以了。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>輸入法相關</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="設定中文輸入法">設定中文輸入法</h2>
+<p>在windows時我習慣是使用微軟新注音輸入法，轉到Linux 的替代方案是新酷音。以下是我安裝新酷音的步驟。</p>
+<p>至於輸入法框架，因為是使用 Gnome 桌面系統，在試過 fcitx 與 ibus 之後，最後是 ibus 比較能再大多數軟體上正常運作。fcitx 在有些時候會出現閃退或無法輸入中文字的狀況，至於是什麼原因就沒有仔細探究。</p>
+<h3 id="設定中文語系">設定中文語系</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install locales-all
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dpkg-reconfigure locales
+</span></span></code></pre></div><ol>
+<li>選擇語系編碼</li>
+</ol>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528Dh8jOw8GxP.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528Dh8jOw8GxP.png"></p>
+<ol start="2">
+<li>選擇主要語系</li>
+</ol>
+<p>這邊我習慣選擇 en_US.UTF8，讓系統介面顯示英文為主。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528lT7XTEu3gq.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528lT7XTEu3gq.png"></p>
+<ol start="3">
+<li>選擇完之後系統就會自動開始設定。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo dpkg-reconfigure locales
+</span></span><span style="display:flex;"><span>Generating locales <span style="color:#f92672">(</span>this might take a <span style="color:#66d9ef">while</span><span style="color:#f92672">)</span>...
+</span></span><span style="display:flex;"><span>  en_US.UTF-8... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>  zh_TW.BIG5... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>  zh_TW.EUC-TW... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>  zh_TW.UTF-8... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Generation complete.
+</span></span></code></pre></div><h3 id="安裝新酷音">安裝新酷音</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install ibus-chewing chewing-editor
+</span></span></code></pre></div><h3 id="新酷音字詞編輯工具">新酷音字詞編輯工具</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install chewing-editor
+</span></span></code></pre></div><h3 id="liber-office-中文介面">liber-office 中文介面</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install libreoffice-l10n-zh-tw
+</span></span></code></pre></div><h3 id="下載新酷音詞庫">下載新酷音詞庫</h3>
+<p>這邊我直接分享給大家<a href="https://drive.google.com/drive/folders/15AYjDg49LFYDJsj0zQGsvyBn67nupmpV?usp=sharing">我的檔案</a>吧，這是我平時會使用的詞彙。</p>
+<h3 id="匯入新酷音詞庫">匯入新酷音詞庫</h3>
+<p>開啟剛剛安裝的 <code>chewing-editor</code> 按下匯入就可以了。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/201285287H38d4SZ5J.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/201285287H38d4SZ5J.png"></p>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://phoonrich.blogspot.com/2021/04/ubuntu-2004-ibus.html">Ubuntu 20.04 iBus 酷音輸入法編輯使用者詞彙</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E6%99%82%E9%96%93/">
+                                <h3 class="">Linux 係統時間</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/">
+                                <h3 class="">Linux 壓縮相關</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/">
+                                <h3 class="">Linux 字型安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/">
+                                <h3 class="">Linux 硬體檢測相關指令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                                <h3 class="">Linux 筆電常用命令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-2/">
+                        <h3 class="">MSSQL 雜記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-1/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240309/">
+                        <h3 class="">Linux 發行板核心版本整理</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux-kernel/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux Kernel</span>
+        </a>
+    
+        <a href="/tags/rhel_3/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_3</span>
+        </a>
+    
+        <a href="/tags/rhel_4/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_4</span>
+        </a>
+    
+        <a href="/tags/rhel_5/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_5</span>
+        </a>
+    
+        <a href="/tags/rhel_6/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_6</span>
+        </a>
+    
+        <a href="/tags/rhel_7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_7</span>
+        </a>
+    
+        <a href="/tags/rhel_8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_8</span>
+        </a>
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+        <a href="/tags/oracle-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle Linux</span>
+        </a>
+    
+        <a href="/tags/rocky-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Rocky Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240307/">
+                        <h3 class="">Oracle 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-07</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e8%87%aa%e5%ad%b8%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">自學筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

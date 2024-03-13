@@ -1,0 +1,725 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 我的linux日常生活-6.安裝開發工具 </title>
+    
+    
+    <meta content="Linux, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 我的linux日常生活-6.安裝開發工具 tags: 我的linux日常生活 git 下面是git 安裝指令與設定方式
+安裝
+sudo apt install git 設定 git
+git config --global user.name PolloChang git config --global user.email james89926282@gmail.com git config --global core.editor &#34;vim&#34; 產生金鑰並取得公鑰
+ssh-keygen cat /home/jameschang/.ssh/id_rsa.pub 之後再把公鑰上傳到git sever 就可以了
+檢查有成功
+ssh -T git@github.com 遠端桌面軟體-Remmina Remmina 是我比較習慣的遠端桌面軟體，它可以支援ssh、sftp、RDP等，常用的遠端通訊定。
+一般安裝Ubuntu 時，通常就已經內建了。
+安裝指令如下：
+sudo apt install remmina 系統監控工具-nmon nmon 是在終端機顯示的監控工具，可以即時監控系統的狀況，也可以長時間採集系統資訊。下面為安裝方法：
+sudo apt install nmon 下面為即時監控的指令
+nmon 文字編輯器-vim Debian、Ubuntu 通常不自帶 vim 編輯器，所以需要特別安裝。
+sudo apt install vim 流程圖與雛型工具-draw.io DrowIO 是我比較常用來繪製流程圖與雛型，雖然它可以直接在瀏覽器直接繪畫，但是先決條件網路品質必須要很好，像我在家如果需要加班（好命苦）時，手機網路有時候會收不到訊號，所以必須獨立安裝軟體。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                <dd><a href="/post/">Posts</a></dd>
+                
+
+                
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>我的linux日常生活-6.安裝開發工具</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="我的linux日常生活-6安裝開發工具">我的linux日常生活-6.安裝開發工具</h1>
+<h6 id="tags-我的linux日常生活">tags: <code>我的linux日常生活</code></h6>
+<h2 id="git">git</h2>
+<p>下面是git 安裝指令與設定方式</p>
+<p>安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install git
+</span></span></code></pre></div><p>設定 git</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git config --global user.name PolloChang
+</span></span><span style="display:flex;"><span>git config --global user.email james89926282@gmail.com
+</span></span><span style="display:flex;"><span>git config --global core.editor <span style="color:#e6db74">&#34;vim&#34;</span>
+</span></span></code></pre></div><p>產生金鑰並取得公鑰</p>
+<pre tabindex="0"><code>ssh-keygen
+cat /home/jameschang/.ssh/id_rsa.pub
+</code></pre><p>之後再把公鑰上傳到git sever 就可以了</p>
+<p>檢查有成功</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -T git@github.com
+</span></span></code></pre></div><h2 id="遠端桌面軟體-remmina">遠端桌面軟體-Remmina</h2>
+<p>Remmina 是我比較習慣的遠端桌面軟體，它可以支援ssh、sftp、RDP等，常用的遠端通訊定。</p>
+<p>一般安裝Ubuntu 時，通常就已經內建了。</p>
+<p>安裝指令如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install remmina
+</span></span></code></pre></div><h2 id="系統監控工具-nmon">系統監控工具-nmon</h2>
+<p>nmon 是在終端機顯示的監控工具，可以即時監控系統的狀況，也可以長時間採集系統資訊。下面為安裝方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install nmon
+</span></span></code></pre></div><p>下面為即時監控的指令</p>
+<pre tabindex="0"><code class="language-shell=" data-lang="shell=">nmon
+</code></pre><h2 id="文字編輯器-vim">文字編輯器-vim</h2>
+<p>Debian、Ubuntu 通常不自帶 vim 編輯器，所以需要特別安裝。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install vim
+</span></span></code></pre></div><h2 id="流程圖與雛型工具-drawio">流程圖與雛型工具-draw.io</h2>
+<p>DrowIO 是我比較常用來繪製流程圖與雛型，雖然它可以直接在瀏覽器直接繪畫，但是先決條件網路品質必須要很好，像我在家如果需要加班（好命苦）時，手機網路有時候會收不到訊號，所以必須獨立安裝軟體。</p>
+<p>線上板本: <a href="https://app.diagrams.net/">https://app.diagrams.net/</a></p>
+<p>桌面版本: <a href="https://github.com/jgraph/drawio-desktop/releases">jgraph/drawio-desktop</a></p>
+<p>下面為桌面板本安裝方法：</p>
+<p>到 <a href="https://github.com/jgraph/drawio-desktop/releases">jgraph/drawio-desktop</a> 下載Linux 安裝檔(.deb或 .rpm) 或是透過 snap 安裝</p>
+<p>下載完成後輸入以下指令</p>
+<p><a href="https://github.com/jgraph/drawio-desktop/releases/download/v16.5.1/drawio-amd64-16.5.1.deb">https://github.com/jgraph/drawio-desktop/releases/download/v16.5.1/drawio-amd64-16.5.1.deb</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install ./drawio-amd64-14.6.13.deb
+</span></span></code></pre></div><h2 id="dbeaver">dbeaver</h2>
+<p>dbeaver 是我比較常用的資料庫管理工具，它可以同時連接不同資料庫進行作業，對於有兩個以上資料庫的專案來說相當方便，另外它也有提供付費版本，但是對於一般開發者來說社群板就夠用了。</p>
+<p>deb下載位址：https://dbeaver.io/download/</p>
+<p>snap 安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo snap install dbeaver-ce
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install ./dbeaver-ce_21.0.0_amd64.deb
+</span></span></code></pre></div><ul>
+<li>use ppa</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo add-apt-repository ppa:serge-rider/dbeaver-ce
+</span></span></code></pre></div><ul>
+<li>apt</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt -y  install openjdk-11-jdk openjdk-11-jre
+</span></span><span style="display:flex;"><span>sudo apt -y install default-jdk
+</span></span><span style="display:flex;"><span>java -version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add - 
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb https://dbeaver.io/debs/dbeaver-ce /&#34;</span> | sudo tee /etc/apt/sources.list.d/dbeaver.list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt -y  install dbeaver-ce
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>apt policy  dbeaver-ce <span style="color:#75715e"># 移除</span>
+</span></span></code></pre></div><p>另外一開始安裝完畢後語言會是預設簡體中文，但是翻譯真的不完全，在操作上可能會有點不習慣，雖然在GUI 界面當中可以選擇語言，但是通常無效，所以必須到 dbeaver.ini 檔案中新增參數選項</p>
+<p>sudo vim /usr/share/dbeaver/dbeaver.ini
+sudo vim  /usr/share/dbeaver-ce/dbeaver.ini</p>
+<pre tabindex="0"><code>-Duser.language=en
+</code></pre><h2 id="ms-visual-studio-code">MS Visual Studio Code</h2>
+<p>MS VSCode 是微軟最近幾年新的輕量級的程式開發工具，支援大部份程式語言語法高亮度。我會常用的原因主要是對於Markdown 原生支援，對於用Markdown寫作的人是友善的。</p>
+<p>下載網址：https://code.visualstudio.com/download</p>
+<p>以下為安裝方式：</p>
+<pre tabindex="0"><code>sudo apt install ./code_1.53.2-1613044664_amd64.deb
+</code></pre><ul>
+<li>ppa 方式安裝</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor &gt; packages.microsoft.gpg
+</span></span><span style="display:flex;"><span>sudo install -o root -g root -m <span style="color:#ae81ff">644</span> packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+</span></span><span style="display:flex;"><span>sudo sh -c <span style="color:#e6db74">&#39;echo &#34;deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main&#34; &gt; /etc/apt/sources.list.d/vscode.list&#39;</span>
+</span></span><span style="display:flex;"><span>rm -f packages.microsoft.gpg
+</span></span><span style="display:flex;"><span>sudo apt install apt-transport-https
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install code <span style="color:#75715e"># or code-insiders</span>
+</span></span></code></pre></div><h2 id="jdk">JDK</h2>
+<p>身為一個JAVA 相關的開發者，對於JAVA 生產環境如何處理是必須知道的。JDK 目前分兩個類型，收費的與自由 <del>免費</del> 的。在安裝上的差別主要是Oracle 需要登入後才能下載，OpenSource 可以直接透過yum apt&hellip;等套件管理工具就可以下載。</p>
+<p>不過通常我是習慣透過下載之後解壓縮直接用，因為不同的專案有可能會需要不同的JDK 版本。</p>
+<p>在JDK6 以後只需要解壓縮後設定JAVA_HOME 環境參數就可以用。</p>
+<p>而在JDK1.5 需要透過安裝檔安裝。</p>
+<p>OpenJDK</p>
+<p><a href="https://adoptopenjdk.net/releases.html">AdoptOpenJDK</a></p>
+<ul>
+<li>自己安裝 JAVA_HOME</li>
+</ul>
+<p>/etc/profile.d/java-home.sh</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>JAVA_HOME<span style="color:#f92672">=</span>/usr/lib/jvm/jdk-11.0.14
+</span></span><span style="display:flex;"><span>CLASSPATH<span style="color:#f92672">=</span>$JAVA_HOME/lib/
+</span></span><span style="display:flex;"><span>PATH<span style="color:#f92672">=</span>$PATH:$JAVA_HOME/bin
+</span></span><span style="display:flex;"><span>export PATH JAVA_HOME CLASSPATH
+</span></span></code></pre></div><pre tabindex="0"><code>source /etc/profile
+</code></pre><h2 id="maven-安裝">maven 安裝</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxf apache-maven-3.8.5-bin.tar.gz
+</span></span><span style="display:flex;"><span>sudo cp apache-maven-3.8.5 /usr/local/lib
+</span></span></code></pre></div><p>/etc/profile.d/mvn.sh</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>export MAVEN_HOME<span style="color:#f92672">=</span>/usr/local/lib/apache-maven-3.8.5
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$MAVEN_HOME/bin:$PATH
+</span></span></code></pre></div><h2 id="netbeans-67">netbeans-6.7</h2>
+<p>nerbeans-6.7 安裝對於現在來說比較特別，需要指定java版本執行，不會可會報錯的。語法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo sh netbeans-6.7-ml-java-linux.sh --javahome /usr/lib/jvm/jdk1.5.0_22
+</span></span></code></pre></div><h2 id="shellcheck">shellcheck</h2>
+<p>linux shell script sheck</p>
+<h2 id="kettle-9">kettle 9</h2>
+<p>安裝環境: Debian 10</p>
+<h3 id="下載就套件">下載就套件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget http://archive.debian.org/debian-security/pool/updates/main/i/icu/libicu57_57.1-6+deb9u5_amd64.deb
+</span></span><span style="display:flex;"><span>wget http://old-releases.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libjavascriptcoregtk-1.0-0_2.4.11-3_amd64.deb
+</span></span><span style="display:flex;"><span>wget http://old-releases.ubuntu.com/ubuntu/pool/universe/w/webkitgtk/libwebkitgtk-1.0-0_2.4.11-3_amd64.deb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install ./libwebkitgtk-1.0-0_2.4.11-3_amd64.deb
+</span></span><span style="display:flex;"><span>sudo apt install ./libjavascriptcoregtk-1.0-0_2.4.11-3_amd64.deb
+</span></span><span style="display:flex;"><span>sudo apt install ./libicu57_57.1-6+deb9u5_amd64.deb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install libcanberra-gtk-module libcanberra-gtk3-module
+</span></span></code></pre></div><pre tabindex="0"><code>sudo touch logs/{karaf.log,security.log,pdi.log,spoon.log}
+sudo chmod 0666 ./logs/*.log
+</code></pre><h2 id="intellij-idea-無法輸入中文問題">intellij idea 無法輸入中文問題</h2>
+<ul>
+<li>/usr/local/etc/idea-IU-221.5787.30/bin/idea64.vmoptions</li>
+</ul>
+<pre tabindex="0"><code>-Drecreate.x11.input.method=true
+</code></pre><h2 id="參考資料">參考資料</h2>
+<p><a href="https://git-scm.com/book/zh-tw/v2/%E9%96%8B%E5%A7%8B-%E5%88%9D%E6%AC%A1%E8%A8%AD%E5%AE%9A-Git">1.6 開始 - 初次設定 Git</a></p>
+<p><a href="https://levelup.gitconnected.com/how-to-backup-and-restore-your-dockerized-postgres-database-a76a11ccf53e">How to Backup and Restore your Dockerized Postgres Database</a></p>
+<p><a href="https://ithelp.ithome.com.tw/articles/10196383">第 28 天：安裝/使用 DBeaver 管理資料庫</a></p>
+<p><a href="https://code.visualstudio.com/docs/setup/linux">Visual Studio Code on Linux</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E6%99%82%E9%96%93/">
+                                <h3 class="">Linux 係統時間</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/">
+                                <h3 class="">Linux 壓縮相關</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/">
+                                <h3 class="">Linux 字型安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/">
+                                <h3 class="">Linux 硬體檢測相關指令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                                <h3 class="">Linux 筆電常用命令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-2/">
+                        <h3 class="">MSSQL 雜記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313-1/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240313/">
+                        <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240309/">
+                        <h3 class="">Linux 發行板核心版本整理</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux-kernel/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux Kernel</span>
+        </a>
+    
+        <a href="/tags/rhel_3/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_3</span>
+        </a>
+    
+        <a href="/tags/rhel_4/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_4</span>
+        </a>
+    
+        <a href="/tags/rhel_5/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_5</span>
+        </a>
+    
+        <a href="/tags/rhel_6/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_6</span>
+        </a>
+    
+        <a href="/tags/rhel_7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_7</span>
+        </a>
+    
+        <a href="/tags/rhel_8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_8</span>
+        </a>
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+        <a href="/tags/oracle-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle Linux</span>
+        </a>
+    
+        <a href="/tags/rocky-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Rocky Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/worknot-20240307/">
+                        <h3 class="">Oracle 學習筆記</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-07</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e8%87%aa%e5%ad%b8%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">自學筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
