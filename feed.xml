@@ -6,7 +6,35 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 09 Mar 2024 11:27:26 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Mar 2024 23:41:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MSSQL 雜記</title>
+      <link>http://pollochang.work/post/worknot-20240313-2/</link>
+      <pubDate>Wed, 13 Mar 2024 23:41:46 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/worknot-20240313-2/</guid>
+      <description>查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 / a.execution_count AS DECIMAL(16, 2)) , [SQL指令] =SUBSTRING (b.text,(a.statement_start_offset/2) + 1,500) FROM sys.dm_exec_query_stats a CROSS APPLY sys.dm_exec_sql_text(a.sql_handle) as b WHERE a.total_elapsed_time &amp;gt; 0 AND B.[text] NOT LIKE &amp;#39;%SCHEMA_NAME%&amp;#39;--去除一些系統的SQL指令 ORDER BY [平均執行時間(秒)] DESC 查詢資料庫版本 SELECT @@VERSION AS &amp;#39;SQL Server Version Details&amp;#39; 查詢結果 Microsoft SQL Server 2014 - 12.0.2000.8 (X64) Feb 20 2014 20:04:26 Copyright (c) Microsoft Corporation Standard Edition (64-bit) on Windows NT 6.</description>
+    </item>
+    
+    <item>
+      <title>Oracle PL/SQL 學習筆記</title>
+      <link>http://pollochang.work/post/worknot-20240313-1/</link>
+      <pubDate>Wed, 13 Mar 2024 14:54:24 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/worknot-20240313-1/</guid>
+      <description>切字串成陣列
+regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
+    </item>
+    
+    <item>
+      <title>Oracle PL/SQL 學習筆記</title>
+      <link>http://pollochang.work/post/worknot-20240313/</link>
+      <pubDate>Wed, 13 Mar 2024 14:42:44 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/worknot-20240313/</guid>
+      <description>判斷式 if else if a &amp;gt; b then t := 0; elsif a &amp;gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT &amp;lt;= V_LOOP_CONT THEN EXIT; END IF; END LOOP; package head CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.0 2024-03-13 PolloChang 1. 初次新增 ******************************************************************************/ FUNCTION FUNCTION_NAME_1 (P_VAL IN VARCHAR2) RETURN VARCHAR2; END PK_1; body CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.</description>
+    </item>
+    
     <item>
       <title>Linux 發行板核心版本整理</title>
       <link>http://pollochang.work/post/worknot-20240309/</link>
