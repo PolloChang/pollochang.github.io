@@ -3,13 +3,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - oracle 監控SQL 效能 </title>
+    <title>PolloChang 工作筆記 - jmeter CLI 模式 </title>
     
     
-    <meta content="Oracle, 系統調校, 工作雜記" name="keywords">
+    <meta content="jmeter, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
-SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &gt; 0 ORDER BY (SA." name="description">
+    <meta content="PolloChang 工作筆記 - 前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
+壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開啟GUI介面操作啦。
+Linux #!/bin/bash export groupT=&#34;25-60&#34; export homeDir=&#34;/home/pollo&#34; mkdir -p ${homeDir}/reports/${groupT}/report export JVM_ARGS=&#34;-Xms10240m -Xmx10240m&#34; ${homeDir}/apache-jmeter-5.5/bin/jmeter -n -t ${homeDir}/test.jmx -l ${homeDir}/reports/${groupT}/report/report.jtl -e -o ${homeDir}/reports/${groupT}/report windows set groupT=25-60 set homeDir=C:\Users\pollo\Desktop mkdir C:\Users\pollo\Desktop\reports\%groupT%\report set JVM_ARGS=&#34;-Xmx80240m&#34; C:\app\apache-jmeter-5.5\bin\jmeter -n -t C:\Users\pollo\Desktop\test.jmx -l %homeDir%\reports\%groupT%\report\report.jtl -e -o %homeDir%\reports\%groupT%\report 用CLI執行 JMeter 會產生一個Log檔: jmeter.log 。可以方便後追蹤。
+參數說明 選項 說明 -n 指定 JMeter 在 CLI 模式下運作 -t jmx 文件路徑 -l jtl 測試紀錄檔案路徑 -j Jmeter." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -105,10 +107,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>oracle 監控SQL 效能</h1>
+                    <h1>jmeter CLI 模式</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-05</span>
+    <span>2024-03-14</span>
 
     
      
@@ -126,12 +128,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
+        <a href="/tags/jmeter/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jmeter</span>
         </a>
     
     
@@ -139,91 +137,66 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> QUERY_STATUS,
-</span></span><span style="display:flex;"><span>SA.SQL_ID,
-</span></span><span style="display:flex;"><span>SA.SQL_TEXT,
-</span></span><span style="display:flex;"><span>SA.SQL_FULLTEXT,
-</span></span><span style="display:flex;"><span>SA.EXECUTIONS EXECUTIONS, <span style="color:#75715e">--執行次數
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ROUND(SA.ELAPSED_TIME <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) ELAPSED_TIME, <span style="color:#75715e">--總共執行時間(秒)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ROUND(SA.ELAPSED_TIME <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span> <span style="color:#f92672">/</span> SA.EXECUTIONS, <span style="color:#ae81ff">2</span>) ELAPSED_TIME_AVERAGE, <span style="color:#75715e">--平均執行時間(秒)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ROUND(SA.CPU_TIME <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) CPU_TIME,  <span style="color:#75715e">--CPU 執行時間
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>SA.DISK_READS,
-</span></span><span style="display:flex;"><span>ROUND(SA.PLSQL_EXEC_TIME <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) PLSQL_EXEC_TIME, <span style="color:#75715e">--(秒)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ROUND(SA.USER_IO_WAIT_TIME <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) USER_IO_WAIT_TIME, <span style="color:#75715e">--(秒)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>SA.COMMAND_TYPE,
-</span></span><span style="display:flex;"><span>SA.HASH_VALUE,
-</span></span><span style="display:flex;"><span>SA.PARSING_USER_ID PARSING_USER_ID,
-</span></span><span style="display:flex;"><span>U.USERNAME USERNAME <span style="color:#75715e">--帳號名稱
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">FROM</span> V$SQLAREA SA
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> ALL_USERS U <span style="color:#66d9ef">ON</span> SA.PARSING_USER_ID <span style="color:#f92672">=</span> U.USER_ID
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> SA.EXECUTIONS <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> (SA.ELAPSED_TIME <span style="color:#f92672">/</span> SA.EXECUTIONS) <span style="color:#66d9ef">DESC</span>
-</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">WHERE</span> ROWNUM <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">50</span>;
-</span></span></code></pre></div><h2 id="vsqlarea-table-欄位說明">V$SQLAREA table 欄位說明</h2>
-<pre tabindex="0"><code>Name                                      Null?    Type
------------------------------------------ -------- --------------
-SQL_TEXT                                           VARCHAR2(1000)
-SHARABLE_MEM                                       NUMBER
-PERSISTENT_MEM                                     NUMBER
-RUNTIME_MEM                                        NUMBER
-SORTS                                              NUMBER
-VERSION_COUNT                                      NUMBER
-LOADED_VERSIONS                                    NUMBER
-OPEN_VERSIONS                                      NUMBER
-USERS_OPENING                                      NUMBER
-EXECUTIONS                                         NUMBER
-USERS_EXECUTING                                    NUMBER
-LOADS                                              NUMBER
-FIRST_LOAD_TIME                                    VARCHAR2(19)
-INVALIDATIONS                                      NUMBER
-PARSE_CALLS                                        NUMBER
-DISK_READS                                         NUMBER
-BUFFER_GETS                                        NUMBER
-ROWS_PROCESSED                                     NUMBER
-COMMAND_TYPE                                       NUMBER
-OPTIMIZER_MODE                                     VARCHAR2(25)
-PARSING_USER_ID                                    NUMBER
-PARSING_SCHEMA_ID                                  NUMBER
-KEPT_VERSIONS                                      NUMBER
-ADDRESS                                            RAW(4)
-HASH_VALUE                                         NUMBER
-MODULE                                             VARCHAR2(64)
-MODULE_HASH                                        NUMBER
-ACTION                                             VARCHAR2(64)
-ACTION_HASH                                        NUMBER
-SERIALIZABLE_ABORTS                                NUMBER
-CPU_TIME                                           NUMBER
-ELAPSED_TIME                                       NUMBER
-IS_OBSOLETE                                        VARCHAR2(1)
-PLSQL_EXEC_TIME                                    NUMBER
-USER_IO_WAIT_TIME                                  NUMBER
-</code></pre><ul>
-<li>SHARABLE_MEM: Amount o sharable memory used by the SQL statement</li>
-<li>PERSISTENT_MEM: Amount of persistent memory used by the statement</li>
-<li>RUNTIME_MEM: Amount of runtime memory used by the statement</li>
-<li>SORTS: Total sorts across all executions</li>
-<li>EXECUTIONS: Total executions(執行次數)</li>
-<li>PARSE_CALLS: Total parse calls across all executions</li>
-<li>DISK_READS: Total disk reads across all executions</li>
-<li>BUFFER_GETS: Total buffer gets across all executions</li>
-<li>ROWS_PROCESSED: Total rows processed over all executions</li>
-<li>OPTIMIZER_MODE: Optimizer mode used by statement</li>
-<li>SERIALIZABLE_ABORTS: Number of serializable aborts over all executions</li>
-<li>CPU_TIME: Total CPU time used for all executions</li>
-<li>ELAPSED_TIME: Total elapsed time for all executions</li>
-<li>PLSQL_EXEC_TIME: PL/SQL 執行時間</li>
-<li>USER_IO_WAIT_TIME: I/O 等待的時間
+                    <p>前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。</p>
+<h2 id="壓力測試-cli-範例">壓力測試 CLI 範例</h2>
+<p>先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開啟GUI介面操作啦。</p>
 <ul>
-<li>曾經被 dblaod 讀檔讀不到檔案拖垮資料庫效能</li>
+<li>Linux</li>
 </ul>
-</li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>export groupT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;25-60&#34;</span>
+</span></span><span style="display:flex;"><span>export homeDir<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home/pollo&#34;</span>
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">${</span>homeDir<span style="color:#e6db74">}</span>/reports/<span style="color:#e6db74">${</span>groupT<span style="color:#e6db74">}</span>/report
+</span></span><span style="display:flex;"><span>export JVM_ARGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms10240m -Xmx10240m&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>homeDir<span style="color:#e6db74">}</span>/apache-jmeter-5.5/bin/jmeter -n -t <span style="color:#e6db74">${</span>homeDir<span style="color:#e6db74">}</span>/test.jmx -l <span style="color:#e6db74">${</span>homeDir<span style="color:#e6db74">}</span>/reports/<span style="color:#e6db74">${</span>groupT<span style="color:#e6db74">}</span>/report/report.jtl -e -o <span style="color:#e6db74">${</span>homeDir<span style="color:#e6db74">}</span>/reports/<span style="color:#e6db74">${</span>groupT<span style="color:#e6db74">}</span>/report
+</span></span></code></pre></div><ul>
+<li>windows</li>
 </ul>
-<h2 id="參考資料">參考資料</h2>
-<p><a href="https://www.dba-oracle.com/t_sql_response_time.htm">Oracle SQL response time monitoring</a></p>
-<p><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/refrn/V-SQLAREA.html#GUID-09D5169F-EE9E-4297-8E01-8D191D87BDF7">9.69 V$SQLAREA</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>set groupT<span style="color:#f92672">=</span>25-60
+</span></span><span style="display:flex;"><span>set homeDir<span style="color:#f92672">=</span>C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\p</span>ollo<span style="color:#ae81ff">\D</span>esktop
+</span></span><span style="display:flex;"><span>mkdir C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\p</span>ollo<span style="color:#ae81ff">\D</span>esktop<span style="color:#ae81ff">\r</span>eports<span style="color:#ae81ff">\%</span>groupT%<span style="color:#ae81ff">\r</span>eport
+</span></span><span style="display:flex;"><span>set JVM_ARGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xmx80240m&#34;</span>
+</span></span><span style="display:flex;"><span>C:<span style="color:#ae81ff">\a</span>pp<span style="color:#ae81ff">\a</span>pache-jmeter-5.5<span style="color:#ae81ff">\b</span>in<span style="color:#ae81ff">\j</span>meter -n -t C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\p</span>ollo<span style="color:#ae81ff">\D</span>esktop<span style="color:#ae81ff">\t</span>est.jmx -l %homeDir%<span style="color:#ae81ff">\r</span>eports<span style="color:#ae81ff">\%</span>groupT%<span style="color:#ae81ff">\r</span>eport<span style="color:#ae81ff">\r</span>eport.jtl -e -o %homeDir%<span style="color:#ae81ff">\r</span>eports<span style="color:#ae81ff">\%</span>groupT%<span style="color:#ae81ff">\r</span>eport
+</span></span></code></pre></div><p>用CLI執行 JMeter 會產生一個Log檔: jmeter.log 。可以方便後追蹤。</p>
+<h2 id="參數說明">參數說明</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">選項</th>
+<th style="text-align:left">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">指定 JMeter 在 CLI 模式下運作</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">jmx 文件路徑</td>
+</tr>
+<tr>
+<td style="text-align:left">-l</td>
+<td style="text-align:left">jtl 測試紀錄檔案路徑</td>
+</tr>
+<tr>
+<td style="text-align:left">-j</td>
+<td style="text-align:left">Jmeter.log 路徑，如果沒有指定預設是下指令的目錄</td>
+</tr>
+<tr>
+<td style="text-align:left">-g</td>
+<td style="text-align:left">產出 csv 報告文件</td>
+</tr>
+<tr>
+<td style="text-align:left">-e</td>
+<td style="text-align:left">產出 html 報告文件</td>
+</tr>
+<tr>
+<td style="text-align:left">-o</td>
+<td style="text-align:left">產出報告文件目錄</td>
+</tr>
+</tbody>
+</table>
 </div>
                 <div>
                     <script src="https://utteranc.es/client.js"
@@ -238,54 +211,6 @@ USER_IO_WAIT_TIME                                  NUMBER
         </div>
 
         <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
-            
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/worknot-20240304/">
-                                <h3 class="">oracle 記憶體監控</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-04</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
             
 
             <div class="layui-card single-card">
