@@ -9,20 +9,20 @@
     <lastBuildDate>Tue, 05 Mar 2024 00:02:22 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/%E7%B3%BB%E7%B5%B1%E8%AA%BF%E6%A0%A1/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>oracle 監控SQL 效能</title>
-      <link>http://pollochang.work/post/worknot-20240305/</link>
+      <link>http://pollochang.work/worknot/worknot-20240305/</link>
       <pubDate>Tue, 05 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240305/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240305/</guid>
       <description>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &amp;gt; 0 ORDER BY (SA.</description>
     </item>
     
     <item>
       <title>oracle 記憶體監控</title>
-      <link>http://pollochang.work/post/worknot-20240304/</link>
+      <link>http://pollochang.work/worknot/worknot-20240304/</link>
       <pubDate>Mon, 04 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240304/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240304/</guid>
       <description>透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &amp;#39;SGA&amp;#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&amp;#39;Maximum SGA Size&amp;#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&amp;#39;free memory&amp;#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &amp;#39;PGA&amp;#39; name,(select value/1024/1024 total from v$pgastat where name=&amp;#39;aggregate PGA target parameter&amp;#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &amp;#39;maximum PGA allocated&amp;#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&amp;#39;total PGA allocated&amp;#39;)used from dual ) ); 參考資料 Database Reference-8.</description>
     </item>

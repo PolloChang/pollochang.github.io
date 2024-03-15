@@ -9,29 +9,29 @@
     <lastBuildDate>Wed, 13 Mar 2024 14:54:24 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/oracle/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313-1/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313-1/</link>
       <pubDate>Wed, 13 Mar 2024 14:54:24 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313-1/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313-1/</guid>
       <description>切字串成陣列
 regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
     </item>
     
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313/</link>
       <pubDate>Wed, 13 Mar 2024 14:42:44 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313/</guid>
       <description>判斷式 if else if a &amp;gt; b then t := 0; elsif a &amp;gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT &amp;lt;= V_LOOP_CONT THEN EXIT; END IF; END LOOP; package head CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.0 2024-03-13 PolloChang 1. 初次新增 ******************************************************************************/ FUNCTION FUNCTION_NAME_1 (P_VAL IN VARCHAR2) RETURN VARCHAR2; END PK_1; body CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.</description>
     </item>
     
     <item>
       <title>Oracle 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240307/</link>
+      <link>http://pollochang.work/worknot/worknot-20240307/</link>
       <pubDate>Thu, 07 Mar 2024 22:43:06 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240307/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240307/</guid>
       <description>最近在工作上遇到Oracle 發生的系統效能問題，雖然有順利解決了，但是在解決的過程中似乎覺的自己對Oracle知識相當貧乏，於是在這邊筆記一下我學到的知識。
 學習的過過程中難免會出現紀錄錯誤，而且目前是因為工作上需要而自學。因此內容有錯還請見諒。
 Oracle Instance Instance 是一個由各種設定檔組成的記憶體結構，基本上當資料庫連線到Oracle 時是連接到 Instance。Instance 與 Database 是可以互不相依的，也就是說 Instance 與 Database 可以單獨存在。
@@ -45,20 +45,20 @@ INSTANCE_MODE = { READ-WRITE | READ-ONLY | READ-MOSTLY } Oracle資料庫結構�
     
     <item>
       <title>oracle 監控SQL 效能</title>
-      <link>http://pollochang.work/post/worknot-20240305/</link>
+      <link>http://pollochang.work/worknot/worknot-20240305/</link>
       <pubDate>Tue, 05 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240305/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240305/</guid>
       <description>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &amp;gt; 0 ORDER BY (SA.</description>
     </item>
     
     <item>
       <title>oracle 記憶體監控</title>
-      <link>http://pollochang.work/post/worknot-20240304/</link>
+      <link>http://pollochang.work/worknot/worknot-20240304/</link>
       <pubDate>Mon, 04 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240304/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240304/</guid>
       <description>透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &amp;#39;SGA&amp;#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&amp;#39;Maximum SGA Size&amp;#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&amp;#39;free memory&amp;#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &amp;#39;PGA&amp;#39; name,(select value/1024/1024 total from v$pgastat where name=&amp;#39;aggregate PGA target parameter&amp;#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &amp;#39;maximum PGA allocated&amp;#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&amp;#39;total PGA allocated&amp;#39;)used from dual ) ); 參考資料 Database Reference-8.</description>
     </item>

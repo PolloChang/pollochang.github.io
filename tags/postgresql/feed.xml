@@ -6,7 +6,17 @@
     <description>Recent content in postgresql on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 28 Feb 2024 19:20:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/postgresql/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Mar 2024 22:13:29 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/postgresql/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>db-postgresql-note</title>
+      <link>http://pollochang.work/post/db-postgresql-note/</link>
+      <pubDate>Fri, 15 Mar 2024 22:13:29 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/db-postgresql-note/</guid>
+      <description>安裝時設定項目 安裝前檢查項目 作業系統版本 資料庫空間需要獨立空間 資料庫備份需要獨立空間 稽核確認: 資料庫連線稽核 稽核確認: 資料庫DDL異動紀錄 定期備份排程 資料庫備份 定期備份排程 user: postgres
+0 1 * * * pg_dump -Fc -c dbName &amp;gt; /data/backup/dbName.$(date +%Y%m%d%H%M%S).dump -O # 備份 0 6 * * * /usr/bin/find /data/backup/* -type f -mtime +7 -exec rm -f {} \; # 刪除備份 維運管理 變更權限 change table owner ALTER TABLE [tableName] OWNER TO [userName];. change schema owner ALTER SCHEMA public OWNER TO [userName]; </description>
+    </item>
+    
     <item>
       <title>來架個網站吧-22.網站環境建置-安裝資料庫</title>
       <link>http://pollochang.work/post/1000-22.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%AE%89%E8%A3%9D%E8%B3%87%E6%96%99%E5%BA%AB/</link>

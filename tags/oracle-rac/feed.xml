@@ -9,10 +9,10 @@
     <lastBuildDate>Fri, 01 Mar 2024 23:10:12 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/oracle-rac/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Worknot 20240301</title>
-      <link>http://pollochang.work/post/worknot-20240301/</link>
+      <link>http://pollochang.work/worknot/worknot-20240301/</link>
       <pubDate>Fri, 01 Mar 2024 23:10:12 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240301/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240301/</guid>
       <description>今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
 環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理 因為最近一次檢查是發現audit所在的 tablespace 空間快滿了，加上發生資料庫遠端連線無法正常連線，所以只能進入資料庫本機檢查。
 進入資料庫主機 切換帳號到oracle 操作 su - oracle 執行 sqlplus sqlplus / as sysdba 執行下列SQL檢查 select a.TABLESPACE_NAME, to_char(a.BYTES/(1024*1024),&amp;#39;999,999&amp;#39;) &amp;#34;Size(MB)&amp;#34;, to_char(round((a.BYTES-b.BYTES)/(1024*1024),0),&amp;#39;999,999&amp;#39;) &amp;#34;Used(MB)&amp;#34;, to_char(b.BYTES/(1024*1024),&amp;#39;999,999&amp;#39;) &amp;#34;Avail(MB)&amp;#34; from (select TABLESPACE_NAME, sum(BYTES) &amp;#34;BYTES&amp;#34; from dba_data_files group by tablespace_name) a, (select TABLESPACE_NAME,sum(BYTES) &amp;#34;BYTES&amp;#34; from dba_free_space group by tablespace_name) b where a.TABLESPACE_NAME=b.TABLESPACE_NAME; 經過檢查確定發現AUD_TBS確定已經滿了。經詢問過DBA協助判斷確認需要增加新的 datafile ，因為一個datafile預設最大只能到32GB。

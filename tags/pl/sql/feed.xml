@@ -8,20 +8,20 @@
     <language>zh-TW</language><atom:link href="http://pollochang.work/tags/pl/sql/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313-1/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313-1/</link>
       <pubDate>Wed, 13 Mar 2024 14:54:24 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313-1/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313-1/</guid>
       <description>切字串成陣列
 regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
     </item>
     
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313/</link>
       <pubDate>Wed, 13 Mar 2024 14:42:44 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313/</guid>
       <description>判斷式 if else if a &amp;gt; b then t := 0; elsif a &amp;gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT &amp;lt;= V_LOOP_CONT THEN EXIT; END IF; END LOOP; package head CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.0 2024-03-13 PolloChang 1. 初次新增 ******************************************************************************/ FUNCTION FUNCTION_NAME_1 (P_VAL IN VARCHAR2) RETURN VARCHAR2; END PK_1; body CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.</description>
     </item>
     

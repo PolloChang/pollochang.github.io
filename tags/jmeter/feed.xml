@@ -9,10 +9,10 @@
     <lastBuildDate>Thu, 14 Mar 2024 22:41:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jmeter/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>jmeter CLI 模式</title>
-      <link>http://pollochang.work/post/worknot-20240314/</link>
+      <link>http://pollochang.work/worknot/worknot-20240314/</link>
       <pubDate>Thu, 14 Mar 2024 22:41:21 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240314/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240314/</guid>
       <description>前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
 壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開啟GUI介面操作啦。
 Linux #!/bin/bash export groupT=&amp;#34;25-60&amp;#34; export homeDir=&amp;#34;/home/pollo&amp;#34; mkdir -p ${homeDir}/reports/${groupT}/report export JVM_ARGS=&amp;#34;-Xms10240m -Xmx10240m&amp;#34; ${homeDir}/apache-jmeter-5.5/bin/jmeter -n -t ${homeDir}/test.jmx -l ${homeDir}/reports/${groupT}/report/report.jtl -e -o ${homeDir}/reports/${groupT}/report windows set groupT=25-60 set homeDir=C:\Users\pollo\Desktop mkdir C:\Users\pollo\Desktop\reports\%groupT%\report set JVM_ARGS=&amp;#34;-Xmx80240m&amp;#34; C:\app\apache-jmeter-5.5\bin\jmeter -n -t C:\Users\pollo\Desktop\test.jmx -l %homeDir%\reports\%groupT%\report\report.jtl -e -o %homeDir%\reports\%groupT%\report 用CLI執行 JMeter 會產生一個Log檔: jmeter.log 。可以方便後追蹤。

@@ -1,0 +1,518 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - MSSQL 雜記 </title>
+    
+    
+    <meta content="MSSQL, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 / a.execution_count AS DECIMAL(16, 2)) , [SQL指令] =SUBSTRING (b.text,(a.statement_start_offset/2) &#43; 1,500) FROM sys.dm_exec_query_stats a CROSS APPLY sys.dm_exec_sql_text(a.sql_handle) as b WHERE a.total_elapsed_time &gt; 0 AND B.[text] NOT LIKE &#39;%SCHEMA_NAME%&#39;--去除一些系統的SQL指令 ORDER BY [平均執行時間(秒)] DESC 查詢資料庫版本 SELECT @@VERSION AS &#39;SQL Server Version Details&#39; 查詢結果 Microsoft SQL Server 2014 - 12.0.2000.8 (X64) Feb 20 2014 20:04:26 Copyright (c) Microsoft Corporation Standard Edition (64-bit) on Windows NT 6." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>MSSQL 雜記</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="查詢執行很久的sql">查詢執行很久的SQL</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> TOP <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>  [<span style="color:#960050;background-color:#1e0010">總執行時間</span>(<span style="color:#960050;background-color:#1e0010">秒</span>)]  <span style="color:#f92672">=</span><span style="color:#66d9ef">CAST</span>(a.total_elapsed_time <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>.<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AS</span> DECIMAL(<span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">2</span>))  
+</span></span><span style="display:flex;"><span>, [<span style="color:#960050;background-color:#1e0010">執行次數</span>]    <span style="color:#f92672">=</span>a.execution_count
+</span></span><span style="display:flex;"><span>, [<span style="color:#960050;background-color:#1e0010">平均執行時間</span>(<span style="color:#960050;background-color:#1e0010">秒</span>)] <span style="color:#f92672">=</span><span style="color:#66d9ef">CAST</span>(a.total_elapsed_time <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">/</span> a.execution_count <span style="color:#66d9ef">AS</span> DECIMAL(<span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">2</span>)) 
+</span></span><span style="display:flex;"><span>, [SQL指令]    <span style="color:#f92672">=</span><span style="color:#66d9ef">SUBSTRING</span> (b.text,(a.statement_start_offset<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">500</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> sys.dm_exec_query_stats a <span style="color:#66d9ef">CROSS</span> APPLY sys.dm_exec_sql_text(a.sql_handle) <span style="color:#66d9ef">as</span> b
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> a.total_elapsed_time <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> B.[text] <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%SCHEMA_NAME%&#39;</span><span style="color:#75715e">--去除一些系統的SQL指令
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> [<span style="color:#960050;background-color:#1e0010">平均執行時間</span>(<span style="color:#960050;background-color:#1e0010">秒</span>)] <span style="color:#66d9ef">DESC</span>
+</span></span></code></pre></div><h2 id="查詢資料庫版本">查詢資料庫版本</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@@</span><span style="color:#66d9ef">VERSION</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">&#39;SQL Server Version Details&#39;</span>
+</span></span></code></pre></div><ul>
+<li>查詢結果</li>
+</ul>
+<pre tabindex="0"><code>Microsoft SQL Server 2014 - 12.0.2000.8 (X64) 
+	Feb 20 2014 20:04:26 
+	Copyright (c) Microsoft Corporation
+	Standard Edition (64-bit) on Windows NT 6.2 &lt;X64&gt; (Build 9200: ) (Hypervisor)
+</code></pre><h2 id="權限認識">權限認識</h2>
+<h3 id="ms-sql-伺服器角色">MS SQL 伺服器角色</h3>
+<p>Data type mapping for other data types:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">固定伺服器層級角色</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sysadmin</td>
+<td style="text-align:left">sysadmin 固定伺服器角色的成員可以執行伺服器中的所有活動。</td>
+</tr>
+<tr>
+<td style="text-align:left">serveradmin</td>
+<td style="text-align:left">serveradmin 固定伺服器角色的成員可以變更全伺服器組態選項及關閉伺服器。</td>
+</tr>
+<tr>
+<td style="text-align:left">securityadmin</td>
+<td style="text-align:left">securityadmin 固定伺服器角色的成員可以管理登入及其屬性。 他們可以 GRANT (授與)、DENY (拒絕) 和 REVOKE (撤銷) 伺服器層級權限。 如果他們擁有資料庫的存取權，也可以 GRANT、DENY 和 REVOKE 資料庫層級權限。 此外，他們可以重設SQL Server登入的密碼。   重要： 授與 Database Engine 存取權並設定使用者權限的能力，可讓安全性系統管理員指派大部分的伺服器許可權。 您應該將 securityadmin 角色視為相當於 系統管理員 角色。</td>
+</tr>
+<tr>
+<td style="text-align:left">processadmin</td>
+<td style="text-align:left">processadmin固定伺服器角色的成員可以結束SQL Server實例中執行的進程。</td>
+</tr>
+<tr>
+<td style="text-align:left">setupadmin</td>
+<td style="text-align:left">setupadmin固定伺服器角色的成員可以使用 Transact-SQL 語句來新增和移除連結的伺服器。 使用 Management Studio.) 時，需要 (系統管理員 成員資格</td>
+</tr>
+<tr>
+<td style="text-align:left">bulkadmin</td>
+<td style="text-align:left">bulkadmin 固定伺服器角色的成員可以執行 BULK INSERT 陳述式。 Linux 上的 SQL Server不支援bulkadmin角色或 ADMINISTER BULK OPERATIONS 許可權。 只有系統管理員可以針對Linux 上的 SQL Server執行大量插入。</td>
+</tr>
+<tr>
+<td style="text-align:left">diskadmin</td>
+<td style="text-align:left">diskadmin 固定伺服器角色是用來管理磁碟檔案。</td>
+</tr>
+<tr>
+<td style="text-align:left">dbcreator</td>
+<td style="text-align:left">dbcreator 固定伺服器角色的成員可以建立、改變、卸除及還原任何資料庫。</td>
+</tr>
+<tr>
+<td style="text-align:left">public</td>
+<td style="text-align:left">每個SQL Server登入都屬於公用伺服器角色。 當伺服器主體尚未授與或拒絕安全性實體物件上的特定許可權時，使用者會繼承該物件上授與 公用 的許可權。 只有當您想要將任何物件提供給所有使用者使用時，才指派該物件的 public 權限。 您無法變更公用中的成員資格。注意：public 的實作方式不同於其他角色，您可以授與、拒絕或撤銷 public 固定伺服器角色的權限。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="資料型態">資料型態</h2>
+<h3 id="sql-server-datetime-vs-datetime2">SQL Server Datetime vs Datetime2</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Feature</th>
+<th style="text-align:left">Datetime</th>
+<th style="text-align:left">Datetime2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Syntax</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">datetime2(n)</td>
+</tr>
+<tr>
+<td style="text-align:left">Where n represents fractional seconds precision</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Format</td>
+<td style="text-align:left">YYYY-MM-DD hh-mm-ss.nnn</td>
+<td style="text-align:left">YYYY-MM-DD hh-mm-ss.nnnnnnn</td>
+</tr>
+<tr>
+<td style="text-align:left">Date Range</td>
+<td style="text-align:left">1753-01-01 To 9999-12-31</td>
+<td style="text-align:left">0001-01-01 To 9999-12-31</td>
+</tr>
+<tr>
+<td style="text-align:left">Time Range</td>
+<td style="text-align:left">00:00:00 To 23:59:59.997</td>
+<td style="text-align:left">00:00:00 To 23:59:59.9999999</td>
+</tr>
+<tr>
+<td style="text-align:left">Default Value</td>
+<td style="text-align:left">1900-01-01 00:00:00</td>
+<td style="text-align:left">1900-01-01 00:00:00</td>
+</tr>
+<tr>
+<td style="text-align:left">Accuracy</td>
+<td style="text-align:left">Rounded to increments of .000, .003, or .007 seconds</td>
+<td style="text-align:left">.0000001 seconds (100 nanoseconds )</td>
+</tr>
+<tr>
+<td style="text-align:left">ANSI SQL Compliant</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">SQL Standards and is ISO Compliant (ISO 8601)</td>
+</tr>
+<tr>
+<td style="text-align:left">Time zone offset</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left">Character Length</td>
+<td style="text-align:left">19 positions minimum &amp;</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">23 maximum</td>
+<td style="text-align:left">19 positions minimum &amp;</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">27</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">Storage Size</td>
+<td style="text-align:left">8 bytes</td>
+<td style="text-align:left">6 to 8 bytes, depending on the precision*</td>
+</tr>
+<tr>
+<td style="text-align:left">User-Defined Precision</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">Yes</td>
+</tr>
+<tr>
+<td style="text-align:left">Usage</td>
+<td style="text-align:left">DECLARE @DateTime datetime  CREATE TABLE table_name ( Column1 datetime )</td>
+<td style="text-align:left">DECLARE @DateTime2 datetime2(7) CREATE TABLE table_name ( Column1 datetime2(7) )</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://ithelp.ithome.com.tw/articles/10080298">Day21_使用dmv找出執行最久的查詢</a></li>
+<li><a href="https://sqlserverguides.com/sql-server-datetime-vs-datetime2/">SQL Server Datetime vs Datetime2</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">筆記型電腦安裝 Debian 調整</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

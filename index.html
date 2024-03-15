@@ -59,10 +59,14 @@
     <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
         
         
-        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
         
 
         
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
             
@@ -78,10 +82,14 @@
 
             <dl class="layui-nav-child">
                 
-                <dd><a href="/post/">Posts</a></dd>
+                
                 
 
                 
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/personal-zone/">個人經歷</a></dd>
                     
@@ -142,7 +150,7 @@ layui.use('element', function(){
                     
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240314/">
+        <a href="/worknot/worknot-20240314/">
             <h2 class="">jmeter CLI 模式</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -176,13 +184,13 @@ layui.use('element', function(){
         	
 				前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
 壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開 ...
-             <a href="/post/worknot-20240314/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240314/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240313-2/">
+        <a href="/worknot/worknot-20240313-2/">
             <h2 class="">MSSQL 雜記</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -215,13 +223,13 @@ layui.use('element', function(){
         <h3>
         	
 				查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] ...
-             <a href="/post/worknot-20240313-2/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240313-2/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240313-1/">
+        <a href="/worknot/worknot-20240313-1/">
             <h2 class="">Oracle PL/SQL 學習筆記</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -259,13 +267,13 @@ layui.use('element', function(){
         	
 				切字串成陣列
 regexp_substr select regexp_substr ( :str, &#39;[^,]+&#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into ...
-             <a href="/post/worknot-20240313-1/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240313-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240313/">
+        <a href="/worknot/worknot-20240313/">
             <h2 class="">Oracle PL/SQL 學習筆記</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -302,13 +310,13 @@ regexp_substr select regexp_substr ( :str, &#39;[^,]+&#39;, 1, level ) value fro
         <h3>
         	
 				判斷式 if else if a &gt; b then t := 0; elsif a &gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT ...
-             <a href="/post/worknot-20240313/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240313/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240309/">
+        <a href="/worknot/worknot-20240309/">
             <h2 class="">Linux 發行板核心版本整理</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -378,13 +386,13 @@ regexp_substr select regexp_substr ( :str, &#39;[^,]+&#39;, 1, level ) value fro
         	
 				前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下
 Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 ...
-             <a href="/post/worknot-20240309/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240309/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240307/">
+        <a href="/worknot/worknot-20240307/">
             <h2 class="">Oracle 學習筆記</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -419,13 +427,13 @@ Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 ...
 				最近在工作上遇到Oracle 發生的系統效能問題，雖然有順利解決了，但是在解決的過程中似乎覺的自己對Oracle知識相當貧乏，於是在這邊筆記一下我學到的知識。
 學習的過過程中難免會出現紀錄錯誤，而且目前是因為工作上需要而自學。因此內容有錯還請見諒。
 Oracle Instance Instance  ...
-             <a href="/post/worknot-20240307/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240307/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240305/">
+        <a href="/worknot/worknot-20240305/">
             <h2 class="">oracle 監控SQL 效能</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -463,13 +471,13 @@ Oracle Instance Instance  ...
         	
 				這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, ...
-             <a href="/post/worknot-20240305/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240305/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240304/">
+        <a href="/worknot/worknot-20240304/">
             <h2 class="">oracle 記憶體監控</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -507,13 +515,13 @@ SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, ...
         	
 				透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) ...
-             <a href="/post/worknot-20240304/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240304/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240301/">
+        <a href="/worknot/worknot-20240301/">
             <h2 class="">Worknot 20240301</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -551,7 +559,135 @@ select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,
         	
 				今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
 環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理  ...
-             <a href="/post/worknot-20240301/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240301/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20230414/">
+            <h2 class="">GC實驗: String 相接 與 系統效能 關係</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2023-04-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java</span>
+        </a>
+    
+        <a href="/tags/java-gc/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java GC</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
+實驗目的 了解String 相接 與 系統效能 關係
+實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k ...
+             <a href="/worknot/worknot-20230414/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                
+                
+                    
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/db-postgresql-note/">
+            <h2 class="">db-postgresql-note</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				安裝時設定項目 安裝前檢查項目 作業系統版本 資料庫空間需要獨立空間 資料庫備份需要獨立空間 稽核確認: 資料庫連線稽核 稽核確認: 資料庫DDL異動紀錄 定期備份排程 資料庫備份 定期備份排程 user: postgres
+0 1 * * * pg_dump -Fc -c dbName &gt; ...
+             <a href="/post/db-postgresql-note/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/docker-note/">
+            <h2 class="">docker-note</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				檢查內部容器使用狀況 docker stats CONTAINER ID NAME CPU % MEM USAGE / LIMIT MEM % NET I/O BLOCK I/O PIDS 59bfcba7ba71 testwebjobmail-testwebJobMail-1 0.89% ...
+             <a href="/post/docker-note/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -591,6 +727,282 @@ select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,
         	
 				 /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 sudo sysctl -p ip a | ...
              <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+            <h2 class="">輸入法相關</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				設定中文輸入法 在windows時我習慣是使用微軟新注音輸入法，轉到Linux 的替代方案是新酷音。以下是我安裝新酷音的步驟。
+至於輸入法框架，因為是使用 Gnome 桌面系統，在試過 fcitx 與 ibus 之後，最後是 ibus 比較能再大多數軟體上正常運作。fcitx 在有些時候會出現閃退或 ...
+             <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/">
+            <h2 class="">筆記型電腦安裝 Debian 調整</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				筆記型電腦 調整 筆記型電腦插入滑鼠裝置自動關閉滑鼠板 Gnome gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled-on-external-mouse 我發現在 Debian 10 ...
+             <a href="/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+            <h2 class="">我的Linux生活日記 Debian 使用心得-2022.04</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 Debian 使用心得-2022.04 tags: 我的linux日常生活 Debian 當初會接觸Debian 這個作業系統是因為我想找一個穩定的發行板，也確實Debian 相比Ubuntu 穩定很多，很少在更新作業系統後出現問題。
+踏入Debian 初期，常常發現有驅動軟 ...
+             <a href="/post/005-debian_%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/">
+            <h2 class="">我的Linux生活日記 31.ssh登入信息-ssh login banner</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 31.ssh登入信息-ssh login banner 範本 /etc/profile.d/ssh-login-info.sh #!/bin/sh # # @Time : 2023-09-14 # @Author : PolloChang # @Desc : ssh ...
+             <a href="/post/031-ssh%E7%99%BB%E5%85%A5%E4%BF%A1%E6%81%AF-ssh-login-banner/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/">
+            <h2 class="">我的Linux生活日記 30.學習資源</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 30.學習資源 今天是最後一天了，連續發文30天真的不容易，過程中需要排除萬難騰出寶貴的時間寫。最後一天就來寫我自己的學習資源吧！
+打造學習環境 學習Linux，首先必須想辦法把環境建立起來，讀在多的理論知識知道再多的指令，沒有一個環境去實做永遠都是資訊或是紙上的文字紀錄而 ...
+             <a href="/post/030-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/">
+            <h2 class="">我的Linux生活日記 29.如何從小使用Linux</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 29.如何從小使用Linux 今天這個主題來討論電腦教育吧。小朋友依開始接觸電腦作業系統有百分之六十以上的機率會是windows ，學校預先安裝、教學的也是。至少從我以前小學三年級開始，教室後面的安裝的作業系統就是windows98，每當下課時就會等待電腦開機，和三四位同學共 ...
+             <a href="/post/029-%E5%A6%82%E4%BD%95%E5%BE%9E%E5%B0%8F%E4%BD%BF%E7%94%A8linux/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/post/028.kvm/">
+            <h2 class="">我的Linux生活日記 28.KVM</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				我的Linux生活日記 28.KVM 在 Linux 中可以透過建立 KVM「核心基礎虛擬機器 (Kernel-based Virtual Machine；KVM）」 建立不同作業系統環境，無論是 RedHat 、Debian 或是 windows 都可以建立。在學習 Linux 的過程是不錯的學習 ...
+             <a href="/post/028.kvm/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -647,6 +1059,10 @@ select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,
                     
                         <a href="/tags/debian/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">debian</span>
+                        </a>
+                    
+                        <a href="/tags/docker/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">docker</span>
                         </a>
                     
                         <a href="/tags/git/">

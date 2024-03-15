@@ -6,13 +6,32 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 14 Mar 2024 22:41:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Mar 2024 22:13:29 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>db-postgresql-note</title>
+      <link>http://pollochang.work/post/db-postgresql-note/</link>
+      <pubDate>Fri, 15 Mar 2024 22:13:29 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/db-postgresql-note/</guid>
+      <description>安裝時設定項目 安裝前檢查項目 作業系統版本 資料庫空間需要獨立空間 資料庫備份需要獨立空間 稽核確認: 資料庫連線稽核 稽核確認: 資料庫DDL異動紀錄 定期備份排程 資料庫備份 定期備份排程 user: postgres
+0 1 * * * pg_dump -Fc -c dbName &amp;gt; /data/backup/dbName.$(date +%Y%m%d%H%M%S).dump -O # 備份 0 6 * * * /usr/bin/find /data/backup/* -type f -mtime +7 -exec rm -f {} \; # 刪除備份 維運管理 變更權限 change table owner ALTER TABLE [tableName] OWNER TO [userName];. change schema owner ALTER SCHEMA public OWNER TO [userName]; </description>
+    </item>
+    
+    <item>
+      <title>docker-note</title>
+      <link>http://pollochang.work/post/docker-note/</link>
+      <pubDate>Fri, 15 Mar 2024 10:13:29 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/docker-note/</guid>
+      <description>檢查內部容器使用狀況 docker stats CONTAINER ID NAME CPU % MEM USAGE / LIMIT MEM % NET I/O BLOCK I/O PIDS 59bfcba7ba71 testwebjobmail-testwebJobMail-1 0.89% 2.034GiB / 23GiB 8.84% 22.3MB / 629MB 179MB / 1.38GB 320 4286bd2e6131 testweb-testweb-1 2.42% 2.506GiB / 23GiB 10.89% 246MB / 1.85GB 161MB / 3.55GB 2316 a46f17a27938 test2-test2-1 441.62% 9.58GiB / 23GiB 41.65% 21.7GB / 20.8GB 1.08GB / 9.49GB 383 228ff5b678e8 test3public-test3Public-1 0.17% 2.356GiB / 23GiB 10.24% 1.71GB / 12.</description>
+    </item>
+    
     <item>
       <title>jmeter CLI 模式</title>
-      <link>http://pollochang.work/post/worknot-20240314/</link>
+      <link>http://pollochang.work/worknot/worknot-20240314/</link>
       <pubDate>Thu, 14 Mar 2024 22:41:21 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240314/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240314/</guid>
       <description>前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
 壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開啟GUI介面操作啦。
 Linux #!/bin/bash export groupT=&amp;#34;25-60&amp;#34; export homeDir=&amp;#34;/home/pollo&amp;#34; mkdir -p ${homeDir}/reports/${groupT}/report export JVM_ARGS=&amp;#34;-Xms10240m -Xmx10240m&amp;#34; ${homeDir}/apache-jmeter-5.5/bin/jmeter -n -t ${homeDir}/test.jmx -l ${homeDir}/reports/${groupT}/report/report.jtl -e -o ${homeDir}/reports/${groupT}/report windows set groupT=25-60 set homeDir=C:\Users\pollo\Desktop mkdir C:\Users\pollo\Desktop\reports\%groupT%\report set JVM_ARGS=&amp;#34;-Xmx80240m&amp;#34; C:\app\apache-jmeter-5.5\bin\jmeter -n -t C:\Users\pollo\Desktop\test.jmx -l %homeDir%\reports\%groupT%\report\report.jtl -e -o %homeDir%\reports\%groupT%\report 用CLI執行 JMeter 會產生一個Log檔: jmeter.log 。可以方便後追蹤。
@@ -21,68 +40,68 @@ Linux #!/bin/bash export groupT=&amp;#34;25-60&amp;#34; export homeDir=&amp;#34;
     
     <item>
       <title>MSSQL 雜記</title>
-      <link>http://pollochang.work/post/worknot-20240313-2/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313-2/</link>
       <pubDate>Wed, 13 Mar 2024 23:41:46 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313-2/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313-2/</guid>
       <description>查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 / a.execution_count AS DECIMAL(16, 2)) , [SQL指令] =SUBSTRING (b.text,(a.statement_start_offset/2) + 1,500) FROM sys.dm_exec_query_stats a CROSS APPLY sys.dm_exec_sql_text(a.sql_handle) as b WHERE a.total_elapsed_time &amp;gt; 0 AND B.[text] NOT LIKE &amp;#39;%SCHEMA_NAME%&amp;#39;--去除一些系統的SQL指令 ORDER BY [平均執行時間(秒)] DESC 查詢資料庫版本 SELECT @@VERSION AS &amp;#39;SQL Server Version Details&amp;#39; 查詢結果 Microsoft SQL Server 2014 - 12.0.2000.8 (X64) Feb 20 2014 20:04:26 Copyright (c) Microsoft Corporation Standard Edition (64-bit) on Windows NT 6.</description>
     </item>
     
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313-1/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313-1/</link>
       <pubDate>Wed, 13 Mar 2024 14:54:24 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313-1/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313-1/</guid>
       <description>切字串成陣列
 regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
     </item>
     
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
-      <link>http://pollochang.work/post/worknot-20240313/</link>
+      <link>http://pollochang.work/worknot/worknot-20240313/</link>
       <pubDate>Wed, 13 Mar 2024 14:42:44 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240313/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240313/</guid>
       <description>判斷式 if else if a &amp;gt; b then t := 0; elsif a &amp;gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT &amp;lt;= V_LOOP_CONT THEN EXIT; END IF; END LOOP; package head CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.0 2024-03-13 PolloChang 1. 初次新增 ******************************************************************************/ FUNCTION FUNCTION_NAME_1 (P_VAL IN VARCHAR2) RETURN VARCHAR2; END PK_1; body CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.</description>
     </item>
     
     <item>
       <title>Linux 發行板核心版本整理</title>
-      <link>http://pollochang.work/post/worknot-20240309/</link>
+      <link>http://pollochang.work/worknot/worknot-20240309/</link>
       <pubDate>Sat, 09 Mar 2024 11:27:26 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240309/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240309/</guid>
       <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下
 Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
     </item>
     
     <item>
       <title>oracle 監控SQL 效能</title>
-      <link>http://pollochang.work/post/worknot-20240305/</link>
+      <link>http://pollochang.work/worknot/worknot-20240305/</link>
       <pubDate>Tue, 05 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240305/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240305/</guid>
       <description>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &amp;gt; 0 ORDER BY (SA.</description>
     </item>
     
     <item>
       <title>oracle 記憶體監控</title>
-      <link>http://pollochang.work/post/worknot-20240304/</link>
+      <link>http://pollochang.work/worknot/worknot-20240304/</link>
       <pubDate>Mon, 04 Mar 2024 00:02:22 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240304/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240304/</guid>
       <description>透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &amp;#39;SGA&amp;#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&amp;#39;Maximum SGA Size&amp;#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&amp;#39;free memory&amp;#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &amp;#39;PGA&amp;#39; name,(select value/1024/1024 total from v$pgastat where name=&amp;#39;aggregate PGA target parameter&amp;#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &amp;#39;maximum PGA allocated&amp;#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&amp;#39;total PGA allocated&amp;#39;)used from dual ) ); 參考資料 Database Reference-8.</description>
     </item>
     
     <item>
       <title>Worknot 20240301</title>
-      <link>http://pollochang.work/post/worknot-20240301/</link>
+      <link>http://pollochang.work/worknot/worknot-20240301/</link>
       <pubDate>Fri, 01 Mar 2024 23:10:12 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20240301/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20240301/</guid>
       <description>今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
 環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理 因為最近一次檢查是發現audit所在的 tablespace 空間快滿了，加上發生資料庫遠端連線無法正常連線，所以只能進入資料庫本機檢查。
 進入資料庫主機 切換帳號到oracle 操作 su - oracle 執行 sqlplus sqlplus / as sysdba 執行下列SQL檢查 select a.TABLESPACE_NAME, to_char(a.BYTES/(1024*1024),&amp;#39;999,999&amp;#39;) &amp;#34;Size(MB)&amp;#34;, to_char(round((a.BYTES-b.BYTES)/(1024*1024),0),&amp;#39;999,999&amp;#39;) &amp;#34;Used(MB)&amp;#34;, to_char(b.BYTES/(1024*1024),&amp;#39;999,999&amp;#39;) &amp;#34;Avail(MB)&amp;#34; from (select TABLESPACE_NAME, sum(BYTES) &amp;#34;BYTES&amp;#34; from dba_data_files group by tablespace_name) a, (select TABLESPACE_NAME,sum(BYTES) &amp;#34;BYTES&amp;#34; from dba_free_space group by tablespace_name) b where a.TABLESPACE_NAME=b.TABLESPACE_NAME; 經過檢查確定發現AUD_TBS確定已經滿了。經詢問過DBA協助判斷確認需要增加新的 datafile ，因為一個datafile預設最大只能到32GB。
@@ -268,10 +287,10 @@ sudo apt install vim 流程圖與雛型工具-draw.io DrowIO 是我比較常用�
     
     <item>
       <title>GC實驗: String 相接 與 系統效能 關係</title>
-      <link>http://pollochang.work/post/worknot-20230414/</link>
+      <link>http://pollochang.work/worknot/worknot-20230414/</link>
       <pubDate>Fri, 14 Apr 2023 20:53:54 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20230414/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20230414/</guid>
       <description>做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
 實驗目的 了解String 相接 與 系統效能 關係
 實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m -XX:+UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSScavengeBeforeRemark -XX:+ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly -XX:+CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:+DisableExplicitGC -verbose:gc -server 實驗項目 實驗項目: 單純 String 接拼 實驗程式碼 public class TestString{ public static void main(String[] args){ String test = &amp;#34;&amp;#34;; for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test += &amp;#34;1234&amp;#34;+&amp;#34;5678&amp;#34;; } } } 實驗項目: StringBuffer 接字串 實驗程式碼 public class TestString{ public static void main(String[] args){ StringBuffer test = new StringBuffer(); for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test.</description>

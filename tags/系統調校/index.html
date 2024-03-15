@@ -58,10 +58,14 @@
     <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
         
         
-        <li class="layui-nav-item" id="nav_big"><a href="/post/">Posts</a></li>
+        
         
 
         
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
             
@@ -77,10 +81,14 @@
 
             <dl class="layui-nav-child">
                 
-                <dd><a href="/post/">Posts</a></dd>
+                
                 
 
                 
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/personal-zone/">個人經歷</a></dd>
                     
@@ -106,8 +114,8 @@ layui.use('element', function(){
     <div class="layui-row">
         <div class="layui-col-md6 layui-col-sm12 layui-col-xs12">
             <div class="list-show-title">
-                <h1>These are my blogs</h1>
-                <h2>and also my life</h2>
+                <h1>紀錄工作上的點點滴滴</h1>
+                <h2></h2>
             </div>
         </div>
         <div class="layui-col-md6 layui-col-sm12 layui-col-xs12" style="text-align:center;">
@@ -119,7 +127,7 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240305/">
+        <a href="/worknot/worknot-20240305/">
             <h2 class="">oracle 監控SQL 效能</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -157,13 +165,13 @@ layui.use('element', function(){
         	
 				這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, ...
-             <a href="/post/worknot-20240305/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240305/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
     
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/worknot-20240304/">
+        <a href="/worknot/worknot-20240304/">
             <h2 class="">oracle 記憶體監控</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -201,7 +209,7 @@ SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, ...
         	
 				透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) ...
-             <a href="/post/worknot-20240304/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/worknot/worknot-20240304/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 

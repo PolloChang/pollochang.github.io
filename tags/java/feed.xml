@@ -9,10 +9,10 @@
     <lastBuildDate>Fri, 14 Apr 2023 20:53:54 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/java/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GC實驗: String 相接 與 系統效能 關係</title>
-      <link>http://pollochang.work/post/worknot-20230414/</link>
+      <link>http://pollochang.work/worknot/worknot-20230414/</link>
       <pubDate>Fri, 14 Apr 2023 20:53:54 +0800</pubDate>
       
-      <guid>http://pollochang.work/post/worknot-20230414/</guid>
+      <guid>http://pollochang.work/worknot/worknot-20230414/</guid>
       <description>做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
 實驗目的 了解String 相接 與 系統效能 關係
 實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m -XX:+UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSScavengeBeforeRemark -XX:+ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly -XX:+CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:+DisableExplicitGC -verbose:gc -server 實驗項目 實驗項目: 單純 String 接拼 實驗程式碼 public class TestString{ public static void main(String[] args){ String test = &amp;#34;&amp;#34;; for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test += &amp;#34;1234&amp;#34;+&amp;#34;5678&amp;#34;; } } } 實驗項目: StringBuffer 接字串 實驗程式碼 public class TestString{ public static void main(String[] args){ StringBuffer test = new StringBuffer(); for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test.</description>
