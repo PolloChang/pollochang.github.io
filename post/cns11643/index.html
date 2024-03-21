@@ -12,6 +12,7 @@
 使用 ISO-8859-1 方式讀取資料庫 解析成字: 兩個位元碼 在將兩個位元碼搜尋對應的 CNS11643 編碼 在將 CNS11643 編碼對應成 unicode 在處理這塊之前其實我分不清處什麼是unicode 跟 UTF-8，後來才知道 UTF 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？
 在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 𡪨 與 張 這個字為例。
 張
+以下是這個字的編碼資訊:
 CNS11643 網站中 Unicode: 5F35 HTML Entity:	張張 UTF-8 Encoding (hex):	0xE5 0xBC 0xB5 UTF-16 Encoding (hex):	0x5F35 UTF-32 Encoding (hex):	0x00005F35 𡪨" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -164,6 +165,7 @@ layui.use('element', function(){
 <p>在處理這塊之前其實我分不清處什麼是<code>unicode</code> 跟 <code>UTF-8</code>，後來才知道 <code>UTF</code> 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？</p>
 <p>在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 <a href="https://www.cns11643.gov.tw/wordView.jsp?ID=1003080">𡪨</a> 與 <a href="https://www.cns11643.gov.tw/wordView.jsp?ID=88623">張</a> 這個字為例。</p>
 <p><strong>張</strong></p>
+<p>以下是這個字的編碼資訊:</p>
 <ul>
 <li>CNS11643 網站中 Unicode: 5F35</li>
 <li>HTML Entity:	張張</li>
@@ -172,6 +174,7 @@ layui.use('element', function(){
 <li>UTF-32 Encoding (hex):	0x00005F35</li>
 </ul>
 <p><strong>𡪨</strong></p>
+<p>以下是這個字的編碼資訊:</p>
 <ul>
 <li>CNS11643 網站中 Unicode: 21AA8</li>
 <li>UTF-8 (hex)	0xF0 0xA1 0xAA 0xA8 (f0a1aaa8)</li>
