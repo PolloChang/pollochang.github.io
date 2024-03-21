@@ -3,13 +3,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - html轉pdf-wkhtmltopdf </title>
+    <title>PolloChang 工作筆記 - CNS11643 轉 UTF8 經驗 </title>
     
     
-    <meta content="Linux, 工作雜記" name="keywords">
+    <meta content="CNS11643, Java, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 官方網站-wkhtmltopdf
-安裝檔 wkhtmltox_0.12.6.1-2.bullseye_amd64.deb CLI wkhtmltopdf 附件二-OS-作業系統日誌-差異備份-20231026_tmp.html 附件二-OS-作業系統日誌-差異備份-20231026.pdf " name="description">
+    <meta content="PolloChang 工作筆記 - unicode: 萬國碼，設計上一共有17個平面。在第0的平面中，可以直接用一個 UTF-8 表示。 CNS11643: 中文標準交換碼，是中華民國國家標準11643號，簡稱CNS 11643，舊名通用漢字標準交換碼，是中華民國政府為中文資訊處理製定的字元編碼方案，與許多學術圖書館係統採用的CCCII同屬於中文交換碼。CSIC基於ISO 2022定義，和ASCII相容，其EUC版本為EUC-TW。 最近工作上碰到 Oracle 編碼是 US7ASII ， 而存放的有中文資料，於是遇到了轉碼問題。對方的轉碼在Java邏輯大緻上如下：
+使用 ISO-8859-1 方式讀取資料庫 解析成字: 兩個位元碼 在將兩個位元碼搜尋對應的 CNS11643 編碼 在將 CNS11643 編碼對應成 unicode 在處理這塊之前其實我分不清處什麼是unicode 跟 UTF-8，後來才知道 UTF 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？
+在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 𡪨 與 張 這個字為例。
+張
+CNS11643 網站中 Unicode: 5F35 HTML Entity:	張張 UTF-8 Encoding (hex):	0xE5 0xBC 0xB5 UTF-16 Encoding (hex):	0x5F35 UTF-32 Encoding (hex):	0x00005F35 𡪨" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -113,10 +116,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>html轉pdf-wkhtmltopdf</h1>
+                    <h1>CNS11643 轉 UTF8 經驗</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-03-21</span>
 
     
      
@@ -134,8 +137,12 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
         </a>
     
     
@@ -143,12 +150,71 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p><a href="http://wkhtmltopdf.org">官方網站-wkhtmltopdf</a></p>
-<h2 id="安裝檔">安裝檔</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
-</span></span></code></pre></div><h2 id="cli">CLI</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wkhtmltopdf 附件二-OS-作業系統日誌-差異備份-20231026_tmp.html 附件二-OS-作業系統日誌-差異備份-20231026.pdf
-</span></span></code></pre></div></div>
+                    <ul>
+<li>unicode: 萬國碼，設計上一共有17個平面。在第0的平面中，可以直接用一個 UTF-8 表示。</li>
+<li>CNS11643: 中文標準交換碼，是中華民國國家標準11643號，簡稱CNS 11643，舊名通用漢字標準交換碼，是中華民國政府為中文資訊處理製定的字元編碼方案，與許多學術圖書館係統採用的CCCII同屬於中文交換碼。CSIC基於ISO 2022定義，和ASCII相容，其EUC版本為EUC-TW。</li>
+</ul>
+<p>最近工作上碰到 Oracle 編碼是 US7ASII ， 而存放的有中文資料，於是遇到了轉碼問題。對方的轉碼在Java邏輯大緻上如下：</p>
+<ol>
+<li>使用 ISO-8859-1 方式讀取資料庫</li>
+<li>解析成字: 兩個位元碼</li>
+<li>在將兩個位元碼搜尋對應的 CNS11643 編碼</li>
+<li>在將 CNS11643 編碼對應成 unicode</li>
+</ol>
+<p>在處理這塊之前其實我分不清處什麼是<code>unicode</code> 跟 <code>UTF-8</code>，後來才知道 <code>UTF</code> 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？</p>
+<p>在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 <a href="https://www.cns11643.gov.tw/wordView.jsp?ID=1003080">𡪨</a> 與 <a href="https://www.cns11643.gov.tw/wordView.jsp?ID=88623">張</a> 這個字為例。</p>
+<p><strong>張</strong></p>
+<ul>
+<li>CNS11643 網站中 Unicode: 5F35</li>
+<li>HTML Entity:	張張</li>
+<li>UTF-8 Encoding (hex):	0xE5 0xBC 0xB5</li>
+<li>UTF-16 Encoding (hex):	0x5F35</li>
+<li>UTF-32 Encoding (hex):	0x00005F35</li>
+</ul>
+<p><strong>𡪨</strong></p>
+<ul>
+<li>CNS11643 網站中 Unicode: 21AA8</li>
+<li>UTF-8 (hex)	0xF0 0xA1 0xAA 0xA8 (f0a1aaa8)</li>
+<li>UTF-8 (binary)	11110000:10100001:10101010:10101000</li>
+<li>UTF-16 (hex)	0xD846 0xDEA8 (d846dea8)</li>
+<li>UTF-16 (decimal)	55,366 57,000</li>
+<li>UTF-32 (hex)	0x00021AA8 (21aa8)</li>
+<li>UTF-32 (decimal)	137,896</li>
+<li>C/C++/Java source code	&ldquo;\uD846\uDEA8&rdquo;</li>
+</ul>
+<p>在 Java 中可以很輕易處理<code>張</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String unicodeString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\u5F35&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>unicodeString<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>然而在處理<code>𡪨</code> 時就無法，因此必須改用UTF-32 顯示處理，實際處理方式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>String hexString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;21AA8&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 假設你有一個UTF-32編碼的碼點 21AA8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> codePoint <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>hexString<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">(),</span> 16<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 創建ByteBuffer以容納UTF-32編碼的碼點
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ByteBuffer byteBuffer <span style="color:#f92672">=</span> ByteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">allocate</span><span style="color:#f92672">(</span>4<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>byteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">putInt</span><span style="color:#f92672">(</span>codePoint<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將ByteBuffer從寫模式切換到讀模式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>byteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">flip</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 使用UTF-32編碼創建字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Charset utf32Charset <span style="color:#f92672">=</span> Charset<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UTF-32&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>String utf32String <span style="color:#f92672">=</span> utf32Charset<span style="color:#f92672">.</span><span style="color:#a6e22e">decode</span><span style="color:#f92672">(</span>byteBuffer<span style="color:#f92672">).</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將UTF-32字符串轉換為UTF-8編碼的字節序列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> utf8Bytes <span style="color:#f92672">=</span> utf32String<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span>StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>String showString <span style="color:#f92672">=</span>  String<span style="color:#f92672">(</span>utf8Bytes<span style="color:#f92672">,</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> showString<span style="color:#f92672">;</span>
+</span></span></code></pre></div><p>所以在處理 CNS11643 轉 Unicode 的處理方式建議直接從 UTF-32 直接著手比較可以預防第零字面以外的字。</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E6%96%87%E6%A8%99%E6%BA%96%E4%BA%A4%E6%8F%9B%E7%A2%BC">維基百科-中文標準交換碼</a></li>
+<li><a href="https://zh.wikipedia.org/zh-tw/Unicode">維基百科-Unicode</a></li>
+</ul>
+</div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"
@@ -162,194 +228,6 @@ layui.use('element', function(){
         </div>
 
         <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
-            
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/2024-02-28-%E6%99%82%E9%96%93/">
-                                <h3 class="">Linux 係統時間</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/">
-                                <h3 class="">Linux 壓縮相關</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/">
-                                <h3 class="">Linux 字型安裝</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/2024-02-28-%E7%A1%AC%E9%AB%94%E6%AA%A2%E6%B8%AC%E7%9B%B8%E9%97%9C%E6%8C%87%E4%BB%A4/">
-                                <h3 class="">Linux 硬體檢測相關指令</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-                                <h3 class="">Linux 筆電常用命令</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
             
 
             <div class="layui-card single-card">

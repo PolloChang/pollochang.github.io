@@ -6,7 +6,20 @@
     <description>Recent content in Posts on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 15 Mar 2024 22:13:29 +0800</lastBuildDate><atom:link href="http://pollochang.work/post/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Mar 2024 22:02:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/post/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CNS11643 轉 UTF8 經驗</title>
+      <link>http://pollochang.work/post/cns11643/</link>
+      <pubDate>Thu, 21 Mar 2024 22:02:53 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/cns11643/</guid>
+      <description>unicode: 萬國碼，設計上一共有17個平面。在第0的平面中，可以直接用一個 UTF-8 表示。 CNS11643: 中文標準交換碼，是中華民國國家標準11643號，簡稱CNS 11643，舊名通用漢字標準交換碼，是中華民國政府為中文資訊處理製定的字元編碼方案，與許多學術圖書館係統採用的CCCII同屬於中文交換碼。CSIC基於ISO 2022定義，和ASCII相容，其EUC版本為EUC-TW。 最近工作上碰到 Oracle 編碼是 US7ASII ， 而存放的有中文資料，於是遇到了轉碼問題。對方的轉碼在Java邏輯大緻上如下：
+使用 ISO-8859-1 方式讀取資料庫 解析成字: 兩個位元碼 在將兩個位元碼搜尋對應的 CNS11643 編碼 在將 CNS11643 編碼對應成 unicode 在處理這塊之前其實我分不清處什麼是unicode 跟 UTF-8，後來才知道 UTF 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？
+在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 𡪨 與 張 這個字為例。
+張
+CNS11643 網站中 Unicode: 5F35 HTML Entity:	張張 UTF-8 Encoding (hex):	0xE5 0xBC 0xB5 UTF-16 Encoding (hex):	0x5F35 UTF-32 Encoding (hex):	0x00005F35 𡪨</description>
+    </item>
+    
     <item>
       <title>db-postgresql-note</title>
       <link>http://pollochang.work/post/db-postgresql-note/</link>
