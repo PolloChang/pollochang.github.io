@@ -6,7 +6,18 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 21 Mar 2024 22:02:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 Mar 2024 22:42:18 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DB2 切 db2diag.log</title>
+      <link>http://pollochang.work/worknot/worknot-20240325/</link>
+      <pubDate>Mon, 25 Mar 2024 22:42:18 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240325/</guid>
+      <description>今天在工作時碰到 db2diag.log 膨脹到把硬碟塞滿，在這邊分享一下處理過程
+db2diag -A 可以很放心去執行，執行過程中不會對現形資料庫運作產生任何影響
+操作資料庫環境 OS: RedHat 6 DB2 Version: 9.7 實做流程 檢查本機上可用的空間 [db2inst1@db2-node ~]$ df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/VolGroup-lv_root 44G 36G 6.1G 86% / tmpfs 20G 44M 20G 1% /dev/shm /dev/test1 477M 35M 417M 8% /boot /dev/test2 1.1T 288G 765G 28% /db2 檢查 db2diag.log 所佔用的空間 [db2inst1@db2-node ~]$ ll -h /home/db2inst1/sqllib/db2dump/db2diag.* -rw-rw-rw- 1 db2inst1 db2iadm1 12G Mar 25 22:27 /home/db2inst1/sqllib/db2dump/db2diag.log 執行切 db2diag.log [db2inst1@db2-node ~]$ db2diag -A db2diag: Moving &amp;#34;/home/db2inst1/sqllib/db2dump/db2diag.</description>
+    </item>
+    
     <item>
       <title>CNS11643 轉 UTF8 經驗</title>
       <link>http://pollochang.work/post/cns11643/</link>
