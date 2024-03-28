@@ -6,7 +6,21 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 25 Mar 2024 22:42:18 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Mar 2024 22:39:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>windows 透過 CLI 檢查有沒有自動更新</title>
+      <link>http://pollochang.work/worknot/worknot-20240328/</link>
+      <pubDate>Thu, 28 Mar 2024 22:39:41 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240328/</guid>
+      <description>今天突然收到客戶需要檢查windows 有沒有設定自動檢查更新，因為有多台實在懶得一台一台進入，然後一個一個點擊視窗擷圖，因此想說有沒有輸入 CLI 指令檢查的方法。
+windows server 2000 以下是操作的版本
+windows server
+指令
+reg query &amp;#34;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update&amp;#34; /v AUOptions 輸出結果 Microsoft Windows [Version 6.3.9600] (c) 2013 Microsoft Corporation. All rights reserved. C:\Users\james&amp;gt;reg query &amp;#34;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update&amp;#34; /v AUOptions HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update AUOptions REG_DWORD 0x4 說明 AUOptions (REG_DWORD)：
+1：在 [自動更新] 中停用 [讓我的電腦保持在最新狀態]。 2：通知下載和安裝。 3：自動下載並通知安裝。 4：自動下載及排程安裝。 5：允許本機系統管理員選取設定模式。 此選項不適用於 Windows 10 或更新版本。 7：通知安裝，並通知重新啟動。 僅限 (Windows Server 2016 和更新版本) windows server 2000 以後 可以透過 sc.exe 查詢 wuauserv 服務</description>
+    </item>
+    
     <item>
       <title>DB2 切 db2diag.log</title>
       <link>http://pollochang.work/worknot/worknot-20240325/</link>
