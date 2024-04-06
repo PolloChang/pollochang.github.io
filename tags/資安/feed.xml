@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>資安 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/%E8%B3%87%E5%AE%89/</link>
+    <description>Recent content in 資安 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sat, 06 Apr 2024 11:57:51 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/%E8%B3%87%E5%AE%89/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TWGCB 資料庫建立腳本</title>
+      <link>http://pollochang.work/twgcb/db-schema/</link>
+      <pubDate>Sat, 06 Apr 2024 11:57:51 +0800</pubDate>
+      
+      <guid>http://pollochang.work/twgcb/db-schema/</guid>
+      <description>最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
+資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, notes varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type varchar(20), cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
+    </item>
+    
+  </channel>
+</rss>
