@@ -9,7 +9,7 @@
     <meta content="TWGCB, 資安" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
-資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &#39;PASSWORD&#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, notes varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type varchar(20), cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &#39;TWGCB&#39;; comment on column twgcb." name="description">
+資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &#39;PASSWORD&#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, note varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type smallint, cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &#39;TWGCB&#39;; comment on column twgcb." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -181,13 +181,13 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>    id bigint <span style="color:#66d9ef">generated</span> always <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">identity</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">version</span> int <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">0</span>,
 </span></span><span style="display:flex;"><span>    issure int <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>    notes varchar(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    note varchar(<span style="color:#ae81ff">100</span>),
 </span></span><span style="display:flex;"><span>    date_created <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
 </span></span><span style="display:flex;"><span>    man_created varchar(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
 </span></span><span style="display:flex;"><span>    last_updated <span style="color:#66d9ef">timestamp</span>,
 </span></span><span style="display:flex;"><span>    man_last_updated varchar(<span style="color:#ae81ff">20</span>),
 </span></span><span style="display:flex;"><span>    twgcb_id char(<span style="color:#ae81ff">17</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> ,
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> varchar(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> smallint,
 </span></span><span style="display:flex;"><span>    cname varchar(<span style="color:#ae81ff">50</span>), 
 </span></span><span style="display:flex;"><span>    explanation text,
 </span></span><span style="display:flex;"><span>    instructions text,
@@ -202,7 +202,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.id <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料流水號&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.<span style="color:#66d9ef">version</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;版本，每修改一次就是加1&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.issure <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;0：刪除、1：新增中、2：使用中&#39;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.notes <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料流水號&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.note <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料註記&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.date_created <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料建立時間&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.man_created <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料建立者&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">column</span> twgcb.last_updated <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料更新時間&#39;</span>;

@@ -6,7 +6,16 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 06 Apr 2024 11:57:51 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Apr 2024 22:39:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mozilla Public License Version 2.0 中英文對照</title>
+      <link>http://pollochang.work/worknot/worknot-20240408/</link>
+      <pubDate>Mon, 08 Apr 2024 22:39:41 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240408/</guid>
+      <description>英文原文 MOZILLA PUBLIC LICENSE Version 2.0 1. Definitions 1.1. “Contributor” means each individual or legal entity that creates, contributes to the creation of, or owns Covered Software. 1.2. “Contributor Version” means the combination of the Contributions of others (if any) used by a Contributor and that particular Contributor&amp;#39;s Contribution. 1.3. “Contribution” means Covered Software of a particular Contributor. 1.4. “Covered Software” means Source Code Form to which the initial Contributor has attached the notice in Exhibit A, the Executable Form of such Source Code Form, and Modifications of such Source Code Form, in each case including portions thereof.</description>
+    </item>
+    
     <item>
       <title>TWGCB 資料庫建立腳本</title>
       <link>http://pollochang.work/twgcb/db-schema/</link>
@@ -14,7 +23,7 @@
       
       <guid>http://pollochang.work/twgcb/db-schema/</guid>
       <description>最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
-資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, notes varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type varchar(20), cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
+資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, note varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type smallint, cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
     </item>
     
     <item>
