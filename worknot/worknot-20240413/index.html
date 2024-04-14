@@ -1,0 +1,777 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - annotation 與 AOP </title>
+    
+    
+    <meta content="java, AOP, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 範例程式完整專案:
+Java 基本內置 annotation @Override 重寫父層的方法
+@Deprecated 表示該方法再為雷會被棄用
+@SuppressWarnings 主要的用處就是忽略警告信息
+規定 annotation 可以放在哪裡 類別 ElementType.TYPE : 能修飾類、接口、枚舉、注解 ElementType.FIELD : 能修飾字段、枚舉的常量 ElementType.METHOD : 能修飾方法 ElementType.PARAMETER : 能修飾方法參數 ElementType.CONSTRUCTOR : 能修飾構造函數 ElementType.LOCAL_VARIABLE : 能修飾局部變量 ElementType.ANNOTATION_TYPE : 能修飾注解 (元注解就是此種) ElementType.PACKAGE : 能修飾包 ElementType.TYPE_PARAMETER: (java8)類型參數聲明 ElementType.TYPE_USE: (java8)使用類型 ElementType.MODULE: (java9)模組聲明 ElementType.RECORD_COMPONENT: (java16)記錄組件 原始碼 /* * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved. * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>annotation 與 AOP</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java</span>
+        </a>
+    
+        <a href="/tags/aop/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AOP</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>範例程式完整專案:</p>
+<h2 id="java-基本內置-annotation">Java 基本內置 annotation</h2>
+<h3 id="override">@Override</h3>
+<p>重寫父層的方法</p>
+<h3 id="deprecated">@Deprecated</h3>
+<p>表示該方法再為雷會被棄用</p>
+<h3 id="suppresswarnings">@SuppressWarnings</h3>
+<p>主要的用處就是忽略警告信息</p>
+<h3 id="規定-annotation-可以放在哪裡">規定 annotation 可以放在哪裡</h3>
+<h4 id="類別">類別</h4>
+<ul>
+<li>ElementType.TYPE : 能修飾類、接口、枚舉、注解</li>
+<li>ElementType.FIELD : 能修飾字段、枚舉的常量</li>
+<li>ElementType.METHOD : 能修飾方法</li>
+<li>ElementType.PARAMETER : 能修飾方法參數</li>
+<li>ElementType.CONSTRUCTOR : 能修飾構造函數</li>
+<li>ElementType.LOCAL_VARIABLE : 能修飾局部變量</li>
+<li>ElementType.ANNOTATION_TYPE : 能修飾注解 (元注解就是此種)</li>
+<li>ElementType.PACKAGE : 能修飾包</li>
+<li>ElementType.TYPE_PARAMETER: (java8)類型參數聲明</li>
+<li>ElementType.TYPE_USE: (java8)使用類型</li>
+<li>ElementType.MODULE: (java9)模組聲明</li>
+<li>ElementType.RECORD_COMPONENT: (java16)記錄組件</li>
+</ul>
+<h4 id="原始碼">原始碼</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * This code is free software; you can redistribute it and/or modify it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * under the terms of the GNU General Public License version 2 only, as
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * published by the Free Software Foundation.  Oracle designates this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * particular file as subject to the &#34;Classpath&#34; exception as provided
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * by Oracle in the LICENSE file that accompanied this code.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * This code is distributed in the hope that it will be useful, but WITHOUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * version 2 for more details (a copy is included in the LICENSE file that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * accompanied this code).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * You should have received a copy of the GNU General Public License version
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 2 along with this work; if not, write to the Free Software Foundation,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * or visit www.oracle.com if you need additional information or have any
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * questions.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * The constants of this enumerated class provide a simple classification of the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * syntactic locations where annotations may appear in a Java program. These
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * constants are used in {@link java.lang.annotation.Target Target}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * meta-annotations to specify where it is legal to write annotations of a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * given type.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;The syntactic locations where annotations may appear are split into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;em&gt;declaration contexts&lt;/em&gt;, where annotations apply to declarations, and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;em&gt;type contexts&lt;/em&gt;, where annotations apply to types used in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * declarations and expressions.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;The constants {@link #ANNOTATION_TYPE}, {@link #CONSTRUCTOR}, {@link
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * #FIELD}, {@link #LOCAL_VARIABLE}, {@link #METHOD}, {@link #PACKAGE}, {@link
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * #MODULE}, {@link #PARAMETER}, {@link #TYPE}, and {@link #TYPE_PARAMETER}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * correspond to the declaration contexts in JLS 9.6.4.1.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;For example, an annotation whose interface is meta-annotated with
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * {@code @Target(ElementType.FIELD)} may only be written as a modifier for a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * field declaration.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;The constant {@link #TYPE_USE} corresponds to the type contexts in JLS
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 4.11, as well as to two declaration contexts: class and interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * declarations (including annotation declarations) and type parameter
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * declarations.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;For example, an annotation whose interface is meta-annotated with
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * {@code @Target(ElementType.TYPE_USE)} may be written on the class or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * interface of a field (or within the class or interface of the field, if it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * is a nested or parameterized class or interface, or array class), and may
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * also appear as a modifier for, say, a class declaration.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * &lt;p&gt;The {@code TYPE_USE} constant includes class and interface declarations
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * and type parameter declarations as a convenience for designers of
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * type checkers which give semantics to annotation interfaces. For example,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * if the annotation interface {@code NonNull} is meta-annotated with
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * {@code @Target(ElementType.TYPE_USE)}, then {@code @NonNull}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * {@code class C {...}} could be treated by a type checker as indicating that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * all variables of class {@code C} are non-null, while still allowing
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * variables of other classes to be non-null or not non-null based on whether
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * {@code @NonNull} appears at the variable&#39;s declaration.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @author  Joshua Bloch
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @since 1.5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @jls 9.6.4.1 @Target
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @jls 4.1 The Kinds of Types and Values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> ElementType <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Class, interface (including annotation interface), enum, or record
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * declaration */</span>
+</span></span><span style="display:flex;"><span>    TYPE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Field declaration (includes enum constants) */</span>
+</span></span><span style="display:flex;"><span>    FIELD<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Method declaration */</span>
+</span></span><span style="display:flex;"><span>    METHOD<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Formal parameter declaration */</span>
+</span></span><span style="display:flex;"><span>    PARAMETER<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Constructor declaration */</span>
+</span></span><span style="display:flex;"><span>    CONSTRUCTOR<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Local variable declaration */</span>
+</span></span><span style="display:flex;"><span>    LOCAL_VARIABLE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Annotation interface declaration (Formerly known as an annotation type.) */</span>
+</span></span><span style="display:flex;"><span>    ANNOTATION_TYPE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Package declaration */</span>
+</span></span><span style="display:flex;"><span>    PACKAGE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Type parameter declaration
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 1.8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    TYPE_PARAMETER<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Use of a type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 1.8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    TYPE_USE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Module declaration.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 9
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    MODULE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Record component
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @jls 8.10.3 Record Members
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @jls 9.7.4 Where Annotations May Appear
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 16
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    RECORD_COMPONENT<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="annotation-生命週期-retention">annotation 生命週期: @Retention</h3>
+<h4 id="類別-1">類別</h4>
+<ul>
+<li>RetentionPolicy.SOURCE: 不會編譯進去class</li>
+<li>RetentionPolicy.CLASS: 會編譯進去class，但是不會執行</li>
+<li>RetentionPolicy.RUNTIME: 會編譯進去class，會執行</li>
+</ul>
+<h4 id="原始碼-1">原始碼</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * This code is free software; you can redistribute it and/or modify it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * under the terms of the GNU General Public License version 2 only, as
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * published by the Free Software Foundation.  Oracle designates this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * particular file as subject to the &#34;Classpath&#34; exception as provided
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * by Oracle in the LICENSE file that accompanied this code.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * This code is distributed in the hope that it will be useful, but WITHOUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * version 2 for more details (a copy is included in the LICENSE file that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * accompanied this code).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * You should have received a copy of the GNU General Public License version
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 2 along with this work; if not, write to the Free Software Foundation,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * or visit www.oracle.com if you need additional information or have any
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * questions.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Annotation retention policy.  The constants of this enumerated class
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * describe the various policies for retaining annotations.  They are used
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * in conjunction with the {@link Retention} meta-annotation interface to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * specify how long annotations are to be retained.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @author  Joshua Bloch
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @since 1.5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> RetentionPolicy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be discarded by the compiler.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    SOURCE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be recorded in the class file by the compiler
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * but need not be retained by the VM at run time.  This is the default
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * behavior.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    CLASS<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be recorded in the class file by the compiler and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * retained by the VM at run time, so they may be read reflectively.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @see java.lang.reflect.AnnotatedElement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    RUNTIME
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="spring-aop">Spring AOP</h2>
+<ul>
+<li>環境: grails 5.3.5</li>
+</ul>
+<h3 id="使用注入">使用注入</h3>
+<ul>
+<li>grails-app/conf/spring/resources.groovy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> spring
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> work.pollochang.aop.ExampleInterceptor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Place your Spring DSL code here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>beans <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Spring AOP 設定
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    xmlns aop: <span style="color:#e6db74">&#34;http://www.springframework.org/schema/aop&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 初始化攔截器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    aspectBean<span style="color:#f92672">(</span>ExampleInterceptor<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    aop<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;proxy-target-class&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="aop-程式片段">AOP 程式片段</h3>
+<ul>
+<li>work.pollochang.aop.ExampleInterceptor.groovy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> work<span style="color:#f92672">.</span><span style="color:#a6e22e">pollochang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">aop</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.aspectj.lang.annotation.AfterReturning
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.aspectj.lang.annotation.Aspect
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.aspectj.lang.annotation.Before
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.stereotype.Component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 範例攔截器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 使用 Spring AOP
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @doc https://docs.spring.io/spring-framework/docs/4.3.15.RELEASE/spring-framework-reference/html/aop.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Aspect</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//先不要使用 @Slf4j 會出現兩次
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExampleInterceptor</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 攔截 package
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execution(* work.pollochang.example.ex1.*.*(..))&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">beforeMethodExecution</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;這個是指定 package 攔截: 執行方法之前&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 攔截 package
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@AfterReturning</span><span style="color:#f92672">(</span>pointcut <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;execution(* work.pollochang.example.ex1.*.*(..))&#34;</span><span style="color:#f92672">,</span> returning <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;result&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">afterMethodExecution</span><span style="color:#f92672">(</span>Object result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;這個是指定 package 攔截: 執行方法之後&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 攔截 指定 annotation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//    @Before(&#34;@annotation(org.springframework.transaction.annotation.Transactional)&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;@annotation(work.pollochang.annotation.Test1)&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;這個是使用 annotation 攔截&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="執行程式範例">執行程式範例</h3>
+<h4 id="指定-package-攔截">指定 package 攔截</h4>
+<ul>
+<li>work.pollochang.example.ex1.ExampleService.groovy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> work<span style="color:#f92672">.</span><span style="color:#a6e22e">pollochang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">example</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ex1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 範例 Service
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExampleService</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 範例執行方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doSomething</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;Doing something...&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 模擬程式操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;Done!&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="指定-annotation">指定 annotation</h4>
+<ul>
+<li>work.pollochang.annotation.Test1.java</li>
+</ul>
+<p>這邊先建立一個 annotation</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> work.pollochang.annotation<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.annotation.*<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">({</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">,</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Documented</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Test1 <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>work.pollochang.example.ex2.Example2Service.groovy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> work<span style="color:#f92672">.</span><span style="color:#a6e22e">pollochang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">example</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ex2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> work.pollochang.annotation.Test1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example2Service</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 範例執行方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doSomething</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;Doing something...&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 模擬程式操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;Done!&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://kucw.io/blog/2018/6/java-annotation/">工程師古古 Java - annotation 的使用</a></li>
+<li><a href="https://www.tothenew.com/blog/integrating-of-spring-aop-with-grails-application/">Integrating Spring AOP with Grails Application</a></li>
+<li><a href="https://www.visionmate.se/en/2018/11/06/aspect-oriented-programming/">Aspect-oriented programming using Spring AOP over Grails framework</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20230414/">
+                                <h3 class="">GC實驗: String 相接 與 系統效能 關係</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2023-04-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java</span>
+        </a>
+    
+        <a href="/tags/java-gc/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java GC</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

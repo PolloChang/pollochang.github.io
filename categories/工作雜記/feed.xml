@@ -6,7 +6,20 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 09 Apr 2024 10:59:52 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Apr 2024 17:12:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>annotation 與 AOP</title>
+      <link>http://pollochang.work/worknot/worknot-20240413/</link>
+      <pubDate>Sat, 13 Apr 2024 17:12:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240413/</guid>
+      <description>範例程式完整專案:
+Java 基本內置 annotation @Override 重寫父層的方法
+@Deprecated 表示該方法再為雷會被棄用
+@SuppressWarnings 主要的用處就是忽略警告信息
+規定 annotation 可以放在哪裡 類別 ElementType.TYPE : 能修飾類、接口、枚舉、注解 ElementType.FIELD : 能修飾字段、枚舉的常量 ElementType.METHOD : 能修飾方法 ElementType.PARAMETER : 能修飾方法參數 ElementType.CONSTRUCTOR : 能修飾構造函數 ElementType.LOCAL_VARIABLE : 能修飾局部變量 ElementType.ANNOTATION_TYPE : 能修飾注解 (元注解就是此種) ElementType.PACKAGE : 能修飾包 ElementType.TYPE_PARAMETER: (java8)類型參數聲明 ElementType.TYPE_USE: (java8)使用類型 ElementType.MODULE: (java9)模組聲明 ElementType.RECORD_COMPONENT: (java16)記錄組件 原始碼 /* * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved. * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.</description>
+    </item>
+    
     <item>
       <title>KDE 桌面 CLI</title>
       <link>http://pollochang.work/worknot/worknot-20240409/</link>
