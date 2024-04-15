@@ -6,7 +6,18 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 13 Apr 2024 17:12:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Apr 2024 07:14:27 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>程式進化史</title>
+      <link>http://pollochang.work/worknot/worknot-20240416/</link>
+      <pubDate>Tue, 16 Apr 2024 07:14:27 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240416/</guid>
+      <description>筆記一下這些年我寫的糞 code 的優化流程
+一開始寫的 被檢測為 CyclomaticComplexity 。程式如下:
+package work.pollochang.twgcb import grails.gorm.transactions.Transactional import grails.web.servlet.mvc.GrailsParameterMap import org.hibernate.criterion.CriteriaSpecification import org.hibernate.type.StandardBasicTypes import work.pollochang.util.PFilterResult import work.pollochang.util.PFilterType /** * TWGCB 資料處理 */ @Transactional class TwGcbService { /** * 查詢 * @param params * @param filterType * @return 查詢結果 */ PFilterResult filter( GrailsParameterMap params, PFilterType filterType = PFilterType.DEFAULT ) { PFilterResult pFilterResult = new PFilterResult() params.max = (params.max ?: &amp;#39;10&amp;#39;).toInteger() params.offset = (params?.offset ?: &amp;#39;0&amp;#39;).toInteger() List&amp;lt;Twgcb&amp;gt; twgcbList = Twgcb.</description>
+    </item>
+    
     <item>
       <title>annotation 與 AOP</title>
       <link>http://pollochang.work/worknot/worknot-20240413/</link>
