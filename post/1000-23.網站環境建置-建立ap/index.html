@@ -18,6 +18,8 @@ Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以�
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
+        <link rel="icon" href="/images/logo.jpg">
+    
 
     
 
@@ -195,6 +197,11 @@ layui.use('element', function(){
 </span></span></code></pre></div><h4 id="還原">還原</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su tomcat -c <span style="color:#e6db74">&#34;rm /home/tomcat/apache-tomcat-</span><span style="color:#e6db74">${</span>tomcatVersion<span style="color:#e6db74">}</span><span style="color:#e6db74">/lib/catalina.jar&#34;</span>
 </span></span><span style="display:flex;"><span>sudo su tomcat -c <span style="color:#e6db74">&#34;cp /home/tomcat/catalina_jar/catalina.jar.bk /home/tomcat/apache-tomcat-</span><span style="color:#e6db74">${</span>tomcatVersion<span style="color:#e6db74">}</span><span style="color:#e6db74">/lib/catalina.jar&#34;</span>
+</span></span></code></pre></div><h3 id="錯誤時隱藏-tomcat-版本號">錯誤時隱藏 tomcat 版本號</h3>
+<ul>
+<li>conf/server.xml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.ErrorReportValve&#34;</span> <span style="color:#a6e22e">showReport=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">showServerInfo=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">/&gt;</span>
 </span></span></code></pre></div><h3 id="禁止自動部屬">禁止自動部屬</h3>
 <p>在這方面我有遇過正式環境中，出現不明的服務。後來發現在 <code>webapps</code> 目錄中，出現隱藏檔案目錄，如 <code>webapps/.test</code>。後來是直接把 <code>unpackWARs</code>、<code>autoDeploy</code>、<code>reloadable</code> 全部關掉。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unpackWARs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;false&#34;</span> autoDeploy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;false&#34;</span> reloadable<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;false&#34;</span>
