@@ -6,7 +6,16 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 25 Apr 2024 22:16:23 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Apr 2024 07:00:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLI 檢查網站憑證</title>
+      <link>http://pollochang.work/worknot/worknot-20240426/</link>
+      <pubDate>Fri, 26 Apr 2024 07:00:46 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240426/</guid>
+      <description>curl curl https://www.google.com -v -k 2&amp;gt;&amp;amp;1 | grep -E &amp;#34;Connected to|subject|expire&amp;#34; 執行結果 ❯ curl https://www.google.com -v -k 2&amp;gt;&amp;amp;1 | grep -E &amp;#34;Connected to|subject|expire&amp;#34; * Connected to www.google.com (2404:6800:4012:2::2004) port 443 (#0) * subject: CN=www.google.com * expire date: Jun 10 20:38:48 2024 GMT &amp;lt; expires: -1 &amp;lt; set-cookie: 1P_JAR=2024-04-25-23; expires=Sat, 25-May-2024 23:03:14 GMT; path=/; domain=.google.com; Secure &amp;lt; set-cookie: AEC=AQTF6Hw4gUm8n5W0uPUDTe6vEa8fTROwT6DEAUWQ6FTKMp52DrhWnROmmw; expires=Tue, 22-Oct-2024 23:03:14 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax &amp;lt; set-cookie: NID=513=TZnGjLI3KvFu_SLuZJCrPktY6GMHeuK3Hg8ht9ojqTr_OgX460hGPFUccru0PZr2J1pWw_mynjevt8eTyWu0pN9gPXi4hcJkFUQzR9SJlTfypnftjNlM9CGEu1956tVk67u6tWkrNRa2zi8QdXzULlXJZ2wO1tBrzCGnmRJ4nyg; expires=Fri, 25-Oct-2024 23:03:14 GMT; path=/; domain=.</description>
+    </item>
+    
     <item>
       <title>linux 資料基礎分析</title>
       <link>http://pollochang.work/worknot/worknot-20240425/</link>
