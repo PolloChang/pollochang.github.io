@@ -1,0 +1,631 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 安 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 安裝環境 OS: Oracle Linux 7.9 hostname: oracle18c-sign IP: 10.192.5.100 IP2: 192.168.56.100 RAM: 16GB 硬碟規劃: /u01: 20 swap: 8G 硬體需求 OS: Oracle Linux 7.5 with the Unbreakable Enterprise Kernel 5: 4.14.35-1818.5.3.el7uek.x86_64 or later Oracle Linux 7.2 with the Unbreakable Enterprise Kernel 4: 4.1.12-32.2.3.el7uek.x86_64 or later Oracle Linux 7 with the Unbreakable Enterprise Kernel 3: 3.8.13-35.3.1.el7uek.x86_64 or later Oracle Linux 7 with the Red Hat Compatible kernel: 3.10.0-123.el7.x86_64 or later Red Hat Enterprise Linux 6." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>安</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-17</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="安裝環境">安裝環境</h2>
+<ul>
+<li>OS: Oracle Linux 7.9</li>
+<li>hostname: oracle18c-sign</li>
+<li>IP: 10.192.5.100</li>
+<li>IP2: 192.168.56.100</li>
+<li>RAM: 16GB</li>
+<li>硬碟規劃:
+<ul>
+<li>/u01: 20</li>
+<li>swap: 8G</li>
+</ul>
+</li>
+</ul>
+<h2 id="硬體需求">硬體需求</h2>
+<ul>
+<li>OS:
+<ul>
+<li>Oracle Linux 7.5 with the Unbreakable Enterprise Kernel 5: 4.14.35-1818.5.3.el7uek.x86_64 or later</li>
+<li>Oracle Linux 7.2 with the Unbreakable Enterprise Kernel 4: 4.1.12-32.2.3.el7uek.x86_64 or later</li>
+<li>Oracle Linux 7 with the Unbreakable Enterprise Kernel 3: 3.8.13-35.3.1.el7uek.x86_64 or later</li>
+<li>Oracle Linux 7 with the Red Hat Compatible kernel: 3.10.0-123.el7.x86_64  or later</li>
+<li>Red Hat Enterprise Linux 6.4: 2.6.32-358.el6.x86_64 or later</li>
+<li>SUSE Linux Enterprise Server 12 SP1: 3.12.49-11.1 or later</li>
+</ul>
+</li>
+<li>Swap 大小: 8GB 以上</li>
+<li>RAM: 2GB 以上，官方建議是 2~16GB</li>
+<li>硬碟需求:
+<ul>
+<li>/tmp: 1 GB 以上</li>
+<li>/u01: 8.5 GB 以上</li>
+</ul>
+</li>
+<li>環境變數檢查有下列變數，如果有建議移除
+<ul>
+<li>$ORACLE_HOME</li>
+<li>$ORA_NLS10</li>
+<li>$TNS_ADMIN.</li>
+</ul>
+</li>
+</ul>
+<h2 id="安裝前檢查清單">安裝前檢查清單</h2>
+<p>這邊我就直接抄官方網站</p>
+<h3 id="table-1-1-server-hardware-checklist-for-oracle-database-installationhttpsdocsoraclecomendatabaseoracleoracle-database18ladbiserver-hardware-checklist-for-oracle-database-installationhtmlguid-d311e770-9444-45d0-a122-6491d1b66b8a"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/server-hardware-checklist-for-oracle-database-installation.html#GUID-D311E770-9444-45D0-A122-6491D1B66B8A">Table 1-1 Server Hardware Checklist for Oracle Database Installation</a></h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server Make and Architecture</td>
+<td>Confirm that server make, model, core architecture, and host bus adaptors (HBA) or network interface controllers (NICs) are supported to run with Oracle Database and Oracle Grid Infrastructure.</td>
+</tr>
+<tr>
+<td>Runlevel</td>
+<td>3 or 5</td>
+</tr>
+<tr>
+<td>Server Display Cards</td>
+<td>At least 1024 x 768 display resolution, which Oracle Universal Installer requires.</td>
+</tr>
+<tr>
+<td>Minimum network connectivity</td>
+<td>Server is connected to a network</td>
+</tr>
+<tr>
+<td>Minimum RAM</td>
+<td>* At least 1 GB RAM for Oracle Database installations. 2 GB RAM recommended.<!-- raw HTML omitted -->* At least 8 GB RAM for Oracle Grid Infrastructure installations.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-2-operating-system-general-checklist-for-oracle-database-on-linuxhttpsdocsoraclecomendatabaseoracleoracle-database18ladbioperating-system-checklist-for-oracle-database-installation-on-linuxhtmlguid-e5c0a90e-7750-45d9-a8bc-c7319ed934f0"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/operating-system-checklist-for-oracle-database-installation-on-linux.html#GUID-E5C0A90E-7750-45D9-A8BC-C7319ED934F0">Table 1-2 Operating System General Checklist for Oracle Database on Linux</a></h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating system general requirements</td>
+<td>OpenSSH installed manually, if you do not have it installed already as part of a default Linux installation.<!-- raw HTML omitted --><!-- raw HTML omitted -->A Linux kernel in the list of supported kernels and releases listed in this guide.</td>
+</tr>
+<tr>
+<td>Linux x86-64 operating system requirements</td>
+<td>The following Linux x86-64 kernels are supported:<!-- raw HTML omitted --><!-- raw HTML omitted -->Oracle Linux 7.5 with the Unbreakable Enterprise Kernel 5: 4.14.35-1818.5.3.el7uek.x86_64 or later  <!-- raw HTML omitted -->Oracle Linux 7.2 with the Unbreakable Enterprise Kernel 4: 4.1.12-32.2.3.el7uek.x86_64 or later  <!-- raw HTML omitted -->Oracle Linux 7 with the Unbreakable Enterprise Kernel 3: 3.8.13-35.3.1.el7uek.x86_64 or later  <!-- raw HTML omitted -->Oracle Linux 7 with the Red Hat Compatible kernel: 3.10.0-123.el7.x86_64  or later<!-- raw HTML omitted --><!-- raw HTML omitted -->Red Hat Enterprise Linux 7: 3.10.0-123.el7.x86_64 or later  <!-- raw HTML omitted --><!-- raw HTML omitted -->Oracle Linux 6.4 with the Unbreakable Enterprise Kernel 2: 2.6.39-400.211.1.el6uek.x86_64or later  <!-- raw HTML omitted -->Oracle Linux 6.6 with the Unbreakable Enterprise Kernel 3: 3.8.13-44.1.1.el6uek.x86_64 or later  <!-- raw HTML omitted -->Oracle Linux 6.8 with the Unbreakable Enterprise Kernel 4: 4.1.12-37.6.2.el6uek.x86_64 or later  <!-- raw HTML omitted -->Oracle Linux 6.4 with the Red Hat Compatible kernel: 2.6.32-358.el6.x86_64 or later  <!-- raw HTML omitted --><!-- raw HTML omitted -->Red Hat Enterprise Linux 6.4: 2.6.32-358.el6.x86_64 or later  <!-- raw HTML omitted --><!-- raw HTML omitted -->SUSE Linux Enterprise Server 12 SP1: 3.12.49-11.1 or later<!-- raw HTML omitted --><!-- raw HTML omitted -->Review the system requirements section for a list of minimum package requirements.</td>
+</tr>
+<tr>
+<td>IBM: Linux on System z operating system requirements</td>
+<td>The following IBM: Linux on System z kernels are supported:<!-- raw HTML omitted --><!-- raw HTML omitted -->Red Hat Enterprise Linux 7.2: 3.10.0-327.el7.s390x or later  <!-- raw HTML omitted --><!-- raw HTML omitted -->Red Hat Enterprise Linux 6.6: 2.6.32-504.el6.s390x or later  <!-- raw HTML omitted --><!-- raw HTML omitted -->SUSE Linux Enterprise Server 12 SP1: 3.12.49-11-default s390x or later<!-- raw HTML omitted --><!-- raw HTML omitted -->Review the system requirements section for a list of minimum package requirements.</td>
+</tr>
+<tr>
+<td>Oracle Preinstallation RPM for Oracle Linux</td>
+<td>If you use Oracle Linux, then Oracle recommends that you run an Oracle preinstallation RPM for your Linux release to configure your operating system for Oracle Database and Oracle Grid Infrastructure installations.</td>
+</tr>
+<tr>
+<td>Oracle RPM Checker utility for IBM: Linux on System z</td>
+<td>Oracle recommends that you use the Oracle RPM Checker utility to verify that you have the required Red Hat Enterprise Linux or SUSE packages installed on your IBM: Linux on System z operating system before you start the Oracle Database or Oracle Grid Infrastructure installation.</td>
+</tr>
+<tr>
+<td>Disable Transparent HugePages</td>
+<td>Oracle recommends that you disable Transparent HugePages and use standard HugePages for enhanced performance.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-3-server-configuration-checklist-for-oracle-databasehttpsdocsoraclecomendatabaseoracleoracle-database18ladbiserver-configuration-checklist-for-oracle-database-installationhtmlguid-cd4657fb-2ddc-4b30-aab4-2c927045a86d"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/server-configuration-checklist-for-oracle-database-installation.html#GUID-CD4657FB-2DDC-4B30-AAB4-2C927045A86D">Table 1-3 Server Configuration Checklist for Oracle Database</a></h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disk space allocated to the <code>/tmp</code> directory</td>
+<td>At least 1 GB of space in the <code>/tmp</code> directory.</td>
+</tr>
+<tr>
+<td>Swap space allocation relative to RAM (Oracle Database)</td>
+<td>Between 1 GB and 2 GB: 1.5 times the size of the RAM  <!-- raw HTML omitted -->Between 2 GB and 16 GB: Equal to the size of the RAM  <!-- raw HTML omitted -->More than 16 GB: 16 GB  <!-- raw HTML omitted -->Note: If you enable HugePages for your Linux servers, then you should deduct the memory allocated to HugePages from the available RAM before calculating swap space.</td>
+</tr>
+<tr>
+<td>Swap space allocation relative to RAM (Oracle Restart)</td>
+<td>Between 8 GB and 16 GB: Equal to the size of the RAM  <!-- raw HTML omitted -->More than 16 GB: 16 GB  <!-- raw HTML omitted -->Note: If you enable HugePages for your Linux servers, then you should deduct the memory allocated to HugePages from the available RAM before calculating swap space.</td>
+</tr>
+<tr>
+<td>Oracle Inventory (oraInventory) and OINSTALL Group Requirements</td>
+<td>* For upgrades, Oracle Universal Installer (OUI) detects an existing oraInventory directory from the <code>/etc/oraInst.loc</code> file, and uses the existing oraInventory.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* For new installs, if you have not configured an oraInventory directory, then you can specify the oraInventory directory during the software installation and Oracle Universal Installer will set up the software directories for you. The Oracle inventory is one directory level up from the Oracle base for the Oracle software installation and designates the installation owner&rsquo;s primary group as the Oracle inventory group. Ensure that the oraInventory path that you specify is in compliance with the Oracle Optimal Flexible Architecture recommendations.<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->The Oracle Inventory directory is the central inventory of Oracle software installed on your system. Users who have the Oracle Inventory group as their primary group are granted the OINSTALL privilege to write to the central inventory.<!-- raw HTML omitted --><!-- raw HTML omitted -->The OINSTALL group must be the primary group of all Oracle software installation owners on the server. It should be writable by any Oracle installation owner.</td>
+</tr>
+<tr>
+<td>Groups and users</td>
+<td>Oracle recommends that you create groups and user accounts required for your security plans before starting installation. Installation owners have resource limits settings and other requirements. Group and user names must use only ASCII characters.</td>
+</tr>
+<tr>
+<td>Mount point paths for the software binaries</td>
+<td>Oracle recommends that you create an Optimal Flexible Architecture configuration as described in the appendix &ldquo;Optimal Flexible Architecture&rdquo; in Oracle Database Installation Guide for your platform.</td>
+</tr>
+<tr>
+<td>Ensure that the Oracle home (the Oracle home path you select for Oracle Database) uses only ASCII characters</td>
+<td>The ASCII character restriction includes installation owner user names, which are used as a default for some home paths, as well as other directory names you may select for paths.</td>
+</tr>
+<tr>
+<td>Unset Oracle software environment variables</td>
+<td>If you have an existing Oracle software installation, and you are using the same user to install this installation, then unset the following environment variables: <code>$ORACLE_HOME</code>,<code>$ORA_NLS10</code>, and <code>$TNS_ADMIN</code>.<!-- raw HTML omitted --><!-- raw HTML omitted -->If you have set <code>$ORA_CRS_HOME</code> as an environment variable, then unset it before starting an installation or upgrade. Do not use <code>$ORA_CRS_HOME</code> as a user environment variable, except as directed by Oracle Support.</td>
+</tr>
+<tr>
+<td>Determine superuser (<code>root</code>) privilege delegation option for installation</td>
+<td>During a database or grid infrastructure installation, you are asked to run configuration scripts as the <code>root</code> user.<!-- raw HTML omitted --><!-- raw HTML omitted -->During a grid infrastructure installation, you can either run these scripts manually as <code>root</code> when prompted, or you can provide configuration information and passwords using a root privilege delegation option.<!-- raw HTML omitted --><!-- raw HTML omitted -->To run <code>root</code> scripts automatically, select Automatically run configuration scripts during installation.<!-- raw HTML omitted --><!-- raw HTML omitted -->* Use root user credentials<!-- raw HTML omitted -->    <!-- raw HTML omitted -->    Provide the superuser password for cluster member node servers.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Use Sudo<!-- raw HTML omitted -->    <!-- raw HTML omitted -->    Sudo is a UNIX and Linux utility that allows members of the sudoers list privileges to run individual commands as <code>root</code>. Provide the username and password of an operating system user that is a member of sudoers, and is authorized to run Sudo on each cluster member node.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->    To enable Sudo, have a system administrator with the appropriate privileges configure a user that is a member of the sudoers list, and provide the username and password when prompted during installation.</td>
+</tr>
+<tr>
+<td>Set locale (if needed)</td>
+<td>Specify the language and the territory, or locale, in which you want to use Oracle components. A locale is a linguistic and cultural environment in which a system or program is running. NLS (National Language Support) parameters determine the locale-specific behavior on both servers and clients. The locale setting of a component determines the language of the user interface of the component, and the globalization behavior, such as date and number formatting.</td>
+</tr>
+<tr>
+<td>Check Shared Memory File System Mount</td>
+<td>By default, your operating system includes an entry in <code>/etc/fstab</code> to mount <code>/dev/shm</code>. However, if your Cluster Verification Utility (CVU) or Oracle Universal Installer (OUI) checks fail, ensure that the <code>/dev/shm</code> mount area is of type <code>tmpfs</code> and is mounted with the following options:<!-- raw HTML omitted --><!-- raw HTML omitted -->* <code>rw</code> and <code>exec</code> permissions set on it<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Without <code>noexec</code> or <code>nosuid</code> set on it<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->Note:<!-- raw HTML omitted --><!-- raw HTML omitted -->These options may not be listed as they are usually set as the default permissions by your operating system.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-4-user-environment-configuration-for-oracle-databasehttpsdocsoraclecomendatabaseoracleoracle-database18ladbioracle-user-environment-configuration-checklist-for-oracle-database-installationhtmlguid-9ccdf3fa-ed8c-44c2-a137-ec498cd3d4ea"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/oracle-user-environment-configuration-checklist-for-oracle-database-installation.html#GUID-9CCDF3FA-ED8C-44C2-A137-EC498CD3D4EA">Table 1-4 User Environment Configuration for Oracle Database</a></h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Review Oracle Inventory (oraInventory) and OINSTALL Group Requirements</td>
+<td>The physical group you designate as the Oracle Inventory directory is the central inventory of Oracle software installed on your system. It should be the primary group for all Oracle software installation owners. Users who have the Oracle Inventory group as their primary group are granted the OINSTALL privilege to read and write to the central inventory.<!-- raw HTML omitted --><!-- raw HTML omitted -->* If you have an existing installation, then OUI detects the existing oraInventory directory from the<code>/etc/oraInst.loc</code> file, and uses this location.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* If you are installing Oracle software for the first time, then you can specify the Oracle inventory directory and the Oracle base directory during the Oracle software installation, and Oracle Universal Installer will set up the software directories for you. Ensure that the directory paths that you specify are in compliance with the Oracle Optimal Flexible Architecture recommendations.<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->Ensure that the group designated as the OINSTALL group is available as the primary group for all planned Oracle software installation owners.</td>
+</tr>
+<tr>
+<td>Create operating system groups and users for standard or role-allocated system privileges</td>
+<td>Create operating system groups and users depending on your security requirements, as described in this install guide.<!-- raw HTML omitted --><!-- raw HTML omitted -->Set resource limits settings and other requirements for Oracle software installation owners.<!-- raw HTML omitted --><!-- raw HTML omitted -->Group and user names must use only ASCII characters.</td>
+</tr>
+<tr>
+<td>Unset Oracle Software Environment Variables</td>
+<td>If you have had an existing installation on your system, and you are using the same user account for this installation, then unset the ORACLE_HOME, ORACLE_BASE, ORACLE_SID, TNS_ADMIN environment variables and any other environment variable set for the Oracle installation user that is connected with Oracle software homes.</td>
+</tr>
+<tr>
+<td>Configure the Oracle Software Owner Environment</td>
+<td>Configure the environment of the <code>oracle</code> or <code>grid</code> user by performing the following tasks:<!-- raw HTML omitted --><!-- raw HTML omitted -->* Set the default file mode creation mask (<code>umask</code>) to 022 in the shell startup file.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Set the <code>DISPLAY</code> environment variable.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-5-storage-checklist-for-oracle-databasehttpsdocsoraclecomendatabaseoracleoracle-database18ladbistorage-checklist-for-oracle-database-installationhtmlguid-c6184dfa-45a2-4420-99d6-237ea5bab058"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/storage-checklist-for-oracle-database-installation.html#GUID-C6184DFA-45A2-4420-99D6-237EA5BAB058">Table 1-5 Storage Checklist for Oracle Database</a></h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum local disk storage space for Oracle software</td>
+<td>For Linux x86-64:  <!-- raw HTML omitted -->At least 6.8 GB for an Oracle Grid Infrastructure for a standalone server installation.  <!-- raw HTML omitted -->At least 7.5 GB for Oracle Database Enterprise Edition.  <!-- raw HTML omitted -->At least 7.5 GB for Oracle Database Standard Edition 2.  <!-- raw HTML omitted -->  <!-- raw HTML omitted -->For IBM: Linux on System z:  <!-- raw HTML omitted -->At least 6.5 GB for an Oracle Grid Infrastructure for a standalone server installation.  <!-- raw HTML omitted -->At least 6 GB for Oracle Database Enterprise Edition.  <!-- raw HTML omitted -->At least 6 GB for Oracle Database Standard Edition 2.<!-- raw HTML omitted --><!-- raw HTML omitted -->Note:<!-- raw HTML omitted --><!-- raw HTML omitted -->Oracle recommends that you allocate approximately 100 GB to allow additional space for applying any future patches on top of the existing Oracle home. For specific patch-related disk space requirements, please refer to your patch documentation.</td>
+</tr>
+<tr>
+<td>Select Database File Storage Option</td>
+<td>Ensure that you have one of the following storage options available:<!-- raw HTML omitted --><!-- raw HTML omitted -->* File system mounted on the server. Oracle recommends that the file system you select is separate from the file system used by the operating system or the Oracle software. Options include the following:<!-- raw HTML omitted -->    <!-- raw HTML omitted -->    * A file system on a logical volume manager (LVM) volume or a RAID device<!-- raw HTML omitted -->        <!-- raw HTML omitted -->    * A network file system (NFS) mounted on a certified network-attached storage (NAS) device<!-- raw HTML omitted -->        <!-- raw HTML omitted -->* Oracle Automatic Storage Management (Oracle ASM).<!-- raw HTML omitted -->    <!-- raw HTML omitted -->    Oracle ASM is installed as part of an Oracle Grid Infrastructure installation. If you plan to use Oracle ASM for storage, then you should install Oracle Grid Infrastructure before you install and create the database.</td>
+</tr>
+<tr>
+<td>Determine your recovery plan</td>
+<td>If you want to enable recovery during installation, then be prepared to select one of the following options:<!-- raw HTML omitted --><!-- raw HTML omitted -->* File system: Configure a fast recovery area on a file system during installation<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Oracle Automatic Storage Management: Configure a fast recovery area disk group using Oracle ASMCA.<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->Review the storage configuration sections of this document for more information about configuring recovery.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-6-oracle-universal-installer-planning-checklist-for-oracle-database-installationhttpsdocsoraclecomendatabaseoracleoracle-database18ladbiinstaller-planning-checklist-for-oracle-database-installationhtmlguid-757a795e-0184-44be-86ff-3bd1047f93a2"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/installer-planning-checklist-for-oracle-database-installation.html#GUID-757A795E-0184-44BE-86FF-3BD1047F93A2">Table 1-6 Oracle Universal Installer Planning Checklist for Oracle Database Installation</a></h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read the Release Notes</td>
+<td>Review release notes for your platform, which are available for your release at the following URL:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://docs.oracle.com/en/database/database.html">http://docs.oracle.com/en/database/database.html</a></td>
+</tr>
+<tr>
+<td>Review Oracle Support Certification Matrix</td>
+<td>New platforms and operating system software versions may be certified after this guide is published, review the certification matrix on the My Oracle Support website for the most up-to-date list of certified hardware platforms and operating system versions:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://support.oracle.com/">https://support.oracle.com/</a><!-- raw HTML omitted --><!-- raw HTML omitted -->You must register online before using My Oracle Support. After logging in, from the menu options, select the Certifications tab. On the Certifications page, use the Certification Search options to search by Product, Release, and Platform. You can also search using the Certification Quick Link options such as Product Delivery, and Lifetime Support.</td>
+</tr>
+<tr>
+<td>Review the Licensing Information</td>
+<td>You are permitted to use only those components in the Oracle Database media pack for which you have purchased licenses. For more information about licenses, refer to the following URL:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://docs.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/18/ladbi&amp;id=DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4">Oracle Database Licensing Information</a></td>
+</tr>
+<tr>
+<td>Run OUI with CVU and use fixup scripts</td>
+<td>Oracle Universal Installer is fully integrated with Cluster Verification Utility (CVU), automating many CVU prerequisite checks. Oracle Universal Installer runs all prerequisite checks and creates fixup scripts when you run the installer. You can run OUI up to the Summary screen without starting the installation.<!-- raw HTML omitted --><!-- raw HTML omitted -->You can also run CVU commands manually to check system readiness. For more information, see:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://docs.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/18/ladbi&amp;id=CWADD1100">Oracle Clusterware Administration and Deployment Guide</a></td>
+</tr>
+<tr>
+<td>Download and run Oracle ORAchk for runtime and upgrade checks, or runtime health checks</td>
+<td>The Oracle ORAchk utility provides system checks that can help to prevent issues before and after installation. These checks include kernel requirements, operating system resource allocations, and other system requirements.<!-- raw HTML omitted --><!-- raw HTML omitted -->Use the Oracle ORAchk Upgrade Readiness Assessment to obtain an automated upgrade-specific system health check for upgrades to 11.2.0.3, 11.2.0.4, 12.1.0.1, 12.1.0.2, 12.2, and 18c. For example:<!-- raw HTML omitted --><!-- raw HTML omitted -->* Before you perform a fresh database installation:<!-- raw HTML omitted -->    <!-- raw HTML omitted -->        ./orachk -profile preinstall<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* To upgrade your existing database to a higher version or release:<!-- raw HTML omitted -->    <!-- raw HTML omitted -->        ./orachk -u -o pre<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->The Oracle ORAchk Upgrade Readiness Assessment automates many of the manual pre- and post-upgrade checks described in Oracle upgrade documentation. Check My Oracle Support Note 1268927.1 for more information about Oracle ORAchk support.<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://support.oracle.com/rs?type=doc&amp;id=1268927.2">https://support.oracle.com/rs?type=doc&amp;id=1268927.2</a></td>
+</tr>
+<tr>
+<td>Verify if Oracle Grid Infrastructure is installed</td>
+<td>If you want to use Oracle ASM or Oracle Restart, then install Oracle Grid Infrastructure for a standalone server before you install and create the database. Otherwise, to use Oracle ASM, you must complete an Oracle Grid Infrastructure installation, and then manually register the database with Oracle Restart.<!-- raw HTML omitted --><!-- raw HTML omitted -->For Oracle Real Application Clusters (Oracle RAC) installations, ensure that you have installed and configured Oracle Grid Infrastructure for a cluster.</td>
+</tr>
+<tr>
+<td>Check running Oracle processes, and shut down if necessary</td>
+<td>* On a standalone database not using Oracle ASM: You do not need to shut down the database while you install Oracle Grid Infrastructure.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* On a standalone database using Oracle ASM: The Oracle ASM instances are restarted during installation.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* On an Oracle RAC Database node: This installation requires an upgrade of Oracle Clusterware, as Oracle Clusterware is required to run Oracle RAC. As part of the upgrade, you must shut down the database one node at a time as the rolling upgrade proceeds from node to node.</td>
+</tr>
+<tr>
+<td>Ensure <code>cron</code> jobs do not run during installation</td>
+<td>If the installer is running when daily <code>cron</code> jobs start, then you may encounter unexplained installation problems if your <code>cron</code> job is performing cleanup, and temporary files are deleted before the installation is finished. Oracle recommends that you complete installation before daily <code>cron</code> jobs are run, or disable daily<!-- raw HTML omitted --><!-- raw HTML omitted -->    cron<!-- raw HTML omitted --><!-- raw HTML omitted -->jobs that perform cleanup until after the installation is completed.</td>
+</tr>
+<tr>
+<td>Obtain your My Oracle Support account information.</td>
+<td>During installation, you may require a My Oracle Support user name and password to configure updates, download software updates, and other installation tasks. You can register for My Oracle Support at the following URL:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://support.oracle.com/">https://support.oracle.com/</a></td>
+</tr>
+<tr>
+<td>Decide Oracle Database management tool</td>
+<td>By default, Oracle Database is managed by Oracle Enterprise Manager Database Express.<!-- raw HTML omitted --><!-- raw HTML omitted -->If you have an existing Oracle Management Agent, and decide to use Oracle Enterprise Manager Cloud Control to centrally manage your database, then obtain the following information to enter during the database installation:<!-- raw HTML omitted --><!-- raw HTML omitted -->* OMS host<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* OMS port<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* EM admin username<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* EM admin password<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Specify password of ASMSNMP user<!-- raw HTML omitted -->    <!-- raw HTML omitted --><!-- raw HTML omitted -->For more information, see:<!-- raw HTML omitted --><!-- raw HTML omitted -->* <a href="https://docs.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/18/ladbi&amp;id=ADMQS031">Oracle Database 2 Day DBA</a><!-- raw HTML omitted -->    <!-- raw HTML omitted -->* <a href="https://docs.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/18/ladbi&amp;id=EMADM13636">Oracle Enterprise Manager Cloud Control Administrator’s Guide</a></td>
+</tr>
+<tr>
+<td>Review memory allocation and Automatic Memory Management feature</td>
+<td>You can enable automatic memory management either during, or after Oracle Database installation. If you enable automatic memory management after installation, then you must shut down and restart the database.<!-- raw HTML omitted --><!-- raw HTML omitted -->If the total physical memory of your database instance is greater than 4 GB, then you cannot select the Oracle Automatic Memory Management option during database installation and creation. Instead, use automatic shared memory management. Automatic shared memory management automatically distributes the available memory among the various components as required, allowing the system to maximize the use of all available SGA memory.<!-- raw HTML omitted --><!-- raw HTML omitted -->For more information, see:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://docs.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/18/ladbi&amp;id=ADMIN11011">Oracle Database Administrator&rsquo;s Guide</a></td>
+</tr>
+<tr>
+<td>Oracle Database Client and Oracle Database interoperability</td>
+<td>For information about interoperability between Oracle Database Client and Oracle Database releases, see My Oracle Support Note 207303.1:<!-- raw HTML omitted --><!-- raw HTML omitted --><a href="https://support.oracle.com/rs?type=doc&amp;id=207303.1">https://support.oracle.com/rs?type=doc&amp;id=207303.1</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-1-7-deployment-checklist-for-oracle-database-single-instancehttpsdocsoraclecomendatabaseoracleoracle-database18ladbideployment-checklist-for-oracle-databasehtmlguid-ee6dd02e-dd1b-42be-bae5-25f54974719f"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/deployment-checklist-for-oracle-database.html#GUID-EE6DD02E-DD1B-42BE-BAE5-25F54974719F">Table 1-7 Deployment Checklist for Oracle Database (single-instance)</a></h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>To deploy single-instance Oracle Database software</td>
+<td>Use one of the following deployment methods:<!-- raw HTML omitted --><!-- raw HTML omitted -->* Install Oracle Database software using Oracle Universal Installer (OUI).<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Provision Oracle Database software using Rapid Home Provisioning.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Clone Oracle Database.</td>
+</tr>
+<tr>
+<td>To deploy single-instance Oracle Database software and create databases</td>
+<td>Use one of the following deployment methods:<!-- raw HTML omitted --><!-- raw HTML omitted -->* Install Oracle Database software using Oracle Universal Installer (OUI).<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Provision Oracle Database software using Rapid Home Provisioning.<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Clone Oracle Database.</td>
+</tr>
+<tr>
+<td>To create single-instance Oracle Database in an already-installed Oracle home</td>
+<td>* Use Oracle Database Configuration Assistant (Oracle DBCA).<!-- raw HTML omitted -->    <!-- raw HTML omitted -->* Use Rapid Home Provisioning</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/index.html#Oracle%C2%AE-Database">Oracle Database 18c Database Installation Guide for Linux</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-oracle18c-install/">
+                        <h3 class="">安</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-17</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/database/">
+                        <h3 class="">資料庫維護經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

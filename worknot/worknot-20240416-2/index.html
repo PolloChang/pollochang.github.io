@@ -1,0 +1,986 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - grails5 hibernate 建立監聽事件研究 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 注入: conf/spring/resources.groovy package spring import work.pollochang.pollo.grails.db.aop.CustomInterceptor // Place your Spring DSL code here beans = { customInterceptor(CustomInterceptor) } 設定 log &lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;configuration&gt; &lt;conversionRule conversionWord=&#34;clr&#34; converterClass=&#34;org.springframework.boot.logging.logback.ColorConverter&#34; /&gt; &lt;conversionRule conversionWord=&#34;wex&#34; converterClass=&#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&#34; /&gt; &lt;appender name=&#34;STDOUT&#34; class=&#34;ch.qos.logback.core.ConsoleAppender&#34;&gt; &lt;encoder&gt; &lt;charset&gt;UTF-8&lt;/charset&gt; &lt;pattern&gt;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex&lt;/pattern&gt; &lt;/encoder&gt; &lt;/appender&gt; &lt;logger name=&#34;org.hibernate&#34; level=&#34;trace&#34; /&gt; &lt;logger name=&#34;work.pollochang.demo&#34; level=&#34;trace&#34; /&gt; &lt;logger name=&#34;work.pollochang.pollo.grails.db.aop&#34; level=&#34;trace&#34; /&gt; &lt;root level=&#34;error&#34;&gt; &lt;appender-ref ref=&#34;STDOUT&#34; /&gt; &lt;/root&gt; &lt;/configuration&gt; 系統初始化 /usr/local/lib/jvm/jdk-17.0.8.1&#43;1/bin/java -XX:&#43;TieredCompilation -XX:TieredStopAtLevel=1 -XX:CICompilerCount=3 -Dfile." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>grails5 hibernate 建立監聽事件研究</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-16</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <ul>
+<li>注入: conf/spring/resources.groovy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> spring
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> work.pollochang.pollo.grails.db.aop.CustomInterceptor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Place your Spring DSL code here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>beans <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    customInterceptor<span style="color:#f92672">(</span>CustomInterceptor<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>設定 log</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;conversionRule</span> <span style="color:#a6e22e">conversionWord=</span><span style="color:#e6db74">&#34;clr&#34;</span> <span style="color:#a6e22e">converterClass=</span><span style="color:#e6db74">&#34;org.springframework.boot.logging.logback.ColorConverter&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;conversionRule</span> <span style="color:#a6e22e">conversionWord=</span><span style="color:#e6db74">&#34;wex&#34;</span> <span style="color:#a6e22e">converterClass=</span><span style="color:#e6db74">&#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;STDOUT&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;ch.qos.logback.core.ConsoleAppender&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;encoder&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;charset&gt;</span>UTF-8<span style="color:#f92672">&lt;/charset&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;pattern&gt;</span>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex<span style="color:#f92672">&lt;/pattern&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/encoder&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/appender&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;logger</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;org.hibernate&#34;</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;trace&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;logger</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;work.pollochang.demo&#34;</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;trace&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;logger</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;work.pollochang.pollo.grails.db.aop&#34;</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;trace&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;error&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;STDOUT&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/root&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span></code></pre></div><h2 id="系統初始化">系統初始化</h2>
+<pre tabindex="0"><code class="language-log" data-lang="log">/usr/local/lib/jvm/jdk-17.0.8.1+1/bin/java -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:CICompilerCount=3 -Dfile.encoding=UTF-8 -classpath /home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-shell/5.3.6/1884cf57d58b276d0eaf80d0c32d6f9684c6dcc2/grails-shell-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-cli/2.7.9/77896f5894b385d7b7715c5ff7770265ed56b46f/spring-boot-cli-2.7.9.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-resolver-provider/3.8.3/43e0622c74fa0eb1e451efb1d7a0f7b7e7625f31/maven-resolver-provider-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-connector-basic/1.9.16/4f465c03600acabbcef4e2b591f52e5c11710c22/maven-resolver-connector-basic-1.9.16.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-impl/1.9.5/59a76bfe8b2da737828b7b553a50ca9d5e4a5633/maven-resolver-impl-1.9.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-transport-file/1.9.5/8b8b7f506558b080b8213dea039505f4379c5bbf/maven-resolver-transport-file-1.9.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-transport-http/1.9.14/1eb4acdce7f21526bd06654b3d7b1edf80370ce8/maven-resolver-transport-http-1.9.14.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.14/1194890e6f56ec29177673f2f12d0b8e627dec98/httpclient-4.5.14.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.15/49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d/commons-codec-1.15.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-bootstrap/5.3.6/90eeea5f0e82ad58bd0f124ce1454679b0496002/grails-bootstrap-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-gradle-model/5.3.6/c02cf46250333d6d8323cfa1d438b7058db77a10/grails-gradle-model-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-ant/3.0.11/72e9781d96b81ba699e264c88f60a232c5c800e1/groovy-ant-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-json/3.0.11/4ebecf885428c95ab3a649c8226ece553fc6f264/groovy-json-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-jmx/3.0.11/bdd9eb48a83b5e8904a334fbd921679a8840a780/groovy-jmx-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-templates/3.0.11/c130de7a9cac4d0788e320acd2b99d084e78e003/groovy-templates-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-xml/3.0.11/65a18a9c3c88d90616139754c1aac054df6329c2/groovy-xml-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/3.0.11/b1759d82dcf4f57299c8555a76330532d2d77b47/groovy-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.36/d877e195a05aca4a2f1ad2ff14bfec1393af4b5e/jcl-over-slf4j-1.7.36.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.gradle/gradle-tooling-api/6.9/2ecc9546561a4b1bb38f441f9bac1d4bff13f5ff/gradle-tooling-api-6.9.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-named-locks/1.9.5/b2e36d69cdb3744a3c21eeb540a49d37e3d35847/maven-resolver-named-locks-1.9.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-inject/3.8.5/2e0312aabc8594a6363f59057e6de992b932eb02/micronaut-inject-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-core/3.8.5/77936e19b984225689e4e231e73abf329ad4648/micronaut-core-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.36/6c62681a2f655b49963a5983b8b0950a6120ae14/slf4j-api-1.7.36.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-junit/1.10.12/81bde3486c2ed79cb6f699c2a5a77b0340d1f2e8/ant-junit-1.10.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.10.13/85fd5990a27ddafe8af3f7a6d7132d2c29a22a7c/ant-1.10.13.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.fusesource.jansi/jansi/1.18/d9205bbcd4b5f9cd1effe752d18f73bd942d783f/jansi-1.18.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jline/jline/2.14.6/c3aeac59c022bdc497c8c48ed86fa50450e4896a/jline-2.14.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-component-api/1.0-alpha-33/7d9560effcadf867937ac6885d0d1045ea98ab59/plexus-component-api-1.0-alpha-33.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-model-builder/3.8.3/7e997c68595707444c6cee187187c28dcfaf495b/maven-model-builder-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-model/3.8.3/f99d58de0bbf384acbf86da52856f341c22ff58b/maven-model-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-repository-metadata/3.8.3/7afe248217d380317431d07e3d8f546905e3157d/maven-repository-metadata-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-spi/1.9.16/12222dca88a4812560ae2fa59e8bd47871ff096a/maven-resolver-spi-1.9.16.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-util/1.9.16/fb6cb68c4593de6af6f96fa4f5dba3e6d30b8ec3/maven-resolver-util-1.9.16.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven.resolver/maven-resolver-api/1.9.16/a3a0bc37ba32ded01484b7dc20aea36fc3ff3a77/maven-resolver-api-1.9.16.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-settings-builder/3.6.3/756d46810b8cc7b2b98585ccc787854cdfde7fd9/maven-settings-builder-3.6.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.sonatype.plexus/plexus-sec-dispatcher/1.4/43fde524e9b94c883727a9fddb8669181b890ea7/plexus-sec-dispatcher-1.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.sonatype.sisu/sisu-inject-plexus/2.6.0/7842bcac78208d1f9b60dcdd690eea573ce0f6c3/sisu-inject-plexus-2.6.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.8.3/d275764a41dcfdfd3def259d1eed2bd6f02464b2/maven-artifact-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-settings/3.6.3/bbf4e06dcdb0bb33d1546c080df5c8d92b535d30/maven-settings-3.6.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.eclipse.sisu/org.eclipse.sisu.plexus/0.3.0/3f53953a998d03b9b0f7d5098f63119e434af0ef/org.eclipse.sisu.plexus-0.3.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-utils/3.3.0/cf43b5391de623b36fe066a21127baef82c64022/plexus-utils-3.3.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.12.0/c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e/commons-lang3-3.12.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.16/51cf043c87253c9f58b539c9f7e44c8894223850/httpcore-4.4.16.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.30/8fde7fe2586328ac3c68db92045e1c8759125000/snakeyaml-1.30.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.10.13/331234763210702757a5780437844c6aef5d2bdf/ant-launcher-1.10.13.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-antlr/1.10.12/74b17ef7229f3d7c0d55d42486889cc553ab04d6/ant-antlr-1.10.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-groovydoc/3.0.11/8faadefbe0df0430ef99c5b55b19d524bcf16862/groovy-groovydoc-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-loader-tools/2.7.10/db8ce15a8bb1c9a998fe4841e086dacc8bcc7fbf/spring-boot-loader-tools-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c/jopt-simple-5.0.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.3.25/85382e86321227506bf7f97ed80e2ab88bce25f0/spring-core-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/5.7.7/ed4ba8723f0c4c7abf420eae7714aa5391410be8/spring-security-crypto-5.7.7.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-classworlds/2.5.2/4abb111bfdace5b8167db4c0ef74644f3f88f142/plexus-classworlds-2.5.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12/junit-4.13.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-interpolation/1.26/25b919c664b79795ccde0ede5cee0fd68b544197/plexus-interpolation-1.26.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-builder-support/3.8.3/cfa5b47b864fa65fb0d16fece91c85efc0c95796/maven-builder-support-3.8.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.eclipse.sisu/org.eclipse.sisu.inject/0.3.5/d4265dd4f0f1d7a06d80df5a5f475d5ff9c17140/org.eclipse.sisu.inject-0.3.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.annotation/javax.annotation-api/1.3.2/934c04d3cfef185a8008e7bf34331b79730a9d43/javax.annotation-api-1.3.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.inject/jakarta.inject-api/2.0.1/4c28afe1991a941d7702fe1362c365f0a8641d1e/jakarta.inject-api-2.0.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.0.0/f3cd84cc45f583a0fdc42a8156d6c5b98d625c1a/jakarta.annotation-api-2.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.21/4ec95b60d4e86b5c95a0e919cb172a0af98011ef/commons-compress-1.21.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.sonatype.plexus/plexus-cipher/1.4/50ade46f23bb38cd984b4ec560c46223432aac38/plexus-cipher-1.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-component-annotations/1.5.5/c72f2660d0cbed24246ddb55d7fdc4f7374d2078/plexus-component-annotations-1.5.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.3.26/2005accc2cf5212c614df3760b3a434e7dce807c/spring-jcl-5.3.26.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/2.2/3f2bd07716a31c395e2837254f37f21f0f0ab24b/hamcrest-core-2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest/2.2/1820c0968dba3a11a1b30669bb1f01978a91dedc/hamcrest-2.2.jar:/home/jameschang/.local/share/JetBrains/IntelliJIdea2023.3/groovy-grails/lib/groovy-grails-rt.jar org.grails.cli.GrailsCli run-app --plain-output
+SLF4J: Failed to load class &#34;org.slf4j.impl.StaticLoggerBinder&#34;.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+|Running application...
+OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.
+2024-04-16 15:26:42.445  INFO --- [kground-preinit] o.h.validator.internal.util.Version      : HV000001: Hibernate Validator 6.2.5.Final
+2024-04-16 15:26:42.449 DEBUG --- [kground-preinit] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2024-04-16 15:26:42.450 DEBUG --- [kground-preinit] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2024-04-16 15:26:42.450 DEBUG --- [kground-preinit] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator&#39;s class loader
+2024-04-16 15:26:42.451 DEBUG --- [kground-preinit] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2024-04-16 15:26:42.453 DEBUG --- [kground-preinit] o.h.v.i.e.resolver.TraversableResolvers  : Found javax.persistence.Persistence on classpath containing &#39;getPersistenceUtil&#39;. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+2024-04-16 15:26:42.454 DEBUG --- [kground-preinit] o.h.v.i.e.resolver.TraversableResolvers  : Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+2024-04-16 15:26:42.470 DEBUG --- [kground-preinit] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:42.525 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:42.529 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:42.529 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.resolver.JPATraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:42.529 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:42.529 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:42.530 DEBUG --- [kground-preinit] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:44.319 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+2024-04-16 15:26:44.320 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.secure.spi.JaccIntegrator].
+2024-04-16 15:26:44.320 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.cache.internal.CollectionCacheInvalidator].
+2024-04-16 15:26:44.323 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [jdbc] -&gt; [org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.323 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [jta] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.324 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.JDBCTransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.324 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.JTATransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.324 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.CMTTransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.324 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [persistent] -&gt; [org.hibernate.hql.spi.id.persistent.PersistentTableBulkIdStrategy]
+2024-04-16 15:26:44.325 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [global_temporary] -&gt; [org.hibernate.hql.spi.id.global.GlobalTemporaryTableBulkIdStrategy]
+2024-04-16 15:26:44.325 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [local_temporary] -&gt; [org.hibernate.hql.spi.id.local.LocalTemporaryTableBulkIdStrategy]
+2024-04-16 15:26:44.325 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [default] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl]
+2024-04-16 15:26:44.325 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [jpa] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl]
+2024-04-16 15:26:44.325 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [legacy-jpa] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl]
+2024-04-16 15:26:44.326 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [legacy-hbm] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl]
+2024-04-16 15:26:44.326 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [component-path] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl]
+2024-04-16 15:26:44.326 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.cache.spi.CacheKeysFactory] : [default] -&gt; [org.hibernate.cache.internal.DefaultCacheKeysFactory]
+2024-04-16 15:26:44.326 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.cache.spi.CacheKeysFactory] : [simple] -&gt; [org.hibernate.cache.internal.SimpleCacheKeysFactory]
+2024-04-16 15:26:44.329  INFO --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2024-04-16 15:26:44.330 DEBUG --- [  restartedMain] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2024-04-16 15:26:44.383 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom TraversableResolver of type org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver
+2024-04-16 15:26:44.384 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:44.384 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
+2024-04-16 15:26:44.384 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2024-04-16 15:26:44.384 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : HV000002: Ignoring XML configuration.
+2024-04-16 15:26:44.385 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:44.386 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:44.386 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:44.386 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:44.386 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:44.386 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:44.402 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+2024-04-16 15:26:44.402 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.secure.spi.JaccIntegrator].
+2024-04-16 15:26:44.403 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.hibernate.cache.internal.CollectionCacheInvalidator].
+2024-04-16 15:26:44.403 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.grails.orm.hibernate.EventListenerIntegrator].
+2024-04-16 15:26:44.403 DEBUG --- [  restartedMain] o.h.i.internal.IntegratorServiceImpl     : Adding Integrator [org.grails.orm.hibernate.MetadataIntegrator].
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [jdbc] -&gt; [org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [jta] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.JDBCTransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.JTATransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder] : [org.hibernate.transaction.CMTTransactionFactory] -&gt; [org.hibernate.resource.transaction.backend.jta.internal.JtaTransactionCoordinatorBuilderImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [persistent] -&gt; [org.hibernate.hql.spi.id.persistent.PersistentTableBulkIdStrategy]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [global_temporary] -&gt; [org.hibernate.hql.spi.id.global.GlobalTemporaryTableBulkIdStrategy]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.hql.spi.id.MultiTableBulkIdStrategy] : [local_temporary] -&gt; [org.hibernate.hql.spi.id.local.LocalTemporaryTableBulkIdStrategy]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [default] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl]
+2024-04-16 15:26:44.403 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [jpa] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl]
+2024-04-16 15:26:44.404 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [legacy-jpa] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl]
+2024-04-16 15:26:44.404 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [legacy-hbm] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl]
+2024-04-16 15:26:44.404 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.boot.model.naming.ImplicitNamingStrategy] : [component-path] -&gt; [org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl]
+2024-04-16 15:26:44.404 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.cache.spi.CacheKeysFactory] : [default] -&gt; [org.hibernate.cache.internal.DefaultCacheKeysFactory]
+2024-04-16 15:26:44.404 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.cache.spi.CacheKeysFactory] : [simple] -&gt; [org.hibernate.cache.internal.SimpleCacheKeysFactory]
+2024-04-16 15:26:44.405 TRACE --- [  restartedMain] o.h.b.r.s.internal.StrategySelectorImpl  : Registering named strategy selector [org.hibernate.property.access.spi.PropertyAccessStrategy] : [traitProperty] -&gt; [org.grails.orm.hibernate.access.TraitPropertyAccessStrategy]
+2024-04-16 15:26:44.408 DEBUG --- [  restartedMain] o.hibernate.service.spi.ServiceBinding   : Overriding existing service binding [org.hibernate.secure.spi.JaccService]
+2024-04-16 15:26:44.408 DEBUG --- [  restartedMain] org.hibernate.cfg.Configuration          : Building session factory using provided StandardServiceRegistry
+2024-04-16 15:26:44.410 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.config.spi.ConfigurationService]
+2024-04-16 15:26:44.412 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.cache.spi.RegionFactory]
+2024-04-16 15:26:44.412 DEBUG --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+2024-04-16 15:26:44.415  INFO --- [  restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-04-16 15:26:44.425 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration boolean -&gt; org.hibernate.type.BooleanType@1df3f15a
+2024-04-16 15:26:44.425 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration boolean -&gt; org.hibernate.type.BooleanType@1df3f15a
+2024-04-16 15:26:44.425 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Boolean -&gt; org.hibernate.type.BooleanType@1df3f15a
+2024-04-16 15:26:44.425 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration numeric_boolean -&gt; org.hibernate.type.NumericBooleanType@4350a220
+2024-04-16 15:26:44.426 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration true_false -&gt; org.hibernate.type.TrueFalseType@779de27c
+2024-04-16 15:26:44.426 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration yes_no -&gt; org.hibernate.type.YesNoType@7f1ecbcb
+2024-04-16 15:26:44.426 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte -&gt; org.hibernate.type.ByteType@73a3f507
+2024-04-16 15:26:44.426 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte -&gt; org.hibernate.type.ByteType@73a3f507
+2024-04-16 15:26:44.426 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Byte -&gt; org.hibernate.type.ByteType@73a3f507
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration character -&gt; org.hibernate.type.CharacterType@1c61a208
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration char -&gt; org.hibernate.type.CharacterType@1c61a208
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Character -&gt; org.hibernate.type.CharacterType@1c61a208
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration short -&gt; org.hibernate.type.ShortType@5794d988
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration short -&gt; org.hibernate.type.ShortType@5794d988
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Short -&gt; org.hibernate.type.ShortType@5794d988
+2024-04-16 15:26:44.427 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration integer -&gt; org.hibernate.type.IntegerType@2037059f
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration int -&gt; org.hibernate.type.IntegerType@2037059f
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Integer -&gt; org.hibernate.type.IntegerType@2037059f
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration long -&gt; org.hibernate.type.LongType@65f033bd
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration long -&gt; org.hibernate.type.LongType@65f033bd
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Long -&gt; org.hibernate.type.LongType@65f033bd
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration float -&gt; org.hibernate.type.FloatType@36360aab
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration float -&gt; org.hibernate.type.FloatType@36360aab
+2024-04-16 15:26:44.428 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Float -&gt; org.hibernate.type.FloatType@36360aab
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration double -&gt; org.hibernate.type.DoubleType@461a4e31
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration double -&gt; org.hibernate.type.DoubleType@461a4e31
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Double -&gt; org.hibernate.type.DoubleType@461a4e31
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration big_decimal -&gt; org.hibernate.type.BigDecimalType@39ab49b9
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.math.BigDecimal -&gt; org.hibernate.type.BigDecimalType@39ab49b9
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration big_integer -&gt; org.hibernate.type.BigIntegerType@23f0d192
+2024-04-16 15:26:44.429 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.math.BigInteger -&gt; org.hibernate.type.BigIntegerType@23f0d192
+2024-04-16 15:26:44.430 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration string -&gt; org.hibernate.type.StringType@389ae3fe
+2024-04-16 15:26:44.430 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.String -&gt; org.hibernate.type.StringType@389ae3fe
+2024-04-16 15:26:44.430 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration nstring -&gt; org.hibernate.type.StringNVarcharType@2f8c5f32
+2024-04-16 15:26:44.430 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration ncharacter -&gt; org.hibernate.type.CharacterNCharType@1fad72eb
+2024-04-16 15:26:44.431 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration url -&gt; org.hibernate.type.UrlType@62770b5
+2024-04-16 15:26:44.431 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.net.URL -&gt; org.hibernate.type.UrlType@62770b5
+2024-04-16 15:26:44.431 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration Duration -&gt; org.hibernate.type.DurationType@1a2bb393
+2024-04-16 15:26:44.431 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Duration -&gt; org.hibernate.type.DurationType@1a2bb393
+2024-04-16 15:26:44.432 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration Instant -&gt; org.hibernate.type.InstantType@5be0b90e
+2024-04-16 15:26:44.432 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Instant -&gt; org.hibernate.type.InstantType@5be0b90e
+2024-04-16 15:26:44.432 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalDateTime -&gt; org.hibernate.type.LocalDateTimeType@69682a97
+2024-04-16 15:26:44.432 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalDateTime -&gt; org.hibernate.type.LocalDateTimeType@69682a97
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalDate -&gt; org.hibernate.type.LocalDateType@4f74871
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalDate -&gt; org.hibernate.type.LocalDateType@4f74871
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalTime -&gt; org.hibernate.type.LocalTimeType@41915df4
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalTime -&gt; org.hibernate.type.LocalTimeType@41915df4
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetDateTime -&gt; org.hibernate.type.OffsetDateTimeType@5fe63175
+2024-04-16 15:26:44.433 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetDateTime -&gt; org.hibernate.type.OffsetDateTimeType@5fe63175
+2024-04-16 15:26:44.434 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTime -&gt; org.hibernate.type.OffsetTimeType@785e70db
+2024-04-16 15:26:44.434 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetTime -&gt; org.hibernate.type.OffsetTimeType@785e70db
+2024-04-16 15:26:44.434 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZonedDateTime -&gt; org.hibernate.type.ZonedDateTimeType@3c039eec
+2024-04-16 15:26:44.434 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.ZonedDateTime -&gt; org.hibernate.type.ZonedDateTimeType@3c039eec
+2024-04-16 15:26:44.435 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration date -&gt; org.hibernate.type.DateType@726961d3
+2024-04-16 15:26:44.435 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Date -&gt; org.hibernate.type.DateType@726961d3
+2024-04-16 15:26:44.435 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration time -&gt; org.hibernate.type.TimeType@13e0d17a
+2024-04-16 15:26:44.435 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Time -&gt; org.hibernate.type.TimeType@13e0d17a
+2024-04-16 15:26:44.436 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration timestamp -&gt; org.hibernate.type.TimestampType@785acf76
+2024-04-16 15:26:44.436 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Timestamp -&gt; org.hibernate.type.TimestampType@785acf76
+2024-04-16 15:26:44.436 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Date -&gt; org.hibernate.type.TimestampType@785acf76
+2024-04-16 15:26:44.436 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration dbtimestamp -&gt; org.hibernate.type.DbTimestampType@3954c0e6
+2024-04-16 15:26:44.437 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar -&gt; org.hibernate.type.CalendarType@2000dbef
+2024-04-16 15:26:44.437 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Calendar -&gt; org.hibernate.type.CalendarType@2000dbef
+2024-04-16 15:26:44.437 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.GregorianCalendar -&gt; org.hibernate.type.CalendarType@2000dbef
+2024-04-16 15:26:44.437 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar_date -&gt; org.hibernate.type.CalendarDateType@96a60c
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar_time -&gt; org.hibernate.type.CalendarTimeType@1bee8e09
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration locale -&gt; org.hibernate.type.LocaleType@6f663037
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Locale -&gt; org.hibernate.type.LocaleType@6f663037
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration currency -&gt; org.hibernate.type.CurrencyType@708d162d
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Currency -&gt; org.hibernate.type.CurrencyType@708d162d
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration timezone -&gt; org.hibernate.type.TimeZoneType@328928fa
+2024-04-16 15:26:44.438 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.TimeZone -&gt; org.hibernate.type.TimeZoneType@328928fa
+2024-04-16 15:26:44.439 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration class -&gt; org.hibernate.type.ClassType@4ade2349
+2024-04-16 15:26:44.439 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Class -&gt; org.hibernate.type.ClassType@4ade2349
+2024-04-16 15:26:44.439 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration uuid-binary -&gt; org.hibernate.type.UUIDBinaryType@35988c46
+2024-04-16 15:26:44.439 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.UUID -&gt; org.hibernate.type.UUIDBinaryType@35988c46
+2024-04-16 15:26:44.439 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration uuid-char -&gt; org.hibernate.type.UUIDCharType@1179d76f
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration binary -&gt; org.hibernate.type.BinaryType@11966c5
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte[] -&gt; org.hibernate.type.BinaryType@11966c5
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration [B -&gt; org.hibernate.type.BinaryType@11966c5
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration wrapper-binary -&gt; org.hibernate.type.WrapperBinaryType@13e2cb69
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration Byte[] -&gt; org.hibernate.type.WrapperBinaryType@13e2cb69
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration [Ljava.lang.Byte; -&gt; org.hibernate.type.WrapperBinaryType@13e2cb69
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration row_version -&gt; org.hibernate.type.RowVersionType@3a81ba54
+2024-04-16 15:26:44.440 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration image -&gt; org.hibernate.type.ImageType@3dab33e0
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration characters -&gt; org.hibernate.type.CharArrayType@691a5aed
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration char[] -&gt; org.hibernate.type.CharArrayType@691a5aed
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration [C -&gt; org.hibernate.type.CharArrayType@691a5aed
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration wrapper-characters -&gt; org.hibernate.type.CharacterArrayType@7aedb88f
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration [Ljava.lang.Character; -&gt; org.hibernate.type.CharacterArrayType@7aedb88f
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration Character[] -&gt; org.hibernate.type.CharacterArrayType@7aedb88f
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration text -&gt; org.hibernate.type.TextType@1ce28f49
+2024-04-16 15:26:44.441 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration ntext -&gt; org.hibernate.type.NTextType@5cad8530
+2024-04-16 15:26:44.442 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration blob -&gt; org.hibernate.type.BlobType@2d9827a0
+2024-04-16 15:26:44.442 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Blob -&gt; org.hibernate.type.BlobType@2d9827a0
+2024-04-16 15:26:44.442 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_blob -&gt; org.hibernate.type.MaterializedBlobType@7368903f
+2024-04-16 15:26:44.442 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration clob -&gt; org.hibernate.type.ClobType@92c7208
+2024-04-16 15:26:44.442 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Clob -&gt; org.hibernate.type.ClobType@92c7208
+2024-04-16 15:26:44.443 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration nclob -&gt; org.hibernate.type.NClobType@32a2b068
+2024-04-16 15:26:44.443 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.NClob -&gt; org.hibernate.type.NClobType@32a2b068
+2024-04-16 15:26:44.443 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_clob -&gt; org.hibernate.type.MaterializedClobType@78d5dc0a
+2024-04-16 15:26:44.443 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_nclob -&gt; org.hibernate.type.MaterializedNClobType@6a4ce05c
+2024-04-16 15:26:44.443 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration serializable -&gt; org.hibernate.type.SerializableType@1069c727
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration object -&gt; org.hibernate.type.ObjectType@3054f8f7
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Object -&gt; org.hibernate.type.ObjectType@3054f8f7
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_date -&gt; org.hibernate.type.AdaptedImmutableType@3c558cab
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_time -&gt; org.hibernate.type.AdaptedImmutableType@30b5af0e
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_timestamp -&gt; org.hibernate.type.AdaptedImmutableType@395c896
+2024-04-16 15:26:44.444 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_dbtimestamp -&gt; org.hibernate.type.AdaptedImmutableType@2236b0e8
+2024-04-16 15:26:44.445 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_calendar -&gt; org.hibernate.type.AdaptedImmutableType@329650d1
+2024-04-16 15:26:44.445 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_calendar_date -&gt; org.hibernate.type.AdaptedImmutableType@2fc65452
+2024-04-16 15:26:44.445 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_binary -&gt; org.hibernate.type.AdaptedImmutableType@23af844
+2024-04-16 15:26:44.445 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_serializable -&gt; org.hibernate.type.AdaptedImmutableType@151cb91b
+2024-04-16 15:26:44.446 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.boot.cfgxml.spi.CfgXmlAccessService]
+2024-04-16 15:26:44.453 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.id.factory.spi.MutableIdentifierGeneratorFactory]
+2024-04-16 15:26:44.453 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [uuid2] -&gt; [org.hibernate.id.UUIDGenerator]
+2024-04-16 15:26:44.453 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [guid] -&gt; [org.hibernate.id.GUIDGenerator]
+2024-04-16 15:26:44.453 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [uuid] -&gt; [org.hibernate.id.UUIDHexGenerator]
+2024-04-16 15:26:44.453 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [uuid.hex] -&gt; [org.hibernate.id.UUIDHexGenerator]
+2024-04-16 15:26:44.453 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [assigned] -&gt; [org.hibernate.id.Assigned]
+2024-04-16 15:26:44.454 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [identity] -&gt; [org.hibernate.id.IdentityGenerator]
+2024-04-16 15:26:44.454 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [select] -&gt; [org.hibernate.id.SelectGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [sequence] -&gt; [org.hibernate.id.enhanced.SequenceStyleGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [seqhilo] -&gt; [org.hibernate.id.SequenceHiLoGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [increment] -&gt; [org.hibernate.id.IncrementGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [foreign] -&gt; [org.hibernate.id.ForeignGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [sequence-identity] -&gt; [org.hibernate.id.SequenceIdentityGenerator]
+2024-04-16 15:26:44.455 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [enhanced-sequence] -&gt; [org.hibernate.id.enhanced.SequenceStyleGenerator]
+2024-04-16 15:26:44.456 DEBUG --- [  restartedMain] .i.f.i.DefaultIdentifierGeneratorFactory : Registering IdentifierGenerator strategy [enhanced-table] -&gt; [org.hibernate.id.enhanced.TableGenerator]
+2024-04-16 15:26:44.456 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+2024-04-16 15:26:44.456 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jdbc.dialect.spi.DialectFactory]
+2024-04-16 15:26:44.456 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jdbc.dialect.spi.DialectResolver]
+2024-04-16 15:26:44.457 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jdbc.connections.spi.ConnectionProvider]
+2024-04-16 15:26:44.457 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jndi.spi.JndiService]
+2024-04-16 15:26:44.462 DEBUG --- [  restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : Database -&gt;
+       name : PostgreSQL
+    version : 14.11
+      major : 14
+      minor : 11
+2024-04-16 15:26:44.462 DEBUG --- [  restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : Driver -&gt;
+       name : PostgreSQL JDBC Driver
+    version : 42.6.0
+      major : 42
+      minor : 6
+2024-04-16 15:26:44.462 DEBUG --- [  restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : JDBC version : 4.2
+2024-04-16 15:26:44.463  INFO --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2024-04-16 15:26:44.468 DEBUG --- [  restartedMain] o.h.e.j.env.spi.IdentifierHelperBuilder  : JDBC driver metadata reported database stores quoted identifiers in neither upper, lower nor mixed case
+2024-04-16 15:26:44.471 TRACE --- [  restartedMain] .e.j.e.i.NormalizingIdentifierHelperImpl : Normalizing identifier quoting [pollo_db]
+2024-04-16 15:26:44.471 TRACE --- [  restartedMain] .e.j.e.i.NormalizingIdentifierHelperImpl : Normalizing identifier quoting [public]
+2024-04-16 15:26:44.472 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.resource.beans.spi.ManagedBeanRegistry]
+2024-04-16 15:26:44.473 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.jdbc.spi.JdbcServices]
+2024-04-16 15:26:44.475 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration pg-uuid -&gt; org.hibernate.type.PostgresUUIDType@be39cbf
+2024-04-16 15:26:44.475 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.UUID -&gt; org.hibernate.type.PostgresUUIDType@be39cbf
+2024-04-16 15:26:44.475 DEBUG --- [  restartedMain] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@35988c46
+2024-04-16 15:26:44.476 DEBUG --- [  restartedMain] o.h.type.spi.TypeConfiguration$Scope     : Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@55e7045a] to MetadataBuildingContext [org.hibernate.boot.internal.MetadataBuildingContextRootImpl@192dab09]
+2024-04-16 15:26:44.479 DEBUG --- [  restartedMain] o.h.boot.model.relational.Namespace      : Created database namespace [logicalName=Name{catalog=null, schema=null}, physicalName=Name{catalog=null, schema=null}]
+2024-04-16 15:26:44.482 TRACE --- [  restartedMain] o.h.b.m.p.spi.MetadataBuildingProcess    : Calling MetadataContributor : org.grails.orm.hibernate.cfg.GrailsDomainBinder@1cc53713
+2024-04-16 15:26:44.483 TRACE --- [  restartedMain] o.h.b.i.InFlightMetadataCollectorImpl    : Import: Test1 -&gt; work.pollochang.Test1
+2024-04-16 15:26:44.483 TRACE --- [  restartedMain] .e.j.e.i.NormalizingIdentifierHelperImpl : Normalizing identifier quoting [test1]
+2024-04-16 15:26:44.486 DEBUG --- [  restartedMain] org.hibernate.mapping.PrimaryKey         : Forcing column [id] to be non-null as it is part of the primary key for table [test1]
+2024-04-16 15:26:44.488 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.boot.spi.SessionFactoryBuilderService]
+2024-04-16 15:26:44.498 TRACE --- [  restartedMain] org.hibernate.loader.BatchFetchStyle     : Interpreting BatchFetchStyle from setting : null
+2024-04-16 15:26:44.500 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.bytecode.spi.BytecodeProvider]
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] o.hibernate.internal.SessionFactoryImpl  : Building session factory
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : SessionFactory name : null
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Automatic flush during beforeCompletion(): enabled
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Automatic session close at end of transaction: disabled
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Statistics: disabled
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Deleted entity synthetic identifier rollback: disabled
+2024-04-16 15:26:44.503 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Default entity-mode: pojo
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Allow initialization of lazy state outside session : disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Using BatchFetchStyle : LEGACY
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Default batch fetch size: -1
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Maximum outer join fetch depth: null
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Default null ordering: NONE
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Order SQL updates by primary key: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Order SQL inserts for batching: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : multi-tenancy strategy : NONE
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JTA Track by Thread: enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Query language substitutions: {}
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Named query checking : enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Second-level cache: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Second-level query cache: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Second-level query cache factory: null
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Second-level cache region prefix: null
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Optimize second-level cache for minimal puts: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Structured second-level cache entries: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Second-level cache direct-reference entries: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Automatic eviction of collection cache: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JDBC batch size: 15
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JDBC batch updates for versioned data: enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Scrollable result sets: enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Wrap result sets: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JDBC3 getGeneratedKeys(): enabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JDBC result set fetch size: null
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Connection release mode: ON_CLOSE
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : Generate SQL with comments: disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JPA compliance - query : disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JPA compliance - closed-handling : disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JPA compliance - lists : disabled
+2024-04-16 15:26:44.504 DEBUG --- [  restartedMain] org.hibernate.cfg.Settings               : JPA compliance - transactions : disabled
+2024-04-16 15:26:44.504 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.service.spi.SessionFactoryServiceRegistryFactory]
+2024-04-16 15:26:44.507 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : Not known whether passed class name [work.pollochang.Test1] is safe
+2024-04-16 15:26:44.507 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : work.pollochang.Test1
+2024-04-16 15:26:44.516 DEBUG --- [  restartedMain] .h.s.i.SessionFactoryServiceRegistryImpl : EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+2024-04-16 15:26:44.517 DEBUG --- [  restartedMain] .h.s.i.SessionFactoryServiceRegistryImpl : EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+2024-04-16 15:26:44.517 TRACE --- [  restartedMain] .e.j.e.i.NormalizingIdentifierHelperImpl : Normalizing identifier quoting [null]
+2024-04-16 15:26:44.517 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.cache.spi.CacheImplementor]
+2024-04-16 15:26:44.519 DEBUG --- [  restartedMain] o.hibernate.internal.SessionFactoryImpl  : Session factory constructed with filter configurations : {}
+2024-04-16 15:26:44.519 DEBUG --- [  restartedMain] o.hibernate.internal.SessionFactoryImpl  : Instantiating session factory with properties: {hibernate.format_sql=false, run.active=true, java.specification.version=17, hibernate.connection.handling_mode=DELAYED_ACQUISITION_AND_HOLD, sun.jnu.encoding=UTF-8, hibernate.dialect=org.hibernate.dialect.PostgreSQL10Dialect, java.class.path=/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/src/main/resources:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/grails-app/views:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/grails-app/i18n:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/grails-app/conf:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/build/classes/java/main:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/build/classes/groovy/main:/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop/gsp-classes:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-logging/5.3.6/7b2811bd000aba08ad259455fafa7167f0b4baf8/grails-logging-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-databinding/5.3.6/90c4e117367c04a9f424c2a30b35155ccce070da/grails-plugin-databinding-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-services/5.3.6/98a96f8bc7cde7724603140b45fa7a55e5980d57/grails-plugin-services-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/async/4.0.0/41a4a5a76032ae71d77ce7a9722986ae5a42af04/async-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/events/4.0.0/6e906b9ec9dfd168a82aaf2858da65c2eb451b37/events-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-boot/5.3.6/de2e1e739c166685f6122932d050f5edc2978bd1/grails-web-boot-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-rest/5.3.6/da45072ad1295e93abc4357c708fc45d6a93fbd8/grails-plugin-rest-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-interceptors/5.3.6/982d8be14c71acce49a3ead6e2b766d0b72ceca2/grails-plugin-interceptors-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-url-mappings/5.3.6/31896ab23cccf618eac20a1ae365a4ff0652accf/grails-plugin-url-mappings-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-controllers/5.3.6/1f9742eef39213daca372dc8924abc5d5177b90e/grails-plugin-controllers-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-i18n/5.3.6/54228922d624f8ef9cdbb76fd8c1d58f3e918e21/grails-plugin-i18n-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/gsp/5.2.2/f3a03d466051f103cc6a3ee2b61e4aa672504ef0/gsp-5.2.2-plain.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-codecs/5.3.6/2a9f537188697d30dbe8b19a159b78c7f7aea39d/grails-plugin-codecs-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-mimetypes/5.3.6/f8c0506ef5069585567597b05c192218c6a0f0d3/grails-plugin-mimetypes-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-domain-class/5.3.6/b997c30ad962452424659ebee436c0cf4f4f4b9d/grails-plugin-domain-class-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-validation/5.3.6/1f5116731db72853f5db50cd52bbdc9d30f090c7/grails-plugin-validation-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web/5.3.6/86c9875997f1f8a9cab9c826e9f3db80d8d5cc42/grails-web-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-gsp-taglib/5.2.2/457d03412110f2037608028c78299f2eff165433/grails-web-gsp-taglib-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-jsp/5.2.2/eb543a492e30ee04ff50fc649a115c8d87301469/grails-web-jsp-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-databinding/5.3.6/87f00d19c1cec77c2353dfc36ee5ae309b44c201/grails-web-databinding-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-fileupload/5.3.6/6bd26d2b14ea66eebe0a8745b710e4429ac8e15d/grails-web-fileupload-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-mvc/5.3.6/e77cb39751870111d427e574577cb000401ad74c/grails-web-mvc-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-url-mappings/5.3.6/ba2e10d77efbf515d250f62b5ef0cab6b1efaf2/grails-web-url-mappings-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-gsp/5.2.2/a01ea1674279ef30cb432f927aefb980d8c1d040/grails-web-gsp-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-taglib/5.2.2/b99a039f50c6a3ed9959bf68f608941fe13967f0/grails-web-taglib-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-common/5.3.6/2589301a54e3437edfd4b49af822008144d06aac/grails-web-common-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-plugin-datasource/5.3.6/c85a4fe057975dee4e597075b9ff12bf9ec2274c/grails-plugin-datasource-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/hibernate5/7.3.1/f32ffbc5774ad1f52bf67e238831bf289b3c0c6a/hibernate5-7.3.1-plain.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-gorm-support/7.3.4/d7590ece66fa685de90aa77a82023640970c8c40/grails-datastore-gorm-support-7.3.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-gsp/5.2.2/936c963fa4171bb0c404434ab5a045d279ea72f3/grails-gsp-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-taglib/5.2.2/3455aa3168a71753a25f78c89b7ad4d076f9316b/grails-taglib-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-encoder/5.3.6/dc92e63e0bbfa6c5dafc6fc4e1c202b826d3e554/grails-encoder-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-core/5.3.6/26dfe8bf2e2abec7620163ffe1311e79229f59b6/grails-core-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut.spring/micronaut-spring-context/4.5.0/4c19a52d78f6845e1557100a7fd7ce445860fc64/micronaut-spring-context-4.5.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut.cache/micronaut-cache-core/3.5.0/7495794ce7142740612cefb331f2c4eddcb00e95/micronaut-cache-core-3.5.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut.spring/micronaut-spring/4.5.0/c10a0047682032b3057513f4644975496d845f63/micronaut-spring-4.5.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-inject-groovy/3.8.8/81324760a4d11bf9d0f808eb71140aff24494e90/micronaut-inject-groovy-3.8.8.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-devtools/2.7.10/5fb400244cc006b920f3e0adc333498c8175b892/spring-boot-devtools-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator-autoconfigure/2.7.10/34c6b707e929954fecada408bb8a1f1b8eb4fee8/spring-boot-actuator-autoconfigure-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.7.10/514bec7b4e424199325b4f3c8949b9e2b5f6f16c/spring-boot-autoconfigure-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/cache/5.0.1/9a0756ba143f44fcb48a2eb741002ef6538e0979/cache-5.0.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/scaffolding/4.1.0/aea42ebbdf2c765ac674b02fdf8a588437a36e6f/scaffolding-4.1.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-gorm-hibernate5/7.2.2/f6e1ee92da3d4326744891fdeaf0e9fcb7b06861/grails-datastore-gorm-hibernate5-7.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/5.6.11.Final/bc2aa514b13cfeee4ce8ed1f770c321ab63c2b82/hibernate-core-5.6.11.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.postgresql/postgresql/42.6.0/7614cfce466145b84972781ab0079b8dea49e363/postgresql-42.6.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.glassfish.web/el-impl/2.2.1-b05/e7257f648b1ec91b87db8893f7740e116b05d777/el-impl-2.2.1-b05.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-jdbc/9.0.73/a470d3f132dbb5e571683836b516eb6229e31607/tomcat-jdbc-9.0.73.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.xml.bind/jaxb-api/2.3.1/8531ad5ac454cc2deb9d4d32c40c4d7451939b5d/jaxb-api-2.3.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.bertramlabs.plugins/asset-pipeline-grails/3.4.7/3be07b8a0f04bf2b5f1d8c9fc9b07b207c4f2d16/asset-pipeline-grails-3.4.7.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-runtime/3.8.5/a14cb3b344a11363c0755e6271891b62fe1fd54b/micronaut-runtime-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-jackson-databind/3.8.5/2945b33f4fa0141885e57ae3ad45d0cc64b5588a/micronaut-jackson-databind-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-jackson-core/3.8.5/e4a3c4147494ecfb8b15e5024f5f34f513123b45/micronaut-jackson-core-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-json-core/3.8.5/240c1976ac96ddfd2b7e684cba53f6b9ac2e8635/micronaut-json-core-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-context/3.8.5/76bede59f662573762c6619f9fbcac846addc441/micronaut-context-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-aop/3.8.5/db5d13dbe4b81cf0b17144920db492a4b45807a4/micronaut-aop-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-spring/5.3.6/fdda26ffcb5bf2dab372fa401b32e20be6d34b44/grails-spring-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-bootstrap/5.3.6/90eeea5f0e82ad58bd0f124ce1454679b0496002/grails-bootstrap-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-http/3.8.5/7030153705914697ee0c4300698500f033c76a84/micronaut-http-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-inject/3.8.5/2e0312aabc8594a6363f59057e6de992b932eb02/micronaut-inject-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.11/4741689214e9d1e8408b206506cbe76d1c6a7d60/logback-classic-1.2.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.17.2/17dd0fae2747d9a28c67bc9534108823d2376b46/log4j-to-slf4j-2.17.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.36/ed46d81cef9c412a88caef405b58f93a678ff2ca/jul-to-slf4j-1.7.36.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-web/7.3.4/90f40109617b99d4cf0c396d103eea292b0f1196/grails-datastore-web-7.3.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-events-compat/4.0.0/9cbbec92673660d774daa8186ce4da55e53f30e5/grails-events-compat-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-events-transform/4.0.0/bfc855d46d81c761190293f964156a609d96ff30/grails-events-transform-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-gorm/7.3.4/222e2a577506c56ab77afcb1ac0291138613d919/grails-datastore-gorm-7.3.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-gorm-validation/7.3.4/d966cee7a1f54f1864789bc80522d8f175e3c8d9/grails-datastore-gorm-validation-7.3.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-datastore-core/7.3.4/f9e7abdf3686b7794207034e0919e5f7a55436fb/grails-datastore-core-7.3.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-databinding/5.3.6/5e340973faa1b457e5dd3c5da16de7ea29ba756a/grails-databinding-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-codecs/5.3.6/b2d937968fd68f70d6f6039d11f03a571ba53a85/grails-codecs-5.3.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.36/d877e195a05aca4a2f1ad2ff14bfec1393af4b5e/jcl-over-slf4j-1.7.36.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-async/4.0.0/5819970310471abecaf5fa1186939e54b0a60111/grails-async-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-events/4.0.0/1cc715abe0dfc0acb31c11fd826f5e3196ecdca7/grails-events-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.bertramlabs.plugins/asset-pipeline-core/3.4.7/8f466bb3580074113614bc8cb475d79b7dd479c4/asset-pipeline-core-3.4.7.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-core-reactive/3.8.5/f155bf12b76b868073f5f08e0f827842105b82dd/micronaut-core-reactive-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-core/3.8.5/77936e19b984225689e4e231e73abf329ad4648/micronaut-core-3.8.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/grails-web-sitemesh/5.2.2/85c8dea5bd35cb867f83e998a2d12ee17bb8afe5/grails-web-sitemesh-5.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.36/6c62681a2f655b49963a5983b8b0950a6120ae14/slf4j-api-1.7.36.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-ant/3.0.11/72e9781d96b81ba699e264c88f60a232c5c800e1/groovy-ant-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-templates/3.0.11/c130de7a9cac4d0788e320acd2b99d084e78e003/groovy-templates-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-xml/3.0.11/65a18a9c3c88d90616139754c1aac054df6329c2/groovy-xml-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-sql/3.0.11/e88a984e8839b8b59c64db06fc1f157f014af34b/groovy-sql-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-json/3.0.11/4ebecf885428c95ab3a649c8226ece553fc6f264/groovy-json-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/3.0.11/b1759d82dcf4f57299c8555a76330532d2d77b47/groovy-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator/2.7.10/b6b4925825deabc7581f31f535e0485550cac7b0/spring-boot-actuator-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/2.7.10/538847f69a830791fac87bd3c232a001bd2c6806/spring-boot-2.7.10.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/9.0.73/bccf17a0a9e3dc239915114e6d6b74c6cc339c39/tomcat-embed-el-9.0.73.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/6.2.5.Final/a68959c06e5f8ff45faff469aa16f232c04af620/hibernate-validator-6.2.5.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/caffeine/2.9.3/b162491f768824d21487551873f9b3b374a7fe19/caffeine-2.9.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.persistence/javax.persistence-api/2.2/25665ac8c0b62f50e6488173233239120fc52c96/javax.persistence-api-2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/fields/3.0.0.RC1/2db607ead45eda4c732f2a342d2446beeb27d5b6/fields-3.0.0.RC1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails/scaffolding-core/2.1.0/869f1b62da7ebb1b3ebec308562fc290b0a874b4/scaffolding-core-2.1.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.annotation/javax.annotation-api/1.3.2/934c04d3cfef185a8008e7bf34331b79730a9d43/javax.annotation-api-1.3.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-orm/5.3.25/b0fb2911a5d528037149240c8b4f2c820d90405b/spring-orm-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.3.25/809f5841b13d42e5d4d14eb13346958cc9e9e187/spring-jdbc-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/5.3.25/b459d0b755c9614a55ebd39ce353748c4b210be2/spring-tx-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.3.25/62a8258bcc4f7a58dd69af5140481b64653c90/spring-webmvc-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context-support/5.3.25/c441d8288dd0f53e28880e865b7864f23717af97/spring-context-support-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.3.25/268a70ce4f44333ce0f13304c5f8c53b3df5f5f4/spring-context-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.3.25/722e30759b29331726f9deed76f80b22345ee627/spring-aop-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.3.25/c69815e7931cd3ce7f19cc8028fd1c36626120d6/spring-web-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.3.25/b3aeae036b4ea1abfa1f9604d452e19664efe5f6/spring-beans-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/5.3.25/42a55c25a4da3bc330d8ab3ea7648cd76d0830d4/spring-test-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.3.25/d681cdb86611f03d8ef29654edde219fe5afef1d/spring-expression-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.3.25/85382e86321227506bf7f97ed80e2ab88bce25f0/spring-core-5.3.25.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-junit/1.10.12/81bde3486c2ed79cb6f699c2a5a77b0340d1f2e8/ant-junit-1.10.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.10.13/85fd5990a27ddafe8af3f7a6d7132d2c29a22a7c/ant-1.10.13.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jline/jline/2.14.6/c3aeac59c022bdc497c8c48ed86fa50450e4896a/jline-2.14.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.fusesource.jansi/jansi/1.18/d9205bbcd4b5f9cd1effe752d18f73bd942d783f/jansi-1.18.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.micrometer/micrometer-core/1.9.9/71ca38f65a24b2fda26ff5c0cce78699c9d31d49/micrometer-core-1.9.9.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.0.0/f3cd84cc45f583a0fdc42a8156d6c5b98d625c1a/jakarta.annotation-api-2.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-websocket/9.0.73/bd1f33e9103ef8435f34574c2046f5db0e35090b/tomcat-embed-websocket-9.0.73.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/9.0.73/16f0a7f04e4f1ab18fe40510a3a13f974b6c1d70/tomcat-embed-core-9.0.73.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.servlet/javax.servlet-api/4.0.1/a27082684a2ff0bf397666c3943496c44541d1ca/javax.servlet-api-4.0.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.grails.plugins/converters/4.0.0/e364097f5e6f78fd102519c162442f4eeb0a5f42/converters-4.0.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12/junit-4.13.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/gradle.plugin.com.github.erdi.webdriver-binaries/webdriver-binaries-gradle-plugin/2.4/f460e121d3dfdf40fdc6a3cf2eb8d0a77d05a157/webdriver-binaries-gradle-plugin-2.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.gpars/gpars/1.2.1/c3ea0fbcd67a163bd5e3a3efdaa3428262d0d437/gpars-1.2.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/1.4.2/2eaf3d3c9746d526ff7e5b93931d482c3887e6ac/concurrentlinkedhashmap-lru-1.4.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.29.2-GA/6c32028609e5dd4a1b78e10fbcd122b09b3928b1/javassist-3.29.2-GA.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/5.1.2.Final/e59ffdbc6ad09eeb33507b39ffcf287679a498c8/hibernate-commons-annotations-5.1.2.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.4.3.Final/c4bd7e12a745c0e7f6cf98c45cdcdf482fd827ea/jboss-logging-3.4.3.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.12.23/d470526e8c4566c04e9ae5d3ccb62d1a7aa58986/byte-buddy-1.12.23.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/antlr/antlr/2.7.7/83cd2cd674a217ade95a4bb83a8a14f351f48bd0/antlr-2.7.7.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.jboss.spec.javax.transaction/jboss-transaction-api_1.2_spec/1.1.1.Final/a8485cab9484dda36e9a8c319e76b5cc18797b58/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.jboss/jandex/2.4.2.Final/1e1c385990b258ff1a24c801e84aebbacf70eb39/jandex-2.4.2.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.5.1/3fe0bed568c62df5e89f4f174c101eab25345b6c/classmate-1.5.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.activation/javax.activation-api/1.2.0/85262acf3ca9816f9537ca47d5adeabaead7cb16/javax.activation-api-1.2.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.8/c90a335a07c60db986f29d35b0f8ac0a18f0f989/jaxb-runtime-2.3.8.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.31.0/eeefd4af42e2f4221d145c1791582f91868f99ab/checker-qual-3.31.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.el/el-api/2.2.1-b04/907e6b1a1c2c18661eea4aa5c11db175455d36e9/el-api-2.2.1-b04.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/9.0.73/8fff35cac4a53eb9cdf2366e59de1751ab16ee17/tomcat-juli-9.0.73.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.inject/jakarta.inject-api/2.0.1/4c28afe1991a941d7702fe1362c365f0a8641d1e/jakarta.inject-api-2.0.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.30/8fde7fe2586328ac3c68db92045e1c8759125000/snakeyaml-1.30.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.11/a01230df5ca5c34540cdaa3ad5efb012f1f1f792/logback-core-1.2.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.17.2/f42d6afa111b4dec5d2aea0fe2197240749a4ea6/log4j-api-2.17.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.validation/jakarta.validation-api/2.0.2/5eacc6522521f7eacb081f95cee1e231648461e7/jakarta.validation-api-2.0.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.10.0/9bc20b94d3ac42489cf6ce1e42509c86f6f861a1/error_prone_annotations-2.10.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/io.projectreactor/reactor-core/3.4.28/2bd0552a66befbf46add163d36a8b7acc3295d27/reactor-core-3.4.28.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/2.0.1.Final/cb855558e6271b1b32e716d24cb85c7f583ce09e/validation-api-2.0.1.Final.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.3.26/2005accc2cf5212c614df3760b3a434e7dce807c/spring-jcl-5.3.26.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.transaction/jta/1.1/2ca09f0b36ca7d71b762e14ea2ff09d5eac57558/jta-1.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.10.13/331234763210702757a5780437844c6aef5d2bdf/ant-launcher-1.10.13.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.13.5/8ba3b868e81d7fc6ead686bd2353859b111d9eaf/jackson-datatype-jsr310-2.13.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.13.5/136f77ab424f302c9e27230b4482e8000e142edf/jackson-annotations-2.13.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.13.5/d07c97d3de9ea658caf1ff1809fd9de930a286a/jackson-core-2.13.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.13.5/1278f38160812811c56eb77f67213662ed1c7a2e/jackson-datatype-jdk8-2.13.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.13.5/aa95e46dbc32454f3983221d420e78ef19ddf844/jackson-databind-2.13.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hdrhistogram/HdrHistogram/2.1.12/6eb7552156e0d517ae80cc2247be1427c8d90452/HdrHistogram-2.1.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.latencyutils/LatencyUtils/2.0.3/769c0b82cb2421c8256300e907298a9410a2a3d3/LatencyUtils-2.0.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.6.3/f8ff8032903882376e8d000c51e3e16d20fc7df7/maven-artifact-3.6.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.12.0/c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e/commons-lang3-3.12.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-antlr/1.10.12/74b17ef7229f3d7c0d55d42486889cc553ab04d6/ant-antlr-1.10.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-groovydoc/3.0.11/8faadefbe0df0430ef99c5b55b19d524bcf16862/groovy-groovydoc-3.0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/2.2/3f2bd07716a31c395e2837254f37f21f0f0ab24b/hamcrest-core-2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.ysb33r.gradle/grolifant/0.11/462c324739259e0dc1208b7695ebd62099cea337/grolifant-0.11.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.multiverse/multiverse-core/0.7.0/db77d55199bc5672f05f5d725b70dd10033251ed/multiverse-core-0.7.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.jsr166-mirror/jsr166y/1.7.0/8547fcb1c29b4f8c745c3f49a536aca58fc30f54/jsr166y-1.7.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/javax.el/javax.el-api/3.0.1-b06/9c4c2400f2d8e35c62d636c13012e1f68c370a00/javax.el-api-3.0.1-b06.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.sun.xml.bind/jaxb-impl/2.3.1/a1a12b85ba1435b4189e065f7dafcc3fb9410d38/jaxb-impl-2.3.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/jakarta.xml.bind/jakarta.xml.bind-api/2.3.3/48e3b9cfc10752fba3521d6511f4165bea951801/jakarta.xml.bind-api-2.3.3.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/txw2/2.3.8/66e0297f1196f0d15a776e699de1b8e6ac5d44dd/txw2-2.3.8.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.sun.istack/istack-commons-runtime/3.0.12/cbbe1a62b0cc6c85972e99d52aaee350153dc530/istack-commons-runtime-3.0.12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.sun.activation/jakarta.activation/1.2.2/74548703f9851017ce2f556066659438019e7eb5/jakarta.activation-1.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.4/3864a1320d97d7b045f729a326e1e077661f31b7/reactive-streams-1.0.4.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.5/ad4ad2ab2961b4e1891472bd1a33fabefb0385f3/commons-fileupload-1.5.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/opensymphony/sitemesh/2.4.2/4cb3b08c96553b0f4595a80917838ca302f67f3f/sitemesh-2.4.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.el/3.0.1-b12/2a54bfce52f758c27fa8e6dfd2ce5b4fcad2ebf6/javax.el-3.0.1-b12.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest/2.2/1820c0968dba3a11a1b30669bb1f01978a91dedc/hamcrest-2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.6/5b6f921f1810bdf90e25471968f741f87168b64/xz-1.6.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-utils/3.2.1/13b015768e0d04849d2794e4c47eb02d01a0de32/plexus-utils-3.2.1.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.15/49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d/commons-codec-1.15.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.11.0/a2503f302b11ebde7ebc3df41daebe0e4eea3689/commons-io-2.11.0.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.7/76069c915de3787f3ddd8726a56f47a95bfcbb0e/commons-validator-1.7.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.2/8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5/commons-collections-3.2.2.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/com.google.javascript/closure-compiler-unshaded/v20210106/17228972a09fb6e9bef19b57c8bf3e946364e04f/closure-compiler-unshaded-v20210106.jar:/home/jameschang/.gradle/caches/modules-2/files-2.1/org.mozilla/rhino/1.7R4/e982f2136574b9a423186fbaeaaa98dc3e5a5288/rhino-1.7R4.jar, grails.env.initializing=true, java.vm.vendor=Eclipse Adoptium, sun.arch.data.model=64, info.app.version=0.1, user.variant=, java.vendor.url=https://adoptium.net/, user.timezone=Asia/Taipei, org.jboss.logging.provider=slf4j, java.vm.specification.version=17, os.name=Linux, hibernate.use_query_cache=false, user.country=US, sun.java.launcher=SUN_STANDARD, sun.boot.library.path=/usr/local/lib/jvm/jdk-17.0.8.1+1/lib, sun.java.command=pollo.grails.db.aop.Application, jdk.debug=release, hibernate.entity_dirtiness_strategy=org.grails.orm.hibernate.dirty.GrailsEntityDirtinessStrategy, sun.cpu.endian=little, user.home=/home/jameschang, javax.persistence.validation.factory=org.grails.datastore.gorm.validation.javax.JavaxValidatorRegistry@639c010e, user.language=en, java.specification.vendor=Oracle Corporation, java.version.date=2023-08-24, java.home=/usr/local/lib/jvm/jdk-17.0.8.1+1, spring.profiles.active=, spring.output.ansi.enabled=always, file.separator=/, org.grails.MAIN_CLASS_NAME=pollo.grails.db.aop.Application, java.vm.compressedOopsMode=32-bit, line.separator=
+, java.vm.specification.vendor=Oracle Corporation, java.specification.name=Java Platform API Specification, FILE_LOG_CHARSET=UTF-8, java.awt.headless=true, management.endpoints.shutdown.enabled=true, hibernate.hbm2ddl.auto=none, hibernate.cache.queries=false, info.app.name=pollo-grails-db-aop, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, java.runtime.version=17.0.8.1+1, user.name=jameschang, hibernate.cache.use_query_cache=false, path.separator=:, os.version=5.10.0-28-amd64, java.runtime.name=OpenJDK Runtime Environment, file.encoding=UTF-8, spring.beaninfo.ignore=true, java.vm.name=OpenJDK 64-Bit Server VM, hibernate.show_sql=true, hibernate.classLoaders=org.springframework.boot.devtools.restart.classloader.RestartClassLoader@584f4664, java.vendor.version=Temurin-17.0.8.1+1, hibernate.current_session_context_class=org.grails.orm.hibernate.GrailsSessionContext, full.stacktrace=false, micronaut.classloader.logging=true, java.vendor.url.bug=https://github.com/adoptium/adoptium-support/issues, java.io.tmpdir=/tmp, java.version=17.0.8.1, hibernate.naming_strategy=org.hibernate.cfg.ImprovedNamingStrategy, grails.env=development, user.dir=/home/jameschang/Documents/gitContent/pollochang/pollo-grails-db-aop, os.arch=amd64, java.vm.specification.name=Java Virtual Machine Specification, PID=55213, info.app.grailsVersion=5.3.6, env=development, grails.env.standalone=true, CONSOLE_LOG_CHARSET=UTF-8, verbose=false, hibernate.boot.CfgXmlAccessService.key=org.hibernate.boot.cfgxml.spi.LoadedConfig@69b5d4e1, native.encoding=UTF-8, hibernate.cache.use_second_level_cache=false, java.library.path=/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib, java.vendor=Eclipse Adoptium, java.vm.info=mixed mode, emulated-client, sharing, java.vm.version=17.0.8.1+1, hibernate.bytecode.use_reflection_optimizer=false, sun.io.unicode.encoding=UnicodeLittle, hibernate.connection.datasource=org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy@1fc7bda3, grails.full.stacktrace=false, java.class.version=61.0}
+2024-04-16 15:26:44.521 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.engine.query.spi.NativeQueryInterpreter]
+2024-04-16 15:26:44.525 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : Not known whether passed class name [work.pollochang.Test1] is safe
+2024-04-16 15:26:44.525 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : work.pollochang.Test1
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] .h.s.i.SessionFactoryServiceRegistryImpl : EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] org.hibernate.secure.spi.JaccIntegrator  : Skipping JACC integration as it was not enabled
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] .h.s.i.SessionFactoryServiceRegistryImpl : EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultSaveEventListener@79a7762b`]
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultSaveEventListener@79a7762b`]
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultPreLoadEventListener@659b9af6`]
+2024-04-16 15:26:44.555 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultPreLoadEventListener@659b9af6`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultPostLoadEventListener@4be97993`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.DefaultPostLoadEventListener@4be97993`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostInsertEventListenerStandardImpl@50825ea`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostInsertEventListenerStandardImpl@50825ea`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostUpdateEventListenerStandardImpl@3c7d5397`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostUpdateEventListenerStandardImpl@3c7d5397`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.cfg.beanvalidation.BeanValidationEventListener@475c0504`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostDeleteEventListenerStandardImpl@3c58806a`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.e.s.internal.EventListenerGroupImpl  : Checking incoming listener [`org.grails.orm.hibernate.support.ClosureEventTriggeringInterceptor@6fdc7ca6`] for match against existing listener [`org.hibernate.event.internal.PostDeleteEventListenerStandardImpl@3c58806a`]
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.hibernate.internal.SessionFactoryImpl  : Instantiated session factory
+2024-04-16 15:26:44.556 DEBUG --- [  restartedMain] o.h.type.spi.TypeConfiguration$Scope     : Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@55e7045a] to SessionFactoryImpl [org.hibernate.internal.SessionFactoryImpl@3484f907]
+2024-04-16 15:26:44.558 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.persister.spi.PersisterFactory]
+2024-04-16 15:26:44.558 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.persister.spi.PersisterClassResolver]
+2024-04-16 15:26:44.565 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.property.access.spi.PropertyAccessStrategyResolver]
+2024-04-16 15:26:44.579 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : Not known whether passed class name [work.pollochang.Test1] is safe
+2024-04-16 15:26:44.579 DEBUG --- [  restartedMain] o.h.boot.internal.ClassLoaderAccessImpl  : No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : work.pollochang.Test1
+2024-04-16 15:26:44.580 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.bytecode.spi.ProxyFactoryFactory]
+2024-04-16 15:26:44.691 TRACE --- [  restartedMain] o.h.p.entity.AbstractPropertyMapping     : Skipping duplicate registration of path [col1], existing type = [org.hibernate.type.IntegerType@2037059f], incoming type = [org.hibernate.type.IntegerType@2037059f]
+2024-04-16 15:26:44.691 TRACE --- [  restartedMain] o.h.p.entity.AbstractPropertyMapping     : Skipping duplicate registration of path [id], existing type = [org.hibernate.type.LongType@65f033bd], incoming type = [org.hibernate.type.LongType@65f033bd]
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     : Static SQL for entity: work.pollochang.Test1
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Version select: select id from test1 where id =?
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Snapshot select: select test1x_.id, test1x_.col1 as col2_0_ from test1 test1x_ where test1x_.id=?
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Insert 0: insert into test1 (col1, id) values (?, ?)
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Update 0: update test1 set col1=? where id=?
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Delete 0: delete from test1 where id=?
+2024-04-16 15:26:44.694 DEBUG --- [  restartedMain] o.h.p.entity.AbstractEntityPersister     :  Identity insert: insert into test1 (col1) values (?)
+2024-04-16 15:26:44.703 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy :  Starting root entity : work.pollochang.Test1
+2024-04-16 15:26:44.704 DEBUG --- [  restartedMain] o.h.l.p.b.i.spaces.QuerySpacesImpl       : Adding QuerySpace : uid = &lt;gen:0&gt; -&gt; org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@33d2467]
+2024-04-16 15:26:44.704 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : Pushing fetch source to stack : org.hibernate.loader.plan.build.internal.returns.EntityReturnImpl@2cb76baf
+2024-04-16 15:26:44.704 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : .. Registering AssociationKey : AssociationKey(table=test1, columns={id}) -&gt; org.hibernate.loader.plan.build.internal.returns.EntityReturnImpl@2cb76baf
+2024-04-16 15:26:44.704 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : &gt;&gt; Starting entity identifier : work.pollochang.Test1
+2024-04-16 15:26:44.705 DEBUG --- [  restartedMain] o.h.p.walking.spi.MetamodelGraphWalker   : Visiting attribute path : col1
+2024-04-16 15:26:44.705 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : &gt;&gt; Starting attribute Attribute(name=col1, type=integer [non-identifier])
+2024-04-16 15:26:44.705 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : &lt;&lt; Finishing up attribute : Attribute(name=col1, type=integer [non-identifier])
+2024-04-16 15:26:44.705 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy : Popped fetch owner from stack : org.hibernate.loader.plan.build.internal.returns.EntityReturnImpl@2cb76baf
+2024-04-16 15:26:44.705 TRACE --- [  restartedMain] lanBuildingAssociationVisitationStrategy :  Finished root entity : work.pollochang.Test1
+2024-04-16 15:26:44.705 DEBUG --- [  restartedMain] lanBuildingAssociationVisitationStrategy : Building LoadPlan...
+2024-04-16 15:26:44.726 DEBUG --- [  restartedMain] h.l.p.e.i.LoadQueryJoinAndFetchProcessor : processing queryspace &lt;gen:0&gt;
+2024-04-16 15:26:44.727 DEBUG --- [  restartedMain] o.h.l.p.build.spi.LoadPlanTreePrinter    : LoadPlan(entity=work.pollochang.Test1)
+    - Returns
+       - EntityReturnImpl(entity=work.pollochang.Test1, querySpaceUid=&lt;gen:0&gt;, path=work.pollochang.Test1)
+    - QuerySpaces
+       - EntityQuerySpaceImpl(uid=&lt;gen:0&gt;, entity=work.pollochang.Test1)
+          - SQL table alias mapping - test1x0_
+          - alias suffix - 0_
+          - suffixed key columns - {id1_0_0_}
+
+2024-04-16 15:26:44.728 DEBUG --- [  restartedMain] o.h.loader.entity.plan.EntityLoader      : Static select for entity work.pollochang.Test1 [NONE]: select test1x0_.id as id1_0_0_, test1x0_.col1 as col2_0_0_ from test1 test1x0_ where test1x0_.id=?
+2024-04-16 15:26:44.732 TRACE --- [  restartedMain] o.h.metamodel.internal.MetadataContext   : Wrapping up metadata context...
+2024-04-16 15:26:44.733 TRACE --- [  restartedMain] o.h.metamodel.internal.MetadataContext   : Starting entity [work.pollochang.Test1]
+2024-04-16 15:26:44.733 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  : Building identifier attribute [Test1.id]
+2024-04-16 15:26:44.733 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  : Starting attribute metadata determination [id]
+2024-04-16 15:26:44.733 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  :     Determined member [java.lang.Long work.pollochang.Test1.id]
+2024-04-16 15:26:44.733 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  :     Determined type [name=long, class=org.hibernate.type.LongType]
+2024-04-16 15:26:44.735 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  : Building attribute [Test1.col1]
+2024-04-16 15:26:44.735 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  : Starting attribute metadata determination [col1]
+2024-04-16 15:26:44.735 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  :     Determined member [private int work.pollochang.Test1.col1]
+2024-04-16 15:26:44.735 TRACE --- [  restartedMain] o.h.metamodel.internal.AttributeFactory  :     Determined type [name=integer, class=org.hibernate.type.IntegerType]
+2024-04-16 15:26:44.736 TRACE --- [  restartedMain] o.h.metamodel.internal.MetadataContext   : Completed entity [work.pollochang.Test1]
+2024-04-16 15:26:44.737 DEBUG --- [  restartedMain] .h.t.s.s.SchemaManagementToolCoordinator : No schema actions specified
+2024-04-16 15:26:44.737 DEBUG --- [  restartedMain] .h.t.s.s.SchemaManagementToolCoordinator : No actions specified; doing nothing
+2024-04-16 15:26:44.737 DEBUG --- [  restartedMain] o.h.query.spi.NamedQueryRepository       : Checking 0 named HQL queries
+2024-04-16 15:26:44.737 DEBUG --- [  restartedMain] o.h.query.spi.NamedQueryRepository       : Checking 0 named SQL queries
+2024-04-16 15:26:44.738 DEBUG --- [  restartedMain] .h.s.i.SessionFactoryServiceRegistryImpl : EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+2024-04-16 15:26:44.738 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder]
+2024-04-16 15:26:44.740 TRACE --- [  restartedMain] o.h.type.spi.TypeConfiguration$Scope     : Handling #sessionFactoryCreated from [org.hibernate.internal.SessionFactoryImpl@3484f907] for TypeConfiguration
+2024-04-16 15:26:44.741 DEBUG --- [  restartedMain] o.h.internal.SessionFactoryRegistry      : Initializing SessionFactoryRegistry : org.hibernate.internal.SessionFactoryRegistry@39e72e71
+2024-04-16 15:26:44.741 DEBUG --- [  restartedMain] o.h.internal.SessionFactoryRegistry      : Registering SessionFactory: ccfb49d5-4084-4546-bc92-f59037d09368 (&lt;unnamed&gt;)
+2024-04-16 15:26:44.741 DEBUG --- [  restartedMain] o.h.internal.SessionFactoryRegistry      : Not binding SessionFactory to JNDI, no JNDI name configured
+2024-04-16 15:26:44.754 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom TraversableResolver of type org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver
+2024-04-16 15:26:44.754 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:44.754 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
+2024-04-16 15:26:44.754 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : HV000002: Ignoring XML configuration.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:44.755 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:44.822 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom TraversableResolver of type org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver
+2024-04-16 15:26:44.822 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:44.822 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
+2024-04-16 15:26:44.822 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2024-04-16 15:26:44.822 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : HV000002: Ignoring XML configuration.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom TraversableResolver of type org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
+2024-04-16 15:26:44.823 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : HV000002: Ignoring XML configuration.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.grails.datastore.gorm.validation.javax.MappingContextTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:44.824 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:45.172 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:45.173 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2024-04-16 15:26:45.173 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2024-04-16 15:26:45.173 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2024-04-16 15:26:45.173 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2024-04-16 15:26:45.173 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator&#39;s class loader
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Found javax.persistence.Persistence on classpath containing &#39;getPersistenceUtil&#39;. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+2024-04-16 15:26:45.174 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:45.175 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:45.175 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.resolver.JPATraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:45.175 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:45.175 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:45.175 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:45.208 DEBUG --- [  restartedMain] .h.v.m.ResourceBundleMessageInterpolator : Loaded expression factory via original TCCL
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.e.AbstractConfigurationImpl      : Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : Trying to load META-INF/validation.xml for XML based Validator configuration.
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via user class loader
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via TCCL
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ResourceLoaderHelper  : Trying to load META-INF/validation.xml via Hibernate Validator&#39;s class loader
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.xml.config.ValidationXmlParser   : No META-INF/validation.xml found. Using annotation based configuration only.
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Found javax.persistence.Persistence on classpath containing &#39;getPersistenceUtil&#39;. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+2024-04-16 15:26:45.209 DEBUG --- [  restartedMain] o.h.v.i.e.resolver.TraversableResolvers  : Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000252: Using org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider as property node name provider.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.resolver.JPATraversableResolver as ValidatorFactory-scoped traversable resolver.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2024-04-16 15:26:45.210 DEBUG --- [  restartedMain] .i.e.ValidatorFactoryConfigurationHelper : HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2024-04-16 15:26:45.896 TRACE --- [  restartedMain] .i.SessionFactoryImpl$SessionBuilderImpl : Opening Hibernate Session.  tenant=null
+2024-04-16 15:26:45.907 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.stat.spi.StatisticsImplementor]
+2024-04-16 15:26:45.909 DEBUG --- [  restartedMain] o.h.stat.internal.StatisticsInitiator    : Statistics initialized [enabled=false]
+2024-04-16 15:26:45.910 TRACE --- [  restartedMain] o.h.s.i.AbstractServiceRegistryImpl      : Initializing service [role=org.hibernate.jmx.spi.JmxService]
+2024-04-16 15:26:45.911 TRACE --- [  restartedMain] org.hibernate.internal.SessionImpl       : Opened Session [0178255a-7349-4891-96f7-249942ea8c47] at timestamp: 1713252405901
+2024-04-16 15:26:45.920 TRACE --- [  restartedMain] org.hibernate.internal.SessionImpl       : Closing session [0178255a-7349-4891-96f7-249942ea8c47]
+2024-04-16 15:26:45.920 TRACE --- [  restartedMain] o.h.e.jdbc.internal.JdbcCoordinatorImpl  : Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@69fe5689]
+2024-04-16 15:26:45.920 TRACE --- [  restartedMain] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:26:45.920 TRACE --- [  restartedMain] o.h.r.j.i.LogicalConnectionManagedImpl   : Closing logical connection
+2024-04-16 15:26:45.920 TRACE --- [  restartedMain] o.h.r.j.i.LogicalConnectionManagedImpl   : Logical connection closed
+Grails application running at http://localhost:8080 in environment: development
+</code></pre><h2 id="測試sql">測試SQL</h2>
+<ul>
+<li>執行程式碼片段</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  * 執行 SQL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>LinkedHashMap<span style="color:#f92672">&gt;</span> executeSql<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.executeSql&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>LinkedHashMap<span style="color:#f92672">&gt;</span> rs <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.executeSql: before new Sql&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Sql sql <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Sql<span style="color:#f92672">(</span>dataSource<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.executeSql: before sql.eachRow&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    sql<span style="color:#f92672">.</span><span style="color:#a6e22e">eachRow</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        select id ,col1  from test1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="color:#f92672">){</span> row <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        rs <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">[</span>id: row<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;id&#39;</span><span style="color:#f92672">],</span> col1: row<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;col1&#39;</span><span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.executeSql: after sql.eachRow&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> rs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>log</li>
+</ul>
+<pre tabindex="0"><code class="language-log" data-lang="log">2024-04-16 15:11:35.762 TRACE --- [nio-8080-exec-1] .i.SessionFactoryImpl$SessionBuilderImpl : Opening Hibernate Session.  tenant=null
+2024-04-16 15:11:35.763 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Opened Session [364654d7-2491-407a-8cf8-5e57a1ab6edb] at timestamp: 1713251495762
+2024-04-16 15:11:35.806 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : On TransactionImpl creation, JpaCompliance#isJpaTransactionComplianceEnabled == false
+2024-04-16 15:11:35.806 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : begin
+2024-04-16 15:11:35.806 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Preparing to begin transaction via JDBC Connection.setAutoCommit(false)
+2024-04-16 15:11:35.806 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Transaction begun via JDBC Connection.setAutoCommit(false)
+2024-04-16 15:11:35.806 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : afterTransactionBegin
+2024-04-16 15:11:35.806 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#afterBeginCallback
+2024-04-16 15:11:35.808 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.executeSql
+2024-04-16 15:11:35.808 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.executeSql: before new Sql
+2024-04-16 15:11:35.816 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.executeSql: before sql.eachRow
+2024-04-16 15:11:35.829 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.executeSql: after sql.eachRow
+2024-04-16 15:11:35.829 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : committing
+2024-04-16 15:11:35.829 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#beforeCompletionCallback
+2024-04-16 15:11:35.829 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : SessionImpl#beforeTransactionCompletion()
+2024-04-16 15:11:35.829 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Automatically flushing session
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : beforeTransactionCompletion
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : LogicalConnection#beforeTransactionCompletion
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] .t.i.SynchronizationRegistryStandardImpl : SynchronizationRegistryStandardImpl.notifySynchronizationsBeforeTransactionCompletion
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Preparing to commit transaction via JDBC Connection.commit()
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Transaction committed via JDBC Connection.commit()
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : re-enabling auto-commit on JDBC Connection after completion of JDBC-based transaction
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : LogicalConnection#afterTransaction
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#afterCompletionCallback(true)
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] .t.i.SynchronizationRegistryStandardImpl : SynchronizationRegistryStandardImpl.notifySynchronizationsAfterTransactionCompletion(3)
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : SessionImpl#afterTransactionCompletion(successful=true, delayed=false)
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : afterTransactionCompletion
+2024-04-16 15:11:35.830 DEBUG --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Disconnecting session
+2024-04-16 15:11:35.830 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:11:36.058 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Closing session [364654d7-2491-407a-8cf8-5e57a1ab6edb]
+2024-04-16 15:11:36.058 TRACE --- [nio-8080-exec-1] o.h.e.jdbc.internal.JdbcCoordinatorImpl  : Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3352ce59]
+2024-04-16 15:11:36.058 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:11:36.058 TRACE --- [nio-8080-exec-1] o.h.r.j.i.LogicalConnectionManagedImpl   : Closing logical connection
+2024-04-16 15:11:36.058 TRACE --- [nio-8080-exec-1] o.h.r.j.i.LogicalConnectionManagedImpl   : Logical connection closed
+</code></pre><h2 id="用-domain-save">用 domain save</h2>
+<ul>
+<li>執行程式碼片段</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  * domain insert
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insert</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.insert&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.insert: before new Domain&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Test1 test1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Test1<span style="color:#f92672">(</span>col1: <span style="color:#ae81ff">123</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.insert: before save&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    test1<span style="color:#f92672">.</span><span style="color:#a6e22e">save</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">trace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execute.insert: after save&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>log</li>
+</ul>
+<pre tabindex="0"><code class="language-log" data-lang="log">2024-04-16 15:13:16.854 TRACE --- [nio-8080-exec-1] .i.SessionFactoryImpl$SessionBuilderImpl : Opening Hibernate Session.  tenant=null
+2024-04-16 15:13:16.854 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Opened Session [c7a181bd-ee5c-4085-9031-99bb058a333a] at timestamp: 1713251596854
+2024-04-16 15:13:16.882 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : On TransactionImpl creation, JpaCompliance#isJpaTransactionComplianceEnabled == false
+2024-04-16 15:13:16.882 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : begin
+2024-04-16 15:13:16.882 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Preparing to begin transaction via JDBC Connection.setAutoCommit(false)
+2024-04-16 15:13:16.882 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Transaction begun via JDBC Connection.setAutoCommit(false)
+2024-04-16 15:13:16.882 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : afterTransactionBegin
+2024-04-16 15:13:16.883 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#afterBeginCallback
+2024-04-16 15:13:16.883 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.insert
+2024-04-16 15:13:16.883 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.insert: before new Domain
+2024-04-16 15:13:16.980 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.insert: before save
+2024-04-16 15:13:16.989 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : getEntityName
+2024-04-16 15:13:16.991 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : isTransient
+2024-04-16 15:13:16.991 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : getEntityName
+2024-04-16 15:13:16.991 TRACE --- [nio-8080-exec-1] o.hibernate.event.internal.EntityState   : Transient instance of: work.pollochang.Test1
+2024-04-16 15:13:16.991 TRACE --- [nio-8080-exec-1] o.h.e.i.DefaultSaveOrUpdateEventListener : Saving transient instance
+2024-04-16 15:13:16.991 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : getEntityName
+2024-04-16 15:13:16.992 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractSaveEventListener        : Saving [work.pollochang.Test1#&lt;null&gt;]
+2024-04-16 15:13:16.994 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : onDelete
+2024-04-16 15:13:16.995 DEBUG --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : Parameter value from request: null
+2024-04-16 15:13:16.995 DEBUG --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : user IP = 127.0.0.1
+2024-04-16 15:13:16.995 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : executeDummySQL
+2024-04-16 15:13:16.997 TRACE --- [nio-8080-exec-1] org.hibernate.engine.spi.ActionQueue     : Adding an EntityIdentityInsertAction for [work.pollochang.Test1] object
+2024-04-16 15:13:16.997 TRACE --- [nio-8080-exec-1] org.hibernate.engine.spi.ActionQueue     : Executing inserts before finding non-nullable transient entities for early insert: [EntityIdentityInsertAction[work.pollochang.Test1#&lt;null&gt;]]
+2024-04-16 15:13:16.998 TRACE --- [nio-8080-exec-1] org.hibernate.engine.spi.ActionQueue     : Adding insert with no non-nullable, transient entities: [EntityIdentityInsertAction[work.pollochang.Test1#&lt;null&gt;]]
+2024-04-16 15:13:16.998 TRACE --- [nio-8080-exec-1] org.hibernate.engine.spi.ActionQueue     : Executing insertions before resolved early-insert
+2024-04-16 15:13:16.998 DEBUG --- [nio-8080-exec-1] org.hibernate.engine.spi.ActionQueue     : Executing identity-insert immediately
+2024-04-16 15:13:17.008 TRACE --- [nio-8080-exec-1] o.h.p.entity.AbstractEntityPersister     : Inserting entity: work.pollochang.Test1 (native id)
+2024-04-16 15:13:17.008 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : onPrepareStatement
+2024-04-16 15:13:17.009 DEBUG --- [nio-8080-exec-1] org.hibernate.SQL                        : insert into test1 (col1) values (?)
+Hibernate: insert into test1 (col1) values (?)
+2024-04-16 15:13:17.012 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Registering statement [org.apache.tomcat.jdbc.pool.StatementFacade$StatementProxy[Proxy=1003408423; Query=insert into test1 (col1) values (?); Delegate=insert into test1 (col1) values (?)
+RETURNING *]]
+2024-04-16 15:13:17.012 TRACE --- [nio-8080-exec-1] o.h.p.entity.AbstractEntityPersister     : Dehydrating entity: [work.pollochang.Test1#&lt;null&gt;]
+2024-04-16 15:13:17.013 TRACE --- [nio-8080-exec-1] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [INTEGER] - [123]
+2024-04-16 15:13:17.015 DEBUG --- [nio-8080-exec-1] o.h.id.IdentifierGeneratorHelper         : Natively generated identity: 39
+2024-04-16 15:13:17.015 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing result set [org.postgresql.jdbc.PgResultSet@1e9b68d2]
+2024-04-16 15:13:17.015 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Closing result set [org.postgresql.jdbc.PgResultSet@1e9b68d2]
+2024-04-16 15:13:17.016 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing statement [org.apache.tomcat.jdbc.pool.StatementFacade$StatementProxy[Proxy=1003408423; Query=insert into test1 (col1) values (?); Delegate=insert into test1 (col1) values (123)
+RETURNING *]]
+2024-04-16 15:13:17.016 DEBUG --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : HHH000387: ResultSet&#39;s statement was not registered
+2024-04-16 15:13:17.016 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Closing prepared statement [org.apache.tomcat.jdbc.pool.StatementFacade$StatementProxy[Proxy=1003408423; Query=insert into test1 (col1) values (?); Delegate=insert into test1 (col1) values (123)
+RETURNING *]]
+2024-04-16 15:13:17.016 TRACE --- [nio-8080-exec-1] o.h.e.jdbc.internal.JdbcCoordinatorImpl  : Starting after statement execution processing [ON_CLOSE]
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] work.pollochang.demo.DemoService         : execute.insert: after save
+2024-04-16 15:13:17.017 DEBUG --- [nio-8080-exec-1] o.h.e.t.internal.TransactionImpl         : committing
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#beforeCompletionCallback
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : SessionImpl#beforeTransactionCompletion()
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Automatically flushing session
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Flushing session
+2024-04-16 15:13:17.017 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : preFlush
+2024-04-16 15:13:17.017 DEBUG --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Processing flush-time cascades
+2024-04-16 15:13:17.018 DEBUG --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Dirty checking collections
+2024-04-16 15:13:17.018 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Flushing entities and processing referenced collections
+2024-04-16 15:13:17.019 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Processing unreferenced collections
+2024-04-16 15:13:17.019 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Scheduling collection removes/(re)creates/updates
+2024-04-16 15:13:17.019 DEBUG --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2024-04-16 15:13:17.019 DEBUG --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2024-04-16 15:13:17.020 DEBUG --- [nio-8080-exec-1] o.hibernate.internal.util.EntityPrinter  : Listing entities:
+2024-04-16 15:13:17.020 DEBUG --- [nio-8080-exec-1] o.hibernate.internal.util.EntityPrinter  : work.pollochang.Test1{id=39, col1=123}
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Executing flush
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] o.h.e.jdbc.internal.JdbcCoordinatorImpl  : Starting after statement execution processing [ON_CLOSE]
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] o.h.e.i.AbstractFlushingEventListener    : Post flush
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : postFlush
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : beforeTransactionCompletion
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : LogicalConnection#beforeTransactionCompletion
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] .t.i.SynchronizationRegistryStandardImpl : SynchronizationRegistryStandardImpl.notifySynchronizationsBeforeTransactionCompletion
+2024-04-16 15:13:17.020 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Preparing to commit transaction via JDBC Connection.commit()
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : Transaction committed via JDBC Connection.commit()
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : re-enabling auto-commit on JDBC Connection after completion of JDBC-based transaction
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] j.i.AbstractLogicalConnectionImplementor : LogicalConnection#afterTransaction
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] cResourceLocalTransactionCoordinatorImpl : ResourceLocalTransactionCoordinatorImpl#afterCompletionCallback(true)
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] .t.i.SynchronizationRegistryStandardImpl : SynchronizationRegistryStandardImpl.notifySynchronizationsAfterTransactionCompletion(3)
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : SessionImpl#afterTransactionCompletion(successful=true, delayed=false)
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] w.p.p.grails.db.aop.CustomInterceptor    : afterTransactionCompletion
+2024-04-16 15:13:17.024 DEBUG --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Disconnecting session
+2024-04-16 15:13:17.024 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:13:17.096 TRACE --- [nio-8080-exec-1] org.hibernate.internal.SessionImpl       : Closing session [c7a181bd-ee5c-4085-9031-99bb058a333a]
+2024-04-16 15:13:17.096 TRACE --- [nio-8080-exec-1] o.h.e.jdbc.internal.JdbcCoordinatorImpl  : Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@13a84fe1]
+2024-04-16 15:13:17.096 TRACE --- [nio-8080-exec-1] o.h.r.j.i.ResourceRegistryStandardImpl   : Releasing JDBC resources
+2024-04-16 15:13:17.096 TRACE --- [nio-8080-exec-1] o.h.r.j.i.LogicalConnectionManagedImpl   : Closing logical connection
+2024-04-16 15:13:17.096 TRACE --- [nio-8080-exec-1] o.h.r.j.i.LogicalConnectionManagedImpl   : Logical connection closed
+</code></pre></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-oracle18c-install/">
+                        <h3 class="">安</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-17</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/database/">
+                        <h3 class="">資料庫維護經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

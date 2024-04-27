@@ -6,7 +6,17 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 27 Apr 2024 23:22:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Apr 2024 23:30:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hugo 筆記</title>
+      <link>http://pollochang.work/worknot/worknot-20240427-1/</link>
+      <pubDate>Sat, 27 Apr 2024 23:30:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240427-1/</guid>
+      <description>hugo + gitHub 是我自己架設網站的工具，這邊我簡單紀錄一下常用的指令
+新增文章 hugo new worknot/worknot-$(date &amp;#39;+%Y%m%d&amp;#39;).md 預覽文章，包含草稿 hugo server 預覽文章，包含草稿 hugo server -D 寫好的內容推送到網站 #!/bin/bash hugo git -C public add . git -C public commit -m &amp;#34;更新筆記&amp;#34; git -C public push </description>
+    </item>
+    
     <item>
       <title>一到指令刪除相關進程</title>
       <link>http://pollochang.work/worknot/worknot-20240427/</link>
