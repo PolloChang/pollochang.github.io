@@ -6,7 +6,18 @@
     <description>Recent content in linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 26 Apr 2024 07:00:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Apr 2024 23:22:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一到指令刪除相關進程</title>
+      <link>http://pollochang.work/worknot/worknot-20240427/</link>
+      <pubDate>Sat, 27 Apr 2024 23:22:46 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240427/</guid>
+      <description>查詢 java 所有的進程
+❯ top -b -n 1 | grep java | cut -c 1-7 8190 15263 15512 16641 17148 假設我要刪除 java 全部的進程可以這樣處理
+❯ top -b -n 1 | grep java | cut -c 1-7 | xargs kill -9 </description>
+    </item>
+    
     <item>
       <title>CLI 檢查網站憑證</title>
       <link>http://pollochang.work/worknot/worknot-20240426/</link>
