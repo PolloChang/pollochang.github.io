@@ -350,6 +350,20 @@ IP.2 = 10.1.4.43
 </span></span><span style="display:flex;"><span>ROOT <span style="color:#e6db74">&#34;受信任的根憑證授權單位&#34;</span>
 </span></span><span style="display:flex;"><span>簽章符合公開金鑰憑證 <span style="color:#e6db74">&#34;localhost&#34;</span> 已新增到存放區中。
 </span></span><span style="display:flex;"><span>CertUtil: -addstore 命令成功完成。               
+</span></span></code></pre></div><ul>
+<li>linux</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp server.crt /usr/local/share/ca-certificates/
+</span></span><span style="display:flex;"><span>sudo update-ca-certificates
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo update-ca-certificates
+</span></span><span style="display:flex;"><span>Updating certificates in /etc/ssl/certs...
+</span></span><span style="display:flex;"><span>rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> added, <span style="color:#ae81ff">0</span> removed; <span style="color:#66d9ef">done</span>.
+</span></span><span style="display:flex;"><span>Running hooks in /etc/ca-certificates/update.d...
+</span></span><span style="display:flex;"><span>Processing triggers <span style="color:#66d9ef">for</span> ca-certificates-java <span style="color:#f92672">(</span>xxxxxxx~deb12u1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Adding debian:server.pem
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>.
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>.
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <p><a href="https://blog.miniasp.com/post/2019/02/25/Creating-Self-signed-Certificate-using-OpenSSL">如何使用 OpenSSL 建立開發測試用途的自簽憑證 (Self-Signed Certificate)</a></p>
 </div>

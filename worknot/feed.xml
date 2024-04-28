@@ -6,7 +6,27 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 27 Apr 2024 23:30:17 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Apr 2024 12:14:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>grails5 強制升級 plugin 相依</title>
+      <link>http://pollochang.work/worknot/worknot-20240428-2/</link>
+      <pubDate>Sun, 28 Apr 2024 12:14:15 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240428-2/</guid>
+      <description>今天在未自己的專案做CVE 弱點掃描，解決過程中需要為專案進行 plugin 相依升級。在 build.gradle 設定如下
+build.gradle configurations{ // 強制移除 implementation { exclude group: &amp;#39;com.h2database&amp;#39; //CVE-2022-45868,CVE-2022-23221,CVE-2021-42392 exclude group: &amp;#34;org.graalvm.sdk&amp;#34; exclude group: &amp;#34;com.bertramlabs.plugins:asset-pipeline-core&amp;#34; } // 強制升級 all{ resolutionStrategy.eachDependency { DependencyResolveDetails details -&amp;gt; ModuleVersionSelector requested = details.requested List forcePlugins = [ [group: &amp;#39;org.yaml&amp;#39;, name: &amp;#39;snakeyaml&amp;#39;, useVersion: &amp;#39;1.33&amp;#39;], ] forcePlugins.each {forcePlugin -&amp;gt; if (requested.group == forcePlugin.group &amp;amp;&amp;amp; requested.name == forcePlugin.name ) { details.useVersion forcePlugin.useVersion } } } } } </description>
+    </item>
+    
+    <item>
+      <title>dependency-check</title>
+      <link>http://pollochang.work/worknot/worknot-20240428-1/</link>
+      <pubDate>Sun, 28 Apr 2024 08:47:57 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240428-1/</guid>
+      <description>下載
+wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.1.0/dependency-check-9.1.0-release.zip sudo unzip -q dependency-check-9.1.0-release.zip -d /usr/local/share 執行 /usr/local/share/dependency-check/bin/dependency-check.sh -s ~/Documents/gitContent/pollochang/TWGBC/pollo-twgcb-web/build/libs/pollo-twgcb-web.war --format HTML -o ./ 參考資料 DependencyCheck </description>
+    </item>
+    
     <item>
       <title>hugo 筆記</title>
       <link>http://pollochang.work/worknot/worknot-20240427-1/</link>

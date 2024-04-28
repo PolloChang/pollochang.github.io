@@ -135,6 +135,94 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240305/">
+            <h2 class="">oracle 監控SQL 效能</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
+SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, ...
+             <a href="/worknot/worknot-20240305/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240304/">
+            <h2 class="">oracle 記憶體監控</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-04</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
+select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) ...
+             <a href="/worknot/worknot-20240304/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20240301/">
             <h2 class="">Worknot 20240301</h2>
         </a>
@@ -455,85 +543,6 @@ sudo hwclock -w 係統時區校正 先設定時區 sudo timedatectl ...
         	
                 檢查電池容量 upower -i /org/freedesktop/UPower/devices/battery_BAT0 
              <a href="/post/2024-02-28-%E7%AD%86%E9%9B%BB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/2024-02-28-%E9%80%A3%E6%8E%A5iphone%E8%AE%80%E5%8F%96%E7%85%A7%E7%89%87/">
-            <h2 class="">Linux 連接iPhone讀取照片</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				安裝 iFuse jameschang@debian:~$ sudo apt-get install ifuse Reading package lists... Done Building dependency tree... Done Reading state information... ...
-             <a href="/post/2024-02-28-%E9%80%A3%E6%8E%A5iphone%E8%AE%80%E5%8F%96%E7%85%A7%E7%89%87/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/post/2024-02-28-linux%E8%88%87windows%E5%85%B1%E4%BA%AB%E7%9B%AE%E9%8C%84/">
-            <h2 class="">linux與windows共享目錄 samba</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				安裝samba sudo apt install samba 設定共享目錄 sudo vim /etc/samba/smb.conf
-[localgit] comment = dadatong path = /home/pollochang/data/localGit browsable = yes ...
-             <a href="/post/2024-02-28-linux%E8%88%87windows%E5%85%B1%E4%BA%AB%E7%9B%AE%E9%8C%84/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
