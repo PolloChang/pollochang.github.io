@@ -8,7 +8,7 @@
     
     <meta content="grails, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 今天在未自己的專案做CVE 弱點掃描，解決過程中需要為專案進行 plugin 相依升級。在 build.gradle 設定如下
+    <meta content="PolloChang 工作筆記 - 今天在為自己的專案做CVE 弱點掃描，解決過程中需要為專案進行 plugin 相依升級。在 build.gradle 設定如下
 build.gradle configurations{ // 強制移除 implementation { exclude group: &#39;com.h2database&#39; //CVE-2022-45868,CVE-2022-23221,CVE-2021-42392 exclude group: &#34;org.graalvm.sdk&#34; exclude group: &#34;com.bertramlabs.plugins:asset-pipeline-core&#34; } // 強制升級 all{ resolutionStrategy.eachDependency { DependencyResolveDetails details -&gt; ModuleVersionSelector requested = details.requested List forcePlugins = [ [group: &#39;org.yaml&#39;, name: &#39;snakeyaml&#39;, useVersion: &#39;1.33&#39;], ] forcePlugins.each {forcePlugin -&gt; if (requested.group == forcePlugin.group &amp;&amp; requested.name == forcePlugin.name ) { details.useVersion forcePlugin.useVersion } } } } } " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -151,7 +151,7 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p>今天在未自己的專案做CVE 弱點掃描，解決過程中需要為專案進行 plugin 相依升級。在 <code>build.gradle</code> 設定如下</p>
+                    <p>今天在為自己的專案做CVE 弱點掃描，解決過程中需要為專案進行 plugin 相依升級。在 <code>build.gradle</code> 設定如下</p>
 <ul>
 <li>build.gradle</li>
 </ul>
