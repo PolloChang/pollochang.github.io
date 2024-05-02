@@ -6,7 +6,18 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 28 Apr 2024 12:14:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Apr 2024 18:21:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GlassFish 2.1.1.1 CLI 說明文件</title>
+      <link>http://pollochang.work/worknot/worknot-20240430-1/</link>
+      <pubDate>Tue, 30 Apr 2024 18:21:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240430-1/</guid>
+      <description>GlassFish 2.1.1.1 CLI 說明
+最近在處理 GlassFish 2.1.1.1 的相關問題，發現裡面的說明有些難看，於是我稍微把裡面的說明文件整理了一下
+asadmin&amp;gt; help NAME help - displays the asadmin utility commands SYNOPSIS help [command_name] command_name [--help | -?] DESCRIPTION The help command displays a list of all the asadmin utility commands. Specify the command to display the usage informa-tion for that command. To display the man page of each com-mand, use the syntax: asadmin command_name --help | -? or asadmin help command_name The following is a list of all the asadmin utility commands: add-resources registers the resource in the specified XML file apply-http-lb-changes applies load balancer configuration changes to the load balancer backup-domain performs a backup on the domain change-admin-password changes the administrator password change-master-password changes the master password clear-ha-store deletes tables in the HA database configure-ha-cluster configures an existing cluster to be High Availability configure-ha-persistence enables configuration of parameters related to session persistence configure-lb-weight sets load balancing weights for clustered instances configure-webservice-management sets the monitoring or maxhistory or attributes of a deployed webservice copy-config copies an existing configuration to create a new confi-guration create-admin-object adds the administered object with the specified JNDI name create-application-ref creates a reference to an application create-audit-module creates an audit module for the optional plugin module create-auth-realm adds the named authorized realm create-cluster creates a cluster create-connector-connection-pool adds a connection pool with the specified connection pool name create-connector-resource registers the resource with the specified JNDI name create-connector-security-map creates or modifies a security map for the named connec- tor connection pool create-converged-lb creates a converged load balancer.</description>
+    </item>
+    
     <item>
       <title>grails5 強制升級 plugin 相依</title>
       <link>http://pollochang.work/worknot/worknot-20240428-2/</link>
@@ -290,7 +301,8 @@ TABLESPACE_NAME Size(MB) Used(MB) Avail(MB ------------------------------ ------
       <pubDate>Wed, 28 Feb 2024 23:03:33 +0800</pubDate>
       
       <guid>http://pollochang.work/about/</guid>
-      <description>關於我 是一個碰到系統問題不會退縮的工程師。
+      <description>關於我 我擅長將要達成的目標進行妥善的分析開發時間成本的工程師。可以將幾乎不可能的目標，一步一步轉為可行的規劃，並對相關的專案經理分析出執行步驟、所需的執行時間成本、技術成本。
+在工作之餘，也會玩轉Linux。目前在Linux 的生活應用上，算是小有成就，可以很順手的進行日常的操作。
 作品 gitHub: https://github.com/PolloChang 2023 iThome 鐵人賽-來架個網站吧 系列 2022 iThome 鐵人賽-Linux in my LIFE 系列 GitHub 工作經歷 威進國際股份有限公司: 2017/5~仍在職 學業經歷 世新大學-資訊傳播學系: 2011/9~2015/6 </description>
     </item>
     
