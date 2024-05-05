@@ -236,7 +236,12 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Server&gt;</span>
 </span></span></code></pre></div><h3 id="刪除-webapps-內所有服務">刪除 webapps 內所有服務</h3>
 <p>最後，如果 tomcat 是從官方網站下載的，記得把原有在 <code>webapps</code> 裡的服務通通都刪除，我相信絕大多時候都不會用到。</p>
-</div>
+<h3 id="覆載平衡搭配-nginx">覆載平衡搭配 nginx</h3>
+<ul>
+<li>conf/server.xml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.RemoteIpValve&#34;</span> <span style="color:#a6e22e">internalProxies=</span><span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#a6e22e">remoteIpHeader=</span><span style="color:#e6db74">&#34;x-forwarded-for&#34;</span> <span style="color:#a6e22e">proxiesHeader=</span><span style="color:#e6db74">&#34;x-forwarded-by&#34;</span>  <span style="color:#a6e22e">protocolHeader=</span><span style="color:#e6db74">&#34;x-forwarded-proto&#34;</span> <span style="color:#a6e22e">httpsServerPort=</span><span style="color:#e6db74">&#34;443&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"

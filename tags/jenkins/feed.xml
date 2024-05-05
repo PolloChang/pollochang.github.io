@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jenkins on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/jenkins/</link>
+    <description>Recent content in jenkins on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 05 May 2024 12:03:56 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jenkins/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jenkins 安裝</title>
+      <link>http://pollochang.work/worknot/worknot-20240505-2/</link>
+      <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240505-2/</guid>
+      <description>環境 OS: Debian 12 jenkins version: 2.440.3 jre: adoptium jre 17 安裝 安裝必要package sudo apt install -y fontconfig 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.11_9.tar.gz -C /usr/local/lib/jvm sudo ln -s /usr/local/lib/jvm/jdk-17.0.11+9-jre /usr/local/lib/jvm/jre-17-latest 安裝 tomcat 設定使用者 sudo useradd -r tomcat -s /sbin/nologin 設定目錄 sudo mkdir -p /var/tomcat/dump sudo mkdir -p /usr/local/share/apache-tomcat/ sudo mkdir -p /var/log/tomcat/jenkins sudo mkdir -p /usr/local/etc/catalina/jenkins/ sudo mkdir -p /home/tomcat sudo -u tomcat mkdir -p /usr/local/etc/catalina/jenkins/{webapps,temp,work} sudo chown -R tomcat: /var/log/tomcat sudo chown -R tomcat: /usr/local/share/apache-tomcat sudo chown -R root: /usr/local/share/apache-tomcat/apache-tomcat-9-latest/logs sudo chown -R tomcat: /usr/local/etc/catalina sudo chown -R tomcat: /var/tomcat/dump sudo chown -R tomcat: /home/tomcat 下載 tomcat 並安裝 wget https://archive.</description>
+    </item>
+    
+    <item>
+      <title>Jenkins 客製化UI</title>
+      <link>http://pollochang.work/worknot/worknot-20240505-1/</link>
+      <pubDate>Sun, 05 May 2024 11:34:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240505-1/</guid>
+      <description>環境 jenkins version: 2.440.3 Login Theme 客製化登入頁面
+安裝 Plugin Login Theme: https://plugins.jenkins.io/login-theme/ 設定 Plugin 設定位置: manage/appearance/Appearance
+Login Page Theme header 可以設定登入的歡迎語
+&amp;lt;h3&amp;gt;Welcome to PolloChang&amp;#39;s Jenkins!&amp;lt;/h3&amp;gt; Branding 設定 logo
+https://pollochang.work/images/logo.jpg Custom CSS position: absolute; inset: 0; z-index: 1; background: linear-gradient( 135deg, rgb(69, 123, 157) 10%, rgb(188, 187, 206) 30%, rgb(235, 176, 163) 50%, rgb(244, 213, 177) 70%, rgb(139, 185, 198) 90%, rgb(44, 113, 149) 110% ); 設定過程中記得不要登出檢查，要開無痕檢查，不然設定錯誤會無法登入。
+Customizable Header 客製化 Header</description>
+    </item>
+    
+  </channel>
+</rss>
