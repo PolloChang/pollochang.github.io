@@ -6,7 +6,20 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 05 May 2024 12:03:56 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 May 2024 00:11:13 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>職涯七年心路歷程</title>
+      <link>http://pollochang.work/worknot/worknot-20240507-1/</link>
+      <pubDate>Tue, 07 May 2024 00:11:13 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240507-1/</guid>
+      <description>這幾個月左思右想，這幾年的工作中發現做有些事情可以讓任務執行的更順暢。
+凡事先規劃並將規劃轉寫成文件。 每天列舉出要做的事項。 完成工作後，撰寫一份簡單的結案文件。 這三件事情我覺的重點在於「紀錄文件」這件事。畢竟身為人畢竟識健忘的，即使是一個團體內部可以互向提醒，但是集體忽略或是忘記某件事仍然會出現。所以將每項任務或是事情落實成文件是一件很重要的事情。重點有這些文件，隨時都可以有一個交接的起步。
+但是文件一多，就會越難進行尋找。但是拜硬碟科技所賜，現在電腦中的硬碟大多已經是固態硬碟(SSD)了，要針對幾千個純文字檔進行全文搜索往往也只需要幾秒鐘的時間。
+以我的習管為例，我習慣使用 Markdown 語法作為筆記格式，一方面可以很直覺呈現一篇筆記的章節內容，另一方面也有合適的工具針對程式語法提供高亮度顯示，通常 vsCode 就可以達到輕鬆閱讀的需求了。另外 Markdown 還可以傳化成 html、PDF 等其他文件格式。重點是筆記一多也不怕在茫茫筆記海中搜尋困難。因為純文字在現在的搜尋工具可以很輕鬆的找到。在 UI 界面中，目前仍然是以 vsCode 最方便，接下來是 linux find + grep 指令 也可以輕鬆尋找，如下：
+find &amp;#34;/home/jameschang/Documents/ntoes/&amp;#34; -name &amp;#34;*.md&amp;#34; -type f -exec grep -l -H &amp;#34;關鍵字&amp;#34; {} \; 好啦，因為最近工作上真的遇到瓶頸，所以有一點體悟到這四年的工作筆記沒有白費。</description>
+    </item>
+    
     <item>
       <title>jenkins 安裝</title>
       <link>http://pollochang.work/worknot/worknot-20240505-2/</link>
