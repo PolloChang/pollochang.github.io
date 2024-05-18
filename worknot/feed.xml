@@ -6,7 +6,36 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 07 May 2024 00:11:13 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 May 2024 00:08:34 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux CLI rsync</title>
+      <link>http://pollochang.work/worknot/worknot-20240518-1/</link>
+      <pubDate>Sat, 18 May 2024 00:08:34 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240518-1/</guid>
+      <description>中斷續傳 rsync -P --rsh=ssh jameschang@[IP]:[source-path] [gold-path] -P 顯示進度</description>
+    </item>
+    
+    <item>
+      <title>DB2 維護相關 SQL</title>
+      <link>http://pollochang.work/worknot/worknot-20240513-1/</link>
+      <pubDate>Mon, 13 May 2024 16:28:38 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240513-1/</guid>
+      <description>查詢目前資料庫哪些帳號 SELECT * FROM SYSIBM.SYSDBAUTH GRANTOR |GRANTEE |DBADMAUTH|CREATETABAUTH|BINDADDAUTH|CONNECTAUTH|NOFENCEAUTH|GRANTEETYPE|IMPLSCHEMAAUTH|LOADAUTH|EXTERNALROUTINEAUTH|QUIESCECONNECTAUTH|SECURITYADMAUTH|LIBRARYADMAUTH|GRANTORTYPE|GRANTEEROLEID|GRANTORROLEID|SQLADMAUTH|WLMADMAUTH|EXPLAINAUTH|DATAACCESSAUTH|ACCESSCTRLAUTH| -------+--------+---------+-------------+-----------+-----------+-----------+-----------+--------------+--------+-------------------+------------------+---------------+--------------+-----------+-------------+-------------+----------+----------+-----------+--------------+--------------+ SYSIBM |DB2INST1|Y |N |N |N |N |U |N |N |N |N |Y |N |S | | |N |N |N |Y |Y | SYSIBM |PUBLIC |N |Y |Y |Y |N |G |Y |N |N |N |N |N |S | | |N |N |N |N |N | DB2INST1|USER1 |Y |Y |Y |Y |Y |U |Y |Y |Y |Y |Y |N |U | | |Y |Y |N |Y |Y | </description>
+    </item>
+    
+    <item>
+      <title>網頁連線問題</title>
+      <link>http://pollochang.work/worknot/worknot-20240507-2/</link>
+      <pubDate>Tue, 07 May 2024 14:44:31 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240507-2/</guid>
+      <description>問題 You cannot visit domain.example.com right now because the website uses HSTS.
+說明 該網站啟用了 HSTS（HTTP Strict Transport Security）功能，這意味著您的瀏覽器記住了您僅能使用安全的 HTTPS 連接方式訪問該網站，以增強安全性。這可以防止您的瀏覽器通過不安全的 HTTP 連接訪問該網站。
+可能的狀況 憑證過期 ❯ curl -v -k https://volunteer.ntpc.gov.tw 2&amp;gt;&amp;amp;1 | grep -E &amp;#34;Connected to|subject|expire&amp;#34; * Connected to volunteer.ntpc.gov.tw (61.60.98.240) port 443 (#0) * subject: C=TW; L=\Uxxxx\Uxxxx\Uxxxx; O=\Uxxxx\Uxxxx\Uxxxx; OU=\Uxxxx\Uxxxx\Uxxxx; OU=\Uxxxx\Uxxxx\Uxxxx\Uxxxx; CN=domain.example.com; serialNumber=0000000010045160 * expire date: Aug 8 00:00:00 2020 GMT </description>
+    </item>
+    
     <item>
       <title>職涯七年心路歷程</title>
       <link>http://pollochang.work/worknot/worknot-20240507-1/</link>
