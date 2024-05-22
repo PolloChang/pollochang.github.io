@@ -1503,6 +1503,27 @@ Debian bookworm 在我的筆記型電腦有一段時間是安裝這個版本。�
     </item>
     
     <item>
+      <title>Fabric-OS-CLI</title>
+      <link>http://pollochang.work/worknot/fabric-os-cli/</link>
+      <pubDate>Mon, 22 May 2023 09:00:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/fabric-os-cli/</guid>
+      <description> 文件版本: 20240522 文件撰寫人: PolloChang userconfig (帳號管管理) 用途: 帳號管管理 列出所有帳號 userConfig --show -a 新增帳號 userConfig --add [account] -p [password] -r admin -a 0-255 停用帳號 userConfig --change [account] -e no 文件變更紀錄 20240522: 初版 參考資料 brocade-300_administrator%20guide4_en-us.pdf </description>
+    </item>
+    
+    <item>
+      <title>Fabric-OS-introduction</title>
+      <link>http://pollochang.work/worknot/fabric-os-introduction/</link>
+      <pubDate>Mon, 22 May 2023 09:00:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/fabric-os-introduction/</guid>
+      <description>文件版本: 20240522 文件撰寫人: PolloChang Fabric Operating System (簡稱: FOS)，是 Broadcom 交換器中的作業系統
+https://archive.org/details/hp-816-san-switch-brocade-200e
+預設帳號 root admin factory user 首次登入用 admin 進行進入系統，預設密碼是 password。登入後會要求更改下列帳號的密碼
+root admin factory user 系統角色 (rolename) admin Duties: All administration Description: All administrative commands BasicSwitchAdmin Duties: Restricted switch administration Description: Mostly monitoring with limited switch (local) commands SwitchAdmin Duties: Local switch administration Description: Most switch (local) commands, excluding security, user management, and zoning commands zoneadmin Duties: Zone administration Description: Zone management commands only Operator: Duties: General switch administration Description: Routine switch-maintenance commands.</description>
+    </item>
+    
+    <item>
       <title>GC實驗: String 相接 與 系統效能 關係</title>
       <link>http://pollochang.work/worknot/worknot-20230414/</link>
       <pubDate>Fri, 14 Apr 2023 20:53:54 +0800</pubDate>
