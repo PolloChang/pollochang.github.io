@@ -6,7 +6,16 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 18 May 2024 00:08:34 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Jun 2024 12:29:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Cli Netstat</title>
+      <link>http://pollochang.work/worknot/linux-cli-netstat/</link>
+      <pubDate>Mon, 03 Jun 2024 12:29:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-cli-netstat/</guid>
+      <description>線上手冊內容 NETSTAT(8)	Linux System Administrator&amp;#39;s Manual	NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships SYNOPSIS netstat	[address_family_options] [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] [--l2cap|-2]	[--rfcomm|-f]	[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--nu‐ meric-ports] [--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o] [--program|-p] [--verbose|-v] [--continuous|-c] [--wide|-W] netstat {--route|-r} [address_family_options] [--extend|-e[--extend|-e]] [--verbose|-v] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--interfaces|-i} [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v] [--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] netstat {--version|-V} netstat {--help|-h} address_family_options: [-4|--inet] [-6|--inet6] [--protocol={inet,inet6,unix,ipx,ax25,netrom,ddp,bluetooth, .</description>
+    </item>
+    
     <item>
       <title>linux CLI rsync</title>
       <link>http://pollochang.work/worknot/worknot-20240518-1/</link>
