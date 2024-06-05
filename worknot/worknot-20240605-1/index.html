@@ -1,0 +1,1134 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - putty 編譯安裝 </title>
+    
+    
+    <meta content="linux, putty, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &#34;2.39.2&#34;) -- Looking for sys/auxv." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>putty 編譯安裝</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-06-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/putty/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">putty</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="編譯安裝">編譯安裝</h2>
+<ol>
+<li>下載 putty</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxf putty-0.81.tar.gz
+</span></span><span style="display:flex;"><span>cd putty-0.81
+</span></span></code></pre></div><ol start="2">
+<li>建立 catch</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cmake .
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ cmake . 
+</span></span><span style="display:flex;"><span>-- The C compiler identification is GNU 12.2.0
+</span></span><span style="display:flex;"><span>-- Detecting C compiler ABI info
+</span></span><span style="display:flex;"><span>-- Detecting C compiler ABI info - <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>-- Check <span style="color:#66d9ef">for</span> working C compiler: /usr/bin/cc - skipped
+</span></span><span style="display:flex;"><span>-- Detecting C compile features
+</span></span><span style="display:flex;"><span>-- Detecting C compile features - <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>-- Found Git: /usr/bin/git <span style="color:#f92672">(</span>found version <span style="color:#e6db74">&#34;2.39.2&#34;</span><span style="color:#f92672">)</span> 
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/auxv.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/auxv.h - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> asm/hwcap.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> asm/hwcap.h - not found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/sysctl.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/sysctl.h - not found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/types.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sys/types.h - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> glob.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> glob.h - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> utmp.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> utmp.h - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> utmpx.h
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> utmpx.h - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> futimes
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> futimes - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> getaddrinfo
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> getaddrinfo - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> posix_openpt
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> posix_openpt - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> ptsname
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> ptsname - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setresuid
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setresuid - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setresgid
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setresgid - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> strsignal
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> strsignal - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> updwtmpx
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> updwtmpx - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> fstatat
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> fstatat - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> dirfd
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> dirfd - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setpwent
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> setpwent - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> endpwent
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> endpwent - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> getauxval
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> getauxval - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> elf_aux_info
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> elf_aux_info - not found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sysctlbyname
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> sysctlbyname - not found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> CLOCK_MONOTONIC
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> CLOCK_MONOTONIC - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> clock_gettime
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> clock_gettime - found
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SO_PEERCRED
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SO_PEERCRED - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_NULLARY_SETPGRP
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_NULLARY_SETPGRP - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_BINARY_SETPGRP
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_BINARY_SETPGRP - Failed
+</span></span><span style="display:flex;"><span>-- Found PkgConfig: /usr/bin/pkg-config <span style="color:#f92672">(</span>found version <span style="color:#e6db74">&#34;1.8.1&#34;</span><span style="color:#f92672">)</span> 
+</span></span><span style="display:flex;"><span>-- Checking <span style="color:#66d9ef">for</span> module <span style="color:#e6db74">&#39;gtk+-3.0&#39;</span>
+</span></span><span style="display:flex;"><span>--   Package <span style="color:#e6db74">&#39;gtk+-3.0&#39;</span>, required by <span style="color:#e6db74">&#39;virtual:world&#39;</span>, not found
+</span></span><span style="display:flex;"><span>-- Checking <span style="color:#66d9ef">for</span> module <span style="color:#e6db74">&#39;gtk+-2.0&#39;</span>
+</span></span><span style="display:flex;"><span>--   Package <span style="color:#e6db74">&#39;gtk+-2.0&#39;</span>, required by <span style="color:#e6db74">&#39;virtual:world&#39;</span>, not found
+</span></span><span style="display:flex;"><span>-- Checking <span style="color:#66d9ef">for</span> GTK1 <span style="color:#f92672">(</span>via gtk-config<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> pow in m
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> pow in m - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> clock_gettime in rt
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> clock_gettime in rt - found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> socket in xnet
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> socket in xnet - not found
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> dlopen in dl
+</span></span><span style="display:flex;"><span>-- Looking <span style="color:#66d9ef">for</span> dlopen in dl - found
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ALIGNED_ALLOC
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ALIGNED_ALLOC - Success
+</span></span><span style="display:flex;"><span>-- Found Perl: /usr/bin/perl <span style="color:#f92672">(</span>found version <span style="color:#e6db74">&#34;5.36.0&#34;</span><span style="color:#f92672">)</span> 
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_WMMINTRIN_H
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_WMMINTRIN_H - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_AES_NI
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_AES_NI - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SHAINTRIN_H
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SHAINTRIN_H - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SHA_NI
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_SHA_NI - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_CLMUL
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_CLMUL - Success
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ARM_NEON_H
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ARM_NEON_H - Failed
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ARM64_NEON_H
+</span></span><span style="display:flex;"><span>-- Performing Test HAVE_ARM64_NEON_H - Failed
+</span></span><span style="display:flex;"><span>-- Configuring <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>-- Generating <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>-- Build files have been written to: /home/testaccount/Downloads/putty-0.81
+</span></span></code></pre></div><ol start="3">
+<li>編譯 及 安裝</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cmake --build . --target install
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo cmake --build . --target install
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Checking current git commit
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Built target check_git_commit
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Updating cmake_commit.c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Built target cmake_commit_c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/CMakeFiles/cmake_commit.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  0%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/antispoof.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  1%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/backend_socket_log.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  1%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/base64_decode_atom.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  1%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/base64_decode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  2%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/base64_encode_atom.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  2%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/base64_encode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  2%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/base64_valid.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  2%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/bufchain.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  3%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/buildinfo.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  3%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/burnstr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  3%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/cert-expr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  3%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/chomp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  4%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/cmdline_get_passwd_input_state_new.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  4%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/conf.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  4%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/conf_dest.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  4%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/conf_launchable.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  5%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ctrlparse.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  5%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ctrlset_normalise.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  5%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/debug.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  5%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/decode_utf8.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  6%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/decode_utf8_to_wchar.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  6%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/default_description.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  6%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/dupcat.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  7%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/dupprintf.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  7%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/dupstr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  7%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/dup_mb_to_wc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  7%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/dup_wc_to_mb.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  8%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/encode_utf8.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  8%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/encode_wide_string_as_utf8.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  8%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/fgetline.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  8%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_ca_new_free.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  9%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_strchr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  9%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_strchr_internal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  9%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_strcspn.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>  9%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_strduptrim.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 10%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/host_strrchr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 10%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/key_components.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 10%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/log_proxy_stderr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 10%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/make_spr_sw_abort_static.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 11%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/marshal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 11%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/memory.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 11%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/memxor.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 11%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/nullstrcmp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 12%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/out_of_memory.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 12%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/parse_blocksize.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 12%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/percent_decode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 13%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/percent_encode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 13%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/prompts.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 13%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ptrlen.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 13%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/read_file_into.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 14%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/seat_connection_fatal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 14%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/seat_dialog_text.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 14%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/sessprep.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 14%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/sk_free_peer_info.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 15%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/smemclr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 15%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/smemeq.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 15%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/spr_get_error_message.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 15%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ssh_key_clone.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 16%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ssh2_pick_fingerprint.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 16%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/sshutils.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 16%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/strbuf.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 16%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/string_length_for_printf.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 17%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/stripctrl.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 17%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/tempseat.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 17%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/tree234.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 18%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/validate_manual_hostkey.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 18%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/version.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 18%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/wcwidth.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 18%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/wildcard.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 19%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/wordwrap.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 19%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/write_c_string_literal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 19%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11authfile.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 19%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11authnames.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 20%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11_dehexify.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 20%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11_identify_auth_proto.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 20%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11_make_greeting.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 20%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/x11_parse_ip.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 21%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-lp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 21%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-cipher.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 21%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-key.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 21%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-mac.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 22%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-opener.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 22%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-plug.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 22%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/stubs/null-seat.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 23%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/arm_arch_queries.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 23%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/block_signal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 23%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/cloexec.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 23%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/dputs.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 24%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/filename.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 24%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/fontspec.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 24%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/getticks.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 24%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/get_username.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 25%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/keysym_to_unicode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 25%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/make_dir_and_check_ours.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 25%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/make_dir_path.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 25%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/make_spr_sw_abort_errno.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 26%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/nonblock.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 26%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/open_for_write_would_lose_data.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 26%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/pgp_fingerprints.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 26%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/pollwrap.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 27%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/signal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 27%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/unix/utils/x11_ignore_error.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 27%<span style="color:#f92672">]</span> Building C object CMakeFiles/utils.dir/utils/ltime.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 28%<span style="color:#f92672">]</span> Linking C static library libutils.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 28%<span style="color:#f92672">]</span> Built target utils
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 28%<span style="color:#f92672">]</span> Building C object CMakeFiles/logging.dir/logging.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 28%<span style="color:#f92672">]</span> Built target logging
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 29%<span style="color:#f92672">]</span> Building C object CMakeFiles/eventloop.dir/callback.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 29%<span style="color:#f92672">]</span> Building C object CMakeFiles/eventloop.dir/timing.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 29%<span style="color:#f92672">]</span> Building C object CMakeFiles/eventloop.dir/unix/cliloop.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 29%<span style="color:#f92672">]</span> Building C object CMakeFiles/eventloop.dir/unix/uxsel.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 30%<span style="color:#f92672">]</span> Linking C static library libeventloop.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 30%<span style="color:#f92672">]</span> Built target eventloop
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 30%<span style="color:#f92672">]</span> Building C object CMakeFiles/console.dir/clicons.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Building C object CMakeFiles/console.dir/console.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Building C object CMakeFiles/console.dir/unix/console.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Linking C static library libconsole.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Built target console
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Building C object CMakeFiles/settings.dir/cmdline.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 31%<span style="color:#f92672">]</span> Building C object CMakeFiles/settings.dir/settings.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Building C object CMakeFiles/settings.dir/unix/storage.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Linking C static library libsettings.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Built target settings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Building C object crypto/CMakeFiles/object_lib_HAVE_CLMUL.dir/aesgcm-clmul.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Built target object_lib_HAVE_CLMUL
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Building C object crypto/CMakeFiles/object_lib_HAVE_AES_NI.dir/aes-ni.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Built target object_lib_HAVE_AES_NI
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 32%<span style="color:#f92672">]</span> Building C object crypto/CMakeFiles/object_lib_HAVE_SHA_NI.dir/sha256-ni.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 33%<span style="color:#f92672">]</span> Building C object crypto/CMakeFiles/object_lib_HAVE_SHA_NI.dir/sha1-ni.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 33%<span style="color:#f92672">]</span> Built target object_lib_HAVE_SHA_NI
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 33%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/proxy/cproxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 34%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/proxy/sshproxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 34%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aes-common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 34%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aes-select.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 34%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aes-sw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 35%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aesgcm-common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 35%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aesgcm-select.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 35%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aesgcm-sw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 35%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/aesgcm-ref-poly.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 36%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/arcfour.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 36%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/argon2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 36%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/bcrypt.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 37%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/blake2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 37%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/blowfish.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 37%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/chacha20-poly1305.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 37%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/crc32.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 38%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/des.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 38%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/diffie-hellman.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 38%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/dsa.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 38%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/ecc-arithmetic.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 39%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/ecc-ssh.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 39%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/hash_simple.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 39%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/hmac.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 39%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/mac.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 40%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/mac_simple.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 40%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/md5.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 40%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/mpint.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 40%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/ntru.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 41%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/openssh-certs.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 41%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/prng.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 41%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/pubkey-pem.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 42%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/pubkey-ppk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 42%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/pubkey-ssh1.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 42%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/rfc6979.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 42%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/rsa.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 43%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha256-common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 43%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha256-select.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 43%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha256-sw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 43%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha512-common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 44%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha512-select.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 44%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha512-sw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 44%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha3.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 44%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha1-common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 45%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha1-select.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 45%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/sha1-sw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 45%<span style="color:#f92672">]</span> Building C object CMakeFiles/crypto.dir/crypto/xdmauth.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 45%<span style="color:#f92672">]</span> Linking C static library libcrypto.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 45%<span style="color:#f92672">]</span> Built target crypto
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 46%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/errsock.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 46%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/logging.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 46%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/x11disp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 46%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/proxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 47%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/http.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 47%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/socks4.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 47%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/socks5.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 47%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/telnet.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 48%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/local.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 48%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/proxy/interactor.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 48%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/network.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 49%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/fd-socket.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 49%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/agent-socket.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 49%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/peerinfo.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 49%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/local-proxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 50%<span style="color:#f92672">]</span> Building C object CMakeFiles/network.dir/unix/x11.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 50%<span style="color:#f92672">]</span> Linking C static library libnetwork.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 50%<span style="color:#f92672">]</span> Built target network
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 50%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/import.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 51%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/dsa.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 51%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/ecdsa.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 51%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/millerrabin.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 52%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/mpunsafe.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 52%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/pockle.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 52%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/prime.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 52%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/primecandidate.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/rsa.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Building C object CMakeFiles/keygen.dir/keygen/smallprimes.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Linking C static library libkeygen.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Built target keygen
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Building C object CMakeFiles/agent.dir/sshpubk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Building C object CMakeFiles/agent.dir/pageant.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 53%<span style="color:#f92672">]</span> Building C object CMakeFiles/agent.dir/aqsync.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Building C object CMakeFiles/agent.dir/unix/agent-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Linking C static library libagent.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Built target agent
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Building C object CMakeFiles/guiterminal.dir/terminal/terminal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Building C object CMakeFiles/guiterminal.dir/terminal/bidi.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 54%<span style="color:#f92672">]</span> Building C object CMakeFiles/guiterminal.dir/ldisc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Building C object CMakeFiles/guiterminal.dir/config.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Building C object CMakeFiles/guiterminal.dir/dialog.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Linking C static library libguiterminal.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Built target guiterminal
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Building C object CMakeFiles/noterminal.dir/stubs/no-term.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 55%<span style="color:#f92672">]</span> Building C object CMakeFiles/noterminal.dir/ldisc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Linking C static library libnoterminal.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Built target noterminal
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Building C object CMakeFiles/all-backends.dir/pinger.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Built target all-backends
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sftpcommon.dir/sftpcommon.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Built target sftpcommon
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 56%<span style="color:#f92672">]</span> Building C object CMakeFiles/sftpclient.dir/psftpcommon.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 57%<span style="color:#f92672">]</span> Building C object CMakeFiles/sftpclient.dir/ssh/sftp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 57%<span style="color:#f92672">]</span> Building C object CMakeFiles/sftpclient.dir/unix/sftp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 57%<span style="color:#f92672">]</span> Linking C static library libsftpclient.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 57%<span style="color:#f92672">]</span> Built target sftpclient
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 57%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/otherbackends/raw.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 58%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/otherbackends/rlogin.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 58%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/otherbackends/supdup.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 58%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/otherbackends/telnet.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/otherbackends/testback.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Building C object CMakeFiles/otherbackends.dir/unix/serial.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Linking C static library libotherbackends.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Built target otherbackends
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Building C object CMakeFiles/testcrypt.dir/test/testcrypt.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 59%<span style="color:#f92672">]</span> Building C object CMakeFiles/testcrypt.dir/sshpubk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 60%<span style="color:#f92672">]</span> Building C object CMakeFiles/testcrypt.dir/ssh/crc-attack-detector.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 60%<span style="color:#f92672">]</span> Linking C executable testcrypt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 60%<span style="color:#f92672">]</span> Built target testcrypt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 60%<span style="color:#f92672">]</span> Building C object CMakeFiles/test_host_strfoo.dir/utils/host_strchr_internal.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Linking C executable test_host_strfoo
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Built target test_host_strfoo
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Building C object CMakeFiles/test_decode_utf8.dir/utils/decode_utf8.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Linking C executable test_decode_utf8
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Built target test_decode_utf8
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Building C object CMakeFiles/test_tree234.dir/utils/tree234.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Linking C executable test_tree234
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Built target test_tree234
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 61%<span style="color:#f92672">]</span> Building C object CMakeFiles/test_wildcard.dir/utils/wildcard.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 62%<span style="color:#f92672">]</span> Linking C executable test_wildcard
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 62%<span style="color:#f92672">]</span> Built target test_wildcard
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 62%<span style="color:#f92672">]</span> Building C object CMakeFiles/test_cert_expr.dir/utils/cert-expr.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 63%<span style="color:#f92672">]</span> Linking C executable test_cert_expr
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 63%<span style="color:#f92672">]</span> Built target test_cert_expr
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 63%<span style="color:#f92672">]</span> Building C object CMakeFiles/bidi_gettype.dir/terminal/bidi_gettype.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 64%<span style="color:#f92672">]</span> Linking C executable bidi_gettype
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 64%<span style="color:#f92672">]</span> Built target bidi_gettype
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 64%<span style="color:#f92672">]</span> Building C object CMakeFiles/bidi_test.dir/terminal/bidi_test.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 64%<span style="color:#f92672">]</span> Linking C executable bidi_test
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 64%<span style="color:#f92672">]</span> Built target bidi_test
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 65%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/bpp1.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 65%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/bpp2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 65%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/bpp-bare.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 66%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/ca-config.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 66%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/censor1.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 66%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/censor2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 66%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/common.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 67%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/connection1.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 67%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/connection2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 67%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/crc-attack-detector.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 67%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/gssc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 68%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/login1.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 68%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/pgssapi.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 68%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/portfwd.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 68%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/__/sshpubk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 69%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/__/sshrand.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 69%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/transient-hostkey-cache.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 69%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/transport2.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 69%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/verstring.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 70%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/x11fwd.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 70%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/zlib.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 70%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshcommon.dir/__/unix/noise.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 70%<span style="color:#f92672">]</span> Built target sshcommon
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 71%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/agentf.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 71%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/connection1-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 71%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/connection2-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 71%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/kex2-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 72%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/mainchan.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 72%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/sharing.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 72%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/ssh.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 72%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/userauth2-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/__/unix/gss.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/__/unix/agent-client.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshclient.dir/__/unix/sharing.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Linking C static library libsshclient.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Built target sshclient
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object CMakeFiles/plink-be-list.dir/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Built target plink-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object CMakeFiles/plink.dir/unix/plink.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 73%<span style="color:#f92672">]</span> Building C object CMakeFiles/plink.dir/unix/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Linking C executable plink
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Built target plink
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Building C object CMakeFiles/pscp-be-list.dir/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Built target pscp-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Building C object CMakeFiles/pscp.dir/pscp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 74%<span style="color:#f92672">]</span> Building C object CMakeFiles/pscp.dir/unix/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 75%<span style="color:#f92672">]</span> Linking C executable pscp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 75%<span style="color:#f92672">]</span> Built target pscp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 75%<span style="color:#f92672">]</span> Building C object CMakeFiles/psftp-be-list.dir/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 75%<span style="color:#f92672">]</span> Built target psftp-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 75%<span style="color:#f92672">]</span> Building C object CMakeFiles/psftp.dir/psftp.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 76%<span style="color:#f92672">]</span> Building C object CMakeFiles/psftp.dir/unix/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 76%<span style="color:#f92672">]</span> Linking C executable psftp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 76%<span style="color:#f92672">]</span> Built target psftp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 76%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/unix/psocks.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 77%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/psocks.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 77%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/stubs/no-rand.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 77%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/proxy/nocproxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 77%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/proxy/nosshproxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/ssh/portfwd.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Building C object CMakeFiles/psocks.dir/unix/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Linking C executable psocks
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Built target psocks
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Built target manpages
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 78%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/connection1-server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 79%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/connection2-server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 79%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/kex2-server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 79%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/login1-server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 80%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 80%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/sesschan.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 80%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/sftpserver.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 80%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/userauth2-server.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 81%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/__/unix/sftpserver.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 81%<span style="color:#f92672">]</span> Building C object ssh/CMakeFiles/sshserver.dir/__/unix/procnet.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 81%<span style="color:#f92672">]</span> Linking C static library libsshserver.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 81%<span style="color:#f92672">]</span> Built target sshserver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 81%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttyxpms.dir/putty-xpm.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 82%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttyxpms.dir/putty-config-xpm.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 82%<span style="color:#f92672">]</span> Linking C static library libputtyxpms.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 82%<span style="color:#f92672">]</span> Built target puttyxpms
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 82%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/ptermxpms.dir/pterm-xpm.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 83%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/ptermxpms.dir/pterm-config-xpm.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 83%<span style="color:#f92672">]</span> Linking C static library libptermxpms.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 83%<span style="color:#f92672">]</span> Built target ptermxpms
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Generating ../CMakeFiles/sbcsdat.c.tmp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Updating sbcsdat.c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Built target generated_sbcsdat_c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/fromucs.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/localenc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 84%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/macenc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 85%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/mimeenc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 85%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/sbcs.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 85%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/__/CMakeFiles/sbcsdat.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 85%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/slookup.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 86%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/toucs.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 86%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/utf8.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 86%<span style="color:#f92672">]</span> Building C object charset/CMakeFiles/charset.dir/xenc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 87%<span style="color:#f92672">]</span> Linking C static library libcharset.a
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 87%<span style="color:#f92672">]</span> Built target charset
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 87%<span style="color:#f92672">]</span> Generating CMakeFiles/licence.h.tmp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 87%<span style="color:#f92672">]</span> Updating licence.h
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 87%<span style="color:#f92672">]</span> Built target generated_licence_h
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 88%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm-be-list.dir/__/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 88%<span style="color:#f92672">]</span> Built target fuzzterm-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 88%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm.dir/__/test/fuzzterm.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 88%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm.dir/__/logging.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm.dir/__/stubs/no-print.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm.dir/unicode.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/fuzzterm.dir/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Linking C executable ../fuzzterm
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Built target fuzzterm
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/osxlaunch.dir/osxlaunch.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Linking C executable ../osxlaunch
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Built target osxlaunch
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan-be-list.dir/__/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Built target psusan-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 89%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan.dir/psusan.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 90%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan.dir/__/stubs/no-gss.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 90%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan.dir/__/ssh/scpserver.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 90%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan.dir/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 90%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/psusan.dir/pty.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 91%<span style="color:#f92672">]</span> Linking C executable ../psusan
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 91%<span style="color:#f92672">]</span> Built target psusan
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 92%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/__/stubs/no-timing.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 92%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/keygen-noise.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 92%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 92%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/noise.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/storage.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/__/sshpubk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen-common.dir/__/sshrand.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Built target puttygen-common
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/puttygen.dir/__/cmdgen.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Linking C executable ../puttygen
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Built target puttygen
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 93%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/cgtest.dir/__/cgtest.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Linking C executable ../cgtest
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Built target cgtest
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/overaligned_alloc.dir/__/utils/memory.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Built target overaligned_alloc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/testsc.dir/__/test/testsc.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Linking C executable ../testsc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 94%<span style="color:#f92672">]</span> Built target testsc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/testzlib.dir/__/test/testzlib.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/testzlib.dir/__/ssh/zlib.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Linking C executable ../testzlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Built target testzlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity-be-list.dir/__/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Built target uppity-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 95%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity.dir/uppity.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 96%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity.dir/__/ssh/scpserver.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 96%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity.dir/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 96%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity.dir/pty.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 96%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/uppity.dir/__/stubs/no-gss.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 97%<span style="color:#f92672">]</span> Linking C executable ../uppity
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 97%<span style="color:#f92672">]</span> Built target uppity
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 97%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant-be-list.dir/__/be_list.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 97%<span style="color:#f92672">]</span> Built target pageant-be-list
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 98%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/pageant.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 98%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/__/stubs/no-gss.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 98%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/x11.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 98%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/noise.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 99%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/__/ssh/x11fwd.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 99%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/__/proxy/nosshproxy.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 99%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/noaskpass.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 99%<span style="color:#f92672">]</span> Building C object unix/CMakeFiles/pageant.dir/no-gtk.c.o
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>100%<span style="color:#f92672">]</span> Linking C executable ../pageant
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>100%<span style="color:#f92672">]</span> Built target pageant
+</span></span><span style="display:flex;"><span>Install the project...
+</span></span><span style="display:flex;"><span>-- Install configuration: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/plink
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/plink.1
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/pscp
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/pscp.1
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/psftp
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/psftp.1
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/psusan
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/psusan.1
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/puttygen
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/puttygen.1
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/bin/pageant
+</span></span><span style="display:flex;"><span>-- Installing: /usr/local/share/man/man1/pageant.1
+</span></span></code></pre></div><h2 id="使用">使用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>plink -i ~/.ssh/<span style="color:#f92672">[</span>putty<span style="color:#f92672">]</span>.ppk <span style="color:#f92672">[</span>user@<span style="color:#f92672">]</span>host
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240529-1/">
+                                <h3 class="">nginx ssl 設定步驟</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-05-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240518-1/">
+                                <h3 class="">linux CLI rsync</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-05-18</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240427/">
+                                <h3 class="">一到指令刪除相關進程</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-27</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240426/">
+                                <h3 class="">CLI 檢查網站憑證</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-26</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240425/">
+                                <h3 class="">linux 資料基礎分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-25</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e6%96%99%e5%88%86%e6%9e%90/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資料分析</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

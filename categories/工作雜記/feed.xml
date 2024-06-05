@@ -6,7 +6,25 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 18 May 2024 00:08:34 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Jun 2024 22:52:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>putty 編譯安裝</title>
+      <link>http://pollochang.work/worknot/worknot-20240605-1/</link>
+      <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+    </item>
+    
+    <item>
+      <title>nginx ssl 設定步驟</title>
+      <link>http://pollochang.work/worknot/worknot-20240529-1/</link>
+      <pubDate>Wed, 29 May 2024 21:27:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240529-1/</guid>
+      <description>檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD TLS_CHACHA20_POLY1305_SHA256 TLSv1.3 Kx=any Au=any Enc=CHACHA20/POLY1305(256) Mac=AEAD TLS_AES_128_GCM_SHA256 TLSv1.3 Kx=any Au=any Enc=AESGCM(128) Mac=AEAD ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(256) Mac=AEAD ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=RSA Enc=AESGCM(256) Mac=AEAD DHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=DH Au=RSA Enc=AESGCM(256) Mac=AEAD ECDHE-ECDSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=ECDSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD DHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=DH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.</description>
+    </item>
+    
     <item>
       <title>linux CLI rsync</title>
       <link>http://pollochang.work/worknot/worknot-20240518-1/</link>

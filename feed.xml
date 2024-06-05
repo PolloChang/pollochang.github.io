@@ -6,7 +6,16 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 03 Jun 2024 12:29:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Jun 2024 22:52:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>putty 編譯安裝</title>
+      <link>http://pollochang.work/worknot/worknot-20240605-1/</link>
+      <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+    </item>
+    
     <item>
       <title>Linux Cli Netstat</title>
       <link>http://pollochang.work/worknot/linux-cli-netstat/</link>
@@ -14,6 +23,15 @@
       
       <guid>http://pollochang.work/worknot/linux-cli-netstat/</guid>
       <description>線上手冊內容 NETSTAT(8)	Linux System Administrator&amp;#39;s Manual	NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships SYNOPSIS netstat	[address_family_options] [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] [--l2cap|-2]	[--rfcomm|-f]	[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--nu‐ meric-ports] [--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o] [--program|-p] [--verbose|-v] [--continuous|-c] [--wide|-W] netstat {--route|-r} [address_family_options] [--extend|-e[--extend|-e]] [--verbose|-v] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--interfaces|-i} [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v] [--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] netstat {--version|-V} netstat {--help|-h} address_family_options: [-4|--inet] [-6|--inet6] [--protocol={inet,inet6,unix,ipx,ax25,netrom,ddp,bluetooth, .</description>
+    </item>
+    
+    <item>
+      <title>nginx ssl 設定步驟</title>
+      <link>http://pollochang.work/worknot/worknot-20240529-1/</link>
+      <pubDate>Wed, 29 May 2024 21:27:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240529-1/</guid>
+      <description>檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD TLS_CHACHA20_POLY1305_SHA256 TLSv1.3 Kx=any Au=any Enc=CHACHA20/POLY1305(256) Mac=AEAD TLS_AES_128_GCM_SHA256 TLSv1.3 Kx=any Au=any Enc=AESGCM(128) Mac=AEAD ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(256) Mac=AEAD ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=RSA Enc=AESGCM(256) Mac=AEAD DHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=DH Au=RSA Enc=AESGCM(256) Mac=AEAD ECDHE-ECDSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=ECDSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD DHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=DH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.</description>
     </item>
     
     <item>
