@@ -14,9 +14,9 @@
       
       <guid>http://pollochang.work/worknot/fix-cve-2023-48795/</guid>
       <description>修補 CVE-2023-48795 方式
-系統環境 OS: Rocky Linux 8 檢測方式 使用有風險的加密方式登入
+系統環境 OS: Rocky Linux 8 檢測方式 使用有風險的加密方式登入，無法登入則驗證通過
 ssh -oCiphers=chacha20-poly1305@openssh.com,3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc pollochang@192.168.122.81 出現下列訊息算完成修補
-Unable to negotiate with 192.168.122.81 port 22: no matching cipher found. Their offer: aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr 修補方式 更新文件: etc/sysconfig/sshd 將 #CRYPTO_POLICY= 取消註解，結果如下
+Unable to negotiate with 192.168.122.81 port 22: no matching cipher found. Their offer: aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr 修補方式 更新文件: /etc/sysconfig/sshd 將 #CRYPTO_POLICY= 取消註解，結果如下
 CRYPTO_POLICY= 更新文件: /etc/ssh/sshd_config 新增限制加密演算法
 KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256 Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com 檢查設定正確 sudo sshd -t 重啟 sshd 服務 sudo systemctl restart sshd 參考資料 How to disable vulnerable ciphers and encryption modes in Rocky Linux 8 to mitigate Terrapin Attack (CVE-2023-48795) </description>
     </item>
