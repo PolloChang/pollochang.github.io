@@ -11,7 +11,7 @@
     <meta content="PolloChang 工作筆記 - 我的Linux生活日記 28.KVM 在 Linux 中可以透過建立 KVM「核心基礎虛擬機器 (Kernel-based Virtual Machine；KVM）」 建立不同作業系統環境，無論是 RedHat 、Debian 或是 windows 都可以建立。在學習 Linux 的過程是不錯的學習工具。
 啟動 CPU 虛擬化技術 這部份需要進入 BIOS 開啟，AMD 是 VT , Intel 是 VT-x、VT-d 或 VT-c 。
 檢查硬體資源是否支援 虛擬技術 啟動之後可以下指令檢查
-grep --color --perl-regexp &#39;vmx|svm&#39; /proc/cpuinfo 安裝 安裝指令 sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo adduser pollochang libvirt-qemu sudo adduser pollochang libvirt KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &#34;/tmp/osinfo-db." name="description">
+grep --color --perl-regexp &#39;vmx|svm&#39; /proc/cpuinfo 安裝 安裝指令 sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo usermod -G libvirt-qemu pollochang sudo usermod -G libvirt pollochang KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &#34;/tmp/osinfo-db." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -170,8 +170,8 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh net-start default
 </span></span><span style="display:flex;"><span>sudo virsh net-autostart default
 </span></span></code></pre></div><h3 id="新增-kvm-權限">新增 KVM 權限</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo adduser pollochang libvirt-qemu
-</span></span><span style="display:flex;"><span>sudo adduser pollochang libvirt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo usermod -G libvirt-qemu pollochang
+</span></span><span style="display:flex;"><span>sudo usermod -G libvirt pollochang
 </span></span></code></pre></div><h2 id="kvm-更新os清單">KVM 更新OS清單</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install libosinfo-bin osinfo-db-tools
 </span></span><span style="display:flex;"><span>wget -O <span style="color:#e6db74">&#34;/tmp/osinfo-db.tar.xz&#34;</span> https://releases.pagure.org/libosinfo/osinfo-db-20231215.tar.xz
