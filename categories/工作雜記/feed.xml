@@ -6,7 +6,18 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 06 Jun 2024 23:20:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Jun 2024 22:29:27 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Update Nvidia 470 Dirver</title>
+      <link>http://pollochang.work/worknot/update-nvidia-470-dirver/</link>
+      <pubDate>Tue, 11 Jun 2024 22:29:27 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
+      <description>環境 OS: Debian 11 GPU: Nvidia 410 執行步驟 安裝 linux-headers 及必要套件 sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式
+https://www.nvidia.com/zh-tw/geforce/drivers/
+wget https://tw.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run 更新 sudo bash ./NVIDIA-Linux-x86_64-470.256.02.run </description>
+    </item>
+    
     <item>
       <title>修補 CVE-2023-48795</title>
       <link>http://pollochang.work/worknot/fix-cve-2023-48795/</link>

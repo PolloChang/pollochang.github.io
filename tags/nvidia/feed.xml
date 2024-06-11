@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nvidia on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/nvidia/</link>
+    <description>Recent content in Nvidia on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Tue, 11 Jun 2024 22:29:27 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/nvidia/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Update Nvidia 470 Dirver</title>
+      <link>http://pollochang.work/worknot/update-nvidia-470-dirver/</link>
+      <pubDate>Tue, 11 Jun 2024 22:29:27 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
+      <description>環境 OS: Debian 11 GPU: Nvidia 410 執行步驟 安裝 linux-headers 及必要套件 sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式
+https://www.nvidia.com/zh-tw/geforce/drivers/
+wget https://tw.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run 更新 sudo bash ./NVIDIA-Linux-x86_64-470.256.02.run </description>
+    </item>
+    
+  </channel>
+</rss>
