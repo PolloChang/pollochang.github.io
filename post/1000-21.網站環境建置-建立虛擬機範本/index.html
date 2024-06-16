@@ -239,7 +239,8 @@ layui.use('element', function(){
 <p>安裝詳細步驟詳細說明我在這邊就不一一敘述了，有興趣的可以讀篇文章:<a href="https://ithelp.ithome.com.tw/articles/10290645">我的Linux生活日記 02-安裝Debian</a></p>
 <h4 id="安裝後處理事項">安裝後處理事項</h4>
 <ol>
-<li>安裝的通用軟體: 主要是依據過往經驗預先安裝的軟體。
+<li>
+<p>安裝的通用軟體: 主要是依據過往經驗預先安裝的軟體。</p>
 <ul>
 <li>kvm guest: qemu-guest-agent</li>
 <li>文字編輯器: vim</li>
@@ -248,13 +249,17 @@ layui.use('element', function(){
 <li>其他: autofs, tmux</li>
 </ul>
 </li>
-<li>預設啟用服務
+<li>
+<p>預設啟用服務</p>
 <ul>
 <li>qemu-guest-agent</li>
 </ul>
 </li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable qemu-guest-agent
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CentOS6</span>
+</span></span><span style="display:flex;"><span>service qemu-ga start
+</span></span><span style="display:flex;"><span>chkconfig qemu-ga on
 </span></span></code></pre></div><ul>
 <li>firewalld</li>
 </ul>
@@ -306,6 +311,23 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>alias ll<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ls -alF&#39;</span>
 </span></span><span style="display:flex;"><span>alias la<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ls -A&#39;</span>
 </span></span><span style="display:flex;"><span>alias l<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ls -CF&#39;</span>
+</span></span></code></pre></div><ol start="6">
+<li>建立系統管理原帳號</li>
+</ol>
+<p>CentOS6 建議</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">1000</span> jameschang
+</span></span><span style="display:flex;"><span>useradd -u <span style="color:#ae81ff">1000</span> -g <span style="color:#ae81ff">1000</span> -d /home/jameschang -s /bin/bash jameschang
+</span></span><span style="display:flex;"><span>usermod -aG wheel jameschang
+</span></span><span style="display:flex;"><span>passwd jameschang
+</span></span></code></pre></div><ol start="7">
+<li>禁用 root 登入</li>
+</ol>
+<p>CentOS6 建議</p>
+<ul>
+<li>/etc/ssh/sshd_config</li>
+</ul>
+<pre tabindex="0"><code>PermitRootLogin no
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service sshd restart
 </span></span></code></pre></div><h2 id="轉成範本">轉成範本</h2>
 <p>配置完成之後就可以轉成範本。</p>
 <p><img src="pic/debian-12-template-11.png" alt="轉成範本"></p>
