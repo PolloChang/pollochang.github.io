@@ -325,7 +325,9 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>Number of days of warning before password expires       : <span style="color:#ae81ff">5</span>
 </span></span></code></pre></div><h2 id="gcb-政府組態基準">GCB 政府組態基準</h2>
 <p>在 GBC 規範中有提及帳戶資訊安全，我覺得可以嘗試部屬在你我的電腦中，在<a href="https://download.nccst.nat.gov.tw/attachfilegcb/TWGCB-01-008_Red%20Hat%20Enterprise%20Linux%208%E6%94%BF%E5%BA%9C%E7%B5%84%E6%85%8B%E5%9F%BA%E6%BA%96%E8%AA%AA%E6%98%8E%E6%96%87%E4%BB%B6v1.0_1100924.pdf">TWGCB-01-008_Red Hat Enterprise Linux 8政府組態基準說明文件v1.0_1100924.pdf</a> 第196頁 第208項 至 第226頁</p>
-<h2 id="參考資料">參考資料</h2>
+<h2 id="查詢帳號登入">查詢帳號登入</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>journalctl --since <span style="color:#e6db74">&#34;2024-06-16&#34;</span> --until <span style="color:#e6db74">&#34;2024-06-18&#34;</span> -u systemd-logind
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <p><a href="https://www.cyberciti.biz/faq/understanding-etcshadow-file/">Understanding /etc/shadow file format on Linux</a></p>
 <p><a href="https://officeguide.cc/linux-user-password-period-of-use-configuration-tutorial-examples/">Linux 設定使用者密碼使用期限教學與範例</a></p>
 <p><a href="https://www.itread01.com/articles/1476252642.html">/etc/login.defs</a></p>
