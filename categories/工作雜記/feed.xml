@@ -6,7 +6,16 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 11 Jun 2024 22:29:27 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Jun 2024 00:25:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 硬體檢視</title>
+      <link>http://pollochang.work/worknot/linux-hardware-view/</link>
+      <pubDate>Tue, 18 Jun 2024 00:25:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-hardware-view/</guid>
+      <description>使用 lshw 工具 安裝 Debian sudo apt install lshw 檢測 CPU ❯ sudo lshw -short -class bus -class cpu H/W path Device Class Description ========================================================= /0 bus 01M3M4 /0/400 processor 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz /0/100/d bus Tiger Lake-LP Thunderbolt 4 USB Controller /0/100/d/0 usb1 bus xHCI Host Controller /0/100/d/1 usb2 bus xHCI Host Controller /0/100/d.2 bus Tiger Lake-LP Thunderbolt 4 NHI #0 /0/100/14 bus Tiger Lake-LP USB 3.</description>
+    </item>
+    
     <item>
       <title>Update Nvidia 470 Dirver</title>
       <link>http://pollochang.work/worknot/update-nvidia-470-dirver/</link>
