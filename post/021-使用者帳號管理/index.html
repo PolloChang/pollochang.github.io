@@ -244,8 +244,11 @@ layui.use('element', function(){
 <p><a href="https://www.ithome.com.tw/news/148415">資安及國安</a>，在2021年被政府大聲倡導之後，作業系統帳戶安全變成這幾年資安集合的重點，所以這邊我也提及一下密碼相關設定吧。</p>
 <h3 id="設定密碼必須相隔-7-天才能換">設定密碼必須相隔 7 天才能換</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -m <span style="color:#ae81ff">7</span> pollochang
-</span></span></code></pre></div><h3 id="設定密碼-30-天必須重新設定">設定密碼 30 天必須重新設定</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -M <span style="color:#ae81ff">30</span> pollochang
+</span></span></code></pre></div><h3 id="設定密碼-90-天必須重新設定">設定密碼 90 天必須重新設定</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -M <span style="color:#ae81ff">90</span> pollochang
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> user in <span style="color:#66d9ef">$(</span>cut -f1 -d: /etc/passwd<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    sudo chage --maxdays <span style="color:#ae81ff">90</span> --mindays <span style="color:#ae81ff">7</span> --warndays <span style="color:#ae81ff">7</span> $user
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
 </span></span></code></pre></div><h3 id="設定密碼到期前-5-天發處警告訊息">設定密碼到期前 5 天發處警告訊息</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chage -W <span style="color:#ae81ff">5</span> pollochang
 </span></span></code></pre></div><h3 id="密碼原則-etclogindefs">密碼原則-/etc/login.defs</h3>
