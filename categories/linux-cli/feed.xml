@@ -6,7 +6,19 @@
     <description>Recent content in Linux Cli on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 03 Jun 2024 12:29:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux-cli/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Jul 2024 23:43:33 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux-cli/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Grub2 Set Default(手動設定開機時要啟動的 linux 核心)</title>
+      <link>http://pollochang.work/worknot/linux-grub2-set-default/</link>
+      <pubDate>Wed, 03 Jul 2024 23:43:33 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-grub2-set-default/</guid>
+      <description>手動設定開機時要啟動的 linux 核心
+操作步驟
+查看目前已經有安哪些核心 選擇核心 重新生成GRUB配置 重新開機 檢查 # 1. 查看目前已經有安哪些核心 grep ^menuentry /boot/grub2/grub.cfg # 2. 選擇核心 grub2-set-default 0 # 3. 重新生成GRUB配置 grub2-mkconfig -o /boot/grub2/grub.cfg # 4. 重新開機 reboot # 5. 檢查 uname -a 處理結果
+[root@test-os yum.repos.d]# grep ^menuentry /boot/grub2/grub.cfg menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.14.35-2047.537.4.el7uek.x86_64&amp;#39; --class oracle --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option &amp;#39;gnulinux-4.14.35-2047.537.4.el7uek.x86_64-advanced-cf7b3276-fddb-46de-917a-bbb2ca596c54&amp;#39; { menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.</description>
+    </item>
+    
     <item>
       <title>Linux Cli Netstat</title>
       <link>http://pollochang.work/worknot/linux-cli-netstat/</link>

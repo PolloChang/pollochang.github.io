@@ -6,7 +6,27 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 01 Jul 2024 09:48:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Jul 2024 23:57:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oracle Clusterware 初學</title>
+      <link>http://pollochang.work/worknot/oracle-clusterware-1/</link>
+      <pubDate>Wed, 03 Jul 2024 23:57:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/oracle-clusterware-1/</guid>
+      <description>指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &amp;ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &amp;lt;resource_name&amp;gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware </description>
+    </item>
+    
+    <item>
+      <title>Oracle OCFS2 初學</title>
+      <link>http://pollochang.work/worknot/oracle-ocfs2-1/</link>
+      <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/oracle-ocfs2-1/</guid>
+      <description>Oracle Cluster File System 2 (OCFS2) 文件系统
+指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
+[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
+    </item>
+    
     <item>
       <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
       <link>http://pollochang.work/worknot/worknot-20240701-1/</link>
@@ -15,6 +35,15 @@
       <guid>http://pollochang.work/worknot/worknot-20240701-1/</guid>
       <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values
 name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
+    </item>
+    
+    <item>
+      <title>Restoring DB2 Database</title>
+      <link>http://pollochang.work/worknot/restoring-db2-database/</link>
+      <pubDate>Wed, 26 Jun 2024 09:35:42 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/restoring-db2-database/</guid>
+      <description>還原 Online Backup db2 terminate db2 deactivate db TEMADB db2 restore database TEMADB from &amp;lt;location&amp;gt; taken at &amp;lt;timestamp&amp;gt; replace existing db2 rollforward database TEMADB to end of logs and stop overflow log path (/var/archive_logs) db2 activate db TEMADB 參考資料 Restoring the DB2® database </description>
     </item>
     
     <item>
