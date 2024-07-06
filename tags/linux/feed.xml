@@ -6,7 +6,26 @@
     <description>Recent content in linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 01 Jul 2024 09:48:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Jul 2024 14:16:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Iconv</title>
+      <link>http://pollochang.work/worknot/linux-iconv/</link>
+      <pubDate>Fri, 05 Jul 2024 14:16:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-iconv/</guid>
+      <description>Linux 轉碼工具
+# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql </description>
+    </item>
+    
+    <item>
+      <title>在 Linux 中，su account 和 su - account 有以下主要差別</title>
+      <link>http://pollochang.work/worknot/worknot-20240704-1/</link>
+      <pubDate>Thu, 04 Jul 2024 18:18:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240704-1/</guid>
+      <description>su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變：切換到 account 用戶後，會保持在切換前的目錄。 su - account 模擬完整登錄：su - account 切換到 account 用戶時，會模擬完整的登錄過程，就像 account 用戶剛剛通過 SSH 或登入界面登錄一樣。 加載 account 用戶的環境配置：account 用戶的 .bash_profile 或 .profile 等配置文件會被執行，設置該用戶的環境變量。 切換到用戶的主目錄：切換到 account 用戶後，會自動進入該用戶的主目錄（通常是 /home/account）。 </description>
+    </item>
+    
     <item>
       <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
       <link>http://pollochang.work/worknot/worknot-20240701-1/</link>

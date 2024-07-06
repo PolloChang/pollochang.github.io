@@ -3,21 +3,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - linux </title>
+    <title>PolloChang 工作筆記 - Linux Iconv </title>
     
     
-    <meta content="PolloChang 工作筆記" name="keywords">
+    <meta content="linux, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - A website called PolloChang 工作筆記" name="description">
+    <meta content="PolloChang 工作筆記 - Linux 轉碼工具
+# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
         <link rel="icon" href="/images/logo.jpg">
     
 
-    
-        <link href="/tags/linux/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
-        <link href="/tags/linux/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
     
 
     
@@ -115,30 +113,16 @@ layui.use('element', function(){
 </script>
 
         <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
 
-<main id="main">
-
-<div class="layui-fluid list-show" >
-    <div class="layui-row">
-        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12">
-            <div class="list-show-title">
-                <h1>紀錄工作上的點點滴滴</h1>
-                <h2></h2>
-            </div>
-        </div>
-        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12" style="text-align:center;">
-            <img src="/self/img/undraw_chat_bot_kli5.png" class="list-title-pic">
-        </div>
-    </div>
-</div>
-
-<div class="layui-container">
-        
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/linux-iconv/">
-            <h2 class="">Linux Iconv</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Linux Iconv</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-07-05</span>
 
@@ -165,20 +149,39 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-                Linux 轉碼工具
-# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql 
-             <a href="/worknot/linux-iconv/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>Linux 轉碼工具</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查詢檔案編碼</span>
+</span></span><span style="display:flex;"><span>file -i source-file.sql 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 執行轉碼</span>
+</span></span><span style="display:flex;"><span>iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
 
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240704-1/">
-            <h2 class="">在 Linux 中，su account 和 su - account 有以下主要差別</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240704-1/">
+                                <h3 class="">在 Linux 中，su account 和 su - account 有以下主要差別</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-07-04</span>
 
@@ -205,19 +208,16 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變： ...
-             <a href="/worknot/worknot-20240704-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240701-1/">
-            <h2 class="">設定 Linux 檔案瀏覽器 Files 預設的 Columns</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240701-1/">
+                                <h3 class="">設定 Linux 檔案瀏覽器 Files 預設的 Columns</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-07-01</span>
 
@@ -244,19 +244,16 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view ...
-             <a href="/worknot/worknot-20240701-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240625-1/">
-            <h2 class="">linux last 指令</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240625-1/">
+                                <h3 class="">linux last 指令</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-06-25</span>
 
@@ -283,19 +280,16 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				統計每個 IP 地址的出現次數 last | awk &#39;{print $3}&#39; | grep -Eo &#39;([0-9]{1,3}\.){3}[0-9]{1,3}&#39; | sort | uniq -c | sort -nr last： 顯示用戶登錄的歷史記錄。 awk ...
-             <a href="/worknot/worknot-20240625-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240605-1/">
-            <h2 class="">putty 編譯安裝</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240605-1/">
+                                <h3 class="">putty 編譯安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-06-05</span>
 
@@ -326,19 +320,16 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . ...
-             <a href="/worknot/worknot-20240605-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240529-1/">
-            <h2 class="">nginx ssl 設定步驟</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240529-1/">
+                                <h3 class="">nginx ssl 設定步驟</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-05-29</span>
 
@@ -365,21 +356,135 @@ layui.use('element', function(){
     
 </h3>
 
-        <h3>
-        	
-				檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD ...
-             <a href="/worknot/worknot-20240529-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
 
     
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240518-1/">
-            <h2 class="">linux CLI rsync</h2>
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-05-18</span>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
 
     
      
@@ -398,27 +503,23 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
         </a>
     
     
 </h3>
 
-        <h3>
-        	
-                中斷續傳 rsync -P --rsh=ssh jameschang@[IP]:[source-path] [gold-path] -P 顯示進度
-             <a href="/worknot/worknot-20240518-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240427/">
-            <h2 class="">一到指令刪除相關進程</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-04-27</span>
+    <span>2024-02-28</span>
 
     
      
@@ -437,130 +538,22 @@ layui.use('element', function(){
 
     
         <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
         </a>
     
     
 </h3>
 
-        <h3>
-        	
-				查詢 java 所有的進程
-❯ top -b -n 1 | grep java | cut -c 1-7 8190 15263 15512 16641 17148 假設我要刪除 java 全部的進程可以這樣處理
-❯ top -b -n 1 | grep java | cut -c 1-7 | ...
-             <a href="/worknot/worknot-20240427/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
 
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240426/">
-            <h2 class="">CLI 檢查網站憑證</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-04-26</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				curl curl https://www.google.com -v -k 2&gt;&amp;1 | grep -E &#34;Connected to|subject|expire&#34; 執行結果 ❯ curl https://www.google.com -v -k ...
-             <a href="/worknot/worknot-20240426/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240425/">
-            <h2 class="">linux 資料基礎分析</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-04-25</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-        <a href="/tags/%e8%b3%87%e6%96%99%e5%88%86%e6%9e%90/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資料分析</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				 grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &gt; exampleFile.2.log sort: 類似 sql ...
-             <a href="/worknot/worknot-20240425/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-
-    
-<div class="pager">
-    <div class="layui-btn-group">
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/linux/"><i class="layui-icon">&#xe65a;</i></a>
-        </button>
-        
-        <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
-            <i class="layui-icon">&#xe603;</i>
-        </button>
-        
-        
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/linux/page/2/"><i class="layui-icon">&#xe602;</i></a>
-        </button>
-        
-        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/linux/page/9/"><i class="layui-icon">&#xe65b;</i></a>
-        </button>
     </div>
 </div>
-
-</div>
-
-</main>
 
 
         </div><footer>
