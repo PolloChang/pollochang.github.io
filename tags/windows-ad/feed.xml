@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows ad on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/windows-ad/</link>
+    <description>Recent content in windows ad on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Mon, 08 Jul 2024 22:20:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/windows-ad/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>故障排除: Linux 連接 windows AD</title>
+      <link>http://pollochang.work/worknot/troubleshooting-linux-connection-to-windows-ad/</link>
+      <pubDate>Mon, 08 Jul 2024 22:20:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/troubleshooting-linux-connection-to-windows-ad/</guid>
+      <description>環境 AD server: windows server 2022 Client server: Oracle Linux 9
+症狀: 無法抓取 AD 新資訊 [root@client-server ~]# id testacconut id: ‘testacconut’: no such user 問題排除步驟 # 退出當前 AD 領域。 realm leave # 停止 sssd 服務。 systemctl stop sssd # 確保舊的 AD 資料被清除。 sudo rm -rf /var/lib/sss/db/* sudo rm -rf /var/lib/sss/mc/* sudo rm -rf /var/lib/sss/secrets/* sudo rm -rf /var/lib/sss/pipes/* sudo rm -rf /var/lib/sss/gpo_cache/* sudo rm -rf /var/cache/realmd/* # 重新加入新的 AD 領域。 realm join --user=adManager ad.</description>
+    </item>
+    
+  </channel>
+</rss>
