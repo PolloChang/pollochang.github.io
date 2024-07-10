@@ -8,7 +8,8 @@
     
     <meta content="Ollama" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz 安裝方法 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev curl -fsSL https://ollama.com/install.sh | sh ❯ curl -fsSL https://ollama.com/install.sh | sh &gt;&gt;&gt; Downloading ollama... ######################################################################## 100.0%##O=# # &gt;&gt;&gt; Installing ollama to /usr/local/bin... &gt;&gt;&gt; Creating ollama user... &gt;&gt;&gt; Adding ollama user to render group... &gt;&gt;&gt; Adding ollama user to video group... &gt;&gt;&gt; Adding current user to ollama group... &gt;&gt;&gt; Creating ollama systemd service." name="description">
+    <meta content="PolloChang 工作筆記 - 安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz 安裝方法 MacOS Download Ollama
+Debian 12 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev curl -fsSL https://ollama.com/install.sh | sh ❯ curl -fsSL https://ollama.com/install.sh | sh &gt;&gt;&gt; Downloading ollama... ######################################################################## 100.0%##O=# # &gt;&gt;&gt; Installing ollama to /usr/local/bin... &gt;&gt;&gt; Creating ollama user... &gt;&gt;&gt; Adding ollama user to render group... &gt;&gt;&gt; Adding ollama user to video group... &gt;&gt;&gt; Adding current user to ollama group." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -157,6 +158,9 @@ layui.use('element', function(){
 <li>CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz</li>
 </ul>
 <h2 id="安裝方法">安裝方法</h2>
+<h3 id="macos">MacOS</h3>
+<p><a href="https://ollama.com/download/mac">Download Ollama</a></p>
+<h3 id="debian-12">Debian 12</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
 </span></span><span style="display:flex;"><span>curl -fsSL https://ollama.com/install.sh | sh
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ curl -fsSL https://ollama.com/install.sh | sh
@@ -293,12 +297,22 @@ GID=&#39;1000&#39;
 </li>
 <li>阿里巴巴(中國)
 <ul>
-<li>qwen2</li>
+<li>qwen2: 處理中文文件很強</li>
 </ul>
 </li>
 <li>deepseek(中國)
 <ul>
 <li>deepseek-coder-v2</li>
+</ul>
+</li>
+<li>TAIDE: <a href="https://taide.tw/index">TAIDE - 推動臺灣可信任生成式AI發展計畫</a>
+<ul>
+<li>willh/taide-lx-7b-chat-4bit</li>
+</ul>
+</li>
+<li>聯發科技公司
+<ul>
+<li>ycchen/breeze-7b-instruct-v1_0</li>
 </ul>
 </li>
 </ul>
