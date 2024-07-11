@@ -6,7 +6,17 @@
     <description>Recent content in docker on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 15 Mar 2024 10:13:29 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/docker/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Jun 2024 08:28:26 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/docker/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker Network 網路問題排除</title>
+      <link>http://pollochang.work/worknot/docker-network-issue-1/</link>
+      <pubDate>Sun, 30 Jun 2024 08:28:26 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/docker-network-issue-1/</guid>
+      <description>狀況 從 docker 內部無法連接外網，但是主機可以。例如
+[root@test-vm oraGtw4db2]# docker exec -it oragtw4db2 bash [root@text-docker /]# ping 8.8.8.8 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data. ^C --- 8.8.8.8 ping statistics --- 6 packets transmitted, 0 received, 100% packet loss, time 5119ms 檢查步驟 從 docker 內部 ping 外網，例如: ping 8.8.8.8 從 主機 內部 ping 外網，例如: ping 8.8.8.8 檢查 docker 啟動時有錯誤訊息，指令: journalctl -u docker.service 錯誤訊息處理 bridge-nf-call-iptables is disabled level=warning msg=&amp;ldquo;WARNING: bridge-nf-call-iptables is disabled&amp;rdquo; level=warning msg=&amp;ldquo;WARNING: bridge-nf-call-ip6tables is disabled&amp;rdquo; 啟用 br_netfilter</description>
+    </item>
+    
     <item>
       <title>docker-note</title>
       <link>http://pollochang.work/post/docker-note/</link>

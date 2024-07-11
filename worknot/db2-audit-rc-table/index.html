@@ -1,0 +1,671 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - DB2 Audit Rc Table </title>
+    
+    
+    <meta content="db2, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - db2diag -l Warning | db2diag -g &#34;comp^=bsu security&#34; DB2 稽核 失敗 rc 對照表 # rc Corresponding SQL30082N rc Explanation 1 -2146500508 1 Password has expired 2 -2146500507 2 The password is not valid for the specified user id 3 -2146500290 3 Password missing 4 -2146500504 15, 24, 26, 36 Password length is greater than the supported password length 5 -2146500289 5 User ID missing 6 -2146500502 6 Bad User 7 -2146500316 7 User ID is revoked 8 -2146500483 19 User ID suspended 9 -2146500315 24 Invalid User ID or password 10 -2146500271 4 Security protocol violation 11 -2146499492 15, 24 Encryption types do not match 12 -2146500270 17 Authentication types do not match 13 -2146500288 17 Unsupported function 14 -2146500301 20 Mutual authentication failed 15 -2146499529 41 A trusted connection was not established, so switch user request is invalid 16 -2146499506 42 Root capability required 17 -2146500252 N/A The specified node or server is not available 18 -2146500307 N/A Unable to authenticate because of system error 19 -2146500234 25 The security plugin has disallowed the connection 20 -2146500233 26 The server security plugin encountered an unexpected error 21 -2146500232 27 The server security plugin encountered an invalid server credential 22 -2146500231 28 The server security plugin encountered an expired server credential 23 -2146500230 29 The server security plugin encountered an invalid security token sent by the client 24 -2146500229 30 The client security plugin is missing a required API 25 -2146500228 31 The client security plugin is of the wrong plugin type 26 -2146500227 32 The client security plugin does not have a matching GSS-API security plugin available for connection to the database 27 -2146500226 33 The client security plugin cannot be loaded 28 -2146500225 34 The client security plugin name is invalid 29 -2146500224 35 The client security plugin reports an API version that is incompatible with DB2 30 -2146500223 36 The client security plugin encountered an unexpected error 31 -2146500222 37 The server security plugin encountered an invalid principal name 32 -2146500221 38 The client security plugin encountered an invalid client credential 33 -2146500220 39 The client security plugin encountered an expired client credential 34 -2146500219 40 The client security plugin encountered an invalid security token sent by the server 參考資料 Password Validation Messages in db2diag." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>DB2 Audit Rc Table</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-12</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>db2diag -l Warning  | db2diag -g <span style="color:#e6db74">&#34;comp^=bsu security&#34;</span>
+</span></span></code></pre></div><h2 id="db2-稽核-失敗-rc-對照表">DB2 稽核 失敗 rc 對照表</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>rc</th>
+<th>Corresponding SQL30082N rc</th>
+<th>Explanation</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>-2146500508</td>
+<td>1</td>
+<td>Password has expired</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>-2146500507</td>
+<td>2</td>
+<td>The password is not valid for the specified user id</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>-2146500290</td>
+<td>3</td>
+<td>Password missing</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>-2146500504</td>
+<td>15, 24, 26, 36</td>
+<td>Password length is greater than the supported password length</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>-2146500289</td>
+<td>5</td>
+<td>User ID missing</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>-2146500502</td>
+<td>6</td>
+<td>Bad User</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>-2146500316</td>
+<td>7</td>
+<td>User ID is revoked</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>-2146500483</td>
+<td>19</td>
+<td>User ID suspended</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>-2146500315</td>
+<td>24</td>
+<td>Invalid User ID or password</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>-2146500271</td>
+<td>4</td>
+<td>Security protocol violation</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>-2146499492</td>
+<td>15, 24</td>
+<td>Encryption types do not match</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>-2146500270</td>
+<td>17</td>
+<td>Authentication types do not match</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>-2146500288</td>
+<td>17</td>
+<td>Unsupported function</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>-2146500301</td>
+<td>20</td>
+<td>Mutual authentication failed</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>-2146499529</td>
+<td>41</td>
+<td>A trusted connection was not established, so switch user request is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>-2146499506</td>
+<td>42</td>
+<td>Root capability required</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>-2146500252</td>
+<td>N/A</td>
+<td>The specified node or server is not available</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>-2146500307</td>
+<td>N/A</td>
+<td>Unable to authenticate because of system error</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>-2146500234</td>
+<td>25</td>
+<td>The security plugin has disallowed the connection</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>-2146500233</td>
+<td>26</td>
+<td>The server security plugin encountered an unexpected error</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>-2146500232</td>
+<td>27</td>
+<td>The server security plugin encountered an invalid server credential</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>-2146500231</td>
+<td>28</td>
+<td>The server security plugin encountered an expired server credential</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>-2146500230</td>
+<td>29</td>
+<td>The server security plugin encountered an invalid security token sent by the client</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>-2146500229</td>
+<td>30</td>
+<td>The client security plugin is missing a required API</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>-2146500228</td>
+<td>31</td>
+<td>The client security plugin is of the wrong plugin type</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>-2146500227</td>
+<td>32</td>
+<td>The client security plugin does not have a matching GSS-API security plugin available for connection to the database</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>-2146500226</td>
+<td>33</td>
+<td>The client security plugin cannot be loaded</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>-2146500225</td>
+<td>34</td>
+<td>The client security plugin name is invalid</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>-2146500224</td>
+<td>35</td>
+<td>The client security plugin reports an API version that is incompatible with DB2</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>-2146500223</td>
+<td>36</td>
+<td>The client security plugin encountered an unexpected error</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>-2146500222</td>
+<td>37</td>
+<td>The server security plugin encountered an invalid principal name</td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>-2146500221</td>
+<td>38</td>
+<td>The client security plugin encountered an invalid client credential</td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>-2146500220</td>
+<td>39</td>
+<td>The client security plugin encountered an expired client credential</td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>-2146500219</td>
+<td>40</td>
+<td>The client security plugin encountered an invalid security token sent by the server</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://www.ibm.com/support/pages/password-validation-messages-db2diaglog">Password Validation Messages in db2diag.log</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240513-1/">
+                                <h3 class="">DB2 維護相關 SQL</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-05-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -6,7 +6,16 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 08 Jul 2024 22:20:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Jul 2024 00:20:30 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DB2 Audit Rc Table</title>
+      <link>http://pollochang.work/worknot/db2-audit-rc-table/</link>
+      <pubDate>Fri, 12 Jul 2024 00:20:30 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/db2-audit-rc-table/</guid>
+      <description>db2diag -l Warning | db2diag -g &amp;#34;comp^=bsu security&amp;#34; DB2 稽核 失敗 rc 對照表 # rc Corresponding SQL30082N rc Explanation 1 -2146500508 1 Password has expired 2 -2146500507 2 The password is not valid for the specified user id 3 -2146500290 3 Password missing 4 -2146500504 15, 24, 26, 36 Password length is greater than the supported password length 5 -2146500289 5 User ID missing 6 -2146500502 6 Bad User 7 -2146500316 7 User ID is revoked 8 -2146500483 19 User ID suspended 9 -2146500315 24 Invalid User ID or password 10 -2146500271 4 Security protocol violation 11 -2146499492 15, 24 Encryption types do not match 12 -2146500270 17 Authentication types do not match 13 -2146500288 17 Unsupported function 14 -2146500301 20 Mutual authentication failed 15 -2146499529 41 A trusted connection was not established, so switch user request is invalid 16 -2146499506 42 Root capability required 17 -2146500252 N/A The specified node or server is not available 18 -2146500307 N/A Unable to authenticate because of system error 19 -2146500234 25 The security plugin has disallowed the connection 20 -2146500233 26 The server security plugin encountered an unexpected error 21 -2146500232 27 The server security plugin encountered an invalid server credential 22 -2146500231 28 The server security plugin encountered an expired server credential 23 -2146500230 29 The server security plugin encountered an invalid security token sent by the client 24 -2146500229 30 The client security plugin is missing a required API 25 -2146500228 31 The client security plugin is of the wrong plugin type 26 -2146500227 32 The client security plugin does not have a matching GSS-API security plugin available for connection to the database 27 -2146500226 33 The client security plugin cannot be loaded 28 -2146500225 34 The client security plugin name is invalid 29 -2146500224 35 The client security plugin reports an API version that is incompatible with DB2 30 -2146500223 36 The client security plugin encountered an unexpected error 31 -2146500222 37 The server security plugin encountered an invalid principal name 32 -2146500221 38 The client security plugin encountered an invalid client credential 33 -2146500220 39 The client security plugin encountered an expired client credential 34 -2146500219 40 The client security plugin encountered an invalid security token sent by the server 參考資料 Password Validation Messages in db2diag.</description>
+    </item>
+    
     <item>
       <title>故障排除: Linux 連接 windows AD</title>
       <link>http://pollochang.work/worknot/troubleshooting-linux-connection-to-windows-ad/</link>
@@ -86,6 +95,16 @@ Debian 12 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev 
       <guid>http://pollochang.work/worknot/worknot-20240701-1/</guid>
       <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values
 name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
+    </item>
+    
+    <item>
+      <title>Docker Network 網路問題排除</title>
+      <link>http://pollochang.work/worknot/docker-network-issue-1/</link>
+      <pubDate>Sun, 30 Jun 2024 08:28:26 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/docker-network-issue-1/</guid>
+      <description>狀況 從 docker 內部無法連接外網，但是主機可以。例如
+[root@test-vm oraGtw4db2]# docker exec -it oragtw4db2 bash [root@text-docker /]# ping 8.8.8.8 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data. ^C --- 8.8.8.8 ping statistics --- 6 packets transmitted, 0 received, 100% packet loss, time 5119ms 檢查步驟 從 docker 內部 ping 外網，例如: ping 8.8.8.8 從 主機 內部 ping 外網，例如: ping 8.8.8.8 檢查 docker 啟動時有錯誤訊息，指令: journalctl -u docker.service 錯誤訊息處理 bridge-nf-call-iptables is disabled level=warning msg=&amp;ldquo;WARNING: bridge-nf-call-iptables is disabled&amp;rdquo; level=warning msg=&amp;ldquo;WARNING: bridge-nf-call-ip6tables is disabled&amp;rdquo; 啟用 br_netfilter</description>
     </item>
     
     <item>
