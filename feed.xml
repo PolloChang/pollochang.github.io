@@ -6,7 +6,32 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 17 Jul 2024 23:04:42 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 01 Aug 2024 23:37:45 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debiain 桌面設定</title>
+      <link>http://pollochang.work/worknot/worknot-20240801-1/</link>
+      <pubDate>Thu, 01 Aug 2024 23:37:45 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240801-1/</guid>
+      <description>筆電 蓋上螢幕不休眠 /etc/systemd/logind.conf HandleLidSwitch=ignore sudo systemctl restart systemd-logind sudp reboot </description>
+    </item>
+    
+    <item>
+      <title>docker overlay2</title>
+      <link>http://pollochang.work/worknot/worknot-20240719-1/</link>
+      <pubDate>Fri, 19 Jul 2024 15:56:16 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240719-1/</guid>
+      <description>經驗分享
+linux /var/lib/docker/overlay2 這層目錄不能亂刪
+刪了 本機的 docker image 通通不見
+服務會瞬間死光光
+以下是誤刪的解決方式
+重啟 docker sudo systemctl restart docker
+清除docker資源 docker system prune -a
+重新匯入 docker image </description>
+    </item>
+    
     <item>
       <title>在 Linux 中 製作 USE 開機牒</title>
       <link>http://pollochang.work/worknot/worknot-20240717-2/</link>
@@ -50,7 +75,8 @@
       <pubDate>Sat, 06 Jul 2024 21:35:16 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/ollama-install-in-debain12/</guid>
-      <description>安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz 安裝方法 MacOS Download Ollama
+      <description>安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz https://man.twcc.ai/@preview-twccdocs/BkMbEvScj
+安裝方法 MacOS Download Ollama
 Debian 12 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev curl -fsSL https://ollama.com/install.sh | sh ❯ curl -fsSL https://ollama.com/install.sh | sh &amp;gt;&amp;gt;&amp;gt; Downloading ollama... ######################################################################## 100.0%##O=# # &amp;gt;&amp;gt;&amp;gt; Installing ollama to /usr/local/bin... &amp;gt;&amp;gt;&amp;gt; Creating ollama user... &amp;gt;&amp;gt;&amp;gt; Adding ollama user to render group... &amp;gt;&amp;gt;&amp;gt; Adding ollama user to video group... &amp;gt;&amp;gt;&amp;gt; Adding current user to ollama group.</description>
     </item>
     
@@ -158,9 +184,8 @@ name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_
       <pubDate>Tue, 11 Jun 2024 22:29:27 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
-      <description>環境 OS: Debian 11 GPU: Nvidia 410 執行步驟 安裝 linux-headers 及必要套件 sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式
-https://www.nvidia.com/zh-tw/geforce/drivers/
-wget https://tw.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run 更新 sudo bash ./NVIDIA-Linux-x86_64-470.256.02.run </description>
+      <description>Linux 安裝 NVidia 驅動程式
+環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
     </item>
     
     <item>
@@ -336,7 +361,7 @@ wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.1.0/depe
       <pubDate>Thu, 25 Apr 2024 22:16:23 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/worknot-20240425/</guid>
-      <description> grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &amp;gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &amp;gt; exampleFile.2.log sort: 類似 sql distinct 效果 grep 要過濾出的資料 exampleFile.2.log | sort --unique </description>
+      <description> grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &amp;gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &amp;gt; exampleFile.2.log sort: 類似 sql distinct 效果 grep 要過濾出的資料 exampleFile.2.log | sort --unique 分析 message IP grep &amp;#34;martian source&amp;#34; messages | grep -oE &amp;#39;([0-9]{1,3}\.){3}[0-9]{1,3}&amp;#39; &amp;gt;&amp;gt; messages-IP.log sort messages-IP.log | uniq -c | sort -nr </description>
     </item>
     
     <item>

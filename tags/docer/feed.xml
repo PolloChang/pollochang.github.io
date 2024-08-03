@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docer on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/docer/</link>
+    <description>Recent content in docer on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Fri, 19 Jul 2024 15:56:16 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/docer/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker overlay2</title>
+      <link>http://pollochang.work/worknot/worknot-20240719-1/</link>
+      <pubDate>Fri, 19 Jul 2024 15:56:16 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240719-1/</guid>
+      <description>經驗分享
+linux /var/lib/docker/overlay2 這層目錄不能亂刪
+刪了 本機的 docker image 通通不見
+服務會瞬間死光光
+以下是誤刪的解決方式
+重啟 docker sudo systemctl restart docker
+清除docker資源 docker system prune -a
+重新匯入 docker image </description>
+    </item>
+    
+  </channel>
+</rss>

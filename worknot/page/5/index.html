@@ -135,6 +135,87 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240325/">
+            <h2 class="">DB2 切 db2diag.log</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-25</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				今天在工作時碰到 db2diag.log 膨脹到把硬碟塞滿，在這邊分享一下處理過程
+db2diag -A 可以很放心去執行，執行過程中不會對現形資料庫運作產生任何影響
+操作資料庫環境 OS: RedHat 6 DB2 Version: 9.7 ...
+             <a href="/worknot/worknot-20240325/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240314/">
+            <h2 class="">jmeter CLI 模式</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/jmeter/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jmeter</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
+壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開 ...
+             <a href="/worknot/worknot-20240314/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20240313-2/">
             <h2 class="">MSSQL 雜記</h2>
         </a>
@@ -505,86 +586,6 @@ select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,
 				今天在工作上遇到Oracle資料庫突然無法連線，突然想到前幾天在資料庫監控中發現Tablespace已經快滿了，於是著手處理。以下是處理的紀錄。
 環境 OS: OracleLinux7 DataBase: Oracle 18c RAC 進入資料庫檢查 Tablespace 空間是否足夠 並著手處理  ...
              <a href="/worknot/worknot-20240301/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/fabric-os-cli/">
-            <h2 class="">Fabric-OS-CLI</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2023-05-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/fabric-os/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Fabric-OS</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/fabric-os/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Fabric-OS</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				 文件版本: 20240522 文件撰寫人: PolloChang userconfig (帳號管管理) 用途: 帳號管管理 列出所有帳號 userConfig --show -a 新增帳號 userConfig --add [account] -p [password] -r admin -a ...
-             <a href="/worknot/fabric-os-cli/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/fabric-os-introduction/">
-            <h2 class="">Fabric-OS-introduction</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2023-05-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/fabric-os/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Fabric-OS</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/fabric-os/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Fabric-OS</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				文件版本: 20240522 文件撰寫人: PolloChang Fabric Operating System (簡稱: FOS)，是 Broadcom 交換器中的作業系統
-https://archive.org/details/hp-816-san-switch-brocade-200e
-預設帳 ...
-             <a href="/worknot/fabric-os-introduction/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 

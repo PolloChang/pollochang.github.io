@@ -8,7 +8,7 @@
     
     <meta content="linux, 資料分析, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 -  grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &gt; exampleFile.2.log sort: 類似 sql distinct 效果 grep 要過濾出的資料 exampleFile.2.log | sort --unique " name="description">
+    <meta content="PolloChang 工作筆記 -  grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &gt; exampleFile.2.log sort: 類似 sql distinct 效果 grep 要過濾出的資料 exampleFile.2.log | sort --unique 分析 message IP grep &#34;martian source&#34; messages | grep -oE &#39;([0-9]{1,3}\.){3}[0-9]{1,3}&#39; &gt;&gt; messages-IP.log sort messages-IP.log | uniq -c | sort -nr " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -166,6 +166,9 @@ layui.use('element', function(){
 <li><code>sort</code>: 類似 sql distinct 效果</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep 要過濾出的資料 exampleFile.2.log | sort --unique
+</span></span></code></pre></div><h2 id="分析-message-ip">分析 message IP</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;martian source&#34;</span> messages | grep -oE <span style="color:#e6db74">&#39;([0-9]{1,3}\.){3}[0-9]{1,3}&#39;</span> &gt;&gt; messages-IP.log
+</span></span><span style="display:flex;"><span>sort messages-IP.log | uniq -c | sort -nr
 </span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"

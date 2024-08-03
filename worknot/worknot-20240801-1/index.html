@@ -3,13 +3,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - Update Nvidia 470 Dirver </title>
+    <title>PolloChang 工作筆記 - Debiain 桌面設定 </title>
     
     
-    <meta content="Nvidia, 工作雜記" name="keywords">
+    <meta content="linux, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - Linux 安裝 NVidia 驅動程式
-環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &#34;3d|display|vga&#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config gcc g&#43;&#43; make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式" name="description">
+    <meta content="PolloChang 工作筆記 - 筆電 蓋上螢幕不休眠 /etc/systemd/logind.conf HandleLidSwitch=ignore sudo systemctl restart systemd-logind sudp reboot " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -121,10 +120,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>Update Nvidia 470 Dirver</h1>
+                    <h1>Debiain 桌面設定</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-06-11</span>
+    <span>2024-08-01</span>
 
     
      
@@ -142,8 +141,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/nvidia/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Nvidia</span>
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
     
@@ -151,86 +150,15 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p>Linux 安裝 NVidia 驅動程式</p>
-<h2 id="環境">環境</h2>
+                    <h2 id="筆電">筆電</h2>
+<h3 id="蓋上螢幕不休眠">蓋上螢幕不休眠</h3>
 <ul>
-<li>OS: Debian 11</li>
-<li>GPU: Nvidia 410</li>
-<li>建議開機: boot</li>
+<li>/etc/systemd/logind.conf</li>
 </ul>
-<h2 id="執行步驟">執行步驟</h2>
-<ol>
-<li>檢查 GPU 型號</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lspci -nn | egrep -i <span style="color:#e6db74">&#34;3d|display|vga&#34;</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>00:02.0 VGA compatible controller <span style="color:#f92672">[</span>0300<span style="color:#f92672">]</span>: Intel Corporation HD Graphics <span style="color:#ae81ff">630</span> <span style="color:#f92672">[</span>8086:591b<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>rev 04<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>01:00.0 VGA compatible controller <span style="color:#f92672">[</span>0300<span style="color:#f92672">]</span>: NVIDIA Corporation GP106M <span style="color:#f92672">[</span>GeForce GTX <span style="color:#ae81ff">1060</span> Mobile<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>10de:1c20<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>rev a1<span style="color:#f92672">)</span>
-</span></span></code></pre></div><ol start="2">
-<li>安裝 linux-headers 及必要套件</li>
-</ol>
-<ul>
-<li>Debian</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install linux-headers-<span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span> build-essential libglvnd-dev pkg-config gcc g++ make
-</span></span></code></pre></div><ol>
-<li>移除不必要套件</li>
-<li>下載最新 Nvidia driver</li>
-</ol>
-<p>到以下網址下載最新的驅動程式</p>
-<p><a href="https://www.nvidia.com/zh-tw/geforce/drivers/">https://www.nvidia.com/zh-tw/geforce/drivers/</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://tw.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run
-</span></span></code></pre></div><ol start="3">
-<li>關閉</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo tee /etc/modprobe.d/blacklist-nouveau.conf<span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">blacklist nouveau
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">options nouveau modeset=0
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">alias nouveau off
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">alias lbm-nouveau off
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>sudo update-initramfs -u
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl set-default multi-user.target
-</span></span><span style="display:flex;"><span>sudo reboot
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsmod | grep nouveau
-</span></span></code></pre></div><ol start="4">
-<li>更新</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install nvidia-driver firmware-misc-nonfree
-</span></span><span style="display:flex;"><span>sudo bash ./NVIDIA-Linux-x86_64-470.256.02.run
-</span></span></code></pre></div><ol start="5">
-<li>啟動圖型介面</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl set-default graphical.target
-</span></span></code></pre></div><ol start="6">
-<li>檢查指令</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nvidia-smi
-</span></span><span style="display:flex;"><span>lspci | grep -i nvidia
-</span></span></code></pre></div><h2 id="cuda-安裝">CUDA 安裝</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
-</span></span><span style="display:flex;"><span>sudo dpkg -i cuda-keyring_1.1-1_all.deb
-</span></span><span style="display:flex;"><span>sudo add-apt-repository contrib
-</span></span><span style="display:flex;"><span>sudo add-apt-repository non-free
-</span></span><span style="display:flex;"><span>sudo apt update
-</span></span><span style="display:flex;"><span>sudo apt -y install cuda-toolkit-12-5
-</span></span><span style="display:flex;"><span>sudo apt install -y nvidia-kernel-open-dkms
-</span></span><span style="display:flex;"><span>sudo apt install -y cuda-drivers
-</span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ERROR: Unable to find the kernel source tree <span style="color:#66d9ef">for</span> the currently running kernel.  Please make sure you have installed the kernel source files <span style="color:#66d9ef">for</span> your kernel and that they are properly configured; on RedHat Linux systems, <span style="color:#66d9ef">for</span> example, be sure you have the <span style="color:#e6db74">&#39;kernel-source&#39;</span> or <span style="color:#e6db74">&#39;kernel-devel&#39;</span> RPM installed.  If you know the correct kernel source files are installed, you may specify the kernel source path with the <span style="color:#e6db74">&#39;--kernel-source-path&#39;</span> command line option.
-</span></span></code></pre></div><h2 id="nvidia">NVidia</h2>
-<ul>
-<li><a href="https://developer.nvidia.com/cuda-downloads">CUDA Toolkit 12.5 Update 1 Downloads</a></li>
-<li><a href="https://docs.nvidia.com/cuda/pdf/CUDA_Installation_Guide_Linux.pdf">CUDA_Installation_Guide_Linux</a></li>
-<li><a href="https://download.nvidia.com/XFree86/Linux-x86_64/">驅動程式下載路徑</a></li>
-</ul>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a href="https://phoenixnap.com/kb/nvidia-drivers-debian">How to Install Nvidia Drivers on Debian</a></li>
-<li><a href="https://hackmd.io/@EnderDragonEP/BJBhYtbZR?utm_source=preview-mode&amp;utm_medium=rec">在 Debian 中安裝 nvidia 驅動程式</a></li>
-<li><a href="https://ivonblog.com/posts/debian-install-nvidia-drivers/">如何在Debian系統安裝Nvidia驅動、CUDA、cuDNN</a></li>
-</ul>
-<pre tabindex="0"><code>dkms firmware-nvidia-gsp glx-alternative-mesa glx-alternative-nvidia glx-diversions libcuda1 libegl-nvidia0 libgl1-nvidia-glvnd-glx libgles-nvidia1 libgles-nvidia2 libglx-nvidia0 libnvcuvid1 libnvidia-allocator1 libnvidia-cfg1 libnvidia-egl-gbm1 libnvidia-egl-wayland1 libnvidia-eglcore libnvidia-encode1 libnvidia-glcore libnvidia-glvkspirv libnvidia-ml1 libnvidia-pkcs11-openssl3 libnvidia-ptxjitcompiler1 libnvidia-rtcore linux-headers-amd64 nvidia-alternative nvidia-driver nvidia-driver-bin nvidia-driver-libs nvidia-egl-common nvidia-egl-icd nvidia-installer-cleanup nvidia-kernel-common nvidia-kernel-dkms nvidia-kernel-support nvidia-legacy-check nvidia-modprobe nvidia-persistenced nvidia-settings nvidia-support nvidia-suspend-common nvidia-vdpau-driver nvidia-vulkan-common nvidia-vulkan-icd update-glx xserver-xorg-video-nvidia
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl restart systemd-logind 
+</span></span><span style="display:flex;"><span>sudp reboot
+</span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"
@@ -244,6 +172,202 @@ layui.use('element', function(){
         </div>
 
         <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240719-1/">
+                                <h3 class="">docker overlay2</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-19</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/docer/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docer</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240717-2/">
+                                <h3 class="">在 Linux 中 製作 USE 開機牒</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-17</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240717-1/">
+                                <h3 class="">尋找作業系統帳號建立日期</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-17</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/troubleshooting-linux-connection-to-windows-ad/">
+                                <h3 class="">故障排除: Linux 連接 windows AD</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-08</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/windows-ad/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">windows ad</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/linux-iconv/">
+                                <h3 class="">Linux Iconv</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
             
 
             <div class="layui-card single-card">

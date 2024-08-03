@@ -8,7 +8,8 @@
     
     <meta content="Ollama" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz 安裝方法 MacOS Download Ollama
+    <meta content="PolloChang 工作筆記 - 安裝環境 OS: Debian 12 RAM: 64G CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz https://man.twcc.ai/@preview-twccdocs/BkMbEvScj
+安裝方法 MacOS Download Ollama
 Debian 12 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev curl -fsSL https://ollama.com/install.sh | sh ❯ curl -fsSL https://ollama.com/install.sh | sh &gt;&gt;&gt; Downloading ollama... ######################################################################## 100.0%##O=# # &gt;&gt;&gt; Installing ollama to /usr/local/bin... &gt;&gt;&gt; Creating ollama user... &gt;&gt;&gt; Adding ollama user to render group... &gt;&gt;&gt; Adding ollama user to video group... &gt;&gt;&gt; Adding current user to ollama group." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -157,6 +158,8 @@ layui.use('element', function(){
 <li>RAM: 64G</li>
 <li>CPU: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz</li>
 </ul>
+<h2 id="heading"></h2>
+<pre tabindex="0"><code></code></pre><p><a href="https://man.twcc.ai/@preview-twccdocs/BkMbEvScj">https://man.twcc.ai/@preview-twccdocs/BkMbEvScj</a></p>
 <h2 id="安裝方法">安裝方法</h2>
 <h3 id="macos">MacOS</h3>
 <p><a href="https://ollama.com/download/mac">Download Ollama</a></p>
@@ -202,7 +205,7 @@ layui.use('element', function(){
 Version=1.0
 Type=Application
 Name=anythingllm-desktop
-Path=//home/pollochang/AnythingLLMDesktop/
+Path=/home/pollochang/AnythingLLMDesktop/
 Icon=/home/pollochang/AnythingLLMDesktop/anythingllm-desktop/anythingllm-desktop.png
 Exec=/home/pollochang/AnythingLLMDesktop/start
 Comment=anythingllm-desktop
@@ -268,6 +271,7 @@ GID=&#39;1000&#39;
 <li>llama3: 不是合在CPU</li>
 </ul>
 </li>
+<li>codellama: <a href="https://github.com/meta-llama/codellama">https://github.com/meta-llama/codellama</a></li>
 </ul>
 </li>
 <li>Microsoft
@@ -351,7 +355,7 @@ GID=&#39;1000&#39;
 <li>streaming: true (default)</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://localhost:11434/api/chat -d <span style="color:#e6db74">&#39;{
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;model&#34;: &#34;gemma2&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;model&#34;: &#34;willh/taide-lx-7b-chat-4bit:latest&#34;,
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;messages&#34;: [
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    { &#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;幫我翻譯程繁體中文: A terminal for the modern age&#34; }
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  ]

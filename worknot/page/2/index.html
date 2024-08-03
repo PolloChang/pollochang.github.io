@@ -135,6 +135,92 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/oracle-ocfs2-1/">
+            <h2 class="">Oracle OCFS2 初學</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				Oracle Cluster File System 2 (OCFS2) 文件系统
+指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
+[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted ...
+             <a href="/worknot/oracle-ocfs2-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/linux-grub2-set-default/">
+            <h2 class="">Linux Grub2 Set Default(手動設定開機時要啟動的 linux 核心)</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux-cli/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux CLI</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/grub/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">GRUB</span>
+        </a>
+    
+        <a href="/tags/kernel/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">kernel</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				手動設定開機時要啟動的 linux 核心
+操作步驟
+查看目前已經有安哪些核心 選擇核心 重新生成GRUB配置 重新開機 檢查 # 1. 查看目前已經有安哪些核心 grep ^menuentry /boot/grub2/grub.cfg # 2. 選擇核心 grub2-set-default 0 # ...
+             <a href="/worknot/linux-grub2-set-default/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20240701-1/">
             <h2 class="">設定 Linux 檔案瀏覽器 Files 預設的 Columns</h2>
         </a>
@@ -363,7 +449,8 @@ layui.use('element', function(){
 
         <h3>
         	
-				環境 OS: Debian 11 GPU: Nvidia 410 執行步驟 安裝 linux-headers 及必要套件 sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config 移除不 ...
+				Linux 安裝 NVidia 驅動程式
+環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &#34;3d|display|vga&#34; 00:02.0 VGA compatible ...
              <a href="/worknot/update-nvidia-470-dirver/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
@@ -453,84 +540,6 @@ ssh ...
         	
 				編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . ...
              <a href="/worknot/worknot-20240605-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/linux-cli-netstat/">
-            <h2 class="">Linux Cli Netstat</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-06-03</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/linux-cli/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux Cli</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/netstat/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Netstat</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				線上手冊內容 NETSTAT(8)	Linux System Administrator&#39;s Manual	NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, ...
-             <a href="/worknot/linux-cli-netstat/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240529-1/">
-            <h2 class="">nginx ssl 設定步驟</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-05-29</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD ...
-             <a href="/worknot/worknot-20240529-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
