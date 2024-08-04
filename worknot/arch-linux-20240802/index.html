@@ -8,7 +8,7 @@
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: parted /dev/vda mklabel gpt parted /dev/vda mkpart primary 1MiB 2MiB set 1 bios_grub on mkpart primary 2MiB 100% # ctrl &#43; D # 檢查結果 fdisk -l mkfs.ext4 /dev/sd(磁碟編號)(分割區編號) # SWAP mkswap /dev/sda1 swapon /dev/sda1 mount /dev/vda /mnt # 初始化根目錄 pacstrap /mnt base base-devel # Wi-Fi 硬體 pacstrap /mnt iw dialog wpa_supplicant wpa_actiond genfstab -U /mnt &gt; /mnt/etc/fstab # 設定時間 timedatectl set-ntp true # 安裝 linux 穩定版 sudo pacman -S linux-lts # 安裝 Intel 的微碼 sudo pacman -S intel-ucode # 安裝 AMD 的微碼 sudo pacman -S linux-firmware # 安裝基本套件 pacman -S vim grub openssh firewalld neofetch # 設定時區 ln -sf /usr/share/zoneinfo/Asia/Taiwan /etc/localtime # 將系統時間設定為 UTC hwclock -w --utc # 語系設定 /etc/locale." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: parted /dev/vda mklabel gpt parted /dev/vda mkpart primary 1MiB 2MiB set 1 bios_grub on mkpart primary 2MiB 100% # ctrl &#43; D # 檢查結果 fdisk -l mkfs." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -162,6 +162,7 @@ layui.use('element', function(){
 <ul>
 <li>swap: 4G</li>
 <li>bios_grub: 1M</li>
+<li>/boot: 1GB</li>
 </ul>
 <h2 id="下載">下載</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso
@@ -209,7 +210,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 AMD 的微碼</span>
 </span></span><span style="display:flex;"><span>sudo pacman -S linux-firmware
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝基本套件</span>
-</span></span><span style="display:flex;"><span>pacman -S vim grub openssh firewalld neofetch
+</span></span><span style="display:flex;"><span>pacman -S vim grub openssh firewalld neofetch networkmnager
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定時區</span>
 </span></span><span style="display:flex;"><span>ln -sf /usr/share/zoneinfo/Asia/Taiwan /etc/localtime
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 將系統時間設定為 UTC</span>
@@ -220,21 +221,32 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 主機名稱</span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;想要的主機名稱&#34;</span> &gt;/etc/hostname
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 主機帳號</span>
+</span></span><span style="display:flex;"><span>useradd
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>systemctl start sshd
 </span></span><span style="display:flex;"><span>systemctl enable sshd
 </span></span><span style="display:flex;"><span>systemctl enable firewalld
+</span></span><span style="display:flex;"><span>systemctl enable NetworkManager
 </span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --change-interface<span style="color:#f92672">=</span>enp1s0 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>firewall-cmd --reload
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>exit
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>reboot
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 配置系统默認编辑器: /etc/profile</span>
+</span></span><span style="display:flex;"><span>export EDITOR<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;vim&#39;</span>
+</span></span></code></pre></div><h2 id="桌面安裝">桌面安裝</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pacman -S plasma-meta konsole dolphin
+</span></span><span style="display:flex;"><span>systemctl enable sddm
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://hackmd.io/@PIFOPlfSS3W_CehLxS3hBQ/r1xrYth9V">Arch linux 安裝</a></li>
 <li><a href="https://github.com/pan93412/LinuxManuals/blob/master/ArchLinux/How_To_Install_Arch_Linux/README.md">Arch Linux 安裝手冊</a></li>
 <li><a href="https://gist.github.com/hazel0177/566531c00a99b5fddc6a3e0c66d854b6">installArchBios.md</a></li>
+<li><a href="https://wiki.archlinux.org/title/Installation_guide">Installation</a></li>
+<li><a href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/">Arch Linux 安装使用教程 - ArchTutorial - Arch Linux Studio</a></li>
 </ul>
 </div>
                 <div>
