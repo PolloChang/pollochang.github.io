@@ -6,7 +6,16 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 01 Aug 2024 23:37:45 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 22:41:58 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux 設定網路</title>
+      <link>http://pollochang.work/worknot/worknot-20240805-1/</link>
+      <pubDate>Mon, 05 Aug 2024 22:41:58 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240805-1/</guid>
+      <description>設定網路 啟動網卡 sudo ip link set eth0 up 透過 DHCP 取得IP sudo dhclient eth0 安裝 NetworkManager Debian sudo apt install network-manager sudo systemctl start NetworkManager sudo systemctl enable NetworkManager </description>
+    </item>
+    
     <item>
       <title>Debiain 桌面設定</title>
       <link>http://pollochang.work/worknot/worknot-20240801-1/</link>

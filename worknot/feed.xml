@@ -6,14 +6,25 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 02 Aug 2024 22:40:11 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2024 22:41:58 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux 設定網路</title>
+      <link>http://pollochang.work/worknot/worknot-20240805-1/</link>
+      <pubDate>Mon, 05 Aug 2024 22:41:58 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240805-1/</guid>
+      <description>設定網路 啟動網卡 sudo ip link set eth0 up 透過 DHCP 取得IP sudo dhclient eth0 安裝 NetworkManager Debian sudo apt install network-manager sudo systemctl start NetworkManager sudo systemctl enable NetworkManager </description>
+    </item>
+    
     <item>
       <title>Arch Linux 安裝</title>
       <link>http://pollochang.work/worknot/arch-linux-20240802/</link>
       <pubDate>Fri, 02 Aug 2024 22:40:11 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/arch-linux-20240802/</guid>
-      <description>環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: parted /dev/vda mklabel gpt parted /dev/vda mkpart primary 1MiB 2MiB set 1 bios_grub on mkpart primary 2MiB 100% # ctrl + D # 檢查結果 fdisk -l mkfs.</description>
+      <description>環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站
+可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/
+/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/vda mklabel gpt # parted /dev/vda # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl + D gdisk /dev/sda # /dev/sda1 -&amp;gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&amp;gt; 4G (swap) # /dev/sda3 -&amp;gt; (/) # 檢查結果 fdisk -l mkfs.</description>
     </item>
     
     <item>

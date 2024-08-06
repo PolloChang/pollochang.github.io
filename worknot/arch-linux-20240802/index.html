@@ -8,7 +8,9 @@
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: parted /dev/vda mklabel gpt parted /dev/vda mkpart primary 1MiB 2MiB set 1 bios_grub on mkpart primary 2MiB 100% # ctrl &#43; D # 檢查結果 fdisk -l mkfs." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站
+可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/
+/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/vda mklabel gpt # parted /dev/vda # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl &#43; D gdisk /dev/sda # /dev/sda1 -&gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&gt; 4G (swap) # /dev/sda3 -&gt; (/) # 檢查結果 fdisk -l mkfs." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -167,42 +169,61 @@ layui.use('element', function(){
 <h2 id="下載">下載</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso
 </span></span></code></pre></div><h2 id="安裝-sop">安裝 SOP</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 檢查網路</span>
+<p>選擇鏡像站</p>
+<p>可以從這裡選擇較進的鏡像站: <a href="https://archlinux.org/mirrorlist/">https://archlinux.org/mirrorlist/</a></p>
+<ul>
+<li>/etc/pacman.d/mirrorlist</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Server <span style="color:#f92672">=</span> http://archlinux.cs.nycu.edu.tw/$repo/os/$arch
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 檢查網路</span>
 </span></span><span style="display:flex;"><span>ping -c <span style="color:#ae81ff">3</span> 8.8.8.8
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查是否為UEFI模式開機</span>
 </span></span><span style="display:flex;"><span>cat /sys/firmware/efi/fw_platform_size
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 分割硬碟</span>
 </span></span><span style="display:flex;"><span>fdisk -l
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a GPT partition table:</span>
-</span></span><span style="display:flex;"><span>parted /dev/vda mklabel gpt
-</span></span><span style="display:flex;"><span>parted /dev/vda
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/vda mklabel gpt</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/vda</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mkpart primary 1MiB 2MiB
-</span></span><span style="display:flex;"><span>set <span style="color:#ae81ff">1</span> bios_grub on
-</span></span><span style="display:flex;"><span>mkpart primary 2MiB 100%
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mkpart primary 1MiB 2MiB</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># set 1 bios_grub on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mkpart primary 2MiB 100%</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># ctrl + D</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gdisk /dev/sda
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /dev/sda1 -&gt; 1M (boot) 1G (efi_system_partition)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /dev/sda2 -&gt; 4G (swap)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /dev/sda3 -&gt; (/)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查結果</span>
 </span></span><span style="display:flex;"><span>fdisk -l
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkfs.fat -F <span style="color:#ae81ff">32</span> /dev/efi_system_partition
 </span></span><span style="display:flex;"><span>mkfs.ext4 /dev/sd<span style="color:#f92672">(</span>磁碟編號<span style="color:#f92672">)(</span>分割區編號<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># SWAP</span>
-</span></span><span style="display:flex;"><span>mkswap /dev/sda1
-</span></span><span style="display:flex;"><span>swapon /dev/sda1
+</span></span><span style="display:flex;"><span>mkswap /dev/sda2
+</span></span><span style="display:flex;"><span>swapon /dev/sda2
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定時間</span>
+</span></span><span style="display:flex;"><span>timedatectl set-ntp true
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mount /dev/vda /mnt
+</span></span><span style="display:flex;"><span>mount /dev/sda3 /mnt
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化根目錄</span>
-</span></span><span style="display:flex;"><span>pacstrap /mnt base base-devel
+</span></span><span style="display:flex;"><span>pacstrap /mnt base base-devel linux-lts
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Wi-Fi 硬體</span>
 </span></span><span style="display:flex;"><span>pacstrap /mnt iw dialog wpa_supplicant wpa_actiond
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>genfstab -U /mnt &gt; /mnt/etc/fstab
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定時間</span>
-</span></span><span style="display:flex;"><span>timedatectl set-ntp true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 進入基礎系統</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arch-chroot /mnt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 linux 穩定版</span>
 </span></span><span style="display:flex;"><span>sudo pacman -S linux-lts
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Intel 的微碼</span>
@@ -210,22 +231,37 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 AMD 的微碼</span>
 </span></span><span style="display:flex;"><span>sudo pacman -S linux-firmware
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝基本套件</span>
-</span></span><span style="display:flex;"><span>pacman -S vim grub openssh firewalld neofetch networkmnager
+</span></span><span style="display:flex;"><span>pacman -S vim grub openssh firewalld neofetch networkmanager
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定時區</span>
 </span></span><span style="display:flex;"><span>ln -sf /usr/share/zoneinfo/Asia/Taiwan /etc/localtime
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 將系統時間設定為 UTC</span>
 </span></span><span style="display:flex;"><span>hwclock -w --utc
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 語系設定</span>
-</span></span><span style="display:flex;"><span>/etc/locale.gen
+</span></span><span style="display:flex;"><span>vim /etc/locale.gen
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># en_US.UTF-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zh_TW.UTF-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zh_TW.BIG5</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>locale-gen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vim /etc/locale.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># LANG=en_US.UTF-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># LANGUAGE=en_US</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 主機名稱</span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;想要的主機名稱&#34;</span> &gt;/etc/hostname
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 主機帳號</span>
-</span></span><span style="display:flex;"><span>useradd
+</span></span><span style="display:flex;"><span>useradd -m -s /bin/bash -u <span style="color:#ae81ff">1000</span> pollochang
+</span></span><span style="display:flex;"><span>gpasswd -a pollochang wheel
+</span></span><span style="display:flex;"><span>passwd pollochang
+</span></span><span style="display:flex;"><span>visudo
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># %wheel ALL=(ALL) ALL 取消註解</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>systemctl start sshd
+</span></span><span style="display:flex;"><span>grub-install /dev/vda --recheck
+</span></span><span style="display:flex;"><span>grub-mkconfig -o /boot/grub/grub.cfg
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>systemctl enable sshd
 </span></span><span style="display:flex;"><span>systemctl enable firewalld
 </span></span><span style="display:flex;"><span>systemctl enable NetworkManager
@@ -237,9 +273,95 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>reboot
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 配置系统默認编辑器: /etc/profile</span>
 </span></span><span style="display:flex;"><span>export EDITOR<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;vim&#39;</span>
+</span></span></code></pre></div><h2 id="yay">yay</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pacman -S git base-devel
+</span></span><span style="display:flex;"><span>git clone https://aur.archlinux.org/yay.git
+</span></span><span style="display:flex;"><span>cd yay
+</span></span><span style="display:flex;"><span>makepkg -si <span style="color:#75715e"># 不可以使用 root</span>
+</span></span></code></pre></div><h2 id="常用開發工具">常用開發工具</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S git wget
 </span></span></code></pre></div><h2 id="桌面安裝">桌面安裝</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pacman -S plasma-meta konsole dolphin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -Sy xorg
+</span></span><span style="display:flex;"><span>sudo pacman -Sy xf86-video-intel <span style="color:#75715e"># intel 內顯</span>
+</span></span><span style="display:flex;"><span>pacman -S plasma-meta krusader
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># qt6-multimedia-ffmpeg 選這個</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># qt6-multimedia-gstreamer</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># jack: 專業音樂處理</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># pipewire-jack: 通用</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 字體</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 思源字體全系列</span>
+</span></span><span style="display:flex;"><span>sudo pacman -Sy <span style="color:#66d9ef">$(</span>pacman -Ssq noto-fonts<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 文泉驛全系列</span>
+</span></span><span style="display:flex;"><span>sudo pacman -Sy <span style="color:#66d9ef">$(</span>pacman -Ssq wqy-<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>systemctl enable sddm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸入法</span>
+</span></span><span style="display:flex;"><span>sudo pacman -Sy fcitx-im fcitx-chewing kcm-fcitx
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 32 位元支持</span>
+</span></span><span style="display:flex;"><span>vim /etc/pacman.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去掉註解 [multilib]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl disable iwd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo pacman -Sy gtk3 webkit2gtk
+</span></span><span style="display:flex;"><span>git clone https://github.com/bertvandepoel/tabby.git
+</span></span><span style="display:flex;"><span>cd tabby
+</span></span><span style="display:flex;"><span>make -j <span style="color:#66d9ef">$(</span>nproc<span style="color:#66d9ef">)</span> <span style="color:#f92672">&amp;&amp;</span> sudo make install
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遠端桌面</span>
+</span></span><span style="display:flex;"><span>pacman -S xrdp xorgxrdp-glamor pulseaudio-module-xrdp
+</span></span></code></pre></div><ul>
+<li>會有一大堆奇怪的選擇</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@archlinux-desktop ~<span style="color:#f92672">]</span><span style="color:#75715e"># pacman -S plasma-meta krusader</span>
+</span></span><span style="display:flex;"><span>resolving dependencies...
+</span></span><span style="display:flex;"><span>:: There are <span style="color:#ae81ff">2</span> providers available <span style="color:#66d9ef">for</span> qt6-multimedia-backend:
+</span></span><span style="display:flex;"><span>:: Repository extra
+</span></span><span style="display:flex;"><span>   1<span style="color:#f92672">)</span> qt6-multimedia-ffmpeg  2<span style="color:#f92672">)</span> qt6-multimedia-gstreamer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter a number <span style="color:#f92672">(</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>: ^C
+</span></span><span style="display:flex;"><span>Interrupt signal received
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@archlinux-desktop ~<span style="color:#f92672">]</span><span style="color:#75715e"># pacman -S plasma-meta krusader</span>
+</span></span><span style="display:flex;"><span>resolving dependencies...
+</span></span><span style="display:flex;"><span>:: There are <span style="color:#ae81ff">2</span> providers available <span style="color:#66d9ef">for</span> qt6-multimedia-backend:
+</span></span><span style="display:flex;"><span>:: Repository extra
+</span></span><span style="display:flex;"><span>   1<span style="color:#f92672">)</span> qt6-multimedia-ffmpeg  2<span style="color:#f92672">)</span> qt6-multimedia-gstreamer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter a number <span style="color:#f92672">(</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>:: There are <span style="color:#ae81ff">2</span> providers available <span style="color:#66d9ef">for</span> jack:
+</span></span><span style="display:flex;"><span>:: Repository extra
+</span></span><span style="display:flex;"><span>   1<span style="color:#f92672">)</span> jack2  2<span style="color:#f92672">)</span> pipewire-jack
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter a number <span style="color:#f92672">(</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>:: There are <span style="color:#ae81ff">10</span> providers available <span style="color:#66d9ef">for</span> ttf-font:
+</span></span><span style="display:flex;"><span>:: Repository extra
+</span></span><span style="display:flex;"><span>   1<span style="color:#f92672">)</span> gnu-free-fonts  2<span style="color:#f92672">)</span> noto-fonts  3<span style="color:#f92672">)</span> ttf-bitstream-vera  4<span style="color:#f92672">)</span> ttf-croscore  5<span style="color:#f92672">)</span> ttf-dejavu
+</span></span><span style="display:flex;"><span>   6<span style="color:#f92672">)</span> ttf-droid  7<span style="color:#f92672">)</span> ttf-ibm-plex  8<span style="color:#f92672">)</span> ttf-input  9<span style="color:#f92672">)</span> ttf-liberation  10<span style="color:#f92672">)</span> ttf-mona-sans
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter a number <span style="color:#f92672">(</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>:: There are <span style="color:#ae81ff">2</span> providers available <span style="color:#66d9ef">for</span> emoji-font:
+</span></span><span style="display:flex;"><span>:: Repository extra
+</span></span><span style="display:flex;"><span>   1<span style="color:#f92672">)</span> noto-fonts-emoji  2<span style="color:#f92672">)</span> ttf-joypixels
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter a number <span style="color:#f92672">(</span>default<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h2 id="遠端桌面">遠端桌面</h2>
+<p>xrdp + xorg</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yay -S xrdp
+</span></span><span style="display:flex;"><span>sudo pacman -S xorg-server xorg-xinit xorg-apps
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --add-port<span style="color:#f92672">=</span>3389/tcp
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><ul>
+<li>~/.xinitrc</li>
+</ul>
+<p>添加你希望啟動的桌面環境。對於 KDE，你可以添加以下行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exec startplasma-x11
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable xrdp --now
+</span></span></code></pre></div><h2 id="常用軟體安裝">常用軟體安裝</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yay -S google-chrome
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://hackmd.io/@PIFOPlfSS3W_CehLxS3hBQ/r1xrYth9V">Arch linux 安裝</a></li>

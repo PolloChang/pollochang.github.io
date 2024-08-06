@@ -195,7 +195,9 @@ layui.use('element', function(){
 </span></span></code></pre></div><ol start="4">
 <li>更新</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install nvidia-driver firmware-misc-nonfree
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 別人包好的</span>
+</span></span><span style="display:flex;"><span>sudo apt install nvidia-driver firmware-misc-nonfree
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 NVidia 官方驅動程式</span>
 </span></span><span style="display:flex;"><span>sudo bash ./NVIDIA-Linux-x86_64-470.256.02.run
 </span></span></code></pre></div><ol start="5">
 <li>啟動圖型介面</li>
@@ -215,6 +217,8 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>sudo apt -y install cuda-toolkit-12-5
 </span></span><span style="display:flex;"><span>sudo apt install -y nvidia-kernel-open-dkms
 </span></span><span style="display:flex;"><span>sudo apt install -y cuda-drivers
+</span></span></code></pre></div><h2 id="完全移除">完全移除</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt purge <span style="color:#e6db74">&#34;*nvidia*&#34;</span>
 </span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ERROR: Unable to find the kernel source tree <span style="color:#66d9ef">for</span> the currently running kernel.  Please make sure you have installed the kernel source files <span style="color:#66d9ef">for</span> your kernel and that they are properly configured; on RedHat Linux systems, <span style="color:#66d9ef">for</span> example, be sure you have the <span style="color:#e6db74">&#39;kernel-source&#39;</span> or <span style="color:#e6db74">&#39;kernel-devel&#39;</span> RPM installed.  If you know the correct kernel source files are installed, you may specify the kernel source path with the <span style="color:#e6db74">&#39;--kernel-source-path&#39;</span> command line option.
 </span></span></code></pre></div><h2 id="nvidia">NVidia</h2>
