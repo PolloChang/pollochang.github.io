@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jmeter on PolloChang 工作筆記</title>
-    <link>http://pollochang.work/tags/jmeter/</link>
-    <description>Recent content in Jmeter on PolloChang 工作筆記</description>
+    <title>CI/CD on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/ci/cd/</link>
+    <description>Recent content in CI/CD on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-TW</language>
-    <lastBuildDate>Sat, 10 Aug 2024 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jmeter/feed.xml" rel="self" type="application/rss+xml" />
+    <language>zh-TW</language><atom:link href="http://pollochang.work/categories/ci/cd/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>透過 Jenkins Pipeline 執行 SonarQube 源碼掃描</title>
       <link>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</link>
@@ -38,15 +37,12 @@ Constant Delay Offset (in milliseconds): The number shows a constant delay which
     </item>
     
     <item>
-      <title>jmeter CLI 模式</title>
-      <link>http://pollochang.work/worknot/worknot-20240314/</link>
-      <pubDate>Thu, 14 Mar 2024 22:41:21 +0800</pubDate>
+      <title>jenkins 安裝</title>
+      <link>http://pollochang.work/worknot/jenkins-install/</link>
+      <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/worknot-20240314/</guid>
-      <description>前幾個月在幫專案做壓力測試，因為對方主機執行壓力測試環境是 Linux，於是我尋找一下JMeter 有沒有 CLI 模式下執行測試，順手紀錄一下。
-壓力測試 CLI 範例 先廢話不多說，先線上範例，windows 跟 Linux 各舉例一個，Windows是後來順手寫一下，因為這樣我久可以不用開啟GUI介面操作啦。
-Linux #!/bin/bash export groupT=&amp;#34;25-60&amp;#34; export homeDir=&amp;#34;/home/pollo&amp;#34; mkdir -p ${homeDir}/reports/${groupT}/report export JVM_ARGS=&amp;#34;-Xms10240m -Xmx10240m&amp;#34; ${homeDir}/apache-jmeter-5.5/bin/jmeter -n -t ${homeDir}/test.jmx -l ${homeDir}/reports/${groupT}/report/report.jtl -e -o ${homeDir}/reports/${groupT}/report windows set groupT=25-60 set homeDir=C:\Users\pollo\Desktop mkdir C:\Users\pollo\Desktop\reports\%groupT%\report set JVM_ARGS=&amp;#34;-Xmx80240m&amp;#34; C:\app\apache-jmeter-5.5\bin\jmeter -n -t C:\Users\pollo\Desktop\test.jmx -l %homeDir%\reports\%groupT%\report\report.jtl -e -o %homeDir%\reports\%groupT%\report 用CLI執行 JMeter 會產生一個Log檔: jmeter.log 。可以方便後追蹤。
-參數說明 選項 說明 -n 指定 JMeter 在 CLI 模式下運作 -t jmx 文件路徑 -l jtl 測試紀錄檔案路徑 -j Jmeter.</description>
+      <guid>http://pollochang.work/worknot/jenkins-install/</guid>
+      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r jenkins -s /sbin/nologin sudo useradd --system -r tomcat -s /sbin/nologin sudo usermod -a -G tomcat jenkins 設定目錄 sudo mkdir -p /var/tomcat/dump/jenkins \ /var/log/tomcat/jenkins \ /opt/apache-tomcat/ \ /usr/local/etc/catalina/jenkins/{webapps,temp,work} \ /usr/local/jenkins sudo chown -R tomcat: /var/log/tomcat sudo chown -R tomcat: /usr/local/share/apache-tomcat 下載 tomcat 並安裝 wget https://archive.</description>
     </item>
     
   </channel>

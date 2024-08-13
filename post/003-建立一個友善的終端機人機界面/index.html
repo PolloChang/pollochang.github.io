@@ -10,7 +10,7 @@
     
     <meta content="PolloChang 工作筆記 - 我的Linux生活日記 03-建立一個友善的終端機人機介面 既然都安裝Lunx而且畢生都得跟Linux 為伍，必須得跟文字介面為伍。但是我記性偏偏不好，大腦記憶體只有256KB少的可憐，所以安裝完Linux第一件事情是優化文字介面。
 安裝必要套件 sudo apt -y install curl wget git 下載字型 下載 Meslo Nerd Font 讓 terminal 可以正常顯示icon
-MesloLGS NF Regular.ttf MesloLGS NF Bold.ttf MesloLGS NF Italic.ttf sudo mkdir -p /usr/local/share/fonts/custom sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf sudo fc-cache -v -f 安裝 Tabby terminal 官方網站: https://tabby.sh/
+MesloLGS NF Regular.ttf MesloLGS NF Bold.ttf MesloLGS NF Italic.ttf sudo mkdir -p /usr/local/share/fonts/custom sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf sudo fc-cache -v -f 安裝 Tabby terminal 官方網站: https://tabby.sh/
 下載網址: https://github.com/Eugeny/tabby/releases
 安裝指令
 curl -s https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash sudo apt install tabby-terminal 設定字型為 MesloLGS NF" name="description">
@@ -167,9 +167,9 @@ layui.use('element', function(){
 <li><a href="https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf">MesloLGS NF Italic.ttf</a></li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /usr/local/share/fonts/custom
-</span></span><span style="display:flex;"><span>sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-</span></span><span style="display:flex;"><span>sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
-</span></span><span style="display:flex;"><span>sudo wget -P /usr/local/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+</span></span><span style="display:flex;"><span>sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+</span></span><span style="display:flex;"><span>sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+</span></span><span style="display:flex;"><span>sudo wget -P /usr/share/fonts/custom https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
 </span></span><span style="display:flex;"><span>sudo fc-cache -v -f
 </span></span></code></pre></div><h2 id="安裝-tabby-terminal">安裝 Tabby terminal</h2>
 <ul>

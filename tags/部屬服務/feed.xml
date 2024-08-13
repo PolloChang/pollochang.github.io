@@ -9,11 +9,11 @@
     <lastBuildDate>Sun, 05 May 2024 12:03:56 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/%E9%83%A8%E5%B1%AC%E6%9C%8D%E5%8B%99/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>jenkins 安裝</title>
-      <link>http://pollochang.work/worknot/worknot-20240505-2/</link>
+      <link>http://pollochang.work/worknot/jenkins-install/</link>
       <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/worknot-20240505-2/</guid>
-      <description>環境 OS: Debian 12 jenkins version: 2.440.3 jre: adoptium jre 17 安裝 安裝必要package sudo apt install -y fontconfig 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.11_9.tar.gz -C /usr/local/lib/jvm sudo ln -s /usr/local/lib/jvm/jdk-17.0.11+9-jre /usr/local/lib/jvm/jre-17-latest 安裝 tomcat 設定使用者 sudo useradd -r tomcat -s /sbin/nologin 設定目錄 sudo mkdir -p /var/tomcat/dump sudo mkdir -p /usr/local/share/apache-tomcat/ sudo mkdir -p /var/log/tomcat/jenkins sudo mkdir -p /usr/local/etc/catalina/jenkins/ sudo mkdir -p /home/tomcat sudo -u tomcat mkdir -p /usr/local/etc/catalina/jenkins/{webapps,temp,work} sudo chown -R tomcat: /var/log/tomcat sudo chown -R tomcat: /usr/local/share/apache-tomcat sudo chown -R root: /usr/local/share/apache-tomcat/apache-tomcat-9-latest/logs sudo chown -R tomcat: /usr/local/etc/catalina sudo chown -R tomcat: /var/tomcat/dump sudo chown -R tomcat: /home/tomcat 下載 tomcat 並安裝 wget https://archive.</description>
+      <guid>http://pollochang.work/worknot/jenkins-install/</guid>
+      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r jenkins -s /sbin/nologin sudo useradd --system -r tomcat -s /sbin/nologin sudo usermod -a -G tomcat jenkins 設定目錄 sudo mkdir -p /var/tomcat/dump/jenkins \ /var/log/tomcat/jenkins \ /opt/apache-tomcat/ \ /usr/local/etc/catalina/jenkins/{webapps,temp,work} \ /usr/local/jenkins sudo chown -R tomcat: /var/log/tomcat sudo chown -R tomcat: /usr/local/share/apache-tomcat 下載 tomcat 並安裝 wget https://archive.</description>
     </item>
     
   </channel>

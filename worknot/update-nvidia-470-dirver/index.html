@@ -210,13 +210,24 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>lspci | grep -i nvidia
 </span></span></code></pre></div><h2 id="cuda-安裝">CUDA 安裝</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
-</span></span><span style="display:flex;"><span>sudo dpkg -i cuda-keyring_1.1-1_all.deb
+</span></span><span style="display:flex;"><span>sudo apt install ./cuda-keyring_1.1-1_all.deb
 </span></span><span style="display:flex;"><span>sudo add-apt-repository contrib
 </span></span><span style="display:flex;"><span>sudo add-apt-repository non-free
 </span></span><span style="display:flex;"><span>sudo apt update
-</span></span><span style="display:flex;"><span>sudo apt -y install cuda-toolkit-12-5
-</span></span><span style="display:flex;"><span>sudo apt install -y nvidia-kernel-open-dkms
+</span></span><span style="display:flex;"><span>sudo apt install cuda-toolkit-12-4
 </span></span><span style="display:flex;"><span>sudo apt install -y cuda-drivers
+</span></span></code></pre></div><ul>
+<li><code>~/.bashrc</code> 或 <code>/etc/profile.d/nvidia.sh</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>/usr/local/cuda-12/bin<span style="color:#e6db74">${</span>PATH:+:<span style="color:#e6db74">${</span>PATH<span style="color:#e6db74">}}</span>
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>/usr/local/cuda-12/lib64:<span style="color:#e6db74">${</span>LD_LIBRARY_PATH:+:<span style="color:#e6db74">${</span>LD_LIBRARY_PATH<span style="color:#e6db74">}}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nvcc --version
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pollochang@pollo-ai:~$ nvcc --version
+</span></span><span style="display:flex;"><span>nvcc: NVIDIA <span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Cuda compiler driver
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2005-2024 NVIDIA Corporation
+</span></span><span style="display:flex;"><span>Built on Thu_Mar_28_02:18:24_PDT_2024
+</span></span><span style="display:flex;"><span>Cuda compilation tools, release 12.4, V12.4.131
+</span></span><span style="display:flex;"><span>Build cuda_12.4.r12.4/compiler.34097967_0
 </span></span></code></pre></div><h2 id="完全移除">完全移除</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt purge <span style="color:#e6db74">&#34;*nvidia*&#34;</span>
 </span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
@@ -232,6 +243,7 @@ layui.use('element', function(){
 <li><a href="https://phoenixnap.com/kb/nvidia-drivers-debian">How to Install Nvidia Drivers on Debian</a></li>
 <li><a href="https://hackmd.io/@EnderDragonEP/BJBhYtbZR?utm_source=preview-mode&amp;utm_medium=rec">在 Debian 中安裝 nvidia 驅動程式</a></li>
 <li><a href="https://ivonblog.com/posts/debian-install-nvidia-drivers/">如何在Debian系統安裝Nvidia驅動、CUDA、cuDNN</a></li>
+<li><a href="https://linuxhint.com/install-nvidia-cuda-cudnn-debian-12-bookworm/">How to Install NVIDIA CUDA and cuDNN on Debian 12 Bookworm</a></li>
 </ul>
 <pre tabindex="0"><code>dkms firmware-nvidia-gsp glx-alternative-mesa glx-alternative-nvidia glx-diversions libcuda1 libegl-nvidia0 libgl1-nvidia-glvnd-glx libgles-nvidia1 libgles-nvidia2 libglx-nvidia0 libnvcuvid1 libnvidia-allocator1 libnvidia-cfg1 libnvidia-egl-gbm1 libnvidia-egl-wayland1 libnvidia-eglcore libnvidia-encode1 libnvidia-glcore libnvidia-glvkspirv libnvidia-ml1 libnvidia-pkcs11-openssl3 libnvidia-ptxjitcompiler1 libnvidia-rtcore linux-headers-amd64 nvidia-alternative nvidia-driver nvidia-driver-bin nvidia-driver-libs nvidia-egl-common nvidia-egl-icd nvidia-installer-cleanup nvidia-kernel-common nvidia-kernel-dkms nvidia-kernel-support nvidia-legacy-check nvidia-modprobe nvidia-persistenced nvidia-settings nvidia-support nvidia-suspend-common nvidia-vdpau-driver nvidia-vulkan-common nvidia-vulkan-icd update-glx xserver-xorg-video-nvidia
 </code></pre></div>

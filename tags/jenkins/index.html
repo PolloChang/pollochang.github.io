@@ -135,7 +135,50 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240505-2/">
+        <a href="/worknot/jenkins-jmeter-pipeline-20240810-1/">
+            <h2 class="">透過 Jenkins Pipeline 執行 Jmeter 進行壓力測試</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-08-10</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/ci/cd/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CI/CD</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/jenkins/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jenkins</span>
+        </a>
+    
+        <a href="/tags/jmeter/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Jmeter</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				 Pipeline script node { stage(&#34;set env&#34;){ def BUILDVERSION = sh(script: &#34;echo `date +%s`&#34;, returnStdout: true).trim() //apache-jmeter目 ...
+             <a href="/worknot/jenkins-jmeter-pipeline-20240810-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/jenkins-install/">
             <h2 class="">jenkins 安裝</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -148,8 +191,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/jenkins/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jenkins</span>
+        <a href="/categories/ci/cd/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CI/CD</span>
         </a>
     
 
@@ -175,8 +218,8 @@ layui.use('element', function(){
 
         <h3>
         	
-				環境 OS: Debian 12 jenkins version: 2.440.3 jre: adoptium jre 17 安裝 安裝必要package sudo apt install -y fontconfig 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java ...
-             <a href="/worknot/worknot-20240505-2/"><span style="color:#01AAED">Read More</span></a>
+				環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget ...
+             <a href="/worknot/jenkins-install/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 

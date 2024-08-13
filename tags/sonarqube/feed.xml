@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SonarQube on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/sonarqube/</link>
+    <description>Recent content in SonarQube on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sat, 10 Aug 2024 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/sonarqube/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>透過 Jenkins Pipeline 執行 SonarQube 源碼掃描</title>
+      <link>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</link>
+      <pubDate>Sat, 10 Aug 2024 11:44:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</guid>
+      <description>環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&amp;gt; Security -&amp;gt; Generate Tokens
+jenkins 設定 環境 Manage Jenkins &amp;gt; Manage Credentials manage &amp;gt; system &amp;gt; SonarQube servers manage &amp;gt; system Tools &amp;gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&amp;#34;${JENKINS_HOME}&amp;#34; env.JAVA_HOME=&amp;#34;${tool &amp;#39;openjdk-17&amp;#39;}&amp;#34; env.GRAILS_HOME=&amp;#34;/usr/local/lib/grails/grails-5.3.3&amp;#34; env.PATH=&amp;#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&amp;#34; stage (&amp;#39;Checkout&amp;#39;) { git branch: &amp;#39;master&amp;#39;, credentialsId: &amp;#39;credentialsId&amp;#39;, url: &amp;#34;&amp;lt;git url&amp;gt;&amp;#34; } stage (&amp;#39;Build&amp;#39;) { sh &amp;#34;grails test war ${env.</description>
+    </item>
+    
+  </channel>
+</rss>

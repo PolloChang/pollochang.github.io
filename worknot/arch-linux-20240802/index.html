@@ -10,7 +10,7 @@
     
     <meta content="PolloChang 工作筆記 - 環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站
 可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/
-/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/vda mklabel gpt # parted /dev/vda # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl &#43; D gdisk /dev/sda # /dev/sda1 -&gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&gt; 4G (swap) # /dev/sda3 -&gt; (/) # 檢查結果 fdisk -l mkfs." name="description">
+/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/nvme0n1 mklabel gpt # parted /dev/nvme0n1 # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl &#43; D gdisk /dev/nvme0n1 # /dev/sda1 -&gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&gt; 4G (swap) # /dev/sda3 -&gt; (/) # 檢查結果 fdisk -l mkfs." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -182,15 +182,15 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 分割硬碟</span>
 </span></span><span style="display:flex;"><span>fdisk -l
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a GPT partition table:</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/vda mklabel gpt</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/vda</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/nvme0n1 mklabel gpt</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># parted /dev/nvme0n1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># mkpart primary 1MiB 2MiB</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># set 1 bios_grub on</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># mkpart primary 2MiB 100%</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># ctrl + D</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>gdisk /dev/sda
+</span></span><span style="display:flex;"><span>gdisk /dev/nvme0n1
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># /dev/sda1 -&gt; 1M (boot) 1G (efi_system_partition)</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># /dev/sda2 -&gt; 4G (swap)</span>
@@ -215,7 +215,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>pacstrap /mnt base base-devel linux-lts
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Wi-Fi 硬體</span>
-</span></span><span style="display:flex;"><span>pacstrap /mnt iw dialog wpa_supplicant wpa_actiond
+</span></span><span style="display:flex;"><span>pacstrap /mnt iw dialog wpa_supplicant
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>genfstab -U /mnt &gt; /mnt/etc/fstab
 </span></span><span style="display:flex;"><span>
@@ -249,7 +249,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># LANGUAGE=en_US</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 主機名稱</span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;想要的主機名稱&#34;</span> &gt;/etc/hostname
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;pollo-latitude-5310&#34;</span> &gt;/etc/hostname
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 主機帳號</span>
 </span></span><span style="display:flex;"><span>useradd -m -s /bin/bash -u <span style="color:#ae81ff">1000</span> pollochang
@@ -259,14 +259,39 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># %wheel ALL=(ALL) ALL 取消註解</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># BIOS + MBR </span>
 </span></span><span style="display:flex;"><span>grub-install /dev/vda --recheck
 </span></span><span style="display:flex;"><span>grub-mkconfig -o /boot/grub/grub.cfg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># efi</span>
+</span></span><span style="display:flex;"><span>pacman -Sy grub efibootmgr dosfstools
+</span></span><span style="display:flex;"><span>mkdir -p /boot/efi
+</span></span><span style="display:flex;"><span>mount /dev/nvme0n1p1 /boot/efi
+</span></span><span style="display:flex;"><span>grub-install --target<span style="color:#f92672">=</span>x86_64-efi --efi-directory<span style="color:#f92672">=</span>/boot/efi --boot-directory<span style="color:#f92672">=</span>/boot --bootloader-id<span style="color:#f92672">=</span>archgrub --recheck
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Installing for x86_64-efi platform.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Installation finished. No error reported.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># grub-mkconfig -o /boot/grub/grub.cfg</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generating grub configuration file ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Found linux image: /boot/vmlinuz-linux-lts</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Found initrd image: /boot/intel-ucode.img /boot/initramfs-linux-lts.img</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Found fallback initrd image(s) in /boot:  intel-ucode.img initramfs-linux-lts-fallback.img</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Warning: os-prober will not be executed to detect other bootable partitions.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Systems on them will not be added to the GRUB boot configuration.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check GRUB_DISABLE_OS_PROBER documentation entry.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Adding boot menu entry for UEFI Firmware Settings ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>systemctl enable sshd
 </span></span><span style="display:flex;"><span>systemctl enable firewalld
 </span></span><span style="display:flex;"><span>systemctl enable NetworkManager
-</span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --change-interface<span style="color:#f92672">=</span>enp1s0 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --change-interface<span style="color:#f92672">=</span>eno2 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>firewall-cmd --reload
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 筆電</span>
+</span></span><span style="display:flex;"><span>sudo systemctl enable bluetooth
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>exit
 </span></span><span style="display:flex;"><span>
@@ -295,14 +320,13 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 文泉驛全系列</span>
 </span></span><span style="display:flex;"><span>sudo pacman -Sy <span style="color:#66d9ef">$(</span>pacman -Ssq wqy-<span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>systemctl enable sddm
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸入法</span>
-</span></span><span style="display:flex;"><span>sudo pacman -Sy fcitx-im fcitx-chewing kcm-fcitx
+</span></span><span style="display:flex;"><span>sudo systemctl enable sddm
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 32 位元支持</span>
-</span></span><span style="display:flex;"><span>vim /etc/pacman.conf
+</span></span><span style="display:flex;"><span>sudo vim /etc/pacman.conf
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 去掉註解 [multilib]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo pacman -Syu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sudo systemctl disable iwd
 </span></span><span style="display:flex;"><span>
@@ -361,7 +385,31 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exec startplasma-x11
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable xrdp --now
 </span></span></code></pre></div><h2 id="常用軟體安裝">常用軟體安裝</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yay -S google-chrome
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yay -S google-chrome nmon forticlient-vpn balena-etcher
+</span></span><span style="display:flex;"><span>ibus-daemon -drxR
+</span></span><span style="display:flex;"><span>sudo pacman -U ./tabby-1.0.211-linux-x64.pacman
+</span></span><span style="display:flex;"><span>sudo pacman -S zsh fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-chewing remmina freerdp
+</span></span></code></pre></div><h2 id="安裝驅動程式">安裝驅動程式</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S bluez bluez-utils bluedevil fwupd vulkan-intel mesa sof-firmware ntfs-3
+</span></span></code></pre></div><h2 id="touchpad">touchpad</h2>
+<p>X11 環境</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S touchegg
+</span></span><span style="display:flex;"><span>yay touch
+</span></span></code></pre></div><h2 id="筆電電源管理">筆電電源管理</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S power-profiles-daemon
+</span></span></code></pre></div><h2 id="更換-grub">更換 GRUB</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp . /usr/share/grub/themes/Distro -rf
+</span></span></code></pre></div><ul>
+<li>/etc/default/grub</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#GRUB_THEME=</span>
+</span></span><span style="display:flex;"><span>GRUB_THEME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/share/grub/themes/Distro/theme.txt&#34;</span> <span style="color:#75715e">#修改后</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo grub-mkconfig -o /boot/grub/grub.cfg
+</span></span></code></pre></div><h2 id="日常維護">日常維護</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 更新數據庫</span>
+</span></span><span style="display:flex;"><span>sudo pacman -Syyu
+</span></span><span style="display:flex;"><span>sudo pacman -Syu
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://hackmd.io/@PIFOPlfSS3W_CehLxS3hBQ/r1xrYth9V">Arch linux 安裝</a></li>
@@ -369,6 +417,9 @@ layui.use('element', function(){
 <li><a href="https://gist.github.com/hazel0177/566531c00a99b5fddc6a3e0c66d854b6">installArchBios.md</a></li>
 <li><a href="https://wiki.archlinux.org/title/Installation_guide">Installation</a></li>
 <li><a href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/">Arch Linux 安装使用教程 - ArchTutorial - Arch Linux Studio</a></li>
+<li><a href="https://linux.cn/article-16403-1.html">故障排除：在 Arch Linux 上启用蓝牙</a></li>
+<li><a href="https://arch.icekylin.online/guide/advanced/power-ctl">功耗控制</a></li>
+<li><a href="https://arch.icekylin.online/guide/">千里之行始于足下</a></li>
 </ul>
 </div>
                 <div>
