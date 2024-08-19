@@ -200,15 +200,17 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">def</span> scannerHome <span style="color:#f92672">=</span> tool <span style="color:#e6db74">&#39;sonarqube&#39;</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>            withSonarQubeEnv<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;sonarqube-server&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            sh <span style="color:#e6db74">&#34;${tool(&#34;</span>sonarqube<span style="color:#e6db74">&#34;)}/bin/sonar-scanner \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.projectKey=&lt;project anme&gt; \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.projectVersion=1.0 \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.sources=. \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.projectKey=&lt;projectKey&gt; \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.projectVersion=&lt;projectVersion&gt; \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.projectBaseDir=${WORKSPACE} \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.sources=grails-app,src/main \
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.sourceEncoding=UTF-8 \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.language=grvy \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.java.binaries=./build \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.groovy.binaries=./build \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.host.url=&lt;SonarQube server url&gt; \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.login=&lt;SonarQube token&gt;&#34;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.language=grvy,java \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.java.binaries=build \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.lang.patterns.grvy=&#39;**/*.groovy&#39; \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.lang.patterns.java=&#39;**/*.java&#39; \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.groovy.binaries=build \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                -Dsonar.exclusions=&#39;**/*.xml&#39;&#34;</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
