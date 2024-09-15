@@ -8,7 +8,7 @@
     
     <meta content="jenkins, 部屬服務, Debian, CI/CD" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12&#43;7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visduo Cmnd_Alias TOMCAT_SERVICE = /bin/systemctl stop tomcat-*, /bin/systemctl start tomcat-*, /bin/systemctl status tomcat-*, /bin/systemctl restart tomcat-* jenkins ALL=(ALL) NOPASSWD: TOMCAT_SERVICE 設定目錄 sudo mkdir -p /var/tomcat/dump/jenkins \ /var/log/tomcat/jenkins \ /opt/apache-tomcat/ \ /usr/local/etc/catalina/jenkins/{webapps,temp,work} \ /usr/local/jenkins sudo chown -R tomcat: /var/log/tomcat sudo chown -R tomcat: /usr/local/share/apache-tomcat 下載 tomcat 並安裝 wget https://archive." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12&#43;7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -193,9 +193,11 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>passwd jenkins
 </span></span><span style="display:flex;"><span>sudo usermod -a -G tomcat jenkins
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>visduo
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Cmnd_Alias TOMCAT_SERVICE <span style="color:#f92672">=</span> /bin/systemctl stop tomcat-*, /bin/systemctl start tomcat-*, /bin/systemctl status tomcat-*, /bin/systemctl restart tomcat-*
-</span></span><span style="display:flex;"><span>jenkins ALL<span style="color:#f92672">=(</span>ALL<span style="color:#f92672">)</span>       NOPASSWD: TOMCAT_SERVICE
+</span></span><span style="display:flex;"><span>visudo
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tee /etc/sudoers.d/tomcat <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Cmnd_Alias TOMCAT_SERVICE = /bin/systemctl stop tomcat-*, /bin/systemctl start tomcat-*, /bin/systemctl status tomcat-*, /bin/systemctl restart tomcat-*
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">jenkins ALL=(ALL)       NOPASSWD: TOMCAT_SERVICE
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><ol start="2">
 <li>設定目錄</li>
 </ol>

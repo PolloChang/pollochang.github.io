@@ -3,13 +3,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - oracle 記憶體監控 </title>
+    <title>PolloChang 工作筆記 - 在 Linux 安裝 JMeter </title>
     
     
-    <meta content="Oracle, 系統調校, 工作雜記" name="keywords">
+    <meta content="JMeter, CI/CD" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
-select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &#39;SGA&#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&#39;Maximum SGA Size&#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&#39;free memory&#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &#39;PGA&#39; name,(select value/1024/1024 total from v$pgastat where name=&#39;aggregate PGA target parameter&#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &#39;maximum PGA allocated&#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&#39;total PGA allocated&#39;)used from dual ) ); sqlplus / as sysdba &lt;&lt; EOF @/home/oracle/check-health-script/check-memory." name="description">
+    <meta content="PolloChang 工作筆記 - 安裝 Down jMeter and deploy it. JMETER_VERSION=&#34;5.6.3&#34; wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz # 只給自己帳號使用 tar -zxf apache-jmeter-${JMETER_VERSION}.tgz -C ~/.local/share/ cd ~/.local/share/ ln -s apache-jmeter-${JMETER_VERSION} apache-jmeter setting Desktop Entry for JMeter JMETER_HOME=${HOME}/.local/share/apache-jmeter # download JMeter icon to this logo wget -o ${JMETER_HOME}/logo.svg https://jmeter.apache.org/images/jmeter_square.svg tee ${HOME}/.local/share/applications/apache-jmeter.desktop &lt;&lt;EOF [Desktop Entry] Version=1.0 Type=Application Name=apache-jmeter Path=${JMETER_HOME} Icon=${JMETER_HOME}/logo.svg Exec=${JMETER_HOME}/bin/jmeter.sh Comment=apache-jmeter Categories=Development; Terminal=false EOF # check had created it cat ${HOME}/.local/share/applications/apache-jmeter.desktop 安裝 plugin jpgc-casutg JMETER_HOME=${HOME}/.local/share/apache-jmeter wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.10.zip unzip -q jpgc-casutg-2.10.zip -d ${JMETER_HOME} wget -o ${JMETER_HOME}/logo." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -121,10 +120,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>oracle 記憶體監控</h1>
+                    <h1>在 Linux 安裝 JMeter</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-04</span>
+    <span>2024-08-29</span>
 
     
      
@@ -132,8 +131,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/ci/cd/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CI/CD</span>
         </a>
     
 
@@ -142,12 +141,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
+        <a href="/tags/jmeter/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">JMeter</span>
         </a>
     
     
@@ -155,34 +150,43 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p>透過 <code>v$sgastat</code> 、<code>v$pgastat</code> 檢測 <code>SGA</code> <code>PGA</code> 空間使用狀況</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> name,used,<span style="color:#66d9ef">free</span>, pctused, max_allocated , sysdate opdt <span style="color:#66d9ef">from</span> (
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> name,total,round(total<span style="color:#f92672">-</span><span style="color:#66d9ef">free</span>,<span style="color:#ae81ff">2</span>) used, round(<span style="color:#66d9ef">free</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">free</span>,round((total<span style="color:#f92672">-</span><span style="color:#66d9ef">free</span>)<span style="color:#f92672">/</span>total<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">2</span>) pctused, round(MAX_ALLOCATED,<span style="color:#ae81ff">2</span>) MAX_ALLOCATED <span style="color:#66d9ef">from</span>
-</span></span><span style="display:flex;"><span>(
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#e6db74">&#39;SGA&#39;</span> name,(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">sum</span>(value<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>) <span style="color:#66d9ef">from</span> v$sga) total,
-</span></span><span style="display:flex;"><span>(<span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">SUM</span> (bytes<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>)  <span style="color:#66d9ef">FROM</span> V$SGAINFO <span style="color:#66d9ef">WHERE</span> NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Maximum SGA Size&#39;</span>) MAX_ALLOCATED ,
-</span></span><span style="display:flex;"><span>(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">sum</span>(bytes<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>) <span style="color:#66d9ef">from</span> v$sgastat <span style="color:#66d9ef">where</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;free memory&#39;</span>)<span style="color:#66d9ef">free</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> dual
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">union</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> name,total,round(used,<span style="color:#ae81ff">2</span>)used,round(total<span style="color:#f92672">-</span>used,<span style="color:#ae81ff">2</span>)<span style="color:#66d9ef">free</span>,round(used<span style="color:#f92672">/</span>total<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">2</span>) pctused,round(MAX_ALLOCATED,<span style="color:#ae81ff">2</span>)   <span style="color:#66d9ef">from</span> (
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#e6db74">&#39;PGA&#39;</span> name,(<span style="color:#66d9ef">select</span> value<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span> total <span style="color:#66d9ef">from</span> v$pgastat <span style="color:#66d9ef">where</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;aggregate PGA target parameter&#39;</span>)total,
-</span></span><span style="display:flex;"><span>(<span style="color:#66d9ef">SELECT</span> (value<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>)  <span style="color:#66d9ef">FROM</span> V$PGASTAT <span style="color:#66d9ef">WHERE</span> NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;maximum PGA allocated&#39;</span>) MAX_ALLOCATED,
-</span></span><span style="display:flex;"><span>(<span style="color:#66d9ef">select</span> value<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span> used <span style="color:#66d9ef">from</span> v$pgastat <span style="color:#66d9ef">where</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;total PGA allocated&#39;</span>)used 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span> dual
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>);
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlplus / as sysdba <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@/home/oracle/check-health-script/check-memory.sql
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">exit
+                    <h2 id="安裝">安裝</h2>
+<ol>
+<li>Down jMeter and deploy it.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>JMETER_VERSION<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;5.6.3&#34;</span>
+</span></span><span style="display:flex;"><span>wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-<span style="color:#e6db74">${</span>JMETER_VERSION<span style="color:#e6db74">}</span>.tgz
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只給自己帳號使用</span>
+</span></span><span style="display:flex;"><span>tar -zxf apache-jmeter-<span style="color:#e6db74">${</span>JMETER_VERSION<span style="color:#e6db74">}</span>.tgz -C ~/.local/share/
+</span></span><span style="display:flex;"><span>cd ~/.local/share/
+</span></span><span style="display:flex;"><span>ln -s apache-jmeter-<span style="color:#e6db74">${</span>JMETER_VERSION<span style="color:#e6db74">}</span> apache-jmeter 
+</span></span></code></pre></div><ol start="2">
+<li>setting Desktop Entry for JMeter</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>JMETER_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.local/share/apache-jmeter
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># download JMeter icon to this logo</span>
+</span></span><span style="display:flex;"><span>wget -o <span style="color:#e6db74">${</span>JMETER_HOME<span style="color:#e6db74">}</span>/logo.svg https://jmeter.apache.org/images/jmeter_square.svg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tee <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.local/share/applications/apache-jmeter.desktop <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Desktop Entry]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Version=1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Type=Application
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Name=apache-jmeter
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Path=${JMETER_HOME}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Icon=${JMETER_HOME}/logo.svg
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Exec=${JMETER_HOME}/bin/jmeter.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Comment=apache-jmeter
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Categories=Development;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Terminal=false
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="awrrpt">awrrpt</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlplus / as sysdba <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@/u01/app/oracle/product/12.2.0/dbhome_1/rdbms/admin/awrrpt.sql
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">exit
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
-<p><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-PGASTAT.html#GUID-4666F72E-1E2F-4FFF-89C7-E8144657F78A">Database Reference-8.121 V$PGASTAT</a></p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check had created it</span>
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.local/share/applications/apache-jmeter.desktop
+</span></span></code></pre></div><h2 id="安裝-plugin">安裝 plugin</h2>
+<h3 id="jpgc-casutg">jpgc-casutg</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>JMETER_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.local/share/apache-jmeter
+</span></span><span style="display:flex;"><span>wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.10.zip
+</span></span><span style="display:flex;"><span>unzip -q jpgc-casutg-2.10.zip -d <span style="color:#e6db74">${</span>JMETER_HOME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>wget -o ${JMETER_HOME}/logo.png <a href="https://jmeter.apache.org/images/mstile-144x144.png">https://jmeter.apache.org/images/mstile-144x144.png</a></p>
 </div>
                 <div>
                     <script src="https://utteranc.es/client.js"

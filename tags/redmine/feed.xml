@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>redmine on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/redmine/</link>
+    <description>Recent content in redmine on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 15 Sep 2024 23:16:39 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/redmine/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redmine Api</title>
+      <link>http://pollochang.work/worknot/redmine-api/</link>
+      <pubDate>Sun, 15 Sep 2024 23:16:39 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/redmine-api/</guid>
+      <description>以下是 redmine API 筆記
+在使用 API 之前記得先取得 token，token 會在 [我的帳戶] - [API 存取金鑰] 中，每個帳戶都會有一組。
+取得 Token 之後就可以進行操作了
+在這邊我會使用兩個參數方便接下來的操作
+API_KRY=your_token REDMINE_URL=&amp;#34;redmine 網址&amp;#34; 新增專案 首先我們來新增專案，這邊我們紀錄一下 identifier 這個欄位資訊: 「new1」，等等新增 ISSUE 會使用到
+curl -k -X POST -H &amp;#34;Content-Type: application/json&amp;#34; \ -H &amp;#34;X-Redmine-API-Key: ${API_KRY}&amp;#34; \ -d &amp;#39;{ &amp;#34;project&amp;#34;: { &amp;#34;name&amp;#34;: &amp;#34;New Project&amp;#34;, &amp;#34;identifier&amp;#34;: &amp;#34;new1&amp;#34;, &amp;#34;description&amp;#34;: &amp;#34;This is a new project&amp;#34;, &amp;#34;parent_id&amp;#34;: 15, &amp;#34;is_public&amp;#34;: false, &amp;#34;inherit_members&amp;#34;: true, &amp;#34;enabled_module_names&amp;#34;: [&amp;#34;issue_tracking&amp;#34;,&amp;#34;time_tracking&amp;#34;,&amp;#34;calendar&amp;#34;,&amp;#34;gantt&amp;#34;], &amp;#34;tracker_ids&amp;#34;: [38,39,42], &amp;#34;issue_custom_field_ids&amp;#34;: [21] } }&amp;#39; \ &amp;#34;${REDMINE_URL}/projects.</description>
+    </item>
+    
+  </channel>
+</rss>

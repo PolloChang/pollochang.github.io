@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jmeter on PolloChang 工作筆記</title>
+    <title>JMeter on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/jmeter/</link>
-    <description>Recent content in Jmeter on PolloChang 工作筆記</description>
+    <description>Recent content in JMeter on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 10 Aug 2024 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jmeter/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 29 Aug 2024 12:03:56 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jmeter/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在 Linux 安裝 JMeter</title>
+      <link>http://pollochang.work/worknot/install-jmetet-on-linux/</link>
+      <pubDate>Thu, 29 Aug 2024 12:03:56 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/install-jmetet-on-linux/</guid>
+      <description>安裝 Down jMeter and deploy it. JMETER_VERSION=&amp;#34;5.6.3&amp;#34; wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz # 只給自己帳號使用 tar -zxf apache-jmeter-${JMETER_VERSION}.tgz -C ~/.local/share/ cd ~/.local/share/ ln -s apache-jmeter-${JMETER_VERSION} apache-jmeter setting Desktop Entry for JMeter JMETER_HOME=${HOME}/.local/share/apache-jmeter # download JMeter icon to this logo wget -o ${JMETER_HOME}/logo.svg https://jmeter.apache.org/images/jmeter_square.svg tee ${HOME}/.local/share/applications/apache-jmeter.desktop &amp;lt;&amp;lt;EOF [Desktop Entry] Version=1.0 Type=Application Name=apache-jmeter Path=${JMETER_HOME} Icon=${JMETER_HOME}/logo.svg Exec=${JMETER_HOME}/bin/jmeter.sh Comment=apache-jmeter Categories=Development; Terminal=false EOF # check had created it cat ${HOME}/.local/share/applications/apache-jmeter.desktop 安裝 plugin jpgc-casutg JMETER_HOME=${HOME}/.local/share/apache-jmeter wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.10.zip unzip -q jpgc-casutg-2.10.zip -d ${JMETER_HOME} wget -o ${JMETER_HOME}/logo.</description>
+    </item>
+    
     <item>
       <title>透過 Jenkins Pipeline 執行 SonarQube 源碼掃描</title>
       <link>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</link>

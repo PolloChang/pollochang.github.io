@@ -1,0 +1,491 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Redmine Api </title>
+    
+    
+    <meta content="redmine, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 以下是 redmine API 筆記
+在使用 API 之前記得先取得 token，token 會在 [我的帳戶] - [API 存取金鑰] 中，每個帳戶都會有一組。
+取得 Token 之後就可以進行操作了
+在這邊我會使用兩個參數方便接下來的操作
+API_KRY=your_token REDMINE_URL=&#34;redmine 網址&#34; 新增專案 首先我們來新增專案，這邊我們紀錄一下 identifier 這個欄位資訊: 「new1」，等等新增 ISSUE 會使用到
+curl -k -X POST -H &#34;Content-Type: application/json&#34; \ -H &#34;X-Redmine-API-Key: ${API_KRY}&#34; \ -d &#39;{ &#34;project&#34;: { &#34;name&#34;: &#34;New Project&#34;, &#34;identifier&#34;: &#34;new1&#34;, &#34;description&#34;: &#34;This is a new project&#34;, &#34;parent_id&#34;: 15, &#34;is_public&#34;: false, &#34;inherit_members&#34;: true, &#34;enabled_module_names&#34;: [&#34;issue_tracking&#34;,&#34;time_tracking&#34;,&#34;calendar&#34;,&#34;gantt&#34;], &#34;tracker_ids&#34;: [38,39,42], &#34;issue_custom_field_ids&#34;: [21] } }&#39; \ &#34;${REDMINE_URL}/projects." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Redmine Api</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-09-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/redmine/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">redmine</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>以下是 redmine API 筆記</p>
+<p>在使用 API 之前記得先取得 token，token 會在 [我的帳戶] - [API 存取金鑰] 中，每個帳戶都會有一組。</p>
+<p>取得 Token 之後就可以進行操作了</p>
+<p>在這邊我會使用兩個參數方便接下來的操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>API_KRY<span style="color:#f92672">=</span>your_token
+</span></span><span style="display:flex;"><span>REDMINE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redmine 網址&#34;</span>
+</span></span></code></pre></div><h2 id="新增專案">新增專案</h2>
+<p>首先我們來新增專案，這邊我們紀錄一下 <code>identifier</code> 這個欄位資訊: 「<strong>new1</strong>」，等等新增 ISSUE 會使用到</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k -X POST -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           &#34;project&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;name&#34;: &#34;New Project&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;identifier&#34;: &#34;new1&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;description&#34;: &#34;This is a new project&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;parent_id&#34;: 15, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;is_public&#34;: false,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;inherit_members&#34;: true,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;enabled_module_names&#34;: [&#34;issue_tracking&#34;,&#34;time_tracking&#34;,&#34;calendar&#34;,&#34;gantt&#34;],
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;tracker_ids&#34;: [38,39,42],
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;issue_custom_field_ids&#34;: [21]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         }&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/projects.json&#34;</span>
+</span></span></code></pre></div><p>特別說明這邊有用到下列欄位</p>
+<ul>
+<li>parent_id: 父專案</li>
+<li>is_public: 公開</li>
+<li>enabled_module_names: 模組</li>
+<li>tracker_ids: 追蹤標籤清單</li>
+<li>issue_custom_field_ids: 自訂欄位清單</li>
+</ul>
+<p>實際操作如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ curl -k -X POST -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -d <span style="color:#e6db74">&#39;{&#34;project&#34;: {&#34;name&#34;: &#34;New Project&#34;,&#34;identifier&#34;: &#34;new1&#34;,&#34;description&#34;: &#34;This is a new project&#34;,&#34;parent_id&#34;: 15, &#34;is_public&#34;: false,&#34;inherit_members&#34;: true,&#34;enabled_module_names&#34;: [&#34;issue_tracking&#34;,&#34;time_tracking&#34;,&#34;calendar&#34;,&#34;gantt&#34;],&#34;tracker_ids&#34;: [38,39,42],&#34;issue_custom_field_ids&#34;: [21]}}&#39;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/projects.json&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;project&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:33,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;New Project&#34;</span>,<span style="color:#e6db74">&#34;identifier&#34;</span>:<span style="color:#e6db74">&#34;new1&#34;</span>,<span style="color:#e6db74">&#34;description&#34;</span>:<span style="color:#e6db74">&#34;This is a new project&#34;</span>,<span style="color:#e6db74">&#34;homepage&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;parent&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:15,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;05_外部系統管理&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;status&#34;</span>:1,<span style="color:#e6db74">&#34;is_public&#34;</span>:false,<span style="color:#e6db74">&#34;inherit_members&#34;</span>:true,<span style="color:#e6db74">&#34;created_on&#34;</span>:<span style="color:#e6db74">&#34;2024-09-15T14:45:47Z&#34;</span>,<span style="color:#e6db74">&#34;updated_on&#34;</span>:<span style="color:#e6db74">&#34;2024-09-15T14:45:47Z&#34;</span><span style="color:#f92672">}}</span>%   
+</span></span></code></pre></div><h2 id="查詢專案">查詢專案</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/projects.json&#34;</span>
+</span></span></code></pre></div><p>回傳結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;projects&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;id&#34;</span>: 5,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;01_日常管理&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;identifier&#34;</span>: <span style="color:#e6db74">&#34;mis&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;MIS日常固定業務&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;homepage&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;status&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;is_public&#34;</span>: false,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;inherit_members&#34;</span>: false,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;created_on&#34;</span>: <span style="color:#e6db74">&#34;2024-09-12T15:11:20Z&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;updated_on&#34;</span>: <span style="color:#e6db74">&#34;2024-09-12T15:14:39Z&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;total_count&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;offset&#34;</span>: 0,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;limit&#34;</span>: <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="刪除專案">刪除專案</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k -X DELETE -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/projects/new1.json&#34;</span>
+</span></span></code></pre></div><h2 id="新增-issue">新增 ISSUE</h2>
+<p>新增完專案之後接下來就可以新增 ISSUE。還記得剛剛紀錄的 <code>identifier</code> 欄位資訊: 「<strong>new1</strong>」，這個範例會將新的 ISSUE 新增到 new1 這個專案</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k -X POST -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           &#34;issue&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;project_id&#34;: &#34;new1&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;subject&#34;: &#34;資料庫 datafile 擴充&#34;, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;description&#34;: &#34;Oracle datafile 快滿了，需要進行擴充&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;tracker_id&#34;: 38, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;status_id&#34;: 1, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;priority_id&#34;: 4, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;assigned_to_id&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;start_date&#34;: &#34;2024-09-16&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;custom_fields&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                 &#34;id&#34;: 13,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                 &#34;value&#34;: &#34;2024-09-15&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         }&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">issues.json&#34;</span>
+</span></span></code></pre></div><p>特別說明這邊有用到下列欄位</p>
+<ul>
+<li>custom_fields: 自訂欄位</li>
+</ul>
+<p>實際操作如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ curl -k -X POST -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -H <span style="color:#e6db74">&#34;X-Redmine-API-Key: </span><span style="color:#e6db74">${</span>API_KRY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           &#34;issue&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;project_id&#34;: &#34;new1&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;subject&#34;: &#34;資料庫 datafile 擴充&#34;, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;description&#34;: &#34;Oracle datafile 快滿了，需要進行擴充&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;tracker_id&#34;: 38, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;status_id&#34;: 1, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;priority_id&#34;: 4, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;assigned_to_id&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;start_date&#34;: &#34;2024-09-16&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             &#34;custom_fields&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                 &#34;id&#34;: 13,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                 &#34;value&#34;: &#34;2024-09-15&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         }&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>REDMINE_URL<span style="color:#e6db74">}</span><span style="color:#e6db74">issues.json&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;issue&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:12,<span style="color:#e6db74">&#34;project&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:16,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;This is a new project&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;tracker&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:38,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;服務-資料庫&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;New&#34;</span>,<span style="color:#e6db74">&#34;is_closed&#34;</span>:false<span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;priority&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:4,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Urgent(緊迫的)&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;author&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:5,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;PolloChang&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;assigned_to&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:5,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;PolloChang&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;subject&#34;</span>:<span style="color:#e6db74">&#34;資料庫 datafile 擴充&#34;</span>,<span style="color:#e6db74">&#34;description&#34;</span>:<span style="color:#e6db74">&#34;Oracle datafile 快滿了，需要進行擴充&#34;</span>,<span style="color:#e6db74">&#34;start_date&#34;</span>:<span style="color:#e6db74">&#34;2024-09-16&#34;</span>,<span style="color:#e6db74">&#34;due_date&#34;</span>:null,<span style="color:#e6db74">&#34;done_ratio&#34;</span>:0,<span style="color:#e6db74">&#34;is_private&#34;</span>:false,<span style="color:#e6db74">&#34;estimated_hours&#34;</span>:null,<span style="color:#e6db74">&#34;total_estimated_hours&#34;</span>:null,<span style="color:#e6db74">&#34;custom_fields&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:13,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;希望完成日期&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;2024-09-15&#34;</span><span style="color:#f92672">}]</span>,<span style="color:#e6db74">&#34;created_on&#34;</span>:<span style="color:#e6db74">&#34;2024-09-15T15:15:06Z&#34;</span>,<span style="color:#e6db74">&#34;updated_on&#34;</span>:<span style="color:#e6db74">&#34;2024-09-15T15:15:06Z&#34;</span>,<span style="color:#e6db74">&#34;closed_on&#34;</span>:null<span style="color:#f92672">}}</span>
+</span></span></code></pre></div><h2 id="api-欄位這麼多要怎模知道-答案是瀏覽器-f12">API 欄位這麼多要怎模知道？ 答案是瀏覽器 F12</h2>
+<p>在 redmine 中談慶非常大，可以自訂很多不同的欄位，而官網的API文件似乎沒有提到很詳細。其實使用瀏覽器 F12 開啟管理員工具，在檢視元素中就可以取得相關欄位的資料。</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://chatgpt.com/share/66e70036-266c-8005-a415-dafcce3e9f5d">GPT回饋</a></li>
+<li><a href="https://www.redmine.org/projects/redmine/wiki/rest_api">Redmine API</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
