@@ -413,6 +413,18 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 更新數據庫</span>
 </span></span><span style="display:flex;"><span>sudo pacman -Syyu
 </span></span><span style="display:flex;"><span>sudo pacman -Syu
+</span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
+<h3 id="yay-error-while-loading-shared-libraries-libalpmso14-cannot-open-shared-object-file-no-such-file-or-directory">yay: error while loading shared libraries: libalpm.so.14: cannot open shared object file: No such file or directory</h3>
+<ul>
+<li>
+<p>原因: pacman 7 之後移除 libalpm.so.14</p>
+</li>
+<li>
+<p>解決方式:</p>
+</li>
+</ul>
+<p>建一個軟連結騙他吧</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ln -s /usr/lib/libalpm.so.15.0.0 /usr/lib/libalpm.so.14
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://hackmd.io/@PIFOPlfSS3W_CehLxS3hBQ/r1xrYth9V">Arch linux 安裝</a></li>

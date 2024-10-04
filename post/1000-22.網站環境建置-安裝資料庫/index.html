@@ -209,14 +209,20 @@ layui.use('element', function(){
 <p>在這邊我就不多做說明，可以參考這篇的作法: <a href="https://ithelp.ithome.com.tw/articles/10295696">我的Linux生活日記 08-LVM-新增硬碟-LVM</a>。</p>
 <p>假設都已經做完了，我這邊把資料硬碟放到 <code>/db/postgresql</code>目錄中，以下是指令操作及初始化資料庫指令:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /db/postgresql
+</span></span><span style="display:flex;"><span>sudo mkdir -p /data/backup/pgarch
 </span></span><span style="display:flex;"><span>sudo mkdir -p /var/log/postgresql/
 </span></span><span style="display:flex;"><span>sudo chown -R postgres:postgres /db/postgresql
 </span></span><span style="display:flex;"><span>sudo chown -R postgres:postgres /var/log/postgresql/
+</span></span><span style="display:flex;"><span>sudo chown -R postgres: /data/backup/
 </span></span><span style="display:flex;"><span>systemctl stop postgresql
 </span></span><span style="display:flex;"><span>sudo su postgres
 </span></span><span style="display:flex;"><span>/usr/lib/postgresql/15/bin/initdb -E utf8 -D /db/postgresql/instqnce-1
 </span></span><span style="display:flex;"><span>systemctl restart postgresql
-</span></span></code></pre></div><p>在 Debian 中因為安裝完後會直接先初始化，所以要記得改一下配置: <code>postgresql.conf</code> 、 <code>pg_hba.conf</code></p>
+</span></span></code></pre></div><ul>
+<li>redhat 路徑</li>
+</ul>
+<p><code>/var/lib/pgsql/15/data/</code></p>
+<p>在 Debian 中因為安裝完後會直接先初始化，所以要記得改一下配置: <code>postgresql.conf</code> 、 <code>pg_hba.conf</code></p>
 <ul>
 <li>/etc/postgresql/15/main/postgresql.conf</li>
 </ul>
@@ -239,34 +245,51 @@ log_connections = on # 記錄連線建立，預設為: off
 log_disconnections = on # 記錄連線摧毀，預設為: off
 log_duration = off # 記錄SQL query的執行時間，預設為: off，核心系統再開
 log_statement = &#39;ddl&#39; # option: none, ddl, mod, all，預設為: none，可以紀錄執行哪個錯誤SQL,DDL 操作SQL
+
+# archive log
+archive_mode = on
+archive_command=&#39;cp %p /data/backup/pgarch&#39;
 </code></pre><h2 id="設定資料庫">設定資料庫</h2>
 <p>設定完成之後，接下來就是開資料庫啦～</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -u postgres createuser --pwprompt dict_ap  <span style="color:#75715e"># pwd: enterYourPwd</span>
 </span></span><span style="display:flex;"><span>sudo -u postgres createdb -O dict_ap ironman_dict_db
 </span></span><span style="display:flex;"><span>sudo -u postgres psql -c <span style="color:#e6db74">&#34;GRANT ALL ON DATABASE ironman_dict_db to dict_ap&#34;</span>
 </span></span></code></pre></div><h3 id="備份">備份</h3>
-<p>開完資料庫記得做備份啦，以下是我自己的腳本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /var/log/pg-backup
+</span></span><span style="display:flex;"><span>chown postgres: /var/log/pg-backup
+</span></span></code></pre></div><p>開完資料庫記得做備份啦，以下是我自己的腳本。</p>
 <ul>
 <li>/var/lib/postgresql/scripts/db_backup.sh</li>
+<li>/usr/local/bin/pg-backup.sh</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>DATE<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date <span style="color:#e6db74">&#39;+%Y%m%d&#39;</span><span style="color:#66d9ef">)</span>;
-</span></span><span style="display:flex;"><span>PG_DATA<span style="color:#f92672">=</span>/db/postgresql/
-</span></span><span style="display:flex;"><span>PG_LOCAL_BK<span style="color:#f92672">=</span>/var/lib/postgresql/backup
-</span></span><span style="display:flex;"><span>PG_MNT_BK<span style="color:#f92672">=</span>/mnt/backup/postgresql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>export NOW_TIME<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +%Y%m%d%H%M%S<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>export DATANASE_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;DATANASE_NAME&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>export FILE_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pg.bk.</span><span style="color:#e6db74">${</span>DATANASE_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#34;</span><span style="color:#e6db74">${</span>NOW_TIME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>export BACKUP_PATH<span style="color:#f92672">=</span>/data/backup
+</span></span><span style="display:flex;"><span>export LOG_PATH<span style="color:#f92672">=</span>/var/log/pg-backup
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#START BACKUP</span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;START BACKUP...............&#34;</span> 
-</span></span><span style="display:flex;"><span>sudo -u postgres psql postgres -c <span style="color:#e6db74">&#34;select pg_start_backup(&#39;hot_back&#39;)&#34;</span>
-</span></span><span style="display:flex;"><span>cd $PG_HOME
-</span></span><span style="display:flex;"><span>tar zcvf $PG_LOCAL_BK/pg_hotbackup_$DATE.tar.gz $PG_DATA
-</span></span><span style="display:flex;"><span>sudo -u postgres psql postgres -c <span style="color:#e6db74">&#34;select pg_stop_backup()&#34;</span>
-</span></span><span style="display:flex;"><span>sudo cp $PG_LOCAL_BK/pg_hotbackup_$DATE.tar.gz $PG_MNT_BK
-</span></span><span style="display:flex;"><span>sudo -u postgres psql <span style="color:#e6db74">&#34;BACKUP  END&#34;</span>
-</span></span></code></pre></div><p>SELECT datname FROM pg_catalog.pg_database;</p>
-<h2 id="防火牆設定">防火牆設定</h2>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +%Y%m%d%H%M%S<span style="color:#66d9ef">)</span><span style="color:#e6db74">: backup database start&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>LOG_PATH<span style="color:#e6db74">}</span>/pg-backup-<span style="color:#e6db74">${</span>NOW_TIME<span style="color:#e6db74">}</span>.log
+</span></span><span style="display:flex;"><span>/usr/bin/pg_dump -Fc -c <span style="color:#e6db74">${</span>DATANASE_NAME<span style="color:#e6db74">}</span> &gt; <span style="color:#e6db74">${</span>BACKUP_PATH<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>FILE_NAME<span style="color:#e6db74">}</span>.dump -O
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +%Y%m%d%H%M%S<span style="color:#66d9ef">)</span><span style="color:#e6db74">: remove backup database after 3 days&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>LOG_PATH<span style="color:#e6db74">}</span>/pg-backup-<span style="color:#e6db74">${</span>NOW_TIME<span style="color:#e6db74">}</span>.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/usr/bin/find <span style="color:#e6db74">${</span>BACKUP_PATH<span style="color:#e6db74">}</span>/*.dump -type f -mtime +3 -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +%Y%m%d%H%M%S<span style="color:#66d9ef">)</span><span style="color:#e6db74">: backup database end&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>LOG_PATH<span style="color:#e6db74">}</span>/pg-backup-<span style="color:#e6db74">${</span>NOW_TIME<span style="color:#e6db74">}</span>.log
+</span></span></code></pre></div><p><code>crontab -u postgres -e</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># chmod 0755 /usr/local/bin/pg-backup.sh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># crontab -u postgres -e</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># su - postgres</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> * * * /usr/local/bin/pg-backup.sh
+</span></span></code></pre></div><h2 id="防火牆設定">防火牆設定</h2>
 <p>確認都沒有問題之後，最後就是設定防火牆。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.1&#34; port protocol=&#34;tcp&#34; port=&#34;5432&#34; accept&#39;</span>
+</span></span></code></pre></div><h2 id="postgresql-常用命令">postgresql 常用命令</h2>
+<h3 id="在-postgresql-中列出所有資料庫">在 PostgreSQL 中列出所有資料庫</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - postgres
+</span></span><span style="display:flex;"><span>psql -U postgres
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">\</span>l
 </span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"

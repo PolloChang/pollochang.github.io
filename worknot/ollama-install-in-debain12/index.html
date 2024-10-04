@@ -236,6 +236,40 @@ GID=&#39;1000&#39;
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">/data/anythingllm/data:/app/server/storage</span>
 </span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">/data/anythingllm/env.txt:/app/server/.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">anything_llm</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.2.2.10</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">weaviate</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">command</span>:
+</span></span><span style="display:flex;"><span>    - --<span style="color:#ae81ff">host</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">0.0.0.0</span>
+</span></span><span style="display:flex;"><span>    - --<span style="color:#ae81ff">port</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#39;8080&#39;</span>
+</span></span><span style="display:flex;"><span>    - --<span style="color:#ae81ff">scheme</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">http</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">cr.weaviate.io/semitechnologies/weaviate:1.26.5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">50051</span>:<span style="color:#ae81ff">50051</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">/data/weaviate/data:/var/lib/weaviate</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#66d9ef">on</span>-<span style="color:#ae81ff">failure:0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">QUERY_DEFAULTS_LIMIT</span>: <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">PERSISTENCE_DATA_PATH</span>: <span style="color:#e6db74">&#39;/var/lib/weaviate&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">DEFAULT_VECTORIZER_MODULE</span>: <span style="color:#e6db74">&#39;none&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ENABLE_API_BASED_MODULES</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">CLUSTER_HOSTNAME</span>: <span style="color:#e6db74">&#39;node1&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">anything_llm</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.2.2.11</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">anything_llm</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ipam</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">subnet</span>: <span style="color:#e6db74">&#34;10.2.2.0/24&#34;</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --add-port<span style="color:#f92672">=</span>3014/tcp
 </span></span></code></pre></div><h4 id="api-example">api example</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X <span style="color:#e6db74">&#39;GET&#39;</span> <span style="color:#ae81ff">\

@@ -6,7 +6,17 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 15 Sep 2024 23:16:39 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Oct 2024 23:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SonarQube-API</title>
+      <link>http://pollochang.work/worknot/sonarqube-api/</link>
+      <pubDate>Fri, 04 Oct 2024 23:44:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/sonarqube-api/</guid>
+      <description>基本 URL: http:///api 如何驗證 創建 API Token 登入到 SonarQube 的 Web 界面。 點擊右上角的你的使用者名稱，然後選擇 “我的帳戶 (My Account)”。 在 “安全 (Security)” 標籤中，你會看到一個按鈕 “生成令牌 (Generate Tokens)”。 給令牌命名並點擊生成。生成後記下這個令牌，因為你無法再次查看它。 使用帳號驗證 curl -k -u &amp;lt;your-token&amp;gt;: &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用 HTTP Authorization Header 以下範例將使用 Authorization Header 方式驗證，方變程式化使用
+curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用API查詢資料 列出所有的 project-key 路徑: /api/projects/search curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 列出專案 服務 目前的弱點數量 curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;https://&amp;lt;your-sonarqube-instance&amp;gt;/api/issues/search?componentKeys=&amp;lt;project-key&amp;gt;&amp;amp;types=VULNERABILITY&amp;amp;resolved=false&amp;#39; 列出歷次掃描的點數量 路徑: /api/measures/search_history curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/measures/search_history?</description>
+    </item>
+    
     <item>
       <title>Redmine Api</title>
       <link>http://pollochang.work/worknot/redmine-api/</link>

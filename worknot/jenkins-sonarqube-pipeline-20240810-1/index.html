@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - 透過 Jenkins Pipeline 執行 SonarQube 源碼掃描 </title>
     
     
-    <meta content="jmeter, SonarQube, CI/CD" name="keywords">
+    <meta content="Jenkins, SonarQube, CI/CD" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&gt; Security -&gt; Generate Tokens
 jenkins 設定 環境 Manage Jenkins &gt; Manage Credentials manage &gt; system &gt; SonarQube servers manage &gt; system Tools &gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&#34;${JENKINS_HOME}&#34; env.JAVA_HOME=&#34;${tool &#39;openjdk-17&#39;}&#34; env.GRAILS_HOME=&#34;/usr/local/lib/grails/grails-5.3.3&#34; env.PATH=&#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&#34; stage (&#39;Checkout&#39;) { git branch: &#39;master&#39;, credentialsId: &#39;credentialsId&#39;, url: &#34;&lt;git url&gt;&#34; } stage (&#39;Build&#39;) { sh &#34;grails test war ${env." name="description">
@@ -142,8 +142,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/jmeter/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jmeter</span>
+        <a href="/tags/jenkins/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Jenkins</span>
         </a>
     
         <a href="/tags/sonarqube/">
@@ -229,86 +229,6 @@ layui.use('element', function(){
         </div>
 
         <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
-            
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/jmeter-20240809-1/">
-                                <h3 class="">JMeter</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-08-09</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/ci/cd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CI/CD</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/jmeter/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jmeter</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/worknot-20240314/">
-                                <h3 class="">jmeter CLI 模式</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-14</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/jmeter/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jmeter</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
             
 
             <div class="layui-card single-card">
