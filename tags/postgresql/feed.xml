@@ -6,7 +6,16 @@
     <description>Recent content in postgresql on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 15 Mar 2024 22:13:29 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/postgresql/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Oct 2024 23:11:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/postgresql/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Postgresql 16 Primary Standby</title>
+      <link>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</link>
+      <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
+      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部屬 Primary /etc/postgresql/16/main/postgresql.</description>
+    </item>
+    
     <item>
       <title>db-postgresql-note</title>
       <link>http://pollochang.work/post/db-postgresql-note/</link>
