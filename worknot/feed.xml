@@ -6,7 +6,18 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 17 Oct 2024 23:11:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Oct 2024 21:45:28 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Prometheus Node Exporter 設定</title>
+      <link>http://pollochang.work/worknot/prometheus-node-exporter/</link>
+      <pubDate>Mon, 28 Oct 2024 21:45:28 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/prometheus-node-exporter/</guid>
+      <description>安裝環境 OS: Oracle Linux 9, Debian 12 測試版本: 1.8.2 安裝步驟 01. 新增帳號 sudo groupadd --system -g 800 prometheus &amp;amp;&amp;amp;\ sudo useradd -s /sbin/nologin --system -g prometheus --uid 800 -c &amp;#34;prometheus_exporter&amp;#34; prometheus 02. 下載 Node Exporter 及部屬程式 下載 Node Exporter
+curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest| grep browser_download_url|grep linux-amd64|cut -d &amp;#39;&amp;#34;&amp;#39; -f 4|wget -qi - # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz 部屬程式
+tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&amp;amp;\ sudo cp node_exporter /usr/local/bin &amp;amp;&amp;amp;\ sudo chown prometheus: /usr/local/bin/node_exporter 03.</description>
+    </item>
+    
     <item>
       <title>Deploy Postgresql 16 Primary Standby</title>
       <link>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</link>
