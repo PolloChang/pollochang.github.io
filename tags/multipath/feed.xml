@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>multipath on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/multipath/</link>
+    <description>Recent content in multipath on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 30 Oct 2024 21:42:54 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/multipath/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>硬體設備-hba</title>
+      <link>http://pollochang.work/worknot/worknot-20241030-1/</link>
+      <pubDate>Wed, 30 Oct 2024 21:42:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241030-1/</guid>
+      <description>最近工作中遇到需要設定光纖設備，這邊我稍微紀錄一下過往常用的指令
+查詢 hba 型號: ``
+[root@test-host ~]# lspci -nn |egrep -i &amp;#34;fibre|hba&amp;#34; 17:00.0 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 17:00.1 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 重新掃描 scsi: echo &amp;quot;- - -&amp;quot; &amp;gt; /sys/class/scsi_host/&amp;lt;host&amp;gt;/scan
+for host in ls /sys/class/scsi_host/;do echo &amp;#34;- - -&amp;#34; &amp;gt;/sys/class/scsi_host/${host}/scan; done 查詢 FC WWN: ``
+[root@test-host ~]# cat /sys/class/fc_host/host11/port_name 0x21000024fg400000 [root@test-host ~]# cat /sys/class/fc_host/host12/port_name 0x21000024ff400000 </description>
+    </item>
+    
+  </channel>
+</rss>

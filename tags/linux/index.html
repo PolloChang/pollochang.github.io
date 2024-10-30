@@ -137,6 +137,100 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20241030-2/">
+            <h2 class="">telnet 替代方案: curl</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-10-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/curl/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">curl</span>
+        </a>
+    
+        <a href="/tags/telnet/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">telnet</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				過去在偵測網路 port 可連接的狀況，會使用 telnet 這個指令測，但是新版的作業系統已經預設已經沒有安裝了。
+現在的替代方案是 curl 指令，此方法在 windows 10 環境也適用
+curl telnet://[IP]:[port] 讓我們來看一下差別，以下是 telnet ...
+             <a href="/worknot/worknot-20241030-2/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20241030-1/">
+            <h2 class="">硬體設備-hba</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-10-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/multipath/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">multipath</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				最近工作中遇到需要設定光纖設備，這邊我稍微紀錄一下過往常用的指令
+查詢 hba 型號: ``
+[root@test-host ~]# lspci -nn |egrep -i &#34;fibre|hba&#34; 17:00.0 Fibre Channel [0c04]: QLogic Corp. ...
+             <a href="/worknot/worknot-20241030-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20241013-1/">
             <h2 class="">AI幻覺導致我操作系統錯誤了</h2>
         </a>
@@ -466,84 +560,6 @@ linux /var/lib/docker/overlay2 這層目錄不能亂刪
     </blockquote>
 
     
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240704-1/">
-            <h2 class="">在 Linux 中，su account 和 su - account 有以下主要差別</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-07-04</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變： ...
-             <a href="/worknot/worknot-20240704-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240701-1/">
-            <h2 class="">設定 Linux 檔案瀏覽器 Files 預設的 Columns</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-07-01</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view ...
-             <a href="/worknot/worknot-20240701-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
 
     
 <div class="pager">
@@ -562,7 +578,7 @@ linux /var/lib/docker/overlay2 這層目錄不能亂刪
         </button>
         
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/linux/page/9/"><i class="layui-icon">&#xe65b;</i></a>
+            <a href="/tags/linux/page/10/"><i class="layui-icon">&#xe65b;</i></a>
         </button>
     </div>
 </div>

@@ -6,7 +6,33 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 28 Oct 2024 21:45:28 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Oct 2024 22:14:13 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>telnet 替代方案: curl</title>
+      <link>http://pollochang.work/worknot/worknot-20241030-2/</link>
+      <pubDate>Wed, 30 Oct 2024 22:14:13 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241030-2/</guid>
+      <description>過去在偵測網路 port 可連接的狀況，會使用 telnet 這個指令測，但是新版的作業系統已經預設已經沒有安裝了。
+現在的替代方案是 curl 指令，此方法在 windows 10 環境也適用
+curl telnet://[IP]:[port] 讓我們來看一下差別，以下是 telnet 輸出的結果
+❯ telnet 127.0.0.1 22 Trying 127.0.0.1... Connected to 127.0.0.1. Escape character is &amp;#39;^]&amp;#39;. SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u3 以下是 curl 輸出結果
+❯ curl telnet://127.0.0.1:22 SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u3 </description>
+    </item>
+    
+    <item>
+      <title>硬體設備-hba</title>
+      <link>http://pollochang.work/worknot/worknot-20241030-1/</link>
+      <pubDate>Wed, 30 Oct 2024 21:42:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241030-1/</guid>
+      <description>最近工作中遇到需要設定光纖設備，這邊我稍微紀錄一下過往常用的指令
+查詢 hba 型號: ``
+[root@test-host ~]# lspci -nn |egrep -i &amp;#34;fibre|hba&amp;#34; 17:00.0 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 17:00.1 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 重新掃描 scsi: echo &amp;quot;- - -&amp;quot; &amp;gt; /sys/class/scsi_host/&amp;lt;host&amp;gt;/scan
+for host in ls /sys/class/scsi_host/;do echo &amp;#34;- - -&amp;#34; &amp;gt;/sys/class/scsi_host/${host}/scan; done 查詢 FC WWN: ``
+[root@test-host ~]# cat /sys/class/fc_host/host11/port_name 0x21000024fg400000 [root@test-host ~]# cat /sys/class/fc_host/host12/port_name 0x21000024ff400000 </description>
+    </item>
+    
     <item>
       <title>Prometheus Node Exporter 設定</title>
       <link>http://pollochang.work/worknot/prometheus-node-exporter/</link>
