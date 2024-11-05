@@ -6,7 +6,21 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 30 Oct 2024 22:14:13 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Nov 2024 15:32:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>big-ip client linux 安裝</title>
+      <link>http://pollochang.work/worknot/worknot-20241104-1/</link>
+      <pubDate>Mon, 04 Nov 2024 15:32:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241104-1/</guid>
+      <description>https://&amp;lt;big-ip apm virtual server&amp;gt;/public/download/&amp;lt;file name&amp;gt;
+Debian
+linux_f5cli.x86_64.deb
+linux_f5epi.x86_64.deb
+linux_f5vpn.x86_64.deb
+sudo apt install ./linux_f5*.deb 參考資料 K47922841: Using the Linux client f5fpc to connect to the BIG-IP APM network access for the first time </description>
+    </item>
+    
     <item>
       <title>telnet 替代方案: curl</title>
       <link>http://pollochang.work/worknot/worknot-20241030-2/</link>

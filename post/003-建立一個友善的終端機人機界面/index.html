@@ -193,14 +193,20 @@ layui.use('element', function(){
 <ul>
 <li>安裝指令</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install zsh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Debian</span>
+</span></span><span style="display:flex;"><span>sudo apt install zsh
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Redhat</span>
+</span></span><span style="display:flex;"><span>sudo dnf install zsh
 </span></span></code></pre></div><ul>
 <li>預設 <code>zsh</code> 為殼層</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chsh -s <span style="color:#66d9ef">$(</span>/usr/bin/zsh<span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>sudo  chsh -s /usr/bin/zsh
 </span></span></code></pre></div><h2 id="安裝-autojump">安裝 autojump</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install autojump
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Debian</span>
+</span></span><span style="display:flex;"><span>sudo apt install autojump
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Redhat</span>
+</span></span><span style="display:flex;"><span>sudo dnf install autojump
 </span></span></code></pre></div><p><a href="https://github.com/wting/autojump#installation">wting/autojump</a></p>
 <h2 id="安裝-oh-my-zsh">安裝 Oh-my-zsh</h2>
 <h3 id="下載並安裝-oh-my-zsh">下載並安裝 Oh-my-zsh</h3>
@@ -286,6 +292,20 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>... 部份省略
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>alias history<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;history -i&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># How many commands to store in history</span>
+</span></span><span style="display:flex;"><span>HISTSIZE<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>
+</span></span><span style="display:flex;"><span>SAVEHIST<span style="color:#f92672">=</span><span style="color:#ae81ff">100000</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># History file for zsh</span>
+</span></span><span style="display:flex;"><span>HISTFILE<span style="color:#f92672">=</span>~/.zsh_history
+</span></span><span style="display:flex;"><span>setopt INC_APPEND_HISTORY
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Share history in every terminal session</span>
+</span></span><span style="display:flex;"><span>setopt SHARE_HISTORY
+</span></span><span style="display:flex;"><span>setopt HIST_EXPIRE_DUPS_FIRST
+</span></span><span style="display:flex;"><span>setopt HIST_IGNORE_SPACE
+</span></span><span style="display:flex;"><span>setopt EXTENDED_HISTORY
 </span></span></code></pre></div><ul>
 <li>套用設定</li>
 </ul>
