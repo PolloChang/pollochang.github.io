@@ -3,16 +3,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - 我的Linux生活日記 04-一些電腦基本設定 </title>
+    <title>PolloChang 工作筆記 - KVM 網路 </title>
     
     
-    <meta content="linux, 我的Linux生活日記" name="keywords">
+    <meta content="KVM, linux" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 我的Linux生活日記 04-一些電腦基本設定 接下來就是一些電腦基本設定啦。由於這次是以個人電腦使用取向為方向，所以原則上電腦設定的部份已圖形介面為主。以下就是新安裝電腦之後會用的設定。
-移除娛樂性質軟體 apt remove aisleriot four-in-a-row gnome-2048 gnome-chess gnome-games gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin lightsoff hitori swell-foop tali gnome-tetravex quadrapassel five-or-more cheese gnome-weather gnome-sound-recorder transmission-gtk transmission-common gnome-music gnome-system-monitor gnome-characters gnome-maps 好用的終端機目錄工具 ranger sudo apt install ranger 快捷建跟 vim 一樣
-另外我也想玩 Midnight Commander
-設定快捷鍵-Tabby 進入設定 settings &gt; Devices &gt; keboard 新增快捷鍵 輸入 tabby 按下你想要的設定：像我就已經習慣 ubuntu 呼叫終端機的方式 Ctrl &#43; Alt &#43; t 設定閒置關閉螢幕並鎖上 工作一天8小時，人總會離開電腦座位的，離開的過程中無法確保家中的小貓、工作調皮的同事會對你未完成的系統加什麼好料，因此養成離開座位就螢幕就上鎖的好習慣。但是偶爾還是會不小心忘記上鎖，所以在這邊記得設定閒置上鎖。
-settings &gt; Power &gt; Power Saving 安裝防火牆 我認為防火牆是必須膽安裝的，因為在開發軟體的過程中本機可能會安裝一些可以對外服務的工具，例如：docker、tomcat、postgresql。因此防火牆是基本要安裝的。" name="description">
+    <meta content="PolloChang 工作筆記 - KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &lt;mtu size=&#34;9000&#34;/&gt; &lt;dhcp&gt; &lt;range start=&#39;192.168.122.100&#39; end=&#39;192.168.122.254&#39;/&gt; &lt;host mac=&#39;52:54:00:ed:3c:bc&#39; name=&#39;winxp&#39; ip=&#39;192.168.122.2&#39;/&gt; &lt;host mac=&#39;52:54:00:19:1b:70&#39; name=&#39;loki&#39; ip=&#39;192.168.122.3&#39;/&gt; &lt;host mac=&#39;52:54:00:b8:f1:68&#39; name=&#39;gilLab&#39; ip=&#39;192." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -126,10 +122,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>我的Linux生活日記 04-一些電腦基本設定</h1>
+                    <h1>KVM 網路</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-11-11</span>
 
     
      
@@ -137,8 +133,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e6%88%91%e7%9a%84linux%e7%94%9f%e6%b4%bb%e6%97%a5%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">我的Linux生活日記</span>
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
         </a>
     
 
@@ -146,6 +142,10 @@ layui.use('element', function(){
     <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
     
 
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
     
         <a href="/tags/linux/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
@@ -156,72 +156,61 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h1 id="我的linux生活日記-04-一些電腦基本設定">我的Linux生活日記 04-一些電腦基本設定</h1>
-<p>接下來就是一些電腦基本設定啦。由於這次是以個人電腦使用取向為方向，所以原則上電腦設定的部份已圖形介面為主。以下就是新安裝電腦之後會用的設定。</p>
-<h2 id="移除娛樂性質軟體">移除娛樂性質軟體</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove aisleriot four-in-a-row gnome-2048 gnome-chess gnome-games gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin lightsoff hitori swell-foop tali gnome-tetravex quadrapassel five-or-more cheese gnome-weather gnome-sound-recorder transmission-gtk transmission-common gnome-music gnome-system-monitor gnome-characters gnome-maps
-</span></span></code></pre></div><h2 id="好用的終端機目錄工具">好用的終端機目錄工具</h2>
-<ul>
-<li>ranger</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install ranger
-</span></span></code></pre></div><p>快捷建跟 vim 一樣</p>
-<p>另外我也想玩 <code>Midnight Commander</code></p>
-<h2 id="設定快捷鍵-tabby">設定快捷鍵-Tabby</h2>
-<ol>
-<li>進入設定</li>
-</ol>
-<ul>
-<li>settings &gt; Devices &gt; keboard</li>
-</ul>
-<ol start="2">
-<li>新增快捷鍵</li>
-</ol>
-<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528wOBHkWw0m0.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528wOBHkWw0m0.png"></p>
-<ol start="3">
-<li>輸入 tabby</li>
-</ol>
-<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528dQwjoGNPXW.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528dQwjoGNPXW.png"></p>
-<ol start="4">
-<li>按下你想要的設定：像我就已經習慣 ubuntu 呼叫終端機的方式 <code>Ctrl</code> + <code>Alt</code> + <code>t</code></li>
-</ol>
-<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528YWuPIcSAnp.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528YWuPIcSAnp.png"></p>
-<h2 id="設定閒置關閉螢幕並鎖上">設定閒置關閉螢幕並鎖上</h2>
-<p>工作一天8小時，人總會離開電腦座位的，離開的過程中無法確保家中的小貓、工作調皮的同事會對你未完成的系統加什麼好料，因此養成離開座位就螢幕就上鎖的好習慣。但是偶爾還是會不小心忘記上鎖，所以在這邊記得設定閒置上鎖。</p>
-<ul>
-<li>settings &gt; Power &gt; Power Saving</li>
-</ul>
-<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528pHpR9OS2ny.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528pHpR9OS2ny.png"></p>
-<h2 id="安裝防火牆">安裝防火牆</h2>
-<p>我認為防火牆是必須膽安裝的，因為在開發軟體的過程中本機可能會安裝一些可以對外服務的工具，例如：docker、tomcat、postgresql。因此防火牆是基本要安裝的。</p>
-<p>至於是<code>ufw</code>、<code>firewalld</code>、<code>iptables</code>或是其他選項，我自己目前是比較傾向安裝firewalld。主要是目前碰到的環境系統預設的還是以firewalld為主，然而在Debian 10 的版本我最後是選擇安裝<code>ufw</code>，原因是在處理KVM 網路時會出現問題。 Debian 11 已經沒有這個狀況。</p>
-<ol>
-<li>安裝 ufw</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install ufw
-</span></span></code></pre></div><ol start="2">
-<li>啟動防火牆</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl start ufw
-</span></span><span style="display:flex;"><span>sudo systemctl status ufw
-</span></span></code></pre></div><h2 id="筆電設定蓋上螢幕不進入休眠狀態">筆電設定蓋上螢幕不進入休眠狀態</h2>
-<ul>
-<li>設定 /etc/systemd/logind.conf</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># vim /etc/systemd/logind.conf</span>
-</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore 
+                    <h1 id="kvm-網路">KVM 網路</h1>
+<h2 id="檢視網路">檢視網路</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 列出全部網路設定，包含未啟動的網路</span>
+</span></span><span style="display:flex;"><span>❯ sudo virsh net-list --all                        
+</span></span><span style="display:flex;"><span> Name      State      Autostart   Persistent
+</span></span><span style="display:flex;"><span>----------------------------------------------
+</span></span><span style="display:flex;"><span> default   active     yes         yes
+</span></span><span style="display:flex;"><span> private   inactive   no          yes
+</span></span><span style="display:flex;"><span> public    active     yes         yes
 </span></span></code></pre></div><ul>
-<li>重起</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>systemctl restart systemd-logind 
-</span></span></code></pre></div><h2 id="接上滑鼠自動關閉觸控板">接上滑鼠自動關閉觸控板</h2>
-<p>這個功能對我來說非常重要，因為打字時我的手總是不小心碰到觸控板。</p>
+<li>Name: 網路介面名稱</li>
+<li>State: 目前狀態
 <ul>
-<li>Touchpad Indicator</li>
+<li>active: 啟動</li>
+<li>inactive: 未啟動</li>
 </ul>
-<p><img src="https://ithelp.ithome.com.tw/upload/images/20220917/20128528lKacCg96nO.png" alt="https://ithelp.ithome.com.tw/upload/images/20220917/20128528lKacCg96nO.png"></p>
-<h2 id="參考資料">參考資料</h2>
-<p><a href="https://phoonrich.blogspot.com/2021/04/ubuntu-2004-ibus.html">Ubuntu 20.04 iBus 酷音輸入法編輯使用者詞彙</a></p>
+</li>
+<li>Autostart: 開機時自動啟動
+<ul>
+<li>yes: 開機時自動啟動</li>
+<li>no: 開機時不自動啟動</li>
+</ul>
+</li>
+<li>Persistent: 永久保存</li>
+</ul>
+<h2 id="編輯網路">編輯網路</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>virsh net-list
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列出全部網路設定，包含未啟動的網路</span>
+</span></span><span style="display:flex;"><span>virsh net-list --all
+</span></span><span style="display:flex;"><span>virsh net-edit $NETWORK_NAME
+</span></span></code></pre></div><ul>
+<li>编辑<!-- raw HTML omitted -->段落</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;mtu</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;9000&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;dhcp&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;range</span> <span style="color:#a6e22e">start=</span><span style="color:#e6db74">&#39;192.168.122.100&#39;</span> <span style="color:#a6e22e">end=</span><span style="color:#e6db74">&#39;192.168.122.254&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;host</span> <span style="color:#a6e22e">mac=</span><span style="color:#e6db74">&#39;52:54:00:ed:3c:bc&#39;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;winxp&#39;</span> <span style="color:#a6e22e">ip=</span><span style="color:#e6db74">&#39;192.168.122.2&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;host</span> <span style="color:#a6e22e">mac=</span><span style="color:#e6db74">&#39;52:54:00:19:1b:70&#39;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;loki&#39;</span> <span style="color:#a6e22e">ip=</span><span style="color:#e6db74">&#39;192.168.122.3&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;host</span> <span style="color:#a6e22e">mac=</span><span style="color:#e6db74">&#39;52:54:00:b8:f1:68&#39;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;gilLab&#39;</span> <span style="color:#a6e22e">ip=</span><span style="color:#e6db74">&#39;192.168.122.4&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;host</span> <span style="color:#a6e22e">mac=</span><span style="color:#e6db74">&#39;&#39;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;vm1&#39;</span> <span style="color:#a6e22e">ip=</span><span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dhcp&gt;</span>
+</span></span></code></pre></div><ul>
+<li>重起網路</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo virsh net-destroy $NETWORK_NAME <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sudo virsh net-start $NETWORK_NAME
+</span></span></code></pre></div><h2 id="檢視網路設定">檢視網路設定</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virsh net-dumpxml &lt;network-name&gt;
+</span></span></code></pre></div><h2 id="讓網路在啟動時自動啟用">讓網路在啟動時自動啟用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh net-autostart &lt;network-name&gt;
+</span></span></code></pre></div><p>執行結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo virsh net-autostart private       
+</span></span><span style="display:flex;"><span>Network private marked as autostarted
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<p><a href="https://huataihuang.gitbooks.io/cloud-atlas/content/virtual/kvm/startup/in_action/kvm_libvirt_static_ip_for_dhcp">https://huataihuang.gitbooks.io/cloud-atlas/content/virtual/kvm/startup/in_action/kvm_libvirt_static_ip_for_dhcp</a>  _and_port_forwarding.html</p>
 </div>
                 <div>
                     <script src="https://utteranc.es/client.js"
@@ -243,13 +232,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/1000-01.%E5%89%8D%E8%A8%80/">
-                                <h3 class="">來架個網站吧-01.前言</h3>
+                            <a href="/worknot/worknot-20241104-1/">
+                                <h3 class="">big-ip client linux 安裝</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-11-04</span>
 
     
      
@@ -257,8 +246,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">來架個網站吧</span>
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
     
 
@@ -269,10 +258,6 @@ layui.use('element', function(){
     
         <a href="/tags/linux/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
         </a>
     
     
@@ -283,13 +268,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/1000-02.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87%E8%88%87%E5%88%86%E6%9E%90/">
-                                <h3 class="">來架個網站吧-02.技術分工-1: 需求訪談與分析</h3>
+                            <a href="/worknot/worknot-20241030-2/">
+                                <h3 class="">telnet 替代方案: curl</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-10-30</span>
 
     
      
@@ -297,8 +282,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">來架個網站吧</span>
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
     
 
@@ -311,8 +296,12 @@ layui.use('element', function(){
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
-        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        <a href="/tags/curl/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">curl</span>
+        </a>
+    
+        <a href="/tags/telnet/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">telnet</span>
         </a>
     
     
@@ -323,13 +312,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/1000-03.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E8%A8%AA%E8%AB%87/">
-                                <h3 class="">來架個網站吧-03.技術分工-2: 需求訪談</h3>
+                            <a href="/worknot/worknot-20241030-1/">
+                                <h3 class="">硬體設備-hba</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-10-30</span>
 
     
      
@@ -337,8 +326,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">來架個網站吧</span>
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
     
 
@@ -351,8 +340,8 @@ layui.use('element', function(){
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
-        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
+        <a href="/tags/multipath/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">multipath</span>
         </a>
     
     
@@ -363,13 +352,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/1000-04.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/">
-                                <h3 class="">來架個網站吧-04.技術分工-3: 需求分析</h3>
+                            <a href="/worknot/worknot-20241013-1/">
+                                <h3 class="">AI幻覺導致我操作系統錯誤了</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-10-13</span>
 
     
      
@@ -377,8 +366,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">來架個網站吧</span>
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
     
 
@@ -389,10 +378,6 @@ layui.use('element', function(){
     
         <a href="/tags/linux/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
         </a>
     
     
@@ -403,13 +388,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/post/1000-05.%E6%8A%80%E8%A1%93%E5%88%86%E5%B7%A5-%E7%B3%BB%E7%B5%B1%E9%96%8B%E7%99%BC/">
-                                <h3 class="">來架個網站吧-05.技術分工-4: 系統開發</h3>
+                            <a href="/worknot/worknot-20240805-1/">
+                                <h3 class="">linux 設定網路</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-08-05</span>
 
     
      
@@ -417,8 +402,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e4%be%86%e6%9e%b6%e5%80%8b%e7%b6%b2%e7%ab%99%e5%90%a7/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">來架個網站吧</span>
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
     
 
@@ -429,10 +414,6 @@ layui.use('element', function(){
     
         <a href="/tags/linux/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-        <a href="/tags/2023-ithome-%e9%90%b5%e4%ba%ba%e8%b3%bd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">2023 iThome 鐵人賽</span>
         </a>
     
     

@@ -755,7 +755,9 @@ sudo apt install vim 流程圖與雛型工具-draw.io DrowIO 是我比較常用�
       <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
       
       <guid>http://pollochang.work/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/</guid>
-      <description> /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 sudo sysctl -p ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
+      <description> 設定文件: /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 讓設定生效
+sudo sysctl -p 檢驗
+ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
     </item>
     
     <item>

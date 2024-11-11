@@ -6,7 +6,27 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 04 Nov 2024 15:32:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Nov 2024 22:20:18 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kvm Vm</title>
+      <link>http://pollochang.work/worknot/kvm-vm/</link>
+      <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-vm/</guid>
+      <description>KVM-VM 在虛擬機中啟用 console sudo systemctl enable --now serial-getty@ttyS0.service 從 KVM Host 終端機 進入 KVM console sudo virsh console zabbix --safe 離開 KVM Console 方式
+Use CTRL + 5
+列出所有虛擬機 sudo virsh list --all </description>
+    </item>
+    
+    <item>
+      <title>KVM 網路</title>
+      <link>http://pollochang.work/worknot/kvm-netowrk/</link>
+      <pubDate>Mon, 11 Nov 2024 22:19:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-netowrk/</guid>
+      <description>KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &amp;lt;mtu size=&amp;#34;9000&amp;#34;/&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;#39;192.168.122.100&amp;#39; end=&amp;#39;192.168.122.254&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:ed:3c:bc&amp;#39; name=&amp;#39;winxp&amp;#39; ip=&amp;#39;192.168.122.2&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:19:1b:70&amp;#39; name=&amp;#39;loki&amp;#39; ip=&amp;#39;192.168.122.3&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:b8:f1:68&amp;#39; name=&amp;#39;gilLab&amp;#39; ip=&amp;#39;192.</description>
+    </item>
+    
     <item>
       <title>big-ip client linux 安裝</title>
       <link>http://pollochang.work/worknot/worknot-20241104-1/</link>
@@ -1503,10 +1523,10 @@ curl -s https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh 
       
       <guid>http://pollochang.work/post/006-%E4%B8%80%E4%BA%9B%E9%9B%BB%E8%85%A6%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/</guid>
       <description>我的Linux生活日記 04-一些電腦基本設定 接下來就是一些電腦基本設定啦。由於這次是以個人電腦使用取向為方向，所以原則上電腦設定的部份已圖形介面為主。以下就是新安裝電腦之後會用的設定。
-移除娛樂性質軟體 apt remove aisleriot four-in-a-row gnome-2048 gnome-chess gnome-games gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin lightsoff hitori swell-foop tali gnome-tetravex quadrapassel five-or-more cheese gnome-weather gnome-sound-recorder transmission-gtk transmission-common gnome-music gnome-system-monitor gnome-characters gnome-maps 設定快捷鍵-Tabby 進入設定 settings &amp;gt; Devices &amp;gt; keboard 新增快捷鍵 輸入 tabby 按下你想要的設定：像我就已經習慣 ubuntu 呼叫終端機的方式 Ctrl + Alt + t 設定閒置關閉螢幕並鎖上 工作一天8小時，人總會離開電腦座位的，離開的過程中無法確保家中的小貓、工作調皮的同事會對你未完成的系統加什麼好料，因此養成離開座位就螢幕就上鎖的好習慣。但是偶爾還是會不小心忘記上鎖，所以在這邊記得設定閒置上鎖。
-settings &amp;gt; Power &amp;gt; Power Saving 安裝防火牆 我認為防火牆是必須膽安裝的，因為在開發軟體的過程中本機可能會安裝一些可以對外服務的工具，例如：docker、tomcat、postgresql。因此防火牆是基本要安裝的。
-至於是ufw、firewalld、iptables或是其他選項，我自己目前是比較傾向安裝firewalld。主要是目前碰到的環境系統預設的還是以firewalld為主，然而在Debian 10 的版本我最後是選擇安裝ufw，原因是在處理KVM 網路時會出現問題。 Debian 11 已經沒有這個狀況。
-安裝 ufw sudo apt install ufw 啟動防火牆 sudo systemctl start ufw sudo systemctl status ufw 筆電設定蓋上螢幕不進入休眠狀態 設定 /etc/systemd/logind.</description>
+移除娛樂性質軟體 apt remove aisleriot four-in-a-row gnome-2048 gnome-chess gnome-games gnome-klotski gnome-mahjongg gnome-mines gnome-nibbles gnome-robots gnome-sudoku gnome-taquin lightsoff hitori swell-foop tali gnome-tetravex quadrapassel five-or-more cheese gnome-weather gnome-sound-recorder transmission-gtk transmission-common gnome-music gnome-system-monitor gnome-characters gnome-maps 好用的終端機目錄工具 ranger sudo apt install ranger 快捷建跟 vim 一樣
+另外我也想玩 Midnight Commander
+設定快捷鍵-Tabby 進入設定 settings &amp;gt; Devices &amp;gt; keboard 新增快捷鍵 輸入 tabby 按下你想要的設定：像我就已經習慣 ubuntu 呼叫終端機的方式 Ctrl + Alt + t 設定閒置關閉螢幕並鎖上 工作一天8小時，人總會離開電腦座位的，離開的過程中無法確保家中的小貓、工作調皮的同事會對你未完成的系統加什麼好料，因此養成離開座位就螢幕就上鎖的好習慣。但是偶爾還是會不小心忘記上鎖，所以在這邊記得設定閒置上鎖。
+settings &amp;gt; Power &amp;gt; Power Saving 安裝防火牆 我認為防火牆是必須膽安裝的，因為在開發軟體的過程中本機可能會安裝一些可以對外服務的工具，例如：docker、tomcat、postgresql。因此防火牆是基本要安裝的。</description>
     </item>
     
     <item>
@@ -1893,7 +1913,9 @@ Debian bookworm 在我的筆記型電腦有一段時間是安裝這個版本。�
       <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
       
       <guid>http://pollochang.work/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/</guid>
-      <description> /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 sudo sysctl -p ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
+      <description> 設定文件: /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 讓設定生效
+sudo sysctl -p 檢驗
+ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
     </item>
     
     <item>

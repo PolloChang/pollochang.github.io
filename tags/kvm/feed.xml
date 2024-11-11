@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>KVM on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/kvm/</link>
+    <description>Recent content in KVM on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Mon, 11 Nov 2024 22:20:18 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/kvm/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kvm Vm</title>
+      <link>http://pollochang.work/worknot/kvm-vm/</link>
+      <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-vm/</guid>
+      <description>KVM-VM 在虛擬機中啟用 console sudo systemctl enable --now serial-getty@ttyS0.service 從 KVM Host 終端機 進入 KVM console sudo virsh console zabbix --safe 離開 KVM Console 方式
+Use CTRL + 5
+列出所有虛擬機 sudo virsh list --all </description>
+    </item>
+    
+    <item>
+      <title>KVM 網路</title>
+      <link>http://pollochang.work/worknot/kvm-netowrk/</link>
+      <pubDate>Mon, 11 Nov 2024 22:19:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-netowrk/</guid>
+      <description>KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &amp;lt;mtu size=&amp;#34;9000&amp;#34;/&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;#39;192.168.122.100&amp;#39; end=&amp;#39;192.168.122.254&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:ed:3c:bc&amp;#39; name=&amp;#39;winxp&amp;#39; ip=&amp;#39;192.168.122.2&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:19:1b:70&amp;#39; name=&amp;#39;loki&amp;#39; ip=&amp;#39;192.168.122.3&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:b8:f1:68&amp;#39; name=&amp;#39;gilLab&amp;#39; ip=&amp;#39;192.</description>
+    </item>
+    
+  </channel>
+</rss>

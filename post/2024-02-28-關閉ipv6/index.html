@@ -8,7 +8,9 @@
     
     <meta content="Linux, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 -  /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 sudo sysctl -p ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 " name="description">
+    <meta content="PolloChang 工作筆記 -  設定文件: /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 讓設定生效
+sudo sysctl -p 檢驗
+ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -153,13 +155,15 @@ layui.use('element', function(){
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
                     <ul>
-<li>/etc/sysctl.conf</li>
+<li>設定文件: /etc/sysctl.conf</li>
 </ul>
 <pre tabindex="0"><code class="language-conf" data-lang="conf">net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo sysctl -p
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip a | grep inet6
+</code></pre><p>讓設定生效</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo sysctl -p
+</span></span></code></pre></div><p>檢驗</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip a | grep inet6
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="http://playubuntu.blogspot.com/2010/12/ubuntu-ipv6.html">關閉 Ubuntu 的 Ipv6</a></li>
