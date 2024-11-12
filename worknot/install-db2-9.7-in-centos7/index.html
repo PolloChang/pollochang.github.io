@@ -1,0 +1,685 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Install DB2 9.7 in CentOS7 </title>
+    
+    
+    <meta content="db2, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 安裝順序 scp ./v9.7fp7_linuxx64_server.tar.gz jameschang@192.168.122.138:/tmp/ # 創建需要的目錄 mkdir -p /db2 mkdir /source # 複製安裝包到映像內 mv /tmp/v9.7fp7_linuxx64_server.tar.gz /source # 安裝必要的依賴包 yum update -y yum install -y gcc libaio libstdc&#43;&#43; libstdc&#43;&#43;-devel pam perl tar pam.i686 libnsl libnsl.i686 glibc.i686 # OL9 yum install -y glibc.i686 libstdc&#43;&#43;.i686 yum install -y https://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/libstdc&#43;&#43;5-3.3.6-19.mga9.x86_64.rpm # OL9 離線安裝準備 rpm yumdowner gcc glibc libaio libnsl libnsl libstdc&#43;&#43; libstdc&#43;&#43;-devel libstdc&#43;&#43;-devel pam perl glibc glibc-common glibc-gconv-extra glibc-langpack-en libgcc libgomp libstdc&#43;&#43; pam annobin audit-libs cpp dwz efi-srpm-macros fonts-srpm-macros gcc-c&#43;&#43; gcc-plugin-annobin ghc-srpm-macros glibc-devel glibc-gconv-extra glibc-headers go-srpm-macros kernel-headers kernel-srpm-macros libcap-ng libdatrie libdb libeconf libgcc libmpc libpkgconf libselinux libsepol libthai libxcrypt libxcrypt-devel llvm-libs lua-srpm-macros ocaml-srpm-macros openblas-srpm-macros openssl-libs pcre2 perl-Algorithm-Diff perl-Archive-Tar perl-Archive-Zip perl-Attribute-Handlers perl-AutoLoader perl-AutoSplit perl-B perl-Benchmark perl-CPAN perl-CPAN-Meta perl-CPAN-Meta-Requirements perl-CPAN-Meta-YAML perl-Carp perl-Class-Struct perl-Compress-Bzip2 perl-Compress-Raw-Bzip2 perl-Compress-Raw-Lzma perl-Compress-Raw-Zlib perl-Config-Extensions perl-Config-Perl-V perl-DBM_Filter perl-DB_File perl-Data-Dumper perl-Data-OptList perl-Data-Section perl-Devel-PPPort perl-Devel-Peek perl-Devel-SelfStubber perl-Devel-Size perl-Digest perl-Digest-MD5 perl-Digest-SHA perl-Digest-SHA1 perl-DirHandle perl-Dumpvalue perl-DynaLoader perl-Encode perl-Encode-devel perl-English perl-Env perl-Errno perl-Exporter perl-ExtUtils-CBuilder perl-ExtUtils-Command perl-ExtUtils-Constant perl-ExtUtils-Embed perl-ExtUtils-Install perl-ExtUtils-MM-Utils perl-ExtUtils-MakeMaker perl-ExtUtils-Manifest perl-ExtUtils-Miniperl perl-ExtUtils-ParseXS perl-Fcntl perl-File-Basename perl-File-Compare perl-File-Copy perl-File-DosGlob perl-File-Fetch perl-File-Find perl-File-HomeDir perl-File-Path perl-File-Temp perl-File-Which perl-File-stat perl-FileCache perl-FileHandle perl-Filter perl-Filter-Simple perl-FindBin perl-GDBM_File perl-Getopt-Long perl-Getopt-Std perl-HTTP-Tiny perl-Hash-Util perl-Hash-Util-FieldHash perl-I18N-Collate perl-I18N-LangTags perl-I18N-Langinfo perl-IO perl-IO-Compress perl-IO-Compress-Lzma perl-IO-Socket-IP perl-IO-Socket-SSL perl-IO-Zlib perl-IPC-Cmd perl-IPC-Open3 perl-IPC-SysV perl-IPC-System-Simple perl-Importer perl-JSON-PP perl-Locale-Maketext perl-Locale-Maketext-Simple perl-MIME-Base64 perl-MIME-Charset perl-MRO-Compat perl-Math-BigInt perl-Math-BigInt-FastCalc perl-Math-BigRat perl-Math-Complex perl-Memoize perl-Module-Build perl-Module-CoreList perl-Module-CoreList-tools perl-Module-Load perl-Module-Load-Conditional perl-Module-Loaded perl-Module-Metadata perl-Module-Signature perl-Mozilla-CA perl-NDBM_File perl-NEXT perl-Net perl-Net-Ping perl-Net-SSLeay perl-ODBM_File perl-Object-HashBase perl-Opcode perl-POSIX perl-Package-Generator perl-Params-Check perl-Params-Util perl-PathTools perl-Perl-OSType perl-PerlIO-via-QuotedPrint perl-Pod-Checker perl-Pod-Escapes perl-Pod-Functions perl-Pod-Html perl-Pod-Perldoc perl-Pod-Simple perl-Pod-Usage perl-Safe perl-Scalar-List-Utils perl-Search-Dict perl-SelectSaver perl-SelfLoader perl-Socket perl-Software-License perl-Storable perl-Sub-Exporter perl-Sub-Install perl-Symbol perl-Sys-Hostname perl-Sys-Syslog perl-Term-ANSIColor perl-Term-Cap perl-Term-Complete perl-Term-ReadLine perl-Term-Size-Perl perl-Term-Table perl-Test perl-Test-Harness perl-Test-Simple perl-Text-Abbrev perl-Text-Balanced perl-Text-Diff perl-Text-Glob perl-Text-ParseWords perl-Text-Tabs&#43;Wrap perl-Text-Template perl-Thread perl-Thread-Queue perl-Thread-Semaphore perl-Tie perl-Tie-File perl-Tie-Memoize perl-Tie-RefHash perl-Time perl-Time-HiRes perl-Time-Local perl-Time-Piece perl-URI perl-Unicode-Collate perl-Unicode-Normalize perl-Unicode-UCD perl-User-pwent perl-autodie perl-autouse perl-base perl-bignum perl-blib perl-constant perl-debugger perl-deprecate perl-devel perl-diagnostics perl-doc perl-encoding perl-encoding-warnings perl-experimental perl-fields perl-filetest perl-if perl-inc-latest perl-interpreter perl-less perl-lib perl-libnet perl-libnetcfg perl-libs perl-local-lib perl-locale perl-macros perl-meta-notation perl-mro perl-open perl-overload perl-overloading perl-parent perl-perlfaq perl-ph perl-podlators perl-sigtrap perl-sort perl-srpm-macros perl-subs perl-threads perl-threads-shared perl-utils perl-vars perl-version perl-vmsish pkgconf pkgconf-m4 pkgconf-pkg-config pyproject-srpm-macros python-srpm-macros qt5-srpm-macros redhat-rpm-config rust-srpm-macros sombok systemtap-sdt-devel zip zlib perl-CPAN-DistnameInfo perl-Encode-Locale perl-Term-Size-Any perl-TermReadKey perl-Unicode-LineBreak yum clean all ## 變更核心參數 echo &#34;fs." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Install DB2 9.7 in CentOS7</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="安裝順序">安裝順序</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>scp ./v9.7fp7_linuxx64_server.tar.gz jameschang@192.168.122.138:/tmp/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建需要的目錄</span>
+</span></span><span style="display:flex;"><span>mkdir -p /db2
+</span></span><span style="display:flex;"><span>mkdir /source
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 複製安裝包到映像內</span>
+</span></span><span style="display:flex;"><span>mv /tmp/v9.7fp7_linuxx64_server.tar.gz /source
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝必要的依賴包</span>
+</span></span><span style="display:flex;"><span>yum update -y
+</span></span><span style="display:flex;"><span>yum install -y gcc libaio libstdc++ libstdc++-devel pam perl tar pam.i686 libnsl libnsl.i686 glibc.i686
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OL9</span>
+</span></span><span style="display:flex;"><span>yum install -y glibc.i686 libstdc++.i686
+</span></span><span style="display:flex;"><span>yum install -y https://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/libstdc++5-3.3.6-19.mga9.x86_64.rpm
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OL9 離線安裝準備 rpm</span>
+</span></span><span style="display:flex;"><span>yumdowner gcc glibc libaio libnsl libnsl libstdc++ libstdc++-devel libstdc++-devel pam perl glibc glibc-common glibc-gconv-extra glibc-langpack-en libgcc libgomp libstdc++ pam annobin audit-libs cpp dwz efi-srpm-macros fonts-srpm-macros gcc-c++ gcc-plugin-annobin ghc-srpm-macros glibc-devel glibc-gconv-extra glibc-headers go-srpm-macros kernel-headers kernel-srpm-macros libcap-ng libdatrie libdb libeconf libgcc libmpc libpkgconf libselinux libsepol libthai libxcrypt libxcrypt-devel llvm-libs lua-srpm-macros ocaml-srpm-macros openblas-srpm-macros openssl-libs pcre2 perl-Algorithm-Diff perl-Archive-Tar perl-Archive-Zip perl-Attribute-Handlers perl-AutoLoader perl-AutoSplit perl-B perl-Benchmark perl-CPAN perl-CPAN-Meta perl-CPAN-Meta-Requirements perl-CPAN-Meta-YAML perl-Carp perl-Class-Struct perl-Compress-Bzip2 perl-Compress-Raw-Bzip2 perl-Compress-Raw-Lzma perl-Compress-Raw-Zlib perl-Config-Extensions perl-Config-Perl-V perl-DBM_Filter perl-DB_File perl-Data-Dumper perl-Data-OptList perl-Data-Section perl-Devel-PPPort perl-Devel-Peek perl-Devel-SelfStubber perl-Devel-Size perl-Digest perl-Digest-MD5 perl-Digest-SHA perl-Digest-SHA1 perl-DirHandle perl-Dumpvalue perl-DynaLoader perl-Encode perl-Encode-devel perl-English perl-Env perl-Errno perl-Exporter perl-ExtUtils-CBuilder perl-ExtUtils-Command perl-ExtUtils-Constant perl-ExtUtils-Embed perl-ExtUtils-Install perl-ExtUtils-MM-Utils perl-ExtUtils-MakeMaker perl-ExtUtils-Manifest perl-ExtUtils-Miniperl perl-ExtUtils-ParseXS perl-Fcntl perl-File-Basename perl-File-Compare perl-File-Copy perl-File-DosGlob perl-File-Fetch perl-File-Find perl-File-HomeDir perl-File-Path perl-File-Temp perl-File-Which perl-File-stat perl-FileCache perl-FileHandle perl-Filter perl-Filter-Simple perl-FindBin perl-GDBM_File perl-Getopt-Long perl-Getopt-Std perl-HTTP-Tiny perl-Hash-Util perl-Hash-Util-FieldHash perl-I18N-Collate perl-I18N-LangTags perl-I18N-Langinfo perl-IO perl-IO-Compress perl-IO-Compress-Lzma perl-IO-Socket-IP perl-IO-Socket-SSL perl-IO-Zlib perl-IPC-Cmd perl-IPC-Open3 perl-IPC-SysV perl-IPC-System-Simple perl-Importer perl-JSON-PP perl-Locale-Maketext perl-Locale-Maketext-Simple perl-MIME-Base64 perl-MIME-Charset perl-MRO-Compat perl-Math-BigInt perl-Math-BigInt-FastCalc perl-Math-BigRat perl-Math-Complex perl-Memoize perl-Module-Build perl-Module-CoreList perl-Module-CoreList-tools perl-Module-Load perl-Module-Load-Conditional perl-Module-Loaded perl-Module-Metadata perl-Module-Signature perl-Mozilla-CA perl-NDBM_File perl-NEXT perl-Net perl-Net-Ping perl-Net-SSLeay perl-ODBM_File perl-Object-HashBase perl-Opcode perl-POSIX perl-Package-Generator perl-Params-Check perl-Params-Util perl-PathTools perl-Perl-OSType perl-PerlIO-via-QuotedPrint perl-Pod-Checker perl-Pod-Escapes perl-Pod-Functions perl-Pod-Html perl-Pod-Perldoc perl-Pod-Simple perl-Pod-Usage perl-Safe perl-Scalar-List-Utils perl-Search-Dict perl-SelectSaver perl-SelfLoader perl-Socket perl-Software-License perl-Storable perl-Sub-Exporter perl-Sub-Install perl-Symbol perl-Sys-Hostname perl-Sys-Syslog perl-Term-ANSIColor perl-Term-Cap perl-Term-Complete perl-Term-ReadLine perl-Term-Size-Perl perl-Term-Table perl-Test perl-Test-Harness perl-Test-Simple perl-Text-Abbrev perl-Text-Balanced perl-Text-Diff perl-Text-Glob perl-Text-ParseWords perl-Text-Tabs+Wrap perl-Text-Template perl-Thread perl-Thread-Queue perl-Thread-Semaphore perl-Tie perl-Tie-File perl-Tie-Memoize perl-Tie-RefHash perl-Time perl-Time-HiRes perl-Time-Local perl-Time-Piece perl-URI perl-Unicode-Collate perl-Unicode-Normalize perl-Unicode-UCD perl-User-pwent perl-autodie perl-autouse perl-base perl-bignum perl-blib perl-constant perl-debugger perl-deprecate perl-devel perl-diagnostics perl-doc perl-encoding perl-encoding-warnings perl-experimental perl-fields perl-filetest perl-if perl-inc-latest perl-interpreter perl-less perl-lib perl-libnet perl-libnetcfg perl-libs perl-local-lib perl-locale perl-macros perl-meta-notation perl-mro perl-open perl-overload perl-overloading perl-parent perl-perlfaq perl-ph perl-podlators perl-sigtrap perl-sort perl-srpm-macros perl-subs perl-threads perl-threads-shared perl-utils perl-vars perl-version perl-vmsish pkgconf pkgconf-m4 pkgconf-pkg-config pyproject-srpm-macros python-srpm-macros qt5-srpm-macros redhat-rpm-config rust-srpm-macros sombok systemtap-sdt-devel zip zlib perl-CPAN-DistnameInfo perl-Encode-Locale perl-Term-Size-Any perl-TermReadKey perl-Unicode-LineBreak
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>yum clean all
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 變更核心參數</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;fs.file-max = 16384&#34;</span> &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### 關閉Linux地址空間隨機, 解決 DBT3534W</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;kernel.randomize_va_space = 0&#34;</span>  &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sysctl -p /etc/sysctl.d/gcb.conf /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解壓安裝包並安裝 DB2</span>
+</span></span><span style="display:flex;"><span>cd /source
+</span></span><span style="display:flex;"><span>tar -xzf v9.7fp7_linuxx64_server.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vi /source/server/db2_install.rsp
+</span></span></code></pre></div><ul>
+<li>/source/server/db2_install.rsp</li>
+</ul>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">** Response File for ESE
+**  Also creates and starts db2 instance and makes entry in /etc/services
+**  Configures all required instance-level parameters except SYSMON_GROUP, which must still be set manually
+**  Additional DB2 work is still required after Commerce instance creation
+PROD                      = ENTERPRISE_SERVER_EDITION
+FILE                      = /opt/ibm/db2/V9.7
+LIC_AGREEMENT             = ACCEPT         ** ACCEPT or DECLINE
+INSTALL_TYPE              = TYPICAL         ** TYPICAL, COMPACT, CUSTOM
+INSTALL_TSAMP             = NO             ** YES or NO. Valid for root install only
+INSTANCE                  = db2inst1
+LANG                      = EN
+db2inst1.NAME             = db2inst1        ** real name of the instance
+db2inst1.GROUP_NAME       = db2iadm1        ** char(30) no spaces
+db2inst1.HOME_DIRECTORY   = /home/db2inst1  ** char(64) no spaces. Valid for root install only
+db2inst1.AUTOSTART        = YES             ** YES or NO
+db2inst1.START_DURING_INSTALL = NO         ** YES or NO
+db2inst1.SVCENAME        = db2c_db2inst1   ** BLANK or char(14). Reserved for root install only
+db2inst1.PORT_NUMBER     = 50000           ** 1024 - 65535, Reserved for root install only
+db2inst1.TYPE            = ESE             ** ESE WSE STANDALONE CLIENT
+db2inst1.AUTHENTICATION  = SERVER          ** CLIENT, SERVER, or SERVER_ENCRYPT
+db2inst1.FENCED_USERNAME  = db2fenc1        ** char(8)  no spaces, no upper case letters
+db2inst1.FENCED_GROUP_NAME = db2fadm1       ** char(30)  no spaces
+db2inst1.FENCED_HOME_DIRECTORY = /home/db2fenc          ** char(64) no spaces
+db2inst1.DFTDBPATH       = /db2          ** any valid path
+db2inst1.DFT_MON_BUFPOOL = ON                 ** ON or OFF
+db2inst1.DFT_MON_LOCK    = ON                 ** ON or OFF
+db2inst1.DFT_MON_SORT    = ON                 ** ON or OFF
+db2inst1.DFT_MON_STMT    = ON                 ** ON or OFF
+db2inst1.DFT_MON_TABLE   = ON                 ** ON or OFF
+db2inst1.DFT_MON_UOW     = ON                 ** ON or OFF
+db2inst1.DFT_MON_TIMESTAMP = ON               ** ON or OFF
+db2inst1.INSTANCE_MEMORY = AUTOMATIC          ** AUTOMATIC or a number in range [0, 1000000] for 32-bit and [0, 68719476736] for 64-bit
+db2inst1.HEALTH_MON      = OFF                ** default is ON; ON or OFF
+db2inst1.SHEAPTHRES      = 50000                ** 250 - 2097152
+db2inst1.SPM_NAME        = NULL                ** BLANK or char(8)
+db2inst1.SYSADM_GROUP    = db2iadm1                 ** BLANK or char(30)
+db2inst1.DB2BIDI         = ON                 ** BLANK, 0, 1, YES, NO, ON, OFF, Y, N, TRUE, FALSE, T or F
+db2inst1.DB2_PARALLEL_IO = *                 ** BLANK, * or 0-4095,0-4095,...
+db2inst1.DB2_INLIST_TO_NLJN = YES              ** BLANK or YES, NO
+db2inst1.DB2_USE_ALTERNATE_PAGE_CLEANING = ON ** BLANK or ON, OFF
+db2inst1.DB2_WORKLOAD    = WC         ** BLANK, SAP
+db2inst1.DB2COMM         = TCPIP
+db2inst1.PASSWORD        = wezoomteko
+db2inst1.FENCED_PASSWORD = wezoomteko
+DAS_PASSWORD             = wezoomteko
+DAS_USERNAME             = dasusr1                 ** char(8)  no spaces, no upper case letters
+DAS_GROUP_NAME           = dasadm1                 ** char(30)  no spaces
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 建議可以在這邊做快照</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">700</span> db2iadm1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>groupadd -g <span style="color:#ae81ff">701</span> db2fadm1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>groupadd -g <span style="color:#ae81ff">702</span> dasadm1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>useradd -u <span style="color:#ae81ff">700</span> -g db2iadm1 -m -d /home/db2inst1 db2inst1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>useradd -u <span style="color:#ae81ff">701</span> -g db2fadm1 -m -d /home/db2fenc1 db2fenc1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>useradd -u <span style="color:#ae81ff">702</span> -g dasadm1 -m -d /home/dasusr1 dasusr1 <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>cd /source/server
+</span></span><span style="display:flex;"><span>./db2prereqcheck <span style="color:#f92672">&amp;&amp;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./db2setup -r /source/server/db2_install.rsp
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /opt/IBM/db2/V9.7/instance/db2icrt -u db2fenc1 db2inst1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chown db2inst1: /db2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;export DB2DIR=/opt/ibm/db2/V9.7&#34;</span> &gt;&gt; /home/db2inst1/.bashrc
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;export PATH=\$DB2DIR/bin:\$PATH&#34;</span> &gt;&gt; /home/db2inst1/.bashrc
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;export LD_LIBRARY_PATH=\$DB2DIR/lib:\$LD_LIBRARY_PATH&#34;</span> &gt;&gt; /home/db2inst1/.bashrc
+</span></span></code></pre></div><h3 id="安裝完成訊息">安裝完成訊息</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Post Install Recommendations 
+</span></span><span style="display:flex;"><span>-----------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Required steps: 
+</span></span><span style="display:flex;"><span>You can connect to the DB2 instance <span style="color:#e6db74">&#34;db2inst1&#34;</span> using the port number <span style="color:#e6db74">&#34;50000&#34;</span>. Record it <span style="color:#66d9ef">for</span> future reference. 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>In order to start using DB2 you need to logon using a valid user ID such as the DB2 instance owner<span style="color:#e6db74">&#39;s ID &#34;db2inst1&#34;. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Optional steps: 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Some features, such as OS-based authentication, DB2 High Availability, and configuring the DB2 Advanced Copy Services (ACS) directory are available only in root installations. Also, reserving service names for TCP/IP remote connection or DB2 Text Search is available only in root installations. To enable these features and abilities in non-root installations, run the db2rfe script as the root user with a configuration file. See /opt/ibm/db2/V9.7/instance/db2rfe.cfg for an example of the configuration file. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">To start using the DB2 instance &#34;root&#34;, you must set up the DB2 instance environment by sourcing db2profile (for Bourne or Korn shell) or db2cshrc (for C shell) in the sqllib directory with the command &#34;.  $HOME/sqllib/db2profile&#34; or &#34;source   $HOME/sqllib/db2cshrc&#34;. $HOME represents the home directory of the DB2 instance. You can also open a new login window of the DB2 instance user. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">To validate your installation files, instance, and database functionality, run the Validation Tool, /opt/ibm/db2/V9.7/bin/db2val. For more information, see &#34;db2val&#34; in the DB2 Information Center. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Refer to &#34;What&#39;</span>s new<span style="color:#e6db74">&#34; http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/topic/com.ibm.db2.luw.wn.doc/doc/c0052035.html in the DB2 Information Center to learn about the new functions for DB2 V9.7. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Open First Steps by running &#34;</span>db2fs<span style="color:#e6db74">&#34; using a valid user ID such as the DB2 instance owner&#39;s ID. You will need to have DISPLAY set and a supported web browser in the path of this user ID. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Verify that you have access to the DB2 Information Center based on the choices you made during this installation. If you performed a typical or a compact installation, verify that you can access the IBM Web site using the internet. If you performed a custom installation, verify that you can access the DB2 Information Center location specified during the installation. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">You should ensure that you have the correct license entitlements for DB2 products and features installed on this machine. Each DB2 product or feature comes with a license certificate file (also referred to as a license key) that is distributed on an Activation CD, which also includes instructions for applying the license file. If you purchased a base DB2 product, as well as, separately priced features, you might need to install more than one license certificate. The Activation CD for your product or feature can be downloaded from Passport Advantage if it is not part of the physical media pack you received from IBM. For more information on licensing, search the Information Center (http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp) using terms such as &#34;</span>licensing<span style="color:#e6db74">&#34; or &#34;</span>db2licm<span style="color:#e6db74">&#34;. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">DB2 Setup log file finished at:  Mon 01 Jul 2024 02:56:44 PM CST CST
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">============================================================
+</span></span></span></code></pre></div><h3 id="匯入-db2-授權檔">匯入 DB2 授權檔</h3>
+<ul>
+<li>匯入 license 必須使用 DB Instance 的帳號</li>
+<li>授權檔可從檔名區分不同類型
+<ul>
+<li>db2aese_c.lic - DB2 Advanced Enterpriese Server Edition(aese), CPU License type(_c)</li>
+<li>db2ese_c.lic - DB2 Enterpriese Server Edition(ese), CPU License type(_c)</li>
+<li>db2wse_c.lic - DB2 Workgroup Server Edition(wse)，CPU License type(_c)</li>
+<li>db2aese_t.lic - DB2 Advanced Enterpriese Server Edition(aese), Trial License type(_t)</li>
+</ul>
+</li>
+<li>V9.1 與 V9.7 的授權不可互用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 匯入授權</span>
+</span></span><span style="display:flex;"><span>db2licm -a db2/license/db2aese_c.lic
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢視授權資訊</span>
+</span></span><span style="display:flex;"><span>db2licm -l
+</span></span></code></pre></div><h2 id="建立資料庫">建立資料庫</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /db2/data/swjdb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>su - db2inst1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>db2start
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>db2 create db swjdb on /db2/data/swjdb/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>db2 connect to swjdb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>db2 update dbm cfg using DFTDBPATH /db2/data/swjdb/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>db2 disconnect current
+</span></span></code></pre></div><h2 id="建立-daemon">建立 daemon</h2>
+<h3 id="開機時啟動">開機時啟動</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo vi /usr/local/bin/cunstom_startup_script.sh
+</span></span><span style="display:flex;"><span>sudo vi /etc/systemd/system/cunstom_startup.service
+</span></span><span style="display:flex;"><span>sudo chmod +x /usr/local/bin/cunstom_startup_script.sh
+</span></span><span style="display:flex;"><span>sudo systemctl start cunstom_startup_script.service
+</span></span><span style="display:flex;"><span>sudo systemctl enable cunstom_startup.service
+</span></span></code></pre></div><ul>
+<li>/usr/local/bin/cunstom_startup_script.sh</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>su - db2inst1 -c db2start
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/cunstom_startup.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>My Startup Service
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>oneshot
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/local/bin/cunstom_startup_script.sh
+</span></span><span style="display:flex;"><span>RemainAfterExit<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><h3 id="關機時關閉">關機時關閉</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable cunstom_shutdown.service
+</span></span></code></pre></div><ul>
+<li>/usr/local/bin/cunstom_shutdown_script.sh</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>su - db2inst1 -c db2stop
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/cunstom_shutdown.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>My Shutdown Service
+</span></span><span style="display:flex;"><span>DefaultDependencies<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>Before<span style="color:#f92672">=</span>shutdown.target reboot.target halt.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>oneshot
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/local/bin/cunstom_shutdown_script.sh
+</span></span><span style="display:flex;"><span>RemainAfterExit<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>halt.target reboot.target shutdown.target
+</span></span></code></pre></div><h2 id="防火牆設定">防火牆設定</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --add-port<span style="color:#f92672">=</span>50000/tcp
+</span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
+<h3 id="dbi1130e--the-ibm-tivoli-system-automation-for-multiplatforms-sa-mp">DBI1130E  The IBM Tivoli System Automation for Multiplatforms (SA MP)</h3>
+<pre tabindex="0"><code>DBI1130E  The IBM Tivoli System Automation for Multiplatforms (SA MP)
+      could not be installed or updated because system prerequisites
+      were not met. See the log file /tmp/prereqSAM.log.26897 for details.
+</code></pre><pre tabindex="0"><code>DBI1130E  The IBM Tivoli System Automation for Multiplatforms (SA MP)
+      could not be installed or updated because system prerequisites
+      were not met. See the log file /tmp/prereqSAM.log.19808 for details
+</code></pre><pre tabindex="0"><code>DBI1130E  The IBM Tivoli System Automation for Multiplatforms (SA MP)
+      could not be installed or updated because system prerequisites
+      were not met. See the log file /tmp/prereqSAM.log.20636 for details.
+</code></pre><pre tabindex="0"><code>DBI1130E  The IBM Tivoli System Automation for Multiplatforms (SA MP)
+      could not be installed or updated because system prerequisites
+      were not met. See the log file /tmp/prereqSAM.log.26897 for details.
+</code></pre><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://www.ibm.com/support/pages/various-db2-failures-may-occur-linux-address-space-layout-randomization-aslr">Various DB2 failures may occur on Linux with Address Space Layout Randomization (ASLR)</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/db2-audit-rc-table/">
+                                <h3 class="">DB2 Audit Rc Table</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-12</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240513-1/">
+                                <h3 class="">DB2 維護相關 SQL</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-05-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

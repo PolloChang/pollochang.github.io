@@ -6,7 +6,20 @@
     <description>Recent content in Linux Cli on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 03 Jul 2024 23:43:33 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux-cli/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Nov 2024 00:18:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux-cli/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fail2ban</title>
+      <link>http://pollochang.work/worknot/linux-fail2ban/</link>
+      <pubDate>Wed, 13 Nov 2024 00:18:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-fail2ban/</guid>
+      <description>#@ fail2ban 安裝
+apt install fail2ban -y 狀態 檢查監控的服務
+fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; banip &amp;ldquo;IP-Address&amp;rdquo;
+fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; unbanip &amp;ldquo;Banned IP-Address&amp;rdquo;
+fail2ban-client set sshd unbanip 10.137.26.29 </description>
+    </item>
+    
     <item>
       <title>Linux Grub2 Set Default(手動設定開機時要啟動的 linux 核心)</title>
       <link>http://pollochang.work/worknot/linux-grub2-set-default/</link>
