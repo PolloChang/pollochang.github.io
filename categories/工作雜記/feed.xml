@@ -6,7 +6,29 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 04 Nov 2024 15:32:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 Nov 2024 23:13:11 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>資訊工程職務必經之路</title>
+      <link>http://pollochang.work/worknot/worknot-20241112-1/</link>
+      <pubDate>Tue, 12 Nov 2024 23:13:11 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241112-1/</guid>
+      <description>以下是我個人工作上的經驗，笑笑就好
+初階工程師 一開始我踏入資訊行業是擔任甲方駐點資訊人員。事情很雜，凡事系統發生問題都要處理，最小的事情是系統發生錯誤要進行排除，大到系統崩潰都要進行處理。但是擔任第一線的資訊員通常只要進行事件回報即可，等到有一定的排除系統能力也就漸漸的往其他領域發展。
+在這個階段往往不用負起責任，但是事情也是最繁雜的時候。要做報告、撈資料&amp;hellip;&amp;hellip;等一大堆雜事。不過我也在這個職位待個一年多左右。
+以下是我覺的這個職務必經之路
+事情永遠做不完做不好 網站開發工程師 開發工作是我比較喜歡的的職務，因為寫程式對於我來說是一種邏輯思考訓練，同時也是一種自我挑戰。挑戰的項目有很多，例如: 在30秒之內完成業務雜的邏輯運算、全部使用某種語言完成開發&amp;hellip;等。另外這段時間也改良過 open source 程式: nodeBB 、jasperreports 等等。直到目前我還是會每個月花個一兩週回鍋一下開發。
+以下是我覺的這個職務必經之路
+寫了比鳥巢還巢狀的程式 寫了 SQL Injection 的程式 分析師 分析的路很廣，有分析業務需求、原始系統功能等等。這個職務我覺的比像人類科學家。在需求訪談的過程中，會需要分析這一群人到底在做什麼? 為什麼會需要做? 不做又會怎樣? 資訊是如何流通的? 而且在需求會議中往往有業務單位間的意見衝突。
+在這個過程中，我也發現自己不是非常喜歡面對人群，所以擔任分析師過後我就專職單純的資訊技術發展了。
+以下是我覺的這個職務必經之路
+在分析會議上分神一陣子 被人嫌，你當初怎模沒有想到 資料庫管理人員 雖然我碰觸過一些大型的資料庫，也安裝、維護、調校過，例如: DB2 HA、Oracle RAC 等等。但是我一直不敢說我是 DBA。也許是身處在台灣資訊市場環境，專職 DBA 的人員少支又少，比日本壓縮機還要稀少。在這份職務上我只是兼職，剛好碰到資料庫出現問題又找不到人處理狀況下處理而已。再過去處理的經驗上充滿了汗血。
+以下是我覺的這個職務必經之路
+不小心誤刪掉資料(庫)，又親手還原回來 建資料庫時，建完了又刪、刪了又建然後發現還要建測試環境 總是被要求系統離蜂作業 系統工程師 這部份是偶然的職務。在「初階工程師」階段，因為好奇系統出錯會怎樣，加上過去在處理資料庫問題會需要模擬情境，因此不小心習得 KVM 虛擬化、容器技術。模擬過程中得不時建網站服務，如: tomacat 、編譯 nginx、安裝資料庫 等等。這部份的技能我反而比較熟悉。熟悉到有辦法拿一台 x86 主機在短短一兩個小時之內從空的作業系統安裝到完成網站服務進入運作(要看網站服務要求啦)。
+以下是我覺的這個職務必經之路
+手殘下 rm -rf /* (我個人是出自好奇在 LAB 中執行) 硬碟括容後發現做錯硬碟了 port 搞錯 我到底建了哪些服務，是我建的嗎? </description>
+    </item>
+    
     <item>
       <title>big-ip client linux 安裝</title>
       <link>http://pollochang.work/worknot/worknot-20241104-1/</link>
