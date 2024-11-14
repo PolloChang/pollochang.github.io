@@ -209,6 +209,11 @@ layui.use('element', function(){
 </span></span></code></pre></div><p>執行結果</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo virsh net-autostart private       
 </span></span><span style="display:flex;"><span>Network private marked as autostarted
+</span></span></code></pre></div><h2 id="產生-mac">產生 MAC</h2>
+<p>符合 KVM/QEMU 規範的 MAC 地址：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;52:54:00:</span><span style="color:#66d9ef">$(</span>openssl rand -hex <span style="color:#ae81ff">3</span> | sed <span style="color:#e6db74">&#39;s/\(..\)/\1:/g; s/:$//&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>使用 openssl 命令隨機生成</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl rand -hex <span style="color:#ae81ff">6</span> | sed <span style="color:#e6db74">&#39;s/\(..\)/\1:/g; s/:$//&#39;</span>
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <p><a href="https://huataihuang.gitbooks.io/cloud-atlas/content/virtual/kvm/startup/in_action/kvm_libvirt_static_ip_for_dhcp">https://huataihuang.gitbooks.io/cloud-atlas/content/virtual/kvm/startup/in_action/kvm_libvirt_static_ip_for_dhcp</a>  _and_port_forwarding.html</p>
 </div>

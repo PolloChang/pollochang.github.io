@@ -137,6 +137,51 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20241030-1/">
+            <h2 class="">硬體設備-hba</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-10-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/multipath/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">multipath</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				最近工作中遇到需要設定光纖設備，這邊我稍微紀錄一下過往常用的指令
+查詢 hba 型號: ``
+[root@test-host ~]# lspci -nn |egrep -i &#34;fibre|hba&#34; 17:00.0 Fibre Channel [0c04]: QLogic Corp. ...
+             <a href="/worknot/worknot-20241030-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/prometheus-node-exporter/">
             <h2 class="">Prometheus Node Exporter 設定</h2>
         </a>
@@ -501,49 +546,6 @@ API_KRY=your_token ...
 				環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&gt; Security -&gt; Generate Tokens
 jenkins ...
              <a href="/worknot/jenkins-sonarqube-pipeline-20240810-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/jenkins-jmeter-pipeline-20240810-1/">
-            <h2 class="">透過 Jenkins Pipeline 執行 Jmeter 進行壓力測試</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-08-10</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/ci/cd/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CI/CD</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/jenkins/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jenkins</span>
-        </a>
-    
-        <a href="/tags/jmeter/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Jmeter</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				 Pipeline script node { stage(&#34;set env&#34;){ def BUILDVERSION = sh(script: &#34;echo `date +%s`&#34;, returnStdout: true).trim() //apache-jmeter目 ...
-             <a href="/worknot/jenkins-jmeter-pipeline-20240810-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
