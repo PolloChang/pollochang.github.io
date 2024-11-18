@@ -6,7 +6,16 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 13 Nov 2024 11:46:34 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Nov 2024 12:23:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</title>
+      <link>http://pollochang.work/worknot/worknot-20241118-1/</link>
+      <pubDate>Mon, 18 Nov 2024 12:23:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241118-1/</guid>
+      <description>詳細錯誤訊息 Nov 18 12:17:01 91214Desktop CRON[204259]: PAM unable to dlopen(pam_pwquality.so): /lib/security/pam_pwquality.so: cannot open shared object file: No such file or directory Nov 18 12:17:01 91214Desktop CRON[204259]: PAM adding faulty module: pam_pwquality.so Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0) Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session closed for user root 環境 Debian 11 解決方式 sudo apt install libpam-pwquality sudo mkdir -p /lib/security sudo ln -s /lib/x86_64-linux-gnu/security/pam_pwquality.</description>
+    </item>
+    
     <item>
       <title>Worknot 20241113 1</title>
       <link>http://pollochang.work/worknot/worknot-20241113-1/</link>
@@ -1988,6 +1997,17 @@ Debian bookworm 在我的筆記型電腦有一段時間是安裝這個版本。�
       <description> 設定文件: /etc/sysctl.conf net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 讓設定生效
 sudo sysctl -p 檢驗
 ip a | grep inet6 參考資料 關閉 Ubuntu 的 Ipv6 </description>
+    </item>
+    
+    <item>
+      <title>windows ssh key 登入 Linux</title>
+      <link>http://pollochang.work/worknot/windows-ssh-key-login/</link>
+      <pubDate>Wed, 15 Nov 2023 20:53:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/windows-ssh-key-login/</guid>
+      <description>先產生 ssh 金鑰
+ssh-keygen 將公鑰上傳到目標主機
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {account}@{IP-ADDRESS-OR-FQDN} &amp;#34;cat &amp;gt;&amp;gt; .ssh/authorized_keys&amp;#34; </description>
     </item>
     
     <item>
