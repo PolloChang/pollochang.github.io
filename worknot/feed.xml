@@ -6,7 +6,66 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 18 Nov 2024 12:23:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Nov 2024 23:05:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>關閉centos7防火牆firewalld改用傳統的iptables</title>
+      <link>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</link>
+      <pubDate>Thu, 21 Nov 2024 23:05:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</guid>
+      <description>關閉 centos7 防火牆 firewalld 改用傳統的 iptables 這樣做的原因 因為firewalld 政策是對外嚴謹對內寬鬆，所以當需求是需要對內嚴謹時無法滿足需求
+處理方式 預設開機不啟動 且 立即停止
+systemctl disable --now firewalld 改用傳統的 iptables-services , 安裝
+yum install iptables-utils iptables-services -y 設定網路 清空 sudo iptables -F sudo iptables -X sudo iptables -Z 允許輸入 sudo iptables -I INPUT 1 -s 192.168.56.0/24 -j ACCEPT sudo iptables -A INPUT -i lo -j ACCEPT sudo iptables -A INPUT -s 0.0.0.0/0 -j DROP 允許輸出 sudo iptables -I OUTPUT 1 -d 192.</description>
+    </item>
+    
+    <item>
+      <title>Firewalld Common Questions</title>
+      <link>http://pollochang.work/worknot/firewalld-common-questions/</link>
+      <pubDate>Thu, 21 Nov 2024 23:01:31 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/firewalld-common-questions/</guid>
+      <description>firewalld 問題整理 AllowZoneDrifting is enabled. 出現 AllowZoneDrifting is enabled. [root@ex-ap test]# systemctl status firewalld ● firewalld.service - firewalld - dynamic firewall daemon Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled) Active: active (running) since Sun 2022-02-13 09:58:54 CST; 2s ago Docs: man:firewalld(1) Main PID: 7200 (firewalld) Tasks: 2 CGroup: /system.slice/firewalld.service └─7200 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid Feb 13 09:58:53 ex-ap systemd[1]: Starting firewalld - dynamic firewall daemon... Feb 13 09:58:54 ex-ap systemd[1]: Started firewalld - dynamic firewall daemon.</description>
+    </item>
+    
+    <item>
+      <title>Firewalld 學習筆記</title>
+      <link>http://pollochang.work/worknot/firewalld/</link>
+      <pubDate>Thu, 21 Nov 2024 23:00:29 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/firewalld/</guid>
+      <description>以下是 firewalld 學習筆記
+firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。
+一條網路連線或介面只能隸屬於一個區域，我們可以自訂區域的設定，也可以直接從 firewalld 預設的幾個區域中選擇：
+區域 描述 drop 任何往內的封包都會被丟棄，只允許往外傳送的封包。 block 任何來自於外部的連線都會被阻擋，只允許自己系統主動建立的連線。 public 公開區域，預設不信任其他電腦與網路，只有被允許的連線才能進入。通常大部分的連線設定都會放在這裡。 external 公開區域，適用於 NAT 網路環境。 dmz 非軍事區域（demilitarized zone，有點像是放在外頭的危險區域），允許外部的連線進入，但其對內的連線則有限制，只有被允許的連線才能連進內部網路。 work 公司內部等工作區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 home 家裡頭的網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 internal 內部網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 trusted 完全信任的區域，接受所有連線。 libvirt KVM 主機介面 docker docker 網路介面 firewall-cmd命令中使用的參數以及作用 參數 作用 &amp;ndash;get-default-zone 查訪默認的區域名稱 &amp;ndash;set-default-zone=&amp;lt;區域名稱&amp;gt; 設置默認的區域，使其永久生效 &amp;ndash;get-zones 顯示可用的區域 &amp;ndash;get-services 顯示預定義的服務 &amp;ndash;get-active-zones 顯示當前正在使用的區域、來源地址和網卡名稱 &amp;ndash;add-source= 將源自此IP或子網的流量導向指定的區域 &amp;ndash;remove-source= 不再將源自此IP或子網的流量導向這個區域 &amp;ndash;add-interface=&amp;lt;網卡名稱&amp;gt; 將源自該網卡的所有流量都導向某個指定區域 &amp;ndash;change-interface=&amp;lt;網卡名稱&amp;gt; 將某個網卡與區域進行關聯 &amp;ndash;list-all 顯示當前區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;list-all-zones 顯示所有區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;add-service=&amp;lt;服務名&amp;gt; 設置默認區域允許該服務的流量 &amp;ndash;add-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域允許該端口的流量 &amp;ndash;remove-service=&amp;lt;服務名&amp;gt; 設置默認區域不再允許該服務的流量 &amp;ndash;remove-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域不再允許該端口的流量 &amp;ndash;reload 讓“永久生效”的配置規則立即生效，並覆蓋當前的配置規則 &amp;ndash;panic-on 開啟應急狀況模式 &amp;ndash;panic-off 關閉應急狀況模式 遷移網卡到別的區域 查詢網卡名稱 sudo ifconfig 移除網卡原有區域 新增至目標區域 sudo firewall-cmd --permanent --zone=public --change-interface=ens160 sudo firewall-cmd --permanent --zone=trusted --change-interface=virbr1 sudo firewall-cmd --permanent --zone=internal --change-interface=eth1 查詢那協正在運作的 zone sudo firewall-cmd --get-active-zones 規則 開放特定 port sudo firewall-cmd --permanent --zone=public --add-port=10010/tcp sudo firewall-cmd --permanent --zone=public --add-port=10020/tcp sudo firewall-cmd --permanent --zone=libvirt --add-port=33899/tcp 設定IP 只通哪個Port sudo firewall-cmd --permanent --zone=public --add-rich-rule=&amp;#39;rule family=&amp;#34;ipv4&amp;#34; source address=&amp;#34;192.</description>
+    </item>
+    
+    <item>
+      <title>Firewalld Forward Port 防火牆轉發</title>
+      <link>http://pollochang.work/worknot/firewalld-forward-port/</link>
+      <pubDate>Thu, 21 Nov 2024 22:59:15 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/firewalld-forward-port/</guid>
+      <description># firewall-cmd --add-forward-port=port=port-number:proto=tcp|udp|sctp|dccp:toport=port-number sudo firewall-cmd --query-masquerade # 查詢有IP 偽裝 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --permanent --zone=public --add-forward-port=port=33822:proto=tcp:toport=22:toaddr=203.74.221.35 </description>
+    </item>
+    
+    <item>
+      <title>Create Local Repository for Yum</title>
+      <link>http://pollochang.work/worknot/create-local-repository-for-yum/</link>
+      <pubDate>Thu, 21 Nov 2024 22:50:58 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/create-local-repository-for-yum/</guid>
+      <description>建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
+100GB 存放空間
+安裝工具 yum install yum-utils createrepo -y
+啟用 EPEL sudo yum install epel-release sudo yum update 檢查 yum repolist yum-config-manager &amp;ndash;add-repo https://download.docker.com/linux/centos/docker-ce.repo
+下載 reposync -l --repoid=base --repoid=extras --repoid=updates --download_path=/var/www/html/centos/7 --download-metadata reposync -l --repoid=epel --download_path=/var/www/html/centos/ --download-metadata --newest-only reposync -l --repoid=docker-ce-stable --download_path=/var/www/html/centos/ --download-metadata --newest-only &amp;ndash;gpgcheck 檢查GPG，失敗澤刪除檔案
+gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，一般內部部署軟體包下載可以關掉。
+&amp;ndash;newest-only 只抓最新的檔案
+建立本地yum倉庫 mkdir -p /home/yum/local/ 建立repo檔案 /etc/yum.repos.d/local.repo
+[Local] name=Local Yum baseurl=file:///home/yum gpgcheck=0 enabled=1 [DVD] name=DVD Yum baseurl=file:///mnt/iso gpgcheck=0 enabled=1 安裝 createrepo yum install createrepo</description>
+    </item>
+    
     <item>
       <title>CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</title>
       <link>http://pollochang.work/worknot/worknot-20241118-1/</link>
@@ -89,22 +148,30 @@ fail2ban-client set sshd unbanip 10.137.26.29 </description>
     </item>
     
     <item>
-      <title>Kvm Vm</title>
-      <link>http://pollochang.work/worknot/kvm-vm/</link>
+      <title>KVM 相關 disk</title>
+      <link>http://pollochang.work/worknot/kvm-cli-disk/</link>
       <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/kvm-vm/</guid>
-      <description>KVM-VM 在虛擬機中啟用 console sudo systemctl enable --now serial-getty@ttyS0.service 從 KVM Host 終端機 進入 KVM console sudo virsh console zabbix --safe 離開 KVM Console 方式
-Use CTRL + 5
-列出所有虛擬機 sudo virsh list --all </description>
+      <guid>http://pollochang.work/worknot/kvm-cli-disk/</guid>
+      <description>qemu-img convert -f raw -O qcow2 manage manage.qcow2 qcow2 轉 VMDisk qemu-img convert -f qcow2 -O vmdk zimbra9-ubuntu18.04 zimbra9-ubuntu18.04.vmdk 熱擴展磁碟 sudo virsh blockresize &amp;lt;vm_name&amp;gt; &amp;lt;disk_path&amp;gt; &amp;lt;size_in_bytes&amp;gt; qemu-img resize /kvm/win10 +20G qemu-img info /kvm/win10 [sudo] password for jameschang: image: /kvm/win10 file format: qcow2 virtual size: 40 GiB (42949672960 bytes) disk size: 39.8 GiB cluster_size: 65536 Format specific information: compat: 1.1 compression type: zlib lazy refcounts: true refcount bits: 16 corrupt: false extended l2: false 擴展完記得</description>
+    </item>
+    
+    <item>
+      <title>KVM 相關 VM</title>
+      <link>http://pollochang.work/worknot/kvm-cli-vm/</link>
+      <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-cli-vm/</guid>
+      <description>建立虛擬機器 KVM 新增硬碟
+sudo qemu-img create -f qcow2 /home/jameschang/VMS/linux/debian9.qcow2 20G sudo qemu-img create -f qcow2 /kvm/zimbraBuild.qcow2 50G 查詢可用的作業系統 osinfo-query os | grep debian 查詢可以用的網路 sudo virsh net-list # 在 VM 中安裝 Ubuntu Linux 18.04（遠端主機） sudo virt-install --virt-type kvm --name debian9 --ram 4096 --disk /home/jameschang/VMS/linux/debian9.qcow2,format=qcow2 --network network=network1 --graphics vnc,listen=0.0.0.0,password=debian9 --noautoconsole --os-type=linux --os-variant=debian9 --cdrom=/data/softwares/linux/debian-9.13.0-amd64-netinst.iso virsh vncdisplay debian9 virsh iface-bridge wlp1s0 br0 virsh iface-bridge eth0 wlp1s0 sudo qemu-img create -f qcow2 /kvm/zimbra8-ubuntu20.04.qcow2 20G sudo virt-install --virt-type kvm --name zimbraBuild --ram 4096 --disk /kvm/zimbra8-ubuntu20.</description>
     </item>
     
     <item>
       <title>KVM 網路</title>
-      <link>http://pollochang.work/worknot/kvm-netowrk/</link>
+      <link>http://pollochang.work/worknot/kvm-cli-netowrk/</link>
       <pubDate>Mon, 11 Nov 2024 22:19:25 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/kvm-netowrk/</guid>
+      <guid>http://pollochang.work/worknot/kvm-cli-netowrk/</guid>
       <description>KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &amp;lt;mtu size=&amp;#34;9000&amp;#34;/&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;#39;192.168.122.100&amp;#39; end=&amp;#39;192.168.122.254&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:ed:3c:bc&amp;#39; name=&amp;#39;winxp&amp;#39; ip=&amp;#39;192.168.122.2&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:19:1b:70&amp;#39; name=&amp;#39;loki&amp;#39; ip=&amp;#39;192.168.122.3&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:b8:f1:68&amp;#39; name=&amp;#39;gilLab&amp;#39; ip=&amp;#39;192.</description>
     </item>
     

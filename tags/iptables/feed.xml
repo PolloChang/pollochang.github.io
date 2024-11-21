@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iptables on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/iptables/</link>
+    <description>Recent content in iptables on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 21 Nov 2024 23:05:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/iptables/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>關閉centos7防火牆firewalld改用傳統的iptables</title>
+      <link>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</link>
+      <pubDate>Thu, 21 Nov 2024 23:05:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</guid>
+      <description>關閉 centos7 防火牆 firewalld 改用傳統的 iptables 這樣做的原因 因為firewalld 政策是對外嚴謹對內寬鬆，所以當需求是需要對內嚴謹時無法滿足需求
+處理方式 預設開機不啟動 且 立即停止
+systemctl disable --now firewalld 改用傳統的 iptables-services , 安裝
+yum install iptables-utils iptables-services -y 設定網路 清空 sudo iptables -F sudo iptables -X sudo iptables -Z 允許輸入 sudo iptables -I INPUT 1 -s 192.168.56.0/24 -j ACCEPT sudo iptables -A INPUT -i lo -j ACCEPT sudo iptables -A INPUT -s 0.0.0.0/0 -j DROP 允許輸出 sudo iptables -I OUTPUT 1 -d 192.</description>
+    </item>
+    
+  </channel>
+</rss>

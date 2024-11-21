@@ -17,22 +17,30 @@
     </item>
     
     <item>
-      <title>Kvm Vm</title>
-      <link>http://pollochang.work/worknot/kvm-vm/</link>
+      <title>KVM 相關 disk</title>
+      <link>http://pollochang.work/worknot/kvm-cli-disk/</link>
       <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/kvm-vm/</guid>
-      <description>KVM-VM 在虛擬機中啟用 console sudo systemctl enable --now serial-getty@ttyS0.service 從 KVM Host 終端機 進入 KVM console sudo virsh console zabbix --safe 離開 KVM Console 方式
-Use CTRL + 5
-列出所有虛擬機 sudo virsh list --all </description>
+      <guid>http://pollochang.work/worknot/kvm-cli-disk/</guid>
+      <description>qemu-img convert -f raw -O qcow2 manage manage.qcow2 qcow2 轉 VMDisk qemu-img convert -f qcow2 -O vmdk zimbra9-ubuntu18.04 zimbra9-ubuntu18.04.vmdk 熱擴展磁碟 sudo virsh blockresize &amp;lt;vm_name&amp;gt; &amp;lt;disk_path&amp;gt; &amp;lt;size_in_bytes&amp;gt; qemu-img resize /kvm/win10 +20G qemu-img info /kvm/win10 [sudo] password for jameschang: image: /kvm/win10 file format: qcow2 virtual size: 40 GiB (42949672960 bytes) disk size: 39.8 GiB cluster_size: 65536 Format specific information: compat: 1.1 compression type: zlib lazy refcounts: true refcount bits: 16 corrupt: false extended l2: false 擴展完記得</description>
+    </item>
+    
+    <item>
+      <title>KVM 相關 VM</title>
+      <link>http://pollochang.work/worknot/kvm-cli-vm/</link>
+      <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-cli-vm/</guid>
+      <description>建立虛擬機器 KVM 新增硬碟
+sudo qemu-img create -f qcow2 /home/jameschang/VMS/linux/debian9.qcow2 20G sudo qemu-img create -f qcow2 /kvm/zimbraBuild.qcow2 50G 查詢可用的作業系統 osinfo-query os | grep debian 查詢可以用的網路 sudo virsh net-list # 在 VM 中安裝 Ubuntu Linux 18.04（遠端主機） sudo virt-install --virt-type kvm --name debian9 --ram 4096 --disk /home/jameschang/VMS/linux/debian9.qcow2,format=qcow2 --network network=network1 --graphics vnc,listen=0.0.0.0,password=debian9 --noautoconsole --os-type=linux --os-variant=debian9 --cdrom=/data/softwares/linux/debian-9.13.0-amd64-netinst.iso virsh vncdisplay debian9 virsh iface-bridge wlp1s0 br0 virsh iface-bridge eth0 wlp1s0 sudo qemu-img create -f qcow2 /kvm/zimbra8-ubuntu20.04.qcow2 20G sudo virt-install --virt-type kvm --name zimbraBuild --ram 4096 --disk /kvm/zimbra8-ubuntu20.</description>
     </item>
     
     <item>
       <title>KVM 網路</title>
-      <link>http://pollochang.work/worknot/kvm-netowrk/</link>
+      <link>http://pollochang.work/worknot/kvm-cli-netowrk/</link>
       <pubDate>Mon, 11 Nov 2024 22:19:25 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/kvm-netowrk/</guid>
+      <guid>http://pollochang.work/worknot/kvm-cli-netowrk/</guid>
       <description>KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &amp;lt;mtu size=&amp;#34;9000&amp;#34;/&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;#39;192.168.122.100&amp;#39; end=&amp;#39;192.168.122.254&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:ed:3c:bc&amp;#39; name=&amp;#39;winxp&amp;#39; ip=&amp;#39;192.168.122.2&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:19:1b:70&amp;#39; name=&amp;#39;loki&amp;#39; ip=&amp;#39;192.168.122.3&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:b8:f1:68&amp;#39; name=&amp;#39;gilLab&amp;#39; ip=&amp;#39;192.</description>
     </item>
     

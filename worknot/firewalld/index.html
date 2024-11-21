@@ -1,0 +1,614 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Firewalld 學習筆記 </title>
+    
+    
+    <meta content="firewalld, linux" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 以下是 firewalld 學習筆記
+firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。
+一條網路連線或介面只能隸屬於一個區域，我們可以自訂區域的設定，也可以直接從 firewalld 預設的幾個區域中選擇：
+區域 描述 drop 任何往內的封包都會被丟棄，只允許往外傳送的封包。 block 任何來自於外部的連線都會被阻擋，只允許自己系統主動建立的連線。 public 公開區域，預設不信任其他電腦與網路，只有被允許的連線才能進入。通常大部分的連線設定都會放在這裡。 external 公開區域，適用於 NAT 網路環境。 dmz 非軍事區域（demilitarized zone，有點像是放在外頭的危險區域），允許外部的連線進入，但其對內的連線則有限制，只有被允許的連線才能連進內部網路。 work 公司內部等工作區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 home 家裡頭的網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 internal 內部網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 trusted 完全信任的區域，接受所有連線。 libvirt KVM 主機介面 docker docker 網路介面 firewall-cmd命令中使用的參數以及作用 參數 作用 &ndash;get-default-zone 查訪默認的區域名稱 &ndash;set-default-zone=&lt;區域名稱&gt; 設置默認的區域，使其永久生效 &ndash;get-zones 顯示可用的區域 &ndash;get-services 顯示預定義的服務 &ndash;get-active-zones 顯示當前正在使用的區域、來源地址和網卡名稱 &ndash;add-source= 將源自此IP或子網的流量導向指定的區域 &ndash;remove-source= 不再將源自此IP或子網的流量導向這個區域 &ndash;add-interface=&lt;網卡名稱&gt; 將源自該網卡的所有流量都導向某個指定區域 &ndash;change-interface=&lt;網卡名稱&gt; 將某個網卡與區域進行關聯 &ndash;list-all 顯示當前區域的網卡配置參數、資源、端口以及服務等信息 &ndash;list-all-zones 顯示所有區域的網卡配置參數、資源、端口以及服務等信息 &ndash;add-service=&lt;服務名&gt; 設置默認區域允許該服務的流量 &ndash;add-port=&lt;端口號/協議&gt; 設置默認區域允許該端口的流量 &ndash;remove-service=&lt;服務名&gt; 設置默認區域不再允許該服務的流量 &ndash;remove-port=&lt;端口號/協議&gt; 設置默認區域不再允許該端口的流量 &ndash;reload 讓“永久生效”的配置規則立即生效，並覆蓋當前的配置規則 &ndash;panic-on 開啟應急狀況模式 &ndash;panic-off 關閉應急狀況模式 遷移網卡到別的區域 查詢網卡名稱 sudo ifconfig 移除網卡原有區域 新增至目標區域 sudo firewall-cmd --permanent --zone=public --change-interface=ens160 sudo firewall-cmd --permanent --zone=trusted --change-interface=virbr1 sudo firewall-cmd --permanent --zone=internal --change-interface=eth1 查詢那協正在運作的 zone sudo firewall-cmd --get-active-zones 規則 開放特定 port sudo firewall-cmd --permanent --zone=public --add-port=10010/tcp sudo firewall-cmd --permanent --zone=public --add-port=10020/tcp sudo firewall-cmd --permanent --zone=libvirt --add-port=33899/tcp 設定IP 只通哪個Port sudo firewall-cmd --permanent --zone=public --add-rich-rule=&#39;rule family=&#34;ipv4&#34; source address=&#34;192." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Firewalld 學習筆記</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>以下是 firewalld 學習筆記</p>
+<h2 id="firewall-網路來源優先">firewall 網路來源優先</h2>
+<ol>
+<li>有設定 IP source 優先</li>
+<li>有設定 網卡 優先</li>
+<li>預設區域</li>
+</ol>
+<h2 id="區域簡介">區域簡介</h2>
+<p>firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。</p>
+<p>一條網路連線或介面只能隸屬於一個區域，我們可以自訂區域的設定，也可以直接從 firewalld 預設的幾個區域中選擇：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">區域</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>drop</code></td>
+<td style="text-align:left">任何往內的封包都會被丟棄，只允許往外傳送的封包。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>block</code></td>
+<td style="text-align:left">任何來自於外部的連線都會被阻擋，只允許自己系統主動建立的連線。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>public</code></td>
+<td style="text-align:left">公開區域，預設不信任其他電腦與網路，只有被允許的連線才能進入。通常大部分的連線設定都會放在這裡。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>external</code></td>
+<td style="text-align:left">公開區域，適用於 NAT 網路環境。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dmz</code></td>
+<td style="text-align:left">非軍事區域（demilitarized zone，有點像是放在外頭的危險區域），允許外部的連線進入，但其對內的連線則有限制，只有被允許的連線才能連進內部網路。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>work</code></td>
+<td style="text-align:left">公司內部等工作區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>home</code></td>
+<td style="text-align:left">家裡頭的網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>internal</code></td>
+<td style="text-align:left">內部網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>trusted</code></td>
+<td style="text-align:left">完全信任的區域，接受所有連線。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>libvirt</code></td>
+<td style="text-align:left">KVM 主機介面</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker</code></td>
+<td style="text-align:left">docker 網路介面</td>
+</tr>
+</tbody>
+</table>
+<h2 id="firewall-cmd命令中使用的參數以及作用">firewall-cmd命令中使用的參數以及作用</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">參數</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&ndash;get-default-zone</td>
+<td style="text-align:left">查訪默認的區域名稱</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;set-default-zone=&lt;區域名稱&gt;</td>
+<td style="text-align:left">設置默認的區域，使其永久生效</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;get-zones</td>
+<td style="text-align:left">顯示可用的區域</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;get-services</td>
+<td style="text-align:left">顯示預定義的服務</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;get-active-zones</td>
+<td style="text-align:left">顯示當前正在使用的區域、來源地址和網卡名稱</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;add-source=</td>
+<td style="text-align:left">將源自此IP或子網的流量導向指定的區域</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;remove-source=</td>
+<td style="text-align:left">不再將源自此IP或子網的流量導向這個區域</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;add-interface=&lt;網卡名稱&gt;</td>
+<td style="text-align:left">將源自該網卡的所有流量都導向某個指定區域</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;change-interface=&lt;網卡名稱&gt;</td>
+<td style="text-align:left">將某個網卡與區域進行關聯</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;list-all</td>
+<td style="text-align:left">顯示當前區域的網卡配置參數、資源、端口以及服務等信息</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;list-all-zones</td>
+<td style="text-align:left">顯示所有區域的網卡配置參數、資源、端口以及服務等信息</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;add-service=&lt;服務名&gt;</td>
+<td style="text-align:left">設置默認區域允許該服務的流量</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;add-port=&lt;端口號/協議&gt;</td>
+<td style="text-align:left">設置默認區域允許該端口的流量</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;remove-service=&lt;服務名&gt;</td>
+<td style="text-align:left">設置默認區域不再允許該服務的流量</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;remove-port=&lt;端口號/協議&gt;</td>
+<td style="text-align:left">設置默認區域不再允許該端口的流量</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;reload</td>
+<td style="text-align:left">讓“永久生效”的配置規則立即生效，並覆蓋當前的配置規則</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;panic-on</td>
+<td style="text-align:left">開啟應急狀況模式</td>
+</tr>
+<tr>
+<td style="text-align:left">&ndash;panic-off</td>
+<td style="text-align:left">關閉應急狀況模式</td>
+</tr>
+</tbody>
+</table>
+<h2 id="遷移網卡到別的區域">遷移網卡到別的區域</h2>
+<ol>
+<li>查詢網卡名稱</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ifconfig
+</span></span></code></pre></div><ol start="2">
+<li>移除網卡原有區域</li>
+<li>新增至目標區域</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --change-interface<span style="color:#f92672">=</span>ens160
+</span></span><span style="display:flex;"><span>sudo firewall-cmd  --permanent --zone<span style="color:#f92672">=</span>trusted --change-interface<span style="color:#f92672">=</span>virbr1
+</span></span><span style="display:flex;"><span>sudo firewall-cmd  --permanent --zone<span style="color:#f92672">=</span>internal --change-interface<span style="color:#f92672">=</span>eth1
+</span></span></code></pre></div><h2 id="查詢那協正在運作的-zone">查詢那協正在運作的 zone</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --get-active-zones
+</span></span></code></pre></div><h2 id="規則">規則</h2>
+<h3 id="開放特定-port">開放特定 port</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>10010/tcp
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>10020/tcp
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>libvirt --add-port<span style="color:#f92672">=</span>33899/tcp
+</span></span></code></pre></div><h3 id="設定ip-只通哪個port">設定IP 只通哪個Port</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.56.1&#34; accept&#39;</span>
+</span></span></code></pre></div><h2 id="允許特定ip網段">允許特定IP/網段</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --remove-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;172.18.17.0/24&#34; accept&#39;</span>
+</span></span></code></pre></div><h2 id="注意事項">注意事項</h2>
+<ul>
+<li>設定完需要重新讀取設定</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 重新讀取設定</span>
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><h2 id="檢查默認區域設置">檢查默認區域設置</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --list-all
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --list-internal
+</span></span></code></pre></div><ul>
+<li>檢查永久設置</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>work --list-all --permanent
+</span></span></code></pre></div><h2 id="查看指定區域設置">查看指定區域設置</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>trusted --list-all   
+</span></span></code></pre></div><h2 id="查詢版本">查詢版本</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --version
+</span></span></code></pre></div><h2 id="查看firewalld的運行狀態">查看firewalld的運行狀態</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --state
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<p><a href="https://blog.xuite.net/tolarku/blog/363801991-CentOS+7+Firewalld+%E9%98%B2%E7%81%AB%E7%89%86%E8%AA%AA%E6%98%8E%E4%BB%8B%E7%B4%B9">CentOS 7 Firewalld 防火牆說明介紹</a></p>
+<p><a href="https://dywang.csie.cyut.edu.tw/dywang/rhce7/node26.html">firewall direct rules</a></p>
+<p><a href="https://firewalld.org/documentation/man-pages/firewall-cmd">firewall-cmd</a></p>
+<p><a href="https://firewalld.org/documentation/man-pages/firewalld.richlanguage.html">firewalld.richlanguage</a></p>
+<p><a href="https://www.tecmint.com/open-port-for-specific-ip-address-in-firewalld/">How to Open Port for a Specific IP Address in Firewalld</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/firewalld-forward-port/">
+                                <h3 class="">Firewalld Forward Port 防火牆轉發</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

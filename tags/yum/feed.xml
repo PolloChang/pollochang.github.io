@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>yum on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/yum/</link>
+    <description>Recent content in yum on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 21 Nov 2024 22:50:58 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/yum/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Create Local Repository for Yum</title>
+      <link>http://pollochang.work/worknot/create-local-repository-for-yum/</link>
+      <pubDate>Thu, 21 Nov 2024 22:50:58 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/create-local-repository-for-yum/</guid>
+      <description>建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
+100GB 存放空間
+安裝工具 yum install yum-utils createrepo -y
+啟用 EPEL sudo yum install epel-release sudo yum update 檢查 yum repolist yum-config-manager &amp;ndash;add-repo https://download.docker.com/linux/centos/docker-ce.repo
+下載 reposync -l --repoid=base --repoid=extras --repoid=updates --download_path=/var/www/html/centos/7 --download-metadata reposync -l --repoid=epel --download_path=/var/www/html/centos/ --download-metadata --newest-only reposync -l --repoid=docker-ce-stable --download_path=/var/www/html/centos/ --download-metadata --newest-only &amp;ndash;gpgcheck 檢查GPG，失敗澤刪除檔案
+gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，一般內部部署軟體包下載可以關掉。
+&amp;ndash;newest-only 只抓最新的檔案
+建立本地yum倉庫 mkdir -p /home/yum/local/ 建立repo檔案 /etc/yum.repos.d/local.repo
+[Local] name=Local Yum baseurl=file:///home/yum gpgcheck=0 enabled=1 [DVD] name=DVD Yum baseurl=file:///mnt/iso gpgcheck=0 enabled=1 安裝 createrepo yum install createrepo</description>
+    </item>
+    
+  </channel>
+</rss>

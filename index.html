@@ -164,6 +164,212 @@ layui.use('element', function(){
                     
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/">
+            <h2 class="">關閉centos7防火牆firewalld改用傳統的iptables</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+        <a href="/tags/iptables/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">iptables</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				關閉 centos7 防火牆 firewalld 改用傳統的 iptables 這樣做的原因 因為firewalld 政策是對外嚴謹對內寬鬆，所以當需求是需要對內嚴謹時無法滿足需求
+處理方式 預設開機不啟動 且 立即停止
+systemctl disable --now firewalld ...
+             <a href="/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/firewalld-common-questions/">
+            <h2 class="">Firewalld Common Questions</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				firewalld 問題整理 AllowZoneDrifting is enabled. 出現 AllowZoneDrifting is enabled. [root@ex-ap test]# systemctl status firewalld ● firewalld.service - ...
+             <a href="/worknot/firewalld-common-questions/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/firewalld/">
+            <h2 class="">Firewalld 學習筆記</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				以下是 firewalld 學習筆記
+firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。
+ ...
+             <a href="/worknot/firewalld/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/firewalld-forward-port/">
+            <h2 class="">Firewalld Forward Port 防火牆轉發</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/firewalld/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				# firewall-cmd --add-forward-port=port=port-number:proto=tcp|udp|sctp|dccp:toport=port-number sudo firewall-cmd --query-masquerade # 查詢有IP 偽裝 sudo ...
+             <a href="/worknot/firewalld-forward-port/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/create-local-repository-for-yum/">
+            <h2 class="">Create Local Repository for Yum</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/yum/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">yum</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
+100GB 存放空間
+安裝工具 yum install yum-utils createrepo -y
+啟用 EPEL sudo yum install epel-release sudo ...
+             <a href="/worknot/create-local-repository-for-yum/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20241118-1/">
             <h2 class="">CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</h2>
         </a>
@@ -351,212 +557,6 @@ fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp �
         	
 				安裝順序 scp ./v9.7fp7_linuxx64_server.tar.gz jameschang@192.168.122.138:/tmp/ # 創建需要的目錄 mkdir -p /db2 mkdir /source # 複製安裝包到映像內 mv ...
              <a href="/worknot/install-db2-9.7-in-centos7/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-                    
-                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/fix-cve-2023-41080/">
-            <h2 class="">修補 CVE-2023-41080</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-13</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/cve/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CVE</span>
-        </a>
-    
-        <a href="/tags/cve-2023-41080/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CVE-2023-41080</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				 URL: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-41080 contentDescription URL Redirection to Untrusted Site (&#39;Open Redirect&#39;) ...
-             <a href="/worknot/fix-cve-2023-41080/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-                    
-                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20241112-1/">
-            <h2 class="">資訊工程職務必經之路</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-12</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-
-    
-    
-</h3>
-
-        <h3>
-        	
-				以下是我個人工作上的經驗，笑笑就好
-初階工程師 一開始我踏入資訊行業是擔任甲方駐點資訊人員。事情很雜，凡事系統發生問題都要處理，最小的事情是系統發生錯誤要進行排除，大到系統崩潰都要進行處理。但是擔任第一線的資訊員通常只要進行事件回報即可，等到有一定的排除系統能力也就漸漸的往其他領域發展。
-在這個階段 ...
-             <a href="/worknot/worknot-20241112-1/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-                    
-                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/kvm-vm/">
-            <h2 class="">Kvm Vm</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-11</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/kvm/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/kvm/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
-        </a>
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				KVM-VM 在虛擬機中啟用 console sudo systemctl enable --now serial-getty@ttyS0.service 從 KVM Host 終端機 進入 KVM console sudo virsh console zabbix --safe 離開 KVM ...
-             <a href="/worknot/kvm-vm/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-                    
-                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/kvm-netowrk/">
-            <h2 class="">KVM 網路</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-11</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/kvm/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/kvm/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
-        </a>
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default ...
-             <a href="/worknot/kvm-netowrk/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-                    
-                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20241104-1/">
-            <h2 class="">big-ip client linux 安裝</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-04</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				https://&lt;big-ip apm virtual server&gt;/public/download/&lt;file name&gt;
-Debian
-linux_f5cli.x86_64.deb
-linux_f5epi.x86_64.deb ...
-             <a href="/worknot/worknot-20241104-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -1007,6 +1007,10 @@ sudo sysctl ...
                             <span class="layui-badge layui-bg-green" style="margin: 5px">kvm</span>
                         </a>
                     
+                        <a href="/categories/linux/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">linux</span>
+                        </a>
+                    
                         <a href="/categories/linux-cli/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">linux-cli</span>
                         </a>
@@ -1102,6 +1106,10 @@ sudo sysctl ...
                             <span class="layui-badge layui-bg-green" style="margin: 5px">fabric-os</span>
                         </a>
                     
+                        <a href="/tags/firewalld/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">firewalld</span>
+                        </a>
+                    
                         <a href="/tags/git/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">git</span>
                         </a>
@@ -1124,6 +1132,10 @@ sudo sysctl ...
                     
                         <a href="/tags/hugo/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">hugo</span>
+                        </a>
+                    
+                        <a href="/tags/iptables/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">iptables</span>
                         </a>
                     
                         <a href="/tags/java/">
@@ -1292,6 +1304,10 @@ sudo sysctl ...
                     
                         <a href="/tags/winsows/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">winsows</span>
+                        </a>
+                    
+                        <a href="/tags/yum/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">yum</span>
                         </a>
                     
                         <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
