@@ -6,9 +6,9 @@
     <title>PolloChang 工作筆記 - jenkins 安裝 </title>
     
     
-    <meta content="jenkins, 部屬服務, Debian, CI/CD" name="keywords">
+    <meta content="jenkins, 部署服務, Debian, CI/CD" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12&#43;7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部署 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12&#43;7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -147,8 +147,8 @@ layui.use('element', function(){
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">jenkins</span>
         </a>
     
-        <a href="/tags/%e9%83%a8%e5%b1%ac%e6%9c%8d%e5%8b%99/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">部屬服務</span>
+        <a href="/tags/%e9%83%a8%e7%bd%b2%e6%9c%8d%e5%8b%99/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">部署服務</span>
         </a>
     
         <a href="/tags/debian/">
@@ -176,7 +176,7 @@ layui.use('element', function(){
 <li>Oracle Linux 9</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install -y fontconfig tar zip git wget
-</span></span></code></pre></div><h3 id="部屬-tomcat">部屬 tomcat</h3>
+</span></span></code></pre></div><h3 id="部署-tomcat">部署 tomcat</h3>
 <h4 id="安裝-jre">安裝 jre</h4>
 <ol>
 <li>從 adoptium 官方網站下載 java 17</li>
@@ -339,7 +339,7 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Install]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">WantedBy=multi-user.target
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h3 id="部屬-jenkins-war">部屬 jenkins war</h3>
+</span></span></code></pre></div><h3 id="部署-jenkins-war">部署 jenkins war</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.jenkins.io/war-stable/2.462.1/jenkins.war
 </span></span><span style="display:flex;"><span>sudo -u tomcat mkdir -p /usr/local/etc/catalina/jenkins/webapps/jenkins
 </span></span><span style="display:flex;"><span>sudo unzip -q jenkins.war -d /usr/local/etc/catalina/jenkins/webapps/jenkins

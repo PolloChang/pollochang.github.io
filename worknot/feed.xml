@@ -221,8 +221,8 @@ for host in ls /sys/class/scsi_host/;do echo &amp;#34;- - -&amp;#34; &amp;gt;/sy
       <pubDate>Mon, 28 Oct 2024 21:45:28 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/prometheus-node-exporter/</guid>
-      <description>安裝環境 OS: Oracle Linux 9, Debian 12 測試版本: 1.8.2 安裝步驟 01. 新增帳號 sudo groupadd --system -g 800 prometheus &amp;amp;&amp;amp;\ sudo useradd -s /sbin/nologin --system -g prometheus --uid 800 -c &amp;#34;prometheus_exporter&amp;#34; prometheus 02. 下載 Node Exporter 及部屬程式 下載 Node Exporter
-curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest| grep browser_download_url|grep linux-amd64|cut -d &amp;#39;&amp;#34;&amp;#39; -f 4|wget -qi - # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz 部屬程式
+      <description>安裝環境 OS: Oracle Linux 9, Debian 12 測試版本: 1.8.2 安裝步驟 01. 新增帳號 sudo groupadd --system -g 800 prometheus &amp;amp;&amp;amp;\ sudo useradd -s /sbin/nologin --system -g prometheus --uid 800 -c &amp;#34;prometheus_exporter&amp;#34; prometheus 02. 下載 Node Exporter 及部署程式 下載 Node Exporter
+curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest| grep browser_download_url|grep linux-amd64|cut -d &amp;#39;&amp;#34;&amp;#39; -f 4|wget -i - # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz 部署程式
 tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&amp;amp;\ sudo cp node_exporter /usr/local/bin &amp;amp;&amp;amp;\ sudo chown prometheus: /usr/local/bin/node_exporter 03.</description>
     </item>
     
@@ -232,7 +232,7 @@ tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&
       <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
-      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部屬 Primary /etc/postgresql/16/main/postgresql.</description>
+      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
     </item>
     
     <item>
@@ -626,7 +626,7 @@ find &amp;#34;/home/jameschang/Documents/ntoes/&amp;#34; -name &amp;#34;*.md&amp
       <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/jenkins-install/</guid>
-      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
+      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部署 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
     </item>
     
     <item>

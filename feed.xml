@@ -221,8 +221,8 @@ for host in ls /sys/class/scsi_host/;do echo &amp;#34;- - -&amp;#34; &amp;gt;/sy
       <pubDate>Mon, 28 Oct 2024 21:45:28 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/prometheus-node-exporter/</guid>
-      <description>安裝環境 OS: Oracle Linux 9, Debian 12 測試版本: 1.8.2 安裝步驟 01. 新增帳號 sudo groupadd --system -g 800 prometheus &amp;amp;&amp;amp;\ sudo useradd -s /sbin/nologin --system -g prometheus --uid 800 -c &amp;#34;prometheus_exporter&amp;#34; prometheus 02. 下載 Node Exporter 及部屬程式 下載 Node Exporter
-curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest| grep browser_download_url|grep linux-amd64|cut -d &amp;#39;&amp;#34;&amp;#39; -f 4|wget -qi - # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz 部屬程式
+      <description>安裝環境 OS: Oracle Linux 9, Debian 12 測試版本: 1.8.2 安裝步驟 01. 新增帳號 sudo groupadd --system -g 800 prometheus &amp;amp;&amp;amp;\ sudo useradd -s /sbin/nologin --system -g prometheus --uid 800 -c &amp;#34;prometheus_exporter&amp;#34; prometheus 02. 下載 Node Exporter 及部署程式 下載 Node Exporter
+curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest| grep browser_download_url|grep linux-amd64|cut -d &amp;#39;&amp;#34;&amp;#39; -f 4|wget -i - # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz 部署程式
 tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&amp;amp;\ sudo cp node_exporter /usr/local/bin &amp;amp;&amp;amp;\ sudo chown prometheus: /usr/local/bin/node_exporter 03.</description>
     </item>
     
@@ -232,7 +232,7 @@ tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&
       <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
-      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部屬 Primary /etc/postgresql/16/main/postgresql.</description>
+      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
     </item>
     
     <item>
@@ -626,7 +626,7 @@ find &amp;#34;/home/jameschang/Documents/ntoes/&amp;#34; -name &amp;#34;*.md&amp
       <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/jenkins-install/</guid>
-      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部屬 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
+      <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部署 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
     </item>
     
     <item>
@@ -1125,7 +1125,7 @@ sudo hwclock -w 係統時區校正 先設定時區 sudo timedatectl set-timezone
 另外，還要依需求資料與硬體規劃等設計合適的資料型態、索引、table space、資料表分頁、資料庫分庫。
 在資料庫的運作上也得考慮要做或能不能做高可用性(high availability)。
 虛擬 x 容器 這邊講的虛擬是指作業系統安裝在虛擬環境中，如: VMWare。容器，例如: docker。
-在網站系統當中，通常會直接採用虛擬化服務，因為可以靈活配置系統運算效能。在網站應用程式伺服器通常會配置在容器中，容器有比虛擬機更靈活的水平擴展能力，建立一容器服務可以在短短的幾秒鐘完成服務部屬。
+在網站系統當中，通常會直接採用虛擬化服務，因為可以靈活配置系統運算效能。在網站應用程式伺服器通常會配置在容器中，容器有比虛擬機更靈活的水平擴展能力，建立一容器服務可以在短短的幾秒鐘完成服務部署。
 系統測試 開發完成之後，一定要做測試而且最好是單元測試。
 大部分的人一定會跟你說：「要做單元測試。」就好比參加只考時考試券寫完要做檢查一樣(話說指考好像沒了)。但現實是，開發完成之後，通常隔天系統就要交付給客戶測試啦～
 台灣？的環境使然，雖然現在無法做、明天還是無法做。
@@ -1245,12 +1245,12 @@ User Case 系統流程圖 領域模型圖(DFD資料流程圖) 但是在職場上
       <description>來架個網站吧-11.網站開發-1: 建立專案 tags: 來架個網站吧 我是目錄
 建立 git 儲存庫 不管是新增一個實驗性的網站功能，或是範例的程式，能導入git是一個不做的選擇。所以在這邊我先在gitHub開一個儲存庫:ironman-dict
 新增完成之後就是直接把git專案下載到本機中:
-grails 開發環境部屬 JDK Grails 本身是 JVM Base 的框架，因此記得下載 JDK，本次採用 JDK17。
+grails 開發環境部署 JDK Grails 本身是 JVM Base 的框架，因此記得下載 JDK，本次採用 JDK17。
 grails 建立專案之前，首先去官方網站下載 Grails SDK，本次採用 Grails5.3.3。
 官方網站下載頁面: https://grails.org/download.html
 下載完成之後見得解壓縮。
 intellij 我自己是習慣使用 IntelliJ IDEA Ultimate進行開發，在Grails 3.0.17 版本以前還有 Eclipse、NetBeans這兩個IDE可以選擇，之後久只剩下 IntelliJ IDEA Ultimate。當然 vim、NotePad++等文字編輯器依然可以進行開發。
-另外，在 IntelliJ IDEA Ultimate 2022 之後需要自行下載 Grails Plugin才能正常部屬。
+另外，在 IntelliJ IDEA Ultimate 2022 之後需要自行下載 Grails Plugin才能正常部署。
 建立專案 新增完git專案之後，接下來是新增一個Grials專案，步驟如下：
 打開 intellij 選擇新New Project 新增grails類型專案 輸入專案目錄位置，點擊Finish 等一會兒時間專案就自動建立完成 啟動前建議先修改一下啟動參數，避免多個專案同時啟動出現port衝導致專案無法啟動的狀況 設定 File encodings 為 UTF8 這部份主要是解決grails-apps/i18n 裡的多國語言設定呈現亂碼的狀況。
 點擊右上角的啟動按鈕就可以檢查專案可以正常啟動 </description>
@@ -1359,7 +1359,7 @@ class ExampleController { def index(){ redirect controller: &amp;#39;dict&amp;#3
 以機架式伺服器: DELL R720 來說，硬碟通常是做Raid5降硬碟損壞造成資料遺失風險，在電源供應器也有兩顆互為備援，降低電源故障影響系統的風險。一般零售的個人電腦大多不會有複數零件以上的設計。但是對於實驗性質的網站來說不會是一個問題，因為系統癱瘓是可以被忍受的。
 以這次實驗性質的網站中，因為預算十分有限，只能從二手網收購汰換下來的電腦架設。總計約2000元，以下是我的規格。
 CPU: i5-7400 CPU RAM: DDR4 16GB Disk: 2T 硬體設備主要是用Proxmox架設虛擬機平台，在計算硬體可用效能空間來說，記憶體會預先被虛擬機平台佔用調2GB，硬碟空間大約會被佔用約80GB(還要預留存放ISO image)，因此以下是實際可供虛擬機使用的效能空間：
-CPU: i5-7400 CPU RAM: DDR4 14GB Disk: 1.9T 在過往的經驗有拿過ACRE Veriton L480 (RAM: 4GB)做為虛擬機平台，但是部屬完一個VM就差不多用完記憶體，因此在這邊建議要建立虛擬機平台記憶體需要16GB以上有足夠的記憶體分配給虛擬機。</description>
+CPU: i5-7400 CPU RAM: DDR4 14GB Disk: 1.9T 在過往的經驗有拿過ACRE Veriton L480 (RAM: 4GB)做為虛擬機平台，但是部署完一個VM就差不多用完記憶體，因此在這邊建議要建立虛擬機平台記憶體需要16GB以上有足夠的記憶體分配給虛擬機。</description>
     </item>
     
     <item>
@@ -1387,7 +1387,7 @@ proxmox proxmox 作為開源的虛擬平台，很適合拿來做網站建置。�
       
       <guid>http://pollochang.work/post/1000-21.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E6%A9%9F%E7%AF%84%E6%9C%AC/</guid>
       <description>來架個網站吧-21.網站環境建置-建立虛擬機範本 tags: 來架個網站吧 我是目錄
-建立網站環境前，建議可以預先建立網站環境範本，未來在部屬資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。
+建立網站環境前，建議可以預先建立網站環境範本，未來在部署資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。
 事前規劃 我的範本規劃如下
 OS: Debian 12 CPU: 4Core Ram: 4GB Disk: 50GB /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 common software: qemu-guest-agent vim firewalld wget curl autofs rsync tmux aide auditd 新增虛擬機 點擊「『Create VM」 輸入虛擬機名稱 選擇ISO image 勾選Qemu Agent 輸入預設要配置的磁碟大小 輸入要配置的CPU數量 輸入要配置的記憶體大小 確認網卡 確認虛擬機訊息 安裝作業系統 作業系統發行版本: Debian12 建議事項 安裝時處理項目 獨立磁區: 這部份主要是依據政府組態基準(GCB)設定，tmp是預防維運人員塞太大檔案造成系統功能異常。每的獨立磁區大小是實際狀況分配。 /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 切割的完成的設定截圖如下：</description>
     </item>
@@ -1405,7 +1405,7 @@ OS: Debian 12 CPU: 4Core Ram: 4GB Disk: 50GB /tmp /var: 依據TWGCB-01-008-0008 
 奢華
 古董
 這三個資料庫，資料庫對我來說是一項深水莫測，頂點遙不可及的領域，因此我還是碰了一兩下子。
-在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部屬可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
+在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部署可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
 奢華莫非 Oracle 莫屬，之前碰了 Fujitsu SPARC M12 外加 Oracle 當時最新版的，當時一張光碟在手宛如北市套房在我一樣。(有更貴的聽說還有)也是我目前碰過性能最好的資料庫，他的 RAC (Real Application Clusters)架構真的可以讓資料庫可連線數量近乎無限擴張，可以不用擔心資料庫連線不足問題。 有可能會造成程式越寫越爛，佔用調超多資料庫連線
 古董目前就碰到 DB2 5.5 而已。
 上述畢竟是工作經驗而已，其實也沒有什麼好炫耀的，因為還只是小小菜鳥而已。轉化成自己的經驗才是寶貴。
@@ -1421,10 +1421,10 @@ sudo apt install gnupg gnupg2 gnupg1 sudo sh -c &amp;#39;echo &amp;#34;deb http:
       
       <guid>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</guid>
       <description>來架個網站吧-23.網站環境建置-建立AP tags: 來架個網站吧 tomcat 我是目錄
-Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部屬的 Servlet容器。
+Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部署的 Servlet容器。
 然而tomcat受歡迎的背後，卻也背負不少的CVE認證，所以這邊我會先說明一下如何建立安全？的tomcat 服務。以下是濃縮版本，當然也歡迎在留言區補充～
-建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部屬tomcat服務會做的一些事項:
-移除 tomcat 版本號 禁止自動部屬 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：
+建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部署tomcat服務會做的一些事項:
+移除 tomcat 版本號 禁止自動部署 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：
 &amp;lt;Connector server=&amp;#34;application server&amp;#34; /&amp;gt; 但是這樣的作法在 404 頁面 時仍然會出現 tomcat 版本資訊。為了解決這個狀況，目前現行可靠的作法是把 catalina.jar 打開之後，修改 ServerInfo.properties 裡面的資訊。
 一行指令版本 export tomcatHome=&amp;#34;/opt/apache-tomcat&amp;#34; &amp;amp;&amp;amp;\ export tomcatVersion=&amp;#34;7.0.109&amp;#34; &amp;amp;&amp;amp;\ export javaHome=&amp;#34;/usr/local/jvm/jdk17_latest&amp;#34; &amp;amp;&amp;amp;\ mkdir -p ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar.bk &amp;amp;&amp;amp;\ unzip -q ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar -d ${tomcatHome}/catalina_jar-${tomcatVersion}/ &amp;amp;&amp;amp;\ sed -i &amp;#39;/^server.</description>
     </item>

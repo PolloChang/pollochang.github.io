@@ -9,7 +9,7 @@
     <meta content="linux, 2023 iThome 鐵人賽, 來架個網站吧" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 來架個網站吧-21.網站環境建置-建立虛擬機範本 tags: 來架個網站吧 我是目錄
-建立網站環境前，建議可以預先建立網站環境範本，未來在部屬資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。
+建立網站環境前，建議可以預先建立網站環境範本，未來在部署資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。
 事前規劃 我的範本規劃如下
 OS: Debian 12 CPU: 4Core Ram: 4GB Disk: 50GB /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 common software: qemu-guest-agent vim firewalld wget curl autofs rsync tmux aide auditd 新增虛擬機 點擊「『Create VM」 輸入虛擬機名稱 選擇ISO image 勾選Qemu Agent 輸入預設要配置的磁碟大小 輸入要配置的CPU數量 輸入要配置的記憶體大小 確認網卡 確認虛擬機訊息 安裝作業系統 作業系統發行版本: Debian12 建議事項 安裝時處理項目 獨立磁區: 這部份主要是依據政府組態基準(GCB)設定，tmp是預防維運人員塞太大檔案造成系統功能異常。每的獨立磁區大小是實際狀況分配。 /tmp /var: 依據TWGCB-01-008-0008 /var/tmp: 依據TWGCB-01-008-0009 /var/log: 依據TWGCB-01-008-0013 /var/log/audit: 依據TWGCB-01-008-0014 /home: 依據TWGCB-01-008-0015 切割的完成的設定截圖如下：" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -163,7 +163,7 @@ layui.use('element', function(){
 <h6 id="tags-來架個網站吧">tags: <code>來架個網站吧</code></h6>
 <p><a href="https://ithelp.ithome.com.tw/articles/10317824">我是目錄</a></p>
 <hr>
-<p>建立網站環境前，建議可以預先建立網站環境範本，未來在部屬資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。</p>
+<p>建立網站環境前，建議可以預先建立網站環境範本，未來在部署資料庫、應用程式伺服器等服務可以事半功倍。接下來就是我自己常用的設定。</p>
 <h2 id="事前規劃">事前規劃</h2>
 <p>我的範本規劃如下</p>
 <ul>

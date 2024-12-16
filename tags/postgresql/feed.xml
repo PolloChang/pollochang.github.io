@@ -13,7 +13,7 @@
       <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
-      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部屬 Primary /etc/postgresql/16/main/postgresql.</description>
+      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
     </item>
     
     <item>
@@ -39,7 +39,7 @@
 奢華
 古董
 這三個資料庫，資料庫對我來說是一項深水莫測，頂點遙不可及的領域，因此我還是碰了一兩下子。
-在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部屬可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
+在我的目前職涯來說，平價的選項是: MySQL、Postgresql。這兩個資料庫部署可以很快，連上網路 sudo apt install mysql 等速成建立完成，立即在本機開發(H2說我更快！)。
 奢華莫非 Oracle 莫屬，之前碰了 Fujitsu SPARC M12 外加 Oracle 當時最新版的，當時一張光碟在手宛如北市套房在我一樣。(有更貴的聽說還有)也是我目前碰過性能最好的資料庫，他的 RAC (Real Application Clusters)架構真的可以讓資料庫可連線數量近乎無限擴張，可以不用擔心資料庫連線不足問題。 有可能會造成程式越寫越爛，佔用調超多資料庫連線
 古董目前就碰到 DB2 5.5 而已。
 上述畢竟是工作經驗而已，其實也沒有什麼好炫耀的，因為還只是小小菜鳥而已。轉化成自己的經驗才是寶貴。
