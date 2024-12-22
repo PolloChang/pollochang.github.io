@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MSSQL on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/mssql/</link>
+    <description>Recent content in MSSQL on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 13 Mar 2024 23:41:46 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/mssql/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MSSQL 雜記</title>
+      <link>http://pollochang.work/worknot/worknot-20240313-2/</link>
+      <pubDate>Wed, 13 Mar 2024 23:41:46 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240313-2/</guid>
+      <description>查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 / a.execution_count AS DECIMAL(16, 2)) , [SQL指令] =SUBSTRING (b.text,(a.statement_start_offset/2) + 1,500) FROM sys.dm_exec_query_stats a CROSS APPLY sys.dm_exec_sql_text(a.sql_handle) as b WHERE a.total_elapsed_time &amp;gt; 0 AND B.[text] NOT LIKE &amp;#39;%SCHEMA_NAME%&amp;#39;--去除一些系統的SQL指令 ORDER BY [平均執行時間(秒)] DESC 查詢資料庫版本 SELECT @@VERSION AS &amp;#39;SQL Server Version Details&amp;#39; 查詢結果 Microsoft SQL Server 2014 - 12.0.2000.8 (X64) Feb 20 2014 20:04:26 Copyright (c) Microsoft Corporation Standard Edition (64-bit) on Windows NT 6.</description>
+    </item>
+    
+  </channel>
+</rss>

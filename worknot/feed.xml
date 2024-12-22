@@ -6,7 +6,38 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 21 Nov 2024 23:05:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Dec 2024 23:31:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>systemctl</title>
+      <link>http://pollochang.work/worknot/systemctl/</link>
+      <pubDate>Sun, 22 Dec 2024 23:31:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/systemctl/</guid>
+      <description>變更 systemctl 默認編輯器 sudo update-alternatives --config editor 執行結果
+root@example:~# sudo update-alternatives --config editor There are 3 choices for the alternative editor (providing /usr/bin/editor). Selection Path Priority Status ------------------------------------------------------------ * 0 /bin/nano 40 auto mode 1 /bin/nano 40 manual mode 2 /usr/bin/vim.basic 30 manual mode 3 /usr/bin/vim.tiny 15 manual mode Press &amp;lt;enter&amp;gt; to keep the current choice[*], or type selection number: 2 update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode 同檔名優先權 在 /etc/systemd/system 與 /lib/systemd/system 有相同服務檔案名，會優先使用 /etc/systemd/system 路徑中的內容。</description>
+    </item>
+    
+    <item>
+      <title>Install Postgresql on Debian12</title>
+      <link>http://pollochang.work/worknot/install-postgresql-on-debian12/</link>
+      <pubDate>Sun, 22 Dec 2024 20:55:11 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/install-postgresql-on-debian12/</guid>
+      <description>環境 OS: Debian 12 Database version: postgresql 14 安裝 sudo apt -y install curl ca-certificates sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-14 執行結果
+pollochang@pl-dns-01:~$ sudo apt -y install curl ca-certificates sudo: unable to resolve host pl-dns-01: Name or service not known [sudo] password for pollochang: Reading package lists.</description>
+    </item>
+    
+    <item>
+      <title>nmcli 指令操作</title>
+      <link>http://pollochang.work/worknot/nmcli/</link>
+      <pubDate>Wed, 18 Dec 2024 22:19:44 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/nmcli/</guid>
+      <description>處理前動作 檢查文件中已經有配置: /etc/network/interfaces 如果有需要註解，範例如下:
+# The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp 新增網卡配置 sudo nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1 ipv4.method manual 設定完需要重起 NetworkManager
+sudo systemctl restart NetworkManager 修改網卡配置 新增額外的DNS sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8 修改網址 sudo nmcli connection modify enp1s0 ipv4.addresses 192.168.17.208/24 修改 gateway sudo nmcli connection modify enp1s0 ipv4.gateway 192.168.17.254 修改DNS sudo nmcli connection modify enp1s0 ipv4.</description>
+    </item>
+    
     <item>
       <title>關閉centos7防火牆firewalld改用傳統的iptables</title>
       <link>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</link>
@@ -91,8 +122,7 @@ gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，�
       <pubDate>Wed, 13 Nov 2024 00:18:25 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/linux-fail2ban/</guid>
-      <description>#@ fail2ban 安裝
-apt install fail2ban -y 狀態 檢查監控的服務
+      <description>fail2ban 安裝 apt install fail2ban -y 狀態 檢查監控的服務
 fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; banip &amp;ldquo;IP-Address&amp;rdquo;
 fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; unbanip &amp;ldquo;Banned IP-Address&amp;rdquo;
 fail2ban-client set sshd unbanip 10.137.26.29 </description>
@@ -213,6 +243,16 @@ curl telnet://[IP]:[port] 讓我們來看一下差別，以下是 telnet 輸出�
 [root@test-host ~]# lspci -nn |egrep -i &amp;#34;fibre|hba&amp;#34; 17:00.0 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 17:00.1 Fibre Channel [0c04]: QLogic Corp. ISP2532-based 8Gb Fibre Channel to PCI Express HBA [1077:2532] (rev 02) 重新掃描 scsi: echo &amp;quot;- - -&amp;quot; &amp;gt; /sys/class/scsi_host/&amp;lt;host&amp;gt;/scan
 for host in ls /sys/class/scsi_host/;do echo &amp;#34;- - -&amp;#34; &amp;gt;/sys/class/scsi_host/${host}/scan; done 查詢 FC WWN: ``
 [root@test-host ~]# cat /sys/class/fc_host/host11/port_name 0x21000024fg400000 [root@test-host ~]# cat /sys/class/fc_host/host12/port_name 0x21000024ff400000 </description>
+    </item>
+    
+    <item>
+      <title>Nmon</title>
+      <link>http://pollochang.work/worknot/nmon-20241028-1/</link>
+      <pubDate>Mon, 28 Oct 2024 22:08:21 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/nmon-20241028-1/</guid>
+      <description>nmon nmon_analyser 69 版本有問題，所以我這邊下載 66
+wget https://sourceforge.net/projects/nmon/files/nmon_analyser_v66.zip 官方網站: https://nmon.sourceforge.io/pmwiki.php</description>
     </item>
     
     <item>
@@ -337,6 +377,19 @@ Constant Delay Offset (in milliseconds): The number shows a constant delay which
     </item>
     
     <item>
+      <title>pdns-server 安裝</title>
+      <link>http://pollochang.work/worknot/pdns-server/</link>
+      <pubDate>Fri, 09 Aug 2024 22:18:32 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/pdns-server/</guid>
+      <description>以下是我初次建立 powerdns 服務的紀錄
+環境 OS: Debian 12 DB: postgresql-14 pdns-server version: 4.7 事前準備 安裝 postgresql 建立資料庫 sudo su - postgres psql CREATE DATABASE pdnsdb; CREATE USER pdns WITH PASSWORD &amp;#39;pdnsPassword&amp;#39;; GRANT CONNECT ON DATABASE pdnsdb TO pdns; ALTER DATABASE pdnsdb OWNER TO pdns; 建置 table schema，可以在說明文件中找到: /usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql
+並執行下列指令
+psql -h &amp;lt;host&amp;gt; -U &amp;lt;user&amp;gt; &amp;lt;database&amp;gt; -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql 以下是內容
+CREATE TABLE domains ( id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, master VARCHAR(128) DEFAULT NULL, last_check INT DEFAULT NULL, type TEXT NOT NULL, notified_serial BIGINT DEFAULT NULL, account VARCHAR(40) DEFAULT NULL, options TEXT DEFAULT NULL, catalog TEXT DEFAULT NULL, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX name_index ON domains(name); CREATE INDEX catalog_idx ON domains(catalog); CREATE TABLE records ( id BIGSERIAL PRIMARY KEY, domain_id INT DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, type VARCHAR(10) DEFAULT NULL, content VARCHAR(65535) DEFAULT NULL, ttl INT DEFAULT NULL, prio INT DEFAULT NULL, disabled BOOL DEFAULT &amp;#39;f&amp;#39;, ordername VARCHAR(255), auth BOOL DEFAULT &amp;#39;t&amp;#39;, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX rec_name_index ON records(name); CREATE INDEX nametype_index ON records(name,type); CREATE INDEX domain_id ON records(domain_id); CREATE INDEX recordorder ON records (domain_id, ordername text_pattern_ops); CREATE TABLE supermasters ( ip INET NOT NULL, nameserver VARCHAR(255) NOT NULL, account VARCHAR(40) NOT NULL, PRIMARY KEY(ip, nameserver) ); CREATE TABLE comments ( id SERIAL PRIMARY KEY, domain_id INT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(10) NOT NULL, modified_at INT NOT NULL, account VARCHAR(40) DEFAULT NULL, comment VARCHAR(65535) NOT NULL, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX comments_domain_id_idx ON comments (domain_id); CREATE INDEX comments_name_type_idx ON comments (name, type); CREATE INDEX comments_order_idx ON comments (domain_id, modified_at); CREATE TABLE domainmetadata ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, kind VARCHAR(32), content TEXT ); CREATE INDEX domainidmetaindex ON domainmetadata(domain_id); CREATE TABLE cryptokeys ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, flags INT NOT NULL, active BOOL, published BOOL DEFAULT TRUE, content TEXT ); CREATE INDEX domainidindex ON cryptokeys(domain_id); CREATE TABLE tsigkeys ( id SERIAL PRIMARY KEY, name VARCHAR(255), algorithm VARCHAR(50), secret VARCHAR(255), CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm); 安裝事前作業 停用 systemd-resolved sudo systemctl disable --now systemd-resolved 設定穩定版本來源 設定參考官方說明: PowerDNS repositories</description>
+    </item>
+    
+    <item>
       <title>linux 設定網路</title>
       <link>http://pollochang.work/worknot/worknot-20240805-1/</link>
       <pubDate>Mon, 05 Aug 2024 22:41:58 +0800</pubDate>
@@ -382,7 +435,7 @@ linux /var/lib/docker/overlay2 這層目錄不能亂刪
     </item>
     
     <item>
-      <title>在 Linux 中 製作 USE 開機牒</title>
+      <title>在 Linux 中 製作 USB 開機牒</title>
       <link>http://pollochang.work/worknot/worknot-20240717-2/</link>
       <pubDate>Wed, 17 Jul 2024 23:04:42 +0800</pubDate>
       
@@ -711,6 +764,24 @@ wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.1.0/depe
       
       <guid>http://pollochang.work/worknot/worknot-20240425/</guid>
       <description> grep: 過濾資料 grep 要過濾出的資料 exampleFileSource.log &amp;gt; exampleFile.log cut 切除每行前 60 個字元 cut -b 60- exampleFile.log &amp;gt; exampleFile.2.log sort: 類似 sql distinct 效果 grep 要過濾出的資料 exampleFile.2.log | sort --unique 分析 message IP grep &amp;#34;martian source&amp;#34; messages | grep -oE &amp;#39;([0-9]{1,3}\.){3}[0-9]{1,3}&amp;#39; &amp;gt;&amp;gt; messages-IP.log sort messages-IP.log | uniq -c | sort -nr </description>
+    </item>
+    
+    <item>
+      <title>grails5 hibernate 建立監聽事件研究</title>
+      <link>http://pollochang.work/worknot/worknot-20240416-2/</link>
+      <pubDate>Tue, 16 Apr 2024 20:37:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240416-2/</guid>
+      <description>注入: conf/spring/resources.groovy package spring import work.pollochang.pollo.grails.db.aop.CustomInterceptor // Place your Spring DSL code here beans = { customInterceptor(CustomInterceptor) } 設定 log &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;clr&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.ColorConverter&amp;#34; /&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;wex&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&amp;#34; /&amp;gt; &amp;lt;appender name=&amp;#34;STDOUT&amp;#34; class=&amp;#34;ch.qos.logback.core.ConsoleAppender&amp;#34;&amp;gt; &amp;lt;encoder&amp;gt; &amp;lt;charset&amp;gt;UTF-8&amp;lt;/charset&amp;gt; &amp;lt;pattern&amp;gt;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex&amp;lt;/pattern&amp;gt; &amp;lt;/encoder&amp;gt; &amp;lt;/appender&amp;gt; &amp;lt;logger name=&amp;#34;org.hibernate&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.demo&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.pollo.grails.db.aop&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;root level=&amp;#34;error&amp;#34;&amp;gt; &amp;lt;appender-ref ref=&amp;#34;STDOUT&amp;#34; /&amp;gt; &amp;lt;/root&amp;gt; &amp;lt;/configuration&amp;gt; 系統初始化 /usr/local/lib/jvm/jdk-17.0.8.1+1/bin/java -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:CICompilerCount=3 -Dfile.</description>
+    </item>
+    
+    <item>
+      <title>grails 攔截器</title>
+      <link>http://pollochang.work/worknot/worknot-20240416-1/</link>
+      <pubDate>Tue, 16 Apr 2024 12:18:12 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240416-1/</guid>
+      <description>Interceptor 介面： org.hibernate.Interceptor 介面允許您在 Hibernate 事件的各個階段介入，並提供了一些方法來實現您自己的邏輯。EmptyInterceptor 是 Interceptor 介面的一個簡單實現，它包含了所有方法的空實現。 SessionFactoryObserver 介面： org.hibernate.SessionFactoryObserver 介面允許您觀察 SessionFactory 的生命週期事件，在 SessionFactory 創建、關閉等事件發生時執行自定義邏輯。 EventListeners 介面： org.hibernate.event.service.spi.EventListenerRegistry 介面允許您註冊和管理 Hibernate 事件監聽器。您可以註冊自定義的事件監聽器來處理 Hibernate 事件，例如實體生命週期事件、持久化操作事件等。 EventType 和 EventListener 介面： org.hibernate.event.spi.EventType 定義了 Hibernate 中的各種事件類型，org.hibernate.event.spi.PostInsertEventListener、org.hibernate.event.spi.PreUpdateEventListener 等介面定義了對應事件的監聽器介面。您可以實現這些介面來監聽特定的事件，在事件發生時執行自定義邏輯。 Custom Type 和 User Type： org.hibernate.usertype.UserType 介面允許您定義自定義的數據類型，以便在實體類中使用。您可以實現這個介面來定義自己的數據類型，例如枚舉類型、自定義對象類型等。 Custom Dialect： org.hibernate.dialect.Dialect 類允許您實現自定義的數據庫方言，以適配不同的數據庫。您可以擴展這個類，並實現數據庫相關的行為，例如數據類型映射、SQL 方言等。 EntityInterceptor 介面： org.hibernate.Interceptor 介面的子介面，用於在實體加載、保存、更新等操作時執行自定義邏輯。 AuditInterceptor 介面： 用於實現審計功能，記錄實體的創建、修改、刪除等操作。 範例程式 EntityIntercepto package work.pollochang.pollo.grails.db.aop; import org.grails.web.util.WebUtils; import org.hibernate.EmptyInterceptor; import org.hibernate.internal.EntityManagerMessageLogger; import org.hibernate.internal.HEMLogging; import org.hibernate.type.Type; import java.sql.Connection; import java.</description>
     </item>
     
     <item>

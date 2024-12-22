@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GNOME on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/gnome/</link>
+    <description>Recent content in GNOME on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Mon, 01 Jul 2024 09:48:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/gnome/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
+      <link>http://pollochang.work/worknot/worknot-20240701-1/</link>
+      <pubDate>Mon, 01 Jul 2024 09:48:08 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240701-1/</guid>
+      <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values
+name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,28 @@
     <description>Recent content in linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 21 Nov 2024 23:05:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Dec 2024 23:31:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>systemctl</title>
+      <link>http://pollochang.work/worknot/systemctl/</link>
+      <pubDate>Sun, 22 Dec 2024 23:31:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/systemctl/</guid>
+      <description>變更 systemctl 默認編輯器 sudo update-alternatives --config editor 執行結果
+root@example:~# sudo update-alternatives --config editor There are 3 choices for the alternative editor (providing /usr/bin/editor). Selection Path Priority Status ------------------------------------------------------------ * 0 /bin/nano 40 auto mode 1 /bin/nano 40 manual mode 2 /usr/bin/vim.basic 30 manual mode 3 /usr/bin/vim.tiny 15 manual mode Press &amp;lt;enter&amp;gt; to keep the current choice[*], or type selection number: 2 update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode 同檔名優先權 在 /etc/systemd/system 與 /lib/systemd/system 有相同服務檔案名，會優先使用 /etc/systemd/system 路徑中的內容。</description>
+    </item>
+    
+    <item>
+      <title>nmcli 指令操作</title>
+      <link>http://pollochang.work/worknot/nmcli/</link>
+      <pubDate>Wed, 18 Dec 2024 22:19:44 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/nmcli/</guid>
+      <description>處理前動作 檢查文件中已經有配置: /etc/network/interfaces 如果有需要註解，範例如下:
+# The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp 新增網卡配置 sudo nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1 ipv4.method manual 設定完需要重起 NetworkManager
+sudo systemctl restart NetworkManager 修改網卡配置 新增額外的DNS sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8 修改網址 sudo nmcli connection modify enp1s0 ipv4.addresses 192.168.17.208/24 修改 gateway sudo nmcli connection modify enp1s0 ipv4.gateway 192.168.17.254 修改DNS sudo nmcli connection modify enp1s0 ipv4.</description>
+    </item>
+    
     <item>
       <title>關閉centos7防火牆firewalld改用傳統的iptables</title>
       <link>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</link>
@@ -64,6 +85,221 @@ gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，�
 &amp;ndash;newest-only 只抓最新的檔案
 建立本地yum倉庫 mkdir -p /home/yum/local/ 建立repo檔案 /etc/yum.repos.d/local.repo
 [Local] name=Local Yum baseurl=file:///home/yum gpgcheck=0 enabled=1 [DVD] name=DVD Yum baseurl=file:///mnt/iso gpgcheck=0 enabled=1 安裝 createrepo yum install createrepo</description>
+    </item>
+    
+    <item>
+      <title>CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</title>
+      <link>http://pollochang.work/worknot/worknot-20241118-1/</link>
+      <pubDate>Mon, 18 Nov 2024 12:23:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241118-1/</guid>
+      <description>詳細錯誤訊息 Nov 18 12:17:01 91214Desktop CRON[204259]: PAM unable to dlopen(pam_pwquality.so): /lib/security/pam_pwquality.so: cannot open shared object file: No such file or directory Nov 18 12:17:01 91214Desktop CRON[204259]: PAM adding faulty module: pam_pwquality.so Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0) Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session closed for user root 環境 Debian 11 解決方式 sudo apt install libpam-pwquality sudo mkdir -p /lib/security sudo ln -s /lib/x86_64-linux-gnu/security/pam_pwquality.</description>
+    </item>
+    
+    <item>
+      <title>Fail2ban</title>
+      <link>http://pollochang.work/worknot/linux-fail2ban/</link>
+      <pubDate>Wed, 13 Nov 2024 00:18:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-fail2ban/</guid>
+      <description>fail2ban 安裝 apt install fail2ban -y 狀態 檢查監控的服務
+fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; banip &amp;ldquo;IP-Address&amp;rdquo;
+fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; unbanip &amp;ldquo;Banned IP-Address&amp;rdquo;
+fail2ban-client set sshd unbanip 10.137.26.29 </description>
+    </item>
+    
+    <item>
+      <title>Nmon</title>
+      <link>http://pollochang.work/worknot/nmon-20241028-1/</link>
+      <pubDate>Mon, 28 Oct 2024 22:08:21 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/nmon-20241028-1/</guid>
+      <description>nmon nmon_analyser 69 版本有問題，所以我這邊下載 66
+wget https://sourceforge.net/projects/nmon/files/nmon_analyser_v66.zip 官方網站: https://nmon.sourceforge.io/pmwiki.php</description>
+    </item>
+    
+    <item>
+      <title>linux 設定網路</title>
+      <link>http://pollochang.work/worknot/worknot-20240805-1/</link>
+      <pubDate>Mon, 05 Aug 2024 22:41:58 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240805-1/</guid>
+      <description>設定網路 啟動網卡 sudo ip link set eth0 up 透過 DHCP 取得IP sudo dhclient eth0 安裝 NetworkManager Debian sudo apt install network-manager sudo systemctl start NetworkManager sudo systemctl enable NetworkManager </description>
+    </item>
+    
+    <item>
+      <title>Arch Linux 安裝</title>
+      <link>http://pollochang.work/worknot/arch-linux-20240802/</link>
+      <pubDate>Fri, 02 Aug 2024 22:40:11 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/arch-linux-20240802/</guid>
+      <description>環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站
+可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/
+/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/nvme0n1 mklabel gpt # parted /dev/nvme0n1 # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl + D gdisk /dev/nvme0n1 # /dev/sda1 -&amp;gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&amp;gt; 4G (swap) # /dev/sda3 -&amp;gt; (/) # 檢查結果 fdisk -l mkfs.</description>
+    </item>
+    
+    <item>
+      <title>Debiain 桌面設定</title>
+      <link>http://pollochang.work/worknot/worknot-20240801-1/</link>
+      <pubDate>Thu, 01 Aug 2024 23:37:45 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240801-1/</guid>
+      <description>筆電 蓋上螢幕不休眠 /etc/systemd/logind.conf HandleLidSwitch=ignore sudo systemctl restart systemd-logind sudp reboot </description>
+    </item>
+    
+    <item>
+      <title>在 Linux 中 製作 USB 開機牒</title>
+      <link>http://pollochang.work/worknot/worknot-20240717-2/</link>
+      <pubDate>Wed, 17 Jul 2024 23:04:42 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240717-2/</guid>
+      <description>方案 BalenaEtcher 環境 OS: Debian 12 處理步驟 curl -1sLf &amp;#39;https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh&amp;#39; | sudo -E bash sudo apt update sudo apt install balena-etcher-electron </description>
+    </item>
+    
+    <item>
+      <title>Linux Iconv</title>
+      <link>http://pollochang.work/worknot/linux-iconv/</link>
+      <pubDate>Fri, 05 Jul 2024 14:16:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-iconv/</guid>
+      <description>Linux 轉碼工具
+# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql </description>
+    </item>
+    
+    <item>
+      <title>在 Linux 中，su account 和 su - account 有以下主要差別</title>
+      <link>http://pollochang.work/worknot/worknot-20240704-1/</link>
+      <pubDate>Thu, 04 Jul 2024 18:18:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240704-1/</guid>
+      <description>su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變：切換到 account 用戶後，會保持在切換前的目錄。 su - account 模擬完整登錄：su - account 切換到 account 用戶時，會模擬完整的登錄過程，就像 account 用戶剛剛通過 SSH 或登入界面登錄一樣。 加載 account 用戶的環境配置：account 用戶的 .bash_profile 或 .profile 等配置文件會被執行，設置該用戶的環境變量。 切換到用戶的主目錄：切換到 account 用戶後，會自動進入該用戶的主目錄（通常是 /home/account）。 </description>
+    </item>
+    
+    <item>
+      <title>Linux Grub2 Set Default(手動設定開機時要啟動的 linux 核心)</title>
+      <link>http://pollochang.work/worknot/linux-grub2-set-default/</link>
+      <pubDate>Wed, 03 Jul 2024 23:43:33 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-grub2-set-default/</guid>
+      <description>手動設定開機時要啟動的 linux 核心
+操作步驟
+查看目前已經有安哪些核心 選擇核心 重新生成GRUB配置 重新開機 檢查 # 1. 查看目前已經有安哪些核心 grep ^menuentry /boot/grub2/grub.cfg # 2. 選擇核心 grub2-set-default 0 # 3. 重新生成GRUB配置 grub2-mkconfig -o /boot/grub2/grub.cfg # 4. 重新開機 reboot # 5. 檢查 uname -a 處理結果
+[root@test-os yum.repos.d]# grep ^menuentry /boot/grub2/grub.cfg menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.14.35-2047.537.4.el7uek.x86_64&amp;#39; --class oracle --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option &amp;#39;gnulinux-4.14.35-2047.537.4.el7uek.x86_64-advanced-cf7b3276-fddb-46de-917a-bbb2ca596c54&amp;#39; { menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.</description>
+    </item>
+    
+    <item>
+      <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
+      <link>http://pollochang.work/worknot/worknot-20240701-1/</link>
+      <pubDate>Mon, 01 Jul 2024 09:48:08 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240701-1/</guid>
+      <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values
+name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
+    </item>
+    
+    <item>
+      <title>linux last 指令</title>
+      <link>http://pollochang.work/worknot/worknot-20240625-1/</link>
+      <pubDate>Tue, 25 Jun 2024 12:24:41 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240625-1/</guid>
+      <description>統計每個 IP 地址的出現次數 last | awk &amp;#39;{print $3}&amp;#39; | grep -Eo &amp;#39;([0-9]{1,3}\.){3}[0-9]{1,3}&amp;#39; | sort | uniq -c | sort -nr last： 顯示用戶登錄的歷史記錄。 awk &amp;lsquo;{print $3}&amp;rsquo;： 提取輸出的第三列，通常是 IP 地址或主機名。 grep -Eo &amp;lsquo;([0-9]{1,3}.){3}[0-9]{1,3}&amp;rsquo;： 使用正則表達式過濾出有效的 IP 地址。 sort： 將結果排序，這一步是 uniq -c 正常工作的前提。 uniq -c： 統計每個唯一 IP 地址的出現次數。 sort -nr：按數量從大到小排序。 </description>
+    </item>
+    
+    <item>
+      <title>Linux 硬體檢視</title>
+      <link>http://pollochang.work/worknot/linux-hardware-view/</link>
+      <pubDate>Tue, 18 Jun 2024 00:25:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-hardware-view/</guid>
+      <description>使用 lshw 工具 安裝 Debian sudo apt install lshw 檢測 CPU ❯ sudo lshw -short -class bus -class cpu H/W path Device Class Description ========================================================= /0 bus 01M3M4 /0/400 processor 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz /0/100/d bus Tiger Lake-LP Thunderbolt 4 USB Controller /0/100/d/0 usb1 bus xHCI Host Controller /0/100/d/1 usb2 bus xHCI Host Controller /0/100/d.2 bus Tiger Lake-LP Thunderbolt 4 NHI #0 /0/100/14 bus Tiger Lake-LP USB 3.</description>
+    </item>
+    
+    <item>
+      <title>Update Nvidia 470 Dirver</title>
+      <link>http://pollochang.work/worknot/update-nvidia-470-dirver/</link>
+      <pubDate>Tue, 11 Jun 2024 22:29:27 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
+      <description>Linux 安裝 NVidia 驅動程式
+環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
+    </item>
+    
+    <item>
+      <title>putty 編譯安裝</title>
+      <link>http://pollochang.work/worknot/worknot-20240605-1/</link>
+      <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+    </item>
+    
+    <item>
+      <title>Linux Cli Netstat</title>
+      <link>http://pollochang.work/worknot/linux-cli-netstat/</link>
+      <pubDate>Mon, 03 Jun 2024 12:29:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-cli-netstat/</guid>
+      <description>線上手冊內容 NETSTAT(8)	Linux System Administrator&amp;#39;s Manual	NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships SYNOPSIS netstat	[address_family_options] [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] [--l2cap|-2]	[--rfcomm|-f]	[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--nu‐ meric-ports] [--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o] [--program|-p] [--verbose|-v] [--continuous|-c] [--wide|-W] netstat {--route|-r} [address_family_options] [--extend|-e[--extend|-e]] [--verbose|-v] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--interfaces|-i} [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v] [--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] netstat {--version|-V} netstat {--help|-h} address_family_options: [-4|--inet] [-6|--inet6] [--protocol={inet,inet6,unix,ipx,ax25,netrom,ddp,bluetooth, .</description>
+    </item>
+    
+    <item>
+      <title>nginx ssl 設定步驟</title>
+      <link>http://pollochang.work/worknot/worknot-20240529-1/</link>
+      <pubDate>Wed, 29 May 2024 21:27:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240529-1/</guid>
+      <description>檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD TLS_CHACHA20_POLY1305_SHA256 TLSv1.3 Kx=any Au=any Enc=CHACHA20/POLY1305(256) Mac=AEAD TLS_AES_128_GCM_SHA256 TLSv1.3 Kx=any Au=any Enc=AESGCM(128) Mac=AEAD ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(256) Mac=AEAD ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=RSA Enc=AESGCM(256) Mac=AEAD DHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=DH Au=RSA Enc=AESGCM(256) Mac=AEAD ECDHE-ECDSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=ECDSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD DHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=DH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.</description>
+    </item>
+    
+    <item>
+      <title>linux CLI rsync</title>
+      <link>http://pollochang.work/worknot/worknot-20240518-1/</link>
+      <pubDate>Sat, 18 May 2024 00:08:34 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240518-1/</guid>
+      <description>中斷續傳 rsync -P --rsh=ssh jameschang@[IP]:[source-path] [gold-path] -P 顯示進度</description>
+    </item>
+    
+    <item>
+      <title>一到指令刪除相關進程</title>
+      <link>http://pollochang.work/worknot/worknot-20240427/</link>
+      <pubDate>Sat, 27 Apr 2024 23:22:46 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240427/</guid>
+      <description>查詢 java 所有的進程
+❯ top -b -n 1 | grep java | cut -c 1-7 8190 15263 15512 16641 17148 假設我要刪除 java 全部的進程可以這樣處理
+❯ top -b -n 1 | grep java | cut -c 1-7 | xargs kill -9 </description>
+    </item>
+    
+    <item>
+      <title>KDE 桌面 CLI</title>
+      <link>http://pollochang.work/worknot/worknot-20240409/</link>
+      <pubDate>Tue, 09 Apr 2024 10:59:52 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240409/</guid>
+      <description>KED 強制登出使用者 sudo pkill -KILL -u [username]] 是直接強制踢出指定使用者所有程序</description>
+    </item>
+    
+    <item>
+      <title>Linux 發行板核心版本整理</title>
+      <link>http://pollochang.work/worknot/worknot-20240309/</link>
+      <pubDate>Sat, 09 Mar 2024 11:27:26 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240309/</guid>
+      <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下
+Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
+    </item>
+    
+    <item>
+      <title>windows ssh key 登入 Linux</title>
+      <link>http://pollochang.work/worknot/windows-ssh-key-login/</link>
+      <pubDate>Wed, 15 Nov 2023 20:53:54 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/windows-ssh-key-login/</guid>
+      <description>先產生 ssh 金鑰
+ssh-keygen 將公鑰上傳到目標主機
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {account}@{IP-ADDRESS-OR-FQDN} &amp;#34;cat &amp;gt;&amp;gt; .ssh/authorized_keys&amp;#34; </description>
     </item>
     
   </channel>

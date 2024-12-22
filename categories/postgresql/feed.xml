@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>postgresql on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/postgresql/</link>
+    <description>Recent content in postgresql on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 22 Dec 2024 20:55:11 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/postgresql/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install Postgresql on Debian12</title>
+      <link>http://pollochang.work/worknot/install-postgresql-on-debian12/</link>
+      <pubDate>Sun, 22 Dec 2024 20:55:11 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/install-postgresql-on-debian12/</guid>
+      <description>環境 OS: Debian 12 Database version: postgresql 14 安裝 sudo apt -y install curl ca-certificates sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-14 執行結果
+pollochang@pl-dns-01:~$ sudo apt -y install curl ca-certificates sudo: unable to resolve host pl-dns-01: Name or service not known [sudo] password for pollochang: Reading package lists.</description>
+    </item>
+    
+    <item>
+      <title>Deploy Postgresql 16 Primary Standby</title>
+      <link>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</link>
+      <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
+      <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
+    </item>
+    
+  </channel>
+</rss>

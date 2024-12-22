@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NetworkManager on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/networkmanager/</link>
+    <description>Recent content in NetworkManager on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 18 Dec 2024 22:19:44 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/networkmanager/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nmcli 指令操作</title>
+      <link>http://pollochang.work/worknot/nmcli/</link>
+      <pubDate>Wed, 18 Dec 2024 22:19:44 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/nmcli/</guid>
+      <description>處理前動作 檢查文件中已經有配置: /etc/network/interfaces 如果有需要註解，範例如下:
+# The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp 新增網卡配置 sudo nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1 ipv4.method manual 設定完需要重起 NetworkManager
+sudo systemctl restart NetworkManager 修改網卡配置 新增額外的DNS sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8 修改網址 sudo nmcli connection modify enp1s0 ipv4.addresses 192.168.17.208/24 修改 gateway sudo nmcli connection modify enp1s0 ipv4.gateway 192.168.17.254 修改DNS sudo nmcli connection modify enp1s0 ipv4.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>weindows on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/weindows/</link>
+    <description>Recent content in weindows on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Wed, 17 Jul 2024 06:14:11 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/weindows/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>尋找作業系統帳號建立日期</title>
+      <link>http://pollochang.work/worknot/worknot-20240717-1/</link>
+      <pubDate>Wed, 17 Jul 2024 06:14:11 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240717-1/</guid>
+      <description>weindows Write-Output &amp;#34;User,Birth&amp;#34; # 取得所有用戶名和主目錄路徑 $users = Get-WmiObject Win32_UserAccount | Where-Object { $_.LocalAccount -eq $true -and $_.SIDType -eq 1 } foreach ($user in $users) { $homeDir = &amp;#34;C:\Users\$($user.Name)&amp;#34; if (Test-Path $homeDir) { $creationTime = (Get-Item $homeDir).CreationTime $formattedTime = $creationTime.ToString(&amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;) Write-Output &amp;#34;$($env:COMPUTERNAME),$($user.Name),$formattedTime&amp;#34; } else { Write-Output &amp;#34;$($env:COMPUTERNAME),$($user.Name),-&amp;#34; } } Linux #!/bin/bash # 從 /etc/passwd 文件中讀取所有用戶名和主目錄路徑 while IFS=: read -r username _ _ _ _ home_dir _; do if [ -d &amp;#34;$home_dir&amp;#34; ]; then # 使用 stat 命令獲取主目錄資訊 stat_output=$(stat &amp;#34;$home_dir&amp;#34;) birth_time=$(echo &amp;#34;$stat_output&amp;#34; | grep &amp;#39;Birth&amp;#39; | awk &amp;#39;{print $2 &amp;#34; &amp;#34; $3}&amp;#39;) if [ -n &amp;#34;$birth_time&amp;#34; ]; then formatted_time=$(date -d &amp;#34;$birth_time&amp;#34; +&amp;#39;%Y-%m-%d %H:%M:%S&amp;#39;) echo &amp;#34;$(hostname),$username,$formatted_time&amp;#34; else birth_time=$(echo &amp;#34;$stat_output&amp;#34; | grep &amp;#39;Change&amp;#39; | awk &amp;#39;{print $2 &amp;#34; &amp;#34; $3}&amp;#39;) if [-n &amp;#34;$birth_time&amp;#34;]; then formatted_time=$(date -d &amp;#34;$birth_time&amp;#34; +&amp;#39;%Y-%m-%d %H:%M:%S&amp;#39;) else echo &amp;#34;$(hostname),$username,-&amp;#34; fi fi else echo &amp;#34;$(hostname),$username,-&amp;#34; fi done &amp;lt; /etc/passwd </description>
+    </item>
+    
+  </channel>
+</rss>

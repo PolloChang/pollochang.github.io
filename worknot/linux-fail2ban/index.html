@@ -8,8 +8,7 @@
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - #@ fail2ban 安裝
-apt install fail2ban -y 狀態 檢查監控的服務
+    <meta content="PolloChang 工作筆記 - fail2ban 安裝 apt install fail2ban -y 狀態 檢查監控的服務
 fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &ldquo;Jail-Name&rdquo; banip &ldquo;IP-Address&rdquo;
 fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &ldquo;Jail-Name&rdquo; unbanip &ldquo;Banned IP-Address&rdquo;
 fail2ban-client set sshd unbanip 10.137.26.29 " name="description">
@@ -137,8 +136,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/linux-cli/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux CLI</span>
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
 
@@ -150,7 +149,7 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <p>#@ fail2ban 安裝</p>
+                    <h2 id="fail2ban-安裝">fail2ban 安裝</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install fail2ban -y
 </span></span></code></pre></div><h2 id="狀態">狀態</h2>
 <p>檢查監控的服務</p>

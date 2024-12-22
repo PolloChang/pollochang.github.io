@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - oracle 記憶體監控 </title>
     
     
-    <meta content="Oracle, 系統調校, 工作雜記" name="keywords">
+    <meta content="Oracle, 系統調校" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
 select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &#39;SGA&#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&#39;Maximum SGA Size&#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&#39;free memory&#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &#39;PGA&#39; name,(select value/1024/1024 total from v$pgastat where name=&#39;aggregate PGA target parameter&#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &#39;maximum PGA allocated&#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&#39;total PGA allocated&#39;)used from dual ) ); sqlplus / as sysdba &lt;&lt; EOF @/home/oracle/check-health-script/check-memory." name="description">
@@ -134,8 +134,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
         </a>
     
 

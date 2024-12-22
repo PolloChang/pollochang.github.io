@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Debiain on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/debiain/</link>
+    <description>Recent content in Debiain on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 01 Aug 2024 23:37:45 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/debiain/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debiain 桌面設定</title>
+      <link>http://pollochang.work/worknot/worknot-20240801-1/</link>
+      <pubDate>Thu, 01 Aug 2024 23:37:45 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240801-1/</guid>
+      <description>筆電 蓋上螢幕不休眠 /etc/systemd/logind.conf HandleLidSwitch=ignore sudo systemctl restart systemd-logind sudp reboot </description>
+    </item>
+    
+  </channel>
+</rss>

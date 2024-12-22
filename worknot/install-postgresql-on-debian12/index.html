@@ -1,0 +1,616 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Install Postgresql on Debian12 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12 Database version: postgresql 14 安裝 sudo apt -y install curl ca-certificates sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &#39;echo &#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&#34; &gt; /etc/apt/sources.list.d/pgdg.list&#39; sudo apt update sudo apt -y install postgresql-14 執行結果
+pollochang@pl-dns-01:~$ sudo apt -y install curl ca-certificates sudo: unable to resolve host pl-dns-01: Name or service not known [sudo] password for pollochang: Reading package lists." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Install Postgresql on Debian12</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-12-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="環境">環境</h2>
+<ul>
+<li>OS: Debian 12</li>
+<li>Database version: postgresql 14</li>
+</ul>
+<h2 id="安裝">安裝</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install curl ca-certificates
+</span></span><span style="display:flex;"><span>sudo install -d /usr/share/postgresql-common/pgdg
+</span></span><span style="display:flex;"><span>sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+</span></span><span style="display:flex;"><span>sudo sh -c <span style="color:#e6db74">&#39;echo &#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&#34; &gt; /etc/apt/sources.list.d/pgdg.list&#39;</span>
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt -y install postgresql-14
+</span></span></code></pre></div><p>執行結果</p>
+<pre tabindex="0"><code>pollochang@pl-dns-01:~$ sudo apt -y install curl ca-certificates
+sudo: unable to resolve host pl-dns-01: Name or service not known
+[sudo] password for pollochang: 
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+ca-certificates is already the newest version (20230311).
+The following package was automatically installed and is no longer required:
+  linux-image-6.1.0-22-amd64
+Use &#39;sudo apt autoremove&#39; to remove it.
+The following NEW packages will be installed:
+  curl libcurl4
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 705 kB of archives.
+After this operation, 1,359 kB of additional disk space will be used.
+Get:1 http://ftp.tw.debian.org/debian bookworm/main amd64 libcurl4 amd64 7.88.1-10+deb12u8 [390 kB]
+Get:2 http://ftp.tw.debian.org/debian bookworm/main amd64 curl amd64 7.88.1-10+deb12u8 [315 kB]
+Fetched 705 kB in 1s (1,132 kB/s)
+Selecting previously unselected package libcurl4:amd64.
+(Reading database ... 42476 files and directories currently installed.)
+Preparing to unpack .../libcurl4_7.88.1-10+deb12u8_amd64.deb ...
+Unpacking libcurl4:amd64 (7.88.1-10+deb12u8) ...
+Selecting previously unselected package curl.
+Preparing to unpack .../curl_7.88.1-10+deb12u8_amd64.deb ...
+Unpacking curl (7.88.1-10+deb12u8) ...
+Setting up libcurl4:amd64 (7.88.1-10+deb12u8) ...
+Setting up curl (7.88.1-10+deb12u8) ...
+Processing triggers for man-db (2.11.2-2) ...
+Processing triggers for libc-bin (2.36-9+deb12u9) ...
+pollochang@pl-dns-01:~$ sudo install -d /usr/share/postgresql-common/pgdg
+sudo: unable to resolve host pl-dns-01: Name or service not known
+pollochang@pl-dns-01:~$ sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo: unable to resolve host pl-dns-01: Name or service not known
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4812  100  4812    0     0   2555      0  0:00:01  0:00:01 --:--:--  2555
+pollochang@pl-dns-01:~$ sudo sh -c &#39;echo &#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&#34; &gt; /etc/apt/sources.list.d/pgdg.list&#39;
+pollochang@pl-dns-01:~$ sudo apt update
+Hit:1 http://ftp.tw.debian.org/debian bookworm InRelease
+Get:2 http://ftp.tw.debian.org/debian bookworm-updates InRelease [55.4 kB]
+Get:3 http://security.debian.org/debian-security bookworm-security InRelease [48.0 kB]      
+Get:4 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg InRelease [129 kB]                                         
+Get:5 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 Packages [360 kB]
+Fetched 593 kB in 4s (138 kB/s)    
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+pollochang@pl-dns-01:~$ sudo apt -y install postgresql-14
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following package was automatically installed and is no longer required:
+  linux-image-6.1.0-22-amd64
+Use &#39;sudo apt autoremove&#39; to remove it.
+The following additional packages will be installed:
+  libcommon-sense-perl libio-pty-perl libipc-run-perl libjson-perl libjson-xs-perl libllvm16 libpq5 libsensors-config libsensors5 libtypes-serialiser-perl libxslt1.1 libz3-4 postgresql-client-14
+  postgresql-client-common postgresql-common ssl-cert sysstat
+Suggested packages:
+  lm-sensors postgresql-doc-14 isag
+The following NEW packages will be installed:
+  libcommon-sense-perl libio-pty-perl libipc-run-perl libjson-perl libjson-xs-perl libllvm16 libpq5 libsensors-config libsensors5 libtypes-serialiser-perl libxslt1.1 libz3-4 postgresql-14
+  postgresql-client-14 postgresql-client-common postgresql-common ssl-cert sysstat
+0 upgraded, 18 newly installed, 0 to remove and 0 not upgraded.
+Need to get 49.7 MB of archives.
+After this operation, 211 MB of additional disk space will be used.
+Get:1 http://ftp.tw.debian.org/debian bookworm/main amd64 libjson-perl all 4.10000-1 [87.5 kB]
+Get:2 http://ftp.tw.debian.org/debian bookworm/main amd64 libio-pty-perl amd64 1:1.17-1 [34.9 kB]
+Get:3 http://ftp.tw.debian.org/debian bookworm/main amd64 libipc-run-perl all 20220807.0-1 [104 kB]
+Get:4 http://ftp.tw.debian.org/debian bookworm/main amd64 ssl-cert all 1.1.2 [21.1 kB]     
+Get:5 http://ftp.tw.debian.org/debian bookworm/main amd64 libcommon-sense-perl amd64 3.75-3 [23.0 kB]
+Get:6 http://ftp.tw.debian.org/debian bookworm/main amd64 libtypes-serialiser-perl all 1.01-1 [12.2 kB]
+Get:7 http://ftp.tw.debian.org/debian bookworm/main amd64 libjson-xs-perl amd64 4.030-2+b1 [92.1 kB]
+Get:8 http://ftp.tw.debian.org/debian bookworm/main amd64 libz3-4 amd64 4.8.12-3.1 [7,216 kB]
+Get:9 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-client-common all 267.pgdg120+1 [37.5 kB]
+Get:10 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-common all 267.pgdg120+1 [183 kB]
+Get:11 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 libpq5 amd64 17.2-1.pgdg120+1 [223 kB]
+Get:12 http://ftp.tw.debian.org/debian bookworm/main amd64 libllvm16 amd64 1:16.0.6-15~deb12u1 [23.0 MB]
+Get:13 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-client-14 amd64 14.15-1.pgdg120+1 [1,640 kB]                                                                               
+Get:14 https://apt.postgresql.org/pub/repos/apt bookworm-pgdg/main amd64 postgresql-14 amd64 14.15-1.pgdg120+1 [16.1 MB]                                                                                       
+Get:15 http://ftp.tw.debian.org/debian bookworm/main amd64 libsensors-config all 1:3.6.0-7.1 [14.3 kB]                                                                                                         
+Get:16 http://ftp.tw.debian.org/debian bookworm/main amd64 libsensors5 amd64 1:3.6.0-7.1 [34.2 kB]                                                                                                             
+Get:17 http://ftp.tw.debian.org/debian bookworm/main amd64 libxslt1.1 amd64 1.1.35-1 [242 kB]                                                                                                                  
+Get:18 http://ftp.tw.debian.org/debian bookworm/main amd64 sysstat amd64 12.6.1-1 [596 kB]                                                                                                                     
+Fetched 49.7 MB in 36s (1,371 kB/s)                                                                                                                                                                            
+Preconfiguring packages ...
+Selecting previously unselected package libjson-perl.
+(Reading database ... 42489 files and directories currently installed.)
+Preparing to unpack .../00-libjson-perl_4.10000-1_all.deb ...
+Unpacking libjson-perl (4.10000-1) ...
+Selecting previously unselected package libio-pty-perl.
+Preparing to unpack .../01-libio-pty-perl_1%3a1.17-1_amd64.deb ...
+Unpacking libio-pty-perl (1:1.17-1) ...
+Selecting previously unselected package libipc-run-perl.
+Preparing to unpack .../02-libipc-run-perl_20220807.0-1_all.deb ...
+Unpacking libipc-run-perl (20220807.0-1) ...
+Selecting previously unselected package postgresql-client-common.
+Preparing to unpack .../03-postgresql-client-common_267.pgdg120+1_all.deb ...
+Unpacking postgresql-client-common (267.pgdg120+1) ...
+Selecting previously unselected package ssl-cert.
+Preparing to unpack .../04-ssl-cert_1.1.2_all.deb ...
+Unpacking ssl-cert (1.1.2) ...
+Selecting previously unselected package postgresql-common.
+Preparing to unpack .../05-postgresql-common_267.pgdg120+1_all.deb ...
+Adding &#39;diversion of /usr/bin/pg_config to /usr/bin/pg_config.libpq-dev by postgresql-common&#39;
+Unpacking postgresql-common (267.pgdg120+1) ...
+Selecting previously unselected package libcommon-sense-perl:amd64.
+Preparing to unpack .../06-libcommon-sense-perl_3.75-3_amd64.deb ...
+Unpacking libcommon-sense-perl:amd64 (3.75-3) ...
+Selecting previously unselected package libtypes-serialiser-perl.
+Preparing to unpack .../07-libtypes-serialiser-perl_1.01-1_all.deb ...
+Unpacking libtypes-serialiser-perl (1.01-1) ...
+Selecting previously unselected package libjson-xs-perl.
+Preparing to unpack .../08-libjson-xs-perl_4.030-2+b1_amd64.deb ...
+Unpacking libjson-xs-perl (4.030-2+b1) ...
+Selecting previously unselected package libz3-4:amd64.
+Preparing to unpack .../09-libz3-4_4.8.12-3.1_amd64.deb ...
+Unpacking libz3-4:amd64 (4.8.12-3.1) ...
+Selecting previously unselected package libllvm16:amd64.
+Preparing to unpack .../10-libllvm16_1%3a16.0.6-15~deb12u1_amd64.deb ...
+Unpacking libllvm16:amd64 (1:16.0.6-15~deb12u1) ...
+Selecting previously unselected package libpq5:amd64.
+Preparing to unpack .../11-libpq5_17.2-1.pgdg120+1_amd64.deb ...
+Unpacking libpq5:amd64 (17.2-1.pgdg120+1) ...
+Selecting previously unselected package libsensors-config.
+Preparing to unpack .../12-libsensors-config_1%3a3.6.0-7.1_all.deb ...
+Unpacking libsensors-config (1:3.6.0-7.1) ...
+Selecting previously unselected package libsensors5:amd64.
+Preparing to unpack .../13-libsensors5_1%3a3.6.0-7.1_amd64.deb ...
+Unpacking libsensors5:amd64 (1:3.6.0-7.1) ...
+Selecting previously unselected package libxslt1.1:amd64.
+Preparing to unpack .../14-libxslt1.1_1.1.35-1_amd64.deb ...
+Unpacking libxslt1.1:amd64 (1.1.35-1) ...
+Selecting previously unselected package postgresql-client-14.
+Preparing to unpack .../15-postgresql-client-14_14.15-1.pgdg120+1_amd64.deb ...
+Unpacking postgresql-client-14 (14.15-1.pgdg120+1) ...
+Selecting previously unselected package postgresql-14.
+Preparing to unpack .../16-postgresql-14_14.15-1.pgdg120+1_amd64.deb ...
+Unpacking postgresql-14 (14.15-1.pgdg120+1) ...
+Selecting previously unselected package sysstat.
+Preparing to unpack .../17-sysstat_12.6.1-1_amd64.deb ...
+Unpacking sysstat (12.6.1-1) ...
+Setting up libio-pty-perl (1:1.17-1) ...
+Setting up libsensors-config (1:3.6.0-7.1) ...
+Setting up libpq5:amd64 (17.2-1.pgdg120+1) ...
+Setting up libcommon-sense-perl:amd64 (3.75-3) ...
+Setting up libz3-4:amd64 (4.8.12-3.1) ...
+Setting up ssl-cert (1.1.2) ...
+Setting up libipc-run-perl (20220807.0-1) ...
+Setting up libsensors5:amd64 (1:3.6.0-7.1) ...
+Setting up libtypes-serialiser-perl (1.01-1) ...
+Setting up libjson-perl (4.10000-1) ...
+Setting up libxslt1.1:amd64 (1.1.35-1) ...
+Setting up libllvm16:amd64 (1:16.0.6-15~deb12u1) ...
+Setting up sysstat (12.6.1-1) ...
+
+Creating config file /etc/default/sysstat with new version
+update-alternatives: using /usr/bin/sar.sysstat to provide /usr/bin/sar (sar) in auto mode
+Created symlink /etc/systemd/system/sysstat.service.wants/sysstat-collect.timer → /lib/systemd/system/sysstat-collect.timer.
+Created symlink /etc/systemd/system/sysstat.service.wants/sysstat-summary.timer → /lib/systemd/system/sysstat-summary.timer.
+Created symlink /etc/systemd/system/multi-user.target.wants/sysstat.service → /lib/systemd/system/sysstat.service.
+Setting up postgresql-client-common (267.pgdg120+1) ...
+Setting up libjson-xs-perl (4.030-2+b1) ...
+Setting up postgresql-client-14 (14.15-1.pgdg120+1) ...
+update-alternatives: using /usr/share/postgresql/14/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+Setting up postgresql-common (267.pgdg120+1) ...
+
+Creating config file /etc/postgresql-common/createcluster.conf with new version
+Building PostgreSQL dictionaries from installed myspell/hunspell packages...
+Removing obsolete dictionary files:
+Created symlink /etc/systemd/system/multi-user.target.wants/postgresql.service → /lib/systemd/system/postgresql.service.
+Setting up postgresql-14 (14.15-1.pgdg120+1) ...
+Creating new PostgreSQL cluster 14/main ...
+/usr/lib/postgresql/14/bin/initdb -D /var/lib/postgresql/14/main --auth-local peer --auth-host scram-sha-256 --no-instructions
+The files belonging to this database system will be owned by user &#34;postgres&#34;.
+This user must also own the server process.
+
+The database cluster will be initialized with locale &#34;en_US.UTF-8&#34;.
+The default database encoding has accordingly been set to &#34;UTF8&#34;.
+The default text search configuration will be set to &#34;english&#34;.
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/14/main ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Asia/Taipei
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+Processing triggers for man-db (2.11.2-2) ...
+Processing triggers for libc-bin (2.36-9+deb12u9) ...
+pollochang@pl-dns-01:~$ 
+</code></pre><h2 id="新增資料庫">新增資料庫</h2>
+<p>使用 postgresql 主機帳號</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su - postgres
+</span></span><span style="display:flex;"><span>psql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pdns <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;pdnsPassword&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb <span style="color:#66d9ef">TO</span> pdns;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb <span style="color:#66d9ef">OWNER</span> <span style="color:#66d9ef">TO</span> pdns;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pdnsadmin <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;pdnsPassword&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb <span style="color:#66d9ef">TO</span> pdnsadmin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb <span style="color:#66d9ef">OWNER</span> <span style="color:#66d9ef">TO</span> pdnsadmin;
+</span></span></code></pre></div><p>執行結果</p>
+<pre tabindex="0"><code>pollochang@pl-dns-01:~$ sudo su - postgres
+postgres@pl-dns-01:~$ psql
+psql (14.15 (Debian 14.15-1.pgdg120+1))
+Type &#34;help&#34; for help.
+
+postgres=# CREATE DATABASE pdnsdb;
+CREATE DATABASE
+postgres=# CREATE USER pdns WITH PASSWORD &#39;pdnsPassword&#39;;
+CREATE ROLE
+postgres=# GRANT CONNECT ON DATABASE pdnsdb TO pdns;
+GRANT
+postgres=# ALTER DATABASE pdnsdb OWNER TO pdns;
+ALTER DATABASE
+postgres=#
+</code></pre><h2 id="設定資料庫連線">設定資料庫連線</h2>
+<ul>
+<li>/etc/postgresql/14/main/postgresql.conf</li>
+</ul>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 設定監聽IP
+listen_addresses = &#39;*&#39;
+</code></pre><ul>
+<li>/etc/postgresql/14/main/pg_hba.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 設定資料庫允許連線</span>
+</span></span><span style="display:flex;"><span>host    all             all             192.168.56.1/32         scram-sha-256
+</span></span></code></pre></div><p>改完記得重起資料庫</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart postgresql
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

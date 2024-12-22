@@ -18,6 +18,24 @@ build.gradle configurations{ // 強制移除 implementation { exclude group: &am
     </item>
     
     <item>
+      <title>grails5 hibernate 建立監聽事件研究</title>
+      <link>http://pollochang.work/worknot/worknot-20240416-2/</link>
+      <pubDate>Tue, 16 Apr 2024 20:37:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240416-2/</guid>
+      <description>注入: conf/spring/resources.groovy package spring import work.pollochang.pollo.grails.db.aop.CustomInterceptor // Place your Spring DSL code here beans = { customInterceptor(CustomInterceptor) } 設定 log &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;clr&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.ColorConverter&amp;#34; /&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;wex&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&amp;#34; /&amp;gt; &amp;lt;appender name=&amp;#34;STDOUT&amp;#34; class=&amp;#34;ch.qos.logback.core.ConsoleAppender&amp;#34;&amp;gt; &amp;lt;encoder&amp;gt; &amp;lt;charset&amp;gt;UTF-8&amp;lt;/charset&amp;gt; &amp;lt;pattern&amp;gt;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex&amp;lt;/pattern&amp;gt; &amp;lt;/encoder&amp;gt; &amp;lt;/appender&amp;gt; &amp;lt;logger name=&amp;#34;org.hibernate&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.demo&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.pollo.grails.db.aop&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;root level=&amp;#34;error&amp;#34;&amp;gt; &amp;lt;appender-ref ref=&amp;#34;STDOUT&amp;#34; /&amp;gt; &amp;lt;/root&amp;gt; &amp;lt;/configuration&amp;gt; 系統初始化 /usr/local/lib/jvm/jdk-17.0.8.1+1/bin/java -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:CICompilerCount=3 -Dfile.</description>
+    </item>
+    
+    <item>
+      <title>grails 攔截器</title>
+      <link>http://pollochang.work/worknot/worknot-20240416-1/</link>
+      <pubDate>Tue, 16 Apr 2024 12:18:12 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20240416-1/</guid>
+      <description>Interceptor 介面： org.hibernate.Interceptor 介面允許您在 Hibernate 事件的各個階段介入，並提供了一些方法來實現您自己的邏輯。EmptyInterceptor 是 Interceptor 介面的一個簡單實現，它包含了所有方法的空實現。 SessionFactoryObserver 介面： org.hibernate.SessionFactoryObserver 介面允許您觀察 SessionFactory 的生命週期事件，在 SessionFactory 創建、關閉等事件發生時執行自定義邏輯。 EventListeners 介面： org.hibernate.event.service.spi.EventListenerRegistry 介面允許您註冊和管理 Hibernate 事件監聽器。您可以註冊自定義的事件監聽器來處理 Hibernate 事件，例如實體生命週期事件、持久化操作事件等。 EventType 和 EventListener 介面： org.hibernate.event.spi.EventType 定義了 Hibernate 中的各種事件類型，org.hibernate.event.spi.PostInsertEventListener、org.hibernate.event.spi.PreUpdateEventListener 等介面定義了對應事件的監聽器介面。您可以實現這些介面來監聽特定的事件，在事件發生時執行自定義邏輯。 Custom Type 和 User Type： org.hibernate.usertype.UserType 介面允許您定義自定義的數據類型，以便在實體類中使用。您可以實現這個介面來定義自己的數據類型，例如枚舉類型、自定義對象類型等。 Custom Dialect： org.hibernate.dialect.Dialect 類允許您實現自定義的數據庫方言，以適配不同的數據庫。您可以擴展這個類，並實現數據庫相關的行為，例如數據類型映射、SQL 方言等。 EntityInterceptor 介面： org.hibernate.Interceptor 介面的子介面，用於在實體加載、保存、更新等操作時執行自定義邏輯。 AuditInterceptor 介面： 用於實現審計功能，記錄實體的創建、修改、刪除等操作。 範例程式 EntityIntercepto package work.pollochang.pollo.grails.db.aop; import org.grails.web.util.WebUtils; import org.hibernate.EmptyInterceptor; import org.hibernate.internal.EntityManagerMessageLogger; import org.hibernate.internal.HEMLogging; import org.hibernate.type.Type; import java.sql.Connection; import java.</description>
+    </item>
+    
+    <item>
       <title>來架個網站吧-14.網站開發-4-MVC-1-view</title>
       <link>http://pollochang.work/post/1000-14.%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-4-mvc-1-view/</link>
       <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>

@@ -1,0 +1,406 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - DB2 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - A website called PolloChang 工作筆記" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+        <link href="/categories/db2/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/categories/db2/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+
+<main id="main">
+
+<div class="layui-fluid list-show" >
+    <div class="layui-row">
+        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12">
+            <div class="list-show-title">
+                <h1>紀錄工作上的點點滴滴</h1>
+                <h2></h2>
+            </div>
+        </div>
+        <div class="layui-col-md6 layui-col-sm12 layui-col-xs12" style="text-align:center;">
+            <img src="/self/img/undraw_chat_bot_kli5.png" class="list-title-pic">
+        </div>
+    </div>
+</div>
+
+<div class="layui-container">
+        
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/install-db2-9.7-in-centos6/">
+            <h2 class="">Install DB2 9.7 in CentOS6</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				install-DB2-9.7-in-CentOS6 yum install -y libaio ksh rsh-server pam-devel nfs-utils compat-libstdc++-33 libstdc++.i686 pam-devel.i686 ...
+             <a href="/worknot/install-db2-9.7-in-centos6/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/install-db2-9.7-in-centos7/">
+            <h2 class="">Install DB2 9.7 in CentOS7</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				安裝順序 scp ./v9.7fp7_linuxx64_server.tar.gz jameschang@192.168.122.138:/tmp/ # 創建需要的目錄 mkdir -p /db2 mkdir /source # 複製安裝包到映像內 mv ...
+             <a href="/worknot/install-db2-9.7-in-centos7/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/db2-audit-rc-table/">
+            <h2 class="">DB2 Audit Rc Table</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-12</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				db2diag -l Warning | db2diag -g &#34;comp^=bsu security&#34; DB2 稽核 失敗 rc 對照表 # rc Corresponding SQL30082N rc Explanation 1 -2146500508 1 Password has ...
+             <a href="/worknot/db2-audit-rc-table/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/restoring-db2-database/">
+            <h2 class="">Restoring DB2 Database</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-06-26</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				還原 Online Backup db2 terminate db2 deactivate db TEMADB db2 restore database TEMADB from &lt;location&gt; taken at &lt;timestamp&gt; replace existing ...
+             <a href="/worknot/restoring-db2-database/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240513-1/">
+            <h2 class="">DB2 維護相關 SQL</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-05-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				查詢目前資料庫哪些帳號 SELECT * FROM SYSIBM.SYSDBAUTH GRANTOR |GRANTEE ...
+             <a href="/worknot/worknot-20240513-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20240325/">
+            <h2 class="">DB2 切 db2diag.log</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-25</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				今天在工作時碰到 db2diag.log 膨脹到把硬碟塞滿，在這邊分享一下處理過程
+db2diag -A 可以很放心去執行，執行過程中不會對現形資料庫運作產生任何影響
+操作資料庫環境 OS: RedHat 6 DB2 Version: 9.7 ...
+             <a href="/worknot/worknot-20240325/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+
+    
+<div class="pager">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/db2/"><i class="layui-icon">&#xe65a;</i></a>
+        </button>
+        
+        <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
+            <i class="layui-icon">&#xe603;</i>
+        </button>
+        
+        
+        <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
+            <i class="layui-icon">&#xe602;</i>
+        </button>
+        
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
+            <a href="/categories/db2/"><i class="layui-icon">&#xe65b;</i></a>
+        </button>
+    </div>
+</div>
+
+</div>
+
+</main>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

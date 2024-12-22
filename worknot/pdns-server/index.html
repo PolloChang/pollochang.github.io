@@ -1,0 +1,1849 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - pdns-server 安裝 </title>
+    
+    
+    <meta content="powerdns, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 以下是我初次建立 powerdns 服務的紀錄
+環境 OS: Debian 12 DB: postgresql-14 pdns-server version: 4.7 事前準備 安裝 postgresql 建立資料庫 sudo su - postgres psql CREATE DATABASE pdnsdb; CREATE USER pdns WITH PASSWORD &#39;pdnsPassword&#39;; GRANT CONNECT ON DATABASE pdnsdb TO pdns; ALTER DATABASE pdnsdb OWNER TO pdns; 建置 table schema，可以在說明文件中找到: /usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql
+並執行下列指令
+psql -h &lt;host&gt; -U &lt;user&gt; &lt;database&gt; -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql 以下是內容
+CREATE TABLE domains ( id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, master VARCHAR(128) DEFAULT NULL, last_check INT DEFAULT NULL, type TEXT NOT NULL, notified_serial BIGINT DEFAULT NULL, account VARCHAR(40) DEFAULT NULL, options TEXT DEFAULT NULL, catalog TEXT DEFAULT NULL, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX name_index ON domains(name); CREATE INDEX catalog_idx ON domains(catalog); CREATE TABLE records ( id BIGSERIAL PRIMARY KEY, domain_id INT DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, type VARCHAR(10) DEFAULT NULL, content VARCHAR(65535) DEFAULT NULL, ttl INT DEFAULT NULL, prio INT DEFAULT NULL, disabled BOOL DEFAULT &#39;f&#39;, ordername VARCHAR(255), auth BOOL DEFAULT &#39;t&#39;, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX rec_name_index ON records(name); CREATE INDEX nametype_index ON records(name,type); CREATE INDEX domain_id ON records(domain_id); CREATE INDEX recordorder ON records (domain_id, ordername text_pattern_ops); CREATE TABLE supermasters ( ip INET NOT NULL, nameserver VARCHAR(255) NOT NULL, account VARCHAR(40) NOT NULL, PRIMARY KEY(ip, nameserver) ); CREATE TABLE comments ( id SERIAL PRIMARY KEY, domain_id INT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(10) NOT NULL, modified_at INT NOT NULL, account VARCHAR(40) DEFAULT NULL, comment VARCHAR(65535) NOT NULL, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX comments_domain_id_idx ON comments (domain_id); CREATE INDEX comments_name_type_idx ON comments (name, type); CREATE INDEX comments_order_idx ON comments (domain_id, modified_at); CREATE TABLE domainmetadata ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, kind VARCHAR(32), content TEXT ); CREATE INDEX domainidmetaindex ON domainmetadata(domain_id); CREATE TABLE cryptokeys ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, flags INT NOT NULL, active BOOL, published BOOL DEFAULT TRUE, content TEXT ); CREATE INDEX domainidindex ON cryptokeys(domain_id); CREATE TABLE tsigkeys ( id SERIAL PRIMARY KEY, name VARCHAR(255), algorithm VARCHAR(50), secret VARCHAR(255), CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm); 安裝事前作業 停用 systemd-resolved sudo systemctl disable --now systemd-resolved 設定穩定版本來源 設定參考官方說明: PowerDNS repositories" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>pdns-server 安裝</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-08-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/powerdns/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">powerdns</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>以下是我初次建立 powerdns 服務的紀錄</p>
+<h2 id="環境">環境</h2>
+<ul>
+<li>OS: Debian 12</li>
+<li>DB: postgresql-14</li>
+<li>pdns-server version: 4.7</li>
+</ul>
+<h2 id="事前準備">事前準備</h2>
+<ol>
+<li>安裝 postgresql</li>
+<li>建立資料庫</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su - postgres
+</span></span><span style="display:flex;"><span>psql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pdns <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;pdnsPassword&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb <span style="color:#66d9ef">TO</span> pdns;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">DATABASE</span> pdnsdb <span style="color:#66d9ef">OWNER</span> <span style="color:#66d9ef">TO</span> pdns;
+</span></span></code></pre></div><p>建置 table schema，可以在說明文件中找到: <code>/usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql</code></p>
+<p>並執行下列指令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>psql -h &lt;host&gt; -U &lt;user&gt; &lt;database&gt; -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql
+</span></span></code></pre></div><p>以下是內容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> domains (
+</span></span><span style="display:flex;"><span>  id                    SERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  name                  VARCHAR(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  master                VARCHAR(<span style="color:#ae81ff">128</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  last_check            INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">type</span>                  TEXT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  notified_serial       BIGINT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  account               VARCHAR(<span style="color:#ae81ff">40</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">options</span>               TEXT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">catalog</span>               TEXT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> c_lowercase_name <span style="color:#66d9ef">CHECK</span> (((name)::TEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">LOWER</span>((name)::TEXT)))
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">INDEX</span> name_index <span style="color:#66d9ef">ON</span> domains(name);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> catalog_idx <span style="color:#66d9ef">ON</span> domains(<span style="color:#66d9ef">catalog</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> records (
+</span></span><span style="display:flex;"><span>  id                    BIGSERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  domain_id             INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  name                  VARCHAR(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">type</span>                  VARCHAR(<span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  content               VARCHAR(<span style="color:#ae81ff">65535</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  ttl                   INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  prio                  INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  disabled              BOOL <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;f&#39;</span>,
+</span></span><span style="display:flex;"><span>  ordername             VARCHAR(<span style="color:#ae81ff">255</span>),
+</span></span><span style="display:flex;"><span>  auth                  BOOL <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;t&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> domain_exists
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(domain_id) <span style="color:#66d9ef">REFERENCES</span> domains(id)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">CASCADE</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> c_lowercase_name <span style="color:#66d9ef">CHECK</span> (((name)::TEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">LOWER</span>((name)::TEXT)))
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> rec_name_index <span style="color:#66d9ef">ON</span> records(name);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> nametype_index <span style="color:#66d9ef">ON</span> records(name,<span style="color:#66d9ef">type</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> domain_id <span style="color:#66d9ef">ON</span> records(domain_id);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> recordorder <span style="color:#66d9ef">ON</span> records (domain_id, ordername text_pattern_ops);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> supermasters (
+</span></span><span style="display:flex;"><span>  ip                    INET <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  nameserver            VARCHAR(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  account               VARCHAR(<span style="color:#ae81ff">40</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>(ip, nameserver)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> comments (
+</span></span><span style="display:flex;"><span>  id                    SERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  domain_id             INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  name                  VARCHAR(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">type</span>                  VARCHAR(<span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  modified_at           INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  account               VARCHAR(<span style="color:#ae81ff">40</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">comment</span>               VARCHAR(<span style="color:#ae81ff">65535</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> domain_exists
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(domain_id) <span style="color:#66d9ef">REFERENCES</span> domains(id)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">CASCADE</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> c_lowercase_name <span style="color:#66d9ef">CHECK</span> (((name)::TEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">LOWER</span>((name)::TEXT)))
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> comments_domain_id_idx <span style="color:#66d9ef">ON</span> comments (domain_id);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> comments_name_type_idx <span style="color:#66d9ef">ON</span> comments (name, <span style="color:#66d9ef">type</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> comments_order_idx <span style="color:#66d9ef">ON</span> comments (domain_id, modified_at);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> domainmetadata (
+</span></span><span style="display:flex;"><span>  id                    SERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  domain_id             INT <span style="color:#66d9ef">REFERENCES</span> domains(id) <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">CASCADE</span>,
+</span></span><span style="display:flex;"><span>  kind                  VARCHAR(<span style="color:#ae81ff">32</span>),
+</span></span><span style="display:flex;"><span>  content               TEXT
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> domainidmetaindex <span style="color:#66d9ef">ON</span> domainmetadata(domain_id);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> cryptokeys (
+</span></span><span style="display:flex;"><span>  id                    SERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  domain_id             INT <span style="color:#66d9ef">REFERENCES</span> domains(id) <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">CASCADE</span>,
+</span></span><span style="display:flex;"><span>  flags                 INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>  active                BOOL,
+</span></span><span style="display:flex;"><span>  published             BOOL <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">TRUE</span>,
+</span></span><span style="display:flex;"><span>  content               TEXT
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> domainidindex <span style="color:#66d9ef">ON</span> cryptokeys(domain_id);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> tsigkeys (
+</span></span><span style="display:flex;"><span>  id                    SERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>  name                  VARCHAR(<span style="color:#ae81ff">255</span>),
+</span></span><span style="display:flex;"><span>  algorithm             VARCHAR(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>  secret                VARCHAR(<span style="color:#ae81ff">255</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CONSTRAINT</span> c_lowercase_name <span style="color:#66d9ef">CHECK</span> (((name)::TEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">LOWER</span>((name)::TEXT)))
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">INDEX</span> namealgoindex <span style="color:#66d9ef">ON</span> tsigkeys(name, algorithm);
+</span></span></code></pre></div><h2 id="安裝事前作業">安裝事前作業</h2>
+<ul>
+<li>停用 systemd-resolved</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl disable --now systemd-resolved
+</span></span></code></pre></div><h2 id="設定穩定版本來源">設定穩定版本來源</h2>
+<p>設定參考官方說明: <a href="https://repo.powerdns.com/">PowerDNS repositories</a></p>
+<ul>
+<li>/etc/apt/sources.list.d/pdns-stable.list</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># PowerDNS Authoritative Server - stable branch</span>
+</span></span><span style="display:flex;"><span>deb <span style="color:#f92672">[</span>signed-by<span style="color:#f92672">=</span>/etc/apt/keyrings/auth-49-pub.asc arch<span style="color:#f92672">=</span>amd64<span style="color:#f92672">]</span> http://repo.powerdns.com/debian bookworm-auth-49 main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># PowerDNS Recursor - stable branch</span>
+</span></span><span style="display:flex;"><span>deb <span style="color:#f92672">[</span>signed-by<span style="color:#f92672">=</span>/etc/apt/keyrings/rec-51-pub.asc arch<span style="color:#f92672">=</span>amd64<span style="color:#f92672">]</span> http://repo.powerdns.com/debian bookworm-rec-51 main
+</span></span></code></pre></div><ul>
+<li>/etc/apt/preferences.d/auth-49</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Package: auth*
+</span></span><span style="display:flex;"><span>Pin: origin repo.powerdns.com
+</span></span><span style="display:flex;"><span>Pin-Priority: <span style="color:#ae81ff">600</span>
+</span></span></code></pre></div><ul>
+<li>/etc/apt/preferences.d/rec-51</li>
+</ul>
+<pre tabindex="0"><code>Package: rec*
+Pin: origin repo.powerdns.com
+Pin-Priority: 600
+</code></pre><h2 id="安裝-powerdns">安裝 PowerDNS</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo install -d /etc/apt/keyrings; curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo tee /etc/apt/keyrings/auth-49-pub.asc
+</span></span><span style="display:flex;"><span>sudo install -d /etc/apt/keyrings; curl https://repo.powerdns.com/FD380FBB-pub.asc | sudo tee /etc/apt/keyrings/rec-51-pub.asc
+</span></span><span style="display:flex;"><span>apt install -y pdns-server pdns-backend-pgsql pdns-recursor
+</span></span><span style="display:flex;"><span>cp /usr/share/doc/pdns-backend-pgsql/examples/gpgsql.conf /etc/powerdns/pdns.d/gpgsql.conf
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0640</span> /etc/powerdns/pdns.d/gpgsql.conf
+</span></span><span style="display:flex;"><span>chgrp pdns /etc/powerdns/pdns.d/gpgsql.conf
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/powerdns/recursor.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># api-key	Static pre-shared authentication key for access to the REST API</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># api-key=</span>
+</span></span><span style="display:flex;"><span>api-key<span style="color:#f92672">=</span>&lt;api-key&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver     Start a webserver (for REST API)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver=no</span>
+</span></span><span style="display:flex;"><span>webserver<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-port        Port of webserver to listen on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-port=8082</span>
+</span></span><span style="display:flex;"><span>webserver-port<span style="color:#f92672">=</span><span style="color:#ae81ff">8082</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-address     IP Address of webserver to listen on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-address=127.0.0.1</span>
+</span></span><span style="display:flex;"><span>webserver-address<span style="color:#f92672">=</span>0.0.0.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-allow-from  Webserver access is only allowed from these subnets</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-allow-from=127.0.0.1,::1</span>
+</span></span><span style="display:flex;"><span>webserver-allow-from<span style="color:#f92672">=</span>0.0.0.0/0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-from	If set, only allow these comma separated netmasks to recurse</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-from=127.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 169.254.0.0/16, 192.168.0.0/16, 172.16.0.0/12, ::1/128, fc00::/7, fe80::/10</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#設定允許遞迥查詢內部網段</span>
+</span></span><span style="display:flex;"><span>allow-from<span style="color:#f92672">=</span>127.0.0.1, 192.168.0.0/24  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-zones	Zones for which we forward queries, comma separated domain=ip pairs</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-zones=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#轉送查詢的網域與伺服器，格式是 網域=伺服器ip，多個網域以逗點分隔</span>
+</span></span><span style="display:flex;"><span>forward-zones<span style="color:#f92672">=</span>.<span style="color:#f92672">=</span>127.0.0.1:54  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-zones-recurse Zones for which we forward queries with recursion bit, comma separated domain=ip pairs</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-zones-recurse=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#內部查詢不到會查到外部查詢</span>
+</span></span><span style="display:flex;"><span>forward-zones-recurse<span style="color:#f92672">=</span>.<span style="color:#f92672">=</span>8.8.8.8, .<span style="color:#f92672">=</span>168.95.1.1 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-address	IP addresses to listen on, separated by spaces or commas. Also accepts ports.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-address=127.0.0.1</span>
+</span></span><span style="display:flex;"><span>local-address<span style="color:#f92672">=</span>0.0.0.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-port	port to listen on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-port=53</span>
+</span></span><span style="display:flex;"><span>local-port<span style="color:#f92672">=</span><span style="color:#ae81ff">53</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># logging-facility      Facility to log messages as. 0 corresponds to local0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># logging-facility=</span>
+</span></span><span style="display:flex;"><span>logging-facility<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-negative-ttl      maximum number of seconds to keep a negative cached entry in memory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-negative-ttl=3600</span>
+</span></span><span style="display:flex;"><span>max-negative-ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">3600</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># setgid        If set, change group id to this gid for more security</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>setgid<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># setuid        If set, change user id to this uid for more security</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>setuid<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># config-dir	Location of configuration directory (recursor.conf)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>config-dir<span style="color:#f92672">=</span>/etc/powerdns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># hint-file	If set, load root hints from this file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># hint-file=</span>
+</span></span><span style="display:flex;"><span>hint-file<span style="color:#f92672">=</span>/usr/share/dns/root.hints
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># include-dir	Include *.conf files from this directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># include-dir=</span>
+</span></span><span style="display:flex;"><span>include-dir<span style="color:#f92672">=</span>/etc/powerdns/recursor.d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-config-file	More powerful configuration options</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>lua-config-file<span style="color:#f92672">=</span>/etc/powerdns/recursor.lua
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># quiet	Suppress logging of questions and answers</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>quiet<span style="color:#f92672">=</span>yes
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/powerdns/pdns.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Autogenerated configuration file template</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ignore-unknown-settings       Configuration settings to ignore if they are unknown</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ignore-unknown-settings=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8bit-dns      Allow 8bit dns queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 8bit-dns=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-axfr-ips        Allow zonetransfers only to these subnets</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-axfr-ips=127.0.0.0/8,::1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-dnsupdate-from  A global setting to allow DNS updates from these IP ranges.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-dnsupdate-from=127.0.0.0/8,::1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-notify-from     Allow AXFR NOTIFY from these IP ranges. If empty, drop all incoming notifies.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-notify-from=0.0.0.0/0,::/0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-autoprimary    Allow autoprimaries to create zones without TSIG signed NOTIFY</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-autoprimary=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-notify Allow unsigned notifications for TSIG secured zones</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-notify=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-supermaster    Allow supermasters to create zones without TSIG signed NOTIFY</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-unsigned-supermaster=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># also-notify   When notifying a zone, also notify these nameservers</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># also-notify=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># any-to-tcp    Answer ANY queries with tc=1, shunting to TCP</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># any-to-tcp=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># api   Enable/disable the REST API (including HTTP listener)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>api<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># api-key       Static pre-shared authentication key for access to the REST API</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>api-key<span style="color:#f92672">=</span>&lt;api-key&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># autosecondary Act as an autosecondary (formerly superslave)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># autosecondary=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># axfr-fetch-timeout    Maximum time in seconds for inbound AXFR to start or be idle after starting</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># axfr-fetch-timeout=10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># axfr-lower-serial     Also AXFR a zone from a master with a lower serial</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># axfr-lower-serial=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cache-ttl     Seconds to store packets in the PacketCache</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cache-ttl=20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-instance       If set overwrites the instance name default</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-instance=auth</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-interval       Number of seconds between carbon (graphite) updates</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-interval=30</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-namespace      If set overwrites the first part of the carbon string</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-namespace=pdns</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-ourname        If set, overrides our reported hostname for carbon stats</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-ourname=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-server If set, send metrics in carbon (graphite) format to this server IP address</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># carbon-server=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chroot        If set, chroot to this directory for more security</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chroot=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># config-dir    Location of configuration directory (pdns.conf)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># config-dir=/etc/powerdns</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># config-name   Name of this virtual configuration - will rename the binary image</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># config-name=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># consistent-backends   Assume individual zones are not divided over backends. Send only ANY lookup operations to the backend to reduce the number of lookups</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># consistent-backends=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># control-console       Debugging switch - don&#39;t use</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># control-console=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># daemon        Operate as a daemon</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>daemon<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-api-rectify   Default API-RECTIFY value for zones</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-api-rectify=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ksk-algorithm Default KSK algorithm</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ksk-algorithm=ecdsa256</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ksk-size      Default KSK size (0 means default)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ksk-size=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-publish-cdnskey       Default value for PUBLISH-CDNSKEY</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-publish-cdnskey=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-publish-cds   Default value for PUBLISH-CDS</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-publish-cds=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-content   Default SOA content</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-content=a.misconfigured.dns.server.invalid hostmaster.@ 0 10800 3600 604800 3600</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-edit      Default SOA-EDIT value</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-edit=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-edit-signed       Default SOA-EDIT value for signed zones</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-soa-edit-signed=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ttl   Seconds a result is valid if not set otherwise</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-ttl=3600</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-zsk-algorithm Default ZSK algorithm</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-zsk-algorithm=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-zsk-size      Default ZSK size (0 means default)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># default-zsk-size=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># direct-dnskey Fetch DNSKEY, CDS and CDNSKEY RRs from backend during DNSKEY or CDS/CDNSKEY synthesis</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># direct-dnskey=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-axfr  Disable zonetransfers but do allow TCP queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-axfr=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-axfr-rectify  Disable the rectify step during an outgoing AXFR. Only required for regression testing.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-axfr-rectify=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-syslog        Disable logging to syslog, useful when running inside a supervisor that logs stdout</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># disable-syslog=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># distributor-threads   Default number of Distributor (backend) threads to start</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># distributor-threads=3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dname-processing      If we should support DNAME records</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dname-processing=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dnssec-key-cache-ttl  Seconds to cache DNSSEC keys from the database</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dnssec-key-cache-ttl=30</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dnsupdate     Enable/Disable DNS update (RFC2136) support. Default is no.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dnsupdate=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># domain-metadata-cache-ttl     Seconds to cache zone metadata from the database</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># domain-metadata-cache-ttl=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># edns-cookie-secret    When set, set a server cookie when responding to a query with a Client cookie (in hex)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># edns-cookie-secret=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># edns-subnet-processing        If we should act on EDNS Subnet options</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># edns-subnet-processing=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># enable-lua-records    Process LUA records for all zones (metadata overrides this)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># enable-lua-records=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># entropy-source        If set, read entropy from this file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># entropy-source=/dev/urandom</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># expand-alias  Expand ALIAS records</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># expand-alias=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-dnsupdate     A global setting to allow DNS update packages that are for a Slave zone, to be forwarded to the master.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-dnsupdate=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-notify        IP addresses to forward received notifications to regardless of master or slave settings</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># forward-notify=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># guardian      Run within a guardian process</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># guardian=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># include-dir   Include *.conf files from this directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># include-dir=</span>
+</span></span><span style="display:flex;"><span>include-dir<span style="color:#f92672">=</span>/etc/powerdns/pdns.d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># launch        Which backends to launch and order to query them in</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># launch=</span>
+</span></span><span style="display:flex;"><span>launch<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># load-modules  Load this module - supply absolute or relative path</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># load-modules=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-address Local IP addresses to which we bind</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>local-address<span style="color:#f92672">=</span>0.0.0.0, ::
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-address-nonexist-fail   Fail to start if one or more of the local-address&#39;s do not exist on this server</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-address-nonexist-fail=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># local-port    The port on which we listen</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>local-port<span style="color:#f92672">=</span><span style="color:#ae81ff">54</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># log-dns-details       If PDNS should log DNS non-erroneous details</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>log-dns-details<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># log-dns-queries       If PDNS should log all incoming DNS queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>log-dns-queries<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># log-timestamp Print timestamps in log lines</span>
+</span></span><span style="display:flex;"><span>log-timestamp<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># logging-facility      Log under a specific facility</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>logging-facility<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># loglevel      Amount of logging. Higher is more. Do not set below 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>loglevel<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-axfr-script       Script to be used to edit incoming AXFRs</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-axfr-script=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-dnsupdate-policy-script   Lua script with DNS update policy handler</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-dnsupdate-policy-script=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-health-checks-expire-delay        Stops doing health checks after the record hasn&#39;t been used for that delay (in seconds)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-health-checks-expire-delay=3600</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-health-checks-interval    LUA records health checks monitoring interval in seconds</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-health-checks-interval=5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-prequery-script   Lua script with prequery handler (DO NOT USE)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-prequery-script=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-records-exec-limit        LUA records scripts execution limit (instructions count). Values &lt;= 0 mean no limit</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lua-records-exec-limit=1000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># master        Act as a primary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># master=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-cache-entries     Maximum number of entries in the query cache</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-cache-entries=1000000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-ent-entries       Maximum number of empty non-terminals in a zone</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-ent-entries=100000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-generate-steps    Maximum number of $GENERATE steps when loading a zone from a file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-generate-steps=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-include-depth     Maximum number of nested $INCLUDE directives while processing a zone file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-include-depth=20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-nsec3-iterations  Limit the number of NSEC3 hash iterations</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-nsec3-iterations=100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-packet-cache-entries      Maximum number of entries in the packet cache</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-packet-cache-entries=1000000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-queue-length      Maximum queuelength before considering situation lost</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-queue-length=5000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-signature-cache-entries   Maximum number of signatures cache entries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-signature-cache-entries=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connection-duration   Maximum time in seconds that a TCP DNS connection is allowed to stay open.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connection-duration=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connections   Maximum number of TCP connections</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connections=20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connections-per-client        Maximum number of simultaneous TCP connections per client</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-connections-per-client=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-transactions-per-conn Maximum number of subsequent queries per TCP connection</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># max-tcp-transactions-per-conn=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># module-dir    Default directory for modules</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># negquery-cache-ttl    Seconds to store negative query results in the QueryCache</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># negquery-cache-ttl=60</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># no-shuffle    Set this to prevent random shuffling of answers - for regression testing</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># no-shuffle=off</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># non-local-bind        Enable binding to non-local addresses by using FREEBIND / BINDANY socket options</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># non-local-bind=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># only-notify   Only send AXFR NOTIFY to these IP addresses or netmasks</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># only-notify=0.0.0.0/0,::/0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># outgoing-axfr-expand-alias    Expand ALIAS records during outgoing AXFR</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># outgoing-axfr-expand-alias=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># overload-queue-length Maximum queuelength moving to packetcache only</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># overload-queue-length=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># prevent-self-notification     Don&#39;t send notifications to what we think is ourself</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># prevent-self-notification=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># primary       Act as a primary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># primary=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># proxy-protocol-from   A Proxy Protocol header is only allowed from these subnets, and is mandatory then too.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># proxy-protocol-from=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># proxy-protocol-maximum-size   The maximum size of a proxy protocol payload, including the TLV values</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># proxy-protocol-maximum-size=512</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># query-cache-ttl       Seconds to store query results in the QueryCache</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># query-cache-ttl=20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># query-local-address   Source IP addresses for sending queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># query-local-address=0.0.0.0 ::</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># query-logging Hint backends that queries should be logged</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>query-logging<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># queue-limit   Maximum number of milliseconds to queue a query</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># queue-limit=1500</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># receiver-threads      Default number of receiver threads to start</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># receiver-threads=1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># resolver      Use this resolver for ALIAS and the internal stub resolver</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># resolver=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># retrieval-threads     Number of AXFR-retrieval threads for slave operation</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># retrieval-threads=2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reuseport     Enable higher performance on compliant kernels by using SO_REUSEPORT allowing each receiver thread to open its own socket</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reuseport=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># rng   Specify the random number generator to use. Valid values are auto,sodium,openssl,getrandom,arc4random,urandom.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># rng=auto</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary     Act as a secondary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary-check-signature-freshness   Check signatures in SOA freshness check. Sets DO flag on SOA queries. Outside some very problematic scenarios, say yes here.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary-check-signature-freshness=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary-do-renotify If this secondary should send out notifications after receiving zone transfers from a primary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># secondary-do-renotify=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># security-poll-suffix  Zone name from which to query security update notifications</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># security-poll-suffix=secpoll.powerdns.com.</span>
+</span></span><span style="display:flex;"><span>security-poll-suffix<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># send-signed-notify    Send TSIG secured NOTIFY if TSIG key is configured for a zone</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># send-signed-notify=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># server-id     Returned when queried for &#39;id.server&#39; TXT or NSID, defaults to hostname - disabled or custom</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># server-id=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># setgid        If set, change group id to this gid for more security</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>setgid<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># setuid        If set, change user id to this uid for more security</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>setuid<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># signing-threads       Default number of signer threads to start</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># signing-threads=3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave Act as a secondary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave-cycle-interval  Schedule slave freshness checks once every .. seconds</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave-cycle-interval=60</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave-renotify        If we should send out notifications for secondaried updates</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># slave-renotify=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># socket-dir    Where the controlsocket will live, /var/run/pdns when unset and not chrooted. Set to the RUNTIME_DIRECTORY environment variable when that variable has a value (e.g. under systemd).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># socket-dir=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># superslave    Act as a autosecondary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># superslave=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># svc-autohints Transparently fill ipv6hint=auto ipv4hint=auto SVC params with AAAA/A records for the target name of the record (if within the same zone)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># svc-autohints=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-address   If set, PowerDNS can be controlled over TCP on this address</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-address=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-port      If set, PowerDNS can be controlled over TCP on this address</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-port=53000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-range     If set, remote control of PowerDNS is possible over these networks only</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-range=127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12, ::1/128, fe80::/10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-secret    If set, PowerDNS can be controlled over TCP after passing this secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-control-secret=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-fast-open Enable TCP Fast Open support on the listening sockets, using the supplied numerical value as the queue size</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-fast-open=0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-idle-timeout      Maximum time in seconds that a TCP DNS connection is allowed to stay open while being idle</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tcp-idle-timeout=5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># traceback-handler     Enable the traceback handler (Linux only)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># traceback-handler=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trusted-notification-proxy    IP address of incoming notification proxy</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trusted-notification-proxy=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># udp-truncation-threshold      Maximum UDP response size before we truncate</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># udp-truncation-threshold=1232</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># upgrade-unknown-types Transparently upgrade known TYPExxx records. Recommended to keep off, except for PowerDNS upgrades until data sources are cleaned up</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># upgrade-unknown-types=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># version-string        PowerDNS version in packets - full, anonymous, powerdns or custom</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># version-string=full</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver     Start a webserver for monitoring (api=yes also enables the HTTP listener)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>webserver<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-address     IP Address of webserver/API to listen on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>webserver-address<span style="color:#f92672">=</span>0.0.0.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-allow-from  Webserver/API access is only allowed from these subnets</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>webserver-allow-from<span style="color:#f92672">=</span>0.0.0.0/0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-hash-plaintext-credentials  Whether to hash passwords and api keys supplied in plaintext, to prevent keeping the plaintext version in memory at runtime</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-hash-plaintext-credentials=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-loglevel    Amount of logging in the webserver (none, normal, detailed)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-loglevel=normal</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-max-bodysize        Webserver/API maximum request/response body size in megabytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-max-bodysize=2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-password    Password required for accessing the webserver</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-password=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-port        Port of webserver/API to listen on</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>webserver-port<span style="color:#f92672">=</span><span style="color:#ae81ff">8081</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-print-arguments     If the webserver should print arguments</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># webserver-print-arguments=no</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># write-pid     Write a PID file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># write-pid=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># xfr-cycle-interval    Schedule primary/secondary SOA freshness checks once every .. seconds</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># xfr-cycle-interval=60</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># xfr-max-received-mbytes       Maximum number of megabytes received from an incoming XFR</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># xfr-max-received-mbytes=100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zone-cache-refresh-interval   Seconds to cache list of known zones</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zone-cache-refresh-interval=300</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zone-metadata-cache-ttl       Seconds to cache zone metadata from the database</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zone-metadata-cache-ttl=60</span>
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/powerdns/pdns.d/gpgsql.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># See https://doc.powerdns.com/authoritative/backends/generic-postgresql.html</span>
+</span></span><span style="display:flex;"><span>launch<span style="color:#f92672">+=</span>gpgsql
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-dbname Backend database name to connect to</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-dbname=</span>
+</span></span><span style="display:flex;"><span>gpgsql-dbname<span style="color:#f92672">=</span>pdnsdb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-dnssec Enable DNSSEC processing</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-dnssec=no</span>
+</span></span><span style="display:flex;"><span>gpgsql-dnssec<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-extra-connection-parameters    Extra parameters to add to connection string</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-extra-connection-parameters=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-host   Database backend host to connect to</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-host=</span>
+</span></span><span style="display:flex;"><span>gpgsql-host<span style="color:#f92672">=</span>127.0.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-password       Database backend password to connect with</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-password=</span>
+</span></span><span style="display:flex;"><span>gpgsql-password<span style="color:#f92672">=</span>pdnsPassword
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-port   Database backend port to connect to</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-port=</span>
+</span></span><span style="display:flex;"><span>gpgsql-port<span style="color:#f92672">=</span><span style="color:#ae81ff">5432</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-prepared-statements    Use prepared statements instead of parameterized queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-prepared-statements=yes</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-user   Database backend user to connect as</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gpgsql-user=</span>
+</span></span><span style="display:flex;"><span>gpgsql-user<span style="color:#f92672">=</span>pdns
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable pdns ; systemctl restart pdns
+</span></span></code></pre></div><h3 id="設定-log">設定 log</h3>
+<p>編輯 system daemon</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl edit --full pdns
+</span></span></code></pre></div><p>移除 <code>--disable-syslog</code> <code>--log-timestamp=no</code></p>
+<ul>
+<li>/etc/rsyslog.d/pdns.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>local0.info                       -/var/log/pdns/pdns.info
+</span></span><span style="display:flex;"><span>local0.warn                       -/var/log/pdns/pdns.warn
+</span></span><span style="display:flex;"><span>local0.err                        /var/log/pdns/pdns.err
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /var/log/pdns
+</span></span><span style="display:flex;"><span>systemctl restart pdns rsyslog
+</span></span></code></pre></div><h2 id="安裝-powerdns-admin">安裝 PowerDNS-Admin</h2>
+<h3 id="設定資料庫">設定資料庫</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pdnsadmin <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;pdnsPassword&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb <span style="color:#66d9ef">TO</span> pdnsadmin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">DATABASE</span> pdnsadmindb <span style="color:#66d9ef">OWNER</span> <span style="color:#66d9ef">TO</span> pdnsadmin;
+</span></span></code></pre></div><h3 id="執行安裝">執行安裝</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -i
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 預先安裝必要套件</span>
+</span></span><span style="display:flex;"><span>apt install -y python3.11-venv python3-psycopg2 libmariadb-dev libsasl2-dev libldap2-dev libssl-dev libxml2-dev libxslt1-dev libxmlsec1-dev libffi-dev pkg-config apt-transport-https virtualenv build-essential python3-venv libpq-dev python3-dev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝NodeJS</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install -y ca-certificates curl gnupg
+</span></span><span style="display:flex;"><span>sudo mkdir -p /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+</span></span><span style="display:flex;"><span>export NODE_MAJOR<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_</span>$NODE_MAJOR<span style="color:#e6db74">.x nodistro main&#34;</span> | sudo tee /etc/apt/sources.list.d/nodesource.list
+</span></span><span style="display:flex;"><span>apt install -y nodejs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 yarn</span>
+</span></span><span style="display:flex;"><span>curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb https://dl.yarnpkg.com/debian/ stable main&#34;</span> | sudo tee /etc/apt/sources.list.d/yarn.list
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install -y yarn
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 PowerDNS-Admin</span>
+</span></span><span style="display:flex;"><span>wget -O /tmp/PowerDNS-Admin.tar.gz https://github.com/PowerDNS-Admin/PowerDNS-Admin/archive/refs/tags/v0.4.2.tar.gz
+</span></span><span style="display:flex;"><span>mkdir -p /opt/web/
+</span></span><span style="display:flex;"><span>tar -zxf /tmp/PowerDNS-Admin.tar.gz -C /opt/web/powerdns-admin
+</span></span><span style="display:flex;"><span>ln -s /opt/web/PowerDNS-Admin-0.4.2 /opt/web/powerdns-admin
+</span></span><span style="display:flex;"><span>cd /opt/web/powerdns-admin
+</span></span><span style="display:flex;"><span>python3 -mvenv ./venv
+</span></span><span style="display:flex;"><span>source ./venv/bin/activate
+</span></span><span style="display:flex;"><span>pip install --upgrade pip
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/web/powerdns-admin/configs/development.py /opt/web/powerdns-admin/configs/production.py
+</span></span></code></pre></div><ul>
+<li>設定文件: /opt/web/powerdns-admin/configs/production.py</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.parse
+</span></span><span style="display:flex;"><span>basedir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### BASIC APP CONFIG</span>
+</span></span><span style="display:flex;"><span>SALT <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;$2b$12$yLUMTIfl21FKJQpTkRQXCu&#39;</span>
+</span></span><span style="display:flex;"><span>SECRET_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;e951e5a1f4b94151b360f47edf596dd2&#39;</span>
+</span></span><span style="display:flex;"><span>BIND_ADDRESS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0.0.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">9191</span>
+</span></span><span style="display:flex;"><span>SERVER_EXTERNAL_SSL <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getenv(<span style="color:#e6db74">&#39;SERVER_EXTERNAL_SSL&#39;</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### DATABASE CONFIG</span>
+</span></span><span style="display:flex;"><span>SQLA_DB_USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pdnsadmin&#39;</span>
+</span></span><span style="display:flex;"><span>SQLA_DB_PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pdnsPassword&#39;</span>
+</span></span><span style="display:flex;"><span>SQLA_DB_HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;127.0.0.1&#39;</span>
+</span></span><span style="display:flex;"><span>SQLA_DB_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pdnsadmindb&#39;</span>
+</span></span><span style="display:flex;"><span>SQLALCHEMY_TRACK_MODIFICATIONS <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>SQLA_DB_PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">5432</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#CAPTCHA Config</span>
+</span></span><span style="display:flex;"><span>CAPTCHA_ENABLE <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>CAPTCHA_LENGTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>CAPTCHA_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">160</span>
+</span></span><span style="display:flex;"><span>CAPTCHA_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>CAPTCHA_SESSION_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;captcha_image&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Server side sessions tracking</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Set to TRUE for CAPTCHA, or enable another stateful session tracking system</span>
+</span></span><span style="display:flex;"><span>SESSION_TYPE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sqlalchemy&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### DATABASE - MySQL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Don&#39;t forget to uncomment the import in the top</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SQLALCHEMY_DATABASE_URI = &#39;mysql://{}:{}@{}/{}&#39;.format(</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    urllib.parse.quote_plus(SQLA_DB_USER),</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    urllib.parse.quote_plus(SQLA_DB_PASSWORD),</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    SQLA_DB_HOST,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    SQLA_DB_NAME</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### DATABASE - PostgreSQL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Don&#39;t forget to uncomment the import in the top</span>
+</span></span><span style="display:flex;"><span>SQLALCHEMY_DATABASE_URI <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;postgresql://</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">@</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(
+</span></span><span style="display:flex;"><span>   urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>quote_plus(SQLA_DB_USER),
+</span></span><span style="display:flex;"><span>   urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>quote_plus(SQLA_DB_PASSWORD),
+</span></span><span style="display:flex;"><span>   SQLA_DB_HOST,
+</span></span><span style="display:flex;"><span>   SQLA_DB_PORT,
+</span></span><span style="display:flex;"><span>   SQLA_DB_NAME
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### DATABASE - SQLite</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SQLALCHEMY_DATABASE_URI = &#39;sqlite:///&#39; + os.path.join(basedir, &#39;pdns.db&#39;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### SMTP config</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_SERVER = &#39;localhost&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_PORT = 25</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_DEBUG = False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_USE_TLS = False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_USE_SSL = False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_USERNAME = None</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_PASSWORD = None</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MAIL_DEFAULT_SENDER = (&#39;PowerDNS-Admin&#39;, &#39;noreply@domain.ltd&#39;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML Authnetication</span>
+</span></span><span style="display:flex;"><span>SAML_ENABLED <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_DEBUG = True</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_PATH = os.path.join(os.path.dirname(__file__), &#39;saml&#39;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ##Example for ADFS Metadata-URL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_METADATA_URL = &#39;https://&lt;hostname&gt;/FederationMetadata/2007-06/FederationMetadata.xml&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #Cache Lifetime in Seconds</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_METADATA_CACHE_LIFETIME = 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # SAML SSO binding format to use</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Default: library default (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_IDP_SSO_BINDING = &#39;urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## EntityID of the IdP to use. Only needed if more than one IdP is</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ##   in the SAML_METADATA_URL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: First (only) IdP in the SAML_METADATA_URL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: https://idp.example.edu/idp</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_IDP_ENTITY_ID = &#39;https://idp.example.edu/idp&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## NameID format to request</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: The SAML NameID Format in the metadata if present,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###   otherwise urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: urn:oid:0.9.2342.19200300.100.1.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_NAMEID_FORMAT = &#39;urn:oid:0.9.2342.19200300.100.1.1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Following parameter defines RequestedAttributes section in SAML metadata</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># since certain iDPs require explicit attribute request. If not provided section</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># will not be available in metadata.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Possible attributes:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># name (mandatory), nameFormat, isRequired, friendlyName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NOTE: This parameter requires to be entered in valid JSON format as displayed below</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># and multiple attributes can given</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Following example:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_SP_REQUESTED_ATTRIBUTES = &#39;[ \</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {&#34;name&#34;: &#34;urn:oid:0.9.2342.19200300.100.1.3&#34;, &#34;nameFormat&#34;: &#34;urn:oasis:names:tc:SAML:2.0:attrname-format:uri&#34;, &#34;isRequired&#34;: true, &#34;friendlyName&#34;: &#34;email&#34;}, \</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {&#34;name&#34;: &#34;mail&#34;, &#34;isRequired&#34;: false, &#34;friendlyName&#34;: &#34;test-field&#34;} \</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ]&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># produces following metadata section:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &lt;md:AttributeConsumingService index=&#34;1&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &lt;md:RequestedAttribute Name=&#34;urn:oid:0.9.2342.19200300.100.1.3&#34; NameFormat=&#34;urn:oasis:names:tc:SAML:2.0:attrname-format:uri&#34; FriendlyName=&#34;email&#34; isRequired=&#34;true&#34;/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &lt;md:RequestedAttribute Name=&#34;mail&#34; FriendlyName=&#34;test-field&#34;/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &lt;/md:AttributeConsumingService&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to use for Email address</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: email</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: urn:oid:0.9.2342.19200300.100.1.3</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_EMAIL = &#39;urn:oid:0.9.2342.19200300.100.1.3&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to use for Given name</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: givenname</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: urn:oid:2.5.4.42</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_GIVENNAME = &#39;urn:oid:2.5.4.42&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to use for Surname</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: surname</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: urn:oid:2.5.4.4</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_SURNAME = &#39;urn:oid:2.5.4.4&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to use for username</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Use NameID instead</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: urn:oid:0.9.2342.19200300.100.1.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_USERNAME = &#39;urn:oid:0.9.2342.19200300.100.1.1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to get admin status from</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Don&#39;t control admin with SAML attribute</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Example: https://example.edu/pdns-admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### If set, look for the value &#39;true&#39; to set a user as an administrator</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### If not included in assertion, or set to something other than &#39;true&#39;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###  the user is set as a non-administrator user.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_ADMIN = &#39;https://example.edu/pdns-admin&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Attribute to get admin status for groups with the IdP</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Don&#39;t set administrator group with SAML attributes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SAML_GROUP_ADMIN_NAME = &#39;GroupName&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Attribute to get operator status for groups with the IdP</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Don&#39;t set operator group with SAML attributes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SAML_GROUP_OPERATOR_NAME = &#39;GroupName&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute to get account names from</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Don&#39;t control accounts with SAML attribute</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### If set, the user will be added and removed from accounts to match</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###  what&#39;s in the login assertion. Accounts that don&#39;t exist will</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###  be created and the user added to them.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_ATTRIBUTE_ACCOUNT = &#39;https://example.edu/pdns-account&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ## Attribute name that aggregates group names</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### Default: Don&#39;t collect IdP groups from SAML group attributes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### In Okta, you can assign administrators by group using &#34;Group Attribute Statements.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### In this case, the SAML_ATTRIBUTE_GROUP will be the attribute name for a collection of</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###  groups passed in the SAML assertion.  From there, you can specify a SAML_GROUP_ADMIN_NAME.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ### If the user is a member of this group, and that group name is included in the collection,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###   the user will be set as an administrator.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ATTRIBUTE_GROUP = &#39;https://example.edu/pdns-groups&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_GROUP_ADMIN_NAME = &#39;PowerDNSAdmin-Administrators&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_SP_ENTITY_ID = &#39;http://&lt;SAML SP Entity ID&gt;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_SP_CONTACT_NAME = &#39;&lt;contact name&gt;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_SP_CONTACT_MAIL = &#39;&lt;contact mail&gt;&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configures the path to certificate file and it&#39;s respective private key file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This pair is used for signing metadata, encrypting tokens and all other signing/encryption</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tasks during communication between iDP and SP</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NOTE: if this two parameters aren&#39;t explicitly provided, self-signed certificate-key pair</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># will be generated in &#34;PowerDNS-Admin&#34; root directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###########################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CAUTION: For production use, usage of self-signed certificates it&#39;s highly discouraged.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use certificates from trusted CA instead</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ###########################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_CERT = &#39;/etc/pki/powerdns-admin/cert.crt&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_KEY = &#39;/etc/pki/powerdns-admin/key.pem&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configures if SAML tokens should be encrypted.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_SIGN_REQUEST = False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #Use SAML standard logout mechanism retreived from idp metadata</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #If configured false don&#39;t care about SAML session on logout.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #Logout from PowerDNS-Admin only and keep SAML session authenticated.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML_LOGOUT = False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #Configure to redirect to a different url then PowerDNS-Admin login after SAML logout</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #for example redirect to google.com after successful saml logout</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_LOGOUT_URL = &#39;https://google.com&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_ASSERTION_ENCRYPTED = True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Some IdPs, like Okta, do not return Attribute Statements by default</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set the following to False if you are using Okta and not manually configuring Attribute Statements</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># #SAML_WANT_ATTRIBUTE_STATEMENT = True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Remote authentication settings</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Whether to enable remote user authentication or not</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Defaults to False</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># REMOTE_USER_ENABLED=True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If set, users will be redirected to this location on logout</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ignore or set to None to avoid redirecting altogether</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Warning: if REMOTE_USER environment variable is still set after logging out and not cleared by</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># some external module, not defining a custom logout URL might trigger a loop</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># that will just log the user back in right after logging out</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># REMOTE_USER_LOGOUT_URL=https://my.sso.com/cas/logout</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># An optional list of remote authentication tied cookies to be removed upon logout</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># REMOTE_USER_COOKIES=[&#39;MOD_AUTH_CAS&#39;, &#39;MOD_AUTH_CAS_S&#39;]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export FLASK_CONF<span style="color:#f92672">=</span>../configs/production.py
+</span></span><span style="display:flex;"><span>export FLASK_APP<span style="color:#f92672">=</span>powerdnsadmin/__init__.py
+</span></span><span style="display:flex;"><span>flask db upgrade
+</span></span></code></pre></div><p>操作結果</p>
+<pre tabindex="0"><code>(venv) root@pl-dns-01:/opt/web/powerdns-admin# export FLASK_CONF=../configs/production.py
+(venv) root@pl-dns-01:/opt/web/powerdns-admin# export FLASK_APP=powerdnsadmin/__init__.py
+(venv) root@pl-dns-01:/opt/web/powerdns-admin# flask db upgrade
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -&gt; 787bdba9e147, Init DB
+INFO  [alembic.runtime.migration] Running upgrade 787bdba9e147 -&gt; 59729e468045, Add view column to setting table
+INFO  [alembic.runtime.migration] Running upgrade 59729e468045 -&gt; 1274ed462010, Change setting.value data type
+INFO  [alembic.runtime.migration] Running upgrade 1274ed462010 -&gt; 4a666113c7bb, Adding Operator Role
+INFO  [alembic.runtime.migration] Running upgrade 4a666113c7bb -&gt; 31a4ed468b18, Remove all setting in the DB
+INFO  [alembic.runtime.migration] Running upgrade 31a4ed468b18 -&gt; 654298797277, Upgrade DB Schema
+INFO  [alembic.runtime.migration] Running upgrade 654298797277 -&gt; 0fb6d23a4863, Remove user avatar
+INFO  [alembic.runtime.migration] Running upgrade 0fb6d23a4863 -&gt; 856bb94b7040, Add comment column in domain template record table
+INFO  [alembic.runtime.migration] Running upgrade 856bb94b7040 -&gt; b0fea72a3f20, Update domain serial columns type
+INFO  [alembic.runtime.migration] Running upgrade b0fea72a3f20 -&gt; 3f76448bb6de, Add user.confirmed column
+INFO  [alembic.runtime.migration] Running upgrade 3f76448bb6de -&gt; 0d3d93f1c2e0, Add domain_id to history table
+INFO  [alembic.runtime.migration] Running upgrade 0d3d93f1c2e0 -&gt; 0967658d9c0d, add apikey account mapping table
+INFO  [alembic.runtime.migration] Running upgrade 0967658d9c0d -&gt; fbc7cf864b24, update history detail quotes
+INFO  [alembic.runtime.migration] Running upgrade fbc7cf864b24 -&gt; 6ea7dc05f496, Fix typo in history detail
+INFO  [alembic.runtime.migration] Running upgrade 6ea7dc05f496 -&gt; f41520e41cee, update domain type length
+INFO  [alembic.runtime.migration] Running upgrade f41520e41cee -&gt; b24bf17725d2, Add unique index to settings table keys
+</code></pre><h3 id="產生資料檔">產生資料檔</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yarn install --pure-lockfile
+</span></span><span style="display:flex;"><span>flask assets build
+</span></span></code></pre></div><p>操作結果</p>
+<pre tabindex="0"><code>(venv) root@pl-dns-01:/opt/web/powerdns-admin# yarn install --pure-lockfile
+yarn install v1.22.22
+[1/4] Resolving packages...
+warning Resolution field &#34;@fortawesome/fontawesome-free@6.3.0&#34; is incompatible with requested version &#34;@fortawesome/fontawesome-free@^5.15.4&#34;
+[2/4] Fetching packages...
+info There appears to be trouble with your network connection. Retrying...
+[3/4] Linking dependencies...
+warning &#34; &gt; bootstrap@4.6.2&#34; has unmet peer dependency &#34;jquery@1.9.1 - 3&#34;.
+warning &#34; &gt; bootstrap@4.6.2&#34; has unmet peer dependency &#34;popper.js@^1.16.1&#34;.
+warning &#34;admin-lte &gt; bootstrap-switch@3.3.4&#34; has incorrect peer dependency &#34;bootstrap@^3.1.1&#34;.
+warning &#34; &gt; jquery-validation@1.19.5&#34; has unmet peer dependency &#34;jquery@^1.7 || ^2.0 || ^3.1&#34;.
+warning &#34;admin-lte &gt; tempusdominus-bootstrap-4@5.39.2&#34; has unmet peer dependency &#34;moment-timezone@^0.5.31&#34;.
+warning &#34;admin-lte &gt; tempusdominus-bootstrap-4@5.39.2&#34; has unmet peer dependency &#34;tempusdominus-core@5.19.3&#34;.
+warning &#34;admin-lte &gt; bootstrap-colorpicker &gt; bootstrap@5.2.3&#34; has unmet peer dependency &#34;@popperjs/core@^2.11.6&#34;.
+[4/4] Building fresh packages...
+Done in 29.55s.
+(venv) root@pl-dns-01:/opt/web/powerdns-admin# flask assets build
+Building bundle: generated/login.js
+[2024-12-22 22:51:03,754] [script.py:167] INFO - Building bundle: generated/login.js
+Building bundle: generated/validation.js
+[2024-12-22 22:51:03,763] [script.py:167] INFO - Building bundle: generated/validation.js
+Building bundle: generated/login.css
+[2024-12-22 22:51:03,765] [script.py:167] INFO - Building bundle: generated/login.css
+Building bundle: generated/main.js
+[2024-12-22 22:51:03,812] [script.py:167] INFO - Building bundle: generated/main.js
+Building bundle: generated/main.css
+[2024-12-22 22:51:03,857] [script.py:167] INFO - Building bundle: generated/main.css
+(venv) root@pl-dns-01:/opt/web/powerdns-admin# 
+</code></pre><p>記下當前版本 PowerDNS 當前版本，等等設定會使用到</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pdns_control version
+</span></span></code></pre></div><p>試營運</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./run.py
+</span></span></code></pre></div><p>URL: http://192.168.56.100:9191/login</p>
+<ul>
+<li>預設使沒有登入帳號的，需要先註冊一個帳號</li>
+</ul>
+<p>離開 Python 虛擬環境</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>deactivate
+</span></span></code></pre></div><h3 id="建立-system-daemon">建立 system-daemon</h3>
+<ul>
+<li>/etc/systemd/system/powerdns-admin.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>PowerDNS-Admin
+</span></span><span style="display:flex;"><span>Requires<span style="color:#f92672">=</span>powerdns-admin.socket
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLASK_CONF=../configs/production.py&#34;</span>
+</span></span><span style="display:flex;"><span>PIDFile<span style="color:#f92672">=</span>/run/powerdns-admin/pid
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>pdns
+</span></span><span style="display:flex;"><span>WorkingDirectory<span style="color:#f92672">=</span>/opt/web/powerdns-admin
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/opt/web/powerdns-admin/venv/bin/gunicorn --pid /run/powerdns-admin/pid --bind unix:/run/powerdns-admin/socket <span style="color:#e6db74">&#39;powerdnsadmin:create_app()&#39;</span>
+</span></span><span style="display:flex;"><span>ExecReload<span style="color:#f92672">=</span>/bin/kill -s HUP $MAINPID
+</span></span><span style="display:flex;"><span>ExecStop<span style="color:#f92672">=</span>/bin/kill -s TERM $MAINPID
+</span></span><span style="display:flex;"><span>PrivateTmp<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/powerdns-admin.socket</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>PowerDNS-Admin socket
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Socket<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ListenStream<span style="color:#f92672">=</span>/run/powerdns-admin/socket
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>sockets.target
+</span></span></code></pre></div><ul>
+<li>/etc/tmpfiles.d/powerdns-admin.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>d /run/powerdns-admin <span style="color:#ae81ff">0755</span> pdns pdns -
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl daemon-reload <span style="color:#f92672">&amp;&amp;</span> sudo systemctl start powerdns-admin.socket <span style="color:#f92672">&amp;&amp;</span> sudo systemctl enable powerdns-admin.socket
+</span></span><span style="display:flex;"><span>sudo chown -R pdns:pdns /run/powerdns-admin
+</span></span><span style="display:flex;"><span>sudo chown -R pdns:pdns /opt/web/PowerDNS-Admin-0.4.2
+</span></span><span style="display:flex;"><span>sudo systemctl restart powerdns-admin
+</span></span></code></pre></div><h4 id="安裝-nginx">安裝 nginx</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install nginx
+</span></span></code></pre></div><ul>
+<li>/etc/nginx/conf.d/http.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  listen *:80;
+</span></span><span style="display:flex;"><span>  server_name               192.168.56.100;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  index                     index.html index.htm index.php;
+</span></span><span style="display:flex;"><span>  root                      /opt/web/powerdns-admin;
+</span></span><span style="display:flex;"><span>  access_log                /var/log/nginx/powerdns-admin.local.access.log combined;
+</span></span><span style="display:flex;"><span>  error_log                 /var/log/nginx/powerdns-admin.local.error.log;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  client_max_body_size              10m;
+</span></span><span style="display:flex;"><span>  client_body_buffer_size           128k;
+</span></span><span style="display:flex;"><span>  proxy_redirect                    off;
+</span></span><span style="display:flex;"><span>  proxy_connect_timeout             90;
+</span></span><span style="display:flex;"><span>  proxy_send_timeout                90;
+</span></span><span style="display:flex;"><span>  proxy_read_timeout                90;
+</span></span><span style="display:flex;"><span>  proxy_buffers                     <span style="color:#ae81ff">32</span> 4k;
+</span></span><span style="display:flex;"><span>  proxy_buffer_size                 8k;
+</span></span><span style="display:flex;"><span>  proxy_set_header                  Host $host;
+</span></span><span style="display:flex;"><span>  proxy_set_header                  X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>  proxy_set_header                  X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>  proxy_headers_hash_bucket_size    64;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location ~ ^/static/  <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    include  /etc/nginx/mime.types;
+</span></span><span style="display:flex;"><span>    root /opt/web/powerdns-admin/powerdnsadmin;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location ~*  <span style="color:#ae81ff">\.</span><span style="color:#f92672">(</span>jpg|jpeg|png|gif<span style="color:#f92672">)</span>$ <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      expires 365d;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location ~* ^.+.<span style="color:#f92672">(</span>css|js<span style="color:#f92672">)</span>$ <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      expires 7d;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    proxy_pass            http://unix:/run/powerdns-admin/socket;
+</span></span><span style="display:flex;"><span>    proxy_read_timeout    120;
+</span></span><span style="display:flex;"><span>    proxy_connect_timeout 120;
+</span></span><span style="display:flex;"><span>    proxy_redirect        off;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://wiki.freedomstu.com/books/%E9%96%8B%E6%BA%90%E8%BB%9F%E9%AB%94%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/page/powerdns-debia">PowerDNS 架設 - Debian</a></li>
+<li><a href="https://linuxize.com/post/how-to-install-yarn-on-debian-10/">Installing Yarn on Debian 10</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

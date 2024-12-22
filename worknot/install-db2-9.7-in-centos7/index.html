@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - Install DB2 9.7 in CentOS7 </title>
     
     
-    <meta content="db2, 工作雜記" name="keywords">
+    <meta content="db2, DB2" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 安裝順序 scp ./v9.7fp7_linuxx64_server.tar.gz jameschang@192.168.122.138:/tmp/ # 創建需要的目錄 mkdir -p /db2 mkdir /source # 複製安裝包到映像內 mv /tmp/v9.7fp7_linuxx64_server.tar.gz /source # 安裝必要的依賴包 yum update -y yum install -y gcc libaio libstdc&#43;&#43; libstdc&#43;&#43;-devel pam perl tar pam.i686 libnsl libnsl.i686 glibc.i686 # OL9 yum install -y glibc.i686 libstdc&#43;&#43;.i686 yum install -y https://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/libstdc&#43;&#43;5-3.3.6-19.mga9.x86_64.rpm # OL9 離線安裝準備 rpm yumdowner gcc glibc libaio libnsl libnsl libstdc&#43;&#43; libstdc&#43;&#43;-devel libstdc&#43;&#43;-devel pam perl glibc glibc-common glibc-gconv-extra glibc-langpack-en libgcc libgomp libstdc&#43;&#43; pam annobin audit-libs cpp dwz efi-srpm-macros fonts-srpm-macros gcc-c&#43;&#43; gcc-plugin-annobin ghc-srpm-macros glibc-devel glibc-gconv-extra glibc-headers go-srpm-macros kernel-headers kernel-srpm-macros libcap-ng libdatrie libdb libeconf libgcc libmpc libpkgconf libselinux libsepol libthai libxcrypt libxcrypt-devel llvm-libs lua-srpm-macros ocaml-srpm-macros openblas-srpm-macros openssl-libs pcre2 perl-Algorithm-Diff perl-Archive-Tar perl-Archive-Zip perl-Attribute-Handlers perl-AutoLoader perl-AutoSplit perl-B perl-Benchmark perl-CPAN perl-CPAN-Meta perl-CPAN-Meta-Requirements perl-CPAN-Meta-YAML perl-Carp perl-Class-Struct perl-Compress-Bzip2 perl-Compress-Raw-Bzip2 perl-Compress-Raw-Lzma perl-Compress-Raw-Zlib perl-Config-Extensions perl-Config-Perl-V perl-DBM_Filter perl-DB_File perl-Data-Dumper perl-Data-OptList perl-Data-Section perl-Devel-PPPort perl-Devel-Peek perl-Devel-SelfStubber perl-Devel-Size perl-Digest perl-Digest-MD5 perl-Digest-SHA perl-Digest-SHA1 perl-DirHandle perl-Dumpvalue perl-DynaLoader perl-Encode perl-Encode-devel perl-English perl-Env perl-Errno perl-Exporter perl-ExtUtils-CBuilder perl-ExtUtils-Command perl-ExtUtils-Constant perl-ExtUtils-Embed perl-ExtUtils-Install perl-ExtUtils-MM-Utils perl-ExtUtils-MakeMaker perl-ExtUtils-Manifest perl-ExtUtils-Miniperl perl-ExtUtils-ParseXS perl-Fcntl perl-File-Basename perl-File-Compare perl-File-Copy perl-File-DosGlob perl-File-Fetch perl-File-Find perl-File-HomeDir perl-File-Path perl-File-Temp perl-File-Which perl-File-stat perl-FileCache perl-FileHandle perl-Filter perl-Filter-Simple perl-FindBin perl-GDBM_File perl-Getopt-Long perl-Getopt-Std perl-HTTP-Tiny perl-Hash-Util perl-Hash-Util-FieldHash perl-I18N-Collate perl-I18N-LangTags perl-I18N-Langinfo perl-IO perl-IO-Compress perl-IO-Compress-Lzma perl-IO-Socket-IP perl-IO-Socket-SSL perl-IO-Zlib perl-IPC-Cmd perl-IPC-Open3 perl-IPC-SysV perl-IPC-System-Simple perl-Importer perl-JSON-PP perl-Locale-Maketext perl-Locale-Maketext-Simple perl-MIME-Base64 perl-MIME-Charset perl-MRO-Compat perl-Math-BigInt perl-Math-BigInt-FastCalc perl-Math-BigRat perl-Math-Complex perl-Memoize perl-Module-Build perl-Module-CoreList perl-Module-CoreList-tools perl-Module-Load perl-Module-Load-Conditional perl-Module-Loaded perl-Module-Metadata perl-Module-Signature perl-Mozilla-CA perl-NDBM_File perl-NEXT perl-Net perl-Net-Ping perl-Net-SSLeay perl-ODBM_File perl-Object-HashBase perl-Opcode perl-POSIX perl-Package-Generator perl-Params-Check perl-Params-Util perl-PathTools perl-Perl-OSType perl-PerlIO-via-QuotedPrint perl-Pod-Checker perl-Pod-Escapes perl-Pod-Functions perl-Pod-Html perl-Pod-Perldoc perl-Pod-Simple perl-Pod-Usage perl-Safe perl-Scalar-List-Utils perl-Search-Dict perl-SelectSaver perl-SelfLoader perl-Socket perl-Software-License perl-Storable perl-Sub-Exporter perl-Sub-Install perl-Symbol perl-Sys-Hostname perl-Sys-Syslog perl-Term-ANSIColor perl-Term-Cap perl-Term-Complete perl-Term-ReadLine perl-Term-Size-Perl perl-Term-Table perl-Test perl-Test-Harness perl-Test-Simple perl-Text-Abbrev perl-Text-Balanced perl-Text-Diff perl-Text-Glob perl-Text-ParseWords perl-Text-Tabs&#43;Wrap perl-Text-Template perl-Thread perl-Thread-Queue perl-Thread-Semaphore perl-Tie perl-Tie-File perl-Tie-Memoize perl-Tie-RefHash perl-Time perl-Time-HiRes perl-Time-Local perl-Time-Piece perl-URI perl-Unicode-Collate perl-Unicode-Normalize perl-Unicode-UCD perl-User-pwent perl-autodie perl-autouse perl-base perl-bignum perl-blib perl-constant perl-debugger perl-deprecate perl-devel perl-diagnostics perl-doc perl-encoding perl-encoding-warnings perl-experimental perl-fields perl-filetest perl-if perl-inc-latest perl-interpreter perl-less perl-lib perl-libnet perl-libnetcfg perl-libs perl-local-lib perl-locale perl-macros perl-meta-notation perl-mro perl-open perl-overload perl-overloading perl-parent perl-perlfaq perl-ph perl-podlators perl-sigtrap perl-sort perl-srpm-macros perl-subs perl-threads perl-threads-shared perl-utils perl-vars perl-version perl-vmsish pkgconf pkgconf-m4 pkgconf-pkg-config pyproject-srpm-macros python-srpm-macros qt5-srpm-macros redhat-rpm-config rust-srpm-macros sombok systemtap-sdt-devel zip zlib perl-CPAN-DistnameInfo perl-Encode-Locale perl-Term-Size-Any perl-TermReadKey perl-Unicode-LineBreak yum clean all ## 變更核心參數 echo &#34;fs." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -133,8 +133,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
         </a>
     
 
@@ -420,8 +420,8 @@ DAS_GROUP_NAME           = dasadm1                 ** char(30)  no spaces
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
         </a>
     
 
@@ -456,8 +456,8 @@ DAS_GROUP_NAME           = dasadm1                 ** char(30)  no spaces
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
         </a>
     
 

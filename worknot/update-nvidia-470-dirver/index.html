@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - Update Nvidia 470 Dirver </title>
     
     
-    <meta content="Nvidia, 工作雜記" name="keywords">
+    <meta content="Nvidia, linux" name="keywords">
     
     <meta content="PolloChang 工作筆記 - Linux 安裝 NVidia 驅動程式
 環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &#34;3d|display|vga&#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config gcc g&#43;&#43; make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式" name="description">
@@ -134,8 +134,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
 

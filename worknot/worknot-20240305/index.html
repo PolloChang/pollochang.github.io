@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - oracle 監控SQL 效能 </title>
     
     
-    <meta content="Oracle, 系統調校, 工作雜記" name="keywords">
+    <meta content="Oracle, 系統調校" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
 SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &gt; 0 ORDER BY (SA." name="description">
@@ -134,8 +134,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
         </a>
     
 
@@ -277,8 +277,8 @@ USER_IO_WAIT_TIME                                  NUMBER
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
         </a>
     
 

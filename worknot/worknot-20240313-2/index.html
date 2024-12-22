@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - MSSQL 雜記 </title>
     
     
-    <meta content="MSSQL, 工作雜記" name="keywords">
+    <meta content="MSSQL" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 查詢執行很久的SQL SELECT TOP 10 [總執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 AS DECIMAL(16, 2)) , [執行次數] =a.execution_count , [平均執行時間(秒)] =CAST(a.total_elapsed_time / 1000000.0 / a.execution_count AS DECIMAL(16, 2)) , [SQL指令] =SUBSTRING (b.text,(a.statement_start_offset/2) &#43; 1,500) FROM sys.dm_exec_query_stats a CROSS APPLY sys.dm_exec_sql_text(a.sql_handle) as b WHERE a.total_elapsed_time &gt; 0 AND B.[text] NOT LIKE &#39;%SCHEMA_NAME%&#39;--去除一些系統的SQL指令 ORDER BY [平均執行時間(秒)] DESC 查詢資料庫版本 SELECT @@VERSION AS &#39;SQL Server Version Details&#39; 查詢結果 Microsoft SQL Server 2014 - 12.0.2000.8 (X64) Feb 20 2014 20:04:26 Copyright (c) Microsoft Corporation Standard Edition (64-bit) on Windows NT 6." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -133,8 +133,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
         </a>
     
 

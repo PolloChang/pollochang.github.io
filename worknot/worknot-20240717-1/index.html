@@ -6,7 +6,7 @@
     <title>PolloChang 工作筆記 - 尋找作業系統帳號建立日期 </title>
     
     
-    <meta content="linux, 工作雜記" name="keywords">
+    <meta content="linux, weindows, 工作雜記" name="keywords">
     
     <meta content="PolloChang 工作筆記 - weindows Write-Output &#34;User,Birth&#34; # 取得所有用戶名和主目錄路徑 $users = Get-WmiObject Win32_UserAccount | Where-Object { $_.LocalAccount -eq $true -and $_.SIDType -eq 1 } foreach ($user in $users) { $homeDir = &#34;C:\Users\$($user.Name)&#34; if (Test-Path $homeDir) { $creationTime = (Get-Item $homeDir).CreationTime $formattedTime = $creationTime.ToString(&#34;yyyy-MM-dd HH:mm:ss&#34;) Write-Output &#34;$($env:COMPUTERNAME),$($user.Name),$formattedTime&#34; } else { Write-Output &#34;$($env:COMPUTERNAME),$($user.Name),-&#34; } } Linux #!/bin/bash # 從 /etc/passwd 文件中讀取所有用戶名和主目錄路徑 while IFS=: read -r username _ _ _ _ home_dir _; do if [ -d &#34;$home_dir&#34; ]; then # 使用 stat 命令獲取主目錄資訊 stat_output=$(stat &#34;$home_dir&#34;) birth_time=$(echo &#34;$stat_output&#34; | grep &#39;Birth&#39; | awk &#39;{print $2 &#34; &#34; $3}&#39;) if [ -n &#34;$birth_time&#34; ]; then formatted_time=$(date -d &#34;$birth_time&#34; &#43;&#39;%Y-%m-%d %H:%M:%S&#39;) echo &#34;$(hostname),$username,$formatted_time&#34; else birth_time=$(echo &#34;$stat_output&#34; | grep &#39;Change&#39; | awk &#39;{print $2 &#34; &#34; $3}&#39;) if [-n &#34;$birth_time&#34;]; then formatted_time=$(date -d &#34;$birth_time&#34; &#43;&#39;%Y-%m-%d %H:%M:%S&#39;) else echo &#34;$(hostname),$username,-&#34; fi fi else echo &#34;$(hostname),$username,-&#34; fi done &lt; /etc/passwd " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -147,6 +147,10 @@ layui.use('element', function(){
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
         </a>
     
+        <a href="/tags/weindows/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">weindows</span>
+        </a>
+    
     
 </h3>
 
@@ -257,78 +261,6 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/linux-iconv/">
-                                <h3 class="">Linux Iconv</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-07-05</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/worknot-20240704-1/">
-                                <h3 class="">在 Linux 中，su account 和 su - account 有以下主要差別</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-07-04</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
                             <a href="/worknot/worknot-20240701-1/">
                                 <h3 class="">設定 Linux 檔案瀏覽器 Files 預設的 Columns</h3>
                             </a>
@@ -343,6 +275,86 @@ layui.use('element', function(){
     
 
     
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/gnome/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">GNOME</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240605-1/">
+                                <h3 class="">putty 編譯安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-06-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/putty/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">putty</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240426/">
+                                <h3 class="">CLI 檢查網站憑證</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-26</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
         <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
         </a>
@@ -365,13 +377,13 @@ layui.use('element', function(){
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/worknot-20240625-1/">
-                                <h3 class="">linux last 指令</h3>
+                            <a href="/worknot/worknot-20240425/">
+                                <h3 class="">linux 資料基礎分析</h3>
                             </a>
                             
                             <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-06-25</span>
+    <span>2024-04-25</span>
 
     
      
@@ -391,6 +403,10 @@ layui.use('element', function(){
     
         <a href="/tags/linux/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e6%96%99%e5%88%86%e6%9e%90/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資料分析</span>
         </a>
     
     
