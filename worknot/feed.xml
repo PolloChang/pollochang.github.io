@@ -6,7 +6,18 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 22 Dec 2024 23:31:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Dec 2024 23:34:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Grails Export Dependencies</title>
+      <link>http://pollochang.work/worknot/grails-export-dependencies/</link>
+      <pubDate>Tue, 24 Dec 2024 23:34:41 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/grails-export-dependencies/</guid>
+      <description>Grails 匯出專案中相依套件的 jar
+環境 grails version: grails5 設定方式 在 build.gradle 新增設定
+configurations { runtime.extendsFrom(compileClasspath, runtimeOnly) } task copyToLib(type: Copy) { into &amp;#34;$buildDir/output/lib&amp;#34; from configurations.runtime } 參考資料 Gathering project dependencies into folder with Gradle 7 </description>
+    </item>
+    
     <item>
       <title>systemctl</title>
       <link>http://pollochang.work/worknot/systemctl/</link>
