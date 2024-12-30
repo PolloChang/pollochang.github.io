@@ -6,7 +6,17 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 30 Dec 2024 11:24:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Dec 2024 23:26:52 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oracle Delete Database</title>
+      <link>http://pollochang.work/worknot/oracle-delete-database/</link>
+      <pubDate>Mon, 30 Dec 2024 23:26:52 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/oracle-delete-database/</guid>
+      <description>Oracle 刪除資料庫
+先查詢資料庫名稱 select name, open_mode from v$database; SQL&amp;gt; select name, open_mode from v$database; NAME OPEN_MODE --------- -------------------- TEST READ WRITE 關閉資料庫 SQL&amp;gt; shut immediate; SQL&amp;gt; shut immediate; Database closed. Database dismounted. ORACLE instance shut down 刪除資料庫 dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [oracle@oracle-19c listener]$ dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [WARNING] [DBT-05513] Failed to connect to the database (TEST). CAUSE: Specified database credential is not valid to connect to the database (TEST).</description>
+    </item>
+    
     <item>
       <title>將腳本丟到背景執行</title>
       <link>http://pollochang.work/worknot/worknot-20241230-1/</link>

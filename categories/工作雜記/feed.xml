@@ -178,15 +178,6 @@ linux /var/lib/docker/overlay2 這層目錄不能亂刪
     </item>
     
     <item>
-      <title>Oracle Clusterware 初學</title>
-      <link>http://pollochang.work/worknot/oracle-clusterware-1/</link>
-      <pubDate>Wed, 03 Jul 2024 23:57:49 +0800</pubDate>
-      
-      <guid>http://pollochang.work/worknot/oracle-clusterware-1/</guid>
-      <description>指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &amp;ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &amp;lt;resource_name&amp;gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware </description>
-    </item>
-    
-    <item>
       <title>Oracle OCFS2 初學</title>
       <link>http://pollochang.work/worknot/oracle-ocfs2-1/</link>
       <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>

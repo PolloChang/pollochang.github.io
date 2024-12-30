@@ -3,12 +3,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - Oracle Clusterware 初學 </title>
+    <title>PolloChang 工作筆記 - Oracle Delete Database </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &lt;resource_name&gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware " name="description">
+    <meta content="PolloChang 工作筆記 - Oracle 刪除資料庫
+先查詢資料庫名稱 select name, open_mode from v$database; SQL&gt; select name, open_mode from v$database; NAME OPEN_MODE --------- -------------------- TEST READ WRITE 關閉資料庫 SQL&gt; shut immediate; SQL&gt; shut immediate; Database closed. Database dismounted. ORACLE instance shut down 刪除資料庫 dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [oracle@oracle-19c listener]$ dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [WARNING] [DBT-05513] Failed to connect to the database (TEST). CAUSE: Specified database credential is not valid to connect to the database (TEST)." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -122,10 +123,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>Oracle Clusterware 初學</h1>
+                    <h1>Oracle Delete Database</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-07-03</span>
+    <span>2024-12-30</span>
 
     
      
@@ -146,47 +147,53 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h2 id="指令-crsctl-status-res--t">指令 <code>crsctl status res -t</code></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>crsctl status res -t
-</span></span></code></pre></div><ul>
-<li>功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。</li>
-<li>參數: -t 是 &ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。</li>
-</ul>
-<h3 id="示例">示例</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NAME           TARGET  STATE        SERVER                 STATE_DETAIL
-</span></span><span style="display:flex;"><span>--------------------------------------------------------------
-</span></span><span style="display:flex;"><span>ora.net1.network ONLINE ONLINE       node1, node2          ONLINE
-</span></span><span style="display:flex;"><span>ora.asm         ONLINE ONLINE       node1                  ONLINE
-</span></span><span style="display:flex;"><span>ora.db          ONLINE ONLINE       node1                  ONLINE
-</span></span><span style="display:flex;"><span>ora.listener    ONLINE ONLINE       node1, node2          ONLINE
-</span></span></code></pre></div><h3 id="示例解釋">示例解釋</h3>
-<ul>
-<li>ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。</li>
-<li>ora.db1: 這是資料庫資源，當前狀態是 ONLINE。</li>
-<li>ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。</li>
-</ul>
-<h3 id="主要字段解釋">主要字段解釋</h3>
-<ul>
-<li>NAME: 資源的名稱。</li>
-<li>TARGET: 設定的目標狀態。</li>
-<li>STATE: 當前狀態。</li>
-<li>SERVER: 資源所在的節點。</li>
-<li>STATE_DETAIL: 其他詳細狀態信息。</li>
-</ul>
-<h3 id="常見用途">常見用途</h3>
-<ul>
-<li>檢查資源狀態: 確認集群中各個資源的運行狀態。</li>
-<li>故障排查: 用於排查集群問題，了解哪些資源可能存在問題。</li>
-<li>監控集群健康: 確保所有必要的資源都在正常運行。</li>
-</ul>
-<h2 id="檢查資源詳細信息-crsctl-status-res-resource_name--details">檢查資源詳細信息: <code>crsctl status res &lt;resource_name&gt; -details</code></h2>
-<h2 id="查看集群狀態-crsctl-check-cluster">查看集群狀態: <code>crsctl check cluster</code></h2>
-<h2 id="查看節點狀態-crsctl-status-resource--t">查看節點狀態: <code>crsctl status resource -t</code></h2>
-<h2 id="參考資料">參考資料</h2>
-<ul>
-<li><a href="https://docs.oracle.com/cd/E14790_01/doc/rac.112/e10717/intro.htm">1 Introduction to Oracle Clusterware</a></li>
-</ul>
-</div>
+                    <p>Oracle 刪除資料庫</p>
+<ol>
+<li>先查詢資料庫名稱</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> name, open_mode <span style="color:#66d9ef">from</span> v$database;
+</span></span></code></pre></div><pre tabindex="0"><code>SQL&gt; select name, open_mode from v$database;
+
+NAME      OPEN_MODE
+--------- --------------------
+TEST    READ WRITE
+</code></pre><ol start="2">
+<li>關閉資料庫</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SQL</span><span style="color:#f92672">&gt;</span> shut <span style="color:#66d9ef">immediate</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>
+SQL&gt; shut immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down
+</code></pre><ol start="3">
+<li>刪除資料庫</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion
+</span></span></code></pre></div><pre tabindex="0"><code>[oracle@oracle-19c listener]$ dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion
+[WARNING] [DBT-05513] Failed to connect to the database (TEST).
+   CAUSE: Specified database credential is not valid to connect to the database (TEST).
+   ACTION: Specify a valid sysdba user name and password to connect to the database.
+[WARNING] [DBT-11503] The instance (TEST) is not running on the local node. This may result in partial delete of Oracle database.
+   CAUSE: A locally running instance is required for complete deletion of Oracle database instance and database files.
+   ACTION: Specify a locally running database, or execute DBCA on a node where the database instance is running.
+[WARNING] [DBT-19202] The Database Configuration Assistant will delete the Oracle instances and datafiles for your database. All information in the database will be destroyed.
+Prepare for db operation
+32% complete
+Connecting to database
+35% complete
+39% complete
+42% complete
+[WARNING] The data files for database with SID &#34;TEST&#34; could not be determined because the database could not be started. DBCA will proceed with the service deletion.
+65% complete
+Updating network configuration files
+68% complete
+Deleting instance and datafiles
+84% complete
+100% complete
+Database deletion completed.
+Look at the log file &#34;/u01/app/oracle/cfgtoollogs/dbca/TEST/TEST.log&#34; for further details.
+</code></pre></div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"
