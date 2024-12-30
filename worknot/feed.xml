@@ -6,7 +6,16 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 24 Dec 2024 23:34:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Dec 2024 11:24:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>將腳本丟到背景執行</title>
+      <link>http://pollochang.work/worknot/worknot-20241230-1/</link>
+      <pubDate>Mon, 30 Dec 2024 11:24:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/worknot-20241230-1/</guid>
+      <description># 將腳本丟到背景執行，會輸出背景執行 PID Number nohup /usr/local/bin/example-shell.sh &amp;amp; # 監控結果 tail -f nohup.out # 監控背景程序還有執行 watch -n 1 &amp;#34;ps -p 120448 -o pid,ppid,%cpu,%mem,cmd&amp;#34; </description>
+    </item>
+    
     <item>
       <title>Grails Export Dependencies</title>
       <link>http://pollochang.work/worknot/grails-export-dependencies/</link>
@@ -115,6 +124,15 @@ gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，�
       
       <guid>http://pollochang.work/worknot/worknot-20241118-1/</guid>
       <description>詳細錯誤訊息 Nov 18 12:17:01 91214Desktop CRON[204259]: PAM unable to dlopen(pam_pwquality.so): /lib/security/pam_pwquality.so: cannot open shared object file: No such file or directory Nov 18 12:17:01 91214Desktop CRON[204259]: PAM adding faulty module: pam_pwquality.so Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0) Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session closed for user root 環境 Debian 11 解決方式 sudo apt install libpam-pwquality sudo mkdir -p /lib/security sudo ln -s /lib/x86_64-linux-gnu/security/pam_pwquality.</description>
+    </item>
+    
+    <item>
+      <title>install-open-project-on-debain11</title>
+      <link>http://pollochang.work/worknot/install-open-project-on-debain11/</link>
+      <pubDate>Mon, 18 Nov 2024 12:23:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/install-open-project-on-debain11/</guid>
+      <description>環境 OS: Debain 11 RAM: 4G CPU: 4 Core 新增資料庫 su postgres -c psql CREATE DATABASE openprojectdb; CREATE USER openprojectap WITH PASSWORD &amp;#39;Pass@wd&amp;#39;; GRANT ALL ON DATABASE openprojectdb to openprojectap; ALTER USER openprojectap WITH PASSWORD &amp;#39;paddww&amp;#39;; 安裝指令 apt install -y apt-transport-https ca-certificates wget gpg wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor &amp;gt; /etc/apt/trusted.gpg.d/packager-io.gpg wget -O /etc/apt/sources.list.d/openproject.list https://dl.packager.io/srv/opf/openproject/stable/15/installer/debian/11.repo apt update apt install openproject sudo openproject configure &amp;ndash;base-url https://10.1.4.43/openproject</description>
     </item>
     
     <item>
