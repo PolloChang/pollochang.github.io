@@ -6,7 +6,19 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 30 Dec 2024 23:26:52 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Jan 2025 23:31:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tomcat log 格式探究</title>
+      <link>http://pollochang.work/worknot/tomcat-log-formatter/</link>
+      <pubDate>Thu, 02 Jan 2025 23:31:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/tomcat-log-formatter/</guid>
+      <description>這機天工作上有針對日誌設定做討論，但是單純對tomcat 日誌設定似乎缺少了實做探究，於是在下班之餘稍微探究了一下。今天先對日誌格式做研究。
+在官網對於 log 工具預設是由 java 原生日誌工具處理 java.util.logging
+原始設定 以下是 tomcat9 對 log 的始設定檔
+conf/logging.properties # Licensed to the Apache Software Foundation (ASF) under one or more # contributor license agreements. See the NOTICE file distributed with # this work for additional information regarding copyright ownership. # The ASF licenses this file to You under the Apache License, Version 2.0 # (the &amp;#34;License&amp;#34;); you may not use this file except in compliance with # the License.</description>
+    </item>
+    
     <item>
       <title>Oracle Delete Database</title>
       <link>http://pollochang.work/worknot/oracle-delete-database/</link>
