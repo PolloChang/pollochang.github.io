@@ -3,13 +3,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - Linux 係統時間 </title>
+    <title>PolloChang 工作筆記 - Linux 系統時間 </title>
     
     
     <meta content="Linux, 工作雜記" name="keywords">
     
     <meta content="PolloChang 工作筆記 - sudo date -s &#34;2022/05/05 18:44:15&#34; 若要查詢硬體時鐘（RTC）的時間，可以使用 hwclock：
-若要將係統時間寫入硬體時鐘，可以使用 -w 參數：
+若要將系統時間寫入硬體時鐘，可以使用 -w 參數：
 sudo hwclock -w 係統時區校正 先設定時區 sudo timedatectl set-timezone Asia/Taipei ╰─ timedatectl Local time: Wed 2022-05-04 16:21:52 CST Universal time: Wed 2022-05-04 08:21:52 UTC RTC time: Wed 2022-05-04 08:21:52 Time zone: Asia/Taipei (CST, &#43;0800) System clock synchronized: yes NTP service: active RTC in local TZ: no 校時查詢 [aaa@test ~]$ ntpq -p remote refid st t when poll reach delay offset jitter ============================================================================== *172." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -124,7 +124,7 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>Linux 係統時間</h1>
+                    <h1>Linux 系統時間</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2024-02-28</span>
@@ -156,7 +156,7 @@ layui.use('element', function(){
                 <div class="layui-card-body markdown-body single-content">
                     <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo date -s <span style="color:#e6db74">&#34;2022/05/05 18:44:15&#34;</span>
 </span></span></code></pre></div><p>若要查詢硬體時鐘（RTC）的時間，可以使用 hwclock：</p>
-<p>若要將係統時間寫入硬體時鐘，可以使用 -w 參數：</p>
+<p>若要將系統時間寫入硬體時鐘，可以使用 -w 參數：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo hwclock -w
 </span></span></code></pre></div><h2 id="係統時區校正">係統時區校正</h2>
 <h3 id="先設定時區">先設定時區</h3>
@@ -186,7 +186,7 @@ layui.use('element', function(){
 <p>jitter:這是一個用來做統計的值.它統計了在特定個連續的連接數裏offset的分佈情況.簡單地說這個數值的絕對值越小，主機的時間就越精確</p>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a href="https://blog.gtwang.org/linux/howto-set-date-time-from-linux-command-prompt/">Linux 手動更改係統時間：date、hwclock 與 timedatectl 指令用法教學</a></li>
+<li><a href="https://blog.gtwang.org/linux/howto-set-date-time-from-linux-command-prompt/">Linux 手動更改系統時間：date、hwclock 與 timedatectl 指令用法教學</a></li>
 <li><a href="http://note.drx.tw/2012/04/ntp-synchronize-time-with-network.html">NTP - 網路校時</a></li>
 </ul>
 </div>
