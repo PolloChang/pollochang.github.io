@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>GNOME on PolloChang 工作筆記</title>
+    <title>gnome on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/gnome/</link>
-    <description>Recent content in GNOME on PolloChang 工作筆記</description>
+    <description>Recent content in gnome on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 01 Jul 2024 09:48:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/gnome/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Jan 2025 20:04:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/gnome/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Disable Gnome Auto Upate</title>
+      <link>http://pollochang.work/worknot/disable-gnome-auto-upate/</link>
+      <pubDate>Thu, 09 Jan 2025 20:04:08 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/disable-gnome-auto-upate/</guid>
+      <description>禁止 Gnome 自動背景更新
+設定文件: /etc/PackageKit/PackageKit.conf 設定文禁止更新
+#PreventNetworkAccess=false PreventNetworkAccess=true sudo systemctl daemon-reload sudo systemctl restart packagekit </description>
+    </item>
+    
     <item>
       <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
       <link>http://pollochang.work/worknot/worknot-20240701-1/</link>
