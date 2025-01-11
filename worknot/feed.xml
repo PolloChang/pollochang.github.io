@@ -6,7 +6,19 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 09 Jan 2025 20:04:08 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jan 2025 22:36:14 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux 登入使用 google auth 二階段驗證</title>
+      <link>http://pollochang.work/worknot/linux-google-authenticator/</link>
+      <pubDate>Sat, 11 Jan 2025 22:36:14 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/linux-google-authenticator/</guid>
+      <description>環境 OS: Debian 12 安裝及部屬 安裝 安裝 libpam-google-authenticator
+sudo apt -y install libpam-google-authenticator 設定 ssh 登入 /etc/pam.d/sshd auth required pam_google_authenticator.so /etc/ssh/sshd_config ChallengeResponseAuthentication yes #no 執行
+google-authenticator 設定 gnmoe 登入 /etc/pam.d/gdm-password auth required pam_google_authenticator.so @include common-auth # 在這行之前 重起 gdm
+sudo systemctl restart gdm </description>
+    </item>
+    
     <item>
       <title>Disable Gnome Auto Upate</title>
       <link>http://pollochang.work/worknot/disable-gnome-auto-upate/</link>
