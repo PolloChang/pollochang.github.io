@@ -1,0 +1,651 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - LibreNMS 安裝設定紀錄 </title>
+    
+    
+    <meta content="LibreNMS, LDAP, Home Lab" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 部署環境 OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 18GB Devices: 20 Ports: 133 Health sensors: 47 Load: &lt; 0.1 MySQL CPU: 1 Socket, 2 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 30GB Load: &lt; 0.1 安裝前準被 librenms Domain : moniter.home.pollochang.work librenms web server Admin User 帳號: polloadmin Admin User 密碼: password Admin User Email: email@example." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>LibreNMS 安裝設定紀錄</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-02-02</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/home-lab/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Home Lab</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/librenms/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LibreNMS</span>
+        </a>
+    
+        <a href="/tags/ldap/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LDAP</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="部署環境">部署環境</h2>
+<ul>
+<li>OS: Debian12</li>
+<li>CPU: 2 Sockets, 2 Cores</li>
+<li>RAM: 6G</li>
+<li>Database: MariaDB: 11.4</li>
+</ul>
+<h3 id="system-requirement">System Requirement</h3>
+<ul>
+<li>LibreNMS
+<ul>
+<li>CPU: 2 Sockets, 4 Cores</li>
+<li>Memory: 2G</li>
+<li>Disk Type: Raid 1, SSD</li>
+<li>Disk Space: 18GB</li>
+<li>Devices: 20</li>
+<li>Ports: 133</li>
+<li>Health sensors: 47</li>
+<li>Load: &lt; 0.1</li>
+</ul>
+</li>
+<li>MySQL
+<ul>
+<li>CPU: 1 Socket, 2 Cores</li>
+<li>Memory: 2G</li>
+<li>Disk Type: Raid 1, SSD</li>
+<li>Disk Space: 30GB</li>
+<li>Load: &lt; 0.1</li>
+</ul>
+</li>
+</ul>
+<h2 id="安裝前準被">安裝前準被</h2>
+<ul>
+<li>librenms Domain : moniter.home.pollochang.work</li>
+<li>librenms web server
+<ul>
+<li>Admin User 帳號: polloadmin</li>
+<li>Admin User 密碼: password</li>
+<li>Admin User Email: <a href="mailto:email@example.com">email@example.com</a></li>
+</ul>
+</li>
+<li>資料庫
+<ul>
+<li>資料庫名稱: librenms</li>
+<li>帳號: librenms</li>
+<li>密碼: password</li>
+</ul>
+</li>
+</ul>
+<h2 id="安裝步驟">安裝步驟</h2>
+<h3 id="安裝資料庫">安裝資料庫</h3>
+<ul>
+<li>MariaDB Server</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install apt-transport-https curl gnupg gnupg2
+</span></span><span style="display:flex;"><span>sudo mkdir -p /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp <span style="color:#e6db74">&#39;https://mariadb.org/mariadb_release_signing_key.pgp&#39;</span>
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/apt/sources.list.d/mariadb.sources</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://mariadb.org/download/</span>
+</span></span><span style="display:flex;"><span>X-Repolib-Name: MariaDB
+</span></span><span style="display:flex;"><span>Types: deb
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># URIs: https://deb.mariadb.org/11.4/debian</span>
+</span></span><span style="display:flex;"><span>URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian
+</span></span><span style="display:flex;"><span>Suites: bookworm
+</span></span><span style="display:flex;"><span>Components: main
+</span></span><span style="display:flex;"><span>Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt update
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查一下確實可以安裝到指定版本</span>
+</span></span><span style="display:flex;"><span>apt list mariadb-server
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mariadb-server/unknown 1:11.4.4+maria~deb12 amd64</span>
+</span></span><span style="display:flex;"><span>apt install mariadb-server mariadb-client
+</span></span></code></pre></div><h3 id="安裝-librenms">安裝 librenms</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y lsb-release ca-certificates wget acl curl fping git graphviz imagemagick mariadb-client mtr-tiny nginx-full nmap php-cli php-curl php-fpm php-gd php-gmp php-mbstring php-mysql php-snmp php-xml php-zip python3-dotenv python3-pymysql python3-redis python3-setuptools python3-systemd python3-pip rrdtool snmp snmpd unzip whois python3.11-venv
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /tmp
+</span></span><span style="display:flex;"><span>wget https://github.com/librenms/librenms/archive/refs/tags/25.1.0.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxf 25.1.0.tar.gz -C /opt/
+</span></span><span style="display:flex;"><span>cd /opt/
+</span></span><span style="display:flex;"><span>ln -s librenms-25.1.0 librenms
+</span></span></code></pre></div><p>新增服務帳號: librenms</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd librenms -d /opt/librenms -M -r -s <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>which bash<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>chown -R librenms:librenms /opt/librenms*
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">771</span> /opt/librenms
+</span></span><span style="display:flex;"><span>setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+</span></span><span style="display:flex;"><span>setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
+</span></span></code></pre></div><p>Install PHP dependencies</p>
+<p>使用 Python 虛擬環境，因為在 Debian12 引入了 PEP 668，限制了對系統 Python 環境的直接修改。這樣所有的 Python 依賴都會安裝在 <code>~/librenms-venv</code> 內，而不影響系統環境。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - librenms
+</span></span><span style="display:flex;"><span>python3 -m venv ~/librenms-venv
+</span></span><span style="display:flex;"><span>source ~/librenms-venv/bin/activate
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span><span style="display:flex;"><span>./scripts/composer_wrapper.php install --no-dev
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span>su - librenms
+</span></span><span style="display:flex;"><span>pip3 install command_runner --break-system-packages
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timedatectl set-timezone Asia/Taipei
+</span></span></code></pre></div><ul>
+<li>/etc/mysql/mariadb.conf.d/50-server.cnf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>innodb_file_per_table<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>lower_case_table_names<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable mariadb
+</span></span><span style="display:flex;"><span>systemctl restart mariadb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u root
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> librenms CHARACTER <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> <span style="color:#e6db74">&#39;librenms&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;password&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> librenms.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> <span style="color:#e6db74">&#39;librenms&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/librenms.conf
+</span></span><span style="display:flex;"><span>vi /etc/php/8.2/fpm/pool.d/librenms.conf
+</span></span></code></pre></div><ul>
+<li>編輯文件: /etc/php/8.2/fpm/pool.d/librenms.conf</li>
+</ul>
+<p>內容如如下:</p>
+<p>Change <code>[www]</code> to <code>[librenms]</code>:</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">; [www]
+[librenms]
+</code></pre><p>Change user and group to &ldquo;librenms&rdquo;:</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">user = librenms
+group = librenms
+</code></pre><p>Change listen to a unique path that must match your webserver&rsquo;s config (fastcgi_pass for NGINX and SetHandler for Apache) :</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">listen = /run/php-fpm-librenms.sock
+</code></pre><ul>
+<li>編輯文件: /etc/nginx/sites-enabled/librenms.vhost</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span> listen      80;
+</span></span><span style="display:flex;"><span> server_name moniter.home.pollochang.work;
+</span></span><span style="display:flex;"><span> root        /opt/librenms/html;
+</span></span><span style="display:flex;"><span> index       index.php;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> charset utf-8;
+</span></span><span style="display:flex;"><span> gzip on;
+</span></span><span style="display:flex;"><span> gzip_types text/css application/javascript text/javascript application/x-javascript image/svg+xml text/plain text/xsd text/xsl text/xml image/x-icon;
+</span></span><span style="display:flex;"><span> location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  try_files $uri $uri/ /index.php?$query_string;
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span> location ~ <span style="color:#f92672">[</span>^/<span style="color:#f92672">]</span><span style="color:#ae81ff">\.</span>php<span style="color:#f92672">(</span>/|$<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  fastcgi_pass unix:/run/php-fpm-librenms.sock;
+</span></span><span style="display:flex;"><span>  fastcgi_split_path_info ^<span style="color:#f92672">(</span>.+<span style="color:#ae81ff">\.</span>php<span style="color:#f92672">)(</span>/.+<span style="color:#f92672">)</span>$;
+</span></span><span style="display:flex;"><span>  include fastcgi.conf;
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span> location ~ /<span style="color:#ae81ff">\.</span><span style="color:#f92672">(</span>?!well-known<span style="color:#f92672">)</span>.* <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  deny all;
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="檢查php時間與資料庫時間是否一致">檢查php時間與資料庫時間是否一致</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>php -r <span style="color:#e6db74">&#39;echo date(&#34;Y-m-d H:i:s&#34;);&#39;</span>
+</span></span></code></pre></div><p>如果錯誤要修正要編輯文件: /etc/php/8.2/fpm/php.ini</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span>
+</span></span></code></pre></div><ul>
+<li>/etc/php/8.2/cli/php.ini</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span>
+</span></span></code></pre></div><h4 id="設定-env">設定 <code>.env</code></h4>
+<ul>
+<li>/opt/librenms/.env</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>APP_URL<span style="color:#f92672">=</span>http://moniter.home.pollochang.work
+</span></span></code></pre></div><ul>
+<li>/opt/librenms/config.php</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;base_url&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://moniter.home.pollochang.work/&#39;</span>;
+</span></span></code></pre></div><h4 id="啟動網頁服務">啟動網頁服務</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rm /etc/nginx/sites-enabled/default
+</span></span><span style="display:flex;"><span>systemctl reload nginx
+</span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm
+</span></span></code></pre></div><p>Enable lnms command completion</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /opt/librenms/lnms /usr/bin/lnms
+</span></span><span style="display:flex;"><span>cp /opt/librenms/misc/lnms-completion.bash /etc/bash_completion.d/
+</span></span></code></pre></div><p>Configure snmpd</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf
+</span></span></code></pre></div><ul>
+<li>/etc/snmp/snmpd.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># RANDOMSTRINGGOESHERE</span>
+</span></span><span style="display:flex;"><span>com2sec readonly  default        polloservermonitor
+</span></span></code></pre></div><h4 id="設定-snmp-服務">設定 SNMP 服務</h4>
+<ul>
+<li>/etc/snmp/snmpd.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
+</span></span><span style="display:flex;"><span>chmod +x /usr/bin/distro
+</span></span><span style="display:flex;"><span>systemctl enable snmpd
+</span></span><span style="display:flex;"><span>systemctl restart snmpd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms.cron /etc/cron.d/librenms
+</span></span></code></pre></div><h4 id="啟用調度程式">啟用調度程式</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms-scheduler.service /opt/librenms/dist/librenms-scheduler.timer /etc/systemd/system/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>systemctl enable librenms-scheduler.timer
+</span></span><span style="display:flex;"><span>systemctl start librenms-scheduler.timer
+</span></span></code></pre></div><h4 id="設定-logrotate">設定 logrotate</h4>
+<p>Copy logrotate config</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/misc/librenms.logrotate /etc/logrotate.d/librenms
+</span></span></code></pre></div><h3 id="web-installer">Web installer</h3>
+<ul>
+<li>開啟瀏覽器進行安裝: <a href="http://moniter.home.pollochang.work/install">http://moniter.home.pollochang.work/install</a></li>
+</ul>
+<p>安裝完成之後確保設定文件權限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chown librenms:librenms /opt/librenms/config.php
+</span></span></code></pre></div><h2 id="搬移資料到指定目錄">搬移資料到指定目錄</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl stop php8.2-fpm nginx
+</span></span><span style="display:flex;"><span>mkdir -p /data/librenms/
+</span></span><span style="display:flex;"><span>chown librenms:librenms /data/librenms/
+</span></span><span style="display:flex;"><span>sudo mv /opt/librenms/rrd /data/librenms/
+</span></span><span style="display:flex;"><span>sudo mv /opt/librenms/logs /var/log/librenms
+</span></span><span style="display:flex;"><span>sudo mv /opt/librenms/storage /data/librenms/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ln -s /data/librenms/rrd /opt/librenms/rrd
+</span></span><span style="display:flex;"><span>ln -s /var/log/librenms /opt/librenms/logs
+</span></span><span style="display:flex;"><span>ln -s /data/librenms/storage /opt/librenms/storage
+</span></span></code></pre></div><h2 id="ldap-登入驗證設定">LDAP 登入驗證設定</h2>
+<ul>
+<li>
+<p>準備資訊</p>
+<ul>
+<li>群組DN資訊:
+<ul>
+<li>系統管理員: cn=admins,ou=group,dc=home,dc=pollochang,dc=work</li>
+<li>一般使用者: cn=login,ou=group,dc=home,dc=pollochang,dc=work</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>設定文件: /opt/librenms/config.php</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 LDAP 驗證</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_mechanism&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ldap&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### MySQL 驗證（預設已啟用）</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_mechanism_mysql&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 驗證設定</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_mechanism_ldap&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_server&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ldaps://ldap.home.pollochang.work&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># LDAPS 使用 636 端口</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_port&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 636;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_starttls&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_prefix&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;uid=&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_suffix&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;,ou=People,dc=home,dc=pollochang,dc=work&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 綁定帳號</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_binduser&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn=admin,dc=home,dc=pollochang,dc=work&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_bindpassword&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bindpassword&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 使用者屬性對應</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_uid_attribute&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;uid&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_user_dn&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ou=People,dc=home,dc=pollochang,dc=work&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># $config[&#39;auth_ldap_user_attr&#39;] = [&#39;uid&#39;];</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 群組屬性</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_groupbase&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ou=group,dc=home,dc=pollochang,dc=work&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_group&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_groupmemberattr&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;memberUid&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_groupobjectclass&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;posixGroup&#34;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_groups&#39;</span><span style="color:#f92672">][</span><span style="color:#e6db74">&#39;admins&#39;</span><span style="color:#f92672">][</span><span style="color:#e6db74">&#39;level&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 10;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_groups&#39;</span><span style="color:#f92672">][</span><span style="color:#e6db74">&#39;login&#39;</span><span style="color:#f92672">][</span><span style="color:#e6db74">&#39;level&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 5;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### 啟用 LDAP 除錯（如遇問題可打開）</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_debug&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_debug&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/librenms/
+</span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm nginx <span style="color:#f92672">&amp;&amp;</span> php artisan config:clear <span style="color:#f92672">&amp;&amp;</span> php artisan cache:clear
+</span></span><span style="display:flex;"><span>tail -f /opt/librenms/logs/librenms.log
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://docs.librenms.org/Installation/Install-LibreNMS/#add-librenms-user">Install LibreNMS</a></li>
+<li><a href="https://docs.librenms.org/Support/Example-Hardware-Setup/#vvelox">Example Hardware Setups</a></li>
+<li><a href="https://community.librenms.org/t/librenms-web-console-user-group-membership-not-working-via-ldap-authentication/22750">LibreNMS Web Console user group membership not working via LDAP authentication</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -9,7 +9,7 @@
     <meta content="powerdns, 工作雜記" name="keywords">
     
     <meta content="PolloChang 工作筆記 - 以下是我初次建立 powerdns 服務的紀錄
-環境 OS: Debian 12 DB: postgresql-14 pdns-server version: 4.7 事前準備 安裝 postgresql 建立資料庫 sudo su - postgres psql CREATE DATABASE pdnsdb; CREATE USER pdns WITH PASSWORD &#39;pdnsPassword&#39;; GRANT CONNECT ON DATABASE pdnsdb TO pdns; ALTER DATABASE pdnsdb OWNER TO pdns; 建置 table schema，可以在說明文件中找到: /usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql
+環境 OS: Debian 12 DB: postgresql-14 pdns-server version: 4.7 apt install pdns-server pdns-backend-pgsql -y 事前準備 安裝 postgresql 建立資料庫 sudo su - postgres psql CREATE DATABASE pdnsdb; CREATE USER pdns WITH PASSWORD &#39;pdnsPassword&#39;; GRANT CONNECT ON DATABASE pdnsdb TO pdns; ALTER DATABASE pdnsdb OWNER TO pdns; 建置 table schema，可以在說明文件中找到: /usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql
 並執行下列指令
 psql -h &lt;host&gt; -U &lt;user&gt; &lt;database&gt; -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql 以下是內容
 CREATE TABLE domains ( id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, master VARCHAR(128) DEFAULT NULL, last_check INT DEFAULT NULL, type TEXT NOT NULL, notified_serial BIGINT DEFAULT NULL, account VARCHAR(40) DEFAULT NULL, options TEXT DEFAULT NULL, catalog TEXT DEFAULT NULL, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX name_index ON domains(name); CREATE INDEX catalog_idx ON domains(catalog); CREATE TABLE records ( id BIGSERIAL PRIMARY KEY, domain_id INT DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, type VARCHAR(10) DEFAULT NULL, content VARCHAR(65535) DEFAULT NULL, ttl INT DEFAULT NULL, prio INT DEFAULT NULL, disabled BOOL DEFAULT &#39;f&#39;, ordername VARCHAR(255), auth BOOL DEFAULT &#39;t&#39;, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX rec_name_index ON records(name); CREATE INDEX nametype_index ON records(name,type); CREATE INDEX domain_id ON records(domain_id); CREATE INDEX recordorder ON records (domain_id, ordername text_pattern_ops); CREATE TABLE supermasters ( ip INET NOT NULL, nameserver VARCHAR(255) NOT NULL, account VARCHAR(40) NOT NULL, PRIMARY KEY(ip, nameserver) ); CREATE TABLE comments ( id SERIAL PRIMARY KEY, domain_id INT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(10) NOT NULL, modified_at INT NOT NULL, account VARCHAR(40) DEFAULT NULL, comment VARCHAR(65535) NOT NULL, CONSTRAINT domain_exists FOREIGN KEY(domain_id) REFERENCES domains(id) ON DELETE CASCADE, CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE INDEX comments_domain_id_idx ON comments (domain_id); CREATE INDEX comments_name_type_idx ON comments (name, type); CREATE INDEX comments_order_idx ON comments (domain_id, modified_at); CREATE TABLE domainmetadata ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, kind VARCHAR(32), content TEXT ); CREATE INDEX domainidmetaindex ON domainmetadata(domain_id); CREATE TABLE cryptokeys ( id SERIAL PRIMARY KEY, domain_id INT REFERENCES domains(id) ON DELETE CASCADE, flags INT NOT NULL, active BOOL, published BOOL DEFAULT TRUE, content TEXT ); CREATE INDEX domainidindex ON cryptokeys(domain_id); CREATE TABLE tsigkeys ( id SERIAL PRIMARY KEY, name VARCHAR(255), algorithm VARCHAR(50), secret VARCHAR(255), CONSTRAINT c_lowercase_name CHECK (((name)::TEXT = LOWER((name)::TEXT))) ); CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm); 安裝事前作業 停用 systemd-resolved sudo systemctl disable --now systemd-resolved 設定穩定版本來源 設定參考官方說明: PowerDNS repositories" name="description">
@@ -163,7 +163,8 @@ layui.use('element', function(){
 <li>DB: postgresql-14</li>
 <li>pdns-server version: 4.7</li>
 </ul>
-<h2 id="事前準備">事前準備</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install pdns-server pdns-backend-pgsql -y
+</span></span></code></pre></div><h2 id="事前準備">事前準備</h2>
 <ol>
 <li>安裝 postgresql</li>
 <li>建立資料庫</li>
@@ -1218,6 +1219,7 @@ Pin-Priority: 600
 </span></span><span style="display:flex;"><span>local0.warn                       -/var/log/pdns/pdns.warn
 </span></span><span style="display:flex;"><span>local0.err                        /var/log/pdns/pdns.err
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /var/log/pdns
+</span></span><span style="display:flex;"><span>chown pdns:pdns /var/log/pdns
 </span></span><span style="display:flex;"><span>systemctl restart pdns rsyslog
 </span></span></code></pre></div><h2 id="安裝-powerdns-admin">安裝 PowerDNS-Admin</h2>
 <h3 id="設定資料庫">設定資料庫</h3>
@@ -1247,7 +1249,7 @@ Pin-Priority: 600
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 PowerDNS-Admin</span>
 </span></span><span style="display:flex;"><span>wget -O /tmp/PowerDNS-Admin.tar.gz https://github.com/PowerDNS-Admin/PowerDNS-Admin/archive/refs/tags/v0.4.2.tar.gz
 </span></span><span style="display:flex;"><span>mkdir -p /opt/web/
-</span></span><span style="display:flex;"><span>tar -zxf /tmp/PowerDNS-Admin.tar.gz -C /opt/web/powerdns-admin
+</span></span><span style="display:flex;"><span>tar -zxf /tmp/PowerDNS-Admin.tar.gz -C /opt/web/
 </span></span><span style="display:flex;"><span>ln -s /opt/web/PowerDNS-Admin-0.4.2 /opt/web/powerdns-admin
 </span></span><span style="display:flex;"><span>cd /opt/web/powerdns-admin
 </span></span><span style="display:flex;"><span>python3 -mvenv ./venv
@@ -1624,6 +1626,9 @@ Building bundle: generated/main.css
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="測試">測試</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dig @172.30.1.101 pl-dns-01.home.pollochang.work A
+</span></span><span style="display:flex;"><span>nslookup pl-dns-01.home.pollochang.work 172.30.1.101
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://wiki.freedomstu.com/books/%E9%96%8B%E6%BA%90%E8%BB%9F%E9%AB%94%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/page/powerdns-debia">PowerDNS 架設 - Debian</a></li>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LibreNMS on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/librenms/</link>
+    <description>Recent content in LibreNMS on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 02 Feb 2025 20:46:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/librenms/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LibreNMS 安裝設定紀錄</title>
+      <link>http://pollochang.work/worknot/librenms/</link>
+      <pubDate>Sun, 02 Feb 2025 20:46:41 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/librenms/</guid>
+      <description>部署環境 OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 18GB Devices: 20 Ports: 133 Health sensors: 47 Load: &amp;lt; 0.1 MySQL CPU: 1 Socket, 2 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 30GB Load: &amp;lt; 0.1 安裝前準被 librenms Domain : moniter.home.pollochang.work librenms web server Admin User 帳號: polloadmin Admin User 密碼: password Admin User Email: email@example.</description>
+    </item>
+    
+  </channel>
+</rss>

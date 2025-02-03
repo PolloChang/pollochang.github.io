@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - Redmine </title>
+    <title>PolloChang 工作筆記 - LibreNMS </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
@@ -16,8 +16,8 @@
     
 
     
-        <link href="/tags/redmine/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
-        <link href="/tags/redmine/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/tags/librenms/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/tags/librenms/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
     
 
     
@@ -137,12 +137,12 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/redmine-api/">
-            <h2 class="">Redmine Api</h2>
+        <a href="/worknot/librenms/">
+            <h2 class="">LibreNMS 安裝設定紀錄</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-09-15</span>
+    <span>2025-02-02</span>
 
     
      
@@ -150,8 +150,8 @@ layui.use('element', function(){
     
 
     
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        <a href="/categories/home-lab/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Home Lab</span>
         </a>
     
 
@@ -160,8 +160,12 @@ layui.use('element', function(){
     
 
     
-        <a href="/tags/redmine/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">redmine</span>
+        <a href="/tags/librenms/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LibreNMS</span>
+        </a>
+    
+        <a href="/tags/ldap/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LDAP</span>
         </a>
     
     
@@ -169,51 +173,8 @@ layui.use('element', function(){
 
         <h3>
         	
-				以下是 redmine API 筆記
-在使用 API 之前記得先取得 token，token 會在 [我的帳戶] - [API 存取金鑰] 中，每個帳戶都會有一組。
-取得 Token 之後就可以進行操作了
-在這邊我會使用兩個參數方便接下來的操作
-API_KRY=your_token ...
-             <a href="/worknot/redmine-api/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/deploy-redmine-on-debian12/">
-            <h2 class="">Deploy Redmine on Debian12</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-08-25</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/infra/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">infra</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/redmine/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Redmine</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				環境 OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys ...
-             <a href="/worknot/deploy-redmine-on-debian12/"><span style="color:#01AAED">Read More</span></a>
+				部署環境 OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: ...
+             <a href="/worknot/librenms/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -223,7 +184,7 @@ API_KRY=your_token ...
 <div class="pager">
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/redmine/"><i class="layui-icon">&#xe65a;</i></a>
+            <a href="/tags/librenms/"><i class="layui-icon">&#xe65a;</i></a>
         </button>
         
         <button type="button" class="layui-btn layui-btn-disabled layui-btn-sm">
@@ -236,7 +197,7 @@ API_KRY=your_token ...
         </button>
         
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/tags/redmine/"><i class="layui-icon">&#xe65b;</i></a>
+            <a href="/tags/librenms/"><i class="layui-icon">&#xe65b;</i></a>
         </button>
     </div>
 </div>
