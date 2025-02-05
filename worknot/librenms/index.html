@@ -269,7 +269,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> librenms.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> <span style="color:#e6db74">&#39;librenms&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
 </span></span><span style="display:flex;"><span>exit
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/librenms.conf
-</span></span><span style="display:flex;"><span>vi /etc/php/8.2/fpm/pool.d/librenms.conf
+</span></span><span style="display:flex;"><span>vim /etc/php/8.2/fpm/pool.d/librenms.conf
 </span></span></code></pre></div><ul>
 <li>編輯文件: /etc/php/8.2/fpm/pool.d/librenms.conf</li>
 </ul>
@@ -403,7 +403,7 @@ group = librenms
 </span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_suffix&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;,ou=People,dc=home,dc=pollochang,dc=work&#39;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 綁定帳號</span>
-</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_binduser&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn=admin,dc=home,dc=pollochang,dc=work&#39;</span>;
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_binddn&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn=admin,dc=home,dc=pollochang,dc=work&#39;</span>;
 </span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_bindpassword&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bindpassword&#39;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">### LDAP 使用者屬性對應</span>
@@ -425,11 +425,116 @@ group = librenms
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/librenms/
 </span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm nginx <span style="color:#f92672">&amp;&amp;</span> php artisan config:clear <span style="color:#f92672">&amp;&amp;</span> php artisan cache:clear
 </span></span><span style="display:flex;"><span>tail -f /opt/librenms/logs/librenms.log
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+</span></span></code></pre></div><h2 id="監控設定">監控設定</h2>
+<h3 id="設定-optlibrenmsconfigphp">設定: /opt/librenms/config.php</h3>
+<h4 id="監控-proxmox">監控 proxmox</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 監控 proxmox</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;enable_proxmox&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 1;
+</span></span></code></pre></div><h3 id="snmp">SNMP</h3>
+<h4 id="被監控的-pve-主機">被監控的 pve 主機</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install libpve-apiclient-perl sudo -y
+</span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/librenms/librenms-agent/master/agent-local/proxmox -O /usr/local/bin/proxmox
+</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/proxmox
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/sudoers.d/snmp</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Debian-snmp     ALL<span style="color:#f92672">=(</span>ALL<span style="color:#f92672">)</span> NOPASSWD: /usr/local/bin/proxmox
+</span></span></code></pre></div><h4 id="被監控的-linux-主機">被監控的 Linux 主機</h4>
+<p>在被監控的 Linux 主機上設定 SNMPv3（Simple Network Management Protocol version 3）通常使用 <strong>Net-SNMP</strong>，並且需要進行加密和驗證設定，以確保安全性。</p>
+<hr>
+<h5 id="步驟-1安裝-snmp-相關套件"><strong>步驟 1：安裝 SNMP 相關套件</strong></h5>
+<h6 id="在-debianubuntu">在 Debian/Ubuntu：</h6>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install snmpd
+</span></span></code></pre></div><p><code>snmpd</code> vs <code>snmp</code></p>
+<ul>
+<li>snmpd: 提供本機 snmp 監控資訊</li>
+<li>snmp: 用戶工具端，可以用他來取得其他主機 snmp 監控資訊</li>
+</ul>
+<h6 id="在-rhelcentosrocky-linux">在 RHEL/CentOS/Rocky Linux：</h6>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install net-snmp net-snmp-utils
+</span></span></code></pre></div><hr>
+<h5 id="步驟-2建立-snmpv3-使用者"><strong>步驟 2：建立 SNMPv3 使用者</strong></h5>
+<p>SNMPv3 需要使用者驗證，因此需要手動建立使用者。</p>
+<ol>
+<li>
+<p>停止 SNMP 服務(新增帳戶前必要動作)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl stop snmpd
+</span></span></code></pre></div></li>
+<li>
+<p>使用 <code>net-snmp-create-v3-user</code> 工具來建立 SNMPv3 使用者：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo net-snmp-create-v3-user -ro -A <span style="color:#e6db74">&#34;auth_password&#34;</span> -X <span style="color:#e6db74">&#34;priv_password&#34;</span> -a SHA -x AES snmpuser
+</span></span></code></pre></div><ul>
+<li><code>-ro</code>：建立唯讀（Read-Only）使用者</li>
+<li><code>-A &quot;auth_password&quot;</code>：設定驗證密碼</li>
+<li><code>-X &quot;priv_password&quot;</code>：設定加密密碼</li>
+<li><code>-a SHA</code>：指定驗證方式為 SHA，值可以設定如下
+<ul>
+<li>SHA</li>
+<li>SHA-224</li>
+<li>SHA-256</li>
+<li>SHA-384</li>
+<li>SHA-512</li>
+<li>MD5</li>
+</ul>
+</li>
+<li><code>-x AES</code>：指定加密方式為 AES
+<ul>
+<li>AES</li>
+<li>AES-192</li>
+<li>AES-256</li>
+<li>AES-256-C</li>
+<li>DES</li>
+</ul>
+</li>
+<li><code>snmpuser</code>：SNMP 使用者名稱</li>
+</ul>
+</li>
+</ol>
+<p><strong>⚠️ 注意：</strong></p>
+<ul>
+<li><code>auth_password</code> 和 <code>priv_password</code> 需至少 8 個字元。</li>
+<li>可選擇 <code>-rw</code> 來建立具備讀寫權限的使用者。</li>
+</ul>
+<hr>
+<h5 id="步驟-3修改-snmp-配置"><strong>步驟 3：修改 SNMP 配置</strong></h5>
+<p>開啟 SNMP 配置檔案：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/snmp/snmpd.conf
+</span></span></code></pre></div><p>確保以下內容存在：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#75715e"># 僅監聽本機與特定網卡 (例如 eth0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 啟用 SNMPv3 使用者</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">createUser snmpuser SHA &#34;auth_password&#34; AES &#34;priv_password&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rouser snmpuser authPriv</span>
+</span></span></code></pre></div><p>如果要讓 SNMP 監聽在所有介面：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161,udp6:[::1]:161</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/etc/snmp/snmpd.conf.d/lab.conf
+</span></span><span style="display:flex;"><span>agentaddress  192.168.1.100
+</span></span><span style="display:flex;"><span>chown root:Debian-snmp /etc/snmp/snmpd.conf.d/pollohome.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.101&#34; port protocol=&#34;udp&#34; port=&#34;161&#34; accept&#39;</span> --permanent
+</span></span></code></pre></div><hr>
+<h5 id="步驟-4啟動並啟用-snmp-服務"><strong>步驟 4：啟動並啟用 SNMP 服務</strong></h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable snmpd
+</span></span><span style="display:flex;"><span>sudo systemctl restart snmpd
+</span></span></code></pre></div><hr>
+<h5 id="步驟-5測試-snmpv3-連線"><strong>步驟 5：測試 SNMPv3 連線</strong></h5>
+<p>在本機測試：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -v3 -u snmpuser -l authPriv -a SHA -A <span style="color:#e6db74">&#34;auth_password&#34;</span> -x AES -X <span style="color:#e6db74">&#34;priv_password&#34;</span> localhost sysDescr
+</span></span></code></pre></div><p>在遠端機器測試：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -OQne -v <span style="color:#ae81ff">3</span> -t <span style="color:#ae81ff">10</span> -l authPriv -u snmpuser -a SHA -A auth_password -x AES -X priv_password  192.168.1.100 -Os 1.3.6.1.2.1.2.2.1
+</span></span></code></pre></div><hr>
+<h5 id="步驟-6開放防火牆"><strong>步驟 6：開放防火牆</strong></h5>
+<p>如果系統有啟用防火牆，則開放 UDP 161 端口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --add-port<span style="color:#f92672">=</span>161/udp --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><hr>
+<p>這樣就成功配置了一台支援 <strong>SNMPv3</strong> 的 Linux 伺服器，可用於 LibreNMS、Zabbix、Nagios 等監控系統。</p>
+<h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://docs.librenms.org/Installation/Install-LibreNMS/#add-librenms-user">Install LibreNMS</a></li>
 <li><a href="https://docs.librenms.org/Support/Example-Hardware-Setup/#vvelox">Example Hardware Setups</a></li>
 <li><a href="https://community.librenms.org/t/librenms-web-console-user-group-membership-not-working-via-ldap-authentication/22750">LibreNMS Web Console user group membership not working via LDAP authentication</a></li>
+<li><a href="https://wiki.freedomstu.com/books/proxmox-ve-%E8%99%9B%E6%93%AC%E7%B3%BB%E7%B5%B1%E8%A8%98%E9%8C%84/page/proxmox-ve-%E5%AE%89%E8%A3%9D%E5%8F%8A%E8%A8%AD%E5%AE%9A-librenms-agent">Proxmox VE 安裝及設定 LibreNMS-Agent</a></li>
 </ul>
 </div>
                 <div>
