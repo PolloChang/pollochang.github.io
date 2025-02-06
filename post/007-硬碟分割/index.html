@@ -268,6 +268,11 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>Do you want to proceed? <span style="color:#f92672">(</span>Y/N<span style="color:#f92672">)</span>: Y
 </span></span><span style="display:flex;"><span>OK; writing new GUID partition table <span style="color:#f92672">(</span>GPT<span style="color:#f92672">)</span> to /dev/vdb.
 </span></span><span style="display:flex;"><span>The operation has completed successfully.
+</span></span></code></pre></div><p>重新讀取硬碟資訊</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Debian</span>
+</span></span><span style="display:flex;"><span>partx -u /dev/sda1
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Redhat</span>
+</span></span><span style="display:flex;"><span>partprobe
 </span></span></code></pre></div><h2 id="執行分割">執行分割</h2>
 <p>規劃完畢後，就是開始分割硬碟了。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>debian10@debian10:~$ sudo mkfs.ext4 /dev/vdb

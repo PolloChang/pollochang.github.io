@@ -137,6 +137,41 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/linux-gdisk-error/">
+            <h2 class="">Linux Gdisk Error</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-02-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				今天在實驗室中擴充一顆虛擬硬碟到 150 G，原先是 50G。但是不管是重新開機都無法識別。
+後來發現 GPT 分割表未更新，如下
+root@moniter:~# fdisk -l /dev/sda GPT PMBR size mismatch (104857599 != 314572799) ...
+             <a href="/worknot/linux-gdisk-error/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/linux-google-authenticator/">
             <h2 class="">linux 登入使用 google auth 二階段驗證</h2>
         </a>
@@ -478,48 +513,6 @@ firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 �
         	
 				# firewall-cmd --add-forward-port=port=port-number:proto=tcp|udp|sctp|dccp:toport=port-number sudo firewall-cmd --query-masquerade # 查詢有IP 偽裝 sudo ...
              <a href="/worknot/firewalld-forward-port/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/create-local-repository-for-yum/">
-            <h2 class="">Create Local Repository for Yum</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/yum/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">yum</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
-100GB 存放空間
-安裝工具 yum install yum-utils createrepo -y
-啟用 EPEL sudo yum install epel-release sudo ...
-             <a href="/worknot/create-local-repository-for-yum/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
