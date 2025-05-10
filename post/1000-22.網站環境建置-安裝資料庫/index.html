@@ -217,8 +217,8 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>sudo chown -R postgres:postgres /var/log/postgresql/
 </span></span><span style="display:flex;"><span>sudo chown -R postgres: /data/backup/
 </span></span><span style="display:flex;"><span>systemctl stop postgresql
-</span></span><span style="display:flex;"><span>sudo su postgres
-</span></span><span style="display:flex;"><span>/usr/lib/postgresql/15/bin/initdb -E utf8 -D /db/postgresql/instqnce-1
+</span></span><span style="display:flex;"><span>sudo su - postgres
+</span></span><span style="display:flex;"><span>/usr/lib/postgresql/15/bin/initdb -E utf8 -D /db/postgresql/instance-1
 </span></span><span style="display:flex;"><span>systemctl restart postgresql
 </span></span></code></pre></div><ul>
 <li>redhat 路徑</li>
@@ -228,7 +228,7 @@ layui.use('element', function(){
 <ul>
 <li>/etc/postgresql/15/main/postgresql.conf</li>
 </ul>
-<pre tabindex="0"><code class="language-conf" data-lang="conf">data_directory = &#39;/db/postgresql/instqnce-1&#39;
+<pre tabindex="0"><code class="language-conf" data-lang="conf">data_directory = &#39;/db/postgresql/instance-1&#39;
 </code></pre><ul>
 <li>/etc/postgresql/15/main/pg_hba.conf</li>
 </ul>

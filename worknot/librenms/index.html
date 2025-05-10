@@ -213,6 +213,7 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install apt-transport-https curl gnupg gnupg2
 </span></span><span style="display:flex;"><span>sudo mkdir -p /etc/apt/keyrings
 </span></span><span style="display:flex;"><span>sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp <span style="color:#e6db74">&#39;https://mariadb.org/mariadb_release_signing_key.pgp&#39;</span>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0644</span> /etc/apt/keyrings/mariadb-keyring.pgp
 </span></span></code></pre></div><ul>
 <li>設定文件: /etc/apt/sources.list.d/mariadb.sources</li>
 </ul>
@@ -509,8 +510,8 @@ group = librenms
 </span></span></code></pre></div><p>如果要讓 SNMP 監聽在所有介面：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161,udp6:[::1]:161</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/etc/snmp/snmpd.conf.d/lab.conf
-</span></span><span style="display:flex;"><span>agentaddress  192.168.1.100
-</span></span><span style="display:flex;"><span>chown root:Debian-snmp /etc/snmp/snmpd.conf.d/pollohome.conf
+</span></span><span style="display:flex;"><span>agentaddress  172.30.1.200
+</span></span><span style="display:flex;"><span>chown root:Debian-snmp /etc/snmp/snmpd.conf.d/lab.conf
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.101&#34; port protocol=&#34;udp&#34; port=&#34;161&#34; accept&#39;</span> --permanent
 </span></span></code></pre></div><hr>
 <h5 id="步驟-4啟動並啟用-snmp-服務"><strong>步驟 4：啟動並啟用 SNMP 服務</strong></h5>
@@ -518,9 +519,7 @@ group = librenms
 </span></span><span style="display:flex;"><span>sudo systemctl restart snmpd
 </span></span></code></pre></div><hr>
 <h5 id="步驟-5測試-snmpv3-連線"><strong>步驟 5：測試 SNMPv3 連線</strong></h5>
-<p>在本機測試：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -v3 -u snmpuser -l authPriv -a SHA -A <span style="color:#e6db74">&#34;auth_password&#34;</span> -x AES -X <span style="color:#e6db74">&#34;priv_password&#34;</span> localhost sysDescr
-</span></span></code></pre></div><p>在遠端機器測試：</p>
+<p>測試：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -OQne -v <span style="color:#ae81ff">3</span> -t <span style="color:#ae81ff">10</span> -l authPriv -u snmpuser -a SHA -A auth_password -x AES -X priv_password  192.168.1.100 -Os 1.3.6.1.2.1.2.2.1
 </span></span></code></pre></div><hr>
 <h5 id="步驟-6開放防火牆"><strong>步驟 6：開放防火牆</strong></h5>
@@ -529,7 +528,19 @@ group = librenms
 </span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
 </span></span></code></pre></div><hr>
 <p>這樣就成功配置了一台支援 <strong>SNMPv3</strong> 的 Linux 伺服器，可用於 LibreNMS、Zabbix、Nagios 等監控系統。</p>
-<h2 id="參考資料">參考資料</h2>
+<h2 id="plugin">Plugin</h2>
+<h3 id="weathermap">Weathermap</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install php-pear -y
+</span></span><span style="display:flex;"><span>su - librenms
+</span></span><span style="display:flex;"><span>cd /opt/librenms/html/plugins
+</span></span><span style="display:flex;"><span>git clone https://github.com/librenms-plugins/Weathermap.git
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">775</span> /opt/librenms/html/plugins/Weathermap/configs
+</span></span></code></pre></div><ul>
+<li>設定排程文件: /etc/cron.d/librenms</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*/5 * * * * librenms /opt/librenms/html/plugins/Weathermap/map-poller.php &gt;&gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart cron php8.2-fpm nginx
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <ul>
 <li><a href="https://docs.librenms.org/Installation/Install-LibreNMS/#add-librenms-user">Install LibreNMS</a></li>
 <li><a href="https://docs.librenms.org/Support/Example-Hardware-Setup/#vvelox">Example Hardware Setups</a></li>
