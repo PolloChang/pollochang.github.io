@@ -1,0 +1,834 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 修補漏洞 </title>
+    
+    
+    <meta content="漏洞" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 漏洞類別 - header 以下漏洞通常可以透過設定 http header 完成漏洞修補
+設定：Content Security Policy (CSP) 學長姐跟你說，在網站的資安設定裡，CSP 絕對是個狠角色，也是保護使用者非常重要的一道防線。雖然設定起來有點複雜，但學會了超有成就感！
+為什麼需要 CSP？ (它解決什麼問題？) 想像一下，你的網頁就像一個舞台，上面會跑各種腳本 (JavaScript)、載入各種樣式 (CSS)、圖片等等。如果壞人（駭客）想辦法在這個舞台上偷偷塞進惡意的腳本，就可能偷走使用者的資料、綁架使用者的瀏覽器等等。
+CSP 的主要目的，就是要限制你的網頁只能從「你允許」的地方載入或執行資源，就像是請了一個嚴格的保鑣，不是經過你同意的，一律擋掉！這樣就算網頁不小心有漏洞，駭客也很難成功注入惡意程式碼。
+CSP 是什麼？ (基本觀念) CSP 其實就是一個列表，你告訴瀏覽器：
+「這個網頁的 JavaScript 只能從 A 網站和 B 網站載入和執行。」 (script-src) 「CSS 樣式表只能從 C 網站和我的網站本身載入。」 (style-src) 「圖片只能從我的網站、某個圖床網站、和 Google Analytics 載入。」 (img-src) &hellip; 以及各種不同類型的資源 (字體、框架、連線位址等等)。 它遵從一個「預設拒絕 (Default Deny)」的原則：只要你沒有明確允許的來源，瀏覽器一律封鎖。
+這也是它困難的地方，因為你必須把網站「所有會用到」的外部資源來源都加到這個允許清單裡，不然一不小心就會把你網站正常的腳本、樣式、圖片給擋掉，導致網頁顯示或功能異常。
+如何設計 CSP 政策？ (觀念與步驟) 設計 CSP 是一個「疊代」的過程，也就是要慢慢測試、調整，而不是一次到位。
+了解你的網站用了哪些資源： 你的網站載入了哪些外部的 JavaScript (例如 GA 追蹤碼、jQuery CDN、廣告腳本)？用了哪些外部字體？載入了哪些外部圖片？這些都要先盤點。 從「報告模式 (Report-Only)」開始： 非常重要！ 千萬不要一開始就設定強制執行 (Content-Security-Policy)。請先使用 Content-Security-Policy-Report-Only 這個 Header。 設定 report-uri 或 report-to 指令，告訴瀏覽器如果發現有資源被 CSP 擋到（即使在 Report-Only 模式下只是「模擬」阻擋），要把違規的報告送到哪裡。 為什麼要這樣做？ 在 Report-Only 模式下，瀏覽器只會記錄並發送違規報告，但不會真的阻止任何資源載入或執行。這樣你可以在不影響使用者正常瀏覽網站的情況下，收集哪些合法的資源會被你設計的 CSP 擋到。 分析報告並調整政策： 收集一段時間的違規報告後，分析報告內容，看看是哪些你網站正常需要的資源被擋到了。根據這些報告，逐步修改你的 CSP 政策，把這些遺漏的合法來源加到你的允許清單裡。 重複步驟 2 &amp; 3： 持續在 Report-Only 模式下收集報告、分析、調整政策，直到報告中不再出現你網站正常功能所需的資源被擋的狀況。 切換到強制執行模式： 當你對 CSP 政策非常有信心，確定它不會誤擋正常資源後，就可以把 Content-Security-Policy-Report-Only Header 換成 Content-Security-Policy Header，正式啟用 CSP 的保護功能了！ 設計與檢測的好幫手 (工具) 在上面這個過程中，工具有非常重要的角色：" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>修補漏洞</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-02-10</span>
+
+    
+    
+
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/%e6%bc%8f%e6%b4%9e/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">漏洞</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="漏洞類別---header">漏洞類別 - header</h2>
+<p>以下漏洞通常可以透過設定 http header 完成漏洞修補</p>
+<h3 id="設定content-security-policy-csp">設定：Content Security Policy (CSP)</h3>
+<p>學長姐跟你說，在網站的資安設定裡，CSP 絕對是個狠角色，也是保護使用者非常重要的一道防線。雖然設定起來有點複雜，但學會了超有成就感！</p>
+<h4 id="為什麼需要-csp-它解決什麼問題">為什麼需要 CSP？ (它解決什麼問題？)</h4>
+<p>想像一下，你的網頁就像一個舞台，上面會跑各種腳本 (JavaScript)、載入各種樣式 (CSS)、圖片等等。如果壞人（駭客）想辦法在這個舞台上偷偷塞進惡意的腳本，就可能偷走使用者的資料、綁架使用者的瀏覽器等等。</p>
+<p>CSP 的主要目的，就是要<strong>限制</strong>你的網頁只能從「你允許」的地方載入或執行資源，就像是請了一個<strong>嚴格的保鑣</strong>，不是經過你同意的，一律擋掉！這樣就算網頁不小心有漏洞，駭客也很難成功注入惡意程式碼。</p>
+<h4 id="csp-是什麼-基本觀念">CSP 是什麼？ (基本觀念)</h4>
+<p>CSP 其實就是一個列表，你告訴瀏覽器：</p>
+<ul>
+<li>「這個網頁的 JavaScript 只能從 A 網站和 B 網站載入和執行。」 (<code>script-src</code>)</li>
+<li>「CSS 樣式表只能從 C 網站和我的網站本身載入。」 (<code>style-src</code>)</li>
+<li>「圖片只能從我的網站、某個圖床網站、和 Google Analytics 載入。」 (<code>img-src</code>)</li>
+<li>&hellip; 以及各種不同類型的資源 (字體、框架、連線位址等等)。</li>
+</ul>
+<p>它遵從一個「<strong>預設拒絕 (Default Deny)</strong>」的原則：<strong>只要你沒有明確允許的來源，瀏覽器一律封鎖</strong>。</p>
+<p>這也是它困難的地方，因為你必須把網站「所有會用到」的外部資源來源都加到這個允許清單裡，不然一不小心就會把你網站正常的腳本、樣式、圖片給擋掉，導致網頁顯示或功能異常。</p>
+<h4 id="如何設計-csp-政策-觀念與步驟">如何設計 CSP 政策？ (觀念與步驟)</h4>
+<p>設計 CSP 是一個「疊代」的過程，也就是要慢慢測試、調整，而不是一次到位。</p>
+<ol>
+<li><strong>了解你的網站用了哪些資源：</strong> 你的網站載入了哪些外部的 JavaScript (例如 GA 追蹤碼、jQuery CDN、廣告腳本)？用了哪些外部字體？載入了哪些外部圖片？這些都要先盤點。</li>
+<li><strong>從「報告模式 (Report-Only)」開始：</strong> <strong>非常重要！</strong> 千萬不要一開始就設定強制執行 (<code>Content-Security-Policy</code>)。請先使用 <code>Content-Security-Policy-Report-Only</code> 這個 Header。
+<ul>
+<li>設定 <code>report-uri</code> 或 <code>report-to</code> 指令，告訴瀏覽器如果發現有資源被 CSP 擋到（即使在 Report-Only 模式下只是「模擬」阻擋），要把違規的報告送到哪裡。</li>
+<li><strong>為什麼要這樣做？</strong> 在 Report-Only 模式下，瀏覽器只會記錄並發送違規報告，但<strong>不會真的阻止</strong>任何資源載入或執行。這樣你可以在不影響使用者正常瀏覽網站的情況下，收集哪些合法的資源會被你設計的 CSP 擋到。</li>
+</ul>
+</li>
+<li><strong>分析報告並調整政策：</strong> 收集一段時間的違規報告後，分析報告內容，看看是哪些你網站正常需要的資源被擋到了。根據這些報告，逐步修改你的 CSP 政策，把這些遺漏的合法來源加到你的允許清單裡。</li>
+<li><strong>重複步驟 2 &amp; 3：</strong> 持續在 Report-Only 模式下收集報告、分析、調整政策，直到報告中不再出現你網站正常功能所需的資源被擋的狀況。</li>
+<li><strong>切換到強制執行模式：</strong> 當你對 CSP 政策非常有信心，確定它不會誤擋正常資源後，就可以把 <code>Content-Security-Policy-Report-Only</code> Header 換成 <code>Content-Security-Policy</code> Header，正式啟用 CSP 的保護功能了！</li>
+</ol>
+<h4 id="設計與檢測的好幫手-工具">設計與檢測的好幫手 (工具)</h4>
+<p>在上面這個過程中，工具有非常重要的角色：</p>
+<ul>
+<li>
+<p><strong>檢測設計工具：CSP Evaluator (<a href="https://csp-evaluator.withgoogle.com/">https://csp-evaluator.withgoogle.com/</a>)</strong></p>
+<ul>
+<li><strong>功用：</strong> 這工具就像你的「政策草稿檢測器」。在你還沒實際部署到網站上之前，你可以把你腦中或寫好的 CSP 政策字串丟進去。</li>
+<li><strong>它會幫你：</strong> 檢查你的 CSP 語法有沒有寫錯？你設定的哪些規則是比較弱的、可能有風險？（它會給一些安全建議）。</li>
+<li><strong>使用時機：</strong> 在你<strong>設計或修改政策草稿時</strong>，先用它來檢查語法和初步的安全性，減少部署後才發現語法錯誤或根本沒達到保護效果的機會。</li>
+</ul>
+</li>
+<li>
+<p><strong>實際網站 CSP 檢測工具：Chrome Extension CSP Evaluator (<a href="https://chromewebstore.google.com/detail/csp-evaluator/fjohamlofnakbnbfjkohkbdigoodcejf?hl=en-US">https://chromewebstore.google.com/detail/csp-evaluator/fjohamlofnakbnbfjkohkbdigoodcejf?hl=en-US</a>)</strong></p>
+<ul>
+<li><strong>功用：</strong> 這是一個瀏覽器擴充功能，當你瀏覽一個網頁時，它會自動偵測這個網站的 HTTP Header 中有沒有設定 CSP。</li>
+<li><strong>它會幫你：</strong> 直接抓取當前網站「正在使用」的 CSP 政策，並進行分析，告訴你這個網站的 CSP 設定長什麼樣子、有哪些規則、安全強度如何等等。</li>
+<li><strong>使用時機：</strong> 當你想<strong>查看別的網站</strong>用了什麼 CSP 政策參考一下，或是當你已經把 CSP 部署到你的<strong>測試或正式環境</strong>後，用它來<strong>確認</strong>你的 CSP Header 有沒有正確送出、政策內容是不是對的。同時，配合瀏覽器的<strong>開發者工具 (Developer Console)</strong> 來看 CSP 的 Violation 錯誤訊息，也是排查問題時非常重要的步驟！開發者工具會明確告訴你「哪個資源因為違反了哪條 CSP 規則而被擋下來」。</li>
+</ul>
+</li>
+</ul>
+<h4 id="大挑戰">大挑戰</h4>
+<p>CSP 強大歸強大，但設定起來確實是個挑戰，特別是對於老舊或引用資源複雜的網站：</p>
+<ul>
+<li><strong>容易誤擋：</strong> 如果你的允許清單沒列完整，正常的網站功能可能就會壞掉。</li>
+<li><strong>需要熟悉網站結構：</strong> 你必須很清楚你的網站到底從哪裡載入了什麼東西。</li>
+<li><strong>維護成本：</strong> 網站改版、加入新的第三方服務時，常常需要回頭更新 CSP 政策。</li>
+</ul>
+<p><strong>總結：</strong></p>
+<p>設計 CSP 的核心觀念是「<strong>預設拒絕，只允許信任的來源</strong>」。設定時請務必從「<strong>Report-Only 模式</strong>」開始，收集報告、逐步調整政策，最後再切換成強制執行。搭配 <strong>CSP Evaluator (線上的)</strong> 來檢查政策草稿的語法和基本安全，以及 <strong>Chrome Extension CSP Evaluator (瀏覽器內的)</strong> 和<strong>開發者工具</strong>來檢查實際部署的狀況和排查問題，這樣就能一步一步搞定這個「大魔王」囉！</p>
+<p>剛開始學 CSP 會覺得規則很多很亂是正常的，不用太緊張，多查資料、多練習設定和看違規報告，慢慢就會越來越熟悉了！</p>
+<h4 id="弱點名稱-應用程式中找到不必要的-http-回應標頭">弱點名稱: 應用程式中找到不必要的 HTTP 回應標頭</h4>
+<h4 id="處理前自我檢測">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/example/assets/front-c4f19b086c52c5bccc6b14a04de0f367.js | grep -i server
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ curl -IsL https://example.com/example/assets/front-c4f19b086c52c5bccc6b14a04de0f367.js | grep -i server
+</span></span><span style="display:flex;"><span>Server: Apache-Coyote/1.1
+</span></span></code></pre></div><h4 id="處理方式">處理方式</h4>
+<ul>
+<li>設定 覆載平衡 移除 http headers 裡的 server info</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsLk https://127.0.0.1/example/ | grep -i -E <span style="color:#e6db74">&#34;Cache-Control|Pragma&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http-response set-header Cache-Control no-store
+</span></span><span style="display:flex;"><span>http-response set-header Pragma no-cache
+</span></span></code></pre></div><h4 id="弱點名稱-已啟用不安全的-options-http-方法">弱點名稱: 已啟用不安全的 &ldquo;OPTIONS&rdquo; HTTP 方法</h4>
+<ul>
+<li>修補方式: 設定負載平衡</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>$request_method ~* OPTIONS<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> 403;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><ul>
+<li>檢測方式</li>
+</ul>
+<p>http stats code 不應該為 200</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsLk -w <span style="color:#e6db74">&#34;%{http_code}\n&#34;</span> -X OPTIONS -o /dev/null https://&lt;domain-name&gt;/
+</span></span></code></pre></div><p>修補方式可參考: <a href="https://www.cnblogs.com/miracle-luna/p/14274395.html">https://www.cnblogs.com/miracle-luna/p/14274395.html</a></p>
+<h4 id="弱點名稱-主機標頭注入">弱點名稱: 主機標頭注入</h4>
+<ul>
+<li>修補方式: 設定負載平衡</li>
+<li>檢測方式</li>
+</ul>
+<p>http stats code 不應該為 200</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsLk -w <span style="color:#e6db74">&#34;%{http_code}\n&#34;</span> -o /dev/null https://example.com/ --header <span style="color:#e6db74">&#39;Host: wwww.google.com&#39;</span>
+</span></span></code></pre></div><h4 id="弱點名稱-遺漏content-security-policy標頭">弱點名稱: 遺漏「Content-Security-Policy」標頭</h4>
+<ul>
+<li>
+<p>修補方式: 設定負載平衡</p>
+</li>
+<li>
+<p>檢測方式</p>
+</li>
+</ul>
+<p>結果應該為 1 以上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsLk https://example.com/ | grep -i Content-Security-Policy | wc -l
+</span></span></code></pre></div><h4 id="弱點名稱content-security-policy中遺漏或包含不安全的style-src或default-src原則">弱點名稱:「Content-Security-Policy」中遺漏或包含不安全的「Style-src」或「Default-src」原則</h4>
+<h4 id="處理前自我檢測-1">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;Content-Security-Policy&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;Content-Security-Policy&#34;</span>
+</span></span><span style="display:flex;"><span>Content-Security-Policy: script-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;strict-dynamic&#39;</span> <span style="color:#e6db74">&#39;nonce-15d6c15b0f00a08&#39;</span> https://example.com https://example.com https://www.google-analytics.com ;object-src <span style="color:#e6db74">&#39;none&#39;</span>;base-uri <span style="color:#e6db74">&#39;none&#39;</span>;
+</span></span></code></pre></div><h4 id="處理方式-1">處理方式</h4>
+<ul>
+<li>Content-Security-Policy 新增 style-src, default-src</li>
+</ul>
+<h4 id="修補說明">修補說明</h4>
+<ul>
+<li>設定 conf.d/* Content-Security-Policy 值 新增 style-src, default-src</li>
+</ul>
+<pre tabindex="0"><code>[root@example nginx]# grep Content-Security-Policy conf.d/*
+conf.d/ssl.conf:                add_header Content-Security-Policy &#34;script-src &#39;unsafe-inline&#39; &#39;strict-dynamic&#39; &#39;nonce-15d6c15b0f00a08&#39; https://example.com https://example.com https://www.google-analytics.com ;object-src &#39;none&#39;;base-uri &#39;none&#39;; frame-ancestors &#39;none&#39;; default-src &#39;unsafe-inline&#39; &#39;self&#39; https://example.com https://example.com https://www.google-analytics.com; style-src &#39;unsafe-inline&#39; &#39;self&#39;; &#34;;
+;
+</code></pre><ul>
+<li>修補後自行檢測結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># curl -IsL https://example.com/ | grep -i -E &#34;Content-Security-Policy&#34;</span>
+</span></span><span style="display:flex;"><span>Content-Security-Policy: script-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;strict-dynamic&#39;</span> <span style="color:#e6db74">&#39;nonce-15d6c15b0f00a08&#39;</span> https://example.com https://example.com https://www.google-analytics.com ;object-src <span style="color:#e6db74">&#39;none&#39;</span>;base-uri <span style="color:#e6db74">&#39;none&#39;</span>; frame-ancestors <span style="color:#e6db74">&#39;none&#39;</span>; default-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;self&#39;</span> https://example.com https://example.com https://www.google-analytics.com; style-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;self&#39;</span>; 
+</span></span></code></pre></div><h4 id="弱點名稱-content-security-policy標頭中遺漏或包含不安全的frame-ancestors原則">弱點名稱: 「Content-Security-Policy」標頭中遺漏或包含不安全的「Frame-Ancestors」原則</h4>
+<h4 id="處理前自我檢測-2">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;Content-Security-Policy&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;Content-Security-Policy&#34;</span>
+</span></span><span style="display:flex;"><span>Content-Security-Policy: script-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;strict-dynamic&#39;</span> <span style="color:#e6db74">&#39;nonce-15d6c15b0f00a08&#39;</span> https://example.com https://example.com https://www.google-analytics.com ;object-src <span style="color:#e6db74">&#39;none&#39;</span>;base-uri <span style="color:#e6db74">&#39;none&#39;</span>;
+</span></span></code></pre></div><h4 id="處理方式-2">處理方式</h4>
+<ul>
+<li>Content-Security-Policy 新增 frame-ancestors</li>
+</ul>
+<h4 id="修補說明-1">修補說明</h4>
+<ul>
+<li>設定 conf.d/* Content-Security-Policy 值 新增 frame-ancestors</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># grep Content-Security-Policy conf.d/*</span>
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:                add_header Content-Security-Policy <span style="color:#e6db74">&#34;script-src &#39;unsafe-inline&#39; &#39;strict-dynamic&#39; &#39;nonce-15d6c15b0f00a08&#39; https://example.com https://example.com https://www.google-analytics.com ;object-src &#39;none&#39;;base-uri &#39;none&#39;; frame-ancestors &#39;none&#39;;&#34;</span>;
+</span></span></code></pre></div><ul>
+<li>修補後自行檢測結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># curl -IsL https://example.com/ | grep -i -E &#34;Content-Security-Policy&#34;</span>
+</span></span><span style="display:flex;"><span>Content-Security-Policy: script-src <span style="color:#e6db74">&#39;unsafe-inline&#39;</span> <span style="color:#e6db74">&#39;strict-dynamic&#39;</span> <span style="color:#e6db74">&#39;nonce-15d6c15b0f00a08&#39;</span> https://example.com https://example.com https://www.google-analytics.com ;object-src <span style="color:#e6db74">&#39;none&#39;</span>;base-uri <span style="color:#e6db74">&#39;none&#39;</span>; frame-ancestors <span style="color:#e6db74">&#39;none&#39;</span>;
+</span></span></code></pre></div><h4 id="弱點名稱-遺漏或不安全的-http-strict-transport-security-標頭">弱點名稱: 遺漏或不安全的 HTTP Strict-Transport-Security 標頭</h4>
+<h4 id="處理前自我檢測-3">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/example/ | grep -i -E <span style="color:#e6db74">&#34;Strict-Transport-Security&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~/Downloads$ curl -IsL https://example.com/example/ | grep -i -E <span style="color:#e6db74">&#34;Strict-Transport-Security&#34;</span>
+</span></span></code></pre></div><h4 id="處理方式-3">處理方式</h4>
+<ul>
+<li>http header 設定 Strict-Transport-Security 值為 max-age=63072000 。</li>
+</ul>
+<h4 id="修補說明-2">修補說明</h4>
+<p>設定 Strict-Transport-Security</p>
+<p>conf.d/* 設定 <code>add_header Strict-Transport-Security &quot;max-age=63072000; includeSubdomains; preload&quot;;</code> ，結果如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e">#  grep Strict-Transport-Security conf.d/*</span>
+</span></span><span style="display:flex;"><span>conf.d/default.conf:    add_header Strict-Transport-Security <span style="color:#e6db74">&#34;max-age=63072000; includeSubdomains; preload&#34;</span>;
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:        add_header Strict-Transport-Security <span style="color:#e6db74">&#34;max-age=63072000; includeSubdomains; preload&#34;</span>;
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:                add_header Strict-Transport-Security <span style="color:#e6db74">&#34;max-age=63072000; includeSubdomains; preload&#34;</span>;
+</span></span></code></pre></div><h4 id="設定完成後檢視">設定完成後檢視</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conf.d/ssl.conf:                add_header Strict-Transport-Security <span style="color:#e6db74">&#34;max-age=63072000; includeSubdomains; preload&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># curl -IsLk https://127.0.0.1/example/ | grep -i -E &#34;Strict-Transport-Security&#34;</span>
+</span></span><span style="display:flex;"><span>Strict-Transport-Security: max-age<span style="color:#f92672">=</span>63072000; includeSubdomains; preload
+</span></span></code></pre></div><h4 id="弱點名稱-遺漏或不安全的-x-content-type-options-標頭">弱點名稱: 遺漏或不安全的 &ldquo;X-Content-Type-Options&rdquo; 標頭</h4>
+<h4 id="處理前自我檢測-4">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;X-Content-Type-Options&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;X-Content-Type-Options&#34;</span>
+</span></span><span style="display:flex;"><span>X-Content-Type-Options: nosniff
+</span></span></code></pre></div><h4 id="處理方式-4">處理方式</h4>
+<p><a href="https://example.com/">https://example.com/</a>  http header 有設定 X-Content-Type-Options 值為 nosniff 。</p>
+<h4 id="弱點名稱-找到可快取的-ssl-頁面">弱點名稱: 找到可快取的 SSL 頁面</h4>
+<ul>
+<li>修補方式: 設定負載平衡</li>
+<li>檢測方式</li>
+</ul>
+<p>SSL 頁面標頭中使用 &ldquo;Cache-Control: no-store&rdquo; 及 &ldquo;Pragma: no-cache&rdquo;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>https://example.com/example/auth/login,https://example.com/example/js/sweetalert2/sweetalert2.min.js,https://example.com/example/js/sweetalert2/promise.min.js,https://example.com/example/assets/WebSpeech-ef1e4f573656f6f33bd00370453ffd6c.js,https://example.com/example/simpleCaptcha/getSolution2<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> - &#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -IsL <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> | grep -i -E <span style="color:#e6db74">&#34;Cache-Control|Pragma&#34;</span>; <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h4 id="處理前自我檢測-5">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>https://example.com/example/assets/application-a53c36b9cbeef95a995660603cf2ef83.js,https://example.com/example/example/newsPaperFilter,https://example.com/example/example/familyFilter,https://example.com/example/example/activityFilter<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> - &#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -IsL <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> | grep -i -E <span style="color:#e6db74">&#34;Cache-Control|Pragma&#34;</span>; <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ <span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>https://example.com/example/assets/application-a53c36b9cbeef95a995660603cf2ef83.js,https://example.com/example/example/newsPaperFilter,https://example.com/example/example/familyFilter,https://example.com/example/example/activityFilter<span style="color:#f92672">}</span>; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> - &#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -IsL <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> | grep -i -E <span style="color:#e6db74">&#34;Cache-Control&#34;</span>; <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>https://example.com/example/assets/application-a53c36b9cbeef95a995660603cf2ef83.js - Cache-Control: public, max-age<span style="color:#f92672">=</span><span style="color:#ae81ff">31536000</span>
+</span></span><span style="display:flex;"><span>https://example.com/example/example/newsPaperFilter - 
+</span></span><span style="display:flex;"><span>https://example.com/example/example/familyFilter - 
+</span></span><span style="display:flex;"><span>https://example.com/example/example/activityFilter - 
+</span></span></code></pre></div><h4 id="處理方式-5">處理方式</h4>
+<ul>
+<li>http header 設定 &ldquo;Cache-Control:no-store&rdquo; 及 &ldquo;Pragma:no-cache&rdquo;</li>
+</ul>
+<h4 id="修補說明-3">修補說明</h4>
+<ul>
+<li>設定 conf.d/* &ldquo;Cache-Control:no-store&rdquo; 及 &ldquo;Pragma:no-cache&rdquo;</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># grep -E &#34;Cache-Control|Pragma&#34; conf.d/*</span>
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:        add_header Cache-Control no-store;
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:        add_header Pragma no-cache;
+</span></span></code></pre></div><h4 id="弱點名稱-查詢中接受了-body-參數">弱點名稱: 查詢中接受了 Body 參數</h4>
+<p>GET 與 POST 回傳資料應 一樣</p>
+<ul>
+<li>修補方式: 修改程式</li>
+<li>檢測方式</li>
+</ul>
+<p>GET 與 POST 回傳資料應 要不一樣</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -X GET https://example.com/example/simpleCaptcha/playVoice?date<span style="color:#f92672">=</span><span style="color:#ae81ff">1717646496161</span> | wc -l
+</span></span><span style="display:flex;"><span>curl -s -X POST -F <span style="color:#e6db74">&#39;date=1717646496161&#39;</span> https://example.com/example/simpleCaptcha/playVoice | wc -l
+</span></span></code></pre></div><h4 id="弱點名稱-應用程式中找到不必要的-http-回應標頭-1">弱點名稱: 應用程式中找到不必要的 HTTP 回應標頭</h4>
+<h4 id="處理前自我檢測-6">處理前自我檢測</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/ | grep -i server
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~$ curl -IsL https://example.com/ | grep -i server
+</span></span><span style="display:flex;"><span>Server: nginx/1.21.4
+</span></span><span style="display:flex;"><span>Server: nginx/1.21.4
+</span></span></code></pre></div><h4 id="處理方式-6">處理方式</h4>
+<ul>
+<li>nginx 設定 server_tokens off;</li>
+</ul>
+<h4 id="修補說明-4">修補說明</h4>
+<ul>
+<li>設定 nginx 禁止 niginx 顯示版本號</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># grep server_tokens conf.d/*</span>
+</span></span><span style="display:flex;"><span>conf.d/default.conf:    server_tokens off;
+</span></span><span style="display:flex;"><span>conf.d/ssl.conf:        server_tokens off;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># </span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example nginx<span style="color:#f92672">]</span><span style="color:#75715e"># curl -IsL https://example.com/example/amcharts/amcharts.js | grep nginx</span>
+</span></span><span style="display:flex;"><span>Server: nginx
+</span></span></code></pre></div><h4 id="相關資訊">相關資訊</h4>
+<ul>
+<li><a href="https://blog.owo9.com/p/hide-nginx-header-server-information/">headers-more-nginx-module</a></li>
+</ul>
+<h2 id="漏洞類別---cookie">漏洞類別 - Cookie</h2>
+<p>以下漏洞通常可以透過設定 Cookie 屬性 完成漏洞修補</p>
+<h4 id="弱點名稱-在階段作業-cookie-中遺漏-httponly-屬性">弱點名稱: 在階段作業 Cookie 中遺漏 HttpOnly 屬性</h4>
+<ul>
+<li>修補方式:
+<ul>
+<li>設定負載平衡</li>
+<li>修改程式，Cookie name 移除關鍵字: session</li>
+</ul>
+</li>
+<li>檢測方式</li>
+</ul>
+<p>結果應該為 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsLk https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;session&#34;</span> | grep -v -e <span style="color:#e6db74">&#34;HttpOnly&#34;</span> | wc -l
+</span></span></code></pre></div><h4 id="弱點名稱-samesite-屬性不安全不適當或遺漏的-cookie">弱點名稱: SameSite 屬性不安全、不適當或遺漏的 Cookie</h4>
+<ul>
+<li>
+<p>修補方式: 設定負載平衡</p>
+</li>
+<li>
+<p>檢測方式</p>
+</li>
+</ul>
+<p>最終結果是要空白</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://example.com/ | grep -i -E <span style="color:#e6db74">&#34;JSESSIONID|route|u_labor|sessionExpiry_labor|kick_labor|clientTimeOffset_labor&#34;</span> | grep -v -e <span style="color:#e6db74">&#34;SameSite=Lax&#34;</span> | wc -l
+</span></span></code></pre></div><h2 id="漏洞類別---加密演算法">漏洞類別 - 加密演算法</h2>
+<h4 id="弱點名稱-加密的階段作業-ssl-cookie-中遺漏安全屬性">弱點名稱: 加密的階段作業 (SSL) Cookie 中遺漏安全屬性</h4>
+<ul>
+<li>
+<p>修補方式: 設定負載平衡</p>
+</li>
+<li>
+<p>/etc/nginx/conf.d/*</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set_cookie_flag * secure;
+</span></span></code></pre></div><ul>
+<li>檢測方式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -IsL https://&lt;domain-name&gt;/ | grep -i -E <span style="color:#e6db74">&#34;&lt;cookie name&gt;&#34;</span> | grep -v -e <span style="color:#e6db74">&#34;secure&#34;</span>
+</span></span></code></pre></div><h3 id="常見的漏洞-ssl-加密演算法">常見的漏洞-SSL 加密演算法</h3>
+<p>以下漏洞通常可以透過設定 系統傳輸加密 完成漏洞修補</p>
+<h4 id="設定中的大魔王-ssl-加密演算法">設定中的大魔王: SSL 加密演算法</h4>
+<p>去年最<code>安全</code>的演算加密方式，今年最<code>危險</code>的演算加密方式。這個弱點每年都會遇到</p>
+<ul>
+<li><a href="https://ciphersuite.info/cs/?singlepage=true">檢查 SSL 當前網站加密方是安全難以破解的網站 Ciphersuite Info</a></li>
+<li><a href="https://cipherlist.eu/">通用安全的配置 - Cipherlist.eu Strong Ciphers for Apache, nginx and Lighttpd</a></li>
+<li><a href="https://ssl-config.mozilla.org/">依據系統架構配置最合適的SSL - moz://a SSL Configuration Generator</a></li>
+<li><a href="https://testssl.sh/openssl-iana.mapping.html">沒辦法中的辦法: 研究 SSL 加密演算法</a></li>
+</ul>
+<h4 id="弱點名稱-低強度密碼組合---robot-攻擊伺服器支援有漏洞的密碼組合">弱點名稱: 低強度密碼組合 - ROBOT 攻擊：伺服器支援有漏洞的密碼組合</h4>
+<ul>
+<li>
+<p>修補方式: 設定負載平衡</p>
+</li>
+<li>
+<p>設定文件: /etc/nginx/nginx.conf</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssl_ciphers EECDH+AESGCM:EDH+AESGCM;
+</span></span></code></pre></div><ul>
+<li>check</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -script ssl-cert,ssl-enum-ciphers -p <span style="color:#ae81ff">443</span> 203.65.98.200
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ cat check-list.txt | <span style="color:#66d9ef">while</span> read line; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>line<span style="color:#e6db74">}</span><span style="color:#e6db74">:&#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -s <span style="color:#e6db74">&#34;https://ciphersuite.info/api/cs/</span><span style="color:#e6db74">${</span>line<span style="color:#e6db74">}</span><span style="color:#e6db74">/&#34;</span> | jq <span style="color:#e6db74">&#34;.</span><span style="color:#e6db74">${</span>line<span style="color:#e6db74">}</span><span style="color:#e6db74">.security&#34;</span> ; <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:<span style="color:#e6db74">&#34;secure&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:<span style="color:#e6db74">&#34;secure&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_128_GCM_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_128_CBC_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_256_GCM_SHA384:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_256_CBC_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_128_GCM_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_128_CBC_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_256_GCM_SHA384:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_256_CBC_SHA256:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_AES_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span><span style="display:flex;"><span>TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA:<span style="color:#e6db74">&#34;weak&#34;</span>
+</span></span></code></pre></div><h4 id="處理方式-7">處理方式</h4>
+<ul>
+<li>設定 nginx TLS 加密演算法，需要特別注意介接功能，例如: 信用卡網頁完成後要回call 的功能</li>
+</ul>
+<h4 id="弱點名稱-支援較早的-tls-版本">弱點名稱: 支援較早的 TLS 版本</h4>
+<p>發現伺服器支援較早版本的 TLS （TLSv1.0 或 TLSv1.1）,改用TLSv1.2</p>
+<ul>
+<li>修補方式: 移除 TLSv1.0 或 TLSv1.1，移除需要特別注意介接功能，例如: 信用卡網頁完成後要回call 的功能</li>
+</ul>
+<h4 id="弱點名稱-偵測到-sha-1-密碼組合">弱點名稱: 偵測到 SHA-1 密碼組合</h4>
+<ul>
+<li>修補方式: 移除 SHA-1 加密方式，移除需要特別注意介接功能，例如: 信用卡網頁完成後要回call 的功能</li>
+</ul>
+<h2 id="漏洞類別---網頁內文">漏洞類別 - 網頁內文</h2>
+<p>以下漏洞通常可以透過 網頁內容修改 完成漏洞修補</p>
+<h4 id="弱點名稱-sql-injection">弱點名稱: SQL Injection</h4>
+<h4 id="弱點名稱-xss-cross-site-scripting">弱點名稱: XSS (Cross-Site Scripting)</h4>
+<p>Cross Site Scripting (XSS): 所謂XSS泛指惡意攻擊者在Web網頁上插入惡意html代碼，以達到特殊目的（控制網站元素、取走cookies）。</p>
+<ul>
+<li>修補方式: 設定 修改程式 、建置WAF</li>
+<li>檢測方式
+<ul>
+<li><a href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onafterscriptexecute">各式 XSS 漏洞樣太 - https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onafterscriptexecute</a></li>
+<li><a href="https://blog.davidh83110.com/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E9%A7%AD%E5%AE%A2%E6%8A%80%E8%A1%93/owasp%20top10/2016/10/10/xss.html">XSS (Cross-Site Scripting) 跨站腳本攻擊簡介和實作</a></li>
+<li><a href="https://xss-quiz.int21h.jp/">XSS Challenges</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="弱點名稱-不安全的第三方鏈結-target_blank">弱點名稱: 不安全的第三方鏈結 (target=&quot;_blank&quot;)</h4>
+<ul>
+<li>修補方式: 修改程式</li>
+<li>檢測方式</li>
+</ul>
+<p>最終目標是 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>https://url1, https://url2 , ... , https://urlN <span style="color:#f92672">}</span> ; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> had &#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -s <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span> | grep -e <span style="color:#e6db74">&#34;target=\&#34;_blank\&#34;&#34;</span> | grep -v -e <span style="color:#e6db74">&#34;noopener&#34;</span> | grep -v -e <span style="color:#e6db74">&#34;noreferrer&#34;</span> | wc -l ; <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h4 id="處理方式-8">處理方式</h4>
+<ul>
+<li>針對「target=&quot;_blank&quot;」新增元素「rel=&ldquo;noopener noreferrer&rdquo;」</li>
+</ul>
+<h4 id="弱點名稱-檢查是否有-sri子資源完整性支援">弱點名稱: 檢查是否有 SRI（子資源完整性）支援</h4>
+<ul>
+<li>修補方式: 修改程式，部份頁面可能需要進資料庫修改內容
+<ul>
+<li>針對有讀取外部js資源 新增 integrity 屬性</li>
+<li>需要請維護的承辦修改網站內容</li>
+</ul>
+</li>
+<li>檢測方式</li>
+</ul>
+<p>最終目標是 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>https://url1, https://url2 , ... , https://urlN <span style="color:#f92672">}</span> ; <span style="color:#66d9ef">do</span> echo -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> had &#34;</span> <span style="color:#f92672">&amp;&amp;</span> curl -s <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span> | grep <span style="color:#e6db74">&#34;&lt;script&#34;</span> | grep <span style="color:#e6db74">&#34;http&#34;</span> | grep -v -E <span style="color:#e6db74">&#34;crossorigin&#34;</span> | wc -l ; <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h4 id="弱點名稱-未停用密碼欄位的自動完成-html-屬性">弱點名稱: 未停用密碼欄位的自動完成 HTML 屬性</h4>
+<ul>
+<li>修補方式: 修改程式</li>
+</ul>
+<p>密碼欄位新增屬性: autocomplete=&ldquo;off&rdquo;</p>
+<ul>
+<li>檢測方式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s https://example.com/example/home/register | grep <span style="color:#e6db74">&#34;type=\&#34;password\&#34;&#34;</span> | grep -v <span style="color:#e6db74">&#34;autocomplete=\&#34;off\&#34;&#34;</span>
+</span></span></code></pre></div><p>以下為檢測出的結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user01@example:~/Downloads$ curl -s https://example.com/example/home/register | grep <span style="color:#e6db74">&#34;type=\&#34;password\&#34;&#34;</span> | grep -v <span style="color:#e6db74">&#34;autocomplete=\&#34;off\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>            &lt;input class<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user.password&#34;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user.password&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> placeholder<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;密碼(需含英數，長度6碼以上)&#34;</span>  required&gt;
+</span></span><span style="display:flex;"><span>            &lt;input class<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user.repeatPassword&#34;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user.repeatPassword&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> placeholder<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;確認密碼(需含英數，長度6碼以上)&#34;</span>  required
+</span></span></code></pre></div><h4 id="弱點名稱-有漏洞的元件">弱點名稱: 有漏洞的元件</h4>
+<h4 id="相關資訊-1">相關資訊</h4>
+<ul>
+<li><a href="https://releases.jquery.com/jquery/">jquery 歷史版本</a></li>
+</ul>
+<h2 id="漏洞類別---openssh">漏洞類別 - OpenSSH</h2>
+<h4 id="openssh-cve">OpenSSH CVE</h4>
+<ul>
+<li>CVE-2023-48795: SSH Terrapin Prefix Truncation Weakness</li>
+<li>CVE-2025-26465</li>
+<li>CVE-2025-26466</li>
+</ul>
+<h4 id="弱點名稱-openssh-cve-2023-48795">弱點名稱: OpenSSH CVE-2023-48795</h4>
+<ul>
+<li>SSH Terrapin Prefix Truncation Weakness (CVE-2023-48795)</li>
+</ul>
+<h4 id="修補說明-5">修補說明</h4>
+<ul>
+<li>更新 ssh-server</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf update openssh-server
+</span></span></code></pre></div><ul>
+<li>依照官方說明修補: <a href="https://access.redhat.com/security/cve/cve-2023-48795">https://access.redhat.com/security/cve/cve-2023-48795</a></li>
+</ul>
+<p>新增文件內容 /etc/crypto-policies/policies/modules/CVE-2023-48795.pmod</p>
+<pre tabindex="0"><code>cipher@SSH = -CHACHA20-POLY1305
+ssh_etm = 0
+</code></pre><p>執行更新</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cat -v /etc/crypto-policies/policies/modules/CVE-2023-48795.pmod
+</span></span><span style="display:flex;"><span>sudo update-crypto-policies --set <span style="color:#66d9ef">$(</span>update-crypto-policies --show<span style="color:#66d9ef">)</span>:CVE-2023-48795
+</span></span></code></pre></div><ul>
+<li>處理結果</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat -v /etc/crypto-policies/policies/modules/CVE-2023-48795.pmod</span>
+</span></span><span style="display:flex;"><span>cipher@SSH <span style="color:#f92672">=</span> -CHACHA20-POLY1305
+</span></span><span style="display:flex;"><span>ssh_etm <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example ~<span style="color:#f92672">]</span><span style="color:#75715e"># sudo update-crypto-policies --set $(update-crypto-policies --show):CVE-2023-48795</span>
+</span></span><span style="display:flex;"><span>Setting system policy to DEFAULT:CVE-2023-48795
+</span></span><span style="display:flex;"><span>Note: System-wide crypto policies are applied on application start-up.
+</span></span><span style="display:flex;"><span>It is recommended to restart the system <span style="color:#66d9ef">for</span> the change of policies
+</span></span><span style="display:flex;"><span>to fully take place.
+</span></span></code></pre></div><h4 id="弱點名稱-openssh--72p2-x11forwarding-xauth-命令插入">弱點名稱 OpenSSH &lt; 7.2p2 X11Forwarding xauth 命令插入</h4>
+<h4 id="修補說明-6">修補說明</h4>
+<ul>
+<li>關閉 X11 forwarding</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep X11Forwarding /etc/ssh/sshd_config
+</span></span></code></pre></div><p>處理結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example ~<span style="color:#f92672">]</span><span style="color:#75715e"># service sshd restart</span>
+</span></span><span style="display:flex;"><span>Stopping sshd:                                             <span style="color:#f92672">[</span>  OK  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Starting sshd:                                             <span style="color:#f92672">[</span>  OK  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@example ~<span style="color:#f92672">]</span><span style="color:#75715e"># grep X11Forwarding /etc/ssh/sshd_config</span>
+</span></span><span style="display:flex;"><span>X11Forwarding no
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#       X11Forwarding no</span>
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://portswigger.net/web-security">portswigger.net</a>: 這個網站可以讓你多知道系統漏洞的原因</li>
+<li><a href="https://blog.davidh83110.com/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E9%A7%AD%E5%AE%A2%E6%8A%80%E8%A1%93/owasp%20top10/2016/10/10/xss.html">XSS (Cross-Site Scripting) 跨站腳本攻擊簡介和實作</a></li>
+<li><a href="https://kairay1014.medium.com/hcl-appscan-%E5%8E%9F%E5%90%8D-ibm-appscan-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E5%95%8F%E9%A1%8C%E4%BF%AE%E5%BE%A9-%E6%9F%A5%E8%A9%A2%E4%B8%AD%E6%8E%A5%E5%8F%97%E4%BA%86-body-%E5%8F%83%E6%95%B8-58e595e46742">HCL AppScan(原名：IBM AppScan) 安全漏洞問題修復，查詢中接受了 Body 參數</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

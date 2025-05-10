@@ -6,7 +6,24 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 06 Feb 2025 22:22:37 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Feb 2025 22:42:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修補漏洞</title>
+      <link>http://pollochang.work/worknot/remediating-vulnerabilities/</link>
+      <pubDate>Mon, 10 Feb 2025 22:42:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/remediating-vulnerabilities/</guid>
+      <description>漏洞類別 - header 以下漏洞通常可以透過設定 http header 完成漏洞修補
+設定：Content Security Policy (CSP) 學長姐跟你說，在網站的資安設定裡，CSP 絕對是個狠角色，也是保護使用者非常重要的一道防線。雖然設定起來有點複雜，但學會了超有成就感！
+為什麼需要 CSP？ (它解決什麼問題？) 想像一下，你的網頁就像一個舞台，上面會跑各種腳本 (JavaScript)、載入各種樣式 (CSS)、圖片等等。如果壞人（駭客）想辦法在這個舞台上偷偷塞進惡意的腳本，就可能偷走使用者的資料、綁架使用者的瀏覽器等等。
+CSP 的主要目的，就是要限制你的網頁只能從「你允許」的地方載入或執行資源，就像是請了一個嚴格的保鑣，不是經過你同意的，一律擋掉！這樣就算網頁不小心有漏洞，駭客也很難成功注入惡意程式碼。
+CSP 是什麼？ (基本觀念) CSP 其實就是一個列表，你告訴瀏覽器：
+「這個網頁的 JavaScript 只能從 A 網站和 B 網站載入和執行。」 (script-src) 「CSS 樣式表只能從 C 網站和我的網站本身載入。」 (style-src) 「圖片只能從我的網站、某個圖床網站、和 Google Analytics 載入。」 (img-src) &amp;hellip; 以及各種不同類型的資源 (字體、框架、連線位址等等)。 它遵從一個「預設拒絕 (Default Deny)」的原則：只要你沒有明確允許的來源，瀏覽器一律封鎖。
+這也是它困難的地方，因為你必須把網站「所有會用到」的外部資源來源都加到這個允許清單裡，不然一不小心就會把你網站正常的腳本、樣式、圖片給擋掉，導致網頁顯示或功能異常。
+如何設計 CSP 政策？ (觀念與步驟) 設計 CSP 是一個「疊代」的過程，也就是要慢慢測試、調整，而不是一次到位。
+了解你的網站用了哪些資源： 你的網站載入了哪些外部的 JavaScript (例如 GA 追蹤碼、jQuery CDN、廣告腳本)？用了哪些外部字體？載入了哪些外部圖片？這些都要先盤點。 從「報告模式 (Report-Only)」開始： 非常重要！ 千萬不要一開始就設定強制執行 (Content-Security-Policy)。請先使用 Content-Security-Policy-Report-Only 這個 Header。 設定 report-uri 或 report-to 指令，告訴瀏覽器如果發現有資源被 CSP 擋到（即使在 Report-Only 模式下只是「模擬」阻擋），要把違規的報告送到哪裡。 為什麼要這樣做？ 在 Report-Only 模式下，瀏覽器只會記錄並發送違規報告，但不會真的阻止任何資源載入或執行。這樣你可以在不影響使用者正常瀏覽網站的情況下，收集哪些合法的資源會被你設計的 CSP 擋到。 分析報告並調整政策： 收集一段時間的違規報告後，分析報告內容，看看是哪些你網站正常需要的資源被擋到了。根據這些報告，逐步修改你的 CSP 政策，把這些遺漏的合法來源加到你的允許清單裡。 重複步驟 2 &amp;amp; 3： 持續在 Report-Only 模式下收集報告、分析、調整政策，直到報告中不再出現你網站正常功能所需的資源被擋的狀況。 切換到強制執行模式： 當你對 CSP 政策非常有信心，確定它不會誤擋正常資源後，就可以把 Content-Security-Policy-Report-Only Header 換成 Content-Security-Policy Header，正式啟用 CSP 的保護功能了！ 設計與檢測的好幫手 (工具) 在上面這個過程中，工具有非常重要的角色：</description>
+    </item>
+    
     <item>
       <title>Linux Gdisk Error</title>
       <link>http://pollochang.work/worknot/linux-gdisk-error/</link>
