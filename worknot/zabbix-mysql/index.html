@@ -1,0 +1,698 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Zabbix MySQL </title>
+    
+    
+    <meta content="zabbix, MySQL, zabbix 筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - zabbix mySQL 監控 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 mysql.dbsize[&quot;{ MYSQL.HOST}&quot;,&quot;{ MYSQL.PORT}&quot;,&ldquo;數據庫名字&rdquo;] Info: Size of database 數據庫名字 數據庫大小 mysql.ping[&quot;{ MYSQL.HOST}&quot;,&quot;{ MYSQL.PORT}&quot;] Availability: MySQL status 數據庫狀態1：正常0：異常 mysql.aborted_clients.rate Connections: Aborted clients per second 每秒中止的客戶端數 mysql.aborted_connects.rate Connections: Aborted connections per second 每秒中止的連接數 mysql.connection_errors_accept.rate Connections: Connection errors accept per second 每秒接受的連接錯誤數 mysql.connection_errors_internal.rate Connections: Connection errors internal per second 每秒內部連接錯誤數 mysql.connection_errors_max_connections.rate Connections: Connection errors max connections per second 連接錯誤每秒最大連接數 mysql.connection_errors_peer_address.rate Connections: Connection errors peer address per second 每秒對等地址連接錯誤數 mysql." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Zabbix MySQL</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/zabbix-%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix 筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/zabbix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix</span>
+        </a>
+    
+        <a href="/tags/mysql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MySQL</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="zabbix-mysql-監控">zabbix mySQL 監控</h1>
+<table>
+<thead>
+<tr>
+<th>監控項關鍵字（item_key)</th>
+<th>監控項名稱（item_name）</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysql.dbsize[&quot;{ MYSQL.HOST}&quot;,&quot;{ MYSQL.PORT}&quot;,&ldquo;數據庫名字&rdquo;]</td>
+<td>Info: Size of database 數據庫名字</td>
+<td>數據庫大小</td>
+</tr>
+<tr>
+<td>mysql.ping[&quot;{ MYSQL.HOST}&quot;,&quot;{ MYSQL.PORT}&quot;]</td>
+<td>Availability: MySQL status</td>
+<td>數據庫狀態1：正常0：異常</td>
+</tr>
+<tr>
+<td>mysql.aborted_clients.rate</td>
+<td>Connections: Aborted clients per second</td>
+<td>每秒中止的客戶端數</td>
+</tr>
+<tr>
+<td>mysql.aborted_connects.rate</td>
+<td>Connections: Aborted connections per second</td>
+<td>每秒中止的連接數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_accept.rate</td>
+<td>Connections: Connection errors accept per second</td>
+<td>每秒接受的連接錯誤數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_internal.rate</td>
+<td>Connections: Connection errors internal per second</td>
+<td>每秒內部連接錯誤數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_max_connections.rate</td>
+<td>Connections: Connection errors max</td>
+<td>connections per second 連接錯誤每秒最大連接數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_peer_address.rate</td>
+<td>Connections: Connection errors peer address per second</td>
+<td>每秒對等地址連接錯誤數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_select.rate</td>
+<td>Connections: Connection errors select per second</td>
+<td>每秒查詢的連接錯誤數</td>
+</tr>
+<tr>
+<td>mysql.connection_errors_tcpwrap.rate</td>
+<td>Connections: Connection errors tcpwrap per second</td>
+<td>每秒tcpwrap 連接錯誤錯誤數</td>
+</tr>
+<tr>
+<td>mysql.connections.rate</td>
+<td>Connections: Connections per second</td>
+<td>每秒連接數</td>
+</tr>
+<tr>
+<td>mysql.max_used_connections</td>
+<td>Connections: Max used connections</td>
+<td>使用的最大連接數</td>
+</tr>
+<tr>
+<td>mysql.threads_cached</td>
+<td>Connections: Threads cached</td>
+<td>緩存的線程數</td>
+</tr>
+<tr>
+<td>mysql.threads_connected</td>
+<td>Connections: Threads connected</td>
+<td>連接的線程數</td>
+</tr>
+<tr>
+<td>mysql.threads_created</td>
+<td>Connections: Threads created</td>
+<td>創建的線程數</td>
+</tr>
+<tr>
+<td>mysql.version[&quot;{ MYSQL.HOST}&quot;,&quot;{ MYSQL.PORT}&quot;]</td>
+<td>Info: MySQL version</td>
+<td>MySQL 版本</td>
+</tr>
+<tr>
+<td>mysql.uptime</td>
+<td>Info: Uptime</td>
+<td>運行時間</td>
+</tr>
+<tr>
+<td>mysql.buffer_pool_efficiency</td>
+<td>Performance: Buffer pool efficiency</td>
+<td>緩衝池效率（%）</td>
+</tr>
+<tr>
+<td>mysql.buffer_pool_utilization</td>
+<td>Performance: Buffer pool utilization</td>
+<td>緩衝池利用率（%）</td>
+</tr>
+<tr>
+<td>mysql.created_tmp_files</td>
+<td>Performance: Created tmp files on disk</td>
+<td>在磁盤上創建的臨時文件數</td>
+</tr>
+<tr>
+<td>mysql.created_tmp_disk_tables</td>
+<td>Performance: Created tmp tables on disk</td>
+<td>在磁盤上創建的臨時表數</td>
+</tr>
+<tr>
+<td>mysql.created_tmp_tables</td>
+<td>Performance: Created tmp tables on memory</td>
+<td>在內存中創建的臨時表數</td>
+</tr>
+<tr>
+<td>mysql.innodb_buffer_pool_pages_free</td>
+<td>Performance: InnoDB buffer pool pages free InnoDB</td>
+<td>緩衝池頁面可用</td>
+</tr>
+<tr>
+<td>mysql.innodb_buffer_pool_pages_total</td>
+<td>Performance: InnoDB buffer pool pages total</td>
+<td>InnoDB 緩衝池頁總數</td>
+</tr>
+<tr>
+<td>mysql.innodb_buffer_pool_read_requests</td>
+<td>Performance: InnoDB buffer pool read requests InnoDB</td>
+<td>緩衝池讀取請求</td>
+</tr>
+<tr>
+<td>mysql.innodb_buffer_pool_reads</td>
+<td>Performance: InnoDB buffer pool reads</td>
+<td>InnoDB 緩衝池讀取</td>
+</tr>
+<tr>
+<td>mysql.innodb_row_lock_time</td>
+<td>Performance: InnoDB row lock time</td>
+<td>InnoDB 行鎖定時間</td>
+</tr>
+<tr>
+<td>mysql.innodb_row_lock_time_max</td>
+<td>Performance: InnoDB row lock time max</td>
+<td>InnoDB 最大行鎖定時間</td>
+</tr>
+<tr>
+<td>mysql.innodb_row_lock_waits</td>
+<td>Performance: InnoDB row lock waits</td>
+<td>InnoDB 行鎖等待</td>
+</tr>
+<tr>
+<td>mysql.slow_queries.rate</td>
+<td>Performance: Slow queries per second</td>
+<td>每秒慢查询数</td>
+</tr>
+<tr>
+<td>mysql.bytes_received.rate</td>
+<td>Throughput: Bytes received</td>
+<td>接收的字节数</td>
+</tr>
+<tr>
+<td>mysql.bytes_sent.rate</td>
+<td>Throughput: Bytes sent</td>
+<td>发送的字节数</td>
+</tr>
+<tr>
+<td>mysql.com_delete.rate</td>
+<td>Throughput: Command Delete per second</td>
+<td>每秒删除操作数</td>
+</tr>
+<tr>
+<td>mysql.com_insert.rate</td>
+<td>Throughput: Command Insert per second</td>
+<td>每秒插入操作数</td>
+</tr>
+<tr>
+<td>mysql.com_select.rate</td>
+<td>Throughput: Command Select per second</td>
+<td>每秒查询操作数</td>
+</tr>
+<tr>
+<td>mysql.com_update.rate</td>
+<td>Throughput: Command Update per second</td>
+<td>每秒更新操作数</td>
+</tr>
+<tr>
+<td>mysql.queries.rate</td>
+<td>Throughput: Queries per second</td>
+<td>每秒查询数</td>
+</tr>
+<tr>
+<td>mysql.questions.rate</td>
+<td>Throughput: Questions per second</td>
+<td>每秒问题数</td>
+</tr>
+</tbody>
+</table>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/zabbix-redis/">
+                                <h3 class="">Zabbix Redis</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/zabbix-%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix 筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/zabbix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix</span>
+        </a>
+    
+        <a href="/tags/redis/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Redis</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/zabbix-deploy/">
+                                <h3 class="">Zabbix Deploy</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/zabbix-%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix 筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/zabbix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/zabbix-introduce/">
+                                <h3 class="">Zabbix Introduce</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/zabbix-%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix 筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/zabbix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

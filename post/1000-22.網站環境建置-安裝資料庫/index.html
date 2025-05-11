@@ -238,7 +238,10 @@ layui.use('element', function(){
 <pre tabindex="0"><code class="language-conf" data-lang="conf">host    all             all             172.18.17.0/16            scram-sha-256
 </code></pre><h3 id="日誌調整">日誌調整</h3>
 <p>postgresql 可以開啟以下設定，適度的紀錄連線資訊及執行歷程。</p>
-<pre tabindex="0"><code class="language-conf" data-lang="conf"># 日誌調整
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /var/lib/pgsql/15/pgarch
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0700</span> /var/lib/pgsql/15/pgarch
+</span></span><span style="display:flex;"><span>chown postgres:postgres /var/lib/pgsql/15/pgarch
+</span></span></code></pre></div><pre tabindex="0"><code class="language-conf" data-lang="conf"># 日誌調整
 log_directory = &#39;/var/log/postgresql/&#39; # 預設為: log
 log_filename = &#39;postgresql-%Y-%m-%d_%H%M%S.log&#39; # log file name pattern, redhat 預設為 postgresql-%a.log
 log_line_prefix = &#39;%m [%p] %q%u@%d-%a &#39;            # special values 預設為: &#39;%m [%p] &#39; 
@@ -250,7 +253,7 @@ log_statement = &#39;ddl&#39; # option: none, ddl, mod, all，預設為: none，
 
 # archive log
 archive_mode = on
-archive_command=&#39;cp %p /data/backup/pgarch&#39;
+archive_command=&#39;cp %p /var/lib/pgsql/15/pgarch&#39;
 </code></pre><h2 id="設定資料庫">設定資料庫</h2>
 <p>設定完成之後，接下來就是開資料庫啦～</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -u postgres createuser --pwprompt dict_ap  <span style="color:#75715e"># pwd: enterYourPwd</span>

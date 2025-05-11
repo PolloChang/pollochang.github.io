@@ -1,0 +1,496 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Zabbix Introduce </title>
+    
+    
+    <meta content="zabbix, zabbix 筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - Zabbix 核心元件解析 Zabbix 是一套功能強大的開源監控解決方案，其架構由多個核心元件緊密協作而成，以下將逐一介紹：
+1. Zabbix 伺服器 (Zabbix Server) Zabbix 伺服器是整個監控系統的大腦與心臟。它肩負著接收所有監控數據的重任，無論這些數據是來自 Zabbix Agent 主動回報，還是 Zabbix Proxy 彙整轉發。伺服器會對收到的數據進行處理、分析，並根據預設的規則判斷是否觸發告警。同時，它也負責將歷史監控數據以及系統設定資訊持久化儲存到後端資料庫中，以供後續查詢與分析。
+2. Zabbix 代理程式 (Zabbix Agent) Zabbix 代理程式是部署在每一台受監控主機或裝置上的輕量級軟體。它的主要職責是主動採集該主機的各種效能指標 (例如 CPU 使用率、記憶體用量、網路流量、磁碟空間) 和應用程式狀態等數據。採集完成後，代理程式會將數據傳送給 Zabbix 伺服器或指定的 Zabbix Proxy 進行後續處理。
+目前 Zabbix Agent 主要有兩個版本：
+Zabbix Agent (C 語言版)：這是以 C 語言開發的傳統版本，具有極高的穩定性與跨平台特性，幾乎支援所有主流的作業系統。 Zabbix Agent 2 (Go 語言版)：這是以 Go 語言重新打造的新一代代理程式。相較於 C 語言版本，Agent 2 的優勢包括：能更有效地管理 TCP 連線數量，進而降低系統資源消耗；支援更高的併發處理能力，提升數據採集效率；並且更容易進行功能擴充與插件開發。Agent 2 的目標是逐步取代傳統的 Zabbix Agent，目前已穩定支援 Linux 和 Windows 平台。 3. Zabbix 代理伺服器 (Zabbix Proxy) Zabbix Proxy 可視為 Zabbix 伺服器的「分身」或「區域數據收集中心」。在大型或分散式的監控環境中 (例如擁有多個分公司或 IDC 的企業)，可以部署 Zabbix Proxy。它會代替 Zabbix 伺服器接收其管轄範圍內各個 Agent 回報的監控數據，進行初步的預處理和彙整，然後再將這些數據批次傳送給中央的 Zabbix 伺服器。 這種架構能顯著減輕 Zabbix 伺服器的處理壓力與網路負載，同時也能在中央伺服器與遠端監控點之間的網路不穩定時，提供數據緩衝，確保監控數據不遺失。Zabbix Proxy 本身也需要一個資料庫來暫存收集到的數據。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Zabbix Introduce</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/zabbix-%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix 筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/zabbix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">zabbix</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="zabbix-核心元件解析">Zabbix 核心元件解析</h1>
+<p>Zabbix 是一套功能強大的開源監控解決方案，其架構由多個核心元件緊密協作而成，以下將逐一介紹：</p>
+<p><strong>1. Zabbix 伺服器 (Zabbix Server)</strong>
+Zabbix 伺服器是整個監控系統的大腦與心臟。它肩負著接收所有監控數據的重任，無論這些數據是來自 Zabbix Agent 主動回報，還是 Zabbix Proxy 彙整轉發。伺服器會對收到的數據進行處理、分析，並根據預設的規則判斷是否觸發告警。同時，它也負責將歷史監控數據以及系統設定資訊持久化儲存到後端資料庫中，以供後續查詢與分析。</p>
+<p><strong>2. Zabbix 代理程式 (Zabbix Agent)</strong>
+Zabbix 代理程式是部署在每一台受監控主機或裝置上的輕量級軟體。它的主要職責是主動採集該主機的各種效能指標 (例如 CPU 使用率、記憶體用量、網路流量、磁碟空間) 和應用程式狀態等數據。採集完成後，代理程式會將數據傳送給 Zabbix 伺服器或指定的 Zabbix Proxy 進行後續處理。</p>
+<p>目前 Zabbix Agent 主要有兩個版本：</p>
+<ul>
+<li><strong>Zabbix Agent (C 語言版)</strong>：這是以 C 語言開發的傳統版本，具有極高的穩定性與跨平台特性，幾乎支援所有主流的作業系統。</li>
+<li><strong>Zabbix Agent 2 (Go 語言版)</strong>：這是以 Go 語言重新打造的新一代代理程式。相較於 C 語言版本，Agent 2 的優勢包括：能更有效地管理 TCP 連線數量，進而降低系統資源消耗；支援更高的併發處理能力，提升數據採集效率；並且更容易進行功能擴充與插件開發。Agent 2 的目標是逐步取代傳統的 Zabbix Agent，目前已穩定支援 Linux 和 Windows 平台。</li>
+</ul>
+<p><strong>3. Zabbix 代理伺服器 (Zabbix Proxy)</strong>
+Zabbix Proxy 可視為 Zabbix 伺服器的「分身」或「區域數據收集中心」。在大型或分散式的監控環境中 (例如擁有多個分公司或 IDC 的企業)，可以部署 Zabbix Proxy。它會代替 Zabbix 伺服器接收其管轄範圍內各個 Agent 回報的監控數據，進行初步的預處理和彙整，然後再將這些數據批次傳送給中央的 Zabbix 伺服器。
+這種架構能顯著減輕 Zabbix 伺服器的處理壓力與網路負載，同時也能在中央伺服器與遠端監控點之間的網路不穩定時，提供數據緩衝，確保監控數據不遺失。Zabbix Proxy 本身也需要一個資料庫來暫存收集到的數據。</p>
+<p><strong>4. Zabbix 前端 (Web 介面)</strong>
+Zabbix 提供了一個功能完整且操作直觀的網頁介面 (Frontend)。管理者可以透過瀏覽器登入此介面，進行所有 Zabbix 相關的設定與管理任務，例如：</p>
+<ul>
+<li>新增、設定及管理受監控的主機與主機群組。</li>
+<li>定義及調整監控項目 (Items) 與觸發器 (Triggers)。</li>
+<li>查閱即時與歷史的監控數據圖表。</li>
+<li>設定告警通知的條件與方式 (Actions 與 Media Types)。</li>
+<li>管理使用者權限與系統參數等。</li>
+</ul>
+<p><strong>5. 資料庫 (Database)</strong>
+資料庫是 Zabbix 運作不可或缺的基石，負責儲存兩大類重要資訊：</p>
+<ul>
+<li><strong>設定資訊</strong>：包括所有主機配置、監控項目定義、觸發器規則、告警設定、使用者帳號、模板等等。</li>
+<li><strong>監控數據</strong>：所有從 Agent 或 Proxy 收集到的歷史效能指標與狀態數據。
+Zabbix 支援多種主流的資料庫系統，讓使用者可以根據自身環境與偏好進行選擇，常見的包括：MySQL (及其高效能分支如 Percona Server、MariaDB)、Oracle、PostgreSQL。對於 PostgreSQL，還可以搭配 TimescaleDB 擴充套件來進一步優化時間序列數據的儲存與查詢效能。SQLite 也被支援，但通常僅建議用於非常小型或測試性質的部署。</li>
+</ul>
+<h2 id="zabbix-常用術語釋義">Zabbix 常用術語釋義</h2>
+<p>為了更好地理解與使用 Zabbix，以下是一些核心名詞的解釋：</p>
+<ol>
+<li>
+<p><strong>主機 (Host)</strong>
+您想要監控的任何網路裝置，例如實體伺服器、虛擬機、網路交換器、路由器、印表機，甚至是特定的應用程式服務。在 Zabbix 中，主機會透過其 IP 位址或網域名稱來識別。</p>
+</li>
+<li>
+<p><strong>主機群組 (Host Group)</strong>
+主機的邏輯性集合，主要用於組織與管理。一個主機群組可以包含多個主機，也可以連結模板。主機群組的常見用途是在分配使用者權限時，方便地將特定主機的監控權限授予特定的使用者群組。</p>
+</li>
+<li>
+<p><strong>監控項目 (Item)</strong>
+您希望從主機上收集的特定數據點或度量指標。例如：CPU 的負載、可用記憶體大小、特定網路埠的流量、硬碟剩餘空間、某個服務是否正在執行等。</p>
+</li>
+<li>
+<p><strong>觸發器 (Trigger)</strong>
+一個邏輯表達式，用於定義監控項目數據的「問題」閾值。當 Zabbix 收集到的數據滿足觸發器中定義的條件時 (例如 CPU 使用率超過 90% 持續 5 分鐘)，觸發器的狀態就會從「正常 (OK)」轉變為「問題 (Problem)」。當數據恢復到正常範圍，觸發器狀態也會隨之恢復。</p>
+</li>
+<li>
+<p><strong>事件 (Event)</strong>
+系統中任何值得注意的單次發生情況。最常見的事件就是觸發器狀態的改變 (例如從 OK 變 Problem)。其他事件還包括：監控代理程式的自動註冊、主機被自動發現、使用者登入等。</p>
+</li>
+<li>
+<p><strong>問題 (Problem)</strong>
+指一個當前正處於「問題 (Problem)」狀態的觸發器。這表示某個被監控的指標已經達到了預警或嚴重狀態，需要關注或處理。</p>
+</li>
+<li>
+<p><strong>動作 (Action)</strong>
+針對特定事件 (尤其是觸發器狀態改變為「問題」時) 所預先定義的一系列自動化反應。一個動作通常包含「條件」(判斷何時執行此動作) 與「操作」(具體執行的任務，例如發送告警通知、執行遠端指令等)。</p>
+</li>
+<li>
+<p><strong>升級 (Escalation)</strong>
+在「動作」內部定義的一套客製化、階段性的處理流程。例如，一個問題發生後，可以設定升級機制：首先通知初階工程師；若 15 分鐘內問題未解決，則自動升級通知給資深工程師或主管。升級可以包含多個步驟，每個步驟可以有不同的通知對象或執行的遠端命令。</p>
+</li>
+<li>
+<p><strong>媒介類型 (Media Type)</strong> / <strong>媒介 (Media)</strong>
+傳送告警通知的具體方式或管道。Zabbix 內建支援多種媒介類型，如電子郵件 (Email)、簡訊 (SMS)。同時，也支援透過腳本 (Script) 的方式與外部通知系統整合，例如 Slack、Microsoft Teams、LINE Notify、Telegram 等。</p>
+</li>
+<li>
+<p><strong>通知 (Notification)</strong>
+透過預先設定好的「媒介類型」，將與特定事件 (通常是問題產生或解決) 相關的告警訊息發送給指定的使用者或使用者群組。</p>
+</li>
+<li>
+<p><strong>遠端命令 (Remote Command)</strong>
+預先定義好的，在滿足特定條件的情況下 (通常由「動作」觸發)，可以在受監控主機上自動執行的指令或腳本。例如，當偵測到某個關鍵服務停止時，可以自動執行重啟該服務的命令。</p>
+</li>
+<li>
+<p><strong>模板 (Template)</strong>
+一組可以被套用至一個或多個主機的標準化監控設定實體集合。模板中可以包含預設的監控項目、觸發器、圖形、應用程式分類、低階自動發現 (LLD) 規則、Web 檢測場景等。使用模板的主要目的是大幅簡化對大量主機的監控部署與維護工作，並確保監控策略的一致性。模板可以直接連結到個別主機，或透過主機群組間接套用。</p>
+</li>
+<li>
+<p><strong>應用程式 (Application)</strong>
+在主機或模板層級，對相關的監控項目進行邏輯上的分組歸類。例如，可以將所有與 CPU 相關的監控項目 (如 CPU 使用率、CPU 負載、CPU 中斷等) 歸類到名為「CPU」的應用程式下，方便檢視與管理。</p>
+</li>
+<li>
+<p><strong>Web 檢測 (Web Scenario)</strong>
+透過模擬使用者瀏覽行為，執行一個或多個 HTTP/HTTPS 請求，來檢查網站或 Web 應用程式的可用性、回應時間、下載速度以及特定頁面內容是否正確等。</p>
+</li>
+<li>
+<p><strong>前端 (Frontend)</strong>
+即 Zabbix 提供的 Web 操作介面 (已於「Zabbix 核心元件解析」中詳述)，讓使用者能透過瀏覽器方便地管理及檢視整個 Zabbix 監控系統。</p>
+</li>
+<li>
+<p><strong>Zabbix API (應用程式介面)</strong>
+Zabbix 提供的一組豐富的應用程式介面，採用 JSON RPC 協定。開發者或系統整合商可以透過 Zabbix API，以程式化、自動化的方式進行 Zabbix 物件 (如主機、監控項目、圖形等) 的建立、讀取、更新、刪除等操作，或執行其他客製化的任務，例如與 CMDB 系統整合、自動化報表產生等。</p>
+</li>
+<li>
+<p><strong>Zabbix 伺服器 (Zabbix Server)</strong>
+Zabbix 軟體中實現監控功能的核心程式 (已於「Zabbix 核心元件解析」中詳述)。</p>
+</li>
+<li>
+<p><strong>Zabbix 代理程式 (Zabbix Agent)</strong>
+部署在受監控目標主機上，能夠主動監控本機資源和應用程式狀態的程式 (已於「Zabbix 核心元件解析」中詳述，包含 C 語言版與 Go 語言開發的 Zabbix Agent 2)。</p>
+</li>
+<li>
+<p><strong>被動 (Passive) 與 主動 (Active) 檢查模式</strong>
+Zabbix Agent 支援兩種數據收集模式，這兩種模式是由監控項目的類型 (Item Type) 來決定的：</p>
+<ul>
+<li><strong>被動模式 (Passive Check)</strong>：在此模式下，Zabbix 伺服器 (或 Zabbix Proxy) 會主動向 Zabbix Agent 發出數據請求 (輪詢)。Agent 收到請求後，才收集對應的數據並回傳結果。此模式下，監控項目類型通常設定為 &lsquo;Zabbix agent&rsquo;。</li>
+<li><strong>主動模式 (Active Check)</strong>：在此模式下，Zabbix Agent 會先主動向 Zabbix 伺服器請求一份它需要監控的項目清單。然後，Agent 會依照這份清單的指示，定期獨立地收集數據，並主動將新的數據值回報給 Zabbix 伺服器。主動模式能有效減輕 Zabbix 伺服器的輪詢負載，尤其適用於 Agent 位於防火牆後方或網路連線品質不穩定的環境。此模式下，監控項目類型設定為 &lsquo;Zabbix agent (active)&rsquo;。</li>
+</ul>
+</li>
+<li>
+<p><strong>Zabbix 代理伺服器 (Zabbix Proxy)</strong>
+一個協助 Zabbix 伺服器收集數據，並分攤其整體負載的程式 (已于「Zabbix 核心元件解析」中詳述)。Proxy 會在其本機快取收集到的數據，然後再批次傳送到它所屬的 Zabbix 伺服器。部署 Zabbix Proxy 需要為其配置一個獨立的資料庫，用於儲存 Proxy 本身的設定以及暫存的監控數據。</p>
+</li>
+</ol>
+<h2 id="參考資料">參考資料</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/115656458">Zabbix-基础系列(一)-zabbix简介及原理</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

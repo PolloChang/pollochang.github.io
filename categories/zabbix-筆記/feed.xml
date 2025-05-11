@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>zabbix 筆記 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/zabbix-%E7%AD%86%E8%A8%98/</link>
+    <description>Recent content in zabbix 筆記 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 11 May 2025 23:27:45 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/zabbix-%E7%AD%86%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>deploy Zabbix Agent</title>
+      <link>http://pollochang.work/worknot/zabbix-agent/</link>
+      <pubDate>Sun, 11 May 2025 23:27:45 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-agent/</guid>
+      <description>Zabbix agent for centos6 rpm -Uvh https://repo.zabbix.com/zabbix/6.0/rhel/6/x86_64/zabbix-release-6.0-4.el6.noarch.rpm yum clean all yum install zabbix-agent vim /etc/zabbix/zabbix_agentd.conf service zabbix-agent restart chkconfig --level 35 zabbix-agent on Zabbix agent for Debian12 wget https://repo.zabbix.com/zabbix/6.4/debian/pool/main/z/zabbix-release/zabbix-release_6.4-1+debian12_all.deb dpkg -i zabbix-release_6.4-1+debian12_all.deb apt update apt install zabbix-agent2 /etc/zabbix/zabbix_agent2.conf 記得變更下列內容
+Server= ServerActive= systemctl restart zabbix-agent systemctl enable zabbix-agent How to Install Zabbix Agent on Rocky Linux/Alma Linux 9 安裝 安裝 zabbix-agent2 優先
+/etc/yum.repos.d/epel.repo [epel] ... excludepkgs=zabbix* rpm -Uvh https://repo.zabbix.com/zabbix/6.4/rhel/9/x86_64/zabbix-release-6.4-1.el9.noarch.rpm dnf clean all dnf install -y zabbix-agent systemctl restart zabbix-agent systemctl enable zabbix-agent dnf install -y zabbix-agent2 zabbix-agent2-plugin-* systemctl restart zabbix-agent2 systemctl enable zabbix-agent2 防火牆設定 sudo firewall-cmd --permanent --zone=public --add-rich-rule=&amp;#39;rule family=&amp;#34;ipv4&amp;#34; source address=&amp;#34;192.</description>
+    </item>
+    
+    <item>
+      <title>Zabbix ElasticSearch</title>
+      <link>http://pollochang.work/worknot/zabbix-elasticsearch/</link>
+      <pubDate>Sun, 11 May 2025 23:27:23 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-elasticsearch/</guid>
+      <description>Zabbix ElasticSearch 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 ESzabbix[cluster,count] Total number of records 記錄總數 ESzabbix[{$NODENAME},index_total] Records indexed per second 索引文檔總數 ESzabbix[cluster,unassigned_shards] Number of unassigned shards 未分配的分片數，通常為0，當有某個節點的副本分片丟失該值就會增加。 ESzabbix[cluster,number_of_nodes] Number of nodes 節點數 ESzabbix[cluster,relocating_shards] Number of relocating shards 當前節點遷往其他節點的分片數量，通常為0，當有節點加入或者退出時該值會增加。 ESzabbix[cluster,initializing_shards] Number of initializing shards 正在初始化的分片數 ESzabbix[cluster,number_of_data_nodes] Number of data nodes 數據節點數 ESzabbix[cluster,active_shards] Number of active shards 活躍的所有分片數 ESzabbix[cluster,active_primary_shards] Number of active primary shards 活躍的主分片數 ESzabbix[cluster,index_total] Cluster-wide records indexed per second 索引文檔數 ESzabbix[cluster,size_in_bytes] Cluster-wide storage size 數據總存儲容量 ESzabbix[service,status] Elasticsearch Service Status 服務狀態 ESzabbix[cluster,status] ElasticSearch Cluster Status 集群狀態 </description>
+    </item>
+    
+    <item>
+      <title>Zabbix MySQL</title>
+      <link>http://pollochang.work/worknot/zabbix-mysql/</link>
+      <pubDate>Sun, 11 May 2025 23:27:02 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-mysql/</guid>
+      <description>zabbix mySQL 監控 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 mysql.dbsize[&amp;quot;{ MYSQL.HOST}&amp;quot;,&amp;quot;{ MYSQL.PORT}&amp;quot;,&amp;ldquo;數據庫名字&amp;rdquo;] Info: Size of database 數據庫名字 數據庫大小 mysql.ping[&amp;quot;{ MYSQL.HOST}&amp;quot;,&amp;quot;{ MYSQL.PORT}&amp;quot;] Availability: MySQL status 數據庫狀態1：正常0：異常 mysql.aborted_clients.rate Connections: Aborted clients per second 每秒中止的客戶端數 mysql.aborted_connects.rate Connections: Aborted connections per second 每秒中止的連接數 mysql.connection_errors_accept.rate Connections: Connection errors accept per second 每秒接受的連接錯誤數 mysql.connection_errors_internal.rate Connections: Connection errors internal per second 每秒內部連接錯誤數 mysql.connection_errors_max_connections.rate Connections: Connection errors max connections per second 連接錯誤每秒最大連接數 mysql.connection_errors_peer_address.rate Connections: Connection errors peer address per second 每秒對等地址連接錯誤數 mysql.</description>
+    </item>
+    
+    <item>
+      <title>Zabbix Redis</title>
+      <link>http://pollochang.work/worknot/zabbix-redis/</link>
+      <pubDate>Sun, 11 May 2025 23:23:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-redis/</guid>
+      <description> 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 Redis.Status Redis Status redis狀態1：正常0：異常 Redis.Info[aof_last_bgrewrite_status] Redis.Info[aof_last_bgrewrite_status] 上次重寫狀態 Redis.Info[aof_last_write_status] Redis.Info[aof_last_write_status] 上次寫入狀態 Redis.Info[blocked_clients] Redis.Info[blocked_clients] 阻塞的客戶端數 Redis.Info[connected_clients] Redis.Info[connected_clients] 連接的客戶端數 Redis.Info[db0,keys] Redis.Info[db0,keys] db0數據庫中key的數量 Redis.Info[rdb_last_bgsave_status] Redis.Info[rdb_last_bgsave_status] 上次保存狀態 Redis.Info[uptime] Redis.Info[uptime] 運行時間（秒） Redis.Info[used_cpu_sys] Redis.Info[used_cpu_sys] redis進程指令在核心態所消耗的CPU時間（秒） Redis.Info[used_cpu_sys_children] Redis.Info[used_cpu_sys_children] redis後台進程指令在核心態所消耗的CPU時間（秒） Redis.Info[used_cpu_user] Redis.Info[used_cpu_user] redis進程指令在用戶態所消耗的CPU時間（秒） Redis.Info[used_cpu_user_children] Redis.Info[used_cpu_user_children] redis後台進程指令在用戶態所消耗的CPU時間（秒） Redis.Info[used_memory] Redis.Info[used_memory] redis內存使用總量（字節） Redis.Info[used_memory_lua] Redis.Info[used_memory_lua] Lua腳本引擎所使用的內存大小（字節） Redis.Info[used_memory_peak] Redis.Info[used_memory_peak] redis的內存消耗峰值（字節） Redis.Info[used_memory_rss] Redis.Info[used_memory_rss] 從操作系統上顯示已經分配的內存總量（字節） Redis.Info[version] Redis.Info[version] redis版本 </description>
+    </item>
+    
+    <item>
+      <title>Zabbix Deploy</title>
+      <link>http://pollochang.work/worknot/zabbix-deploy/</link>
+      <pubDate>Sun, 11 May 2025 23:12:13 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-deploy/</guid>
+      <description>部屬環境 Zabbix version: Zabbix-6 OS: Rocky Linux 9 安裝步驟 安裝 package Rocky Linux 9 rpm -Uvh https://repo.zabbix.com/zabbix/6.0/rhel/9/x86_64/zabbix-release-6.0-4.el9.noarch.rpm dnf clean all dnf install zabbix-apache-conf dnf install -y zabbix-server-pgsql zabbix-web-pgsql zabbix-sql-scripts zabbix-selinux-policy zabbix-agent Debian wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_6.0-4%2Bdebian10_all.deb dpkg -i zabbix-release_6.0-4+debian10_all.deb apt update apt install zabbix-server-pgsql zabbix-frontend-php php7.3-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-agent 匯入資料 安裝資料庫
+設定資料庫
+sudo -u postgres createuser --pwprompt zabbix sudo -u postgres createdb -O zabbix zabbix sudo -u postgres psql -c &amp;#34;GRANT ALL ON DATABASE zabbix to zabbix&amp;#34; psql -U postgres -d zabbix GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO zabbix; GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO zabbix; # /usr/share/zabbix-sql-scripts/postgresql/server.</description>
+    </item>
+    
+    <item>
+      <title>Zabbix Introduce</title>
+      <link>http://pollochang.work/worknot/zabbix-introduce/</link>
+      <pubDate>Sun, 11 May 2025 10:23:07 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-introduce/</guid>
+      <description>Zabbix 核心元件解析 Zabbix 是一套功能強大的開源監控解決方案，其架構由多個核心元件緊密協作而成，以下將逐一介紹：
+1. Zabbix 伺服器 (Zabbix Server) Zabbix 伺服器是整個監控系統的大腦與心臟。它肩負著接收所有監控數據的重任，無論這些數據是來自 Zabbix Agent 主動回報，還是 Zabbix Proxy 彙整轉發。伺服器會對收到的數據進行處理、分析，並根據預設的規則判斷是否觸發告警。同時，它也負責將歷史監控數據以及系統設定資訊持久化儲存到後端資料庫中，以供後續查詢與分析。
+2. Zabbix 代理程式 (Zabbix Agent) Zabbix 代理程式是部署在每一台受監控主機或裝置上的輕量級軟體。它的主要職責是主動採集該主機的各種效能指標 (例如 CPU 使用率、記憶體用量、網路流量、磁碟空間) 和應用程式狀態等數據。採集完成後，代理程式會將數據傳送給 Zabbix 伺服器或指定的 Zabbix Proxy 進行後續處理。
+目前 Zabbix Agent 主要有兩個版本：
+Zabbix Agent (C 語言版)：這是以 C 語言開發的傳統版本，具有極高的穩定性與跨平台特性，幾乎支援所有主流的作業系統。 Zabbix Agent 2 (Go 語言版)：這是以 Go 語言重新打造的新一代代理程式。相較於 C 語言版本，Agent 2 的優勢包括：能更有效地管理 TCP 連線數量，進而降低系統資源消耗；支援更高的併發處理能力，提升數據採集效率；並且更容易進行功能擴充與插件開發。Agent 2 的目標是逐步取代傳統的 Zabbix Agent，目前已穩定支援 Linux 和 Windows 平台。 3. Zabbix 代理伺服器 (Zabbix Proxy) Zabbix Proxy 可視為 Zabbix 伺服器的「分身」或「區域數據收集中心」。在大型或分散式的監控環境中 (例如擁有多個分公司或 IDC 的企業)，可以部署 Zabbix Proxy。它會代替 Zabbix 伺服器接收其管轄範圍內各個 Agent 回報的監控數據，進行初步的預處理和彙整，然後再將這些數據批次傳送給中央的 Zabbix 伺服器。 這種架構能顯著減輕 Zabbix 伺服器的處理壓力與網路負載，同時也能在中央伺服器與遠端監控點之間的網路不穩定時，提供數據緩衝，確保監控數據不遺失。Zabbix Proxy 本身也需要一個資料庫來暫存收集到的數據。</description>
+    </item>
+    
+  </channel>
+</rss>

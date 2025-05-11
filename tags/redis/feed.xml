@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/redis/</link>
+    <description>Recent content in Redis on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 11 May 2025 23:23:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/redis/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zabbix Redis</title>
+      <link>http://pollochang.work/worknot/zabbix-redis/</link>
+      <pubDate>Sun, 11 May 2025 23:23:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-redis/</guid>
+      <description> 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 Redis.Status Redis Status redis狀態1：正常0：異常 Redis.Info[aof_last_bgrewrite_status] Redis.Info[aof_last_bgrewrite_status] 上次重寫狀態 Redis.Info[aof_last_write_status] Redis.Info[aof_last_write_status] 上次寫入狀態 Redis.Info[blocked_clients] Redis.Info[blocked_clients] 阻塞的客戶端數 Redis.Info[connected_clients] Redis.Info[connected_clients] 連接的客戶端數 Redis.Info[db0,keys] Redis.Info[db0,keys] db0數據庫中key的數量 Redis.Info[rdb_last_bgsave_status] Redis.Info[rdb_last_bgsave_status] 上次保存狀態 Redis.Info[uptime] Redis.Info[uptime] 運行時間（秒） Redis.Info[used_cpu_sys] Redis.Info[used_cpu_sys] redis進程指令在核心態所消耗的CPU時間（秒） Redis.Info[used_cpu_sys_children] Redis.Info[used_cpu_sys_children] redis後台進程指令在核心態所消耗的CPU時間（秒） Redis.Info[used_cpu_user] Redis.Info[used_cpu_user] redis進程指令在用戶態所消耗的CPU時間（秒） Redis.Info[used_cpu_user_children] Redis.Info[used_cpu_user_children] redis後台進程指令在用戶態所消耗的CPU時間（秒） Redis.Info[used_memory] Redis.Info[used_memory] redis內存使用總量（字節） Redis.Info[used_memory_lua] Redis.Info[used_memory_lua] Lua腳本引擎所使用的內存大小（字節） Redis.Info[used_memory_peak] Redis.Info[used_memory_peak] redis的內存消耗峰值（字節） Redis.Info[used_memory_rss] Redis.Info[used_memory_rss] 從操作系統上顯示已經分配的內存總量（字節） Redis.Info[version] Redis.Info[version] redis版本 </description>
+    </item>
+    
+  </channel>
+</rss>

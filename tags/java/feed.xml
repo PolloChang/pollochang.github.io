@@ -6,7 +6,18 @@
     <description>Recent content in Java on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 16 Apr 2024 20:37:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/java/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 May 2025 23:09:02 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/java/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jmx_exporter</title>
+      <link>http://pollochang.work/worknot/jmx_exporter/</link>
+      <pubDate>Sun, 11 May 2025 23:09:02 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/jmx_exporter/</guid>
+      <description>jmx_exporter
+使用方式 監控 JVM 與 tomcat 資訊
+/path/to/your/jmx-exporter.yml # https://grafana.com/grafana/dashboards/8704-tomcat-dashboard/ --- whitelistObjectNames: [&amp;#34;java.lang:type=OperatingSystem&amp;#34;, &amp;#34;Catalina:*&amp;#34;] rules: - pattern: &amp;#39;Catalina&amp;lt;type=Server&amp;gt;&amp;lt;&amp;gt;serverInfo: (.+)&amp;#39; name: tomcat_serverinfo value: 1 labels: serverInfo: &amp;#34;$1&amp;#34; type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=GlobalRequestProcessor, name=\&amp;#34;(\w+-\w+)-(\d+)\&amp;#34;&amp;gt;&amp;lt;&amp;gt;(\w+):&amp;#39; name: tomcat_$3_total labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat global $3 type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;j2eeType=Servlet, WebModule=//([-a-zA-Z0-9+&amp;amp;@#/%?=~_|!:.,;]*[-a-zA-Z0-9+&amp;amp;@#/%=~_|]), name=([-a-zA-Z0-9+/$%~_-|!.]*), J2EEApplication=none, J2EEServer=none&amp;gt;&amp;lt;&amp;gt;(requestCount|processingTime|errorCount):&amp;#39; name: tomcat_servlet_$3_total labels: module: &amp;#34;$1&amp;#34; servlet: &amp;#34;$2&amp;#34; help: Tomcat servlet $3 total type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=ThreadPool, name=&amp;#34;(\w+-\w+)-(\d+)&amp;#34;&amp;gt;&amp;lt;&amp;gt;(currentThreadCount|currentThreadsBusy|keepAliveCount|connectionCount|acceptCount|acceptorThreadCount|pollerThreadCount|maxThreads|minSpareThreads):&amp;#39; name: tomcat_threadpool_$3 labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat threadpool $3 type: GAUGE - pattern: &amp;#39;Catalina&amp;lt;type=Manager, host=([-a-zA-Z0-9+&amp;amp;@#/%?</description>
+    </item>
+    
     <item>
       <title>grails5 hibernate 建立監聽事件研究</title>
       <link>http://pollochang.work/worknot/worknot-20240416-2/</link>

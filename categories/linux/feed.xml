@@ -274,7 +274,7 @@ name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_
       
       <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
       <description>Linux 安裝 NVidia 驅動程式
-環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt -y install linux-headers-$(uname -r) build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
+環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt install linux-image-$(uname -r)-dbg linux-image-$(uname -r) linux-headers-$(uname -r) sudo apt -y install build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
     </item>
     
     <item>

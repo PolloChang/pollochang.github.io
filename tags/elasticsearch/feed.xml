@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ElasticSearch on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/elasticsearch/</link>
+    <description>Recent content in ElasticSearch on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 11 May 2025 23:27:23 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/elasticsearch/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zabbix ElasticSearch</title>
+      <link>http://pollochang.work/worknot/zabbix-elasticsearch/</link>
+      <pubDate>Sun, 11 May 2025 23:27:23 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-elasticsearch/</guid>
+      <description>Zabbix ElasticSearch 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 ESzabbix[cluster,count] Total number of records 記錄總數 ESzabbix[{$NODENAME},index_total] Records indexed per second 索引文檔總數 ESzabbix[cluster,unassigned_shards] Number of unassigned shards 未分配的分片數，通常為0，當有某個節點的副本分片丟失該值就會增加。 ESzabbix[cluster,number_of_nodes] Number of nodes 節點數 ESzabbix[cluster,relocating_shards] Number of relocating shards 當前節點遷往其他節點的分片數量，通常為0，當有節點加入或者退出時該值會增加。 ESzabbix[cluster,initializing_shards] Number of initializing shards 正在初始化的分片數 ESzabbix[cluster,number_of_data_nodes] Number of data nodes 數據節點數 ESzabbix[cluster,active_shards] Number of active shards 活躍的所有分片數 ESzabbix[cluster,active_primary_shards] Number of active primary shards 活躍的主分片數 ESzabbix[cluster,index_total] Cluster-wide records indexed per second 索引文檔數 ESzabbix[cluster,size_in_bytes] Cluster-wide storage size 數據總存儲容量 ESzabbix[service,status] Elasticsearch Service Status 服務狀態 ESzabbix[cluster,status] ElasticSearch Cluster Status 集群狀態 </description>
+    </item>
+    
+  </channel>
+</rss>

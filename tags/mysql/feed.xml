@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/mysql/</link>
+    <description>Recent content in MySQL on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sun, 11 May 2025 23:27:02 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/mysql/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zabbix MySQL</title>
+      <link>http://pollochang.work/worknot/zabbix-mysql/</link>
+      <pubDate>Sun, 11 May 2025 23:27:02 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-mysql/</guid>
+      <description>zabbix mySQL 監控 監控項關鍵字（item_key) 監控項名稱（item_name） 備註 mysql.dbsize[&amp;quot;{ MYSQL.HOST}&amp;quot;,&amp;quot;{ MYSQL.PORT}&amp;quot;,&amp;ldquo;數據庫名字&amp;rdquo;] Info: Size of database 數據庫名字 數據庫大小 mysql.ping[&amp;quot;{ MYSQL.HOST}&amp;quot;,&amp;quot;{ MYSQL.PORT}&amp;quot;] Availability: MySQL status 數據庫狀態1：正常0：異常 mysql.aborted_clients.rate Connections: Aborted clients per second 每秒中止的客戶端數 mysql.aborted_connects.rate Connections: Aborted connections per second 每秒中止的連接數 mysql.connection_errors_accept.rate Connections: Connection errors accept per second 每秒接受的連接錯誤數 mysql.connection_errors_internal.rate Connections: Connection errors internal per second 每秒內部連接錯誤數 mysql.connection_errors_max_connections.rate Connections: Connection errors max connections per second 連接錯誤每秒最大連接數 mysql.connection_errors_peer_address.rate Connections: Connection errors peer address per second 每秒對等地址連接錯誤數 mysql.</description>
+    </item>
+    
+  </channel>
+</rss>
