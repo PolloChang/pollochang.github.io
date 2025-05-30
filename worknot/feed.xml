@@ -6,7 +6,19 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 11 May 2025 23:27:45 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 May 2025 12:24:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Opinion About Ai</title>
+      <link>http://pollochang.work/worknot/opinion-about-ai/</link>
+      <pubDate>Fri, 30 May 2025 12:24:53 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/opinion-about-ai/</guid>
+      <description>最近在工作上用了AI工具，來分一下我使用的心得吧！
+在這篇我也想順便玩玩AI，我會先打出我的原文，再將文章讓AI進行整理與文字修飾，會使用 Gemini, Grok, ChatGPT
+提示詞如下
+這是我今年使用AI的心得，幫我修正文字錯誤及修飾文辭。 原始稿 大約在 2024 年 9 月，GhatGPT 的文字語意分析有質的飛躍，在那時候我就逐漸把工作上的文書類的工作丟給他了。例如: 撰寫教育訓練的文件、分析文件內容等。還來在2025 年年初，也可以依需求敘述產生簡單的程式碼。在這期間，有使用幾家語言模型: ChatGPT 、Grok、Gemini 。後來我主要使用 Gemini，主要原因是 我日常使用的文書工具是Google公司底下的，例如: Google Doc , Google Drive 等等。 在使用期間，有考慮過資訊安全相關方面的議題。我該使用雲端廠商所提供的AI，還是自己架設 LLM ，經過實地的一番比較，自己架設 LLM 一方面需要有足夠的硬體持有成本，要滿足我日常工作要求止少需要 4090 24G 的獨立顯示卡，另一方面也要時時更新 LLM 的版本以解決他內部資料的新鮮程度。於是我最後選擇訂閱雲端服務。至於資訊安全的部份，我是會先人工過濾掉感資訊在進行詢問，或是把工作的電腦切割成，可以連上網路與不可連上網路進行工作。 AI 可以在工作上可以幫我做什麼事情? 在我目前的經驗上，除了可以協助撰寫 及 分析 文本資料，還可以幫忙粹取圖片文字、語音轉文字，還可以透過排程定期抓取資料及整理。 就在今年，因為工作上需要每月抓取定軟體 CVE 資訊。原本一開始的想法是: 寫爬蟲程式 -&amp;gt; 取得網站資料 -&amp;gt; 萃取HTML理的資料 -&amp;gt; 進行資料分析 -&amp;gt; 套入報告模板 -&amp;gt; 產生報告。 後來我轉念一想：有沒有不寫程式 並透過 AI 分析文件資料？ 最終的結果使用 n8n 流程工具完成，完成後的流程是: 爬資料 -&amp;gt; 餵資料給AI -&amp;gt; AI依提示整理、萃取資料並匯出報告 -&amp;gt; 產生報告。 使用 AI 工具之後不僅在處理流程少了很多，另外我也省去撰寫程式的時間成本。 目前在網路上有流傳 「AI 將會取代工程師」。 關於這部份的說法，我認為這樣說才對: 「懂得善用AI的人 將會取代 不使用AI的人」。 AI 是屬於能力加成工具。假設有一個人在 資訊處理的本質能力(寫Java, 操作 Linux 等)是 10 ，在使用 AI 之後會乘以 10 就是 100 的能力值。而且本質能力月高，使用AI 工具之後綜合的能力也會明顯提升。 以上是我近一年使用AI工具的心得，說說看你的想法。 Gemini 2.</description>
+    </item>
+    
     <item>
       <title>deploy Zabbix Agent</title>
       <link>http://pollochang.work/worknot/zabbix-agent/</link>

@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - Categories </title>
+    <title>PolloChang 工作筆記 - Worknots </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
@@ -16,8 +16,8 @@
     
 
     
-        <link href="/categories/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
-        <link href="/categories/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/worknot/feed.xml" rel="alternate" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
+        <link href="/worknot/feed.xml" rel="feed" type="application/rss&#43;xml" title="PolloChang 工作筆記" />
     
 
     
@@ -137,76 +137,46 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/categories/fabric-os/">
-            <h2 class="">Fabric-OS</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2023-05-22</span>
-
-    
-    
-
-    
-
-    
-
-    
-    
-</h3>
-
-        <h3>
-        	 <a href="/categories/fabric-os/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/categories/java/">
-            <h2 class="">JAVA</h2>
+        <a href="/worknot/worknot-20230414/">
+            <h2 class="">GC實驗: String 相接 與 系統效能 關係</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
     <span>2023-04-14</span>
 
     
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
 
     
-
-    
-
-    
-    
-</h3>
-
-        <h3>
-        	 <a href="/categories/java/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/categories/ci/cd/">
-            <h2 class="">CI/CD</h2>
+        <a href="/categories/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">JAVA</span>
         </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>0001-01-01</span>
-
-    
     
 
     
-
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
     
 
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java</span>
+        </a>
+    
+        <a href="/tags/java-gc/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">java GC</span>
+        </a>
     
     
 </h3>
 
         <h3>
-        	 <a href="/categories/ci/cd/"><span style="color:#01AAED">Read More</span></a>
+        	
+				做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
+實驗目的 了解String 相接 與 系統效能 關係
+實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k ...
+             <a href="/worknot/worknot-20230414/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -216,11 +186,11 @@ layui.use('element', function(){
 <div class="pager">
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/categories/"><i class="layui-icon">&#xe65a;</i></a>
+            <a href="/worknot/"><i class="layui-icon">&#xe65a;</i></a>
         </button>
         
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/categories/page/2/"><i class="layui-icon">&#xe603;</i></a>
+            <a href="/worknot/page/11/"><i class="layui-icon">&#xe603;</i></a>
         </button>
         
         
@@ -229,7 +199,7 @@ layui.use('element', function(){
         </button>
         
         <button type="button" class="layui-btn layui-btn-primary layui-btn-sm">
-            <a href="/categories/page/3/"><i class="layui-icon">&#xe65b;</i></a>
+            <a href="/worknot/page/12/"><i class="layui-icon">&#xe65b;</i></a>
         </button>
     </div>
 </div>

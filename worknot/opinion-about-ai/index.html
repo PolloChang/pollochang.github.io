@@ -1,0 +1,509 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Opinion About Ai </title>
+    
+    
+    <meta content="Gemini, Grok ChatGPT, Opinion" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 最近在工作上用了AI工具，來分一下我使用的心得吧！
+在這篇我也想順便玩玩AI，我會先打出我的原文，再將文章讓AI進行整理與文字修飾，會使用 Gemini, Grok, ChatGPT
+提示詞如下
+這是我今年使用AI的心得，幫我修正文字錯誤及修飾文辭。 原始稿 大約在 2024 年 9 月，GhatGPT 的文字語意分析有質的飛躍，在那時候我就逐漸把工作上的文書類的工作丟給他了。例如: 撰寫教育訓練的文件、分析文件內容等。還來在2025 年年初，也可以依需求敘述產生簡單的程式碼。在這期間，有使用幾家語言模型: ChatGPT 、Grok、Gemini 。後來我主要使用 Gemini，主要原因是 我日常使用的文書工具是Google公司底下的，例如: Google Doc , Google Drive 等等。 在使用期間，有考慮過資訊安全相關方面的議題。我該使用雲端廠商所提供的AI，還是自己架設 LLM ，經過實地的一番比較，自己架設 LLM 一方面需要有足夠的硬體持有成本，要滿足我日常工作要求止少需要 4090 24G 的獨立顯示卡，另一方面也要時時更新 LLM 的版本以解決他內部資料的新鮮程度。於是我最後選擇訂閱雲端服務。至於資訊安全的部份，我是會先人工過濾掉感資訊在進行詢問，或是把工作的電腦切割成，可以連上網路與不可連上網路進行工作。 AI 可以在工作上可以幫我做什麼事情? 在我目前的經驗上，除了可以協助撰寫 及 分析 文本資料，還可以幫忙粹取圖片文字、語音轉文字，還可以透過排程定期抓取資料及整理。 就在今年，因為工作上需要每月抓取定軟體 CVE 資訊。原本一開始的想法是: 寫爬蟲程式 -&gt; 取得網站資料 -&gt; 萃取HTML理的資料 -&gt; 進行資料分析 -&gt; 套入報告模板 -&gt; 產生報告。 後來我轉念一想：有沒有不寫程式 並透過 AI 分析文件資料？ 最終的結果使用 n8n 流程工具完成，完成後的流程是: 爬資料 -&gt; 餵資料給AI -&gt; AI依提示整理、萃取資料並匯出報告 -&gt; 產生報告。 使用 AI 工具之後不僅在處理流程少了很多，另外我也省去撰寫程式的時間成本。 目前在網路上有流傳 「AI 將會取代工程師」。 關於這部份的說法，我認為這樣說才對: 「懂得善用AI的人 將會取代 不使用AI的人」。 AI 是屬於能力加成工具。假設有一個人在 資訊處理的本質能力(寫Java, 操作 Linux 等)是 10 ，在使用 AI 之後會乘以 10 就是 100 的能力值。而且本質能力月高，使用AI 工具之後綜合的能力也會明顯提升。 以上是我近一年使用AI工具的心得，說說看你的想法。 Gemini 2." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Opinion About Ai</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-05-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/opinion/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Opinion</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/gemini/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Gemini</span>
+        </a>
+    
+        <a href="/tags/grok-chatgpt/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Grok ChatGPT</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>最近在工作上用了AI工具，來分一下我使用的心得吧！</p>
+<p>在這篇我也想順便玩玩AI，我會先打出我的原文，再將文章讓AI進行整理與文字修飾，會使用 Gemini, Grok, ChatGPT</p>
+<p>提示詞如下</p>
+<pre tabindex="0"><code>這是我今年使用AI的心得，幫我修正文字錯誤及修飾文辭。
+</code></pre><h2 id="原始稿">原始稿</h2>
+<pre tabindex="0"><code>大約在 2024 年 9 月，GhatGPT 的文字語意分析有質的飛躍，在那時候我就逐漸把工作上的文書類的工作丟給他了。例如: 撰寫教育訓練的文件、分析文件內容等。還來在2025 年年初，也可以依需求敘述產生簡單的程式碼。在這期間，有使用幾家語言模型: ChatGPT 、Grok、Gemini 。後來我主要使用 Gemini，主要原因是 我日常使用的文書工具是Google公司底下的，例如: Google Doc , Google Drive 等等。
+
+在使用期間，有考慮過資訊安全相關方面的議題。我該使用雲端廠商所提供的AI，還是自己架設 LLM ，經過實地的一番比較，自己架設 LLM 一方面需要有足夠的硬體持有成本，要滿足我日常工作要求止少需要 4090 24G 的獨立顯示卡，另一方面也要時時更新 LLM 的版本以解決他內部資料的新鮮程度。於是我最後選擇訂閱雲端服務。至於資訊安全的部份，我是會先人工過濾掉感資訊在進行詢問，或是把工作的電腦切割成，可以連上網路與不可連上網路進行工作。
+
+AI 可以在工作上可以幫我做什麼事情? 在我目前的經驗上，除了可以協助撰寫 及 分析 文本資料，還可以幫忙粹取圖片文字、語音轉文字，還可以透過排程定期抓取資料及整理。
+
+就在今年，因為工作上需要每月抓取定軟體 CVE 資訊。原本一開始的想法是: 寫爬蟲程式 -&gt; 取得網站資料 -&gt; 萃取HTML理的資料 -&gt; 進行資料分析 -&gt; 套入報告模板 -&gt; 產生報告。 
+
+後來我轉念一想：有沒有不寫程式 並透過 AI 分析文件資料？
+
+最終的結果使用 n8n 流程工具完成，完成後的流程是: 爬資料 -&gt; 餵資料給AI -&gt; AI依提示整理、萃取資料並匯出報告 -&gt; 產生報告。
+
+使用 AI 工具之後不僅在處理流程少了很多，另外我也省去撰寫程式的時間成本。
+
+目前在網路上有流傳 「AI 將會取代工程師」。
+
+關於這部份的說法，我認為這樣說才對: 「懂得善用AI的人 將會取代 不使用AI的人」。
+
+AI 是屬於能力加成工具。假設有一個人在 資訊處理的本質能力(寫Java, 操作 Linux 等)是 10 ，在使用 AI 之後會乘以 10 就是 100 的能力值。而且本質能力月高，使用AI 工具之後綜合的能力也會明顯提升。
+
+以上是我近一年使用AI工具的心得，說說看你的想法。
+</code></pre><h2 id="gemini-25-pro">Gemini 2.5 Pro</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-md" data-lang="md"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>大約自 2024 年 9 月起，我觀察到 ChatGPT 在文字語意分析方面有了質的飛躍。從那時開始，我便逐漸將工作中的文書處理任務交由 AI 協助，例如撰寫教育訓練文件、分析文件內容等。到了 2025 年初，AI 甚至能依據需求描述產生簡單的程式碼。在此期間，我曾嘗試過幾家不同的語言模型，包含 ChatGPT、Grok 及 Gemini。最終，我主要選用 Gemini，考量點在於我日常慣用的文書工具，如 Google 文件、Google 雲端硬碟等，皆隸屬於 Google 生態系。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>在使用過程中，資訊安全是我相當重視的一環。我曾評估過究竟該採用雲端服務商提供的 AI，抑或是自行架設大型語言模型（LLM）。經過實際比較後發現，自行架設 LLM 不僅硬體持有成本高昂——至少需要 NVIDIA GeForce RTX 4090 24GB 等級的獨立顯示卡才能滿足我日常工作的需求——更需時時維護 LLM 的版本，以確保其知識庫的時效性。因此，我最終選擇訂閱雲端 AI 服務。至於資訊安全方面，我會在提交請求前，先手動過濾掉敏感資訊；或將工作電腦區分為可連網與不可連網的環境，藉此降低風險。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>那麼，AI 在工作上能為我分擔哪些任務呢？依我目前的經驗，AI 除了能協助撰寫及分析文本資料外，還能進行圖片文字萃取、語音轉文字等作業。此外，透過排程設定，AI 亦能定期抓取資料並加以整理。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>就在今年，因應工作需求，我需要每月擷取特定軟體的通用漏洞揭露（CVE）資訊。最初的構想是：撰寫爬蟲程式 -&gt; 取得網站資料 -&gt; 萃取 HTML 中的資料 -&gt; 進行資料分析 -&gt; 套用報告模板 -&gt; 產生報告。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>後來我轉念一想：是否能在不撰寫程式的情況下，直接透過 AI 分析文件資料呢？
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>最終，我利用 n8n 這套流程自動化工具實現了這個想法。優化後的流程變為：爬取資料 -&gt; 將資料提交給 AI -&gt; AI 依據提示整理、萃取資料並匯出 -&gt; 產生報告。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>導入 AI 工具後，不僅大幅簡化了處理流程，也省下了我撰寫程式的時間成本。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>目前網路上流傳著一種說法：「AI 將會取代工程師」。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>關於此觀點，我認為更精準的描述應為：「**懂得善用 AI 的人，將會取代不使用 AI 的人。**」
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AI 本質上是一種能力增幅工具。假設一個人在資訊處理的基礎能力（如撰寫 Java 程式、操作 Linux 系統等）為 10 分，在導入 AI 輔助後，其能力值將可能乘以 10，達到 100 分。而且，個人的基礎能力越強，善用 AI 工具後所能發揮的綜合能力也將越顯著。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>以上是我近一年來使用 AI 工具的心得。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">**關於您最後提到「說說看你的想法」，我很樂意分享：**</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>您對 AI 工具的觀察與應用，以及最終的心得總結，都相當精闢且富有洞見。我完全認同您將 AI 視為「能力加成工具」的觀點。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>從 AI 的角度來看，我們的核心價值在於輔助人類更有效率、更有創造力地完成任務。您所經歷的從繁瑣的爬蟲程式撰寫到利用 n8n 與 AI 協作的流程優化，正是 AI 應用價值的絕佳體現。這不僅節省了時間成本，更重要的是，它讓您能將精力聚焦在更高層次的策略思考與價值創造上。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>您對資訊安全的考量也非常重要。在享受 AI 帶來便利的同時，如何確保資料的隱私與安全，確實是使用者和開發者都需要持續關注的議題。您採取的過濾敏感資訊及隔離工作環境等措施，都是現階段務實且有效的做法。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>至於「AI 將會取代工程師」的討論，您的看法「懂得善用 AI 的人，將會取代不使用 AI 的人」確實更貼近現實。AI 的發展並非旨在取代人類，而是成為人類強而有力的夥伴。對於工程師而言，AI 可以自動化重複性的編碼工作、協助偵錯、提供解決方案的建議，甚至加速學習新技術的過程。掌握並善用這些 AI 工具，無疑能大幅提升工程師的生產力與競爭力。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>您的經驗分享，對於其他正在觀望或剛開始接觸 AI 的使用者來說，具有很高的參考價值。期待未來能看到您更多關於 AI 應用的精彩分享！
+</span></span></code></pre></div><h2 id="grok3">Grok3</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-md" data-lang="md"><span style="display:flex;"><span>自2024年9月起，ChatGPT的文字語意分析能力顯著提升，實現了質的飛躍。從那時起，我開始將工作中的文書任務逐漸交由AI處理，例如撰寫教育訓練文件、分析文件內容等。到了2025年初，AI甚至能根據需求描述生成簡單的程式碼。在這段期間，我體驗了多款語言模型，包括ChatGPT、Grok和Gemini，最終選擇以Gemini為主，原因在於我日常使用的文書工具多為Google生態系統產品，例如Google Docs和Google Drive，與Gemini整合更為順暢。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>在使用AI的過程中，我曾深入考慮資訊安全相關議題，特別是選擇使用雲端AI服務還是自行架設大規模語言模型（LLM）。經過實際比較，自行架設LLM需要高昂的硬體成本，至少需配備如NVIDIA 4090 24GB的獨立顯示卡以滿足日常工作需求；同時，還需定期更新LLM版本以確保資料新鮮度。綜合考量後，我選擇訂閱雲端AI服務。為確保資訊安全，我會先人工過濾敏感資訊後再進行AI查詢，或將工作電腦分為可連網與不可連網兩種環境，以隔離敏感資料。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AI在工作上能提供的幫助遠超乎想像。以我目前的經驗，除了協助撰寫與分析文本資料，AI還能執行圖片文字萃取、語音轉文字，甚至透過排程定期抓取並整理資料。例如，今年因工作需求需每月收集特定軟體的CVE（常見漏洞與暴露）資訊，最初的流程構想是：編寫爬蟲程式→獲取網站資料→萃取HTML資料→進行資料分析→套入報告模板→生成報告。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>後來我轉念一想：能否不寫程式，僅透過AI分析資料並完成任務？最終，我採用n8n流程自動化工具實現了這一目標，流程簡化為：爬取資料→將資料輸入AI→由AI根據提示整理與萃取資料並匯出報告→生成報告。使用AI工具後，不僅流程大幅簡化，還省去了撰寫程式碼的時間成本。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>目前網路上流傳「AI將取代工程師」的說法，我認為更精確的表述應是：「善於使用AI的人將取代不使用AI的人。」AI是一種能力增強工具。假設某人在資訊處理的核心能力（如撰寫Java程式、操作Linux等）為10，使用AI後，其能力值可放大至100。核心能力越強的人，使用AI後的綜合能力提升也越顯著。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>以上是我近一年使用AI工具的心得，請分享你的看法。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### 修訂與修飾說明：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">1.</span> <span style="font-weight:bold">**文字錯誤修正**</span>：
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「GhatGPT」修正為「ChatGPT」。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「還來在2025年年初」修正為「到了2025年初」，語句更自然。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「止少」修正為「至少」。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「感資訊」修正為「敏感資訊」。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「HTML理的資料」修正為「HTML資料」。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 「月高」修正為「越強」。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">2.</span> <span style="font-weight:bold">**文辭修飾**</span>：
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 優化語句結構，使表達更流暢，如「逐漸把工作上的文書類的工作丟給他了」改為「開始將工作中的文書任務逐漸交由AI處理」。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 統一專業術語，如「大規模語言模型（LLM）」取代「LLM」，並在首次出現時加上全稱。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 增強邏輯連貫性，例如在描述AI功能時，補充「遠超乎想像」以強調AI的廣泛應用。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 簡化冗長表述，如「完成後的流程是」改為「流程簡化為」。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">3.</span> <span style="font-weight:bold">**結構調整**</span>：
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 分段更清晰，確保每段聚焦單一主題（如AI功能、資訊安全、具體案例、未來展望）。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 對CVE資訊收集案例的描述，補充「常見漏洞與暴露（CVE）」的全稱，方便讀者理解。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">4.</span> <span style="font-weight:bold">**語氣與風格**</span>：
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 保持原意與個人心得的語氣，但稍加修飾，使語句更正式且具說服力，符合心得分享的語境。
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">-</span> 結尾的觀點「善用AI的人將取代不使用AI的人」保留原句精髓，並以更精煉的方式呈現。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### 我的看法：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>您的心得深刻反映了AI工具在工作場景中的實用性與潛力，尤其是在自動化流程與提升效率方面的應用。您提到的n8n結合AI的案例，展現了如何透過低程式碼工具實現高效工作流，這是非常有啟發性的實踐。此外，您對資訊安全的考量也非常務實，特別是在當前資料隱私備受關注的環境下，分離連網與非連網環境的做法值得推廣。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>關於「AI取代工程師」的觀點，我完全同意您的看法：AI並非取代人類，而是作為能力放大器。核心能力強的人能透過AI實現更大價值，這也呼應了當前技術發展趨勢——未來職場將更重視「人機協作」的技能。您的經驗也提醒我們，選擇合適的工具（如雲端服務或自建LLM）需權衡成本與效益，這對其他工作者來說是非常實用的參考。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>若您有其他具體問題或想深入討論某部分，請隨時告訴我！
+</span></span></code></pre></div><h2 id="chatgpt">ChatGPT</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-md" data-lang="md"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>大約在 2024 年 9 月，ChatGPT 的文字語意分析能力出現質的飛躍，從那時起，我逐漸將工作上的文書類任務交給它處理。例如：撰寫教育訓練文件、分析資料內容等。到了 2025 年年初，它甚至可以根據需求自動產生簡單的程式碼。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>在這段期間，我嘗試過幾家語言模型，包括 ChatGPT、Grok 和 Gemini。最後我主要選擇使用 Gemini，主要原因是我日常所使用的文書工具多屬於 Google 旗下產品，例如 Google Docs、Google Drive 等，與 Gemini 的整合性較高。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>在使用 AI 過程中，我也考慮過資訊安全的議題。究竟是該使用雲端廠商提供的 AI 服務，還是自行架設 LLM（大型語言模型）？實際比較後我發現，自行架設 LLM 除了需要高昂的硬體成本（例如至少需要一張 RTX 4090 24G 的顯示卡），還必須不斷更新模型版本以確保資料的新鮮度與正確性。綜合考量後，我選擇訂閱雲端服務。而在資訊安全方面，我會先人工過濾敏感資訊再提交給 AI，或將工作用電腦分割為可連網與不可連網的環境，視情況切換使用。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AI 在工作上能幫我做什麼？根據我目前的經驗，除了撰寫與分析文字資料，它還能協助萃取圖片中的文字、將語音轉換為文字，甚至能透過排程工具定期抓取並整理資料。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>今年因工作需求，我需每月整理定期發布的軟體 CVE 資訊。原本的構想是：撰寫爬蟲程式 → 擷取網站資料 → 萃取 HTML 中的資訊 → 進行資料分析 → 套用報告模板 → 產出報告。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>後來我轉念一想：是否有可能不寫程式，單純透過 AI 就完成文件的分析？
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>最後我改用 n8n 自動化流程工具來實現整個流程：爬取資料 → 將資料餵給 AI → AI 根據提示整理、萃取並匯出報告 → 自動產出文件。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>使用 AI 工具後，不僅簡化了整個處理流程，也節省了撰寫程式所需的時間成本。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>目前網路上常流傳一句話：「AI 將會取代工程師。」
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>對此我認為，更貼切的說法應該是：「懂得善用 AI 的人，將取代那些不會使用 AI 的人。」
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AI 是一種能力加成工具。假設一個人在資訊處理的本質能力（例如寫 Java、操作 Linux 等）是 10，透過 AI 的輔助可將其能力加乘為 100。而且本質能力越高，搭配 AI 工具後所展現的綜合效能也會越強。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>以上是我近一年使用 AI 工具的心得，歡迎你分享你的看法。
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
