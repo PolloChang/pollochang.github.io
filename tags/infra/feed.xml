@@ -16,5 +16,18 @@
       <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
     </item>
     
+    <item>
+      <title>客製化 Gnome</title>
+      <link>http://pollochang.work/worknot/custom-gnome-them/</link>
+      <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/custom-gnome-them/</guid>
+      <description>Plymouth 列出可用的主題
+plymouth-set-default-theme -l 顯示當前主題
+plymouth-set-default-theme 設定主題
+sudo plymouth-set-default-theme &amp;lt;theme_name&amp;gt; sudo update-initramfs -u 登入畫面 schema: /usr/share/glib-2.0/schemas/
+設定文件: /etc/gdm3/greeter.dconf-defaults # These are the options for the greeter session that can be set # through GSettings. Any GSettings setting that is used by the # greeter session can be set here. # Note that you must configure the path used by dconf to store the # configuration, not the GSettings path. # Theming options # =============== # - Change the GTK+ theme [org/gnome/desktop/interface] # gtk-theme=&amp;#39;Adwaita&amp;#39; # - Use another background [org/gnome/desktop/background] # picture-uri=&amp;#39;file:///usr/share/themes/Adwaita/backgrounds/stripes.</description>
+    </item>
+    
   </channel>
 </rss>

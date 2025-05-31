@@ -329,6 +329,144 @@ alias sl=/usr/games/sl
 </span></span><span style="display:flex;"><span>cmatrix -r 
 </span></span><span style="display:flex;"><span>banner Test
 </span></span><span style="display:flex;"><span>figlet Test
+</span></span></code></pre></div><h2 id="我的設定">我的設定</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Initialization code that may require console input (password prompts, [y/n]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># confirmations, etc.) must go above this block; everything else may go below.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -r <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>XDG_CACHE_HOME<span style="color:#66d9ef">:-</span>$HOME/.cache<span style="color:#e6db74">}</span><span style="color:#e6db74">/p10k-instant-prompt-</span><span style="color:#e6db74">${</span>(%)<span style="color:#66d9ef">:-</span>%n<span style="color:#e6db74">}</span><span style="color:#e6db74">.zsh&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  source <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>XDG_CACHE_HOME<span style="color:#66d9ef">:-</span>$HOME/.cache<span style="color:#e6db74">}</span><span style="color:#e6db74">/p10k-instant-prompt-</span><span style="color:#e6db74">${</span>(%)<span style="color:#66d9ef">:-</span>%n<span style="color:#e6db74">}</span><span style="color:#e6db74">.zsh&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If you come from bash you might have to change your $PATH.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Path to your Oh My Zsh installation.</span>
+</span></span><span style="display:flex;"><span>export ZSH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/.oh-my-zsh&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set name of the theme to load --- if set to &#34;random&#34;, it will</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># load a random theme each time Oh My Zsh is loaded, in which case,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to know which specific one was loaded, run: echo $RANDOM_THEME</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ZSH_THEME=&#34;robbyrussell&#34;</span>
+</span></span><span style="display:flex;"><span>ZSH_THEME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;powerlevel10k/powerlevel10k&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set list of themes to pick from when loading at random</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Setting this variable when ZSH_THEME=random will cause zsh to load</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># a theme from this variable instead of looking in $ZSH/themes/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If set to an empty array, this variable will have no effect.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ZSH_THEME_RANDOM_CANDIDATES=( &#34;robbyrussell&#34; &#34;agnoster&#34; )</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to use case-sensitive completion.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CASE_SENSITIVE=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to use hyphen-insensitive completion.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Case-sensitive completion must be off. _ and - will be interchangeable.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># HYPHEN_INSENSITIVE=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment one of the following lines to change the auto-update behavior</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zstyle &#39;:omz:update&#39; mode disabled  # disable automatic updates</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zstyle &#39;:omz:update&#39; mode auto      # update automatically without asking</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zstyle &#39;:omz:update&#39; mode reminder  # just remind me to update when it&#39;s time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to change how often to auto-update (in days).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zstyle &#39;:omz:update&#39; frequency 13</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line if pasting URLs and other text is messed up.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DISABLE_MAGIC_FUNCTIONS=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to disable colors in ls.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DISABLE_LS_COLORS=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to disable auto-setting terminal title.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DISABLE_AUTO_TITLE=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to enable command auto-correction.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ENABLE_CORRECTION=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line to display red dots whilst waiting for completion.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You can also set it to another string to have that shown instead of the default red dots.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># e.g. COMPLETION_WAITING_DOTS=&#34;%F{yellow}waiting...%f&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Caution: this setting can cause issues with multiline prompts in zsh &lt; 5.7.1 (see #5765)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># COMPLETION_WAITING_DOTS=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line if you want to disable marking untracked files</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># under VCS as dirty. This makes repository status check for large repositories</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># much, much faster.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DISABLE_UNTRACKED_FILES_DIRTY=&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Uncomment the following line if you want to change the command execution time</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># stamp shown in the history command output.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You can set one of the optional three formats:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &#34;mm/dd/yyyy&#34;|&#34;dd.mm.yyyy&#34;|&#34;yyyy-mm-dd&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or set a custom format using the strftime function format specifications,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># see &#39;man strftime&#39; for details.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># HIST_STAMPS=&#34;mm/dd/yyyy&#34;</span>
+</span></span><span style="display:flex;"><span>HIST_STAMPS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;%F_%T&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Would you like to use another custom folder than $ZSH/custom?</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ZSH_CUSTOM=/path/to/new-custom-folder</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Which plugins would you like to load?</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Standard plugins can be found in $ZSH/plugins/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Custom plugins may be added to $ZSH_CUSTOM/plugins/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example format: plugins=(rails git textmate ruby lighthouse)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add wisely, as too many plugins slow down shell startup.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#plugins=(git)</span>
+</span></span><span style="display:flex;"><span>plugins<span style="color:#f92672">=(</span>
+</span></span><span style="display:flex;"><span>        git
+</span></span><span style="display:flex;"><span>        zsh-syntax-highlighting
+</span></span><span style="display:flex;"><span>        zsh-autosuggestions
+</span></span><span style="display:flex;"><span>        zsh-completions
+</span></span><span style="display:flex;"><span>        autojump
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>alias history<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;history -i&#34;</span>
+</span></span><span style="display:flex;"><span>HISTFILE<span style="color:#f92672">=</span>~/.zsh_history
+</span></span><span style="display:flex;"><span>HISTSIZE<span style="color:#f92672">=</span><span style="color:#ae81ff">100000000</span>
+</span></span><span style="display:flex;"><span>SAVEHIST<span style="color:#f92672">=</span><span style="color:#ae81ff">100000000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>setopt appendhistory
+</span></span><span style="display:flex;"><span>setopt sharehistory
+</span></span><span style="display:flex;"><span>setopt hist_expire_dups_first
+</span></span><span style="display:flex;"><span>setopt hist_ignore_dups
+</span></span><span style="display:flex;"><span>setopt hist_ignore_space
+</span></span><span style="display:flex;"><span>setopt hist_verify
+</span></span><span style="display:flex;"><span>setopt hist_save_no_dups
+</span></span><span style="display:flex;"><span>setopt hist_no_store
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>source $ZSH/oh-my-zsh.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># User configuration</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export MANPATH=&#34;/usr/local/man:$MANPATH&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You may need to manually set your language environment</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export LANG=en_US.UTF-8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Preferred editor for local and remote sessions</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># if [[ -n $SSH_CONNECTION ]]; then</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   export EDITOR=&#39;vim&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># else</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   export EDITOR=&#39;nvim&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compilation flags</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export ARCHFLAGS=&#34;-arch $(uname -m)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set personal aliases, overriding those provided by Oh My Zsh libs,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># plugins, and themes. Aliases can be placed here, though Oh My Zsh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># users are encouraged to define aliases within a top-level file in</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># the $ZSH_CUSTOM folder, with .zsh extension. Examples:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - $ZSH_CUSTOM/aliases.zsh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - $ZSH_CUSTOM/macos.zsh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For a full list of active aliases, run `alias`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example aliases</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># alias zshconfig=&#34;mate ~/.zshrc&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># alias ohmyzsh=&#34;mate ~/.oh-my-zsh&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[[</span> ! -f ~/.p10k.zsh <span style="color:#f92672">]]</span> <span style="color:#f92672">||</span> source ~/.p10k.zsh
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <p><a href="https://holychung.medium.com/%E5%88%86%E4%BA%AB-oh-my-zsh-powerlevel10k-%E5%BF%AB%E9%80%9F%E6%89%93%E9%80%A0%E5%A5%BD%E7%9C%8B%E5%A5%BD%E7%94%A8%E7%9A%84-command-line-%E7%92%B0%E5%A2%83-f66846117921">【分享】Oh My Zsh + powerlevel10k 快速打造好看好用的 command line 環境</a></p>
 <p><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a></p>

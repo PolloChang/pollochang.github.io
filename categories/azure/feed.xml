@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>azure on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/azure/</link>
+    <description>Recent content in azure on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sat, 31 May 2025 18:40:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/azure/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Azure Storage Explorer on Linux</title>
+      <link>http://pollochang.work/worknot/azure-azurestorageexplorer/</link>
+      <pubDate>Sat, 31 May 2025 18:40:15 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/azure-azurestorageexplorer/</guid>
+      <description>安裝 .Net8 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb sudo dpkg -i packages-microsoft-prod.deb rm packages-microsoft-prod.deb sudo apt-get update sudo apt-get install -y aspnetcore-runtime-8.0 安裝 Azure Storage Explorer wget https://download.microsoft.com/download/a16938b4-4998-4997-9b68-65a82bb11470/A/E/3/AE32C485-B62B-4437-92F7-8B6B2C48CB40/StorageExplorer-linux-x64.tar.gz sudo mkdir -p /usr/local/share/AzureStorageExplorer sudo tar -zxf StorageExplorer-linux-x64.tar.gz -C /usr/local/share/AzureStorageExplorer/ sudo wget -O /usr/local/share/AzureStorageExplorer/storage-logo.png https://azure.github.io/Storage/images/storage-logo.png 建立桌面啟動程式 設定文件: /usr/share/applications/AzureStorageExplorer.desktop [Desktop Entry] Version=1.0 Type=Application Name=&amp;#34;Azure Storage Explorer&amp;#34; Terminal=false Icon=&amp;#34;/usr/local/share/AzureStorageExplorer/storage-logo.png&amp;#34; Exec=&amp;#34;/usr/local/share/AzureStorageExplorer/StorageExplorerExe&amp;#34; %f Comment=Azure Categories=Azure Terminal=false </description>
+    </item>
+    
+  </channel>
+</rss>

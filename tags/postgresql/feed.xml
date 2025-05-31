@@ -17,6 +17,19 @@
     </item>
     
     <item>
+      <title>客製化 Gnome</title>
+      <link>http://pollochang.work/worknot/custom-gnome-them/</link>
+      <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/custom-gnome-them/</guid>
+      <description>Plymouth 列出可用的主題
+plymouth-set-default-theme -l 顯示當前主題
+plymouth-set-default-theme 設定主題
+sudo plymouth-set-default-theme &amp;lt;theme_name&amp;gt; sudo update-initramfs -u 登入畫面 schema: /usr/share/glib-2.0/schemas/
+設定文件: /etc/gdm3/greeter.dconf-defaults # These are the options for the greeter session that can be set # through GSettings. Any GSettings setting that is used by the # greeter session can be set here. # Note that you must configure the path used by dconf to store the # configuration, not the GSettings path. # Theming options # =============== # - Change the GTK+ theme [org/gnome/desktop/interface] # gtk-theme=&amp;#39;Adwaita&amp;#39; # - Use another background [org/gnome/desktop/background] # picture-uri=&amp;#39;file:///usr/share/themes/Adwaita/backgrounds/stripes.</description>
+    </item>
+    
+    <item>
       <title>db-postgresql-note</title>
       <link>http://pollochang.work/post/db-postgresql-note/</link>
       <pubDate>Fri, 15 Mar 2024 22:13:29 +0800</pubDate>

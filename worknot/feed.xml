@@ -6,7 +6,16 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 30 May 2025 12:24:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 May 2025 18:40:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Azure Storage Explorer on Linux</title>
+      <link>http://pollochang.work/worknot/azure-azurestorageexplorer/</link>
+      <pubDate>Sat, 31 May 2025 18:40:15 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/azure-azurestorageexplorer/</guid>
+      <description>安裝 .Net8 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb sudo dpkg -i packages-microsoft-prod.deb rm packages-microsoft-prod.deb sudo apt-get update sudo apt-get install -y aspnetcore-runtime-8.0 安裝 Azure Storage Explorer wget https://download.microsoft.com/download/a16938b4-4998-4997-9b68-65a82bb11470/A/E/3/AE32C485-B62B-4437-92F7-8B6B2C48CB40/StorageExplorer-linux-x64.tar.gz sudo mkdir -p /usr/local/share/AzureStorageExplorer sudo tar -zxf StorageExplorer-linux-x64.tar.gz -C /usr/local/share/AzureStorageExplorer/ sudo wget -O /usr/local/share/AzureStorageExplorer/storage-logo.png https://azure.github.io/Storage/images/storage-logo.png 建立桌面啟動程式 設定文件: /usr/share/applications/AzureStorageExplorer.desktop [Desktop Entry] Version=1.0 Type=Application Name=&amp;#34;Azure Storage Explorer&amp;#34; Terminal=false Icon=&amp;#34;/usr/local/share/AzureStorageExplorer/storage-logo.png&amp;#34; Exec=&amp;#34;/usr/local/share/AzureStorageExplorer/StorageExplorerExe&amp;#34; %f Comment=Azure Categories=Azure Terminal=false </description>
+    </item>
+    
     <item>
       <title>Opinion About Ai</title>
       <link>http://pollochang.work/worknot/opinion-about-ai/</link>
@@ -474,6 +483,19 @@ tar -xvf node_exporter*.tar.gz &amp;amp;&amp;amp;\ cd node_exporter*/ &amp;amp;&
       
       <guid>http://pollochang.work/worknot/deploy-postgresql-16-primary-standby/</guid>
       <description>環境設計 OS: Debian 12 Database version: postgresql 16 主機: develop-pg-node-01 role: Primary IP: 192.168.100.101 develop-pg-node-02 role: Standby IP: 192.168.100.102 資料庫帳號 replication account: repuser password: somestrongpassword 安裝 sudo apt install -y curl ca-certificates rsync sudo install -d /usr/share/postgresql-common/pgdg sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc sudo sh -c &amp;#39;echo &amp;#34;deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&amp;#34; &amp;gt; /etc/apt/sources.list.d/pgdg.list&amp;#39; sudo apt update sudo apt -y install postgresql-16 firewall-cmd --permanent --add-service=postgresql &amp;amp;&amp;amp; firewall-cmd --reload systemctl status postgresql 部署 Primary /etc/postgresql/16/main/postgresql.</description>
+    </item>
+    
+    <item>
+      <title>客製化 Gnome</title>
+      <link>http://pollochang.work/worknot/custom-gnome-them/</link>
+      <pubDate>Thu, 17 Oct 2024 23:11:09 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/custom-gnome-them/</guid>
+      <description>Plymouth 列出可用的主題
+plymouth-set-default-theme -l 顯示當前主題
+plymouth-set-default-theme 設定主題
+sudo plymouth-set-default-theme &amp;lt;theme_name&amp;gt; sudo update-initramfs -u 登入畫面 schema: /usr/share/glib-2.0/schemas/
+設定文件: /etc/gdm3/greeter.dconf-defaults # These are the options for the greeter session that can be set # through GSettings. Any GSettings setting that is used by the # greeter session can be set here. # Note that you must configure the path used by dconf to store the # configuration, not the GSettings path. # Theming options # =============== # - Change the GTK+ theme [org/gnome/desktop/interface] # gtk-theme=&amp;#39;Adwaita&amp;#39; # - Use another background [org/gnome/desktop/background] # picture-uri=&amp;#39;file:///usr/share/themes/Adwaita/backgrounds/stripes.</description>
     </item>
     
     <item>
