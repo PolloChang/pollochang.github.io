@@ -1,0 +1,2035 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Deploy AIX in KVM </title>
+    
+    
+    <meta content="AIX, KVM, Linux, unix" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2&#43;dfsg-7&#43;deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
+&lt;domain type=&#39;qemu&#39;&gt; &lt;name&gt;aix&lt;/name&gt; &lt;uuid&gt;808a3d10-32f3-433e-a18e-67c25310ddc1&lt;/uuid&gt; &lt;memory unit=&#39;KiB&#39;&gt;8388608&lt;/memory&gt; &lt;currentMemory unit=&#39;KiB&#39;&gt;8388608&lt;/currentMemory&gt; &lt;vcpu placement=&#39;static&#39;&gt;4&lt;/vcpu&gt; &lt;os&gt; &lt;type arch=&#39;ppc64&#39; machine=&#39;pseries-7.2&#39;&gt;hvm&lt;/type&gt; &lt;/os&gt; &lt;cpu mode=&#39;custom&#39; match=&#39;exact&#39; check=&#39;none&#39;&gt; &lt;model fallback=&#39;forbid&#39;&gt;POWER7&lt;/model&gt; &lt;/cpu&gt; &lt;clock offset=&#39;utc&#39;/&gt; &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt; &lt;on_reboot&gt;restart&lt;/on_reboot&gt; &lt;on_crash&gt;destroy&lt;/on_crash&gt; &lt;devices&gt; &lt;emulator&gt;/usr/bin/qemu-system-ppc64&lt;/emulator&gt; &lt;disk type=&#39;file&#39; device=&#39;cdrom&#39;&gt; &lt;driver name=&#39;qemu&#39; type=&#39;raw&#39;/&gt; &lt;source file=&#39;/var/lib/libvirt/iso/aix_7200-04-02-2027_1of2_072020." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Deploy AIX in KVM</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/unix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">unix</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/aix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AIX</span>
+        </a>
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="執行環境">執行環境</h2>
+<h3 id="硬體環境">硬體環境</h3>
+<ul>
+<li>CPU: 11th Gen Intel® Core™ i5-1145G7 × 8</li>
+<li>RAM: 32.0 GiB</li>
+<li>Operating System: Debian GNU/Linux 12 (bookworm)</li>
+<li>Kernel: Linux 6.1.0-35-amd64</li>
+<li>Architecture: x86-64</li>
+<li>Hardware Vendor: Dell Inc.</li>
+<li>Hardware Model: Latitude 5420</li>
+<li>Firmware Version: 1.30.0</li>
+<li>KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13)</li>
+</ul>
+<h3 id="準備文件">準備文件</h3>
+<ul>
+<li>ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd)</li>
+<li>aix-quem-kvm.xml</li>
+</ul>
+<p>aix-quem-kvm.xml 文件內容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;domain</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;qemu&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;name&gt;</span>aix<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;uuid&gt;</span>808a3d10-32f3-433e-a18e-67c25310ddc1<span style="color:#f92672">&lt;/uuid&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;memory</span> <span style="color:#a6e22e">unit=</span><span style="color:#e6db74">&#39;KiB&#39;</span><span style="color:#f92672">&gt;</span>8388608<span style="color:#f92672">&lt;/memory&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;currentMemory</span> <span style="color:#a6e22e">unit=</span><span style="color:#e6db74">&#39;KiB&#39;</span><span style="color:#f92672">&gt;</span>8388608<span style="color:#f92672">&lt;/currentMemory&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;vcpu</span> <span style="color:#a6e22e">placement=</span><span style="color:#e6db74">&#39;static&#39;</span><span style="color:#f92672">&gt;</span>4<span style="color:#f92672">&lt;/vcpu&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;os&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;type</span> <span style="color:#a6e22e">arch=</span><span style="color:#e6db74">&#39;ppc64&#39;</span> <span style="color:#a6e22e">machine=</span><span style="color:#e6db74">&#39;pseries-7.2&#39;</span><span style="color:#f92672">&gt;</span>hvm<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/os&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;cpu</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#39;custom&#39;</span> <span style="color:#a6e22e">match=</span><span style="color:#e6db74">&#39;exact&#39;</span> <span style="color:#a6e22e">check=</span><span style="color:#e6db74">&#39;none&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;model</span> <span style="color:#a6e22e">fallback=</span><span style="color:#e6db74">&#39;forbid&#39;</span><span style="color:#f92672">&gt;</span>POWER7<span style="color:#f92672">&lt;/model&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/cpu&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;clock</span> <span style="color:#a6e22e">offset=</span><span style="color:#e6db74">&#39;utc&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;on_poweroff&gt;</span>destroy<span style="color:#f92672">&lt;/on_poweroff&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;on_reboot&gt;</span>restart<span style="color:#f92672">&lt;/on_reboot&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;on_crash&gt;</span>destroy<span style="color:#f92672">&lt;/on_crash&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;devices&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;emulator&gt;</span>/usr/bin/qemu-system-ppc64<span style="color:#f92672">&lt;/emulator&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;cdrom&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/iso/aix_7200-04-02-2027_1of2_072020.iso&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#39;sda&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;scsi&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;readonly/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;boot</span> <span style="color:#a6e22e">order=</span><span style="color:#e6db74">&#39;2&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;drive&#39;</span> <span style="color:#a6e22e">controller=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">unit=</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;qcow2&#39;</span> <span style="color:#a6e22e">discard=</span><span style="color:#e6db74">&#39;unmap&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/images/aix_test.qcow2&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#39;sdb&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;scsi&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;boot</span> <span style="color:#a6e22e">order=</span><span style="color:#e6db74">&#39;1&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;drive&#39;</span> <span style="color:#a6e22e">controller=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">unit=</span><span style="color:#e6db74">&#39;1&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;controller</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;usb&#39;</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">model=</span><span style="color:#e6db74">&#39;qemu-xhci&#39;</span> <span style="color:#a6e22e">ports=</span><span style="color:#e6db74">&#39;15&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pci&#39;</span> <span style="color:#a6e22e">domain=</span><span style="color:#e6db74">&#39;0x0000&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0x00&#39;</span> <span style="color:#a6e22e">slot=</span><span style="color:#e6db74">&#39;0x03&#39;</span> <span style="color:#a6e22e">function=</span><span style="color:#e6db74">&#39;0x0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/controller&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;controller</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;scsi&#39;</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">model=</span><span style="color:#e6db74">&#39;ibmvscsi&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vio&#39;</span> <span style="color:#a6e22e">reg=</span><span style="color:#e6db74">&#39;0x00002000&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/controller&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;controller</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pci&#39;</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">model=</span><span style="color:#e6db74">&#39;pci-root&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;model</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;spapr-pci-host-bridge&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/controller&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;controller</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;virtio-serial&#39;</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pci&#39;</span> <span style="color:#a6e22e">domain=</span><span style="color:#e6db74">&#39;0x0000&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0x00&#39;</span> <span style="color:#a6e22e">slot=</span><span style="color:#e6db74">&#39;0x05&#39;</span> <span style="color:#a6e22e">function=</span><span style="color:#e6db74">&#39;0x0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/controller&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;interface</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;network&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;mac</span> <span style="color:#a6e22e">address=</span><span style="color:#e6db74">&#39;52:54:00:10:40:29&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">network=</span><span style="color:#e6db74">&#39;default&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;model</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vlan&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vio&#39;</span> <span style="color:#a6e22e">reg=</span><span style="color:#e6db74">&#39;0x00001000&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/interface&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pty&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vio-serial&#39;</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;model</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;spapr-vty&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/target&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vio&#39;</span> <span style="color:#a6e22e">reg=</span><span style="color:#e6db74">&#39;0x30000000&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;console</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pty&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;serial&#39;</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;spapr-vio&#39;</span> <span style="color:#a6e22e">reg=</span><span style="color:#e6db74">&#39;0x30000000&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/console&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;input</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;keyboard&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;usb&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;usb&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#39;2&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/input&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;input</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;mouse&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;usb&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;usb&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#39;1&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/input&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;audio</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#39;1&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;none&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;memballoon</span> <span style="color:#a6e22e">model=</span><span style="color:#e6db74">&#39;virtio&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pci&#39;</span> <span style="color:#a6e22e">domain=</span><span style="color:#e6db74">&#39;0x0000&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0x00&#39;</span> <span style="color:#a6e22e">slot=</span><span style="color:#e6db74">&#39;0x07&#39;</span> <span style="color:#a6e22e">function=</span><span style="color:#e6db74">&#39;0x0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/memballoon&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;panic</span> <span style="color:#a6e22e">model=</span><span style="color:#e6db74">&#39;pseries&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/devices&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/domain&gt;</span>
+</span></span></code></pre></div><h2 id="安裝-aix">安裝 AIX</h2>
+<h3 id="開始安裝-aix">開始安裝 AIX</h3>
+<p>將 qeum 定義檔匯入 quem-kvm，指令如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virsh define AIX_qemu_install.xml
+</span></span></code></pre></div><p>啟動虛擬機進入硬體檢查畫面</p>
+<pre tabindex="0"><code>Populating /vdevice methods
+Populating /vdevice/l-lan@1000
+Populating /vdevice/v-scsi@2000
+       SCSI: Looking for devices
+          8000000000000000 CD-ROM   : &#34;QEMU     QEMU CD-ROM      2.5+&#34;
+          8001000000000000 DISK     : &#34;QEMU     QEMU HARDDISK    2.5+&#34;
+Populating /vdevice/vty@30000000
+Populating /vdevice/nvram@71000000
+Populating /pci@800000020000000
+                     00 1800 (D) : 1b36 000d    serial bus [ usb-xhci ]
+                     00 2800 (D) : 1af4 1003    virtio [ serial ]
+                     00 3800 (D) : 1af4 1002    legacy-device*
+No NVRAM common partition, re-initializing...
+Scanning USB 
+  XHCI: Initializing
+    USB mouse 
+    USB Keyboard 
+Using default console: /vdevice/vty@30000000
+     
+  Welcome to Open Firmware
+
+  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  This program and the accompanying materials are made available
+  under the terms of the BSD License available at
+  http://www.opensource.org/licenses/bsd-license.php
+
+
+Trying to load:  from: /vdevice/v-scsi@2000/disk@8001000000000000 ... 
+E3404: Not a bootable device!
+Trying to load:  from: /vdevice/v-scsi@2000/disk@8000000000000000 ...   Successfully loaded
+
+                        ---&gt; qemu,pseries detected &lt;---
+
+                 ---&gt; Press &#39;6&#39; to enter Single User Mode &lt;---
+
+
+
+get-property for ibm,hypertas-functions on zero phandle
+</code></pre><p>硬體檢查通過會進入歡迎畫面，且會立刻出現 Star 。如果沒有出現 Star 可能是硬體檢查最後有問題，之前我在這邊等了約6小時都一樣。</p>
+<pre tabindex="0"><code>-------------------------------------------------------------------------------
+                                Welcome to AIX.
+                   boot image timestamp: 16:47:29 06/08/2020
+       processor count: 4;  memory size: 16384MB;  kernel size: 45422126
+boot device: /vdevice/v-scsi@2000/disk@8000000000000000:\ppc\chrp\bootfile.exe
+
+AIX processing splpar characteristic: MaxEntCap
+processing splpar characteristic: DesMem
+processing splpar characteristic: DesProcs
+processing splpar characteristic: MaxPlatProcs
+
+AKVM: hcall-multi-tce detected but overridden, allow with &#34;multce&#34; boot argument
+-------------------------------------------------------------------------------
+
+Star
+</code></pre><p>根據提示輸入1後按下 Enter</p>
+<pre tabindex="0"><code> ******* Please define the System Console. *******
+
+Type a 1 and press Enter to use this terminal as the
+  system console.
+Pour definir ce terminal comme console systeme, appuyez
+  sur 1 puis sur Entree.
+Taste 1 und anschliessend die Eingabetaste druecken, um
+  diese Datenstation als Systemkonsole zu verwenden.
+Premere il tasto 1 ed Invio per usare questo terminal
+  come console.
+Escriba 1 y pulse Intro para utilizar esta terminal como
+  consola del sistema.
+Escriviu 1 1 i premeu Intro per utilitzar aquest
+  terminal com a consola del sistema.
+Digite um 1 e pressione Enter para utilizar este terminal
+  como console do sistema.
+
+
+
+
+
+0c31
+</code></pre><p>輸入1後按下 Enter進入安裝</p>
+<pre tabindex="0"><code>&gt;&gt;&gt;  1 Type 1 and press Enter to have English during install.
+     2 Entreu 2 i premeu Intro per veure la instal�laci� en catal�.
+     3 Entrez 3 pour effectuer l&#39;installation en fran�ais.
+     4 F�r Installation in deutscher Sprache 4 eingeben
+        und die Eingabetaste dr�cken.
+     5 Immettere 5 e premere Invio per l&#39;installazione in Italiano.
+     6 Digite 6 e pressione Enter para usar Portugu�s na instala��o.
+     7 Escriba 7 y pulse Intro para la instalaci�n en espa�ol.
+
+
+
+
+
+
+
+
+
+
+
+    88  Help ?
+
+
+&gt;&gt;&gt; Choice [1]: 1  
+</code></pre><p>這邊會先安裝 ssh client 與 openSSH Server 所以要進入 [ Change/Show Installation Settings and Install ] ， 在此輸入2後按下 Enter</p>
+<pre tabindex="0"><code>                      Welcome to Base Operating System
+                      Installation and Maintenance
+
+Type the number of your choice and press Enter.  Choice is indicated by &gt;&gt;&gt;.
+
+&gt;&gt;&gt; 1 Start Install Now with Default Settings
+
+    2 Change/Show Installation Settings and Install
+
+    3 Start Maintenance Mode for System Recovery
+
+    4 Make Additional Disks Available
+
+    5 Select Storage Adapters
+
+
+
+
+
+
+    88  Help ?
+    99  Previous Menu
+
+&gt;&gt;&gt; Choice [1]: 2  
+</code></pre><p>進入 Installation and Settings 畫面後，選擇 [ More Options  (Software install options) ]  ，輸入 4 並按下 Enter</p>
+<pre tabindex="0"><code>                          Installation and Settings
+
+Either type 0 and press Enter to install with current settings, or type the
+number of the setting you want to change and press Enter.
+
+    1  System Settings:
+         Method of Installation.............New and Complete Overwrite
+         Disk Where You Want to Install.....hdisk0
+
+    2  Primary Language Environment Settings (AFTER Install):
+         Cultural Convention................English (United States)
+         Language ..........................English (United States)
+         Keyboard ..........................English (United States)
+         Keyboard Type......................Default
+    3  Security Model.......................Default                   
+    4  More Options  (Software install options)
+    5  Select Edition.......................standard
+&gt;&gt;&gt; 0  Install with the current settings listed above.
+
+                       +-----------------------------------------------------
+    88  Help ?         |    WARNING: Base Operating System Installation will
+    99  Previous Menu  |    destroy or impair recovery of ALL data on the
+                       |    destination disk hdisk0.
+&gt;&gt;&gt; Choice [0]: 4  
+</code></pre><p>進入 Install Option 畫面後，會發現 [ OpenSSH Client Software ] [ OpenSSH Server Software ] 是 No ， 這邊只需要分別輸入 3 -&gt; Enter 與 4 -&gt; Enter 就可以改變這裡個軟體選項值</p>
+<pre tabindex="0"><code>                             Install Options
+
+ 1.  Graphics Software................................................ Yes
+ 2.  System Management Client Software................................ Yes
+ 3.  OpenSSH Client Software.......................................... No 
+ 4.  OpenSSH Server Software.......................................... No 
+ 5.  Enable System Backups to install any system...................... Yes
+     (Installs all devices)
+ 
+ 
+ 
+
+
+
+
+
+&gt;&gt;&gt; 6.  Install More Software
+
+    0  Install with the current settings listed above.
+
+    88  Help ?
+    99  Previous Menu
+
+&gt;&gt;&gt; Choice [6]: 3  
+</code></pre><p>以下是 [ OpenSSH Client Software ] [ OpenSSH Server Software ] 兩個選項選擇成 Yes 結果，接下來輸入 99 回到上一層</p>
+<pre tabindex="0"><code>                             Install Options
+
+ 1.  Graphics Software................................................ Yes
+ 2.  System Management Client Software................................ Yes
+ 3.  OpenSSH Client Software.......................................... Yes
+ 4.  OpenSSH Server Software.......................................... Yes 
+ 5.  Enable System Backups to install any system...................... Yes
+     (Installs all devices)
+ 
+ 
+ 
+
+
+
+
+
+&gt;&gt;&gt; 6.  Install More Software
+
+    0  Install with the current settings listed above.
+
+    88  Help ?
+    99  Previous Menu
+
+&gt;&gt;&gt; Choice [6]: 4  
+</code></pre><p>輸入 1 執行安裝</p>
+<pre tabindex="0"><code>                      Welcome to Base Operating System
+                      Installation and Maintenance
+
+Type the number of your choice and press Enter.  Choice is indicated by &gt;&gt;&gt;.
+
+&gt;&gt;&gt; 1 Start Install Now with Default Settings
+
+    2 Change/Show Installation Settings and Install
+
+    3 Start Maintenance Mode for System Recovery
+
+    4 Make Additional Disks Available
+
+    5 Select Storage Adapters
+
+
+
+
+
+
+    88  Help ?
+    99  Previous Menu
+
+&gt;&gt;&gt; Choice [1]: 
+</code></pre><p>安裝前會檢視配置，這邊確認完沒有問題可以直接輸入 Enter 執行安裝</p>
+<pre tabindex="0"><code>                            Overwrite Installation Summary
+
+Disks:  hdisk0
+Cultural Convention:  en_US
+Language:  en_US
+Keyboard:  en_US
+Graphics Software:  Yes
+System Management Client Software:  Yes
+OpenSSH Client Software:  Yes
+OpenSSH Server Software:  Yes
+Enable System Backups to install any system:  Yes
+Selected Edition:  standard
+ 
+Optional Software being installed:  
+ 
+ 
+ 
+ 
+&gt;&gt;&gt; 1   Continue with Install
+                       +-----------------------------------------------------
+    88  Help ?         |    WARNING: Base Operating System Installation will
+    99  Previous Menu  |    destroy or impair recovery of ALL data on the
+                       |    destination disk hdisk0.
+&gt;&gt;&gt; Choice [1]: 
+</code></pre><p>接下來就是漫漫長的安裝時間，執行時間約 2 小時</p>
+<pre tabindex="0"><code>                        Installing Base Operating System
+
+
+
+
+        Please wait...
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Approximate     Elapsed time
+     % tasks complete   (in minutes)
+
+
+          0               0                                                    
+0c46
+0c50
+0c46                                                                                      3               0      Making logical volumes.
+</code></pre><p>等待所有安裝的軟體都安裝完畢之後，會要確認 boot 安裝位置，按下 1 之後系統會自動重起</p>
+<pre tabindex="0"><code>                        Installing Base Operating System
+
+
+
+
+        Please wait...
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Approximate     Elapsed time
+     % tasks complete   (in minutes)
+
+
+Set_Bootlist: Could not set the bootlist to:                                   
+hdisk0    .
+The boot device must be 
+</code></pre><h2 id="第一次登入系統">第一次登入系統</h2>
+<p>接下來就是系統啟動畫面了</p>
+<pre tabindex="0"><code> Licensed Materials - Property of IBM
+
+ 5765CD200
+   Copyright International Business Machines Corp. 1985, 2020.
+   Copyright AT&amp;T 1984, 1985, 1986, 1987, 1988, 1989.
+   Copyright Regents of the University of California 1980, 1982, 1983, 1985, 1986, 1987, 1988, 1989.
+   Copyright BULL 1993, 2020.
+   Copyright Digi International Inc. 1988-1993.
+   Copyright Interactive Systems Corporation 1985, 1991.
+   Copyright ISQUARE, Inc. 1990.
+   Copyright Innovative Security Systems, Inc. 2001-2006.
+   Copyright Mentat Inc. 1990, 1991.
+   Copyright Open Software Foundation, Inc. 1989, 1994.
+   Copyright Sun Microsystems, Inc. 1984, 1985, 1986, 1987, 1988, 1991.
+
+ All rights reserved.
+ US Government Users Restricted Rights - Use, duplication or disclosure
+ restricted by GSA ADP Schedule Contract with IBM Corp.
+Rebooting . . .
+
+
+SLOF **********************************************************************
+QEMU Starting
+ Build Date = May  3 2025 09:06:15
+ FW Version = release 20220719
+ Press &#34;s&#34; to enter Open Firmware.
+
+Populating /vdevice methods
+Populating /vdevice/l-lan@1000
+Populating /vdevice/v-scsi@2000
+       SCSI: Looking for devices
+          8000000000000000 CD-ROM   : &#34;QEMU     QEMU CD-ROM      2.5+&#34;
+          8001000000000000 DISK     : &#34;QEMU     QEMU HARDDISK    2.5+&#34;
+Populating /vdevice/vty@30000000
+Populating /vdevice/nvram@71000000
+Populating /pci@800000020000000
+                     00 1800 (D) : 1b36 000d    serial bus [ usb-xhci ]
+                     00 2800 (D) : 1af4 1003    virtio [ serial ]
+                     00 3800 (D) : 1af4 1002    legacy-device*
+Scanning USB 
+  XHCI: Initializing
+    USB mouse 
+    USB Keyboard 
+Using default console: /vdevice/vty@30000000
+     
+  Welcome to Open Firmware
+
+  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  This program and the accompanying materials are made available
+  under the terms of the BSD License available at
+  http://www.opensource.org/licenses/bsd-license.php
+
+
+Trying to load:  from: /vdevice/v-scsi@2000/disk@8001000000000000 ...   Successfully loaded
+
+                        ---&gt; qemu,pseries detected &lt;---
+
+                 ---&gt; Press &#39;6&#39; to enter Single User Mode &lt;---
+
+
+
+get-property for ibm,hypertas-functions on zero phandle
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------
+                                Welcome to AIX.
+                   boot image timestamp: 02:03:27 06/01/2025
+       processor count: 4;  memory size: 16384MB;  kernel size: 45422126
+            boot device: /vdevice/v-scsi@2000/disk@8001000000000000
+
+AIX processing splpar characteristic: MaxEntCap
+processing splpar characteristic: DesMem
+processing splpar characteristic: DesProcs
+processing splpar characteristic: MaxPlatProcs
+
+AKVM: hcall-multi-tce detected but overridden, allow with &#34;multce&#34; boot argument
+-------------------------------------------------------------------------------
+
+Star
+</code></pre><p>開機時會敲求輸入終端機類型，這邊我選擇 vt340</p>
+<pre tabindex="0"><code>                            Set Terminal Type 
+The terminal is not properly initialized.  Please enter a terminal type 
+and press Enter.  Some terminal types are not supported in 
+non-English languages. 
+
+     ibm3101          tvi912          vt330          aixterm
+     ibm3151          tvi920          vt340          dtterm
+     ibm3161          tvi925          wyse30         xterm
+     ibm3162          tvi950          wyse50         lft
+     ibm3163          vs100           wyse60         sun
+     ibm3164          vt100           wyse100 
+     ibmpc            vt320           wyse350 
+
+                      +-----------------------Messages------------------------
+                      | If the next screen is unreadable, press Break (Ctrl-c)
+    88  Help ?        | to return to this screen.
+                      | 
+&gt;&gt;&gt; Choice []: 
+</code></pre><p>接下來會要求 同意License ，這邊按下 Tab 可以變更同意選項，變更到 Yes 即可</p>
+<pre tabindex="0"><code>                          Software License Agreements
+
+Move cursor to desired item and press Enter.
+
+  Show Installed License Agreements
+  Accept License Agreements
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+F1=Help             F2=Refresh          F3=Cancel           F8=Image
+F9=Shell            F10=Exit            Enter=Do    
+</code></pre><p>按下 F10 離開</p>
+<pre tabindex="0"><code>                           Accept License Agreements
+
+Type or select values in entry fields.
+Press Enter AFTER making all desired changes.
+  
+                                                        [Entry Fields]
+  ACCEPT Installed License Agreements                 No                    +
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+F1=Help             F2=Refresh          F3=Cancel           F4=List
+Esc+5=Reset         F6=Command          F7=Edit             F8=Image
+F9=Shell            F10=Exit            Enter=Do     
+</code></pre><p>是你的狀況設定畫面中的選項，做後記得選擇 [ TaskCompleted - Exti to login ] 不然下次重開機 AIX 會視為沒有安裝完畢，而無法透過 ssh 遠端登入(因為這時網卡仍未啟動)</p>
+<pre tabindex="0"><code>                           Installation Assistant
+
+Move cursor to desired item and press Enter.
+
+  Set Date and Time
+  Set root Password
+  Configure Network Communications
+  Install Software Applications
+  System Workload Partition Software Maintenance
+  Using SMIT (information only)
+  Tasks Completed - Exit to Login
+
+F1=Help         F2=Refresh      F3=Cancel       F8=Image
+F9=Shell        F10=Exit        Enter=Do
+</code></pre><h2 id="安裝軟體清單">安裝軟體清單</h2>
+<p>以下是清單</p>
+<pre tabindex="0"><code>xlsmp.rte
+xlsmp.aix61.rte
+xlC.sup.aix50.rte
+xlC.aix61
+wio.vscsi
+wio.fcp
+tk.man.en_US
+tcl.man.en_US
+tcl.base
+sysmgtlib.libraries
+sysmgtlib.framework
+sysmgt.cfgassist
+printers.rte
+printers.msg.en_US
+openssl.man.en_US
+openssl.license
+openssl.base
+openssh.base
+libc++.rte
+invscout.rte
+invscout.msg.en_US
+invscout.ldb
+invscout.com
+infocenter.man.EN_US.libs
+infocenter.man.EN_US.files
+infocenter.man.EN_US.commands
+expect.man.en_US
+devices.virtio
+devices.vdevice.vty-server
+devices.vdevice.hvterm1
+devices.vdevice.hvterm-protocol
+devices.vdevice.IBM.vnic
+devices.vdevice.IBM.v-scsi
+devices.vdevice.IBM.l-lan
+devices.usbif.usblibke
+devices.usbif.080400
+devices.usbif.08025002
+devices.usbif.030102
+devices.usbif.030101
+devices.usbif.03000008
+devices.usbif.010100
+devices.tty
+devices.serial.tablet1
+devices.serial.sb1
+devices.scsi.tm
+devices.scsi.tape
+devices.scsi.ses
+devices.scsi.disk
+devices.sata
+devices.sas
+devices.pciex.pciexclass.010802
+devices.pciex.e4148e1614109204
+devices.pciex.e4148a1614109404
+devices.pciex.e4148a1614109304
+devices.pciex.e414571614102004
+devices.pciex.e4145616e4140528
+devices.pciex.e4145616e4140518
+devices.pciex.e4143a16e4143009
+devices.pciex.e4143a16e4140909
+devices.pciex.e4143a161410ed03
+devices.pciex.e4143a161410a003
+devices.pciex.df1060e214105f04
+devices.pciex.df1060e214105204
+devices.pciex.df1060e214104104
+devices.pciex.df1060e214103e04
+devices.pciex.df1060e214103a04
+devices.pciex.df1060e214103704
+devices.pciex.df1060e214103404
+devices.pciex.df1060e214101004
+devices.pciex.df1028e21410e404
+devices.pciex.df1028e21410e304
+devices.pciex.df1020e21410e404
+devices.pciex.df1020e21410e304
+devices.pciex.df1000fe
+devices.pciex.df1000f1df1024f1
+devices.pciex.df1000f114108a03
+devices.pciex.df1000f114100104
+devices.pciex.df1000e314101506
+devices.pciex.df1000e314101406
+devices.pciex.df1000e2df1082e2
+devices.pciex.df1000e2df1002e2
+devices.pciex.df1000e21410f103
+devices.pciex.df1000e214105e04
+devices.pciex.b3154a63
+devices.pciex.b3153c67
+devices.pciex.a2191007df1033e7
+devices.pciex.a21910071410d203
+devices.pciex.a21910071410d103
+devices.pciex.a21910071410d003
+devices.pciex.a219100714100a04
+devices.pciex.a219100714100904
+devices.pciex.8680c71014108003
+devices.pciex.7710612214105006
+devices.pciex.7710322577107601
+devices.pciex.7710322577107501
+devices.pciex.7710322577106801
+devices.pciex.7710322577106601
+devices.pciex.7710322577106501
+devices.pciex.7710322514101e04
+devices.pciex.77103225141004f3
+devices.pciex.77103224
+devices.pciex.7710018077107f01
+devices.pciex.771001801410af03
+devices.pciex.7710008077108001
+devices.pciex.771000801410b003
+devices.pciex.4f11f60014102204
+devices.pciex.4c1041821410b204
+devices.pciex.4c10418214109e04
+devices.pciex.2514310025140100
+devices.pciex.251430001410a303
+devices.pciex.2514300014108c03
+devices.pciex.151438c1
+devices.pciex.14107a0314107b03
+devices.pciex.14106803
+devices.pciex.1410660414100000
+devices.pciex.14104b0414104b04
+devices.pciex.14104a03
+devices.pciex.14104003
+devices.pciex.14103f03
+devices.pciex.14103d03
+devices.pciex.14103903
+devices.pciex.001072001410f603
+devices.pciex.001072001410ea03
+devices.pci.pci
+devices.pci.f41a0800
+devices.pci.f41a0100
+devices.pci.e414a816
+devices.pci.df1080f9
+devices.pci.df1023fd
+devices.pci.df1000fd
+devices.pci.df1000fa
+devices.pci.df1000f9
+devices.pci.df1000f7
+devices.pci.c1110358
+devices.pci.a8135201
+devices.pci.99172704
+devices.pci.99172604
+devices.pci.77102e01
+devices.pci.77102224
+devices.pci.77101223
+devices.pci.4f11c800
+devices.pci.4f111b00
+devices.pci.4f111100
+devices.pci.331121b9
+devices.pci.3310e000
+devices.pci.33103500
+devices.pci.2b102725
+devices.pci.22106474
+devices.pci.1410ec02
+devices.pci.1410eb02
+devices.pci.1410e601
+devices.pci.1410e202
+devices.pci.1410d502
+devices.pci.1410d403
+devices.pci.1410d402
+devices.pci.1410d302
+devices.pci.1410d002
+devices.pci.1410cf02
+devices.pci.1410c302
+devices.pci.1410c002
+devices.pci.1410bf02
+devices.pci.1410be02
+devices.pci.1410bd02
+devices.pci.1410a803
+devices.pci.14108d02
+devices.pci.14108c00
+devices.pci.14108902
+devices.pci.14107802
+devices.pci.14106902
+devices.pci.14106802
+devices.pci.14106602
+devices.pci.14106402
+devices.pci.14103302
+devices.pci.14102e00
+devices.pci.14102203
+devices.pci.14101103
+devices.pci.14100d03
+devices.pci.14100c03
+devices.pci.02105e51
+devices.pci.00105000
+devices.pci.00102100
+devices.pci.00100f00
+devices.pci.00100c00
+devices.pci.00100b00
+devices.msg.en_US
+devices.loopback
+devices.iscsi_sw
+devices.iscsi.tape
+devices.iscsi.disk
+devices.ide.cdrom
+devices.graphics
+devices.fcp.tape
+devices.fcp.disk
+devices.ethernet.mlx
+devices.ethernet.ct3
+devices.common.rspcbase
+devices.common.IBM.xhci
+devices.common.IBM.usb
+devices.common.IBM.storfwork
+devices.common.IBM.soe
+devices.common.IBM.sissas
+devices.common.IBM.scsi
+devices.common.IBM.mpt2
+devices.common.IBM.mpio
+devices.common.IBM.modemcfg
+devices.common.IBM.ktm_std
+devices.common.IBM.iscsi
+devices.common.IBM.ide
+devices.common.IBM.ib
+devices.common.IBM.hdlc
+devices.common.IBM.fda
+devices.common.IBM.fc
+devices.common.IBM.ethernet
+devices.common.IBM.disk
+devices.common.IBM.cx
+devices.common.IBM.crypt
+devices.common.IBM.cflash
+devices.chrp_lpar.base
+devices.chrp.vdevice
+</code></pre><h3 id="軟體清單整理">軟體清單整理</h3>
+<ul>
+<li>圖表: <a href="https://g.co/gemini/share/100449401fc3">AIX 軟體套件互動式瀏覽器</a></li>
+</ul>
+<p>以下是我用 AI 整理，軟體清單中的軟體內容，有錯再請多多包涵。我只是好奇到底被裝了哪些軟體。</p>
+<hr>
+<p><strong>在開始之前，有幾點需要說明：</strong></p>
+<ol>
+<li><strong>檔案集 (Fileset) 的概念：</strong> AIX 的軟體是以「檔案集」的形式組織的。一個軟體產品可能由多個檔案集組成，例如一個基礎包 (<code>.base</code>)、一個執行時期包 (<code>.rte</code>)、訊息包 (<code>.msg.*</code>)、手冊頁包 (<code>.man.*</code>) 等。</li>
+<li><strong>裝置驅動程式的命名：</strong> 大量的 <code>devices.*</code> 檔案集是硬體裝置驅動程式。其中許多名稱包含十六進位的 ID (例如 <code>devices.pciex.e4148e1614109204</code>)。這些 ID 通常代表：
+<ul>
+<li><strong>Vendor ID (廠商ID):</strong> 例如 <code>1410</code> (在PCI/PCIe中通常指 IBM) 或其他硬體製造商。</li>
+<li><strong>Device ID (裝置ID):</strong> 特定硬體型號的 ID。</li>
+<li><strong>Subsystem Vendor ID &amp; Subsystem Device ID:</strong> 更細緻的硬體版本或配置 ID。
+要確切知道這些驅動程式對應哪個硬體，通常需要查詢這些 ID 的資料庫，或者在 AIX 系統上使用 <code>lsdev -vpd -l &lt;device_name&gt;</code> 配合 <code>lslpp -f &lt;fileset_name&gt;</code> 來追蹤。由於這份清單本身不包含硬體上下文，我會解釋其一般用途。</li>
+</ul>
+</li>
+<li><strong>版本與相容性：</strong> 檔案集名稱中的 <code>aix50</code>, <code>aix61</code> 等字樣通常表示該檔案集設計或測試用於特定的 AIX 版本。</li>
+</ol>
+<hr>
+<p><strong>超詳細檔案集說明：</strong></p>
+<p><strong>1. IBM XL 編譯器與 SMP 執行時期 (IBM XL Compilers &amp; SMP Runtime)</strong></p>
+<ul>
+<li>
+<p><strong><code>xlsmp.rte</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> IBM XL SMP (Symmetric Multiprocessing) Runtime Environment。這是 IBM 高效能編譯器套件的一部分，提供對稱式多處理 (SMP) 的執行時期支援。它包含了讓使用 XL 編譯器（如 XL Fortran, XL C/C++) 編譯的平行程式能夠在多核心/多處理器系統上有效執行的必要程式庫和元件。這些程式庫支援 OpenMP 標準以及其他平行化技術。</li>
+<li><strong>用途：</strong> 執行使用 XL 編譯器並進行 SMP 平行化編譯的應用程式。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>xlsmp.aix61.rte</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> 同 <code>xlsmp.rte</code>，但此版本明確標示為 AIX 6.1 設計或最佳化。這可能意味著它利用了 AIX 6.1 特有的核心功能或 API 來增強 SMP 效能或相容性。</li>
+<li><strong>用途：</strong> 在 AIX 6.1 系統上執行 SMP 平行化應用程式。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>xlC.sup.aix50.rte</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> IBM XL C/C++ Compiler Support for AIX 5.0 Runtime Environment. 這是 XL C/C++ 編譯器的支援檔案，特別指明與 AIX 5.0 (或更早版本) 的相容性或針對其設計的執行時期元件。可能包含舊版程式庫或特定於 AIX 5.0 環境的配置。</li>
+<li><strong>用途：</strong> 支援在（可能較舊的）系統上執行用特定版本 XL C/C++ 編譯的程式，或提供對 AIX 5.0 環境的特定支援。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>xlC.aix61</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> IBM XL C/C++ for AIX 6.1. 這通常是 XL C/C++ 編譯器本身或其核心元件的一部分，針對 AIX 6.1 版本。它可能包含編譯器工具、標頭檔、程式庫或其他開發所需資源。與 <code>.rte</code> (執行時期) 不同，這可能更偏向開發或編譯時期。</li>
+<li><strong>用途：</strong> 在 AIX 6.1 系統上開發和編譯 C++ 應用程式。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. C++ 標準程式庫 (C++ Standard Library)</strong></p>
+<ul>
+<li><strong><code>libc++.rte</code></strong>:
+<ul>
+<li><strong>說明：</strong> C++ Standard Library Runtime Environment. 這是 C++ 語言標準程式庫的執行時期實作。它提供了 C++ 程式常用的核心功能，如字串處理、容器 (vector, map 等)、演算法、I/O 流等。AIX 上的 <code>libc++.rte</code> 通常是 IBM 維護的版本，與 XL C++ 編譯器緊密配合。</li>
+<li><strong>用途：</strong> 執行 C++ 應用程式所必需的基礎程式庫。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. 腳本語言與自動化工具 (Scripting Languages &amp; Automation Tools)</strong></p>
+<ul>
+<li>
+<p><strong><code>tcl.base</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> TCL (Tool Command Language) Base. TCL 是一種動態的、解釋型的腳本語言，以其簡單性和擴充性著稱。<code>.base</code> 檔案集提供了 TCL 解譯器和核心程式庫。</li>
+<li><strong>用途：</strong> 執行 TCL 腳本，常用於系統管理、自動化測試、快速原型開發。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tcl.man.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> TCL man pages (English). 提供 TCL 命令和功能的英文版線上說明手冊 (man pages)。</li>
+<li><strong>用途：</strong> 開發者和管理者查閱 TCL 命令用法。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tk.man.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Tk man pages (English). Tk 是 TCL 的一個圖形化工具套件擴充，用於建立圖形使用者介面 (GUI)。此檔案集提供 Tk 元件和命令的英文版 man pages。</li>
+<li><strong>用途：</strong> 開發者查閱 Tk GUI 元件和命令用法。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>expect.man.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Expect man pages (English). Expect 是一個 TCL 的擴充，用於自動化互動式應用程式，例如模擬使用者輸入、回應提示等，特別常用於自動化 telnet、ssh、ftp 等交談式程式。此檔案集提供 Expect 命令的英文版 man pages。</li>
+<li><strong>用途：</strong> 開發者查閱 Expect 命令用法，進行互動式程式的自動化。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. 系統管理與配置 (System Management &amp; Configuration)</strong></p>
+<ul>
+<li>
+<p><strong><code>sysmgtlib.libraries</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> System Management Libraries. 包含供 AIX 系統管理工具 (如 SMIT - System Management Interface Tool) 和其他管理應用程式使用的共享程式庫。這些程式庫封裝了查詢和修改系統配置的底層操作。</li>
+<li><strong>用途：</strong> 支援 AIX 系統管理工具的運作。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sysmgtlib.framework</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> System Management Library Framework. 可能是 <code>sysmgtlib.libraries</code> 的一部分，提供更基礎的框架或架構，讓不同的系統管理模組能夠協同工作。</li>
+<li><strong>用途：</strong> 為系統管理功能提供基礎架構。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sysmgt.cfgassist</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> System Management Configuration Assistant. 這是一個配置輔助工具，可能提供 SMIT 介面中的某些特定配置任務的引導或簡化流程，或者作為獨立的配置工具。</li>
+<li><strong>用途：</strong> 輔助管理員進行系統配置。</li>
+</ul>
+</li>
+</ul>
+<p><strong>5. 印表機支援 (Printer Support)</strong></p>
+<ul>
+<li>
+<p><strong><code>printers.rte</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Printers Runtime Environment. 包含 AIX 系統上支援各種印表機所需的核心執行時期檔案。這包括印表機佇列管理、後端程式 (piobe)、印表機驅動程式介面等。</li>
+<li><strong>用途：</strong> 實現列印功能，管理印表機和列印工作。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>printers.msg.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Printers Messages (English). 提供印表機子系統相關的英文版訊息檔案，用於 SMIT 介面、命令列工具的輸出和錯誤提示。</li>
+<li><strong>用途：</strong> 向使用者顯示印表機相關的英文狀態和錯誤訊息。</li>
+</ul>
+</li>
+</ul>
+<p><strong>6. 安全性套件 (Security Packages)</strong></p>
+<ul>
+<li>
+<p><strong><code>openssl.base</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> OpenSSL Base. OpenSSL 是一個強大的開源加密工具套件，廣泛用於實作 SSL (Secure Sockets Layer) 和 TLS (Transport Layer Security) 協定。此基礎包包含核心加密程式庫、命令列工具 (<code>openssl</code> 命令) 等。</li>
+<li><strong>用途：</strong> 提供系統和應用程式所需的加密、解密、憑證管理、安全通訊等功能。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>openssl.license</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> OpenSSL License. 包含 OpenSSL 軟體的授權條款文件。</li>
+<li><strong>用途：</strong> 法律合規，使用者了解軟體使用權限。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>openssl.man.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> OpenSSL man pages (English). 提供 <code>openssl</code> 命令及其各種子命令、API 的英文版線上說明手冊。</li>
+<li><strong>用途：</strong> 開發者和管理者查閱 OpenSSL 命令和函式用法。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>openssh.base</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> OpenSSH Base. OpenSSH 是一個開源的 SSH (Secure Shell) 協定實作，用於提供安全的遠端登入、檔案傳輸 (scp, sftp) 和其他安全網路服務。此基礎包包含 SSH 用戶端和伺服器端 (<code>sshd</code>) 程式。</li>
+<li><strong>用途：</strong> 實現安全的遠端系統管理和資料傳輸。</li>
+</ul>
+</li>
+</ul>
+<p><strong>7. 系統資訊與盤點工具 (System Information &amp; Inventory Tool)</strong></p>
+<ul>
+<li>
+<p><strong><code>invscout.rte</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Inventory Scout Runtime Environment. IBM Inventory Scout 是一個用於收集 AIX 系統詳細硬體、韌體和軟體資訊的工具。它會產生一份報告，可用於系統分析、問題排除、微碼/韌體升級規劃等。<code>.rte</code> 包含執行此工具所需的核心檔案。</li>
+<li><strong>用途：</strong> 收集系統詳細配置資訊。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>invscout.msg.en_US</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Inventory Scout Messages (English). 提供 Inventory Scout 工具的英文版訊息檔案。</li>
+<li><strong>用途：</strong> 向使用者顯示 Inventory Scout 操作過程中的英文狀態和錯誤訊息。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>invscout.ldb</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Inventory Scout Local Database. Inventory Scout 可能使用一個本地資料庫來儲存收集到的資訊或其分析所需的參考資料。<code>ldb</code> 通常指本地資料庫檔案。</li>
+<li><strong>用途：</strong> 儲存 Inventory Scout 的資料或參考資訊。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>invscout.com</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Inventory Scout Common Components. 包含 Inventory Scout 可能與其他 IBM 工具共享的通用元件或程式庫。</li>
+<li><strong>用途：</strong> 提供 Inventory Scout 所需的共用功能。</li>
+</ul>
+</li>
+</ul>
+<p><strong>8. AIX 資訊中心 (AIX Infocenter - Documentation)</strong></p>
+<ul>
+<li>
+<p><strong><code>infocenter.man.EN_US.libs</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Infocenter man pages (English) Libraries. AIX 資訊中心是 AIX 的官方線上文件系統，通常以 HTML 格式提供。此檔案集可能包含與資訊中心系統或其 man page 呈現相關的程式庫或資源。</li>
+<li><strong>用途：</strong> 支援 AIX 資訊中心的運作，特別是 man page 的存取。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>infocenter.man.EN_US.files</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Infocenter man pages (English) Files. 包含 AIX 資訊中心中提供的英文版 man page 原始檔案或其索引。</li>
+<li><strong>用途：</strong> 提供 AIX 系統命令和功能的英文說明文件內容。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>infocenter.man.EN_US.commands</code></strong>:</p>
+<ul>
+<li><strong>說明：</strong> Infocenter man pages (English) for Commands. 特指 AIX 資訊中心中關於系統命令的英文版 man page。</li>
+<li><strong>用途：</strong> 提供 AIX 系統命令的詳細英文說明。</li>
+</ul>
+</li>
+</ul>
+<p><strong>9. 裝置驅動程式與支援 (Device Drivers &amp; Support)</strong></p>
+<p>這是清單中最大的一部分，涉及各種硬體介面和裝置。</p>
+<ul>
+<li>
+<p><strong>一般裝置訊息 (General Device Messages)</strong></p>
+<ul>
+<li><strong><code>devices.msg.en_US</code></strong>:
+<ul>
+<li><strong>說明：</strong> Devices Messages (English). 通用的裝置驅動程式相關的英文訊息檔案。當裝置驅動程式需要向使用者或日誌報告狀態或錯誤時，會使用這些訊息。</li>
+<li><strong>用途：</strong> 提供裝置相關操作的英文回饋。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>迴環裝置 (Loopback Device)</strong></p>
+<ul>
+<li><strong><code>devices.loopback</code></strong>:
+<ul>
+<li><strong>說明：</strong> Loopback Device Support. 迴環介面 (通常是 <code>lo0</code>) 是一個虛擬網路介面，允許系統上的應用程式通過 TCP/IP 與本機上的其他應用程式通訊，而無需經過實體網路。</li>
+<li><strong>用途：</strong> 本機網路通訊測試與內部服務存取。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>TTY 裝置 (Teletype Devices)</strong></p>
+<ul>
+<li><strong><code>devices.tty</code></strong>:
+<ul>
+<li><strong>說明：</strong> Teletype Device Support. 提供對 TTY 裝置的支援，這是傳統上用於文字終端機和序列埠通訊的介面。在現代系統中，也用於虛擬終端機 (pty) 和控制台。</li>
+<li><strong>用途：</strong> 字元型終端機介面和序列通訊。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>圖形裝置 (Graphics Devices)</strong></p>
+<ul>
+<li><strong><code>devices.graphics</code></strong>:
+<ul>
+<li><strong>說明：</strong> Graphics Device Support. 提供對圖形顯示卡的基礎支援。這可能是一個通用的圖形驅動程式框架，具體的顯示卡型號會有更專用的驅動程式。</li>
+<li><strong>用途：</strong> 支援圖形化使用者介面 (GUI) 的顯示。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>CHRP LPAR 與虛擬裝置 (CHRP LPAR &amp; Virtual Devices - PowerVM Virtualization)</strong></p>
+<ul>
+<li><strong><code>devices.chrp_lpar.base</code></strong>:
+<ul>
+<li><strong>說明：</strong> Common Hardware Reference Platform (CHRP) Logical Partition (LPAR) Base. CHRP 是 PowerPC 架構系統的一個標準。此檔案集提供在 CHRP 相容硬體上運行 LPAR (邏輯分區，即 IBM PowerVM 虛擬化技術的虛擬機器) 所需的基礎支援。</li>
+<li><strong>用途：</strong> PowerVM 虛擬化環境的底層基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.chrp.vdevice</code></strong>:
+<ul>
+<li><strong>說明：</strong> CHRP Virtual Device Support. 為 CHRP 平台上的 LPAR 提供虛擬裝置支援。這允許 LPAR 使用虛擬化的硬體資源。</li>
+<li><strong>用途：</strong> 支援 LPAR 中的虛擬硬體。</li>
+</ul>
+</li>
+<li><strong><code>devices.vdevice.vty-server</code></strong>:
+<ul>
+<li><strong>說明：</strong> Virtual Teletype (VTY) Server. 在 PowerVM 環境中，VIO Server (虛擬 I/O 伺服器) 或 HMC (硬體管理主控台) 可能會提供虛擬終端機服務給 LPAR。此檔案集與該伺服器端功能相關。</li>
+<li><strong>用途：</strong> 為 LPAR 提供虛擬終端機連線。</li>
+</ul>
+</li>
+<li><strong><code>devices.vdevice.hvterm1</code></strong> and <strong><code>devices.vdevice.hvterm-protocol</code></strong>:
+<ul>
+<li><strong>說明：</strong> Hypervisor Terminal Support. 這些檔案集提供透過 Hypervisor 與 LPAR 進行終端機通訊的支援和協定。<code>hvterm</code> 通常指直接與 Hypervisor 層級的虛擬終端機互動。</li>
+<li><strong>用途：</strong> 低階 LPAR 控制台存取。</li>
+</ul>
+</li>
+<li><strong><code>devices.vdevice.IBM.vnic</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Virtual Network Interface Card (VNIC) Driver. 在 PowerVM 環境中，VNIC 是一種高效能的虛擬乙太網路卡，直接與 SR-IOV (Single Root I/O Virtualization) 實體網路卡配合使用，為 LPAR 提供接近實體網卡的效能。</li>
+<li><strong>用途：</strong> 為 LPAR 提供高效能虛擬網路介面。</li>
+</ul>
+</li>
+<li><strong><code>devices.vdevice.IBM.v-scsi</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Virtual SCSI (vSCSI) Driver. 允許 LPAR 透過 VIO Server 存取虛擬化的 SCSI 裝置 (如虛擬磁碟、虛擬光碟)。這是 PowerVM 中最主要的儲存虛擬化方式。</li>
+<li><strong>用途：</strong> 為 LPAR 提供虛擬 SCSI 儲存。</li>
+</ul>
+</li>
+<li><strong><code>devices.vdevice.IBM.l-lan</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Virtual Local Area Network (Logical LAN) Driver. 這指的是透過 POWER Hypervisor 的虛擬乙太網路交換器 (Virtual Ethernet Switch) 實現的 LPAR 間網路通訊，或 LPAR 透過 SEA (Shared Ethernet Adapter) 連接到外部網路。</li>
+<li><strong>用途：</strong> 為 LPAR 提供虛擬乙太網路通訊。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>VirtIO 虛擬裝置 (VirtIO Virtual Devices - KVM/QEMU &amp; other Hypervisors)</strong></p>
+<ul>
+<li><strong><code>devices.virtio</code></strong>:
+<ul>
+<li><strong>說明：</strong> VirtIO Device Support. VirtIO 是一個針對 Linux KVM 等虛擬化環境設計的半虛擬化 (paravirtualized) I/O 標準。如果 AIX 作為客體機運行在支援 VirtIO 的 Hypervisor (如 KVM 或 QEMU) 上，此檔案集提供 VirtIO 裝置 (如 VirtIO-net, VirtIO-blk, VirtIO-scsi) 的驅動程式。</li>
+<li><strong>用途：</strong> 提升 AIX 在 KVM 等虛擬化平台上的 I/O 效能。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>工作負載 I/O - 虛擬儲存 (Workload I/O - Virtual Storage for VIO Server)</strong></p>
+<ul>
+<li><strong><code>wio.vscsi</code></strong>:
+<ul>
+<li><strong>說明：</strong> Workload I/O for Virtual SCSI. 通常安裝在 VIO Server 上，用於管理和提供 vSCSI 服務給客戶端 LPAR。它處理從客戶端 LPAR 過來的 vSCSI 命令，並將其對應到底層的實體儲存或邏輯磁碟區。</li>
+<li><strong>用途：</strong> VIO Server 上的核心元件，用於實現 vSCSI 儲存虛擬化。</li>
+</ul>
+</li>
+<li><strong><code>wio.fcp</code></strong>:
+<ul>
+<li><strong>說明：</strong> Workload I/O for Fibre Channel. 同樣通常在 VIO Server 上，用於 NPIV (N-Port ID Virtualization) 功能。它允許 VIO Server 將實體光纖通道卡的 WWPN 虛擬化成多個虛擬 WWPN，分配給客戶端 LPAR，使 LPAR 能直接存取 SAN 上的 LUN。</li>
+<li><strong>用途：</strong> VIO Server 上的核心元件，用於實現 NPIV 光纖通道虛擬化。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>USB 裝置 (Universal Serial Bus Devices)</strong></p>
+<ul>
+<li><strong><code>devices.usbif.usblibke</code></strong>:
+<ul>
+<li><strong>說明：</strong> USB Interface Library Kernel Extension. 這是 AIX USB 堆疊的核心部分，一個核心擴充，提供了 USB 主控制器驅動程式和客戶端驅動程式之間的介面和基礎程式庫。</li>
+<li><strong>用途：</strong> USB 系統的基礎支援。</li>
+</ul>
+</li>
+<li><strong><code>devices.usbif.080400</code></strong>, <strong><code>devices.usbif.08025002</code></strong>, <strong><code>devices.usbif.030102</code></strong>, <strong><code>devices.usbif.030101</code></strong>, <strong><code>devices.usbif.03000008</code></strong>, <strong><code>devices.usbif.010100</code></strong>:
+<ul>
+<li><strong>說明：</strong> 這些檔案集是針對特定 USB 裝置類別 (Class Code) 或特定複合裝置的驅動程式或支援檔案。USB Class Codes 定義了標準的裝置類型：
+<ul>
+<li><code>01xxxx</code>: Audio devices (音訊裝置) - 例如 <code>010100</code> 可能對應 Control Interface for an Audio Device。</li>
+<li><code>03xxxx</code>: Human Interface Devices (HID) (人機介面裝置) - 例如 <code>030101</code> (鍵盤), <code>030102</code> (滑鼠)。<code>03000008</code> 可能是某種特定 HID。</li>
+<li><code>08xxxx</code>: Mass Storage Devices (大容量儲存裝置) - 例如 <code>080400</code> (可能指 UFI command set for removable media), <code>08025002</code> (可能指特定類型的 Flash Drive 或 SCSI transparent command set over USB)。</li>
+</ul>
+</li>
+<li><strong>用途：</strong> 支援各種 USB 周邊裝置，如鍵盤、滑鼠、USB 隨身碟、USB 音效卡等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>序列埠與平板輸入裝置 (Serial Port &amp; Tablet Input Devices)</strong></p>
+<ul>
+<li><strong><code>devices.serial.tablet1</code></strong>:
+<ul>
+<li><strong>說明：</strong> Serial Tablet Device Driver. 用於支援透過序列埠連接的繪圖板或手寫板。</li>
+<li><strong>用途：</strong> 支援特定型號的序列埠繪圖板。</li>
+</ul>
+</li>
+<li><strong><code>devices.serial.sb1</code></strong>:
+<ul>
+<li><strong>說明：</strong> Serial Device sb1. 這可能是某個特定序列埠連接裝置的驅動程式，&ldquo;sb1&rdquo; 可能代表一個特定的型號或功能類別。若無更多資訊，難以確切判斷。</li>
+<li><strong>用途：</strong> 支援某種特定的序列埠裝置。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>儲存裝置 (Storage Devices - SCSI, SAS, SATA, iSCSI, Fibre Channel)</strong></p>
+<ul>
+<li><strong><code>devices.scsi.tm</code></strong>:
+<ul>
+<li><strong>說明：</strong> SCSI Target Mode Driver. 允許 AIX 系統作為一個 SCSI 目標裝置 (Target) 而不是啟動器 (Initiator)。這在某些特殊應用中，如磁帶庫共享或儲存模擬時使用。</li>
+<li><strong>用途：</strong> 使 AIX 系統能模擬 SCSI 儲存裝置。</li>
+</ul>
+</li>
+<li><strong><code>devices.scsi.tape</code></strong>:
+<ul>
+<li><strong>說明：</strong> SCSI Tape Device Driver. 提供對 SCSI 介面磁帶機和磁帶庫的驅動程式支援。</li>
+<li><strong>用途：</strong> 讀寫 SCSI 磁帶，進行備份與歸檔。</li>
+</ul>
+</li>
+<li><strong><code>devices.scsi.ses</code></strong>:
+<ul>
+<li><strong>說明：</strong> SCSI Enclosure Services (SES) Driver. SES 是一種協定，用於管理和監控儲存陣列的機箱，如風扇、電源、溫度等。此驅動程式支援 SES 裝置。</li>
+<li><strong>用途：</strong> 監控和管理儲存機箱的狀態。</li>
+</ul>
+</li>
+<li><strong><code>devices.scsi.disk</code></strong>:
+<ul>
+<li><strong>說明：</strong> SCSI Disk Device Driver. 提供對 SCSI 介面硬碟的驅動程式支援。</li>
+<li><strong>用途：</strong> 存取 SCSI 硬碟。</li>
+</ul>
+</li>
+<li><strong><code>devices.sata</code></strong>:
+<ul>
+<li><strong>說明：</strong> SATA (Serial ATA) Device Driver. 提供對 SATA 硬碟和光碟機的驅動程式支援。</li>
+<li><strong>用途：</strong> 存取 SATA 儲存裝置。</li>
+</ul>
+</li>
+<li><strong><code>devices.sas</code></strong>:
+<ul>
+<li><strong>說明：</strong> SAS (Serial Attached SCSI) Device Driver. 提供對 SAS 硬碟、SAS HBA (Host Bus Adapter) 和 SAS 擴充器的驅動程式支援。</li>
+<li><strong>用途：</strong> 存取 SAS 儲存裝置，通常用於企業級儲存。</li>
+</ul>
+</li>
+<li><strong><code>devices.iscsi_sw</code></strong>:
+<ul>
+<li><strong>說明：</strong> iSCSI Software Initiator Support. iSCSI 是一種允許 SCSI 命令在 TCP/IP 網路上傳輸的協定。此檔案集提供 AIX 作為 iSCSI 啟動器 (Initiator) 的軟體實作，使其能透過標準乙太網路存取遠端的 iSCSI 目標儲存。</li>
+<li><strong>用途：</strong> 透過網路存取 iSCSI 儲存。</li>
+</ul>
+</li>
+<li><strong><code>devices.iscsi.tape</code></strong>:
+<ul>
+<li><strong>說明：</strong> iSCSI Tape Device Support. 允許 AIX 透過 iSCSI 協定存取遠端的 iSCSI 磁帶裝置。</li>
+<li><strong>用途：</strong> 網路化磁帶備份。</li>
+</ul>
+</li>
+<li><strong><code>devices.iscsi.disk</code></strong>:
+<ul>
+<li><strong>說明：</strong> iSCSI Disk Device Support. 允許 AIX 透過 iSCSI 協定存取遠端的 iSCSI 磁碟裝置 (LUNs)。</li>
+<li><strong>用途：</strong> 網路化磁碟儲存。</li>
+</ul>
+</li>
+<li><strong><code>devices.ide.cdrom</code></strong>:
+<ul>
+<li><strong>說明：</strong> IDE CD-ROM Device Driver. 提供對 IDE (Integrated Drive Electronics) 或 ATA 介面 CD-ROM/DVD-ROM 光碟機的驅動程式支援 (較舊的介面)。</li>
+<li><strong>用途：</strong> 讀取 IDE 光碟機。</li>
+</ul>
+</li>
+<li><strong><code>devices.fcp.tape</code></strong>:
+<ul>
+<li><strong>說明：</strong> Fibre Channel Protocol (FCP) Tape Device Driver. 提供透過光纖通道介面存取磁帶機的驅動程式。</li>
+<li><strong>用途：</strong> 在 SAN 環境中進行高速磁帶備份與歸檔。</li>
+</ul>
+</li>
+<li><strong><code>devices.fcp.disk</code></strong>:
+<ul>
+<li><strong>說明：</strong> Fibre Channel Protocol (FCP) Disk Device Driver. 提供透過光纖通道介面存取 SAN (Storage Area Network) 上的磁碟陣列 LUN 的驅動程式。這是企業級儲存的主要連接方式。</li>
+<li><strong>用途：</strong> 連接和存取 SAN 儲存。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>乙太網路裝置 (Ethernet Devices)</strong></p>
+<ul>
+<li><strong><code>devices.ethernet.mlx</code></strong>:
+<ul>
+<li><strong>說明：</strong> Mellanox Ethernet Adapter Driver. Mellanox (現為 NVIDIA 的一部分) 生產高效能乙太網路卡 (通常支援 RoCE - RDMA over Converged Ethernet) 和 InfiniBand 卡。此檔案集提供對 Mellanox 乙太網路卡的驅動程式支援。</li>
+<li><strong>用途：</strong> 支援 Mellanox 網路卡，提供高速網路連接。</li>
+</ul>
+</li>
+<li><strong><code>devices.ethernet.ct3</code></strong>:
+<ul>
+<li><strong>說明：</strong> Chelsio T3-based 10Gb Ethernet Adapter Driver. Chelsio 是一家網路卡製造商，T3 是其早期的 10GbE 網路卡晶片組。此檔案集提供對這類網路卡的驅動程式。</li>
+<li><strong>用途：</strong> 支援 Chelsio T3 系列 10Gb 乙太網路卡。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>PCI Express (PCIe) 裝置驅動程式</strong></p>
+<ul>
+<li><strong><code>devices.pciex.pciexclass.010802</code></strong>:
+<ul>
+<li><strong>說明：</strong> PCI Express Class Code 010802 Device Driver. PCI Class Code <code>010802</code> 代表 &ldquo;Mass storage controller / NVM subsystem / NVM Express (NVMe)&quot;。這是一個針對 NVMe SSD 的通用類別驅動程式或支援框架。</li>
+<li><strong>用途：</strong> 支援 NVMe 固態硬碟。</li>
+</ul>
+</li>
+<li><strong><code>devices.pciex.e4148e1614109204</code>, <code>devices.pciex.e4148a1614109404</code>, &hellip;, <code>devices.pciex.001072001410ea03</code> (以及此類別中的其他眾多條目)</strong>:
+<ul>
+<li><strong>說明：</strong> 這些都是針對特定 PCI Express 硬體裝置的驅動程式。名稱中的十六進位碼是 Vendor ID, Device ID, Subsystem Vendor ID, Subsystem Device ID 的組合。
+<ul>
+<li>例如，<code>1410</code> 作為 Vendor ID 通常代表 IBM。<code>e414</code> 也常與 IBM 相關。</li>
+<li>這些驅動程式可能對應各種 PCIe 卡，如網路卡、儲存 HBA 卡、加密卡、圖形卡等。</li>
+</ul>
+</li>
+<li><strong>用途：</strong> 為系統中安裝的各種特定 PCIe 裝置提供驅動和支援。<strong>若要知道每一個確切對應的硬體，需要查詢這些 ID。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>PCI 裝置驅動程式 (較舊的匯流排)</strong></p>
+<ul>
+<li><strong><code>devices.pci.pci</code></strong>:
+<ul>
+<li><strong>說明：</strong> Generic PCI Bus Support. 提供對 PCI 匯流排本身的基本支援和管理功能，允許系統偵測和配置 PCI 裝置。</li>
+<li><strong>用途：</strong> PCI 匯流排的基礎支援。</li>
+</ul>
+</li>
+<li><strong><code>devices.pci.f41a0800</code>, <code>devices.pci.f41a0100</code>, &hellip;, <code>devices.pci.00100b00</code> (以及此類別中的其他眾多條目)</strong>:
+<ul>
+<li><strong>說明：</strong> 這些都是針對特定 PCI 硬體裝置的驅動程式。命名規則與 PCIe 類似，包含 Vendor ID 和 Device ID 等。
+<ul>
+<li>這些驅動程式可能對應較舊的 PCI 卡，如網路卡、SCSI 控制卡等。</li>
+</ul>
+</li>
+<li><strong>用途：</strong> 為系統中安裝的各種特定 PCI 裝置提供驅動和支援。<strong>同樣，確切硬體對應需查詢 ID。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>通用 IBM 裝置基礎架構 (Common IBM Device Infrastructure)</strong></p>
+<ul>
+<li><strong><code>devices.common.rspcbase</code></strong>:
+<ul>
+<li><strong>說明：</strong> RS/6000 Scalable POWERparallel systems (SP) Base. 這是為早期 IBM RS/6000 SP 平行運算系統提供的基礎裝置支援元件。在現代 Power Systems 上可能較少直接用到，除非有相容性需求。</li>
+<li><strong>用途：</strong> 支援舊款 IBM SP 系統的特定硬體或功能。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.xhci</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM eXtensible Host Controller Interface (xHCI) Support. xHCI 是 USB 3.0 主控制器的標準介面。此檔案集提供對 IBM 系統上 xHCI 控制器的驅動和支援。</li>
+<li><strong>用途：</strong> 支援 USB 3.0 連接埠和裝置。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.usb</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common USB Support. 提供 IBM 系統上 USB 功能的通用支援元件和程式庫，可能被更上層的 USB 驅動程式 (如 xHCI, EHCI, OHCI) 或 USB 裝置類別驅動程式使用。</li>
+<li><strong>用途：</strong> USB 系統的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.storfwork</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Storage Framework. 這可能是 IBM 儲存子系統的一個通用框架或程式庫集合，供各種儲存相關驅動程式 (如 SAS, FC, iSCSI) 和管理工具使用，以提供一致的儲存管理介面或功能。</li>
+<li><strong>用途：</strong> 提供統一的儲存管理和操作框架。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.soe</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM SCSI over Ethernet (SOE) Support. SOE 是一種將 SCSI 命令封裝在乙太網路訊框中傳輸的技術，類似於 iSCSI 但可能是 IBM 的特定早期實作或專有方案。現在較少見。</li>
+<li><strong>用途：</strong> 支援透過乙太網路傳輸 SCSI 命令的特定 IBM 解決方案。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.sissas</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Serial SCSI (SAS) Controller Support. 特指 IBM 整合的 SAS 控制器 (通常是主機板上的 RAID 控制器或內部 SAS 控制器) 的通用支援或驅動程式。<code>sis</code> 可能代表 &ldquo;Serial Interface SCSI&rdquo;。</li>
+<li><strong>用途：</strong> 支援 IBM 內建的 SAS 控制器。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.scsi</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common SCSI Support. 提供 IBM 系統上 SCSI 功能的通用支援元件，被各種 SCSI HBA 驅動程式和 SCSI 裝置驅動程式使用。</li>
+<li><strong>用途：</strong> SCSI 系統的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.mpt2</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM LSI MPT2 SAS Controller Support. LSI (現為 Broadcom) 的 MPT (Message Passing Technology) SAS 2.x 控制器 (如 SAS2008, SAS2108, SAS2308 等晶片) 的驅動程式或支援。IBM 經常在其伺服器和儲存產品中使用 LSI 控制器。</li>
+<li><strong>用途：</strong> 支援基於 LSI MPT2 SAS 晶片的 HBA 卡或內建控制器。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.mpio</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Multi-Path I/O (MPIO) Support. MPIO 是一種容錯和負載平衡技術，允許伺服器透過多條路徑連接到儲存裝置 (通常在 SAN 環境中)。此檔案集提供 AIX MPIO 功能的核心支援。</li>
+<li><strong>用途：</strong> 實現儲存路徑的備援和效能提升。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.modemcfg</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Modem Configuration Support. 提供數據機 (Modem) 的配置工具或支援檔案，用於撥號網路或遠端存取。</li>
+<li><strong>用途：</strong> 支援數據機的配置和使用。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.ktm_std</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Kernel Transaction Manager (KTM) Standard Support. 核心交易管理器可能與檔案系統的日誌記錄、資料庫或其他需要交易原子性的核心操作有關。</li>
+<li><strong>用途：</strong> 提供核心層級的交易管理功能。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.iscsi</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common iSCSI Support. 提供 IBM 系統上 iSCSI 功能的通用支援元件，可能被軟體啟動器或硬體 iSCSI HBA 使用。</li>
+<li><strong>用途：</strong> iSCSI 功能的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.ide</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common IDE/ATA Support. 提供對 IDE/ATA 介面裝置 (如舊款硬碟、光碟機) 的通用支援。</li>
+<li><strong>用途：</strong> IDE/ATA 介面的基礎支援。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.ib</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM InfiniBand Support. InfiniBand 是一種高效能、低延遲的網路互連技術，常用於高效能運算 (HPC) 和叢集。此檔案集提供對 IBM InfiniBand 主機通道配接卡 (HCA) 的支援。</li>
+<li><strong>用途：</strong> 支援 InfiniBand 網路連接。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.hdlc</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM High-Level Data Link Control (HDLC) Support. HDLC 是一種用於同步資料鏈路層通訊的協定，常用於專線連接或某些 WAN 技術。</li>
+<li><strong>用途：</strong> 支援基於 HDLC 協定的通訊。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.fda</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM FDDI Adapter Support. FDDI (Fiber Distributed Data Interface) 是一種較早的光纖區域網路技術。此檔案集提供對 IBM FDDI 網路卡的支援。</li>
+<li><strong>用途：</strong> 支援舊式 FDDI 網路。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.fc</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common Fibre Channel Support. 提供 IBM 系統上光纖通道 (FC) 功能的通用支援元件，被 FC HBA 驅動程式和相關工具使用。</li>
+<li><strong>用途：</strong> 光纖通道 SAN 連接的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.ethernet</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common Ethernet Support. 提供 IBM 系統上乙太網路功能的通用支援元件和程式庫，被各種乙太網路卡驅動程式使用。</li>
+<li><strong>用途：</strong> 乙太網路功能的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.disk</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Common Disk Support. 提供對磁碟裝置的通用支援框架或程式庫，可能與 LVM (Logical Volume Manager) 或其他磁碟管理功能相關。</li>
+<li><strong>用途：</strong> 磁碟裝置管理的通用基礎。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.cx</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Converged Network Adapter (CNA) or Complex Adapter Support. &ldquo;cx&rdquo; 可能指融合式網路卡 (同時支援乙太網路和光纖通道/FCoE) 或其他複雜的多功能配接卡。</li>
+<li><strong>用途：</strong> 支援 IBM 的融合式網路卡或其他複雜配接卡。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.crypt</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM Cryptographic Accelerator Support. 提供對 IBM 系統上加密硬體加速卡 (如 476x 系列 Crypto Coprocessor) 的驅動程式和 API 支援。</li>
+<li><strong>用途：</strong> 利用硬體加速加密運算。</li>
+</ul>
+</li>
+<li><strong><code>devices.common.IBM.cflash</code></strong>:
+<ul>
+<li><strong>說明：</strong> IBM CompactFlash or Common Flash Support. 可能支援系統內建的快閃記憶體裝置 (如用於韌體或小型作業系統映像) 或特定的快閃記憶體配接卡。</li>
+<li><strong>用途：</strong> 支援特定類型的快閃記憶體裝置。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-vm/">
+                                <h3 class="">KVM 相關 VM</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-disk/">
+                                <h3 class="">KVM 相關 disk</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-netowrk/">
+                                <h3 class="">KVM 網路</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%A3%93%E7%B8%AE%E7%9B%B8%E9%97%9C/">
+                                <h3 class="">Linux 壓縮相關</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-%E5%AD%97%E5%9E%8B%E5%AE%89%E8%A3%9D/">
+                                <h3 class="">Linux 字型安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

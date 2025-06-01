@@ -6,7 +6,17 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 31 May 2025 18:40:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 Jun 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy AIX in KVM</title>
+      <link>http://pollochang.work/worknot/deploy-aix-in-kvm/</link>
+      <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-aix-in-kvm/</guid>
+      <description>執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
+&amp;lt;domain type=&amp;#39;qemu&amp;#39;&amp;gt; &amp;lt;name&amp;gt;aix&amp;lt;/name&amp;gt; &amp;lt;uuid&amp;gt;808a3d10-32f3-433e-a18e-67c25310ddc1&amp;lt;/uuid&amp;gt; &amp;lt;memory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/memory&amp;gt; &amp;lt;currentMemory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/currentMemory&amp;gt; &amp;lt;vcpu placement=&amp;#39;static&amp;#39;&amp;gt;4&amp;lt;/vcpu&amp;gt; &amp;lt;os&amp;gt; &amp;lt;type arch=&amp;#39;ppc64&amp;#39; machine=&amp;#39;pseries-7.2&amp;#39;&amp;gt;hvm&amp;lt;/type&amp;gt; &amp;lt;/os&amp;gt; &amp;lt;cpu mode=&amp;#39;custom&amp;#39; match=&amp;#39;exact&amp;#39; check=&amp;#39;none&amp;#39;&amp;gt; &amp;lt;model fallback=&amp;#39;forbid&amp;#39;&amp;gt;POWER7&amp;lt;/model&amp;gt; &amp;lt;/cpu&amp;gt; &amp;lt;clock offset=&amp;#39;utc&amp;#39;/&amp;gt; &amp;lt;on_poweroff&amp;gt;destroy&amp;lt;/on_poweroff&amp;gt; &amp;lt;on_reboot&amp;gt;restart&amp;lt;/on_reboot&amp;gt; &amp;lt;on_crash&amp;gt;destroy&amp;lt;/on_crash&amp;gt; &amp;lt;devices&amp;gt; &amp;lt;emulator&amp;gt;/usr/bin/qemu-system-ppc64&amp;lt;/emulator&amp;gt; &amp;lt;disk type=&amp;#39;file&amp;#39; device=&amp;#39;cdrom&amp;#39;&amp;gt; &amp;lt;driver name=&amp;#39;qemu&amp;#39; type=&amp;#39;raw&amp;#39;/&amp;gt; &amp;lt;source file=&amp;#39;/var/lib/libvirt/iso/aix_7200-04-02-2027_1of2_072020.</description>
+    </item>
+    
     <item>
       <title>Azure Storage Explorer on Linux</title>
       <link>http://pollochang.work/worknot/azure-azurestorageexplorer/</link>
