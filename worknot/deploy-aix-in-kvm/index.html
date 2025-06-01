@@ -8,8 +8,9 @@
     
     <meta content="AIX, KVM, Linux, unix" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2&#43;dfsg-7&#43;deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
-&lt;domain type=&#39;qemu&#39;&gt; &lt;name&gt;aix&lt;/name&gt; &lt;uuid&gt;808a3d10-32f3-433e-a18e-67c25310ddc1&lt;/uuid&gt; &lt;memory unit=&#39;KiB&#39;&gt;8388608&lt;/memory&gt; &lt;currentMemory unit=&#39;KiB&#39;&gt;8388608&lt;/currentMemory&gt; &lt;vcpu placement=&#39;static&#39;&gt;4&lt;/vcpu&gt; &lt;os&gt; &lt;type arch=&#39;ppc64&#39; machine=&#39;pseries-7.2&#39;&gt;hvm&lt;/type&gt; &lt;/os&gt; &lt;cpu mode=&#39;custom&#39; match=&#39;exact&#39; check=&#39;none&#39;&gt; &lt;model fallback=&#39;forbid&#39;&gt;POWER7&lt;/model&gt; &lt;/cpu&gt; &lt;clock offset=&#39;utc&#39;/&gt; &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt; &lt;on_reboot&gt;restart&lt;/on_reboot&gt; &lt;on_crash&gt;destroy&lt;/on_crash&gt; &lt;devices&gt; &lt;emulator&gt;/usr/bin/qemu-system-ppc64&lt;/emulator&gt; &lt;disk type=&#39;file&#39; device=&#39;cdrom&#39;&gt; &lt;driver name=&#39;qemu&#39; type=&#39;raw&#39;/&gt; &lt;source file=&#39;/var/lib/libvirt/iso/aix_7200-04-02-2027_1of2_072020." name="description">
+    <meta content="PolloChang 工作筆記 - 最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機
+執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2&#43;dfsg-7&#43;deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
+&lt;domain type=&#39;qemu&#39;&gt; &lt;name&gt;aix&lt;/name&gt; &lt;uuid&gt;808a3d10-32f3-433e-a18e-67c25310ddc1&lt;/uuid&gt; &lt;memory unit=&#39;KiB&#39;&gt;8388608&lt;/memory&gt; &lt;currentMemory unit=&#39;KiB&#39;&gt;8388608&lt;/currentMemory&gt; &lt;vcpu placement=&#39;static&#39;&gt;4&lt;/vcpu&gt; &lt;os&gt; &lt;type arch=&#39;ppc64&#39; machine=&#39;pseries-7." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -161,7 +162,8 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h2 id="執行環境">執行環境</h2>
+                    <p>最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機</p>
+<h2 id="執行環境">執行環境</h2>
 <h3 id="硬體環境">硬體環境</h3>
 <ul>
 <li>CPU: 11th Gen Intel® Core™ i5-1145G7 × 8</li>
