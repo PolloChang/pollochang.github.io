@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>日誌分析工具 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/%E6%97%A5%E8%AA%8C%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 日誌分析工具 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 05 Jun 2025 23:37:57 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/%E6%97%A5%E8%AA%8C%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>lnav 使用方式</title>
+      <link>http://pollochang.work/worknot/lnav/</link>
+      <pubDate>Thu, 05 Jun 2025 23:37:57 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/lnav/</guid>
+      <description>分析 log
+gitHub: https://github.com/tstack/lnav 安裝 sudo apt install lnav 使用方式 查看壓縮的日誌檔案:
+lnav -r /var/log/Xorg.0.log.old.gz 從標準輸入讀取
+journalctl -f | lnav sql 模式 按下 分號 ; 即可進入
+SELECT * FROM all_logs; 查詢做有的 table
+.schema 可以知道所有的 table
+SELECT name FROM sqlite_master WHERE type=&amp;#39;table&amp;#39;; 圖表功能 直方圖 (Histogram) 視圖 (i 鍵): HIST ❭ Thu Jun 05 02:20:00 192 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 02:25:00 30 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 11:55:00 3,000 normal 53 errors 9 warnings 0 marks │ Thu Jun 05 12:00:00 10 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:05:00 17 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:10:00 109 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:15:00 10 normal 6 errors 0 warnings 0 marks │ Thu Jun 05 12:20:00 190 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:25:00 26 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:30:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:40:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:45:00 1 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:50:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:55:00 30 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:00:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:05:00 67 normal 2 errors 2 warnings 0 marks │ Thu Jun 05 13:10:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:15:00 4 normal 4 errors 0 warnings 0 marks │ Thu Jun 05 13:20:00 10 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:25:00 30 normal 2 errors 0 warnings 0 marks │ Thu Jun 05 13:30:00 8 normal 2 errors 0 warnings 0 marks │ Thu Jun 05 13:35:00 2 normal 4 errors 0 warnings 0 marks │ Thu Jun 05 13:40:00 55 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:50:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:55:00 71 normal 0 errors 0 warnings 0 marks │ 參考資料 lnav v0.</description>
+    </item>
+    
+    <item>
+      <title>Goaccess 日誌分析</title>
+      <link>http://pollochang.work/worknot/goaccess/</link>
+      <pubDate>Thu, 05 Jun 2025 22:52:06 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/goaccess/</guid>
+      <description>分析 access log
+安裝 wget -O - https://deb.goaccess.io/gnugpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/goaccess.gpg &amp;gt;/dev/null echo &amp;#34;deb [signed-by=/usr/share/keyrings/goaccess.gpg arch=$(dpkg --print-architecture)] https://deb.goaccess.io/ $(lsb_release -cs) main&amp;#34; | sudo tee /etc/apt/sources.list.d/goaccess.list sudo apt update sudo apt install goaccess 使用方式 分析多個檔案產出 html cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON -o combined_report.html Terminal中 分析 cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON 報告解讀 如何解讀 GoAccess 報告 您好！生成 GoAccess 報告後，下一步就是解讀它所呈現的豐富數據。GoAccess 報告以模組化的方式組織資訊，讓您可以快速掌握網站的流量概況和使用者行為。
+一份 GoAccess 報告通常包含以下主要模組：
+1. 總覽 (Dashboard/Global Statistics) 這是報告的頂部部分，提供了一組核心指標的總覽，讓您快速了解網站的整體狀況。</description>
+    </item>
+    
+  </channel>
+</rss>

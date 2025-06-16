@@ -6,7 +6,72 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 01 Jun 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Jun 2025 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KVM 網路</title>
+      <link>http://pollochang.work/worknot/kvm-network/</link>
+      <pubDate>Sat, 14 Jun 2025 11:44:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/kvm-network/</guid>
+      <description>KVM 網路介面 virtio: 半虛擬化網路介面接近原生的效能。 spapr-vlan: QEMU 模擬的網路介面類型之一，專為 PowerPC (sPAPR) 架構的 KVM 虛擬機器設計，特別是用於 AIX 等 Power 架構的客戶端作業系統。 </description>
+    </item>
+    
+    <item>
+      <title>我使用Debian的方式</title>
+      <link>http://pollochang.work/worknot/my-debian-policy/</link>
+      <pubDate>Sat, 14 Jun 2025 08:37:57 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/my-debian-policy/</guid>
+      <description>移除 Gnome 桌面預設 sudo apt remove packagekit 移除 packagekit : 因為我想100%決定我何時更新 </description>
+    </item>
+    
+    <item>
+      <title>各式檔案雜湊</title>
+      <link>http://pollochang.work/worknot/file-checksum/</link>
+      <pubDate>Wed, 11 Jun 2025 11:54:59 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/file-checksum/</guid>
+      <description>AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
+    </item>
+    
+    <item>
+      <title>lnav 使用方式</title>
+      <link>http://pollochang.work/worknot/lnav/</link>
+      <pubDate>Thu, 05 Jun 2025 23:37:57 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/lnav/</guid>
+      <description>分析 log
+gitHub: https://github.com/tstack/lnav 安裝 sudo apt install lnav 使用方式 查看壓縮的日誌檔案:
+lnav -r /var/log/Xorg.0.log.old.gz 從標準輸入讀取
+journalctl -f | lnav sql 模式 按下 分號 ; 即可進入
+SELECT * FROM all_logs; 查詢做有的 table
+.schema 可以知道所有的 table
+SELECT name FROM sqlite_master WHERE type=&amp;#39;table&amp;#39;; 圖表功能 直方圖 (Histogram) 視圖 (i 鍵): HIST ❭ Thu Jun 05 02:20:00 192 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 02:25:00 30 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 11:55:00 3,000 normal 53 errors 9 warnings 0 marks │ Thu Jun 05 12:00:00 10 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:05:00 17 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:10:00 109 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:15:00 10 normal 6 errors 0 warnings 0 marks │ Thu Jun 05 12:20:00 190 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:25:00 26 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:30:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:40:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:45:00 1 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:50:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 12:55:00 30 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:00:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:05:00 67 normal 2 errors 2 warnings 0 marks │ Thu Jun 05 13:10:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:15:00 4 normal 4 errors 0 warnings 0 marks │ Thu Jun 05 13:20:00 10 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:25:00 30 normal 2 errors 0 warnings 0 marks │ Thu Jun 05 13:30:00 8 normal 2 errors 0 warnings 0 marks │ Thu Jun 05 13:35:00 2 normal 4 errors 0 warnings 0 marks │ Thu Jun 05 13:40:00 55 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:50:00 6 normal 0 errors 0 warnings 0 marks │ Thu Jun 05 13:55:00 71 normal 0 errors 0 warnings 0 marks │ 參考資料 lnav v0.</description>
+    </item>
+    
+    <item>
+      <title>Goaccess 日誌分析</title>
+      <link>http://pollochang.work/worknot/goaccess/</link>
+      <pubDate>Thu, 05 Jun 2025 22:52:06 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/goaccess/</guid>
+      <description>分析 access log
+安裝 wget -O - https://deb.goaccess.io/gnugpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/goaccess.gpg &amp;gt;/dev/null echo &amp;#34;deb [signed-by=/usr/share/keyrings/goaccess.gpg arch=$(dpkg --print-architecture)] https://deb.goaccess.io/ $(lsb_release -cs) main&amp;#34; | sudo tee /etc/apt/sources.list.d/goaccess.list sudo apt update sudo apt install goaccess 使用方式 分析多個檔案產出 html cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON -o combined_report.html Terminal中 分析 cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON 報告解讀 如何解讀 GoAccess 報告 您好！生成 GoAccess 報告後，下一步就是解讀它所呈現的豐富數據。GoAccess 報告以模組化的方式組織資訊，讓您可以快速掌握網站的流量概況和使用者行為。
+一份 GoAccess 報告通常包含以下主要模組：
+1. 總覽 (Dashboard/Global Statistics) 這是報告的頂部部分，提供了一組核心指標的總覽，讓您快速了解網站的整體狀況。</description>
+    </item>
+    
+    <item>
+      <title>AIX常用指令</title>
+      <link>http://pollochang.work/worknot/aix-common/</link>
+      <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/aix-common/</guid>
+      <description>帳戶類 新增使用者 useradd pollo mkdir -p /home/pollo chown pollo:staff /home/pollo 使用者名稱長度： AIX 的使用者名稱最長只能有 8 個字元。
+預設的主要群組: staff
+硬碟空間 檢查目錄分配狀況 # df -P Filesystem 512-blocks Used Available Capacity Mounted on /dev/hd4 524288 87152 437136 17% / /dev/hd2 4980736 4257848 722888 86% /usr /dev/hd9var 524288 70520 453768 14% /var /dev/hd3 262144 2024 260120 1% /tmp /dev/hd1 262144 158168 103976 61% /home /dev/hd11admin 262144 760 261384 1% /admin /proc - - - - /proc /dev/hd10opt 262144 35616 226528 14% /opt /dev/livedump 524288 736 523552 1% /var/adm/ras/livedump /ahafs - - - - /aha 檢查硬碟空間使用狀況 # lsvg rootvg VOLUME GROUP: rootvg VG IDENTIFIER: 00222eff0000a5000000019725ba2202 VG STATE: active PP SIZE: 128 megabyte(s) VG PERMISSION: read/write TOTAL PPs: 799 (102272 megabytes) MAX LVs: 256 FREE PPs: 756 (96768 megabytes) LVs: 12 USED PPs: 43 (5504 megabytes) OPEN LVs: 11 QUORUM: 2 (Enabled) TOTAL PVs: 1 VG DESCRIPTORS: 2 STALE PVs: 0 STALE PPs: 0 ACTIVE PVs: 1 AUTO ON: yes MAX PPs per VG: 32512 MAX PPs per PV: 1016 MAX PVs: 32 LTG size (Dynamic): 128 kilobyte(s) AUTO SYNC: no HOT SPARE: no BB POLICY: relocatable PV RESTRICTION: none INFINITE RETRY: no DISK BLOCK SIZE: 512 CRITICAL VG: no FS SYNC OPTION: no CRITICAL PVs: no 擴充目錄空間 chfs -a size=+10G /dev/hd1 記憶體 擴充 swap 到4G # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 512MB 1 yes yes lv 0 chps -s 32 hd6 # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 4608MB 0 yes yes lv 0 網路 設定 hostname(主機名稱) smitty hostname 操作 /etc/profile alias ll=&amp;#39;ls -l&amp;#39; </description>
+    </item>
+    
     <item>
       <title>Deploy AIX in KVM</title>
       <link>http://pollochang.work/worknot/deploy-aix-in-kvm/</link>

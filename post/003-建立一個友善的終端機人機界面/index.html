@@ -467,6 +467,42 @@ alias sl=/usr/games/sl
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[[</span> ! -f ~/.p10k.zsh <span style="color:#f92672">]]</span> <span style="color:#f92672">||</span> source ~/.p10k.zsh
+</span></span></code></pre></div><h2 id="好玩套件">好玩套件</h2>
+<h3 id="imgcat-終端機瀏覽圖片">imgcat 終端機瀏覽圖片</h3>
+<ul>
+<li>安裝</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/danielgatis/imgcat/releases/download/v1.0.21/imgcat_1.0.21_linux_arm64.tar.gz
+</span></span><span style="display:flex;"><span>sudo tar -xzf imgcat_1.0.21_linux_arm64.tar.gz -C /usr/local/bin
+</span></span><span style="display:flex;"><span>sudo ln -s /usr/local/bin/imgcat /usr/bin/imgcat
+</span></span></code></pre></div><ul>
+<li>使用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>imgcat image.png
+</span></span></code></pre></div><h3 id="imgls-列出圖片內容">imgls 列出圖片內容</h3>
+<ul>
+<li>安裝</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/rsookram/imgls/cmd/imgls@latest
+</span></span><span style="display:flex;"><span>sudo mv $HOME/go/bin/imgls /usr/locat/bin
+</span></span><span style="display:flex;"><span>sudo chown root:root /usr/locat/bin/imgls
+</span></span></code></pre></div><ul>
+<li>使用方式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ imgls
+</span></span><span style="display:flex;"><span>Failed to decode /home/pollochang/Pictures/A050624-張舜全-鄧茹方-修片檔.zip. image: unknown format
+</span></span><span style="display:flex;"><span>Failed to decode /home/pollochang/Pictures/A050624-張舜全-鄧茹方-第2次修片檔.zip. image: unknown format
+</span></span><span style="display:flex;"><span>Failed to decode /home/pollochang/Pictures/A050624-張舜全-鄧茹方-第3次修片檔.zip. image: unknown format
+</span></span><span style="display:flex;"><span>Failed to decode /home/pollochang/Pictures/profileIcon_vybz6w3m742f1.webp. image: unknown format
+</span></span><span style="display:flex;"><span>NUM     FORMAT  WIDTH   HEIGHT  SIZE    FILENAME
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>       jpeg    <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    80K     Designer.jpeg
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>       png     <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    1M      Gemini_Generated_Image_656h0n656h0n656h.png
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>       png     <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    862K    Gemini_Generated_Image_80s2yc80s2yc80s2.png
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>       png     <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    1M      Gemini_Generated_Image_oq5r1ooq5r1ooq5r.png
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span>       png     <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    934K    Gemini_Generated_Image_qrtjaqqrtjaqqrtj.png
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>       jpeg    <span style="color:#ae81ff">225</span>     <span style="color:#ae81ff">225</span>     13K     images.jpeg
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">7</span>       png     <span style="color:#ae81ff">1024</span>    <span style="color:#ae81ff">1024</span>    730K    unnamed.png
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>       jpeg    <span style="color:#ae81ff">194</span>     <span style="color:#ae81ff">259</span>     14K     吶喊.jpeg
 </span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
 <p><a href="https://holychung.medium.com/%E5%88%86%E4%BA%AB-oh-my-zsh-powerlevel10k-%E5%BF%AB%E9%80%9F%E6%89%93%E9%80%A0%E5%A5%BD%E7%9C%8B%E5%A5%BD%E7%94%A8%E7%9A%84-command-line-%E7%92%B0%E5%A2%83-f66846117921">【分享】Oh My Zsh + powerlevel10k 快速打造好看好用的 command line 環境</a></p>
 <p><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a></p>

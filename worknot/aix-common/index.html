@@ -1,0 +1,496 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - AIX常用指令 </title>
+    
+    
+    <meta content="AIX, unix" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 帳戶類 新增使用者 useradd pollo mkdir -p /home/pollo chown pollo:staff /home/pollo 使用者名稱長度： AIX 的使用者名稱最長只能有 8 個字元。
+預設的主要群組: staff
+硬碟空間 檢查目錄分配狀況 # df -P Filesystem 512-blocks Used Available Capacity Mounted on /dev/hd4 524288 87152 437136 17% / /dev/hd2 4980736 4257848 722888 86% /usr /dev/hd9var 524288 70520 453768 14% /var /dev/hd3 262144 2024 260120 1% /tmp /dev/hd1 262144 158168 103976 61% /home /dev/hd11admin 262144 760 261384 1% /admin /proc - - - - /proc /dev/hd10opt 262144 35616 226528 14% /opt /dev/livedump 524288 736 523552 1% /var/adm/ras/livedump /ahafs - - - - /aha 檢查硬碟空間使用狀況 # lsvg rootvg VOLUME GROUP: rootvg VG IDENTIFIER: 00222eff0000a5000000019725ba2202 VG STATE: active PP SIZE: 128 megabyte(s) VG PERMISSION: read/write TOTAL PPs: 799 (102272 megabytes) MAX LVs: 256 FREE PPs: 756 (96768 megabytes) LVs: 12 USED PPs: 43 (5504 megabytes) OPEN LVs: 11 QUORUM: 2 (Enabled) TOTAL PVs: 1 VG DESCRIPTORS: 2 STALE PVs: 0 STALE PPs: 0 ACTIVE PVs: 1 AUTO ON: yes MAX PPs per VG: 32512 MAX PPs per PV: 1016 MAX PVs: 32 LTG size (Dynamic): 128 kilobyte(s) AUTO SYNC: no HOT SPARE: no BB POLICY: relocatable PV RESTRICTION: none INFINITE RETRY: no DISK BLOCK SIZE: 512 CRITICAL VG: no FS SYNC OPTION: no CRITICAL PVs: no 擴充目錄空間 chfs -a size=&#43;10G /dev/hd1 記憶體 擴充 swap 到4G # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 512MB 1 yes yes lv 0 chps -s 32 hd6 # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 4608MB 0 yes yes lv 0 網路 設定 hostname(主機名稱) smitty hostname 操作 /etc/profile alias ll=&#39;ls -l&#39; " name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>AIX常用指令</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/unix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">unix</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/aix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AIX</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="帳戶類">帳戶類</h2>
+<ul>
+<li>新增使用者</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd pollo
+</span></span><span style="display:flex;"><span>mkdir -p /home/pollo
+</span></span><span style="display:flex;"><span>chown pollo:staff /home/pollo
+</span></span></code></pre></div><p><strong>使用者名稱長度：</strong> AIX 的使用者名稱最長只能有 8 個字元。</p>
+<p><strong>預設的主要群組</strong>: staff</p>
+<h2 id="硬碟空間">硬碟空間</h2>
+<ul>
+<li>檢查目錄分配狀況</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># df -P</span>
+</span></span><span style="display:flex;"><span>Filesystem    512-blocks      Used Available Capacity Mounted on
+</span></span><span style="display:flex;"><span>/dev/hd4          <span style="color:#ae81ff">524288</span>     <span style="color:#ae81ff">87152</span>    <span style="color:#ae81ff">437136</span>      17% /
+</span></span><span style="display:flex;"><span>/dev/hd2         <span style="color:#ae81ff">4980736</span>   <span style="color:#ae81ff">4257848</span>    <span style="color:#ae81ff">722888</span>      86% /usr
+</span></span><span style="display:flex;"><span>/dev/hd9var       <span style="color:#ae81ff">524288</span>     <span style="color:#ae81ff">70520</span>    <span style="color:#ae81ff">453768</span>      14% /var
+</span></span><span style="display:flex;"><span>/dev/hd3          <span style="color:#ae81ff">262144</span>      <span style="color:#ae81ff">2024</span>    <span style="color:#ae81ff">260120</span>       1% /tmp
+</span></span><span style="display:flex;"><span>/dev/hd1          <span style="color:#ae81ff">262144</span>    <span style="color:#ae81ff">158168</span>    <span style="color:#ae81ff">103976</span>      61% /home
+</span></span><span style="display:flex;"><span>/dev/hd11admin     <span style="color:#ae81ff">262144</span>       <span style="color:#ae81ff">760</span>    <span style="color:#ae81ff">261384</span>       1% /admin
+</span></span><span style="display:flex;"><span>/proc                  -         -         -       - /proc
+</span></span><span style="display:flex;"><span>/dev/hd10opt      <span style="color:#ae81ff">262144</span>     <span style="color:#ae81ff">35616</span>    <span style="color:#ae81ff">226528</span>      14% /opt
+</span></span><span style="display:flex;"><span>/dev/livedump     <span style="color:#ae81ff">524288</span>       <span style="color:#ae81ff">736</span>    <span style="color:#ae81ff">523552</span>       1% /var/adm/ras/livedump
+</span></span><span style="display:flex;"><span>/ahafs                 -         -         -       - /aha
+</span></span></code></pre></div><ul>
+<li>檢查硬碟空間使用狀況</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># lsvg rootvg</span>
+</span></span><span style="display:flex;"><span>VOLUME GROUP:       rootvg                   VG IDENTIFIER:  00222eff0000a5000000019725ba2202
+</span></span><span style="display:flex;"><span>VG STATE:           active                   PP SIZE:        <span style="color:#ae81ff">128</span> megabyte<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>VG PERMISSION:      read/write               TOTAL PPs:      <span style="color:#ae81ff">799</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">102272</span> megabytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>MAX LVs:            <span style="color:#ae81ff">256</span>                      FREE PPs:       <span style="color:#ae81ff">756</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">96768</span> megabytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>LVs:                <span style="color:#ae81ff">12</span>                       USED PPs:       <span style="color:#ae81ff">43</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">5504</span> megabytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>OPEN LVs:           <span style="color:#ae81ff">11</span>                       QUORUM:         <span style="color:#ae81ff">2</span> <span style="color:#f92672">(</span>Enabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>TOTAL PVs:          <span style="color:#ae81ff">1</span>                        VG DESCRIPTORS: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>STALE PVs:          <span style="color:#ae81ff">0</span>                        STALE PPs:      <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>ACTIVE PVs:         <span style="color:#ae81ff">1</span>                        AUTO ON:        yes
+</span></span><span style="display:flex;"><span>MAX PPs per VG:     <span style="color:#ae81ff">32512</span>                                     
+</span></span><span style="display:flex;"><span>MAX PPs per PV:     <span style="color:#ae81ff">1016</span>                     MAX PVs:        <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>LTG size <span style="color:#f92672">(</span>Dynamic<span style="color:#f92672">)</span>: <span style="color:#ae81ff">128</span> kilobyte<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>          AUTO SYNC:      no
+</span></span><span style="display:flex;"><span>HOT SPARE:          no                       BB POLICY:      relocatable 
+</span></span><span style="display:flex;"><span>PV RESTRICTION:     none                     INFINITE RETRY: no
+</span></span><span style="display:flex;"><span>DISK BLOCK SIZE:    <span style="color:#ae81ff">512</span>                      CRITICAL VG:    no
+</span></span><span style="display:flex;"><span>FS SYNC OPTION:     no                       CRITICAL PVs:   no
+</span></span></code></pre></div><ul>
+<li>擴充目錄空間</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chfs -a size<span style="color:#f92672">=</span>+10G /dev/hd1
+</span></span></code></pre></div><h2 id="記憶體">記憶體</h2>
+<ul>
+<li>擴充 swap 到4G</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># lsps -a</span>
+</span></span><span style="display:flex;"><span>Page Space      Physical Volume   Volume Group    Size %Used   Active    Auto    Type   Chksum
+</span></span><span style="display:flex;"><span>hd6             hdisk0            rootvg         512MB     <span style="color:#ae81ff">1</span>     yes     yes      lv       <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chps -s <span style="color:#ae81ff">32</span> hd6
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># lsps -a</span>
+</span></span><span style="display:flex;"><span>Page Space      Physical Volume   Volume Group    Size %Used   Active    Auto    Type   Chksum
+</span></span><span style="display:flex;"><span>hd6             hdisk0            rootvg        4608MB     <span style="color:#ae81ff">0</span>     yes     yes      lv       <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h2 id="網路">網路</h2>
+<ul>
+<li>設定 hostname(主機名稱)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smitty hostname
+</span></span></code></pre></div><h2 id="操作">操作</h2>
+<ul>
+<li>/etc/profile</li>
+</ul>
+<pre tabindex="0"><code>alias ll=&#39;ls -l&#39;
+</code></pre></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/deploy-aix-in-kvm/">
+                                <h3 class="">Deploy AIX in KVM</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/unix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">unix</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/aix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AIX</span>
+        </a>
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

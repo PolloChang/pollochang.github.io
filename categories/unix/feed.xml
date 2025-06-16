@@ -8,6 +8,17 @@
     <language>zh-TW</language>
     <lastBuildDate>Sun, 01 Jun 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/unix/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>AIX常用指令</title>
+      <link>http://pollochang.work/worknot/aix-common/</link>
+      <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/aix-common/</guid>
+      <description>帳戶類 新增使用者 useradd pollo mkdir -p /home/pollo chown pollo:staff /home/pollo 使用者名稱長度： AIX 的使用者名稱最長只能有 8 個字元。
+預設的主要群組: staff
+硬碟空間 檢查目錄分配狀況 # df -P Filesystem 512-blocks Used Available Capacity Mounted on /dev/hd4 524288 87152 437136 17% / /dev/hd2 4980736 4257848 722888 86% /usr /dev/hd9var 524288 70520 453768 14% /var /dev/hd3 262144 2024 260120 1% /tmp /dev/hd1 262144 158168 103976 61% /home /dev/hd11admin 262144 760 261384 1% /admin /proc - - - - /proc /dev/hd10opt 262144 35616 226528 14% /opt /dev/livedump 524288 736 523552 1% /var/adm/ras/livedump /ahafs - - - - /aha 檢查硬碟空間使用狀況 # lsvg rootvg VOLUME GROUP: rootvg VG IDENTIFIER: 00222eff0000a5000000019725ba2202 VG STATE: active PP SIZE: 128 megabyte(s) VG PERMISSION: read/write TOTAL PPs: 799 (102272 megabytes) MAX LVs: 256 FREE PPs: 756 (96768 megabytes) LVs: 12 USED PPs: 43 (5504 megabytes) OPEN LVs: 11 QUORUM: 2 (Enabled) TOTAL PVs: 1 VG DESCRIPTORS: 2 STALE PVs: 0 STALE PPs: 0 ACTIVE PVs: 1 AUTO ON: yes MAX PPs per VG: 32512 MAX PPs per PV: 1016 MAX PVs: 32 LTG size (Dynamic): 128 kilobyte(s) AUTO SYNC: no HOT SPARE: no BB POLICY: relocatable PV RESTRICTION: none INFINITE RETRY: no DISK BLOCK SIZE: 512 CRITICAL VG: no FS SYNC OPTION: no CRITICAL PVs: no 擴充目錄空間 chfs -a size=+10G /dev/hd1 記憶體 擴充 swap 到4G # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 512MB 1 yes yes lv 0 chps -s 32 hd6 # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 4608MB 0 yes yes lv 0 網路 設定 hostname(主機名稱) smitty hostname 操作 /etc/profile alias ll=&amp;#39;ls -l&amp;#39; </description>
+    </item>
+    
+    <item>
       <title>Deploy AIX in KVM</title>
       <link>http://pollochang.work/worknot/deploy-aix-in-kvm/</link>
       <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>

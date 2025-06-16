@@ -1,0 +1,738 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Goaccess 日誌分析 </title>
+    
+    
+    <meta content="linux, 日誌分析工具, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 分析 access log
+安裝 wget -O - https://deb.goaccess.io/gnugpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/goaccess.gpg &gt;/dev/null echo &#34;deb [signed-by=/usr/share/keyrings/goaccess.gpg arch=$(dpkg --print-architecture)] https://deb.goaccess.io/ $(lsb_release -cs) main&#34; | sudo tee /etc/apt/sources.list.d/goaccess.list sudo apt update sudo apt install goaccess 使用方式 分析多個檔案產出 html cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON -o combined_report.html Terminal中 分析 cat w*/localhost_access_log.*.txt | goaccess - --log-format=COMMON 報告解讀 如何解讀 GoAccess 報告 您好！生成 GoAccess 報告後，下一步就是解讀它所呈現的豐富數據。GoAccess 報告以模組化的方式組織資訊，讓您可以快速掌握網站的流量概況和使用者行為。
+一份 GoAccess 報告通常包含以下主要模組：
+1. 總覽 (Dashboard/Global Statistics) 這是報告的頂部部分，提供了一組核心指標的總覽，讓您快速了解網站的整體狀況。" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/twgcb/">twgcb</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Goaccess 日誌分析</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/%e6%97%a5%e8%aa%8c%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">日誌分析工具</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>分析 access log</p>
+<h2 id="安裝">安裝</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -O - https://deb.goaccess.io/gnugpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/goaccess.gpg &gt;/dev/null
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb [signed-by=/usr/share/keyrings/goaccess.gpg arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74">] https://deb.goaccess.io/ </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> main&#34;</span> | sudo tee /etc/apt/sources.list.d/goaccess.list
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install goaccess
+</span></span></code></pre></div><h2 id="使用方式">使用方式</h2>
+<ul>
+<li>分析多個檔案產出 html</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat w*/localhost_access_log.*.txt | goaccess - --log-format<span style="color:#f92672">=</span>COMMON -o combined_report.html
+</span></span></code></pre></div><ul>
+<li>Terminal中 分析</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat w*/localhost_access_log.*.txt | goaccess - --log-format<span style="color:#f92672">=</span>COMMON
+</span></span></code></pre></div><h2 id="報告解讀">報告解讀</h2>
+<hr>
+<h2 id="如何解讀-goaccess-報告">如何解讀 GoAccess 報告</h2>
+<p>您好！生成 GoAccess 報告後，下一步就是解讀它所呈現的豐富數據。GoAccess 報告以模組化的方式組織資訊，讓您可以快速掌握網站的流量概況和使用者行為。</p>
+<p>一份 GoAccess 報告通常包含以下主要模組：</p>
+<h3 id="1-總覽-dashboardglobal-statistics">1. 總覽 (Dashboard/Global Statistics)</h3>
+<p>這是報告的頂部部分，提供了一組核心指標的總覽，讓您快速了解網站的整體狀況。</p>
+<ul>
+<li><strong>Total Requests (總請求數)</strong>：您的網站或應用程式在日誌期間收到的所有請求總數。這是一個衡量網站流量規模的基本指標。</li>
+<li><strong>Valid Requests (有效請求數)</strong>：成功處理並返回有效狀態碼（如 2xx, 3xx）的請求數。</li>
+<li><strong>Invalid Requests (無效請求數)</strong>：由於格式錯誤或其他原因無法解析的請求數。</li>
+<li><strong>Generated bandwidth (產生頻寬)</strong>：所有請求產生的總數據傳輸量。這個數值可以幫助您評估頻寬使用情況。</li>
+<li><strong>Not Found (404s) (未找到頁面)</strong>：返回 404 狀態碼的請求數，表示請求的資源不存在。這個數字如果很高，可能表示有損壞的連結、資源被移除或使用者輸入錯誤的網址。</li>
+<li><strong>Static Files (靜態檔案)</strong>：圖片、CSS、JavaScript 等靜態檔案的請求數。</li>
+<li><strong>Log Size (日誌大小)</strong>：所分析日誌檔案的總大小。</li>
+</ul>
+<h3 id="2-獨特訪客-unique-visitors">2. 獨特訪客 (Unique Visitors)</h3>
+<p>這個模組顯示了訪問您網站的獨立訪客數量。GoAccess 根據 IP 地址、瀏覽器 User-Agent 等因素來判斷「獨特訪客」。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：總請求數。</li>
+<li><strong>Visitors (訪客)</strong>：獨立訪客的數量。</li>
+<li><strong>Percentage (百分比)</strong>：該項佔總訪客數的百分比。</li>
+<li><strong>Bandwidth (頻寬)</strong>：該項訪客產生的頻寬。</li>
+<li><strong>Average time on site (平均停留時間)</strong>：如果日誌中包含足夠的資訊（通常需要較新的日誌格式或額外配置），GoAccess 也能估算平均停留時間。</li>
+</ul>
+<p>解讀時，您可以觀察訪客的變化趨勢，例如特定時間點的訪客高峰或低谷。</p>
+<h3 id="3-請求的檔案-requested-filesurls">3. 請求的檔案 (Requested Files/URLs)</h3>
+<p>這部分列出了被請求最多的頁面或資源，通常按熱門程度排序。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：該檔案被請求的次數。</li>
+<li><strong>Visitors (訪客)</strong>：請求該檔案的獨立訪客數。</li>
+<li><strong>Percentage (百分比)</strong>：該檔案的請求佔總請求的百分比。</li>
+<li><strong>Bandwidth (頻寬)</strong>：該檔案傳輸的總頻寬。</li>
+<li><strong>Avg. time on site (平均停留時間)</strong>：使用者在此頁面上的平均停留時間 (如果數據可用)。</li>
+</ul>
+<p>解讀時，您可以：</p>
+<ul>
+<li><strong>識別熱門內容</strong>：了解哪些頁面或資源最受歡迎。</li>
+<li><strong>發現未預期的請求</strong>：檢查是否有不應該被頻繁請求的資源，這可能是惡意掃描或配置錯誤的跡象。</li>
+</ul>
+<h3 id="4-靜態檔案-static-files">4. 靜態檔案 (Static Files)</h3>
+<p>專門列出圖片、CSS、JS、PDF 等靜態資源的請求情況，與上述「請求的檔案」類似，但更聚焦於靜態內容。</p>
+<h3 id="5-請求的靜態檔案-not-found-urls-404s">5. 請求的靜態檔案 (Not Found URLs (404s))</h3>
+<p>這個模組專門列出導致 404 錯誤（頁面未找到）的 URL。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：該 URL 導致 404 的次數。</li>
+<li><strong>Visitors (訪客)</strong>：請求該 URL 並收到 404 的獨立訪客數。</li>
+<li><strong>Last Visit (最後訪問)</strong>：最後一次請求這個不存在 URL 的時間。</li>
+</ul>
+<p>解讀時，<strong>這是非常重要的模組</strong>：</p>
+<ul>
+<li><strong>修復失效連結</strong>：如果您的網站內部連結或外部引用指向了不存在的頁面，應盡快修正。</li>
+<li><strong>識別惡意掃描</strong>：過多的 404 請求可能來自惡意爬蟲或掃描器，嘗試尋找網站漏洞。</li>
+<li><strong>清理廢棄內容</strong>：如果某些頁面已移除但仍被大量請求，考慮設定 301 重定向。</li>
+</ul>
+<h3 id="6-主機-hostsip-addresses">6. 主機 (Hosts/IP Addresses)</h3>
+<p>列出訪問您網站的 IP 地址，並顯示它們的請求數、頻寬等。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：該 IP 地址的請求數。</li>
+<li><strong>Visitors (訪客)</strong>：從該 IP 地址過來的獨立訪客數 (通常是 1)。</li>
+<li><strong>Bandwidth (頻寬)</strong>：該 IP 地址消耗的頻寬。</li>
+<li><strong>Last Request (最後請求)</strong>：該 IP 地址的最後一次請求時間。</li>
+<li><strong>City/Country (城市/國家)</strong>：如果啟用 GeoIP 支援，會顯示訪客的地理位置。</li>
+</ul>
+<p>解讀時，您可以：</p>
+<ul>
+<li><strong>識別惡意 IP</strong>：如果某個 IP 地址的請求量異常大、產生大量 404 或其他可疑行為，可能是攻擊或過度抓取，您可能需要考慮封鎖它。</li>
+<li><strong>分析訪客來源</strong>：了解主要訪客來自哪些地區。</li>
+</ul>
+<h3 id="7-作業系統-operating-systems">7. 作業系統 (Operating Systems)</h3>
+<p>顯示訪客使用的作業系統分佈情況。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：使用該作業系統的請求數。</li>
+<li><strong>Visitors (訪客)</strong>：使用該作業系統的獨立訪客數。</li>
+<li><strong>Percentage (百分比)</strong>：該作業系統的訪客佔總訪客的百分比。</li>
+</ul>
+<p>解讀時，可以了解您的目標使用者群體主要使用哪些作業系統，這對網站設計和兼容性測試很有幫助。</p>
+<h3 id="8-瀏覽器-browsers">8. 瀏覽器 (Browsers)</h3>
+<p>顯示訪客使用的瀏覽器分佈情況。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：使用該瀏覽器的請求數。</li>
+<li><strong>Visitors (訪客)</strong>：使用該瀏覽器的獨立訪客數。</li>
+<li><strong>Percentage (百分比)</strong>：該瀏覽器的訪客佔總訪客的百分比。</li>
+</ul>
+<p>解讀時，可以了解您的主要瀏覽器使用者，有助於進行瀏覽器兼容性測試。</p>
+<h3 id="9-來源網站-referrers">9. 來源網站 (Referrers)</h3>
+<p>顯示引導使用者來到您網站的來源網站 (例如 Google 搜尋、其他網站連結等)。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：來自該來源網站的請求數。</li>
+<li><strong>Visitors (訪客)</strong>：來自該來源網站的獨立訪客數。</li>
+</ul>
+<p>解讀時，可以了解您的流量來源，評估行銷活動的效果或發現新的合作機會。</p>
+<h3 id="10-關鍵字-keyphrases">10. 關鍵字 (Keyphrases)</h3>
+<p>如果訪客是透過搜尋引擎來到您的網站，這個模組會嘗試從 Referer 資訊中提取搜尋關鍵字。</p>
+<h3 id="11-http-狀態碼-http-status-codes">11. HTTP 狀態碼 (HTTP Status Codes)</h3>
+<p>顯示不同 HTTP 狀態碼的請求分佈，例如 200 (成功)、302 (重定向)、403 (禁止訪問)、404 (未找到)、500 (伺服器內部錯誤) 等。</p>
+<ul>
+<li><strong>2xx (Success)</strong>：請求成功，頁面正常顯示。</li>
+<li><strong>3xx (Redirection)</strong>：頁面重定向。</li>
+<li><strong>4xx (Client Error)</strong>：客戶端錯誤，最常見的是 404。</li>
+<li><strong>5xx (Server Error)</strong>：伺服器錯誤，例如 500 Internal Server Error。</li>
+</ul>
+<p>解讀時，這是非常重要的模組：</p>
+<ul>
+<li><strong>監控錯誤</strong>：特別關注 4xx 和 5xx 錯誤的數量。高比例的錯誤可能表示網站問題，需要立即處理。</li>
+<li><strong>了解行為</strong>：分析 3xx 了解重定向的使用情況。</li>
+</ul>
+<h3 id="12-http-請求方法-http-request-methods">12. HTTP 請求方法 (HTTP Request Methods)</h3>
+<p>顯示 GET、POST、HEAD 等不同 HTTP 方法的使用分佈。</p>
+<h3 id="13-流量高峰時段-hourlydailymonthly-distribution">13. 流量高峰時段 (Hourly/Daily/Monthly Distribution)</h3>
+<p>這些模組以圖表形式顯示流量在一天中、一週中或一個月中的分佈趨勢，幫助您識別網站流量的高峰時段。</p>
+<ul>
+<li><strong>Hits (點擊)</strong>：該時間段的請求數。</li>
+<li><strong>Visitors (訪客)</strong>：該時間段的獨立訪客數。</li>
+<li><strong>Bandwidth (頻寬)</strong>：該時間段產生的頻寬。</li>
+</ul>
+<p>解讀時，可以幫助您：</p>
+<ul>
+<li><strong>安排維護</strong>：在流量低谷時段進行系統維護。</li>
+<li><strong>最佳化資源</strong>：根據流量高峰調整伺服器資源。</li>
+<li><strong>規劃行銷活動</strong>：在目標使用者最活躍的時段發布內容。</li>
+</ul>
+<h3 id="如何有效解讀報告">如何有效解讀報告？</h3>
+<ol>
+<li><strong>從上到下掃描</strong>：先看總覽，再依序瀏覽每個模組，了解網站的整體健康狀況和流量構成。</li>
+<li><strong>關注異常值</strong>：特別注意那些佔比高、出現錯誤或突然激增的數字。例如，404 錯誤數量異常增多，或者某個 IP 地址的請求量暴增。</li>
+<li><strong>趨勢分析</strong>：如果能持續生成日誌報告，將不同時間段的報告進行對比，可以發現流量的變化趨勢，例如使用者成長、熱門內容變化等。</li>
+<li><strong>結合業務理解</strong>：將日誌數據與您的業務目標結合起來。例如，如果某個產品頁面流量很高但銷售額不高，可能需要優化頁面內容。</li>
+<li><strong>深入挖掘</strong>：GoAccess 報告可以透過點擊或互動（在終端機模式下）鑽取更詳細的數據。例如，點擊一個錯誤頁面，可以查看是哪些 IP 請求了它。</li>
+</ol>
+<p>透過定期查看和解讀 GoAccess 報告，您將能更好地了解您的 Tomcat 應用程式的使用情況，及早發現潛在問題，並做出數據驅動的決策。</p>
+<p>如果您在解讀特定模組時有任何疑問，或想進一步探討某些數據點，歡迎隨時提出！</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://goaccess.io/">goaccess.io</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-vm/">
+                                <h3 class="">KVM 相關 VM</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-disk/">
+                                <h3 class="">KVM 相關 disk</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-netowrk/">
+                                <h3 class="">KVM 網路</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20241104-1/">
+                                <h3 class="">big-ip client linux 安裝</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-04</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20241030-2/">
+                                <h3 class="">telnet 替代方案: curl</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-10-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/curl/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">curl</span>
+        </a>
+    
+        <a href="/tags/telnet/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">telnet</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
