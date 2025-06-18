@@ -183,6 +183,50 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#f92672">/&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- 省略 --&gt;</span>
 </span></span></code></pre></div><p>好吧～抱怨也就到這了，幸好是發生在測試機，發生在正式環境後果不堪而想。另外，經過這次也有發現人機溝通的重要性。因為tomcat更新得很頻繁，過去維運團隊採用了tomcat 小本號更新，雖然運作了好幾年都沒有問題但是缺少更新的日誌與通知，花費了數天尋找問題。也許可以加強這一小快，讓未來出現類似的狀況可以更快被發現。</p>
+<hr>
+<p>2025-06-19 07:36 更新</p>
+<p>後來我尋找信件紀錄發現新增 <code>maxPartCount</code> 參數是因為要解決 <code>CVE-2025-48988</code> 漏洞。</p>
+<p>以下是信件內容</p>
+<pre tabindex="0"><code>[SECURITY] CVE-2025-48988 Apache Tomcat - DoS in multipart upload
+CVE-2025-48988 Apache Tomcat - DoS in multipart upload
+
+Severity: Important
+
+Vendor: The Apache Software Foundation
+
+Versions Affected:
+Apache Tomcat 11.0.0-M1 to 11.0.7
+Apache Tomcat 10.1.0-M1 to 10.1.41
+Apache Tomcat 9.0.0.M1 to 9.0.105
+
+Description:
+Tomcat used the same limit for both request parameters and parts in a
+multipart request. Since uploaded parts also include headers which must
+be retained, processing multipart requests can result in significantly
+more memory usage. A specially crafted request that used a large number
+of parts could trigger excessive memory usage leading to a DoS. The
+maximum number of parts is now configurable (maxPartCount on the
+Connector) with a default of 10 parts.
+
+Mitigation:
+Users of the affected versions should apply one of the following
+mitigations:
+- Upgrade to Apache Tomcat 11.0.8 or later
+- Upgrade to Apache Tomcat 10.1.42 or later
+- Upgrade to Apache Tomcat 9.0.106 or later
+
+Credit:
+The vulnerability was identified by the TERASOLUNA Framework Security
+Team of NTT DATA Group Corporation
+
+History:
+2025-06-16 Original advisory
+
+References:
+[1] https://tomcat.apache.org/security-11.html
+[2] https://tomcat.apache.org/security-10.html
+[3] https://tomcat.apache.org/security-9.html
+</code></pre><p>信件連結: <a href="https://lists.apache.org/thread/nzkqsok8t42qofgqfmck536mtyzygp18">https://lists.apache.org/thread/nzkqsok8t42qofgqfmck536mtyzygp18</a></p>
 </div>
                 <div>
                     <script src="https://utteranc.es/client.js"
