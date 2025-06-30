@@ -11,8 +11,7 @@
     <meta content="PolloChang 工作筆記 - 聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。
 漏洞名稱 SQL Injection
 目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係
-環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git 入侵環境 OS: Debian 12 tools: sqlmap 1.7.2 問題程式片段 sick-grails/grails-app/services/ex/Ex100Service.groovy 在程式中有透過字串組SQL方式進行查詢
-LinkedHashMap filter2(GrailsParameterMap params){ LinkedHashMap result = [:] List&lt;Ex100&gt; ex100L = Ex100.createCriteria().list() { if(params?.strings){ sqlRestriction(&#34; this_.strings = &#39;${params?.strings}&#39; &#34;) } } result.rows = ex100L.collect { it -&gt; [ id : it?.id, strings : it?.strings, integers : it?.integers, atms : it?" name="description">
+環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &#39;範例表單&#39;; COMMENT ON COLUMN EX100." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -172,7 +171,38 @@ layui.use('element', function(){
 <li>java version: java 17</li>
 <li>範例程式: <a href="https://github.com/PolloChang/sick-grails.git">https://github.com/PolloChang/sick-grails.git</a></li>
 </ul>
-<h3 id="入侵環境">入侵環境</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> SEQUENCE hibernate_sequence <span style="color:#66d9ef">MINVALUE</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> EX100 (
+</span></span><span style="display:flex;"><span>    OBJID BIGSERIAL <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">VERSION</span> BIGINT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    MAN_CREATED VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    DATE_CREATED <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    MAN_LAST_UPDATED VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    LAST_UPDATED <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    NOTE VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    STRINGS VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    INTEGERS INTEGER <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    ATMS INTEGER <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    STATUS INTEGER <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    ARTICLE TEXT <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> EX100 <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;範例表單&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.MAN_CREATED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;建檔人員&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.DATE_CREATED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;建檔時間&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.MAN_LAST_UPDATED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;最後異動人員&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.LAST_UPDATED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;最後異動時間&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.NOTE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料註記&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.STRINGS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;字串&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.INTEGERS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;數字&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.ATMS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;金額&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.STATUS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;流程狀態&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> EX100.ARTICLE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;文章&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> ex100 (objid,<span style="color:#66d9ef">version</span>,note) <span style="color:#66d9ef">values</span> ((nextval(<span style="color:#e6db74">&#39;hibernate_sequence&#39;</span>)),<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#39;test&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> ex100 (objid,<span style="color:#66d9ef">version</span>,note) <span style="color:#66d9ef">values</span> ((nextval(<span style="color:#e6db74">&#39;hibernate_sequence&#39;</span>)),<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#39;test1&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> ex100 (objid,<span style="color:#66d9ef">version</span>,note) <span style="color:#66d9ef">values</span> ((nextval(<span style="color:#e6db74">&#39;hibernate_sequence&#39;</span>)),<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#39;test2&#39;</span>);
+</span></span></code></pre></div><h3 id="入侵環境">入侵環境</h3>
 <ul>
 <li>OS: Debian 12</li>
 <li>tools: sqlmap 1.7.2</li>

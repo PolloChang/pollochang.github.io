@@ -16,8 +16,7 @@
       <description>聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。
 漏洞名稱 SQL Injection
 目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係
-環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git 入侵環境 OS: Debian 12 tools: sqlmap 1.7.2 問題程式片段 sick-grails/grails-app/services/ex/Ex100Service.groovy 在程式中有透過字串組SQL方式進行查詢
-LinkedHashMap filter2(GrailsParameterMap params){ LinkedHashMap result = [:] List&amp;lt;Ex100&amp;gt; ex100L = Ex100.createCriteria().list() { if(params?.strings){ sqlRestriction(&amp;#34; this_.strings = &amp;#39;${params?.strings}&amp;#39; &amp;#34;) } } result.rows = ex100L.collect { it -&amp;gt; [ id : it?.id, strings : it?.strings, integers : it?.integers, atms : it?</description>
+環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &amp;#39;範例表單&amp;#39;; COMMENT ON COLUMN EX100.</description>
     </item>
     
   </channel>
