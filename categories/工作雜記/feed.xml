@@ -6,7 +6,19 @@
     <description>Recent content in 工作雜記 on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 18 Jun 2025 22:21:10 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Jun 2025 23:20:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修補 CVE-2025-26465</title>
+      <link>http://pollochang.work/worknot/fix-cve-2025-26465/</link>
+      <pubDate>Mon, 30 Jun 2025 23:20:15 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/fix-cve-2025-26465/</guid>
+      <description>修補 CVE-2025-26465 方式
+CVE-2025-26465 OpenSSH 是一套基於 SSH 協定的安全網路實用程式，這對於透過不安全網路進行通訊至關重要，可提供強大的加密功能以確保隱私與安全檔案傳輸，使其成為遠端伺服器管理和安全資料通訊的重要工具。OpenSSH以其廣泛的安全性和身分驗證功能而聞名，支援各種加密技術，並且是多個類 Unix 系統（包括 macOS 和 Linux）的標準配置。OpenSSH 官方於 2025 年 2 月 18 日發布新版本 9.9p2，修補以下兩個漏洞：
+CVE-2025-26465 ：CVSSv3.1 評分 6.8，OpenSSH 用戶端在版本6.8p1 到 9.9p1 （含）之間包含一個邏輯錯誤，若啟用VerifyHostKeyDNS 選項，則容易受到中間人（MitM）攻擊，當客戶端嘗試連線時，惡意入侵者可以冒充合法伺服器。 CVE-2025-26466 ：尚無 CVSS 評分，OpenSSH 用戶端和伺服器容易受到 9.5p1 至 9.9p1（含）版本之間的預先認證（pre-authentication）阻斷服務攻擊，導致記憶體與 CPU 消耗。 文件 CVE-2025-26465 AI 分析 問題敘述如下
+研究 CVE-2025-26465 漏洞 在 Oracle Linux 上的影響 主要針對下列網站提供資訊進行研究 * https://www.oracle.com/security-alerts/cpuapr2025.html * https://www.openssh.com/releasenotes.html * https://thehackernews.com/2025/02/new-openssh-flaws-enable-man-in-middle.html * https://blog.qualys.com/vulnerabilities-threat-research/2025/02/18/qualys-tru-discovers-two-vulnerabilities-in-openssh-cve-2025-26465-cve-2025-26466 * https://access.redhat.com/security/cve/cve-2025-26465 Grok 我針對 CVE-2025-26465 漏洞在 Oracle Linux 上的影響，依據您指定的網站進行了研究，並整合相關資訊如下。以下內容將涵蓋漏洞概述、對 Oracle Linux 的具體影響、修補狀態以及建議的緩解措施。 --- ### 1.</description>
+    </item>
+    
     <item>
       <title>Tomcat Attachment Error</title>
       <link>http://pollochang.work/worknot/tomcat-attachment-error/</link>
