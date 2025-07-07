@@ -6,7 +6,17 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 30 Jun 2025 23:20:15 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Jul 2025 07:33:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>01 - K8s System Design</title>
+      <link>http://pollochang.work/k8s/01-k8s-system-design/</link>
+      <pubDate>Tue, 08 Jul 2025 07:33:21 +0800</pubDate>
+      
+      <guid>http://pollochang.work/k8s/01-k8s-system-design/</guid>
+      <description>這是紀錄我學習 K8s 的筆記
+系統組成 k8s 群集 用途: k8s 主體 k8s-master IP: 192.168.100.200 MAC: 52:54:00:13:43:a9 domain: k8s-master.k8s.local CPU: 2 RAM: 4GB k8s-node-01 IP: 192.168.100.201 domain: k8s-node-01.k8s.local CPU: 4 RAM: 8GB k8s-node-02 IP: 192.168.100.202 domain: k8s-node-02.k8s.local CPU: 4 RAM: 8GB git 用途: 存放腳本 CPU: 2 RAM: 1GB GitBucket jenkins 用途: 包 java War 檔 與 建立 docker image IP: 192.168.100.199 domain: jenkins.k8s.local CPU: 4 RAM: 2GB docker repo 用途: 儲存 docker image IP: 192.</description>
+    </item>
+    
     <item>
       <title>修補 CVE-2025-26465</title>
       <link>http://pollochang.work/worknot/fix-cve-2025-26465/</link>
@@ -77,7 +87,7 @@ Caused by: org.springframework.web.multipart.MultipartException: Could not parse
       <pubDate>Wed, 11 Jun 2025 11:54:59 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/file-checksum/</guid>
-      <description>AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
+      <description>oracle AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
     </item>
     
     <item>
@@ -1172,10 +1182,10 @@ Java 基本內置 annotation @Override 重寫父層的方法
     
     <item>
       <title>TWGCB 資料庫建立腳本</title>
-      <link>http://pollochang.work/twgcb/db-schema/</link>
+      <link>http://pollochang.work/worknot/db-schema/</link>
       <pubDate>Sat, 06 Apr 2024 11:57:51 +0800</pubDate>
       
-      <guid>http://pollochang.work/twgcb/db-schema/</guid>
+      <guid>http://pollochang.work/worknot/db-schema/</guid>
       <description>最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
 資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, note varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type smallint, cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
     </item>

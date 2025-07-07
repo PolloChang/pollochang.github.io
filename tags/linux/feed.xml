@@ -31,7 +31,7 @@
       <pubDate>Wed, 11 Jun 2025 11:54:59 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/file-checksum/</guid>
-      <description>AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
+      <description>oracle AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
     </item>
     
     <item>
@@ -831,6 +831,18 @@ mkfs.vfat -I /dev/sdb1
       <guid>http://pollochang.work/post/2024-02-28-%E5%AE%89%E8%A3%9Ddocker/</guid>
       <description>OS: Debian 10 Debian 11
 初次安裝先移除舊相關套件 sudo apt-get remove docker docker-engine docker.io containerd runc 安裝 加入 gpg sudo apt-get update sudo apt-get install \ apt-transport-https \ ca-certificates \ curl \ gnupg \ lsb-release curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg echo \ &amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \ $(lsb_release -cs) stable&amp;#34; | sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null 安裝docker 引擎 sudo apt-get update sudo apt-get install docker-ce docker-ce-cli containerd.io 將使用者加入docker群組 sudo usermod -aG docker [userName] 安裝docker-compose https://github.</description>
+    </item>
+    
+    <item>
+      <title>我的linux日常生活-3.硬體規劃</title>
+      <link>http://pollochang.work/post/003-%E7%A1%AC%E9%AB%94%E8%A6%8F%E5%8A%83/</link>
+      <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
+      
+      <guid>http://pollochang.work/post/003-%E7%A1%AC%E9%AB%94%E8%A6%8F%E5%8A%83/</guid>
+      <description>我的linux日常生活-3.硬體規劃 tags: 我的linux日常生活 自己組裝電腦，我認為最重要的是要清楚了解自己的需求與使用電腦目的。以下就會針對這次我組工作專用電腦的分析。我會分為下列幾個階段
+使用需求分析 使用目的 硬體規劃 現實分析 現實與理想的取捨 使用需求分析 使用目的 我使用電腦的目的有以下：
+工作 開發網站系統 撰寫開發與分析文件 維護網站系統運作 到客戶的工作地點進行需求訪談 娛樂 聽音樂 以前在電腦中會使用的軟體工具 在Windows中我會使用以下軟體，以及我自己習慣的軟體對硬體的配置
+MS Office Line 開發工具 NetBeans 6.7 最低硬體要求： RAM: 4GB Disk: 1GB intelliJ IDEA RAM: 建議 8 GB CPU: 建議多核心 Disk: 5GB 起跳 Toad 資料庫管理工具 Toad for DB2 Oracle 系統規劃與雛型軟體 DrawIO 注音輸入法 板控制工具 Git git tortose NotePad ++ VS code EverNote 電腦操作習慣 我在開發系統時，有時後會需要開三個以上的專案，所以intelliJ IDEA 有時後會多開數個專案，對記憶體的要求至少需要16GB 以上。 會在不同的作業系統中進行產品測試，對記憶體需求至少要16 GB以上。 會在同一時間很多軟體作業，如Toad、Toad、intelliJ IDEA、NetBeans 6.</description>
     </item>
     
     <item>

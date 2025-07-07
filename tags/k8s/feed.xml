@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>k8s on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/k8s/</link>
+    <description>Recent content in k8s on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Tue, 08 Jul 2025 07:33:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/k8s/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>01 - K8s System Design</title>
+      <link>http://pollochang.work/k8s/01-k8s-system-design/</link>
+      <pubDate>Tue, 08 Jul 2025 07:33:21 +0800</pubDate>
+      
+      <guid>http://pollochang.work/k8s/01-k8s-system-design/</guid>
+      <description>這是紀錄我學習 K8s 的筆記
+系統組成 k8s 群集 用途: k8s 主體 k8s-master IP: 192.168.100.200 MAC: 52:54:00:13:43:a9 domain: k8s-master.k8s.local CPU: 2 RAM: 4GB k8s-node-01 IP: 192.168.100.201 domain: k8s-node-01.k8s.local CPU: 4 RAM: 8GB k8s-node-02 IP: 192.168.100.202 domain: k8s-node-02.k8s.local CPU: 4 RAM: 8GB git 用途: 存放腳本 CPU: 2 RAM: 1GB GitBucket jenkins 用途: 包 java War 檔 與 建立 docker image IP: 192.168.100.199 domain: jenkins.k8s.local CPU: 4 RAM: 2GB docker repo 用途: 儲存 docker image IP: 192.</description>
+    </item>
+    
+  </channel>
+</rss>

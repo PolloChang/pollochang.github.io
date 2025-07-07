@@ -71,9 +71,9 @@
             
                 <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
             
-                <li class="layui-nav-item" id="nav_big"><a href="/twgcb/">twgcb</a></li>
-            
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
             
@@ -96,9 +96,9 @@
                     
                         <dd><a href="/post/">文章</a></dd>
                     
-                        <dd><a href="/twgcb/">twgcb</a></dd>
-                    
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
                     
                         <dd><a href="/personal-zone/">個人經歷</a></dd>
                     
@@ -475,6 +475,50 @@ Java 基本內置 annotation @Override 重寫父層的方法
 
     
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/db-schema/">
+            <h2 class="">TWGCB 資料庫建立腳本</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/twgcb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">TWGCB</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/twgcb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">TWGCB</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e5%ae%89/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資安</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
+資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; ...
+             <a href="/worknot/db-schema/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/worknot-20240328/">
             <h2 class="">windows 透過 CLI 檢查有沒有自動更新</h2>
         </a>
@@ -513,41 +557,6 @@ windows server
 指令
 reg query ...
              <a href="/worknot/worknot-20240328/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20240325/">
-            <h2 class="">DB2 切 db2diag.log</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-25</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/db2/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB2</span>
-        </a>
-    
-
-    
-
-    
-    
-</h3>
-
-        <h3>
-        	
-				今天在工作時碰到 db2diag.log 膨脹到把硬碟塞滿，在這邊分享一下處理過程
-db2diag -A 可以很放心去執行，執行過程中不會對現形資料庫運作產生任何影響
-操作資料庫環境 OS: RedHat 6 DB2 Version: 9.7 ...
-             <a href="/worknot/worknot-20240325/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
