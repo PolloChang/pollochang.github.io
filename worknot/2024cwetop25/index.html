@@ -1,0 +1,476 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 2024 CWE Top 25 </title>
+    
+    
+    <meta content="CWE, 資訊安全, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 -  Improper Neutralization of Input During Web Page Generation (&lsquo;Cross-site Scripting&rsquo;) 不正確的網頁生成輸入中和（「跨網站指令碼」） Out-of-bounds Write 越界寫入 Improper Neutralization of Special Elements used in an SQL Command (&lsquo;SQL Injection&rsquo;) 不正確的 SQL 命令特殊元素中和（「SQL 注入」） Cross-Site Request Forgery (CSRF) 跨網站請求偽造 (CSRF) Improper Limitation of a Pathname to a Restricted Directory (&lsquo;Path Traversal&rsquo;) 不正確的限制路徑名稱到受限制目錄（「路徑遍歷」） Out-of-bounds Read 越界讀取 Improper Neutralization of Special Elements used in an OS Command (&lsquo;OS Command Injection&rsquo;) 不正確的作業系統命令特殊元素中和（「作業系統命令注入」） Use After Free 釋放後使用 Missing Authorization 缺少授權 Unrestricted Upload of File with Dangerous Type 危險類型檔案的無限制上傳 Improper Control of Generation of Code (&lsquo;Code Injection&rsquo;) 不正確的程式碼生成控制（「程式碼注入」） Improper Input Validation 不正確的輸入驗證 Improper Neutralization of Special Elements used in a Command (&lsquo;Command Injection&rsquo;) 不正確的命令特殊元素中和（「命令注入」） Improper Authentication 不正確的身份驗證 Improper Privilege Management 不正確的權限管理 Deserialization of Untrusted Data 不可信資料的反序列化 Exposure of Sensitive Information to an Unauthorized Actor 敏感資訊洩露給未經授權的行為者 Incorrect Authorization 不正確的授權 Server-Side Request Forgery (SSRF) 伺服器端請求偽造 (SSRF) Improper Restriction of Operations within the Bounds of a Memory Buffer 不正確的記憶體緩衝區操作限制 NULL Pointer Dereference NULL 指標解引用 Use of Hard-coded Credentials 使用硬編碼憑證 Integer Overflow or Wraparound 整數溢位或迴繞 Uncontrolled Resource Consumption 不受控制的資源消耗 Missing Authentication for Critical Function 關鍵功能缺少身份驗證 參考資料 2024 CWE Top 25 Most Dangerous Software Weaknesses " name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>2024 CWE Top 25</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-07-17</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cwe/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CWE</span>
+        </a>
+    
+        <a href="/tags/%e8%b3%87%e8%a8%8a%e5%ae%89%e5%85%a8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資訊安全</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <ol>
+<li><strong>Improper Neutralization of Input During Web Page Generation (&lsquo;Cross-site Scripting&rsquo;)</strong>
+不正確的網頁生成輸入中和（「跨網站指令碼」）</li>
+<li><strong>Out-of-bounds Write</strong>
+越界寫入</li>
+<li><strong>Improper Neutralization of Special Elements used in an SQL Command (&lsquo;SQL Injection&rsquo;)</strong>
+不正確的 SQL 命令特殊元素中和（「SQL 注入」）</li>
+<li><strong>Cross-Site Request Forgery (CSRF)</strong>
+跨網站請求偽造 (CSRF)</li>
+<li><strong>Improper Limitation of a Pathname to a Restricted Directory (&lsquo;Path Traversal&rsquo;)</strong>
+不正確的限制路徑名稱到受限制目錄（「路徑遍歷」）</li>
+<li><strong>Out-of-bounds Read</strong>
+越界讀取</li>
+<li><strong>Improper Neutralization of Special Elements used in an OS Command (&lsquo;OS Command Injection&rsquo;)</strong>
+不正確的作業系統命令特殊元素中和（「作業系統命令注入」）</li>
+<li><strong>Use After Free</strong>
+釋放後使用</li>
+<li><strong>Missing Authorization</strong>
+缺少授權</li>
+<li><strong>Unrestricted Upload of File with Dangerous Type</strong>
+危險類型檔案的無限制上傳</li>
+<li><strong>Improper Control of Generation of Code (&lsquo;Code Injection&rsquo;)</strong>
+不正確的程式碼生成控制（「程式碼注入」）</li>
+<li><strong>Improper Input Validation</strong>
+不正確的輸入驗證</li>
+<li><strong>Improper Neutralization of Special Elements used in a Command (&lsquo;Command Injection&rsquo;)</strong>
+不正確的命令特殊元素中和（「命令注入」）</li>
+<li><strong>Improper Authentication</strong>
+不正確的身份驗證</li>
+<li><strong>Improper Privilege Management</strong>
+不正確的權限管理</li>
+<li><strong>Deserialization of Untrusted Data</strong>
+不可信資料的反序列化</li>
+<li><strong>Exposure of Sensitive Information to an Unauthorized Actor</strong>
+敏感資訊洩露給未經授權的行為者</li>
+<li><strong>Incorrect Authorization</strong>
+不正確的授權</li>
+<li><strong>Server-Side Request Forgery (SSRF)</strong>
+伺服器端請求偽造 (SSRF)</li>
+<li><strong>Improper Restriction of Operations within the Bounds of a Memory Buffer</strong>
+不正確的記憶體緩衝區操作限制</li>
+<li><strong>NULL Pointer Dereference</strong>
+NULL 指標解引用</li>
+<li><strong>Use of Hard-coded Credentials</strong>
+使用硬編碼憑證</li>
+<li><strong>Integer Overflow or Wraparound</strong>
+整數溢位或迴繞</li>
+<li><strong>Uncontrolled Resource Consumption</strong>
+不受控制的資源消耗</li>
+<li><strong>Missing Authentication for Critical Function</strong>
+關鍵功能缺少身份驗證</li>
+</ol>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://cwe.mitre.org/top25/archive/2024/2024_cwe_top25.html">2024 CWE Top 25 Most Dangerous Software Weaknesses</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/gdpr/">
+                                <h3 class="">GDPR-通用資料保護條例</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-07-17</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/%e8%b3%87%e8%a8%8a%e5%ae%89%e5%85%a8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">資訊安全</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
