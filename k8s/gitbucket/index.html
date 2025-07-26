@@ -1,0 +1,742 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - GitBucket 安裝紀錄 </title>
+    
+    
+    <meta content="git, K8s自學筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 為了能在小小的實驗室有一個 git 託管服務，經過一分思索最後決定使用 GitBucket。
+安裝紀錄 必要 package sudo apt -y install fontconfig fonts-dejavu-core 安裝 JRE curl -s https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest | grep browser_download_url|grep jre_x64_linux| grep tar.gz\&#34; | cut -d &#39;&#34;&#39; -f 4 | wget -i - mkdir -p /usr/local/lib/jvm sudo tar -zxf OpenJDK17U-jre_x64_linux_hotspot_17.0.16_8.tar.gz -C /usr/local/lib/jvm/ sudo ln -s /usr/local/lib/jvm/jdk-17.0.16&#43;8-jre /usr/local/lib/jvm/java17-latest 安裝tomcat sudo useradd -M -s /sbin/nologin webapp sudo useradd --system -s /sbin/nologin tomcat sudo usermod -a -G webapp tomcat export APACHE_TOMCAT_9_VERSION=9.0.106 wget -O /tmp/apache-tomcat-${APACHE_TOMCAT_9_VERSION}." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>GitBucket 安裝紀錄</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-07-26</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/k8s%e8%87%aa%e5%ad%b8%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">K8s自學筆記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/git/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">git</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>為了能在小小的實驗室有一個 git 託管服務，經過一分思索最後決定使用 GitBucket。</p>
+<h2 id="安裝紀錄">安裝紀錄</h2>
+<h3 id="必要-package">必要 package</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install fontconfig fonts-dejavu-core
+</span></span></code></pre></div><h3 id="安裝-jre">安裝 JRE</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest | grep browser_download_url|grep jre_x64_linux| grep tar.gz<span style="color:#ae81ff">\&#34;</span> | cut -d <span style="color:#e6db74">&#39;&#34;&#39;</span> -f <span style="color:#ae81ff">4</span> | wget -i -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p /usr/local/lib/jvm
+</span></span><span style="display:flex;"><span>sudo tar -zxf OpenJDK17U-jre_x64_linux_hotspot_17.0.16_8.tar.gz -C  /usr/local/lib/jvm/
+</span></span><span style="display:flex;"><span>sudo ln -s /usr/local/lib/jvm/jdk-17.0.16+8-jre /usr/local/lib/jvm/java17-latest
+</span></span></code></pre></div><h3 id="安裝tomcat">安裝tomcat</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo useradd -M -s /sbin/nologin webapp
+</span></span><span style="display:flex;"><span>sudo useradd --system -s /sbin/nologin tomcat
+</span></span><span style="display:flex;"><span>sudo usermod -a -G webapp tomcat
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export APACHE_TOMCAT_9_VERSION<span style="color:#f92672">=</span>9.0.106
+</span></span><span style="display:flex;"><span>wget -O /tmp/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>.tar.gz https://archive.apache.org/dist/tomcat/tomcat-9/v<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>/bin/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>.tar.gz
+</span></span><span style="display:flex;"><span>sudo tar -zxf /tmp/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>.tar.gz -C /usr/local/apache-tomcat
+</span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>/webapps/*
+</span></span><span style="display:flex;"><span>sudo chown tomcat: /usr/local/apache-tomcat
+</span></span><span style="display:flex;"><span>sudo chown -R tomcat: /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>sudo chown -R root: /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span>/logs
+</span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/apache-tomcat/apache-tomcat-9-latest
+</span></span><span style="display:flex;"><span>sudo ln -s  /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_9_VERSION<span style="color:#e6db74">}</span> /usr/local/apache-tomcat/apache-tomcat-9-latest
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export APACHE_TOMCAT_10_VERSION<span style="color:#f92672">=</span>10.1.43
+</span></span><span style="display:flex;"><span>mkdir - p /usr/local/apache-tomcat
+</span></span><span style="display:flex;"><span>wget -O /tmp/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>.tar.gz https://archive.apache.org/dist/tomcat/tomcat-10/v<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>/bin/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>.tar.gz
+</span></span><span style="display:flex;"><span>sudo tar -zxf /tmp/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>.tar.gz -C /usr/local/apache-tomcat
+</span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>/webapps/*
+</span></span><span style="display:flex;"><span>sudo chown tomcat: /usr/local/apache-tomcat
+</span></span><span style="display:flex;"><span>sudo chown -R tomcat: /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>sudo chown -R root: /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>/logs
+</span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/apache-tomcat/apache-tomcat-10-latest
+</span></span><span style="display:flex;"><span>sudo ln -s  /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span> /usr/local/apache-tomcat/apache-tomcat-10-latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -s https://api.github.com/repos/prometheus/jmx_exporter/releases/latest | grep browser_download_url | grep <span style="color:#e6db74">&#39;jmx_prometheus_javaagent-.*\.jar&#39;</span> | grep -v <span style="color:#e6db74">&#39;\.asc\|\.sha256&#39;</span> | cut -d <span style="color:#e6db74">&#39;&#34;&#39;</span> -f <span style="color:#ae81ff">4</span> | wget -i -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -f /usr/local/apache-tomcat/jmx_prometheus_javaagent-*.jar
+</span></span><span style="display:flex;"><span>rm -f /usr/local/apache-tomcat/jmx_prometheus_javaagent.jar
+</span></span><span style="display:flex;"><span>mv jmx_prometheus_javaagent-*.jar /usr/local/apache-tomcat/
+</span></span><span style="display:flex;"><span>ln -s /usr/local/apache-tomcat/jmx_prometheus_javaagent-*.jar /usr/local/apache-tomcat/jmx_prometheus_javaagent.jar
+</span></span></code></pre></div><ul>
+<li>/usr/local/apache-tomcat/jmx-exporter.yml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># https://grafana.com/grafana/dashboards/8704-tomcat-dashboard/</span>
+</span></span><span style="display:flex;"><span>---   
+</span></span><span style="display:flex;"><span><span style="color:#f92672">whitelistObjectNames</span>: [<span style="color:#e6db74">&#34;java.lang:type=OperatingSystem&#34;</span>, <span style="color:#e6db74">&#34;Catalina:*&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern: &#39;Catalina&lt;type=Server&gt;&lt;&gt;serverInfo</span>: <span style="color:#ae81ff">(.+)&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tomcat_serverinfo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">value</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">serverInfo</span>: <span style="color:#e6db74">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">COUNTER</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern</span>: <span style="color:#e6db74">&#39;Catalina&lt;type=GlobalRequestProcessor, name=\&#34;(\w+-\w+)-(\d+)\&#34;&gt;&lt;&gt;(\w+):&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tomcat_$3_total</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">port</span>: <span style="color:#e6db74">&#34;$2&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">protocol</span>: <span style="color:#e6db74">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">help</span>: <span style="color:#ae81ff">Tomcat global $3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">COUNTER</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern</span>: <span style="color:#e6db74">&#39;Catalina&lt;j2eeType=Servlet, WebModule=//([-a-zA-Z0-9+&amp;@#/%?=~_|!:.,;]*[-a-zA-Z0-9+&amp;@#/%=~_|]), name=([-a-zA-Z0-9+/$%~_-|!.]*), J2EEApplication=none, J2EEServer=none&gt;&lt;&gt;(requestCount|processingTime|errorCount):&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tomcat_servlet_$3_total</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">module</span>: <span style="color:#e6db74">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">servlet</span>: <span style="color:#e6db74">&#34;$2&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">help</span>: <span style="color:#ae81ff">Tomcat servlet $3 total</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">COUNTER</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern</span>: <span style="color:#e6db74">&#39;Catalina&lt;type=ThreadPool, name=&#34;(\w+-\w+)-(\d+)&#34;&gt;&lt;&gt;(currentThreadCount|currentThreadsBusy|keepAliveCount|connectionCount|acceptCount|acceptorThreadCount|pollerThreadCount|maxThreads|minSpareThreads):&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tomcat_threadpool_$3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">port</span>: <span style="color:#e6db74">&#34;$2&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">protocol</span>: <span style="color:#e6db74">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">help</span>: <span style="color:#ae81ff">Tomcat threadpool $3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">GAUGE</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern</span>: <span style="color:#e6db74">&#39;Catalina&lt;type=Manager, host=([-a-zA-Z0-9+&amp;@#/%?=~_|!:.,;]*[-a-zA-Z0-9+&amp;@#/%=~_|]), context=([-a-zA-Z0-9+/$%~_-|!.]*)&gt;&lt;&gt;(processingTime|sessionCounter|rejectedSessions|expiredSessions):&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tomcat_session_$3_total</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">context</span>: <span style="color:#e6db74">&#34;$2&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">host</span>: <span style="color:#e6db74">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">help</span>: <span style="color:#ae81ff">Tomcat session $3 total</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">COUNTER   </span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">pattern</span>: <span style="color:#e6db74">&#39;.*&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chown tomcat:tomcat /usr/local/apache-tomcat/jmx_prometheus_javaagent-*.jar /usr/local/apache-tomcat/jmx-exporter.yml
+</span></span></code></pre></div><h3 id="設定資料庫">設定資料庫</h3>
+<p>gitbucket 預設資料庫是 H2，正式環境建議使用 Postgresql</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CREATE DATABASE gitbucket;
+</span></span><span style="display:flex;"><span>CREATE USER gitBucket WITH PASSWORD <span style="color:#e6db74">&#39;&lt;EnterPWD&gt;&#39;</span>;
+</span></span><span style="display:flex;"><span>GRANT CONNECT ON DATABASE gitBucket TO gitbucket;
+</span></span><span style="display:flex;"><span>ALTER DATABASE gitBucket OWNER TO gitBucket;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">\c</span> gitbucket
+</span></span><span style="display:flex;"><span>GRANT ALL PRIVILEGES ON DATABASE gitBucket TO gitBucket;
+</span></span><span style="display:flex;"><span>GRANT ALL ON SCHEMA public TO gitBucket;
+</span></span></code></pre></div><h3 id="安裝-gitbucket">安裝 gitbucket</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | grep browser_download_url | grep war | cut -d <span style="color:#e6db74">&#39;&#34;&#39;</span> -f <span style="color:#ae81ff">4</span> | wget -qi -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查檔案有損毀</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat gitbucket.war.md5<span style="color:#66d9ef">)</span><span style="color:#e6db74">  gitbucket.war&#34;</span> | md5sum -c
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat gitbucket.war.sha1<span style="color:#66d9ef">)</span><span style="color:#e6db74">  gitbucket.war&#34;</span> | sha1sum -c
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat gitbucket.war.sha256<span style="color:#66d9ef">)</span><span style="color:#e6db74">  gitbucket.war&#34;</span> | sha256sum -c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo useradd --system -s /sbin/nologin gitbucket
+</span></span><span style="display:flex;"><span>sudo usermod -a -G tomcat gitbucket
+</span></span><span style="display:flex;"><span>sudo usermod -a -G webapp gitbucket
+</span></span><span style="display:flex;"><span>sudo usermod -d /usr/local/gitbucket -m gitbucket
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p /usr/local/gitbucket/dump /var/log/gitbucket /usr/local/gitbucket/data
+</span></span><span style="display:flex;"><span>mkdir -p /usr/local/gitbucket/catalina/<span style="color:#f92672">{</span>temp,webapps,work<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>cp -r /usr/local/apache-tomcat/apache-tomcat-<span style="color:#e6db74">${</span>APACHE_TOMCAT_10_VERSION<span style="color:#e6db74">}</span>/conf /usr/local/gitbucket/catalina/
+</span></span><span style="display:flex;"><span>chown -R gitbucket:gitbucket /usr/local/gitbucket /var/log/gitbucket /usr/local/gitbucket/data
+</span></span><span style="display:flex;"><span>ln -s /var/log/gitbucket /usr/local/gitbucket/catalina/logs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p /usr/local/gitbucket/catalina/webapps/gitbucket
+</span></span><span style="display:flex;"><span>sudo -u gitbucket unzip -q gitbucket.war -d /usr/local/gitbucket/catalina/webapps/gitbucket
+</span></span><span style="display:flex;"><span>chown -R webapp:webapp /usr/local/gitbucket/catalina/webapps
+</span></span></code></pre></div><ul>
+<li>/usr/local/gitbucket/catalina/conf/server.xml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;Server</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#34;-1&#34;</span> <span style="color:#a6e22e">shutdown=</span><span style="color:#e6db74">&#34;SHUTDOWN&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.AprLifecycleListener&#34;</span> <span style="color:#a6e22e">SSLEngine=</span><span style="color:#e6db74">&#34;on&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.JreMemoryLeakPreventionListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.ThreadLocalLeakPreventionListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;GlobalNamingResources&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Resource</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;UserDatabase&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;Container&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;org.apache.catalina.UserDatabase&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;User database that can be updated and saved&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">factory=</span><span style="color:#e6db74">&#34;org.apache.catalina.users.MemoryUserDatabaseFactory&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">pathname=</span><span style="color:#e6db74">&#34;conf/tomcat-users.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/GlobalNamingResources&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Service</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Catalina&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Connector</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#34;10090&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">protocol=</span><span style="color:#e6db74">&#34;org.apache.coyote.http11.Http11Nio2Protocol&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">maxParameterCount=</span><span style="color:#e6db74">&#34;1000&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">connectionTimeout=</span><span style="color:#e6db74">&#34;20000&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">URIEncoding=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">minSpareThreads=</span><span style="color:#e6db74">&#34;20&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">maxThreads=</span><span style="color:#e6db74">&#34;1000&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">acceptCount=</span><span style="color:#e6db74">&#34;200&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">disableUploadTimeout=</span><span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">enableLookups=</span><span style="color:#e6db74">&#34;false&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">server=</span><span style="color:#e6db74">&#34;application server&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">xpoweredBy=</span><span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">maxPartCount=</span><span style="color:#e6db74">&#34;-1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Engine</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Catalina&#34;</span> <span style="color:#a6e22e">defaultHost=</span><span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;Realm</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.realm.LockOutRealm&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Realm</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.realm.UserDatabaseRealm&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">resourceName=</span><span style="color:#e6db74">&#34;UserDatabase&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/Realm&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;Host</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;localhost&#34;</span>  <span style="color:#a6e22e">appBase=</span><span style="color:#e6db74">&#34;/usr/local/gitbucket/catalina/webapps&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">unpackWARs=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">autoDeploy=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">reloadable=</span><span style="color:#e6db74">&#34;false&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.ErrorReportValve&#34;</span> <span style="color:#a6e22e">showReport=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">showServerInfo=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.RemoteIpValve&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">internalProxies=</span><span style="color:#e6db74">&#34;.*&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">remoteIpHeader=</span><span style="color:#e6db74">&#34;x-forwarded-for&#34;</span> <span style="color:#a6e22e">proxiesHeader=</span><span style="color:#e6db74">&#34;x-forwarded-by&#34;</span>  <span style="color:#a6e22e">protocolHeader=</span><span style="color:#e6db74">&#34;x-forwarded-proto&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">httpsServerPort=</span><span style="color:#e6db74">&#34;443&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.AccessLogValve&#34;</span> <span style="color:#a6e22e">directory=</span><span style="color:#e6db74">&#34;logs&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">prefix=</span><span style="color:#e6db74">&#34;localhost_access_log&#34;</span> <span style="color:#a6e22e">suffix=</span><span style="color:#e6db74">&#34;.txt&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/Host&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Engine&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/Service&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Server&gt;</span>
+</span></span></code></pre></div><ul>
+<li>/usr/local/gitbucket/catalina/conf/context.xml</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;Context&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;WatchedResource&gt;</span>WEB-INF/web.xml<span style="color:#f92672">&lt;/WatchedResource&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;WatchedResource&gt;</span>WEB-INF/tomcat-web.xml<span style="color:#f92672">&lt;/WatchedResource&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;WatchedResource&gt;</span>${catalina.base}/conf/web.xml<span style="color:#f92672">&lt;/WatchedResource&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;WatchedResource&gt;</span>WEB-INF/web.xml<span style="color:#f92672">&lt;/WatchedResource&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Resources</span> <span style="color:#a6e22e">cachingAllowed=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Context&gt;</span>
+</span></span></code></pre></div><ul>
+<li>/etc/tmpfiles.d/gitbucket.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>d /run/gitbucket <span style="color:#ae81ff">0755</span> gitbucket gitbucket -
+</span></span><span style="display:flex;"><span>f /run/gitbucket/gitbucket.pid <span style="color:#ae81ff">0664</span> gitbucket gitbucket -
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/gitbucket.service</li>
+</ul>
+<p>CREATE USER gitBucket WITH PASSWORD &lsquo;<!-- raw HTML omitted -->&rsquo;;
+GRANT CONNECT ON DATABASE gitBucket TO gitBucket;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Systemd unit file for tomcat</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># vserion: 1.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Apache Tomcat Web Application Container
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>syslog.target network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>forking
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>JAVA_HOME<span style="color:#f92672">=</span>/usr/local/lib/jvm/java17-latest
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>CATALINA_HOME<span style="color:#f92672">=</span>/usr/local/apache-tomcat/apache-tomcat-10-latest
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>CATALINA_PID<span style="color:#f92672">=</span>/run/gitbucket/gitbucket.pid
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>CATALINA_BASE<span style="color:#f92672">=</span>/usr/local/gitbucket/catalina
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>GITBUCKET_HOME<span style="color:#f92672">=</span>/usr/local/gitbucket/data
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>GITBUCKET_DB_URL<span style="color:#f92672">=</span>jdbc:postgresql://pg.pollohome.local/gitbucket
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>GITBUCKET_DB_USER<span style="color:#f92672">=</span>gitbucket
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>GITBUCKET_DB_PASSWORD<span style="color:#f92672">=</span>&lt;EnterPWD&gt;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#CATALINA_OPTS</span>
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;CATALINA_OPTS=-server -Xshare:off -Xms1g -Xmx1g -Djava.net.preferIPv4Stack=true -XX:+EliminateLocks -XX:+UseBiasedLocking -XX:MaxJavaStackTraceDepth=100 -XX:+UseG1GC -XX:MaxGCPauseMillis=95&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#JAVA_OPTS</span>
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;JAVA_OPTS=-Duser.language=zh -Duser.region=TW -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/gitbucket/dump -javaagent:/usr/local/apache-tomcat/jmx_prometheus_javaagent.jar=10099:/usr/local/apache-tomcat/jmx-exporter.yml&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/local/apache-tomcat/apache-tomcat-10-latest/bin/startup.sh
+</span></span><span style="display:flex;"><span>ExecStop<span style="color:#f92672">=</span>/bin/kill -15 $MAINPID
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>gitbucket
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>gitbucket
+</span></span><span style="display:flex;"><span>UMask<span style="color:#f92672">=</span><span style="color:#ae81ff">0027</span>
+</span></span><span style="display:flex;"><span>RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now gitbucket
+</span></span><span style="display:flex;"><span>sudo systemctl status gitbucket
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查 jmx export</span>
+</span></span><span style="display:flex;"><span>curl -i http://127.0.0.1:10019/metrics
+</span></span></code></pre></div><ul>
+<li>設定文件: /etc/logrotate.d/gitbucket</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/var/log/gitbucket/catalina.out <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span> daily
+</span></span><span style="display:flex;"><span> dateext
+</span></span><span style="display:flex;"><span> dateformat -%Y-%m-%d
+</span></span><span style="display:flex;"><span> missingok
+</span></span><span style="display:flex;"><span> rotate <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span> copytruncate
+</span></span><span style="display:flex;"><span> compress
+</span></span><span style="display:flex;"><span> delaycompress
+</span></span><span style="display:flex;"><span> notifempty
+</span></span><span style="display:flex;"><span> size 10M
+</span></span><span style="display:flex;"><span> maxsize 50M
+</span></span><span style="display:flex;"><span> su root root
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="設定-排程">設定: 排程</h3>
+<ul>
+<li>指令:  <code>crontab -u gitbucket -e</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 刪除過期的連線紀錄</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">6</span> * * * /usr/bin/find /var/log/gitbucket/*.txt -type f -mtime +180 -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除過期的程式日誌</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">6</span> * * * /usr/bin/find /var/log/gitbucket/*.log -type f -mtime +7 -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除過期的程式暫存檔</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">6</span> * * * /usr/bin/find /usr/local/gitbucket/catalina/temp/ -type f -mtime +7 -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除過期的程式dump</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">6</span> * * * /usr/bin/find /usr/local/gitbucket/dump/* -type f -mtime +14 -exec rm -f <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span></code></pre></div><p>預設帳密: root/root</p>
+<h2 id="設定-防火牆設定">設定: 防火牆設定</h2>
+<p>要對負載平衡開放 port</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;[AP_IP 請自己改]&#34; port protocol=&#34;tcp&#34; port=&#34;10090&#34; accept&#39;</span>
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;[AP_IP 請自己改]&#34; port protocol=&#34;tcp&#34; port=&#34;10099&#34; accept&#39;</span>
+</span></span></code></pre></div><h2 id="git-server-22-port">git server 22 port</h2>
+<ol>
+<li>本機的 openssh server 要釋放 22 port</li>
+<li>設定 Enable SSH access to git repository
+<ol>
+<li>注意 SSH bind port 不可以使用 22 port，要使用防火牆跳轉</li>
+</ol>
+</li>
+<li>設定防火牆</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>public --add-forward-port<span style="color:#f92672">=</span>port<span style="color:#f92672">=</span>22:proto<span style="color:#f92672">=</span>tcp:toport<span style="color:#f92672">=</span><span style="color:#ae81ff">10010</span> --permanent
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20241113-1/">
+                                <h3 class="">Worknot 20241113 1</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/git/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">git</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/post/2024-02-28-git-cli/">
+                                <h3 class="">git CLI</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/git/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">git</span>
+        </a>
+    
+        <a href="/tags/cli/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">cli</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

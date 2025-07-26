@@ -6,7 +6,17 @@
     <description>Recent content in K8s on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 08 Jul 2025 07:33:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/k8s/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 Jul 2025 07:03:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/k8s/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitBucket 安裝紀錄</title>
+      <link>http://pollochang.work/k8s/gitbucket/</link>
+      <pubDate>Sat, 26 Jul 2025 07:03:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/k8s/gitbucket/</guid>
+      <description>為了能在小小的實驗室有一個 git 託管服務，經過一分思索最後決定使用 GitBucket。
+安裝紀錄 必要 package sudo apt -y install fontconfig fonts-dejavu-core 安裝 JRE curl -s https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest | grep browser_download_url|grep jre_x64_linux| grep tar.gz\&amp;#34; | cut -d &amp;#39;&amp;#34;&amp;#39; -f 4 | wget -i - mkdir -p /usr/local/lib/jvm sudo tar -zxf OpenJDK17U-jre_x64_linux_hotspot_17.0.16_8.tar.gz -C /usr/local/lib/jvm/ sudo ln -s /usr/local/lib/jvm/jdk-17.0.16+8-jre /usr/local/lib/jvm/java17-latest 安裝tomcat sudo useradd -M -s /sbin/nologin webapp sudo useradd --system -s /sbin/nologin tomcat sudo usermod -a -G webapp tomcat export APACHE_TOMCAT_9_VERSION=9.0.106 wget -O /tmp/apache-tomcat-${APACHE_TOMCAT_9_VERSION}.</description>
+    </item>
+    
     <item>
       <title>01 - K8s System Design</title>
       <link>http://pollochang.work/k8s/01-k8s-system-design/</link>
