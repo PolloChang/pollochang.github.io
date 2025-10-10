@@ -376,7 +376,7 @@ madir -p /mnt/nfs/centos7 mount 192.168.56.173:/share /mnt/nfs/centos7 但是不
       <description>我的Linux生活日記 28.KVM 在 Linux 中可以透過建立 KVM「核心基礎虛擬機器 (Kernel-based Virtual Machine；KVM）」 建立不同作業系統環境，無論是 RedHat 、Debian 或是 windows 都可以建立。在學習 Linux 的過程是不錯的學習工具。
 啟動 CPU 虛擬化技術 這部份需要進入 BIOS 開啟，AMD 是 VT , Intel 是 VT-x、VT-d 或 VT-c 。
 檢查硬體資源是否支援 虛擬技術 啟動之後可以下指令檢查
-grep --color --perl-regexp &amp;#39;vmx|svm&amp;#39; /proc/cpuinfo 安裝 安裝指令 sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo usermod -G libvirt-qemu pollochang sudo usermod -G libvirt pollochang KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &amp;#34;/tmp/osinfo-db.</description>
+grep --color --perl-regexp &amp;#39;vmx|svm&amp;#39; /proc/cpuinfo 安裝 安裝指令 Debain sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd Fedora sudo dnf install @virtualization sudo systemctl enable --now libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo usermod -G libvirt-qemu pollochang sudo usermod -G libvirt pollochang KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &amp;#34;/tmp/osinfo-db.</description>
     </item>
     
     <item>

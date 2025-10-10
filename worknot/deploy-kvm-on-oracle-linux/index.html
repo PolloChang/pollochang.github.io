@@ -1,0 +1,852 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Deploy KVM on Oracle Linux 8 </title>
+    
+    
+    <meta content="KVM, Linux, unix" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Deploy KVM on Oracle Linux 8</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-10-08</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/unix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">unix</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="kvm-主機架構">KVM 主機架構</h2>
+<ul>
+<li>pollochang-ovirt
+<ul>
+<li>hostname: pollochang-ovirt-00</li>
+<li>FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local</li>
+<li>IP: 172.30.1.20/24</li>
+<li>CPU: 2 vCore</li>
+<li>RAM: 8 G</li>
+<li>Disk: 50 G</li>
+</ul>
+</li>
+<li>pollochang-kvm-01
+<ul>
+<li>hostname: pollochang-kvm-01</li>
+<li>FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local</li>
+<li>IP: 172.30.1.3/24</li>
+</ul>
+</li>
+<li>pollochang-disk-01
+<ul>
+<li>用途: 負責提供儲存</li>
+<li>hostname: pollochang-disk-01</li>
+<li>FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local</li>
+<li>IP: 172.30.1.10/24</li>
+</ul>
+</li>
+</ul>
+<h2 id="安裝前置作業">安裝前置作業</h2>
+<ol>
+<li>透過文件取得軟體相容性</li>
+</ol>
+<p>透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10</p>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Platform</th>
+<th>Compute host requirement</th>
+<th>Minimum kernel requirement</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OLVM requirement</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Oracle Linux 8</td>
+<td>x86-64</td>
+<td>OL8 Update 8 and higher</td>
+<td>UEK R7 Update 2 (5.15.0-200) and higher</td>
+<td></td>
+</tr>
+<tr>
+<td>UEK R6 Update 3 (5.4.17-2136) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RHCK (4.18.0-477) and higher</td>
+<td>OLVM 4.5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Platform</th>
+<th>KVM host requirement</th>
+<th>Minimum kernel requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle Linux 8</td>
+<td>x86-64</td>
+<td>OL8 Update 5 and higher</td>
+<td>UEK R7 (5.15.0-0) and higher</td>
+</tr>
+<tr>
+<td>UEK R6 Update 3 (5.4.17-2136) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RHCK (4.18.0-348) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>aarch64</td>
+<td>OL8 Update 5 and higher</td>
+<td>UEK R7 (5.15.0-0) and higher</td>
+<td></td>
+</tr>
+<tr>
+<td>UEK R6 Update 3 (5.4.17-2136) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Oracle Linux 9</td>
+<td>x86-64</td>
+<td>OL9 and higher</td>
+<td>UEK R8 (6.12.0-0) and higher</td>
+</tr>
+<tr>
+<td>UEK R7 (5.15.0-0) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RHCK (5.14.0-70) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>aarch64</td>
+<td>OL9 and higher</td>
+<td>UEK R8 (6.12.0-0) and higher</td>
+<td></td>
+</tr>
+<tr>
+<td>UEK R7 (5.15.0-0) and higher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>上表來自於:<a href="https://linux.oracle.com/ords/r/oraclelinux/hardware-certifications/virtualization">Hardware Certification List Oracle Linux and Oracle Virtualization</a></p>
+<ol start="2">
+<li>啟動之後可以下指令檢查 CPU 有支援虛擬化，如果有支援才可以安裝KVM</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep --color --perl-regexp <span style="color:#e6db74">&#39;vmx|svm&#39;</span> /proc/cpuinfo
+</span></span></code></pre></div><p>以下為 AMD CPU 檢查結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local nt_good clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip rdpid overflow_recov succor smca sme sev sev_es ibpb_exit_to_user
+</span></span></code></pre></div><p>以下為 Intel CPU 檢查結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm arat pln pts hwp hwp_notify hwp_act_window hwp_epp vnmi md_clear flush_l1d
+</span></span><span style="display:flex;"><span>vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple shadow_vmcs pml ept_mode_based_exec
+</span></span></code></pre></div><ol start="3">
+<li>檢查載入的 KVM 模組</li>
+</ol>
+<p>使用下列指令檢查有載入KVM模組</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsmod |grep kvm
+</span></span></code></pre></div><p>以下為 AMD CPU 檢查結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ lsmod |grep kvm
+</span></span><span style="display:flex;"><span>kvm_amd               <span style="color:#ae81ff">180224</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>kvm                  <span style="color:#ae81ff">1142784</span>  <span style="color:#ae81ff">1</span> kvm_amd
+</span></span><span style="display:flex;"><span>irqbypass              <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> kvm
+</span></span><span style="display:flex;"><span>ccp                   <span style="color:#ae81ff">131072</span>  <span style="color:#ae81ff">1</span> kvm_amd
+</span></span></code></pre></div><p>以下為 Intel CPU 檢查結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ lsmod |grep kvm
+</span></span><span style="display:flex;"><span>kvm_intel             <span style="color:#ae81ff">393216</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>kvm                  <span style="color:#ae81ff">1142784</span>  <span style="color:#ae81ff">1</span> kvm_intel
+</span></span><span style="display:flex;"><span>irqbypass              <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> kvm
+</span></span></code></pre></div><ol start="3">
+<li>以下為建議處理事項</li>
+</ol>
+<p>請參閱: [build-template-oracle-linux-8]</p>
+<ol start="4">
+<li>額外建議安裝軟體</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install epel-release
+</span></span><span style="display:flex;"><span>sudo dnf install bind-utils nc tmux tree nmon
+</span></span></code></pre></div><h2 id="安裝-iscic">安裝 iSCIC</h2>
+<h2 id="安裝-kvm">安裝 KVM</h2>
+<h3 id="1-安裝並啟動-kvm">1. 安裝並啟動 KVM</h3>
+<p>安裝主機: pollochang-kvm-01</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install oraclelinux-release-el8
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo dnf config-manager --enable ol8_kvm_appstream</span>
+</span></span><span style="display:flex;"><span>sudo dnf update
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝與 Oracle Linux 虛擬化模組相關的軟體套裝程式。</span>
+</span></span><span style="display:flex;"><span>sudo dnf group install <span style="color:#e6db74">&#34;Virtualization Host&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 virt-install 和 virt-viewer，如果規劃使用最小安裝，則可以不用安裝 GUI 介面，</span>
+</span></span><span style="display:flex;"><span>sudo dnf install qemu-kvm virt-install -y
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 驗證主機機器已就緒，並設定為執行 libvirt VM</span>
+</span></span><span style="display:flex;"><span>virt-host-validate
+</span></span></code></pre></div><p>輸出範例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>oracle@ol-node01 ~<span style="color:#f92672">]</span>$ virt-host-validate
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> hardware virtualization                                 : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">if</span> device /dev/kvm exists                                   : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">if</span> device /dev/kvm is accessible                            : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">if</span> device /dev/vhost-net exists                             : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">if</span> device /dev/net/tun exists                               : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;cpu&#39;</span> controller support                         : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;cpuacct&#39;</span> controller support                     : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;cpuset&#39;</span> controller support                      : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;memory&#39;</span> controller support                      : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;devices&#39;</span> controller support                     : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> cgroup <span style="color:#e6db74">&#39;blkio&#39;</span> controller support                       : PASS
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> device assignment IOMMU support                         : WARN <span style="color:#f92672">(</span>No ACPI DMAR table found, IOMMU either disabled in BIOS or not supported by this hardware platform<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>QEMU: Checking <span style="color:#66d9ef">for</span> secure guest support                                    : WARN <span style="color:#f92672">(</span>Unknown <span style="color:#66d9ef">if</span> this platform has Secure Guest support<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>啟動 libvirtd 常駐程式，並啟用該常駐程式在每次啟動時自動啟動。然後檢查其狀態以確認其已啟動並在執行中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable --now libvirtd.service
+</span></span><span style="display:flex;"><span>sudo systemctl status libvirtd.service
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> drv in qemu network nodedev nwfilter secret storage interface; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  sudo systemctl enable virt<span style="color:#e6db74">${</span>drv<span style="color:#e6db74">}</span>d.service
+</span></span><span style="display:flex;"><span>  sudo systemctl enable virt<span style="color:#e6db74">${</span>drv<span style="color:#e6db74">}</span>d<span style="color:#f92672">{</span>,-ro,-admin<span style="color:#f92672">}</span>.socket;
+</span></span><span style="display:flex;"><span>  sudo systemctl start virt<span style="color:#e6db74">${</span>drv<span style="color:#e6db74">}</span>d<span style="color:#f92672">{</span>,-ro,-admin<span style="color:#f92672">}</span>.socket; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now virtproxyd.service virtproxyd-tls.socket
+</span></span><span style="display:flex;"><span>sudo systemctl stop virtproxyd-tls.socket
+</span></span><span style="display:flex;"><span>sudo systemctl restart virtproxyd-tls.socket
+</span></span><span style="display:flex;"><span>sudo systemctl list-units --type<span style="color:#f92672">=</span>socket virt*
+</span></span></code></pre></div><h3 id="2-設定-cockpit-web-主控台來管理-oracle-linux-上的-kvm">2. 設定 Cockpit Web 主控台來管理 Oracle Linux 上的 KVM</h3>
+<ol>
+<li>安裝並設定啟動</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install cockpit cockpit-machines -y
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now cockpit.socket
+</span></span><span style="display:flex;"><span>sudo systemctl status cockpit.socket
+</span></span></code></pre></div><ol start="2">
+<li>設定防火牆</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --add-service<span style="color:#f92672">=</span>cockpit --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><p>打開瀏覽器: https://172.30.1.3:9090/</p>
+<h2 id="oracle-linux-virtualization-manager">Oracle Linux Virtualization Manager</h2>
+<p>安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo yum update -y
+</span></span><span style="display:flex;"><span>dnf config-manager --enable ol8_baseos_latest
+</span></span><span style="display:flex;"><span>dnf install oracle-ovirt-release-45-el8
+</span></span><span style="display:flex;"><span>dnf install kernel-uek-modules-extra <span style="color:#75715e"># running UEK R7 需要</span>
+</span></span><span style="display:flex;"><span>dnf install ovirt-engine
+</span></span></code></pre></div><p>初始化設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>engine-setup
+</span></span></code></pre></div><ul>
+<li>/etc/ovirt-engine/engine.conf.d/99-custom-sso-setup.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SSO_ALTERNATE_ENGINE_FQDNS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pollochang-ovirt-00.kvm-host.home-lab.pollo.local pollochang-ovirt-00 172.30.1.20&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart ovirt-engine
+</span></span></code></pre></div><p>管理員帳號: admin@ovirt</p>
+<h3 id="遇到問題處理">遇到問題處理</h3>
+<ul>
+<li>/var/log/ovirt-engine/engine.log</li>
+</ul>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://docs.oracle.com/zh-tw/learn/ol-kvm/#install-and-start-kvm">使用 Oracle Linux 上的 KVM 建立 VM</a></li>
+<li><a href="https://linux.oracle.com/ords/r/oraclelinux/hardware-certifications/virtualization">Hardware Certification List Oracle Linux and Oracle Virtualization</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/oracle-linux-virtualization-manager/">Oracle Linux Virtualization Manager</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/deploy-aix-in-kvm/">
+                                <h3 class="">Deploy AIX in KVM</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-01</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/unix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">unix</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/aix/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AIX</span>
+        </a>
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-network/">
+                                <h3 class="">KVM 網路</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-vm/">
+                                <h3 class="">KVM 相關 VM</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-disk/">
+                                <h3 class="">KVM 相關 disk</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-cli-netowrk/">
+                                <h3 class="">KVM 網路</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-11-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

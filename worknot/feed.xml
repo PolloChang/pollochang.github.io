@@ -6,7 +6,37 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 17 Jul 2025 22:56:24 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy KVM on Oracle Linux 8</title>
+      <link>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</link>
+      <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
+      <description>KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
+    </item>
+    
+    <item>
+      <title>Build Template - Oracle Linux 8</title>
+      <link>http://pollochang.work/worknot/build-template-oracle-linux-8/</link>
+      <pubDate>Tue, 07 Oct 2025 10:06:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/build-template-oracle-linux-8/</guid>
+      <description>Oracle Linux 8 範本建置紀錄
+通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
+sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.d/ssh-login-info.sh # Version: 1.0 # Author: PolloChang # Date: 2025-10-07 # Description: ssh login banner # Modified: export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;amp;&amp;amp; : || return 0 # os upSeconds=&amp;#34;$(cut -d.</description>
+    </item>
+    
+    <item>
+      <title>New Life After Work 20251001</title>
+      <link>http://pollochang.work/worknot/new-life-after-work-20251001/</link>
+      <pubDate>Thu, 02 Oct 2025 11:10:38 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/new-life-after-work-20251001/</guid>
+      <description>2024 年 09 月 30 日 我從威進離職了，在這八年五個月的職涯經有經歷痛苦的專案，也有經歷過歡樂的專案。從當初第一線的駐點工程師一路到技術後勤為主的資深工程師，這八年半中累積不少的硬實力與軟實力。同時，也感受到何謂流動知識。因為有快五年沒有寫 JAVA ，在最近的面試發現，在八年前我輕鬆寫得出的試題，現在已經如此解的吃力。但是在解系統分析時，卻可以侃侃而談。讓我迴響以前有位面試官問我：「你到底想單純寫程式多久？」，當時我天真的以為可以寫一輩子，那時我大概在職約兩年吧。後來漸漸的發現，寫程式只是解決問題的手段之一，在後面的五年我幾乎都在進行系統效能調校，找出程式中哪裡可能發生問題，更大一部份的時間是花費在整體系統架構的調整與資料庫系統。也許是時事造人，當前的軟體世界不缺乏會 Codding 的人，缺乏會動手解決問題的人、缺乏真的願意投入資料庫研究的人，因此後來我的Offer 幾乎都是 DBA 。過去在資料庫有過餐痛得經驗，當時的確親手解決了，但也造成系統癱瘓一天，因此對資料庫有點 PTSD。未來的職務內容又是 DBA ，只能說是「這就是人生呀！」。</description>
+    </item>
+    
     <item>
       <title>2024 CWE Top 25</title>
       <link>http://pollochang.work/worknot/2024cwetop25/</link>
@@ -980,7 +1010,7 @@ KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384
       <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
-      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.83.tar.gz tar -zxf putty-0.83.tar.gz cd putty-0.83 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
     </item>
     
     <item>

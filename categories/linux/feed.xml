@@ -6,7 +6,18 @@
     <description>Recent content in linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 29 Jun 2025 09:34:41 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Oct 2025 10:06:25 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build Template - Oracle Linux 8</title>
+      <link>http://pollochang.work/worknot/build-template-oracle-linux-8/</link>
+      <pubDate>Tue, 07 Oct 2025 10:06:25 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/build-template-oracle-linux-8/</guid>
+      <description>Oracle Linux 8 範本建置紀錄
+通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
+sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.d/ssh-login-info.sh # Version: 1.0 # Author: PolloChang # Date: 2025-10-07 # Description: ssh login banner # Modified: export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;amp;&amp;amp; : || return 0 # os upSeconds=&amp;#34;$(cut -d.</description>
+    </item>
+    
     <item>
       <title>howdy 人臉辨識</title>
       <link>http://pollochang.work/worknot/howdy/</link>
@@ -311,7 +322,7 @@ name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_
       <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
-      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.83.tar.gz tar -zxf putty-0.83.tar.gz cd putty-0.83 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
     </item>
     
     <item>

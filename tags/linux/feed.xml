@@ -6,7 +6,17 @@
     <description>Recent content in linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 14 Jun 2025 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy KVM on Oracle Linux 8</title>
+      <link>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</link>
+      <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
+      <description>KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
+    </item>
+    
     <item>
       <title>KVM 網路</title>
       <link>http://pollochang.work/worknot/kvm-network/</link>
@@ -207,7 +217,7 @@ name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_
       <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
-      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.81.tar.gz tar -zxf putty-0.81.tar.gz cd putty-0.81 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
+      <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.83.tar.gz tar -zxf putty-0.83.tar.gz cd putty-0.83 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
     </item>
     
     <item>
@@ -1223,7 +1233,7 @@ madir -p /mnt/nfs/centos7 mount 192.168.56.173:/share /mnt/nfs/centos7 但是不
       <description>我的Linux生活日記 28.KVM 在 Linux 中可以透過建立 KVM「核心基礎虛擬機器 (Kernel-based Virtual Machine；KVM）」 建立不同作業系統環境，無論是 RedHat 、Debian 或是 windows 都可以建立。在學習 Linux 的過程是不錯的學習工具。
 啟動 CPU 虛擬化技術 這部份需要進入 BIOS 開啟，AMD 是 VT , Intel 是 VT-x、VT-d 或 VT-c 。
 檢查硬體資源是否支援 虛擬技術 啟動之後可以下指令檢查
-grep --color --perl-regexp &amp;#39;vmx|svm&amp;#39; /proc/cpuinfo 安裝 安裝指令 sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo usermod -G libvirt-qemu pollochang sudo usermod -G libvirt pollochang KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &amp;#34;/tmp/osinfo-db.</description>
+grep --color --perl-regexp &amp;#39;vmx|svm&amp;#39; /proc/cpuinfo 安裝 安裝指令 Debain sudo apt -y install qemu-system libvirt-clients libvirt-daemon-system qemu-kvm libvirt-daemon bridge-utils virtinst virt-manager libosinfo-bin osinfo-db-tools sudo systemctl enable libvirtd Fedora sudo dnf install @virtualization sudo systemctl enable --now libvirtd 使用 vhost_net 模組 sudo modprobe vhost_net 設定網路 sudo virsh net-start default sudo virsh net-autostart default 新增 KVM 權限 sudo usermod -G libvirt-qemu pollochang sudo usermod -G libvirt pollochang KVM 更新OS清單 sudo apt install libosinfo-bin osinfo-db-tools wget -O &amp;#34;/tmp/osinfo-db.</description>
     </item>
     
     <item>

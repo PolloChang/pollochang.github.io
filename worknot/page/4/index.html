@@ -137,6 +137,108 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/tomcat-log-formatter/">
+            <h2 class="">tomcat log 格式探究</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-01-02</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/tomcat/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">tomcat</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				這幾天工作上有針對日誌設定做討論，但是單純對tomcat 日誌設定似乎缺少了實做探究，於是在下班之餘稍微探究了一下。今天先對日誌格式做研究。
+在官網對於 log 工具預設是由 java 原生日誌工具處理 java.util.logging
+原始設定 以下是 tomcat9 對 log ...
+             <a href="/worknot/tomcat-log-formatter/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/oracle-delete-database/">
+            <h2 class="">Oracle Delete Database</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-12-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				Oracle 刪除資料庫
+先查詢資料庫名稱 select name, open_mode from v$database; SQL&gt; select name, open_mode from v$database; NAME OPEN_MODE --------- ...
+             <a href="/worknot/oracle-delete-database/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/worknot/worknot-20241230-1/">
+            <h2 class="">將腳本丟到背景執行</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-12-30</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				# 將腳本丟到背景執行，會輸出背景執行 PID Number nohup /usr/local/bin/example-shell.sh &amp; # 監控結果 tail -f nohup.out # 監控背景程序還有執行 watch -n 1 &#34;ps -p 120448 -o ...
+             <a href="/worknot/worknot-20241230-1/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/grails-export-dependencies/">
             <h2 class="">Grails Export Dependencies</h2>
         </a>
@@ -405,120 +507,6 @@ systemctl disable --now firewalld ...
 firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。
  ...
              <a href="/worknot/firewalld/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/firewalld-forward-port/">
-            <h2 class="">Firewalld Forward Port 防火牆轉發</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/firewalld/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">firewalld</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				# firewall-cmd --add-forward-port=port=port-number:proto=tcp|udp|sctp|dccp:toport=port-number sudo firewall-cmd --query-masquerade # 查詢有IP 偽裝 sudo ...
-             <a href="/worknot/firewalld-forward-port/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/create-local-repository-for-yum/">
-            <h2 class="">Create Local Repository for Yum</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/yum/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">yum</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
-100GB 存放空間
-安裝工具 yum install yum-utils createrepo -y
-啟用 EPEL sudo yum install epel-release sudo ...
-             <a href="/worknot/create-local-repository-for-yum/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/worknot-20241118-1/">
-            <h2 class="">CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-11-18</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
-        </a>
-    
-
-    
-
-    
-    
-</h3>
-
-        <h3>
-        	
-				詳細錯誤訊息 Nov 18 12:17:01 91214Desktop CRON[204259]: PAM unable to dlopen(pam_pwquality.so): /lib/security/pam_pwquality.so: cannot open shared object ...
-             <a href="/worknot/worknot-20241118-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
