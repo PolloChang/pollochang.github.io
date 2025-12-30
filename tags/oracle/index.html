@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記 - oracle </title>
+    <title>PolloChang 工作筆記 - Oracle </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
@@ -73,6 +73,8 @@
             
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
             
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
                 <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
@@ -97,6 +99,8 @@
                         <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
                     
                         <dd><a href="/k8s/">k8s</a></dd>
                     
@@ -136,6 +140,45 @@ layui.use('element', function(){
 
 <div class="layui-container">
         
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/test-redolog-file/">
+            <h2 class="">Redo test</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-12-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				測試環境 DB version: Oracle 19c OS: Oracle linux 7 CPU: 4 vCore RAM: 8G 測試前準備 SELECT GROUP# , status, bytes/1024/1024 FROM v$log l; GROUP#|STATUS ...
+             <a href="/oracle-database/test-redolog-file/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/file-checksum/">
             <h2 class="">各式檔案雜湊</h2>
@@ -188,7 +231,7 @@ layui.use('element', function(){
 
     
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/worknot/oracle-ocfs2-1/">
+        <a href="/oracle-database/oracle-ocfs2-1/">
             <h2 class="">Oracle OCFS2 初學</h2>
         </a>
         <h3 style="margin-top:10px; margin-bottom:10px"> 
@@ -223,7 +266,7 @@ layui.use('element', function(){
 				Oracle Cluster File System 2 (OCFS2) 文件系统
 指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
 [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted ...
-             <a href="/worknot/oracle-ocfs2-1/"><span style="color:#01AAED">Read More</span></a>
+             <a href="/oracle-database/oracle-ocfs2-1/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 
@@ -476,7 +519,7 @@ select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,
     
     
     <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

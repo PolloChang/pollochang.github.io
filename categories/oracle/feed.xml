@@ -6,23 +6,32 @@
     <description>Recent content in Oracle on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 30 Dec 2024 23:26:52 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Dec 2025 23:57:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>deploy-Oracle-for-production-check-list</title>
+      <link>http://pollochang.work/oracle-database/deploy-oracle-for-production-check-list/</link>
+      <pubDate>Fri, 26 Dec 2025 23:57:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/deploy-oracle-for-production-check-list/</guid>
+      <description>plan item list SGA_MAX_SIZE(GB) = RAM * 50% vm.nr_hugepages = (SGA_MAX_SIZE + (SGA_MAX_SIZE * 0.04)) * 1024 * 1024 / kernel.shmmni kernel.shmmax = SGA_MAX_SIZE * 1024 * 1024 * 1024 kernel.shmall = SGA_MAX_SIZE * 1024 * 1024 * 1024 / kernel.shmmni DB execute account. need check limits.conf domain content if youre db acount not be named oracle! check OS setting before install package had be installed yum install bc binutils compat-libcap1 compat-libstdc++-33 lfutils-libelf elfutils-libelf-devel fontconfig-devel glibc glibc-devel ksh libaio libaio-devel libXrender libXrender-devel libX11 libXau libXi libXtst libgcc libstdc++ libstdc++-devel libxcb make policycoreutils policycoreutils-python smartmontools sysstat cvuqdisk installed rpm -qi cvuqdisk calculate kernel.</description>
+    </item>
+    
     <item>
       <title>Oracle Delete Database</title>
-      <link>http://pollochang.work/worknot/oracle-delete-database/</link>
+      <link>http://pollochang.work/oracle-database/oracle-delete-database/</link>
       <pubDate>Mon, 30 Dec 2024 23:26:52 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/oracle-delete-database/</guid>
+      <guid>http://pollochang.work/oracle-database/oracle-delete-database/</guid>
       <description>Oracle 刪除資料庫
 先查詢資料庫名稱 select name, open_mode from v$database; SQL&amp;gt; select name, open_mode from v$database; NAME OPEN_MODE --------- -------------------- TEST READ WRITE 關閉資料庫 SQL&amp;gt; shut immediate; SQL&amp;gt; shut immediate; Database closed. Database dismounted. ORACLE instance shut down 刪除資料庫 dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [oracle@oracle-19c listener]$ dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [WARNING] [DBT-05513] Failed to connect to the database (TEST). CAUSE: Specified database credential is not valid to connect to the database (TEST).</description>
     </item>
     
     <item>
       <title>Oracle Clusterware 初學</title>
-      <link>http://pollochang.work/worknot/oracle-clusterware-1/</link>
+      <link>http://pollochang.work/oracle-database/oracle-clusterware-1/</link>
       <pubDate>Wed, 03 Jul 2024 23:57:49 +0800</pubDate>
       
-      <guid>http://pollochang.work/worknot/oracle-clusterware-1/</guid>
+      <guid>http://pollochang.work/oracle-database/oracle-clusterware-1/</guid>
       <description>指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &amp;ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &amp;lt;resource_name&amp;gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware </description>
     </item>
     

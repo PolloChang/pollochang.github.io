@@ -15,7 +15,7 @@
       <guid>http://pollochang.work/worknot/build-template-oracle-linux-8/</guid>
       <description>Oracle Linux 8 範本建置紀錄
 通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
-sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.d/ssh-login-info.sh # Version: 1.0 # Author: PolloChang # Date: 2025-10-07 # Description: ssh login banner # Modified: export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;amp;&amp;amp; : || return 0 # os upSeconds=&amp;#34;$(cut -d.</description>
+sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.</description>
     </item>
     
     <item>

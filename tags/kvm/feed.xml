@@ -13,7 +13,7 @@
       <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
-      <description>KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
 Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
     </item>
     

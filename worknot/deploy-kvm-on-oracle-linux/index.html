@@ -8,7 +8,7 @@
     
     <meta content="KVM, Linux, unix" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+    <meta content="PolloChang 工作筆記 - KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
 Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -71,6 +71,8 @@ Release Platform Compute host requirement Minimum kernel requirement OLVM requir
             
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
             
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
                 <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
@@ -95,6 +97,8 @@ Release Platform Compute host requirement Minimum kernel requirement OLVM requir
                         <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
                     
                         <dd><a href="/k8s/">k8s</a></dd>
                     
@@ -161,27 +165,28 @@ layui.use('element', function(){
 <ul>
 <li>pollochang-ovirt
 <ul>
-<li>hostname: pollochang-ovirt-00</li>
-<li>FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local</li>
+<li>hostname: ovirt-020</li>
+<li>FQDN: ovirt-020.kvm-host.home.pollochang.work</li>
 <li>IP: 172.30.1.20/24</li>
 <li>CPU: 2 vCore</li>
 <li>RAM: 8 G</li>
 <li>Disk: 50 G</li>
 </ul>
 </li>
-<li>pollochang-kvm-01
+<li>pollochang-kvm-003
 <ul>
-<li>hostname: pollochang-kvm-01</li>
-<li>FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local</li>
+<li>用途: AP</li>
+<li>hostname: pollochang-kvm-003</li>
+<li>FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work</li>
 <li>IP: 172.30.1.3/24</li>
 </ul>
 </li>
-<li>pollochang-disk-01
+<li>pollochang-kvm-004
 <ul>
-<li>用途: 負責提供儲存</li>
-<li>hostname: pollochang-disk-01</li>
-<li>FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local</li>
-<li>IP: 172.30.1.10/24</li>
+<li>用途: AP</li>
+<li>hostname: pollochang-kvm-004</li>
+<li>FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work</li>
+<li>IP: 172.30.1.4/24</li>
 </ul>
 </li>
 </ul>
@@ -407,7 +412,7 @@ layui.use('element', function(){
 </span></span></code></pre></div><ul>
 <li>/etc/ovirt-engine/engine.conf.d/99-custom-sso-setup.conf</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SSO_ALTERNATE_ENGINE_FQDNS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pollochang-ovirt-00.kvm-host.home-lab.pollo.local pollochang-ovirt-00 172.30.1.20&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SSO_ALTERNATE_ENGINE_FQDNS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ovirt-020.kvm-host.home.pollochang.work ovirt-020 172.30.1.20&#34;</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart ovirt-engine
 </span></span></code></pre></div><p>管理員帳號: admin@ovirt</p>
 <h3 id="遇到問題處理">遇到問題處理</h3>
@@ -844,7 +849,7 @@ layui.use('element', function(){
     
     
     <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

@@ -73,6 +73,8 @@
             
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
             
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
                 <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
@@ -97,6 +99,8 @@
                         <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
                     
                         <dd><a href="/k8s/">k8s</a></dd>
                     
@@ -165,7 +169,7 @@ layui.use('element', function(){
         	
 				Oracle Linux 8 範本建置紀錄
 通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
-sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製， ...
+sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 ...
              <a href="/worknot/build-template-oracle-linux-8/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
@@ -530,7 +534,7 @@ root@example:~# sudo update-alternatives --config editor There are 3 choices for
     
     
     <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

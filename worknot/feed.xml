@@ -13,7 +13,7 @@
       <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
-      <description>KVM 主機架構 pollochang-ovirt hostname: pollochang-ovirt-00 FQDN: pollochang-ovirt-00.kvm-host.home-lab.pollo.local IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-01 hostname: pollochang-kvm-01 FQDN: pollochang-kvm-01.kvm-host.home-lab.pollo.local IP: 172.30.1.3/24 pollochang-disk-01 用途: 負責提供儲存 hostname: pollochang-disk-01 FQDN: pollochang-disk-01.kvm-host.home-lab.pollo.local IP: 172.30.1.10/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
+      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
 Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
     </item>
     
@@ -25,7 +25,7 @@ Release Platform Compute host requirement Minimum kernel requirement OLVM requir
       <guid>http://pollochang.work/worknot/build-template-oracle-linux-8/</guid>
       <description>Oracle Linux 8 範本建置紀錄
 通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
-sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.d/ssh-login-info.sh # Version: 1.0 # Author: PolloChang # Date: 2025-10-07 # Description: ssh login banner # Modified: export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;amp;&amp;amp; : || return 0 # os upSeconds=&amp;#34;$(cut -d.</description>
+sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.</description>
     </item>
     
     <item>
@@ -354,16 +354,6 @@ sudo systemctl restart gdm </description>
 在官網對於 log 工具預設是由 java 原生日誌工具處理 java.util.logging
 原始設定 以下是 tomcat9 對 log 的始設定檔
 conf/logging.properties # Licensed to the Apache Software Foundation (ASF) under one or more # contributor license agreements. See the NOTICE file distributed with # this work for additional information regarding copyright ownership. # The ASF licenses this file to You under the Apache License, Version 2.0 # (the &amp;#34;License&amp;#34;); you may not use this file except in compliance with # the License.</description>
-    </item>
-    
-    <item>
-      <title>Oracle Delete Database</title>
-      <link>http://pollochang.work/worknot/oracle-delete-database/</link>
-      <pubDate>Mon, 30 Dec 2024 23:26:52 +0800</pubDate>
-      
-      <guid>http://pollochang.work/worknot/oracle-delete-database/</guid>
-      <description>Oracle 刪除資料庫
-先查詢資料庫名稱 select name, open_mode from v$database; SQL&amp;gt; select name, open_mode from v$database; NAME OPEN_MODE --------- -------------------- TEST READ WRITE 關閉資料庫 SQL&amp;gt; shut immediate; SQL&amp;gt; shut immediate; Database closed. Database dismounted. ORACLE instance shut down 刪除資料庫 dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [oracle@oracle-19c listener]$ dbca -silent -deleteDatabase -sourceDB TEST -sysDBAUserName SysPassword1 -sysDBAPassword SysPassword1 -forceArchiveLogDeletion [WARNING] [DBT-05513] Failed to connect to the database (TEST). CAUSE: Specified database credential is not valid to connect to the database (TEST).</description>
     </item>
     
     <item>
@@ -731,7 +721,7 @@ curl -k -X POST -H &amp;#34;Content-Type: application/json&amp;#34; \ -H &amp;#3
       <pubDate>Sun, 25 Aug 2024 20:17:23 +0800</pubDate>
       
       <guid>http://pollochang.work/worknot/deploy-redmine-on-debian12/</guid>
-      <description>環境 OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &amp;#34;password&amp;#34; sudo gem install bundler useradd --system --home /opt/redmine -c &amp;#34;Redmine System account&amp;#34; -s /bin/bash redmine chown -R redmine: /opt/redmine* sudo su - redmine bundle config set --local path &amp;#39;vendor/bundle&amp;#39; bundle install bundle update gem install io-wait strscan webrick --user-install bundle exec rake generate_secret_token RAILS_ENV=production bundle exec rake db:migrate RAILS_ENV=production REDMINE_LANG=zh-TW bundle exec rake redmine:load_default_data cd ~ for i in tmp tmp/pdf public/plugin_assets; do [ -d $i ] || mkdir -p $i; done echo &amp;#39;gem &amp;#34;webrick&amp;#34;&amp;#39; &amp;gt;&amp;gt; Gemfile bundle install # 測試運作 bundle exec rails server -u webrick -e production /etc/systemd/system/redmine.</description>
+      <description>環境 OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &amp;#34;password&amp;#34; install 6.</description>
     </item>
     
     <item>
@@ -899,26 +889,6 @@ Debian 12 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev 
       
       <guid>http://pollochang.work/worknot/worknot-20240704-1/</guid>
       <description>su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變：切換到 account 用戶後，會保持在切換前的目錄。 su - account 模擬完整登錄：su - account 切換到 account 用戶時，會模擬完整的登錄過程，就像 account 用戶剛剛通過 SSH 或登入界面登錄一樣。 加載 account 用戶的環境配置：account 用戶的 .bash_profile 或 .profile 等配置文件會被執行，設置該用戶的環境變量。 切換到用戶的主目錄：切換到 account 用戶後，會自動進入該用戶的主目錄（通常是 /home/account）。 </description>
-    </item>
-    
-    <item>
-      <title>Oracle Clusterware 初學</title>
-      <link>http://pollochang.work/worknot/oracle-clusterware-1/</link>
-      <pubDate>Wed, 03 Jul 2024 23:57:49 +0800</pubDate>
-      
-      <guid>http://pollochang.work/worknot/oracle-clusterware-1/</guid>
-      <description>指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &amp;ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &amp;lt;resource_name&amp;gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware </description>
-    </item>
-    
-    <item>
-      <title>Oracle OCFS2 初學</title>
-      <link>http://pollochang.work/worknot/oracle-ocfs2-1/</link>
-      <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>
-      
-      <guid>http://pollochang.work/worknot/oracle-ocfs2-1/</guid>
-      <description>Oracle Cluster File System 2 (OCFS2) 文件系统
-指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
-[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
     </item>
     
     <item>

@@ -10,7 +10,7 @@
     
     <meta content="PolloChang 工作筆記 - Oracle Linux 8 範本建置紀錄
 通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
-sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;&amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;&amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;&amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.d/ssh-login-info.sh # Version: 1.0 # Author: PolloChang # Date: 2025-10-07 # Description: ssh login banner # Modified: export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin shopt -q login_shell &amp;&amp; : || return 0 # os upSeconds=&#34;$(cut -d." name="description">
+sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;&amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;&amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;&amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -72,6 +72,8 @@ sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複
             
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
             
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
                 <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
@@ -96,6 +98,8 @@ sudo dnf install epel-release sudo dnf install -y vim nmon 如果是虛擬機複
                         <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
                     
                         <dd><a href="/k8s/">k8s</a></dd>
                     
@@ -160,6 +164,8 @@ layui.use('element', function(){
 </ul>
 <p>這部份可以依據實際狀況處理</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install epel-release
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OL7</span>
+</span></span><span style="display:flex;"><span>sudo yum install -y oracle-7
 </span></span><span style="display:flex;"><span>sudo dnf install -y vim nmon
 </span></span></code></pre></div><ul>
 <li>如果是虛擬機複製，請更新 <code>host keys</code></li>
@@ -512,7 +518,7 @@ layui.use('element', function(){
     
     
     <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

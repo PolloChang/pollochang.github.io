@@ -8,7 +8,7 @@
     
     <meta content="Redmine, infra" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 環境 OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; sudo gem install bundler useradd --system --home /opt/redmine -c &#34;Redmine System account&#34; -s /bin/bash redmine chown -R redmine: /opt/redmine* sudo su - redmine bundle config set --local path &#39;vendor/bundle&#39; bundle install bundle update gem install io-wait strscan webrick --user-install bundle exec rake generate_secret_token RAILS_ENV=production bundle exec rake db:migrate RAILS_ENV=production REDMINE_LANG=zh-TW bundle exec rake redmine:load_default_data cd ~ for i in tmp tmp/pdf public/plugin_assets; do [ -d $i ] || mkdir -p $i; done echo &#39;gem &#34;webrick&#34;&#39; &gt;&gt; Gemfile bundle install # 測試運作 bundle exec rails server -u webrick -e production /etc/systemd/system/redmine." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; install 6." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -70,6 +70,8 @@
             
                 <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
             
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
                 <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
             
                 <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
@@ -94,6 +96,8 @@
                         <dd><a href="/post/">文章</a></dd>
                     
                         <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
                     
                         <dd><a href="/k8s/">k8s</a></dd>
                     
@@ -184,6 +188,21 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">username</span>: <span style="color:#ae81ff">username</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">password</span>: <span style="color:#e6db74">&#34;password&#34;</span>
+</span></span></code></pre></div><p>install 6.1</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redmine@manage-tools:~$ bundle install
+</span></span><span style="display:flex;"><span>Your Ruby version is 3.1.2, but your Gemfile specified &gt;<span style="color:#f92672">=</span> 3.2.0, &lt; 3.5.0
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install -y git curl libssl-dev libreadline-dev zlib1g-dev <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev
+</span></span><span style="display:flex;"><span>su - redmine
+</span></span><span style="display:flex;"><span>git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+</span></span><span style="display:flex;"><span>git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+</span></span><span style="display:flex;"><span>vim ~/.bashrc
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># rbenv setup</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export PATH=&#34;$HOME/.rbenv/bin:$PATH&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># eval &#34;$(rbenv init - bash)&#34;</span>
+</span></span><span style="display:flex;"><span>source ~/.bashrc
+</span></span><span style="display:flex;"><span>rbenv install 3.2.4
+</span></span><span style="display:flex;"><span>rbenv local 3.2.4
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo gem install bundler
 </span></span><span style="display:flex;"><span>useradd --system --home /opt/redmine -c <span style="color:#e6db74">&#34;Redmine System account&#34;</span> -s /bin/bash redmine
 </span></span><span style="display:flex;"><span>chown -R redmine: /opt/redmine*
@@ -206,12 +225,15 @@ layui.use('element', function(){
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Redmine Webserver
+</span></span><span style="display:flex;"><span>Requires<span style="color:#f92672">=</span>postgresql.service
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>postgresql.service
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>simple
 </span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>deploy
 </span></span><span style="display:flex;"><span>WorkingDirectory<span style="color:#f92672">=</span>/opt/redmine
 </span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/bash -lc <span style="color:#e6db74">&#39;bundle exec rails server -e production&#39;</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/bash -lc <span style="color:#e6db74">&#39;/opt/redmine/.rbenv/shims/bundle exec rails server -e production -b 0.0.0.0 -p 3000&#39;</span>
 </span></span><span style="display:flex;"><span>TimeoutSec<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>
 </span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
 </span></span><span style="display:flex;"><span>
@@ -474,7 +496,7 @@ server {
     
     
     <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2024, PolloChang; all rights reserved.</p>
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
     </div>
 </footer>
 

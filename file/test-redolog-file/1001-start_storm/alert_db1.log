@@ -1,0 +1,520 @@
+
+Thread 1 cannot allocate new log, sequence 4443
+Checkpoint not complete
+  Current log# 3 seq# 4442 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:34:58.531021+08:00
+Thread 1 advanced to log sequence 4443 (LGWR switch)
+  Current log# 1 seq# 4443 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:34:58.555335+08:00
+ARC1 (PID:2145): Archived Log entry 4438 added for T-1.S-4442 ID 0x75f9c04b LAD:1
+2025-12-30T14:34:58.596794+08:00
+Thread 1 cannot allocate new log, sequence 4444
+Checkpoint not complete
+  Current log# 1 seq# 4443 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:01.591443+08:00
+Thread 1 advanced to log sequence 4444 (LGWR switch)
+  Current log# 2 seq# 4444 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:01.619380+08:00
+ARC2 (PID:2147): Archived Log entry 4439 added for T-1.S-4443 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:01.660231+08:00
+Thread 1 cannot allocate new log, sequence 4445
+Checkpoint not complete
+  Current log# 2 seq# 4444 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:04.656088+08:00
+Thread 1 advanced to log sequence 4445 (LGWR switch)
+  Current log# 3 seq# 4445 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:04.689351+08:00
+ARC3 (PID:2149): Archived Log entry 4440 added for T-1.S-4444 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:04.732462+08:00
+Thread 1 cannot allocate new log, sequence 4446
+Checkpoint not complete
+  Current log# 3 seq# 4445 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:07.701275+08:00
+Thread 1 advanced to log sequence 4446 (LGWR switch)
+  Current log# 1 seq# 4446 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:07.730032+08:00
+ARC0 (PID:2139): Archived Log entry 4441 added for T-1.S-4445 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:07.771105+08:00
+Thread 1 cannot allocate new log, sequence 4447
+Checkpoint not complete
+  Current log# 1 seq# 4446 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:10.742361+08:00
+Thread 1 advanced to log sequence 4447 (LGWR switch)
+  Current log# 2 seq# 4447 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:10.792812+08:00
+ARC1 (PID:2145): Archived Log entry 4442 added for T-1.S-4446 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:10.835044+08:00
+Thread 1 cannot allocate new log, sequence 4448
+Checkpoint not complete
+  Current log# 2 seq# 4447 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:13.821523+08:00
+Thread 1 advanced to log sequence 4448 (LGWR switch)
+  Current log# 3 seq# 4448 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:13.856578+08:00
+ARC2 (PID:2147): Archived Log entry 4443 added for T-1.S-4447 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:13.903426+08:00
+Thread 1 cannot allocate new log, sequence 4449
+Checkpoint not complete
+  Current log# 3 seq# 4448 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:16.887326+08:00
+Thread 1 advanced to log sequence 4449 (LGWR switch)
+  Current log# 1 seq# 4449 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:16.916291+08:00
+ARC3 (PID:2149): Archived Log entry 4444 added for T-1.S-4448 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:16.964260+08:00
+Thread 1 cannot allocate new log, sequence 4450
+Checkpoint not complete
+  Current log# 1 seq# 4449 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:19.919296+08:00
+Thread 1 advanced to log sequence 4450 (LGWR switch)
+  Current log# 2 seq# 4450 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:19.948081+08:00
+ARC0 (PID:2139): Archived Log entry 4445 added for T-1.S-4449 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:19.989783+08:00
+Thread 1 cannot allocate new log, sequence 4451
+Checkpoint not complete
+  Current log# 2 seq# 4450 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:22.977428+08:00
+Thread 1 advanced to log sequence 4451 (LGWR switch)
+  Current log# 3 seq# 4451 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:23.007458+08:00
+ARC1 (PID:2145): Archived Log entry 4446 added for T-1.S-4450 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:23.048460+08:00
+Thread 1 cannot allocate new log, sequence 4452
+Checkpoint not complete
+  Current log# 3 seq# 4451 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:26.052551+08:00
+Thread 1 advanced to log sequence 4452 (LGWR switch)
+  Current log# 1 seq# 4452 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:26.082372+08:00
+ARC2 (PID:2147): Archived Log entry 4447 added for T-1.S-4451 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:26.128918+08:00
+Thread 1 cannot allocate new log, sequence 4453
+Checkpoint not complete
+  Current log# 1 seq# 4452 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:29.066016+08:00
+Thread 1 advanced to log sequence 4453 (LGWR switch)
+  Current log# 2 seq# 4453 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:29.099419+08:00
+ARC3 (PID:2149): Archived Log entry 4448 added for T-1.S-4452 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:29.141154+08:00
+Thread 1 cannot allocate new log, sequence 4454
+Checkpoint not complete
+  Current log# 2 seq# 4453 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:32.129754+08:00
+Thread 1 advanced to log sequence 4454 (LGWR switch)
+  Current log# 3 seq# 4454 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:32.178510+08:00
+ARC0 (PID:2139): Archived Log entry 4449 added for T-1.S-4453 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:32.223689+08:00
+Thread 1 cannot allocate new log, sequence 4455
+Checkpoint not complete
+  Current log# 3 seq# 4454 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:35.181124+08:00
+Thread 1 advanced to log sequence 4455 (LGWR switch)
+  Current log# 1 seq# 4455 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:35.211471+08:00
+ARC1 (PID:2145): Archived Log entry 4450 added for T-1.S-4454 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:35.259540+08:00
+Thread 1 cannot allocate new log, sequence 4456
+Checkpoint not complete
+  Current log# 1 seq# 4455 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:38.277682+08:00
+Thread 1 advanced to log sequence 4456 (LGWR switch)
+  Current log# 2 seq# 4456 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:38.319547+08:00
+ARC2 (PID:2147): Archived Log entry 4451 added for T-1.S-4455 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:38.364962+08:00
+Thread 1 cannot allocate new log, sequence 4457
+Checkpoint not complete
+  Current log# 2 seq# 4456 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:41.393949+08:00
+Thread 1 advanced to log sequence 4457 (LGWR switch)
+  Current log# 3 seq# 4457 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:41.426022+08:00
+ARC3 (PID:2149): Archived Log entry 4452 added for T-1.S-4456 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:41.472334+08:00
+Thread 1 cannot allocate new log, sequence 4458
+Checkpoint not complete
+  Current log# 3 seq# 4457 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:44.454271+08:00
+Thread 1 advanced to log sequence 4458 (LGWR switch)
+  Current log# 1 seq# 4458 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:44.502863+08:00
+ARC0 (PID:2139): Archived Log entry 4453 added for T-1.S-4457 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:44.549910+08:00
+Thread 1 cannot allocate new log, sequence 4459
+Checkpoint not complete
+  Current log# 1 seq# 4458 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:47.518876+08:00
+Thread 1 advanced to log sequence 4459 (LGWR switch)
+  Current log# 2 seq# 4459 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:47.552434+08:00
+ARC1 (PID:2145): Archived Log entry 4454 added for T-1.S-4458 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:47.605834+08:00
+Thread 1 cannot allocate new log, sequence 4460
+Checkpoint not complete
+  Current log# 2 seq# 4459 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:50.583406+08:00
+Thread 1 advanced to log sequence 4460 (LGWR switch)
+  Current log# 3 seq# 4460 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:50.628164+08:00
+ARC2 (PID:2147): Archived Log entry 4455 added for T-1.S-4459 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:50.671265+08:00
+Thread 1 cannot allocate new log, sequence 4461
+Checkpoint not complete
+  Current log# 3 seq# 4460 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:53.649226+08:00
+Thread 1 advanced to log sequence 4461 (LGWR switch)
+  Current log# 1 seq# 4461 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:53.697643+08:00
+ARC3 (PID:2149): Archived Log entry 4456 added for T-1.S-4460 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:53.740745+08:00
+Thread 1 cannot allocate new log, sequence 4462
+Checkpoint not complete
+  Current log# 1 seq# 4461 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:35:56.663679+08:00
+Thread 1 advanced to log sequence 4462 (LGWR switch)
+  Current log# 2 seq# 4462 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:56.716417+08:00
+ARC0 (PID:2139): Archived Log entry 4457 added for T-1.S-4461 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:56.758976+08:00
+Thread 1 cannot allocate new log, sequence 4463
+Checkpoint not complete
+  Current log# 2 seq# 4462 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:35:59.734501+08:00
+Thread 1 advanced to log sequence 4463 (LGWR switch)
+  Current log# 3 seq# 4463 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:35:59.760235+08:00
+ARC1 (PID:2145): Archived Log entry 4458 added for T-1.S-4462 ID 0x75f9c04b LAD:1
+2025-12-30T14:35:59.800279+08:00
+Thread 1 cannot allocate new log, sequence 4464
+Checkpoint not complete
+  Current log# 3 seq# 4463 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:02.787442+08:00
+Thread 1 advanced to log sequence 4464 (LGWR switch)
+  Current log# 1 seq# 4464 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:02.817503+08:00
+ARC2 (PID:2147): Archived Log entry 4459 added for T-1.S-4463 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:02.856452+08:00
+Thread 1 cannot allocate new log, sequence 4465
+Checkpoint not complete
+  Current log# 1 seq# 4464 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:05.823746+08:00
+Thread 1 advanced to log sequence 4465 (LGWR switch)
+  Current log# 2 seq# 4465 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:05.874973+08:00
+ARC3 (PID:2149): Archived Log entry 4460 added for T-1.S-4464 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:05.912632+08:00
+Thread 1 cannot allocate new log, sequence 4466
+Checkpoint not complete
+  Current log# 2 seq# 4465 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:08.992961+08:00
+Thread 1 advanced to log sequence 4466 (LGWR switch)
+  Current log# 3 seq# 4466 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:09.025279+08:00
+ARC0 (PID:2139): Archived Log entry 4461 added for T-1.S-4465 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:09.064086+08:00
+Thread 1 cannot allocate new log, sequence 4467
+Checkpoint not complete
+  Current log# 3 seq# 4466 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:12.066997+08:00
+Thread 1 advanced to log sequence 4467 (LGWR switch)
+  Current log# 1 seq# 4467 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:12.100082+08:00
+ARC1 (PID:2145): Archived Log entry 4462 added for T-1.S-4466 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:12.144868+08:00
+Thread 1 cannot allocate new log, sequence 4468
+Checkpoint not complete
+  Current log# 1 seq# 4467 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:15.122417+08:00
+Thread 1 advanced to log sequence 4468 (LGWR switch)
+  Current log# 2 seq# 4468 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:15.153223+08:00
+ARC2 (PID:2147): Archived Log entry 4463 added for T-1.S-4467 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:15.197450+08:00
+Thread 1 cannot allocate new log, sequence 4469
+Checkpoint not complete
+  Current log# 2 seq# 4468 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:18.218211+08:00
+Thread 1 advanced to log sequence 4469 (LGWR switch)
+  Current log# 3 seq# 4469 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:18.262902+08:00
+ARC3 (PID:2149): Archived Log entry 4464 added for T-1.S-4468 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:18.300405+08:00
+Thread 1 cannot allocate new log, sequence 4470
+Checkpoint not complete
+  Current log# 3 seq# 4469 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:21.295455+08:00
+Thread 1 advanced to log sequence 4470 (LGWR switch)
+  Current log# 1 seq# 4470 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:21.344721+08:00
+ARC0 (PID:2139): Archived Log entry 4465 added for T-1.S-4469 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:21.390792+08:00
+Thread 1 cannot allocate new log, sequence 4471
+Checkpoint not complete
+  Current log# 1 seq# 4470 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:24.376834+08:00
+Thread 1 advanced to log sequence 4471 (LGWR switch)
+  Current log# 2 seq# 4471 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:24.425664+08:00
+ARC1 (PID:2145): Archived Log entry 4466 added for T-1.S-4470 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:24.468225+08:00
+Thread 1 cannot allocate new log, sequence 4472
+Checkpoint not complete
+  Current log# 2 seq# 4471 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:27.466783+08:00
+Thread 1 advanced to log sequence 4472 (LGWR switch)
+  Current log# 3 seq# 4472 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:27.516436+08:00
+ARC2 (PID:2147): Archived Log entry 4467 added for T-1.S-4471 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:27.555921+08:00
+Thread 1 cannot allocate new log, sequence 4473
+Checkpoint not complete
+  Current log# 3 seq# 4472 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:30.551168+08:00
+Thread 1 advanced to log sequence 4473 (LGWR switch)
+  Current log# 1 seq# 4473 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:30.587194+08:00
+ARC3 (PID:2149): Archived Log entry 4468 added for T-1.S-4472 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:30.630015+08:00
+Thread 1 cannot allocate new log, sequence 4474
+Checkpoint not complete
+  Current log# 1 seq# 4473 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:33.666769+08:00
+Thread 1 advanced to log sequence 4474 (LGWR switch)
+  Current log# 2 seq# 4474 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:33.718545+08:00
+ARC0 (PID:2139): Archived Log entry 4469 added for T-1.S-4473 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:33.762993+08:00
+Thread 1 cannot allocate new log, sequence 4475
+Checkpoint not complete
+  Current log# 2 seq# 4474 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:36.773535+08:00
+Thread 1 advanced to log sequence 4475 (LGWR switch)
+  Current log# 3 seq# 4475 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:36.802325+08:00
+ARC1 (PID:2145): Archived Log entry 4470 added for T-1.S-4474 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:36.851481+08:00
+Thread 1 cannot allocate new log, sequence 4476
+Checkpoint not complete
+  Current log# 3 seq# 4475 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:39.878530+08:00
+Thread 1 advanced to log sequence 4476 (LGWR switch)
+  Current log# 1 seq# 4476 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:39.925008+08:00
+ARC2 (PID:2147): Archived Log entry 4471 added for T-1.S-4475 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:39.957463+08:00
+Thread 1 cannot allocate new log, sequence 4477
+Checkpoint not complete
+  Current log# 1 seq# 4476 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:42.939523+08:00
+Thread 1 advanced to log sequence 4477 (LGWR switch)
+  Current log# 2 seq# 4477 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:42.969246+08:00
+ARC3 (PID:2149): Archived Log entry 4472 added for T-1.S-4476 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:43.009022+08:00
+Thread 1 cannot allocate new log, sequence 4478
+Checkpoint not complete
+  Current log# 2 seq# 4477 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:45.972018+08:00
+Thread 1 advanced to log sequence 4478 (LGWR switch)
+  Current log# 3 seq# 4478 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:46.004970+08:00
+ARC0 (PID:2139): Archived Log entry 4473 added for T-1.S-4477 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:46.044885+08:00
+Thread 1 cannot allocate new log, sequence 4479
+Checkpoint not complete
+  Current log# 3 seq# 4478 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:49.072445+08:00
+Thread 1 advanced to log sequence 4479 (LGWR switch)
+  Current log# 1 seq# 4479 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:49.107518+08:00
+ARC1 (PID:2145): Archived Log entry 4474 added for T-1.S-4478 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:49.147895+08:00
+Thread 1 cannot allocate new log, sequence 4480
+Checkpoint not complete
+  Current log# 1 seq# 4479 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:52.141852+08:00
+Thread 1 advanced to log sequence 4480 (LGWR switch)
+  Current log# 2 seq# 4480 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:52.173522+08:00
+ARC2 (PID:2147): Archived Log entry 4475 added for T-1.S-4479 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:52.218145+08:00
+Thread 1 cannot allocate new log, sequence 4481
+Checkpoint not complete
+  Current log# 2 seq# 4480 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:36:55.204895+08:00
+Thread 1 advanced to log sequence 4481 (LGWR switch)
+  Current log# 3 seq# 4481 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:55.235518+08:00
+ARC3 (PID:2149): Archived Log entry 4476 added for T-1.S-4480 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:55.278047+08:00
+Thread 1 cannot allocate new log, sequence 4482
+Checkpoint not complete
+  Current log# 3 seq# 4481 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:36:58.300716+08:00
+Thread 1 advanced to log sequence 4482 (LGWR switch)
+  Current log# 1 seq# 4482 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:36:58.332781+08:00
+ARC0 (PID:2139): Archived Log entry 4477 added for T-1.S-4481 ID 0x75f9c04b LAD:1
+2025-12-30T14:36:58.372760+08:00
+Thread 1 cannot allocate new log, sequence 4483
+Checkpoint not complete
+  Current log# 1 seq# 4482 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:01.367668+08:00
+Thread 1 advanced to log sequence 4483 (LGWR switch)
+  Current log# 2 seq# 4483 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:01.399722+08:00
+ARC1 (PID:2145): Archived Log entry 4478 added for T-1.S-4482 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:01.439235+08:00
+Thread 1 cannot allocate new log, sequence 4484
+Checkpoint not complete
+  Current log# 2 seq# 4483 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:04.438821+08:00
+Thread 1 advanced to log sequence 4484 (LGWR switch)
+  Current log# 3 seq# 4484 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:04.491281+08:00
+ARC2 (PID:2147): Archived Log entry 4479 added for T-1.S-4483 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:04.531207+08:00
+Thread 1 cannot allocate new log, sequence 4485
+Checkpoint not complete
+  Current log# 3 seq# 4484 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:07.551174+08:00
+Thread 1 advanced to log sequence 4485 (LGWR switch)
+  Current log# 1 seq# 4485 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:07.598769+08:00
+ARC3 (PID:2149): Archived Log entry 4480 added for T-1.S-4484 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:07.648878+08:00
+Thread 1 cannot allocate new log, sequence 4486
+Checkpoint not complete
+  Current log# 1 seq# 4485 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:10.638941+08:00
+Thread 1 advanced to log sequence 4486 (LGWR switch)
+  Current log# 2 seq# 4486 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:10.664645+08:00
+ARC0 (PID:2139): Archived Log entry 4481 added for T-1.S-4485 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:10.705973+08:00
+Thread 1 cannot allocate new log, sequence 4487
+Checkpoint not complete
+  Current log# 2 seq# 4486 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:13.709137+08:00
+Thread 1 advanced to log sequence 4487 (LGWR switch)
+  Current log# 3 seq# 4487 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:13.742935+08:00
+ARC1 (PID:2145): Archived Log entry 4482 added for T-1.S-4486 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:13.787582+08:00
+Thread 1 cannot allocate new log, sequence 4488
+Checkpoint not complete
+  Current log# 3 seq# 4487 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:16.821705+08:00
+Thread 1 advanced to log sequence 4488 (LGWR switch)
+  Current log# 1 seq# 4488 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:16.863365+08:00
+ARC2 (PID:2147): Archived Log entry 4483 added for T-1.S-4487 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:16.906198+08:00
+Thread 1 cannot allocate new log, sequence 4489
+Checkpoint not complete
+  Current log# 1 seq# 4488 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:19.902735+08:00
+Thread 1 advanced to log sequence 4489 (LGWR switch)
+  Current log# 2 seq# 4489 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:19.935436+08:00
+ARC3 (PID:2149): Archived Log entry 4484 added for T-1.S-4488 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:19.975819+08:00
+Thread 1 cannot allocate new log, sequence 4490
+Checkpoint not complete
+  Current log# 2 seq# 4489 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:23.015693+08:00
+Thread 1 advanced to log sequence 4490 (LGWR switch)
+  Current log# 3 seq# 4490 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:23.058434+08:00
+ARC0 (PID:2139): Archived Log entry 4485 added for T-1.S-4489 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:23.104739+08:00
+Thread 1 cannot allocate new log, sequence 4491
+Checkpoint not complete
+  Current log# 3 seq# 4490 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:26.100790+08:00
+Thread 1 advanced to log sequence 4491 (LGWR switch)
+  Current log# 1 seq# 4491 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:26.147852+08:00
+ARC1 (PID:2145): Archived Log entry 4486 added for T-1.S-4490 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:26.181644+08:00
+Thread 1 cannot allocate new log, sequence 4492
+Checkpoint not complete
+  Current log# 1 seq# 4491 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:29.180883+08:00
+Thread 1 advanced to log sequence 4492 (LGWR switch)
+  Current log# 2 seq# 4492 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:29.220463+08:00
+ARC2 (PID:2147): Archived Log entry 4487 added for T-1.S-4491 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:29.259256+08:00
+Thread 1 cannot allocate new log, sequence 4493
+Checkpoint not complete
+  Current log# 2 seq# 4492 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:32.249853+08:00
+Thread 1 advanced to log sequence 4493 (LGWR switch)
+  Current log# 3 seq# 4493 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:32.299479+08:00
+ARC3 (PID:2149): Archived Log entry 4488 added for T-1.S-4492 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:32.337314+08:00
+Thread 1 cannot allocate new log, sequence 4494
+Checkpoint not complete
+  Current log# 3 seq# 4493 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:35.361051+08:00
+Thread 1 advanced to log sequence 4494 (LGWR switch)
+  Current log# 1 seq# 4494 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:35.406133+08:00
+ARC0 (PID:2139): Archived Log entry 4489 added for T-1.S-4493 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:35.450059+08:00
+Thread 1 cannot allocate new log, sequence 4495
+Checkpoint not complete
+  Current log# 1 seq# 4494 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:38.397483+08:00
+Thread 1 advanced to log sequence 4495 (LGWR switch)
+  Current log# 2 seq# 4495 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:38.428495+08:00
+ARC1 (PID:2145): Archived Log entry 4490 added for T-1.S-4494 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:38.470052+08:00
+Thread 1 cannot allocate new log, sequence 4496
+Checkpoint not complete
+  Current log# 2 seq# 4495 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:41.502918+08:00
+Thread 1 advanced to log sequence 4496 (LGWR switch)
+  Current log# 3 seq# 4496 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:41.535567+08:00
+ARC2 (PID:2147): Archived Log entry 4491 added for T-1.S-4495 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:41.577164+08:00
+Thread 1 cannot allocate new log, sequence 4497
+Checkpoint not complete
+  Current log# 3 seq# 4496 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:44.586519+08:00
+Thread 1 advanced to log sequence 4497 (LGWR switch)
+  Current log# 1 seq# 4497 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:44.630489+08:00
+ARC3 (PID:2149): Archived Log entry 4492 added for T-1.S-4496 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:44.672397+08:00
+Thread 1 cannot allocate new log, sequence 4498
+Checkpoint not complete
+  Current log# 1 seq# 4497 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:37:47.664702+08:00
+Thread 1 advanced to log sequence 4498 (LGWR switch)
+  Current log# 2 seq# 4498 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:47.699413+08:00
+ARC0 (PID:2139): Archived Log entry 4493 added for T-1.S-4497 ID 0x75f9c04b LAD:1
+2025-12-30T14:37:47.739339+08:00
+Thread 1 cannot allocate new log, sequence 4499
+Checkpoint not complete
+  Current log# 2 seq# 4498 mem# 0: /u01/app/oracle/oradata/DB/redo02.log
+2025-12-30T14:37:50.755424+08:00
+Thread 1 advanced to log sequence 4499 (LGWR switch)
+  Current log# 3 seq# 4499 mem# 0: /u01/app/oracle/oradata/DB/redo03.log
+2025-12-30T14:37:50.786525+08:00
+ARC1 (PID:2145): Archived Log entry 4494 added for T-1.S-4498 ID 0x75f9c04b LAD:1
+2025-12-30T14:43:06.358505+08:00
+Resize operation completed for file# 3, old size 942080K, new size 952320K
+2025-12-30T14:50:33.906319+08:00
+Thread 1 advanced to log sequence 4500 (LGWR switch)
+  Current log# 1 seq# 4500 mem# 0: /u01/app/oracle/oradata/DB/redo01.log
+2025-12-30T14:50:33.930898+08:00
+ARC2 (PID:2147): Archived Log entry 4495 added for T-1.S-4499 ID 0x75f9c04b LAD:1
