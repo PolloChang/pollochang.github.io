@@ -3,10 +3,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記</title>
+    <title>PolloChang 工作筆記 - Oracle AWR 常用筆記 </title>
     
     
-    <meta content="PolloChang 工作筆記" name="keywords">
+    <meta content="Oracle, AWR" name="keywords">
     
     <meta content="PolloChang 工作筆記 - --手動執行快照 exec DBMS_WORKLOAD_REPOSITORY.CREATE_SNAPSHOT(); -- 設定AWR 快照區間 BEGIN DBMS_WORKLOAD_REPOSITORY.MODIFY_SNAPSHOT_SETTINGS( retention =&gt; 259200, -- 以分鐘為單位 (7天 = 7 * 24 * 60) interval =&gt; 10 -- 以分鐘為單位 ); END; -- 查詢 AWR 資料範圍 select SNAP_ID,DBID,INSTANCE_NUMBER,BEGIN_INTERVAL_TIME,END_INTERVAL_TIME FROM awr_pdb_snapshot WHERE END_INTERVAL_TIME &gt;= to_date(&#39;2025-12-27 22:55:00&#39;,&#39;yyyy-mm-dd hh24:mi:ss&#39;) AND BEGIN_INTERVAL_TIME &lt;= to_date(&#39;2025-12-28 05:20:00&#39;,&#39;yyyy-mm-dd hh24:mi:ss&#39;) AND INSTANCE_NUMBER=1 ORDER BY SNAP_ID; -- 輸出 AWR HTML SELECT DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_HTML(1979277899,1,88, 89) FROM dual; --輸出AWR TEXT SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_TEXT(1979277899,1,88, 89) ); SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -126,18 +126,34 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1></h1>
+                    <h1>Oracle AWR 常用筆記</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>0001-01-01</span>
+    <span>2026-01-02</span>
 
     
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
 
     
-
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
     
 
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
     
     
 </h3>
@@ -238,6 +254,202 @@ layui.use('element', function(){
         </div>
 
         <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/test-redolog-file/">
+                                <h3 class="">Redo test</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-12-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-clusterware-1/">
+                                <h3 class="">Oracle Clusterware 初學</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-ocfs2-1/">
+                                <h3 class="">Oracle OCFS2 初學</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240313-1/">
+                                <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240313/">
+                                <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
             
 
             <div class="layui-card single-card">

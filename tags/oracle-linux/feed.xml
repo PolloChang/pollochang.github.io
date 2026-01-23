@@ -6,7 +6,16 @@
     <description>Recent content in Oracle Linux on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 09 Mar 2024 11:27:26 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/oracle-linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Jan 2026 23:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/oracle-linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>deploy-glassfish-on-oracle-linux</title>
+      <link>http://pollochang.work/worknot/deploy-glassfish-on-oracle-linux/</link>
+      <pubDate>Wed, 14 Jan 2026 23:20:50 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/deploy-glassfish-on-oracle-linux/</guid>
+      <description>mkdir -p /usr/local/lib/jvm wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz wget https://ftp.jaist.ac.jp/pub/eclipse/ee4j/glassfish/glassfish-7.1.0.zip tar -zxf OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz -C /usr/local/lib/jvm ln -s /usr/local/lib/jvm/jdk-17.0.17+10 /usr/local/lib/jvm/jdk-17-lasted unzip -q glassfish-7.1.0.zip -d /opt/ sudo useradd -s /bin/bash -d /opt/glassfish7 --system glassfish chown -R glassfish: /opt/glassfish7 export JAVA_HOME=&amp;#34;/usr/local/lib/jvm/jdk-17-lasted&amp;#34; export PATH=${PATH}:${JAVA_HOME}/bin # 啟動網域 /opt/glassfish7/bin/asadmin start-domain # 設定管理員密碼 /opt/glassfish7/bin/asadmin change-admin-password # 啟用遠端管理介面 (GUI) /opt/glassfish7/bin/asadmin enable-secure-admin /opt/glassfish7/bin/asadmin restart-domain [glassfish@test-ap-150 ~]$ export JAVA_HOME=&amp;#34;/usr/local/lib/jvm/jdk-17-lasted&amp;#34; [glassfish@test-ap-150 ~]$ java -version -bash: java: command not found [glassfish@test-ap-150 ~]$ export PATH=${PATH}:${JAVA_HOME}/bin [glassfish@test-ap-150 ~]$ java -version openjdk version &amp;#34;17.</description>
+    </item>
+    
     <item>
       <title>Linux 發行板核心版本整理</title>
       <link>http://pollochang.work/worknot/worknot-20240309/</link>

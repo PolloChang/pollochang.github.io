@@ -1,0 +1,546 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - deploy-glassfish-on-oracle-linux </title>
+    
+    
+    <meta content="Oracle Linux, Linux" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - mkdir -p /usr/local/lib/jvm wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz wget https://ftp.jaist.ac.jp/pub/eclipse/ee4j/glassfish/glassfish-7.1.0.zip tar -zxf OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz -C /usr/local/lib/jvm ln -s /usr/local/lib/jvm/jdk-17.0.17&#43;10 /usr/local/lib/jvm/jdk-17-lasted unzip -q glassfish-7.1.0.zip -d /opt/ sudo useradd -s /bin/bash -d /opt/glassfish7 --system glassfish chown -R glassfish: /opt/glassfish7 export JAVA_HOME=&#34;/usr/local/lib/jvm/jdk-17-lasted&#34; export PATH=${PATH}:${JAVA_HOME}/bin # 啟動網域 /opt/glassfish7/bin/asadmin start-domain # 設定管理員密碼 /opt/glassfish7/bin/asadmin change-admin-password # 啟用遠端管理介面 (GUI) /opt/glassfish7/bin/asadmin enable-secure-admin /opt/glassfish7/bin/asadmin restart-domain [glassfish@test-ap-150 ~]$ export JAVA_HOME=&#34;/usr/local/lib/jvm/jdk-17-lasted&#34; [glassfish@test-ap-150 ~]$ java -version -bash: java: command not found [glassfish@test-ap-150 ~]$ export PATH=${PATH}:${JAVA_HOME}/bin [glassfish@test-ap-150 ~]$ java -version openjdk version &#34;17." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>deploy-glassfish-on-oracle-linux</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle Linux</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /usr/local/lib/jvm
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz
+</span></span><span style="display:flex;"><span>wget https://ftp.jaist.ac.jp/pub/eclipse/ee4j/glassfish/glassfish-7.1.0.zip
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zxf OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz -C /usr/local/lib/jvm
+</span></span><span style="display:flex;"><span>ln -s /usr/local/lib/jvm/jdk-17.0.17+10 /usr/local/lib/jvm/jdk-17-lasted
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unzip -q glassfish-7.1.0.zip -d /opt/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo useradd -s /bin/bash -d /opt/glassfish7 --system glassfish
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chown -R glassfish: /opt/glassfish7
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export JAVA_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/lib/jvm/jdk-17-lasted&#34;</span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PATH<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>JAVA_HOME<span style="color:#e6db74">}</span>/bin
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 啟動網域</span>
+</span></span><span style="display:flex;"><span>/opt/glassfish7/bin/asadmin start-domain
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定管理員密碼</span>
+</span></span><span style="display:flex;"><span>/opt/glassfish7/bin/asadmin change-admin-password
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 啟用遠端管理介面 (GUI)</span>
+</span></span><span style="display:flex;"><span>/opt/glassfish7/bin/asadmin enable-secure-admin
+</span></span><span style="display:flex;"><span>/opt/glassfish7/bin/asadmin restart-domain
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ export JAVA_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/lib/jvm/jdk-17-lasted&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ java -version
+</span></span><span style="display:flex;"><span>-bash: java: command not found
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PATH<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>JAVA_HOME<span style="color:#e6db74">}</span>/bin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ java -version
+</span></span><span style="display:flex;"><span>openjdk version <span style="color:#e6db74">&#34;17.0.17&#34;</span> 2025-10-21
+</span></span><span style="display:flex;"><span>OpenJDK Runtime Environment Temurin-17.0.17+10 <span style="color:#f92672">(</span>build 17.0.17+10<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>OpenJDK 64-Bit Server VM Temurin-17.0.17+10 <span style="color:#f92672">(</span>build 17.0.17+10, mixed mode, sharing<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ /opt/glassfish7/bin/asadmin start-domain
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">until</span> start of domain domain1 completes................ ... finished after <span style="color:#ae81ff">15399</span> ms.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Successfully started the domain domain1.
+</span></span><span style="display:flex;"><span>  Location: /opt/glassfish7/glassfish/domains/domain1
+</span></span><span style="display:flex;"><span>  Log File: /opt/glassfish7/glassfish/domains/domain1/logs/server.log
+</span></span><span style="display:flex;"><span>  The pid file /opt/glassfish7/glassfish/domains/domain1/config/pid contains pid 1860.
+</span></span><span style="display:flex;"><span>  Process with pid <span style="color:#ae81ff">1860</span> is alive
+</span></span><span style="display:flex;"><span>  Admin Endpoints:
+</span></span><span style="display:flex;"><span>    http://localhost:4848 is reachable.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Command start-domain executed successfully.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ /opt/glassfish7/bin/asadmin change-admin-password
+</span></span><span style="display:flex;"><span>Enter admin user name <span style="color:#f92672">[</span>default: admin<span style="color:#f92672">]</span>&gt;
+</span></span><span style="display:flex;"><span>Enter the admin password&gt; 
+</span></span><span style="display:flex;"><span>Enter the new admin password&gt; 
+</span></span><span style="display:flex;"><span>Enter the new admin password again&gt; 
+</span></span><span style="display:flex;"><span>Command change-admin-password executed successfully.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ /opt/glassfish7/bin/asadmin change-admin-password
+</span></span><span style="display:flex;"><span>Enter admin user name <span style="color:#f92672">[</span>default: admin<span style="color:#f92672">]</span>&gt;
+</span></span><span style="display:flex;"><span>Enter the admin password&gt; 
+</span></span><span style="display:flex;"><span>Enter the new admin password&gt; 
+</span></span><span style="display:flex;"><span>Enter the new admin password again&gt; 
+</span></span><span style="display:flex;"><span>Command change-admin-password executed successfully.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ /opt/glassfish7/bin/asadmin enable-secure-admin
+</span></span><span style="display:flex;"><span>Enter admin user name&gt;  admin
+</span></span><span style="display:flex;"><span>Enter admin password <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#34;admin&#34;</span>&gt; 
+</span></span><span style="display:flex;"><span>You must restart all running servers <span style="color:#66d9ef">for</span> the change in secure admin to take effect.
+</span></span><span style="display:flex;"><span>Command enable-secure-admin executed successfully.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ /opt/glassfish7/bin/asadmin restart-domain
+</span></span><span style="display:flex;"><span>Stopping local domain on admin endpoint localhost:4848
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> process with pid <span style="color:#ae81ff">1860</span> to stop. ... finished after <span style="color:#ae81ff">868</span> ms.
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> the new PID................... ... finished after <span style="color:#ae81ff">18980</span> ms.
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">until</span> start of domain domain1 completes. ... finished after <span style="color:#ae81ff">19</span> ms.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Successfully started the domain domain1.
+</span></span><span style="display:flex;"><span>  Location: /opt/glassfish7/glassfish/domains/domain1
+</span></span><span style="display:flex;"><span>  The pid file /opt/glassfish7/glassfish/domains/domain1/config/pid contains pid 2255.
+</span></span><span style="display:flex;"><span>  Process with pid <span style="color:#ae81ff">2255</span> is alive
+</span></span><span style="display:flex;"><span>  Admin Endpoints:
+</span></span><span style="display:flex;"><span>    http://localhost:4848 is reachable.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Command restart-domain executed successfully.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>glassfish@test-ap-150 ~<span style="color:#f92672">]</span>$ 
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/glassfish.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>GlassFish Server v7
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>syslog.target network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>glassfish
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>glassfish
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>forking
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span>JAVA_HOME<span style="color:#f92672">=</span>/usr/local/lib/jvm/jdk-17-lasted
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/opt/glassfish7/bin/asadmin start-domain
+</span></span><span style="display:flex;"><span>ExecStop<span style="color:#f92672">=</span>/opt/glassfish7/bin/asadmin stop-domain
+</span></span><span style="display:flex;"><span>ExecReload<span style="color:#f92672">=</span>/opt/glassfish7/bin/asadmin restart-domain
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>on-failure
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240309/">
+                                <h3 class="">Linux 發行板核心版本整理</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux-kernel/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux Kernel</span>
+        </a>
+    
+        <a href="/tags/rhel_3/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_3</span>
+        </a>
+    
+        <a href="/tags/rhel_4/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_4</span>
+        </a>
+    
+        <a href="/tags/rhel_5/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_5</span>
+        </a>
+    
+        <a href="/tags/rhel_6/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_6</span>
+        </a>
+    
+        <a href="/tags/rhel_7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_7</span>
+        </a>
+    
+        <a href="/tags/rhel_8/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">rhel_8</span>
+        </a>
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Debian</span>
+        </a>
+    
+        <a href="/tags/oracle-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle Linux</span>
+        </a>
+    
+        <a href="/tags/rocky-linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Rocky Linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

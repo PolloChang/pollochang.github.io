@@ -8,7 +8,7 @@
     
     <meta content="Oracle, 工作雜記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 測試環境 DB version: Oracle 19c OS: Oracle linux 7 CPU: 4 vCore RAM: 8G 測試前準備 SELECT GROUP# , status, bytes/1024/1024 FROM v$log l; GROUP#|STATUS |BYTES/1024/1024 ------&#43;--------&#43;--------------- 1|INACTIVE| 200 2|INACTIVE| 200 3|ACTIVE | 200 4|CURRENT | 10 5|UNUSED | 10 6|UNUSED | 10 ALTER DATABASE ADD LOGFILE GROUP 4 (&#39;/u01/app/oracle/oradata/DB/redo04.log&#39;) SIZE 10M; ALTER DATABASE ADD LOGFILE GROUP 5 (&#39;/u01/app/oracle/oradata/DB/redo05.log&#39;) SIZE 10M; ALTER DATABASE ADD LOGFILE GROUP 6 (&#39;/u01/app/oracle/oradata/DB/redo06.log&#39;) SIZE 10M; ALTER SYSTEM SWITCH LOGFILE; ALTER SYSTEM CHECKPOINT; ALTER DATABASE DROP LOGFILE GROUP 1; ALTER DATABASE DROP LOGFILE GROUP 2; ALTER DATABASE DROP LOGFILE GROUP 3; GROUP#|STATUS |BYTES/1024/1024 ------&#43;--------&#43;--------------- 4|CURRENT | 10 5|UNUSED | 10 6|UNUSED | 10 BEGIN DBMS_WORKLOAD_REPOSITORY." name="description">
+    <meta content="PolloChang 工作筆記 - Test Summary insert and delete item start_storm start_storm_batch_commit start_storm_optimized start_storm_hint test result success execute timeout success success time range 2025-12-30 14:34:06 - 2025-12-30 14:37:50 2025-12-29 10:01:54 - 2025-12-29 21:49:39 2025-12-30 09:28:01 - 2025-12-30 09:34:40 2025-12-30 09:40:52 - 2025-12-30 09:42:25 total run time(s) 224 42465 399 93 CTAS item start_ctas start_ctas_nologging start_ctas_nologging_paralel test result success success success time range 2025-12-30 10:50:23 - 2025-12-30 10:51:54 2025-12-30 11:01:09 - 2025-12-30 11:01:11 2025-12-30 13:58:01 - 2025-12-30 13:58:03 total run time(s) 91 2 2 測試環境 DB version: Oracle 19c OS: Oracle linux 7 CPU: 4 vCore RAM: 8G 測試前準備 SELECT GROUP# , status, bytes/1024/1024 FROM v$log l; GROUP#|STATUS |BYTES/1024/1024 ------&#43;--------&#43;--------------- 1|INACTIVE| 200 2|INACTIVE| 200 3|ACTIVE | 200 4|CURRENT | 10 5|UNUSED | 10 6|UNUSED | 10 ALTER DATABASE ADD LOGFILE GROUP 4 (&#39;/u01/app/oracle/oradata/DB/redo04." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -156,7 +156,78 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h2 id="測試環境">測試環境</h2>
+                    <h2 id="test-summary">Test Summary</h2>
+<ul>
+<li>insert and delete</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>start_storm</th>
+<th>start_storm_batch_commit</th>
+<th>start_storm_optimized</th>
+<th>start_storm_hint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test result</td>
+<td>success</td>
+<td>execute timeout</td>
+<td>success</td>
+<td>success</td>
+</tr>
+<tr>
+<td>time range</td>
+<td>2025-12-30 14:34:06 - 2025-12-30 14:37:50</td>
+<td>2025-12-29 10:01:54 - 2025-12-29 21:49:39</td>
+<td>2025-12-30 09:28:01 - 2025-12-30 09:34:40</td>
+<td>2025-12-30 09:40:52 - 2025-12-30 09:42:25</td>
+</tr>
+<tr>
+<td>total run time(s)</td>
+<td>224</td>
+<td>42465</td>
+<td>399</td>
+<td>93</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CTAS</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>start_ctas</th>
+<th>start_ctas_nologging</th>
+<th>start_ctas_nologging_paralel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test result</td>
+<td>success</td>
+<td>success</td>
+<td>success</td>
+</tr>
+<tr>
+<td>time range</td>
+<td>2025-12-30 10:50:23 - 2025-12-30 10:51:54</td>
+<td>2025-12-30 11:01:09 - 2025-12-30 11:01:11</td>
+<td>2025-12-30 13:58:01 - 2025-12-30 13:58:03</td>
+</tr>
+<tr>
+<td>total run time(s)</td>
+<td>91</td>
+<td>2</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="測試環境">測試環境</h2>
 <ul>
 <li>DB version: Oracle 19c</li>
 <li>OS: Oracle linux 7</li>
@@ -202,8 +273,6 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pollo IDENTIFIED <span style="color:#66d9ef">BY</span> oracle;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span>, RESOURCE, DBA <span style="color:#66d9ef">TO</span> demo_user;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 準備來源表 (約 100~200MB 資料量)
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> pollo.src_data NOLOGGING <span style="color:#66d9ef">AS</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> rownum <span style="color:#66d9ef">AS</span> id, a.<span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> dba_objects a, (<span style="color:#66d9ef">SELECT</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">FROM</span> dual <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">level</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">20</span>) b;
@@ -231,7 +300,11 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">type</span>, sequence;
 </span></span></code></pre></div><p>there is my test package sql script</p>
 <p><a href="/file/pkg_stress_demo.sql">pkg_stress_demo.sql</a></p>
-<p>以下是測試腳本</p>
+<p>there is test data table info. it&rsquo;s size have 238 MB and it&rsquo;s rows total have 1,452,780 .</p>
+<pre tabindex="0"><code class="language-log" data-lang="log">Table Name|Type |Size (MB)|Blocks|COUNT(*)|
+----------+-----+---------+------+--------+
+SRC_DATA  |TABLE|      238| 30464| 1452780|
+</code></pre><p>there is test sql script</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
 </span></span><span style="display:flex;"><span>        V_TEST_ID NUMERIC :<span style="color:#f92672">=</span> <span style="color:#ae81ff">1002</span>;
 </span></span><span style="display:flex;"><span>        V_TEST_LOOP NUMERIC :<span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
@@ -260,7 +333,7 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>   <span style="color:#75715e">-- 8. Hint (ctas-nologging-paralel)
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   pkg_stress_demo.start_ctas_nologging_paralel(V_TEST_LOOP,V_TEST_ID);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">END</span>;
-</span></span></code></pre></div><h2 id="測試成果">測試成果</h2>
+</span></span></code></pre></div><h2 id="test-results">Test Results</h2>
 <h3 id="test-item-start_storm">test item: start_storm</h3>
 <ul>
 <li>time range: 2025-12-30 14:34:06 - 2025-12-30 14:37:50</li>
@@ -2141,7 +2214,7 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-506f3a7b" href="
 
 <h3 id="test-itme-start_ctas_nologging">test itme: start_ctas_nologging</h3>
 <ul>
-<li>time range:</li>
+<li>time range: 2025-12-30 11:01:09 - 2025-12-30 11:01:11</li>
 <li>test script</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
@@ -2165,343 +2238,13 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-506f3a7b" href="
 <pre tabindex="0"><code class="language-log" data-lang="log">N/A
 </code></pre><ul>
 <li>alert log: <a href="/file/test-redolog-file/1006-start_ctas_nologging/alert_db1.log">alert_db1.log</a></li>
-<li>AWR Report: <a href="/file/test-redolog-file/1006-start_ctas_nologging/awr.log">awr-report</a></li>
-<li>monitor from sql-expoter</li>
+<li>AWR Report: 時間太短測量不到</li>
+<li>monitor from sql-expoter: 時間太短測量不到</li>
+<li>monitor from nod-expoter: 時間太短測量不到</li>
 </ul>
-<div class="embed-pdf-container" id="embed-pdf-container-cf3629e5">
-    <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-cf3629e5">
-        <div class="pdf-loading" id="pdf-loading-cf3629e5"></div>
-    </div>
-    <div id="overlayText">
-      <a href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-db.pdf" aria-label="Download" download>
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-            <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
-        </svg>
-      </a>
-    </div>
-    <canvas class="pdf-canvas" id="pdf-canvas-cf3629e5"></canvas>
-</div>
-
-<div class="pdf-paginator" id="pdf-paginator-cf3629e5">
-    <button id="pdf-prev-cf3629e5">Previous</button>
-    <button id="pdf-next-cf3629e5">Next</button> &nbsp; &nbsp;
-    <span>
-      <span class="pdf-pagenum" id="pdf-pagenum-cf3629e5"></span> / <span class="pdf-pagecount" id="pdf-pagecount-cf3629e5"></span>
-    </span>
-    <a class="pdf-source" id="pdf-source-cf3629e5" href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-db.pdf">[pdf]</a>
-</div>
-
-<noscript>
-View the PDF file <a class="pdf-source" id="pdf-source-noscript-cf3629e5" href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-db.pdf">here</a>.
-</noscript>
-
-<script type="text/javascript">
-    (function(){
-    var url = '\/file\/test-redolog-file\/1006-start_ctas_nologging\/start_ctas_nologging-db.pdf';
-
-    var hidePaginator = "true" === "true";
-    var hideLoader = "true" === "true";
-    var selectedPageNum = parseInt("1") || 1;
-
-    
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-    
-    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/pollochang.work\/" + 'js/pdf-js/build/pdf.worker.js';
-
-    
-    var pdfDoc = null,
-        pageNum = selectedPageNum,
-        pageRendering = false,
-        pageNumPending = null,
-        scale = 3,
-        canvas = document.getElementById('pdf-canvas-cf3629e5'),
-        ctx = canvas.getContext('2d'),
-        paginator = document.getElementById("pdf-paginator-cf3629e5"),
-        loadingWrapper = document.getElementById('pdf-loadingWrapper-cf3629e5');
-
-
-    
-    showPaginator();
-    showLoader();
-
-    
-
-    function renderPage(num) {
-      pageRendering = true;
-      
-      pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport({scale: scale});
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        
-        var renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        var renderTask = page.render(renderContext);
-
-        
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          showContent();
-
-          if (pageNumPending !== null) {
-            
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
-
-      
-      document.getElementById('pdf-pagenum-cf3629e5').textContent = num;
-    }
-
-    
-
-    function showContent() {
-      loadingWrapper.style.display = 'none';
-      canvas.style.display = 'block';
-    }
-
-    
-
-    function showLoader() {
-      if(hideLoader) return
-      loadingWrapper.style.display = 'flex';
-      canvas.style.display = 'none';
-    }
-
-    
-
-    function showPaginator() {
-      if(hidePaginator) return
-      paginator.style.display = 'block';
-    }
-
-    
-
-    function queueRenderPage(num) {
-      if (pageRendering) {
-        pageNumPending = num;
-      } else {
-        renderPage(num);
-      }
-    }
-
-    
-
-    function onPrevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-prev-cf3629e5').addEventListener('click', onPrevPage);
-
-    
-
-    function onNextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-next-cf3629e5').addEventListener('click', onNextPage);
-
-    
-
-    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-      pdfDoc = pdfDoc_;
-      var numPages = pdfDoc.numPages;
-      document.getElementById('pdf-pagecount-cf3629e5').textContent = numPages;
-
-      
-      if(pageNum > numPages) {
-        pageNum = numPages
-      }
-
-      
-      renderPage(pageNum);
-    });
-    })();
-</script>
-
-<ul>
-<li>monitor from nod-expoter</li>
-</ul>
-<div class="embed-pdf-container" id="embed-pdf-container-871435e4">
-    <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-871435e4">
-        <div class="pdf-loading" id="pdf-loading-871435e4"></div>
-    </div>
-    <div id="overlayText">
-      <a href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-node.pdf" aria-label="Download" download>
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-            <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
-        </svg>
-      </a>
-    </div>
-    <canvas class="pdf-canvas" id="pdf-canvas-871435e4"></canvas>
-</div>
-
-<div class="pdf-paginator" id="pdf-paginator-871435e4">
-    <button id="pdf-prev-871435e4">Previous</button>
-    <button id="pdf-next-871435e4">Next</button> &nbsp; &nbsp;
-    <span>
-      <span class="pdf-pagenum" id="pdf-pagenum-871435e4"></span> / <span class="pdf-pagecount" id="pdf-pagecount-871435e4"></span>
-    </span>
-    <a class="pdf-source" id="pdf-source-871435e4" href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-node.pdf">[pdf]</a>
-</div>
-
-<noscript>
-View the PDF file <a class="pdf-source" id="pdf-source-noscript-871435e4" href="/file/test-redolog-file/1006-start_ctas_nologging/start_ctas_nologging-node.pdf">here</a>.
-</noscript>
-
-<script type="text/javascript">
-    (function(){
-    var url = '\/file\/test-redolog-file\/1006-start_ctas_nologging\/start_ctas_nologging-node.pdf';
-
-    var hidePaginator = "true" === "true";
-    var hideLoader = "true" === "true";
-    var selectedPageNum = parseInt("1") || 1;
-
-    
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-    
-    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/pollochang.work\/" + 'js/pdf-js/build/pdf.worker.js';
-
-    
-    var pdfDoc = null,
-        pageNum = selectedPageNum,
-        pageRendering = false,
-        pageNumPending = null,
-        scale = 3,
-        canvas = document.getElementById('pdf-canvas-871435e4'),
-        ctx = canvas.getContext('2d'),
-        paginator = document.getElementById("pdf-paginator-871435e4"),
-        loadingWrapper = document.getElementById('pdf-loadingWrapper-871435e4');
-
-
-    
-    showPaginator();
-    showLoader();
-
-    
-
-    function renderPage(num) {
-      pageRendering = true;
-      
-      pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport({scale: scale});
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        
-        var renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        var renderTask = page.render(renderContext);
-
-        
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          showContent();
-
-          if (pageNumPending !== null) {
-            
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
-
-      
-      document.getElementById('pdf-pagenum-871435e4').textContent = num;
-    }
-
-    
-
-    function showContent() {
-      loadingWrapper.style.display = 'none';
-      canvas.style.display = 'block';
-    }
-
-    
-
-    function showLoader() {
-      if(hideLoader) return
-      loadingWrapper.style.display = 'flex';
-      canvas.style.display = 'none';
-    }
-
-    
-
-    function showPaginator() {
-      if(hidePaginator) return
-      paginator.style.display = 'block';
-    }
-
-    
-
-    function queueRenderPage(num) {
-      if (pageRendering) {
-        pageNumPending = num;
-      } else {
-        renderPage(num);
-      }
-    }
-
-    
-
-    function onPrevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-prev-871435e4').addEventListener('click', onPrevPage);
-
-    
-
-    function onNextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-next-871435e4').addEventListener('click', onNextPage);
-
-    
-
-    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-      pdfDoc = pdfDoc_;
-      var numPages = pdfDoc.numPages;
-      document.getElementById('pdf-pagecount-871435e4').textContent = numPages;
-
-      
-      if(pageNum > numPages) {
-        pageNum = numPages
-      }
-
-      
-      renderPage(pageNum);
-    });
-    })();
-</script>
-
 <h3 id="test-itme-start_ctas_nologging_paralel">test itme: start_ctas_nologging_paralel</h3>
 <ul>
-<li>time range:</li>
+<li>time range: 2025-12-30 13:58:01 - 2025-12-30 13:58:03</li>
 <li>test script</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DECLARE</span>
@@ -2525,340 +2268,10 @@ View the PDF file <a class="pdf-source" id="pdf-source-noscript-871435e4" href="
 <pre tabindex="0"><code class="language-log" data-lang="log">N/A
 </code></pre><ul>
 <li>alert log: <a href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/alert_db1.log">alert_db1.log</a></li>
-<li>AWR Report: <a href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/awr.log">awr-report</a></li>
-<li>monitor from sql-expoter</li>
+<li>AWR Report: 時間太短測量不到</li>
+<li>monitor from sql-expoter: 時間太短測量不到</li>
+<li>monitor from nod-expoter: 時間太短測量不到</li>
 </ul>
-<div class="embed-pdf-container" id="embed-pdf-container-d095a0df">
-    <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-d095a0df">
-        <div class="pdf-loading" id="pdf-loading-d095a0df"></div>
-    </div>
-    <div id="overlayText">
-      <a href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_stostart_ctas_nologging_paralelrm-db.pdf" aria-label="Download" download>
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-            <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
-        </svg>
-      </a>
-    </div>
-    <canvas class="pdf-canvas" id="pdf-canvas-d095a0df"></canvas>
-</div>
-
-<div class="pdf-paginator" id="pdf-paginator-d095a0df">
-    <button id="pdf-prev-d095a0df">Previous</button>
-    <button id="pdf-next-d095a0df">Next</button> &nbsp; &nbsp;
-    <span>
-      <span class="pdf-pagenum" id="pdf-pagenum-d095a0df"></span> / <span class="pdf-pagecount" id="pdf-pagecount-d095a0df"></span>
-    </span>
-    <a class="pdf-source" id="pdf-source-d095a0df" href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_stostart_ctas_nologging_paralelrm-db.pdf">[pdf]</a>
-</div>
-
-<noscript>
-View the PDF file <a class="pdf-source" id="pdf-source-noscript-d095a0df" href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_stostart_ctas_nologging_paralelrm-db.pdf">here</a>.
-</noscript>
-
-<script type="text/javascript">
-    (function(){
-    var url = '\/file\/test-redolog-file\/1007-start_ctas_nologging_paralel\/start_stostart_ctas_nologging_paralelrm-db.pdf';
-
-    var hidePaginator = "true" === "true";
-    var hideLoader = "true" === "true";
-    var selectedPageNum = parseInt("1") || 1;
-
-    
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-    
-    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/pollochang.work\/" + 'js/pdf-js/build/pdf.worker.js';
-
-    
-    var pdfDoc = null,
-        pageNum = selectedPageNum,
-        pageRendering = false,
-        pageNumPending = null,
-        scale = 3,
-        canvas = document.getElementById('pdf-canvas-d095a0df'),
-        ctx = canvas.getContext('2d'),
-        paginator = document.getElementById("pdf-paginator-d095a0df"),
-        loadingWrapper = document.getElementById('pdf-loadingWrapper-d095a0df');
-
-
-    
-    showPaginator();
-    showLoader();
-
-    
-
-    function renderPage(num) {
-      pageRendering = true;
-      
-      pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport({scale: scale});
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        
-        var renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        var renderTask = page.render(renderContext);
-
-        
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          showContent();
-
-          if (pageNumPending !== null) {
-            
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
-
-      
-      document.getElementById('pdf-pagenum-d095a0df').textContent = num;
-    }
-
-    
-
-    function showContent() {
-      loadingWrapper.style.display = 'none';
-      canvas.style.display = 'block';
-    }
-
-    
-
-    function showLoader() {
-      if(hideLoader) return
-      loadingWrapper.style.display = 'flex';
-      canvas.style.display = 'none';
-    }
-
-    
-
-    function showPaginator() {
-      if(hidePaginator) return
-      paginator.style.display = 'block';
-    }
-
-    
-
-    function queueRenderPage(num) {
-      if (pageRendering) {
-        pageNumPending = num;
-      } else {
-        renderPage(num);
-      }
-    }
-
-    
-
-    function onPrevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-prev-d095a0df').addEventListener('click', onPrevPage);
-
-    
-
-    function onNextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-next-d095a0df').addEventListener('click', onNextPage);
-
-    
-
-    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-      pdfDoc = pdfDoc_;
-      var numPages = pdfDoc.numPages;
-      document.getElementById('pdf-pagecount-d095a0df').textContent = numPages;
-
-      
-      if(pageNum > numPages) {
-        pageNum = numPages
-      }
-
-      
-      renderPage(pageNum);
-    });
-    })();
-</script>
-
-<ul>
-<li>monitor from nod-expoter</li>
-</ul>
-<div class="embed-pdf-container" id="embed-pdf-container-ae032945">
-    <div class="pdf-loadingWrapper" id="pdf-loadingWrapper-ae032945">
-        <div class="pdf-loading" id="pdf-loading-ae032945"></div>
-    </div>
-    <div id="overlayText">
-      <a href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_ctas_nologging_paralel-node.pdf" aria-label="Download" download>
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-            <path d="M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z" />
-        </svg>
-      </a>
-    </div>
-    <canvas class="pdf-canvas" id="pdf-canvas-ae032945"></canvas>
-</div>
-
-<div class="pdf-paginator" id="pdf-paginator-ae032945">
-    <button id="pdf-prev-ae032945">Previous</button>
-    <button id="pdf-next-ae032945">Next</button> &nbsp; &nbsp;
-    <span>
-      <span class="pdf-pagenum" id="pdf-pagenum-ae032945"></span> / <span class="pdf-pagecount" id="pdf-pagecount-ae032945"></span>
-    </span>
-    <a class="pdf-source" id="pdf-source-ae032945" href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_ctas_nologging_paralel-node.pdf">[pdf]</a>
-</div>
-
-<noscript>
-View the PDF file <a class="pdf-source" id="pdf-source-noscript-ae032945" href="/file/test-redolog-file/1007-start_ctas_nologging_paralel/start_ctas_nologging_paralel-node.pdf">here</a>.
-</noscript>
-
-<script type="text/javascript">
-    (function(){
-    var url = '\/file\/test-redolog-file\/1007-start_ctas_nologging_paralel\/start_ctas_nologging_paralel-node.pdf';
-
-    var hidePaginator = "true" === "true";
-    var hideLoader = "true" === "true";
-    var selectedPageNum = parseInt("1") || 1;
-
-    
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-    
-    if (pdfjsLib.GlobalWorkerOptions.workerSrc == '')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "http:\/\/pollochang.work\/" + 'js/pdf-js/build/pdf.worker.js';
-
-    
-    var pdfDoc = null,
-        pageNum = selectedPageNum,
-        pageRendering = false,
-        pageNumPending = null,
-        scale = 3,
-        canvas = document.getElementById('pdf-canvas-ae032945'),
-        ctx = canvas.getContext('2d'),
-        paginator = document.getElementById("pdf-paginator-ae032945"),
-        loadingWrapper = document.getElementById('pdf-loadingWrapper-ae032945');
-
-
-    
-    showPaginator();
-    showLoader();
-
-    
-
-    function renderPage(num) {
-      pageRendering = true;
-      
-      pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport({scale: scale});
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        
-        var renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        var renderTask = page.render(renderContext);
-
-        
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          showContent();
-
-          if (pageNumPending !== null) {
-            
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
-
-      
-      document.getElementById('pdf-pagenum-ae032945').textContent = num;
-    }
-
-    
-
-    function showContent() {
-      loadingWrapper.style.display = 'none';
-      canvas.style.display = 'block';
-    }
-
-    
-
-    function showLoader() {
-      if(hideLoader) return
-      loadingWrapper.style.display = 'flex';
-      canvas.style.display = 'none';
-    }
-
-    
-
-    function showPaginator() {
-      if(hidePaginator) return
-      paginator.style.display = 'block';
-    }
-
-    
-
-    function queueRenderPage(num) {
-      if (pageRendering) {
-        pageNumPending = num;
-      } else {
-        renderPage(num);
-      }
-    }
-
-    
-
-    function onPrevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-prev-ae032945').addEventListener('click', onPrevPage);
-
-    
-
-    function onNextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      queueRenderPage(pageNum);
-    }
-    document.getElementById('pdf-next-ae032945').addEventListener('click', onNextPage);
-
-    
-
-    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-      pdfDoc = pdfDoc_;
-      var numPages = pdfDoc.numPages;
-      document.getElementById('pdf-pagecount-ae032945').textContent = numPages;
-
-      
-      if(pageNum > numPages) {
-        pageNum = numPages
-      }
-
-      
-      renderPage(pageNum);
-    });
-    })();
-</script>
-
 <h3 id="測試失敗紀錄">測試失敗紀錄</h3>
 <ul>
 <li>time range: 2025-12-27T 22:55:00.000 - 2025-12-28 05:20:00.000</li>
@@ -11786,6 +11199,42 @@ Errors in file /u01/app/oracle/diag/rdbms/db/db1/trace/db1_arc1_1867.trc:
                 	
                     <div style="margin-left: 10px;">
                         <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-clusterware-1/">
+                                <h3 class="">Oracle Clusterware 初學</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
                             <a href="/oracle-database/oracle-ocfs2-1/">
                                 <h3 class="">Oracle OCFS2 初學</h3>
                             </a>
@@ -11928,46 +11377,6 @@ Errors in file /u01/app/oracle/diag/rdbms/db/db1/trace/db1_arc1_1867.trc:
     
         <a href="/tags/oracle/">
             <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/worknot/worknot-20240305/">
-                                <h3 class="">oracle 監控SQL 效能</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-05</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/%e7%b3%bb%e7%b5%b1%e8%aa%bf%e6%a0%a1/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">系統調校</span>
         </a>
     
     

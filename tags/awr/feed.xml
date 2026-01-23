@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWR on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/awr/</link>
+    <description>Recent content in AWR on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 15 Jan 2026 21:23:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/awr/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>oracle AWR PERF TREND HISTORY</title>
+      <link>http://pollochang.work/oracle-database/oracle-awr-perf-trend-history/</link>
+      <pubDate>Thu, 15 Jan 2026 21:23:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/oracle-awr-perf-trend-history/</guid>
+      <description>最近常常接觸 AWR 報表分析，想說AWR已經有儲存資料庫運作歷史資訊，為何不依據裡頭的紀錄資訊進行效能分析呢？因此開始著手研究如何將AWR的資料呈現出趨勢資料～
+觀察重點 當 % Non-Parse CPU 低於 80% 時，代表資料庫忙於解析而非執行，這時增加 CPU 核心也無法根本解決問題。 觀察 Per Transaction 的指標是否惡化。如果 Logical Reads/Tx 維持穩定，系統慢通常是併發或硬體問題；如果該值上升，則是 SQL 或索引問題。 監控 Shared Pool Statistics 趨勢時，應特別留意 % Mem for SQL w/exec &amp;gt; 1 這個指標。如果該值變低，且 Sharable Memory 排名的 TOP SQL 佔比很高，就代表 Shared Pool 正在被少數幾句低效的 SQL 吞噬，這極易引發 ORA-04031 錯誤。 趨勢資料分析 指標分析項目
+summary
+Elapsed DBTime 負載強度 (Load Profile)
+Load Profile - DB Time(s) Load Profile - DB CPU(s) Load Profile - Redo size (bytes) Load Profile - Logical read (blocks) Load Profile - Block changes Load Profile - Physical read (blocks) Load Profile - Physical write (blocks) Load Profile - Read IO requests Load Profile - Write IO requests Load Profile - Read IO (MB) Load Profile - Write IO (MB) Load Profile - Logons Load Profile - User logons Load Profile - Executes Load Profile - Rollbacks 執行效率 (Efficiency)</description>
+    </item>
+    
+    <item>
+      <title>Oracle AWR 常用筆記</title>
+      <link>http://pollochang.work/oracle-database/oracle-awr/</link>
+      <pubDate>Fri, 02 Jan 2026 20:57:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/oracle-awr/</guid>
+      <description>--手動執行快照 exec DBMS_WORKLOAD_REPOSITORY.CREATE_SNAPSHOT(); -- 設定AWR 快照區間 BEGIN DBMS_WORKLOAD_REPOSITORY.MODIFY_SNAPSHOT_SETTINGS( retention =&amp;gt; 259200, -- 以分鐘為單位 (7天 = 7 * 24 * 60) interval =&amp;gt; 10 -- 以分鐘為單位 ); END; -- 查詢 AWR 資料範圍 select SNAP_ID,DBID,INSTANCE_NUMBER,BEGIN_INTERVAL_TIME,END_INTERVAL_TIME FROM awr_pdb_snapshot WHERE END_INTERVAL_TIME &amp;gt;= to_date(&amp;#39;2025-12-27 22:55:00&amp;#39;,&amp;#39;yyyy-mm-dd hh24:mi:ss&amp;#39;) AND BEGIN_INTERVAL_TIME &amp;lt;= to_date(&amp;#39;2025-12-28 05:20:00&amp;#39;,&amp;#39;yyyy-mm-dd hh24:mi:ss&amp;#39;) AND INSTANCE_NUMBER=1 ORDER BY SNAP_ID; -- 輸出 AWR HTML SELECT DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_HTML(1979277899,1,88, 89) FROM dual; --輸出AWR TEXT SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_TEXT(1979277899,1,88, 89) ); SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY.</description>
+    </item>
+    
+  </channel>
+</rss>

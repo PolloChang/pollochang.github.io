@@ -1,0 +1,902 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記</title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - SQL ordered by Elapsed Time SQL ordered by CPU Time SQL ordered by User I/O Wait Time SQL ordered by Gets SQL ordered by Reads SQL ordered by Physical Reads (UnOptimized) SQL ordered by Executions SQL ordered by Parse Calls SQL ordered by Sharable Memory SQL ordered by Version Count 尋找方式 1. SQL ordered by TOP Event WITH sql_metrics AS ( -- 1. 從歷史視圖中加總各項增量指標 SELECT s.sql_id, SUM(s.elapsed_time_delta) / 1000000 as total_elapsed_sec, SUM(s." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1></h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>0001-01-01</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <ul>
+<li>SQL ordered by Elapsed Time</li>
+<li>SQL ordered by CPU Time</li>
+<li>SQL ordered by User I/O Wait Time</li>
+<li>SQL ordered by Gets</li>
+<li>SQL ordered by Reads</li>
+<li>SQL ordered by Physical Reads (UnOptimized)</li>
+<li>SQL ordered by Executions</li>
+<li>SQL ordered by Parse Calls</li>
+<li>SQL ordered by Sharable Memory</li>
+<li>SQL ordered by Version Count</li>
+</ul>
+<h2 id="尋找方式">尋找方式</h2>
+<h3 id="1-sql-ordered-by-top-event">1. SQL ordered by TOP Event</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> sql_metrics <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. 從歷史視圖中加總各項增量指標
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        s.sql_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.elapsed_time_delta) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span> <span style="color:#66d9ef">as</span> total_elapsed_sec,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.cpu_time_delta) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span> <span style="color:#66d9ef">as</span> total_cpu_sec,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.iowait_delta) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span> <span style="color:#66d9ef">as</span> total_io_wait_sec,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.buffer_gets_delta) <span style="color:#66d9ef">as</span> total_gets,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.disk_reads_delta) <span style="color:#66d9ef">as</span> total_reads,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- Physical Reads (UnOptimized) 通常是指排除掉從 Flash Cache 讀取的真正磁碟讀取
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(s.physical_read_requests_delta) <span style="color:#66d9ef">as</span> total_phys_read_req,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.executions_delta) <span style="color:#66d9ef">as</span> total_execs,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.parse_calls_delta) <span style="color:#66d9ef">as</span> total_parse_calls,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 這些是目前快照點的狀態值，取最大值作為參考
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(s.sharable_mem) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> max_sharable_mem_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">MAX</span>(s.version_count) <span style="color:#66d9ef">as</span> max_version_count
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sqlstat s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> dba_hist_snapshot sn <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sn.snap_id <span style="color:#66d9ef">AND</span> s.dbid <span style="color:#f92672">=</span> sn.dbid <span style="color:#66d9ef">AND</span> s.instance_number <span style="color:#f92672">=</span> sn.instance_number
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> sn.begin_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> s.sql_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>ranked_sql <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. 針對各個維度進行排名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        m.<span style="color:#f92672">*</span>,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_elapsed_sec <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_elapsed,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_cpu_sec <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_cpu,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_io_wait_sec <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_io,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_gets <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_gets,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_reads <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_reads,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_phys_read_req <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_unoptimized,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_execs <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_execs,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> total_parse_calls <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_parse,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> max_sharable_mem_mb <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_mem,
+</span></span><span style="display:flex;"><span>        RANK() OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> max_version_count <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rank_version
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> sql_metrics m
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 結合 SQL 文字並輸出 (此處以 Elapsed Time 前 20 名為例)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        r.sql_id,
+</span></span><span style="display:flex;"><span>        r.total_elapsed_sec <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Elapsed(s)&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_cpu_sec <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;CPU(s)&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_io_wait_sec <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;IO_Wait(s)&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_gets <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Gets&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_reads <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Reads&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_execs <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Execs&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.total_parse_calls <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Parses&#34;</span>,
+</span></span><span style="display:flex;"><span>        ROUND(r.max_sharable_mem_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Mem(MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>        r.max_version_count <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Versions&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 顯示前 100 個字元的 SQL 文字
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        DBMS_LOB.SUBSTR(st.sql_text, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> sql_snippet
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> ranked_sql r
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> dba_hist_sqltext st <span style="color:#66d9ef">ON</span> r.sql_id <span style="color:#f92672">=</span> st.sql_id
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 你可以更換下方的排序條件來查看不同的 TOP 榜單
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> r.rank_elapsed <span style="color:#66d9ef">ASC</span> 
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">WHERE</span> ROWNUM <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">20</span>
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>SQL_ID       |Elapsed(s)|CPU(s)   |IO_Wait(s)|Gets   |Reads|Execs|Parses|Mem(MB)|Versions|SQL_SNIPPET                                                                                         |
+-------------+----------+---------+----------+-------+-----+-----+------+-------+--------+----------------------------------------------------------------------------------------------------+
+1m0ycv6wsty7n| 61.979993|60.790774|  0.184443|6704627|  711|    2|     2|    0.5|       1|WITH snap_range AS (¶    SELECT snap_id, dbid, instance_number, begin_interval_time, end_interval_ti|
+05s9358mm6vrr|  14.77161|14.543842|  0.029922| 421192|   28|    1|     1|   0.02|       1|begin dbms_feature_usage_internal.exec_db_usage_sampling(:bind1); end;                              |
+fjhkhwhpjm3sg| 11.539788|11.325182|         0|1267227|    0|    1|     1|    0.5|       1|WITH snap_range AS (¶    SELECT snap_id, dbid, instance_number, begin_interval_time, end_interval_ti|
+9qrhhm7pf2ghv|  6.847261| 6.710161|         0|   1131|    0|  108|   108|   0.07|       1|insert into  wrh$_mvparameter  (dbid, per_pdb, con_dbid, snap_id, instance_number, parameter_hash, o|
+10a6561dxa8d5|  5.730789| 5.639107|         0| 623177|    0|    1|     1|    0.5|       1|WITH snap_range AS (¶    SELECT snap_id, dbid, instance_number, begin_interval_time, end_interval_ti|
+</code></pre><p>根據列出的這些排序維度，實戰中通常會這樣判斷：</p>
+<ul>
+<li><strong>Elapsed Time vs CPU Time</strong>: 如果 Elapsed Time 很高但 CPU Time 很低，代表 SQL 大部分時間在「等待」（如 I/O 或 Lock）。</li>
+<li><strong>Gets (Logical Reads)</strong>: 這是衡量 SQL 效率最穩定的指標。如果 Gets 很高但 Rows Processed 很少，說明索引效率極差（Index Scan 讀了太多 Block）。</li>
+<li><strong>Physical Reads (UnOptimized)</strong>: 數值高代表該 SQL 經常迫使資料庫從實體磁碟讀取資料，未命中 Buffer Cache 或 Flash Cache，對硬體壓力最大。</li>
+<li><strong>Parse Calls</strong>: 如果這項指標很高且與 Executions 接近，代表應用程式<strong>沒有重用 Cursor</strong>，每次執行都要解析，非常消耗 CPU。</li>
+<li><strong>Sharable Memory &amp; Version Count</strong>:</li>
+<li><strong>Version Count</strong>: 如果一條 SQL 有數百個版本，代表發生了 <strong>High Version Count</strong> 問題（通常與 <code>ACS</code>、<code>Bind Peek</code>、<code>shared pool 不足</code> 或不同 Session 的環境參數設定有關）。</li>
+<li><strong>Sharable Memory</strong>: 如果單一 SQL 佔用過多記憶體（如 &gt; 100MB），會增加 Shared Pool 的壓力。</li>
+</ul>
+<h3 id="awr-歷史-top-sql-記憶體佔用分析">AWR 歷史 TOP SQL 記憶體佔用分析</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. 定義時間範圍與基礎快照資訊 (過去 24 小時)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>sql_mem_stats <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. 彙整該時段內 SQL 的記憶體與版本資訊
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        s.sql_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 取得該時段內此 SQL 曾達到的最大記憶體佔用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(s.sharable_mem) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> max_sharable_mem_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 取得對應的最大子游標數量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(s.version_count) <span style="color:#66d9ef">as</span> max_version_count,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 累計執行次數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(s.executions_delta) <span style="color:#66d9ef">as</span> total_execs
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sqlstat s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> snap_range sr <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sr.snap_id 
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">AND</span> s.dbid <span style="color:#f92672">=</span> sr.dbid 
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">AND</span> s.instance_number <span style="color:#f92672">=</span> sr.instance_number
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> s.sql_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 結合 SQL 文字並輸出前 20 名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        m.sql_id,
+</span></span><span style="display:flex;"><span>        ROUND(m.max_sharable_mem_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Peak_Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>        m.max_version_count <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Max_Versions&#34;</span>,
+</span></span><span style="display:flex;"><span>        m.total_execs <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Total_Executions&#34;</span>,
+</span></span><span style="display:flex;"><span>        DBMS_LOB.SUBSTR(st.sql_text, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> sql_snippet
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> sql_mem_stats m
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> dba_hist_sqltext st <span style="color:#66d9ef">ON</span> m.sql_id <span style="color:#f92672">=</span> st.sql_id
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 依據最大記憶體佔用排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> m.max_sharable_mem_mb <span style="color:#66d9ef">DESC</span>
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">WHERE</span> ROWNUM <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">20</span>;
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>SQL_ID       |Peak_Mem (MB)|Max_Versions|Total_Executions|SQL_SNIPPET                                                                                         |
+-------------+-------------+------------+----------------+----------------------------------------------------------------------------------------------------+
+9yv5dwv8k0awg|         4.17|           1|               4|WITH MONITOR_DATA AS (SELECT INST_ID, KEY, NVL2(PX_QCSID, NULL, STATUS) STATUS, FIRST_REFRESH_TIME, |
+ggh55rhz95kyj|         3.57|           1|               1|SELECT AUDIT_OPTION_TYPE, COUNT(DISTINCT POLICY_NAME) POL_CNT FROM AUDIT_UNIFIED_POLICIES GROUP BY A|
+f9dcfdnuhy9z1|         2.12|           2|             133|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+</code></pre><ol>
+<li>
+<p><strong>高記憶體 + 低版本 (High Mem, Low Versions)</strong>:</p>
+<ul>
+<li><strong>現象</strong>：<code>Peak_Mem</code> 超過 50-100MB，但 <code>Max_Versions</code> 只有個位數。</li>
+<li><strong>原因</strong>：這通常是 <strong>SQL 文本過長</strong> 造成的。最常見的是 <code>IN</code> 子句中包含了數千個參數，或是極其複雜的巢狀 <code>CASE WHEN</code> 邏輯。這會導致解析樹（Parse Tree）變得極其龐大。</li>
+</ul>
+</li>
+<li>
+<p><strong>高記憶體 + 高版本 (High Mem, High Versions)</strong>:</p>
+<ul>
+<li><strong>現象</strong>：<code>Peak_Mem</code> 很高，同時 <code>Max_Versions</code> 超過 100 甚至上千。</li>
+<li><strong>原因</strong>：這是 <strong>子游標無法共享 (Cursor Non-sharing)</strong>。可能是因為不同 Session 的參數設定不同、綁定變數長度差異過大，或是觸發了 Adaptive Cursor Sharing。雖然每個版本可能不大，但累積起來會吃掉大量 Shared Pool。</li>
+</ul>
+</li>
+<li>
+<p><strong>高記憶體 + 零執行 (High Mem, 0 Execs)</strong>:</p>
+<ul>
+<li><strong>現象</strong>：記憶體佔用高，但 <code>Total_Executions</code> 卻是 0。</li>
+<li><strong>原因</strong>：這代表該 SQL <strong>解析失敗 (Failed Parse)</strong> 或解析後未被執行。頻繁的解析失敗同樣會消耗 Shared Pool 資源，必須檢查應用程式邏輯。</li>
+</ul>
+</li>
+</ol>
+<p>可以將這段 SQL 得到的結果與 AWR  <strong>Shared Pool Statistics 趨勢圖</strong> 比對。</p>
+<ul>
+<li>如果 <code>SP Memory Usage %</code> 持續攀升，且這份名單中的前幾名 SQL 的 <code>Peak_Mem</code> 也在增加，那就是你必須優先優化的對象。</li>
+<li>如果 <code>SQL 重用率 (% SQL w/exec&gt;1)</code> 下降，應回頭檢查是否有名單外的大量一次性 SQL (Literal SQL) 正在污染 Shared Pool。</li>
+</ul>
+<h3 id="awr-每小時-top-sql-記憶體對比分析">AWR 每小時 TOP SQL 記憶體對比分析</h3>
+<p>這段查詢會按小時分組，並列出每小時記憶體佔用前 5 名的 SQL，方便觀察「排名變動」。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. 延用你的趨勢報表基礎：定義時間範圍
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>sql_hourly_stats <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. 按「小時」與「SQL_ID」進行彙整
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        TRUNC(sr.begin_interval_time, <span style="color:#e6db74">&#39;HH24&#39;</span>) <span style="color:#66d9ef">as</span> start_hour,
+</span></span><span style="display:flex;"><span>        s.sql_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 取該小時內最大的共享記憶體與版本數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(s.sharable_mem) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> max_mem_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">MAX</span>(s.version_count) <span style="color:#66d9ef">as</span> max_versions,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(s.executions_delta) <span style="color:#66d9ef">as</span> hourly_execs
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sqlstat s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> snap_range sr <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sr.snap_id 
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">AND</span> s.dbid <span style="color:#f92672">=</span> sr.dbid 
+</span></span><span style="display:flex;"><span>                      <span style="color:#66d9ef">AND</span> s.instance_number <span style="color:#f92672">=</span> sr.instance_number
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> TRUNC(sr.begin_interval_time, <span style="color:#e6db74">&#39;HH24&#39;</span>), s.sql_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>ranked_sql <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 3. 為每小時內的 SQL 進行內部排名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        start_hour,
+</span></span><span style="display:flex;"><span>        sql_id,
+</span></span><span style="display:flex;"><span>        max_mem_mb,
+</span></span><span style="display:flex;"><span>        max_versions,
+</span></span><span style="display:flex;"><span>        hourly_execs,
+</span></span><span style="display:flex;"><span>        ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> start_hour <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> max_mem_mb <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rnk
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> sql_hourly_stats
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 4. 最終輸出：每小時對比格式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    TO_CHAR(start_hour, <span style="color:#e6db74">&#39;YYYY-MM-DD HH24:MI&#39;</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Analysis_Hour&#34;</span>,
+</span></span><span style="display:flex;"><span>    rnk <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Rank&#34;</span>,
+</span></span><span style="display:flex;"><span>    r.sql_id,
+</span></span><span style="display:flex;"><span>    ROUND(r.max_mem_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    r.max_versions <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Versions&#34;</span>,
+</span></span><span style="display:flex;"><span>    r.hourly_execs <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Execs&#34;</span>,
+</span></span><span style="display:flex;"><span>    DBMS_LOB.SUBSTR(st.sql_text, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;SQL_Snippet&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> ranked_sql r
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> dba_hist_sqltext st <span style="color:#66d9ef">ON</span> r.sql_id <span style="color:#f92672">=</span> st.sql_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> rnk <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">5</span> <span style="color:#75715e">-- 每小時僅顯示前 5 名，方便對比
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> start_hour <span style="color:#66d9ef">DESC</span>, rnk <span style="color:#66d9ef">ASC</span>;
+</span></span></code></pre></div><p>當你拿到這份「按小時對比」的報表時，請重點觀察以下三種現象：</p>
+<ol>
+<li><strong>「常駐型」霸榜 (The Consistent Monster)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：某個 <code>SQL_ID</code> 在 24 小時內幾乎每一小時都在 Rank 1。</li>
+<li><strong>診斷</strong>：這是該系統的核心負載來源。如果它的 <code>Mem (MB)</code> 很大且 <code>Versions</code> 很高，說明存在系統性的不共享問題。</li>
+</ul>
+<ol start="2">
+<li><strong>「突發型」閃現 (The Transient Spike)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：某個 <code>SQL_ID</code> 只出現在凌晨 2 點，且直接佔用 200MB 記憶體，隨後消失。</li>
+<li><strong>診斷</strong>：這通常是特定的批次作業（Batch Job）或備份排程觸發的 SQL。這種「短暫殺手」在每日總結報表中容易被稀釋，但在小時報表中會原形畢露。</li>
+</ul>
+<ol start="3">
+<li><strong>「版本爬升」現象 (Version Creep)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：同一個 <code>SQL_ID</code> 的 <code>Mem (MB)</code> 與 <code>Versions</code> 隨著時間緩慢爬升（例如 10:00 是 10MB，15:00 變成 80MB）。</li>
+<li><strong>診斷</strong>：這代表該 SQL 的 Child Cursors 持續無法被重用，Shared Pool 的壓力會越來越大，直到觸發 <code>ORA-04031</code> 或 Instance 重啟為止。</li>
+</ul>
+<p>執行結果</p>
+<pre tabindex="0"><code>Analysis_Hour   |Rank|SQL_ID       |Mem (MB)|Versions|Execs|SQL_Snippet                                                                                         |
+----------------+----+-------------+--------+--------+-----+----------------------------------------------------------------------------------------------------+
+2026-01-23 21:00|   1|f9dcfdnuhy9z1|    2.12|       2|   35|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 21:00|   2|7bxwkbxnsg0qy|     2.1|       2|    1|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 21:00|   3|8fhz3a6jurk3u|    1.06|       2|    2|SELECT  OBJECT_NAME, STATUS, CREATED, LAST_DDL_TIME, TEMPORARY FROM ALL_OBJECTS WHERE OBJECT_TYPE=&#39;P|
+2026-01-23 21:00|   4|2qwrv481mqbrk|    0.54|       1|    1|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 21:00|   5|3dbzmtf9ahvzt|    0.22|       2|  139|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 20:00|   1|3dbzmtf9ahvzt|    0.22|       2|  129|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 20:00|   2|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 20:00|   3|c3utnxsnrx8tk|    0.18|       3|    4|update obj$ set obj#=:4, type#=:5,ctime=:6,mtime=:7,stime=:8,status=:9,dataobj#=:10,flags=:11,oid$=:|
+2026-01-23 20:00|   4|c179sut1vgpc8|    0.13|       1|   12|INSERT /*+  LEADING(@&#34;SEL$F5BB74E1&#34; &#34;H&#34;@&#34;SEL$2&#34; &#34;A&#34;@&#34;SEL$1&#34;)  USE_NL(@&#34;SEL$F5BB74E1&#34; &#34;A&#34;@&#34;SEL$1&#34;)   |
+2026-01-23 20:00|   5|6abthk1u14yb7|    0.11|       3|    1|SELECT VERSION FROM V$INSTANCE                                                                      |
+2026-01-23 19:00|   1|121ffmrc95v7g|    0.31|       4|    2|select i.obj#,i.ts#,i.file#,i.block#,i.intcols,i.type#,i.flags,i.property,i.pctfree$,i.initrans,i.ma|
+2026-01-23 19:00|   2|3dbzmtf9ahvzt|    0.22|       2|  137|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 19:00|   3|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 19:00|   4|c3utnxsnrx8tk|    0.18|       3|    3|update obj$ set obj#=:4, type#=:5,ctime=:6,mtime=:7,stime=:8,status=:9,dataobj#=:10,flags=:11,oid$=:|
+2026-01-23 19:00|   5|g0t052az3rx44|    0.17|       4|    2|select name,intcol#,segcol#,type#,length,nvl(precision#,0),decode(type#,2,nvl(scale,-127/*MAXSB1MINA|
+2026-01-23 18:00|   1|6ymxhj8mfgb46|    0.57|       1|    1|select sum(bytes)/1024.0 from dba_segments where owner = &#39;SYS&#39; and (segment_name like &#39;WRI$_OPTSTAT_|
+2026-01-23 18:00|   2|ct9ppzr6uuzv9|    0.39|       1|    1|select owner, segment_name, nvl(sum(blocks), 0)   from dba_segments  where tablespace_name = :tsname|
+2026-01-23 18:00|   3|8cpwjpm11v8wu|    0.24|       1|    1|SELECT /*+ ordered full(t) full(o) use_hash(o) ¶               OPT_PARAM(&#39;_parallel_syspls_obey_forc|
+2026-01-23 18:00|   4|3dbzmtf9ahvzt|    0.22|       2|  138|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 18:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 17:00|   1|f9dcfdnuhy9z1|    2.12|       2|    8|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 17:00|   2|7bxwkbxnsg0qy|     2.1|       2|    1|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 17:00|   3|8fhz3a6jurk3u|    1.06|       2|    2|SELECT  OBJECT_NAME, STATUS, CREATED, LAST_DDL_TIME, TEMPORARY FROM ALL_OBJECTS WHERE OBJECT_TYPE=&#39;P|
+2026-01-23 17:00|   4|8z6jf4nswsn2v|    0.65|       1|    1|SELECT IOE.INDEX_OBJECT_ID IDX_OBJ#, IOE.INDEX_OWNER IDX_OWNER, IOE.INDEX_NAME IDX_NAME, IOE.INDEX_S|
+2026-01-23 17:00|   5|121ffmrc95v7g|    0.31|       4|    1|select i.obj#,i.ts#,i.file#,i.block#,i.intcols,i.type#,i.flags,i.property,i.pctfree$,i.initrans,i.ma|
+2026-01-23 15:00|   1|9yv5dwv8k0awg|    4.17|       1|    3|WITH MONITOR_DATA AS (SELECT INST_ID, KEY, NVL2(PX_QCSID, NULL, STATUS) STATUS, FIRST_REFRESH_TIME, |
+2026-01-23 15:00|   2|f9dcfdnuhy9z1|    2.12|       2|   22|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 15:00|   3|7bxwkbxnsg0qy|     2.1|       2|    2|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 15:00|   4|atwuyuvqkf27w|       2|       1|    3|SELECT /*+ OPT_PARAM(&#39;_fix_control&#39; &#39;16391176:1&#39;) */ GROUP_TYPE, BUCKET_START, BUCKET_END, TM_GROUP_|
+2026-01-23 15:00|   5|8fhz3a6jurk3u|    1.06|       2|    2|SELECT  OBJECT_NAME, STATUS, CREATED, LAST_DDL_TIME, TEMPORARY FROM ALL_OBJECTS WHERE OBJECT_TYPE=&#39;P|
+2026-01-23 14:00|   1|7nght4ar0wrjs|    0.53|       1|    1|insert into AWR_PERF_TREND_HISTORY(¶SNAP_ID, ¶    INSTANCE_NUMBER, ¶    BEGIN_TIME,¶    AAS, ¶    LR|
+2026-01-23 14:00|   2|121ffmrc95v7g|    0.24|       3|   18|select i.obj#,i.ts#,i.file#,i.block#,i.intcols,i.type#,i.flags,i.property,i.pctfree$,i.initrans,i.ma|
+2026-01-23 14:00|   3|3dbzmtf9ahvzt|    0.22|       2|  427|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 14:00|   4|9t6y0bs2fj7xg|    0.21|       1|    4| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 14:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 13:00|   1|f9dcfdnuhy9z1|    2.12|       2|   29|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 13:00|   2|7bxwkbxnsg0qy|     2.1|       2|    2|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 13:00|   3|8fhz3a6jurk3u|    1.06|       2|    2|SELECT  OBJECT_NAME, STATUS, CREATED, LAST_DDL_TIME, TEMPORARY FROM ALL_OBJECTS WHERE OBJECT_TYPE=&#39;P|
+2026-01-23 13:00|   4|8rz77380vz6yg|    0.95|       2|    2|WITH snap_range AS (¶    SELECT snap_id, dbid, instance_number, begin_interval_time, end_interval_ti|
+2026-01-23 13:00|   5|4jmfm820f6hd8|    0.53|       1|    1|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 12:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 12:00|   2|3dbzmtf9ahvzt|    0.22|       2|  415|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 12:00|   3|6wm3n4d7bnddg|    0.22|       1|    1| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 12:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 12:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 11:00|   1|9yv5dwv8k0awg|    4.17|       1|    1|WITH MONITOR_DATA AS (SELECT INST_ID, KEY, NVL2(PX_QCSID, NULL, STATUS) STATUS, FIRST_REFRESH_TIME, |
+2026-01-23 11:00|   2|ggh55rhz95kyj|    3.57|       1|    1|SELECT AUDIT_OPTION_TYPE, COUNT(DISTINCT POLICY_NAME) POL_CNT FROM AUDIT_UNIFIED_POLICIES GROUP BY A|
+2026-01-23 11:00|   3|atwuyuvqkf27w|       2|       1|    1|SELECT /*+ OPT_PARAM(&#39;_fix_control&#39; &#39;16391176:1&#39;) */ GROUP_TYPE, BUCKET_START, BUCKET_END, TM_GROUP_|
+2026-01-23 11:00|   4|bqwq0b40tp15k|    1.07|       1|    1|with bracket as (¶             select /*+ materialize */ x.* from¶                    (select dense_|
+2026-01-23 11:00|   5|dvu40a9avazf8|    0.94|       1|    2|select xmlagg(¶                        xmlelement(&#34;operation&#34;, ¶                          xmlattribu|
+2026-01-23 10:00|   1|2qwrv481mqbrk|    0.54|       1|    1|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 10:00|   2|0vv9gu44zt1pv|    0.53|       1|    3|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 10:00|   3|4jmfm820f6hd8|    0.53|       1|    3|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 10:00|   4|1xk038qvudzmy|    0.47|       1|    1|WITH snap_range AS (¶    SELECT snap_id, dbid, instance_number, begin_interval_time, end_interval_ti|
+2026-01-23 10:00|   5|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 09:00|   1|f9dcfdnuhy9z1|    2.11|       2|   39|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 09:00|   2|7bxwkbxnsg0qy|     2.1|       2|    2|SELECT  O.*,¶t.TABLE_TYPE_OWNER,t.TABLE_TYPE,t.TABLESPACE_NAME,t.PARTITIONED,t.IOT_TYPE,t.IOT_NAME,t|
+2026-01-23 09:00|   3|8fhz3a6jurk3u|    1.04|       2|    2|SELECT  OBJECT_NAME, STATUS, CREATED, LAST_DDL_TIME, TEMPORARY FROM ALL_OBJECTS WHERE OBJECT_TYPE=&#39;P|
+2026-01-23 09:00|   4|4jmfm820f6hd8|    0.53|       1|    9|SELECT  DISTINCT OWNER,OBJECT_NAME,OBJECT_TYPE FROM (¶SELECT OWNER,OBJECT_NAME,OBJECT_TYPE FROM ALL_|
+2026-01-23 09:00|   5|fr3r2ky8d6zqw|    0.44|       1|    1|SELECT 1 FROM ALL_ALL_TABLES WHERE 1&lt;&gt;1                                                             |
+2026-01-23 08:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 08:00|   2|3dbzmtf9ahvzt|    0.22|       2|  406|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 08:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 08:00|   4|9t6y0bs2fj7xg|    0.21|       1|    2| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 08:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 07:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 07:00|   2|3dbzmtf9ahvzt|    0.22|       2|  416|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 07:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 07:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 07:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 06:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 06:00|   2|3dbzmtf9ahvzt|    0.22|       2|  418|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 06:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 06:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 06:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 05:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 05:00|   2|3dbzmtf9ahvzt|    0.22|       2|  515|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 05:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 05:00|   4|9t6y0bs2fj7xg|    0.21|       1|    2| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 05:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 04:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 04:00|   2|3dbzmtf9ahvzt|    0.22|       2|  413|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 04:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 04:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 04:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 03:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 03:00|   2|3dbzmtf9ahvzt|    0.22|       2|  417|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 03:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 03:00|   4|9t6y0bs2fj7xg|    0.21|       1|    2| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 03:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 02:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 02:00|   2|3dbzmtf9ahvzt|    0.22|       2|  422|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 02:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 02:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 02:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-23 01:00|   1|3wrrjm9qtr2my|     1.2|       1|    2|SELECT T.CLIENT_ID,         T.OPERATION_ID,         T.TARGET_TYPE,         T.TARGET_NAME,         T.|
+2026-01-23 01:00|   2|bkryyh4vf4p55|    0.54|       1|    1|SELECT COUNT(*) FROM DBA_SCHEDULER_JOBS WHERE JOB_NAME = :B1 AND OWNER =&#39;ORACLE_OCM&#39;                |
+2026-01-23 01:00|   3|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 01:00|   4|3dbzmtf9ahvzt|    0.22|       2|  423|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 01:00|   5|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 00:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-23 00:00|   2|3dbzmtf9ahvzt|    0.22|       2|  421|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-23 00:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-23 00:00|   4|9t6y0bs2fj7xg|    0.21|       1|    2| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-23 00:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-22 23:00|   1|9sg6u8xys290z|    0.39|       2|    1|select count(*) num_enabled, sum(case optimizer_stats when &#39;ENABLED&#39; then 1 else 0 end) stats_enable|
+2026-01-22 23:00|   2|3dbzmtf9ahvzt|    0.22|       2|  522|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-22 23:00|   3|6wm3n4d7bnddg|    0.22|       1|    6| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-22 23:00|   4|9t6y0bs2fj7xg|    0.21|       1|    6| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-22 23:00|   5|3kqrku32p6sfn|    0.19|       1|    4|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-22 22:00|   1|3dbzmtf9ahvzt|    0.22|       2|  209|merge /* KSXM:OPTIM_DML_INF */  into sys.mon_mods_all$ m                   using dual               |
+2026-01-22 22:00|   2|6wm3n4d7bnddg|    0.22|       1|    3| SELECT source,        (case when time_secs &lt; 1 then 1 else time_secs end) as time_secs,        oper|
+2026-01-22 22:00|   3|9t6y0bs2fj7xg|    0.21|       1|    2| select   /*jskqjobqlod2*/   /*+ no_monitor no_statement_queuing current_instance */   nvl(con_id, 0|
+2026-01-22 22:00|   4|3kqrku32p6sfn|    0.19|       1|    2|MERGE /*+ OPT_PARAM(&#39;_parallel_syspls_obey_force&#39; &#39;false&#39;) */ INTO OPTSTAT_USER_PREFS$ D USING ( SEL|
+2026-01-22 22:00|   5|dg0yzvqbxwkps|    0.19|       2|    6|SELECT dbin.instance_number,        dbin.db_name, dbin.instance_name, dbin.host_name, dbin.version, |
+</code></pre><h3 id="特定-sql-的執行效能趨勢-performance-drift">特定 SQL 的執行效能趨勢 (Performance Drift)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    sn.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.sql_id,
+</span></span><span style="display:flex;"><span>    s.plan_hash_value, <span style="color:#75715e">-- 觀察執行計畫是否有變動
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    s.executions_delta <span style="color:#66d9ef">as</span> execs,
+</span></span><span style="display:flex;"><span>    ROUND(s.elapsed_time_delta <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> elapsed_sec,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 每次執行的邏輯讀取（判斷索引效率）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(s.buffer_gets_delta <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(s.executions_delta, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> gets_per_exec,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 每次執行的物理讀取（判斷 I/O 壓力）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(s.disk_reads_delta <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(s.executions_delta, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> reads_per_exec,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 每次執行的 CPU 時間
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(s.cpu_time_delta <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(s.executions_delta, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> cpu_per_exec
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_hist_sqlstat s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> dba_hist_snapshot sn <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sn.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> s.sql_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&amp;target_sql_id&#39;</span> <span style="color:#75715e">-- 輸入你想追蹤的 SQL_ID
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id;
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>SNAP_ID|BEGIN_INTERVAL_TIME    |SQL_ID       |PLAN_HASH_VALUE|EXECS|ELAPSED_SEC|GETS_PER_EXEC|READS_PER_EXEC|CPU_PER_EXEC|
+-------+-----------------------+-------------+---------------+-----+-----------+-------------+--------------+------------+
+   1688|2026-01-23 15:10:24.872|1m0ycv6wsty7n|     2935435819|    1|       2.31|        23277|            48|        2.24|
+   1688|2026-01-23 15:10:24.872|1m0ycv6wsty7n|      540301959|    1|      59.67|      6681350|           663|       58.55|
+</code></pre><h2 id="解決-sql-議題方向">解決 SQL 議題方向</h2>
+<table>
+<thead>
+<tr>
+<th>議題分類</th>
+<th>議題項目</th>
+<th>核心問題點</th>
+<th>解決與優化方向</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 時間與負載議題 (Time-Based)</td>
+<td>Elapsed Time</td>
+<td>總執行時間最長，是 DB Time 的主要貢獻者。</td>
+<td>區分是 CPU 密集還是等待密集。若 CPU 低而 Elapsed 高，應優先拆解 Wait Class（如 I/O 或 Lock）。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>CPU Time</td>
+<td>消耗過多運算資源。</td>
+<td>1. 減少 Logical Reads (Gets)，因為 CPU 主要花在處理資料塊。 2. 檢查是否有複雜的運算、格式轉換或低效的 PL/SQL 函數。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>User I/O Wait</td>
+<td>SQL 花費大量時間等待從磁碟讀取資料。</td>
+<td>1. 索引優化：減少 Full Table Scan。 2. 緩存優化：評估 Buffer Cache 是否不足。 3. 儲存效能：檢查實體磁碟回應速度。</td>
+<td></td>
+</tr>
+<tr>
+<td>2. 資源消耗議題 (Resource-Based)</td>
+<td>Gets (Logical Reads)</td>
+<td>邏輯讀取數過高，是系統 CPU 壓力的源頭。</td>
+<td>SQL 效率檢核：檢查每個事務（Transaction）讀取的資料塊是否穩定。若 Logical Reads/Tx 飆升，通常是執行計畫走鐘（如索引失效）。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Reads (Physical Reads)</td>
+<td>實體磁碟讀取，效能代價極高。</td>
+<td>1. 提升 Buffer Hit %。 2. 考慮使用 Oracle In-Memory 或是將熱點表置入 Keep Pool。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Physical Reads (UnOptimized)</td>
+<td>未經優化（如繞過快取）的直接讀取。</td>
+<td>1. 檢查是否發生大量的 Direct Path Reads（如大型排序或平行查詢）。 2. 評估是否需要增加實體記憶體以減少 Disk Spill。</td>
+<td></td>
+</tr>
+<tr>
+<td>3. 應用程式與解析議題 (App &amp; Parsing)</td>
+<td>Executions</td>
+<td>執行頻率極高。</td>
+<td>1. 檢查應用程式是否有無效的 Loop 呼叫。 2. 評估是否能合併請求或是使用 Result Cache 緩存結果。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Parse Calls</td>
+<td>解析次數過高，消耗大量 CPU。</td>
+<td>1. 確保 Soft Parse % 接近 100%。 2. 若 Execute to Parse % 過低，代表程式未保持 Cursor 開放，應優化連線池與語句緩存。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Sharable Memory</td>
+<td>單一 SQL 在 Shared Pool 佔用過多空間。</td>
+<td>1. 避免在 SQL 中寫入超長列表（如 IN (1, 2, &hellip;, 1000)）。 2. 監控 Shared Pool 使用率，防止碎片化導致 ORA-04031。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Version Count</td>
+<td>同一 SQL 產生過多子游標 (Child Cursors)。</td>
+<td>1. 檢查是否因 Bind Mismatch 或環境參數差異引起。 2. 監控 Adaptive Cursor Sharing (ACS) 的行為。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="找原因工具">找原因工具</h2>
+<h3 id="shared-pool-中總記憶體佔用前十名且未綁定變數清單">Shared Pool 中「總記憶體佔用前十名」且「未綁定變數」清單</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        force_matching_signature,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 1. 計算這個邏輯結構產生了多少個不同的 SQL_ID (變體數量)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> sql_id) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Distinct_SQL_IDs&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 2. 累計這些變體總共佔用的記憶體 (MB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ROUND(<span style="color:#66d9ef">SUM</span>(sharable_mem) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Total_Mem_MB&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 3. 累計總執行次數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(executions) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Total_Executions&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 4. 取出其中一個 SQL 作為範例，觀察其字面值 (Literal)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(SUBSTR(sql_text, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">200</span>)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Sample_SQL_Text&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> v$sql
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 過濾掉無法計算簽名的 SQL (如部分內部指令)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">WHERE</span> force_matching_signature <span style="color:#f92672">&lt;&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> force_matching_signature
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 過濾條件：至少有 5 個以上的變體才視為「未綁定變數」的候選人
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> sql_id) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 依據總佔用記憶體排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#34;Total_Mem_MB&#34;</span> <span style="color:#66d9ef">DESC</span>
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">WHERE</span> ROWNUM <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><h3 id="為什麼-sql-會佔用過多記憶體">為什麼 SQL 會佔用過多記憶體？</h3>
+<p>當發現單一 SQL 的 <code>Sharable_Mem</code> 超過 100MB 或 <code>Version Count</code> 異常高時，通常有以下原因：</p>
+<ol>
+<li><strong>超大型 IN 清單</strong>：</li>
+</ol>
+<ul>
+<li>例如 <code>WHERE id IN (1, 2, ..., 5000)</code>。Oracle 必須解析並儲存這 5000 個值，這會讓 SQL 文本與解析樹變得極大，直接灌爆 <code>Sharable_Mem</code>。</li>
+<li><strong>解決方向</strong>：改用暫存表 (Global Temporary Table) 進行關聯，或將清單拆小。</li>
+</ul>
+<ol start="2">
+<li><strong>高版本數量 (High Version Count)</strong>：</li>
+</ol>
+<ul>
+<li>雖然單一子游標（Child Cursor）可能不大，但如果同一個 <code>SQL_ID</code> 因為環境不同、綁定變數長度不一而產生了數百個版本，總體記憶體就會累積得很恐怖。</li>
+<li><strong>解決方向</strong>：檢查 <code>V$SQL_SHARED_CURSOR</code> 來找出為什麼無法共享游標的原因（例如 <code>BIND_MISMATCH</code>）。</li>
+</ul>
+<ol start="3">
+<li><strong>大數據量的 PL/SQL 內嵌 SQL</strong>：</li>
+</ol>
+<ul>
+<li>如果在 PL/SQL 中動態拼湊極長的 SQL 語句，也會導致記憶體過度消耗。</li>
+</ul>
+<h4 id="單一-sql-語句在-shared-pool-中佔用了多少記憶體">單一 SQL 語句在 Shared Pool 中佔用了多少記憶體</h4>
+<h5 id="即時查詢目前在庫library-cache中的-sql-記憶體">即時查詢：目前在庫（Library Cache）中的 SQL 記憶體</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    sql_id,
+</span></span><span style="display:flex;"><span>    child_number,
+</span></span><span style="display:flex;"><span>    plan_hash_value,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 核心指標：Sharable Memory (轉換為 MB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(sharable_mem <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Sharable_Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 額外參考：持續性記憶體與執行時記憶體
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(persistent_mem <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Persistent_Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(runtime_mem <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Runtime_Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    users_opening,
+</span></span><span style="display:flex;"><span>    executions,
+</span></span><span style="display:flex;"><span>    substr(sql_text, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100</span>) <span style="color:#66d9ef">as</span> sql_snippet
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> v$sql
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> sql_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&amp;target_sql_id&#39;</span> <span style="color:#75715e">-- 輸入你想查詢的 SQL_ID
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> child_number
+</span></span></code></pre></div><ul>
+<li>Sharable_Mem: 這是最主要的指標，代表該 SQL 及其執行計畫在 Shared Pool 中共享的大小。</li>
+<li>Persistent_Mem: 存放在執行期間固定不動的資訊（如綁定變數資訊）。</li>
+<li>Runtime_Mem: 執行該 SQL 時暫時需要的空間（如堆疊空間）。</li>
+</ul>
+<h5 id="歷史回溯從-awr-查詢過去的記憶體佔用趨勢">歷史回溯：從 AWR 查詢過去的記憶體佔用趨勢</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    sn.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.sql_id,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得該快照點時的最大共享記憶體
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(s.sharable_mem <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Max_Sharable_Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    s.version_count <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Versions&#34;</span>,
+</span></span><span style="display:flex;"><span>    s.executions_delta <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Execs_Delta&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_hist_sqlstat s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> dba_hist_snapshot sn <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sn.snap_id <span style="color:#66d9ef">AND</span> s.dbid <span style="color:#f92672">=</span> sn.dbid <span style="color:#66d9ef">AND</span> s.instance_number <span style="color:#f92672">=</span> sn.instance_number
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> s.sql_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&amp;target_sql_id&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id <span style="color:#66d9ef">DESC</span>;
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

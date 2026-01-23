@@ -228,6 +228,38 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh domrename tpsoc-135 tpsoc-136
 </span></span></code></pre></div><h2 id="開機時自動啟動-vm">開機時自動啟動 VM</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh autostart windows
+</span></span></code></pre></div><h2 id="設定-kvm-xml">設定 kvm xml</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virsh list --all
+</span></span><span style="display:flex;"><span>virsh shutdown vmName
+</span></span><span style="display:flex;"><span>virsh edit vmName
+</span></span></code></pre></div><h2 id="錯誤處理">錯誤處理</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># virsh list --all</span>
+</span></span><span style="display:flex;"><span>error: failed to connect to the hypervisor
+</span></span><span style="display:flex;"><span>error: Cannot recv data: Connection reset by peer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl status libvirtd</span>
+</span></span><span style="display:flex;"><span>● libvirtd.service - Virtualization daemon
+</span></span><span style="display:flex;"><span>   Loaded: loaded <span style="color:#f92672">(</span>/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Active: inactive <span style="color:#f92672">(</span>dead<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Docs: man:libvirtd<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>           https://libvirt.org
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start libvirtd</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl status libvirtd</span>
+</span></span><span style="display:flex;"><span>● libvirtd.service - Virtualization daemon
+</span></span><span style="display:flex;"><span>   Loaded: loaded <span style="color:#f92672">(</span>/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since Sat 2026-01-10 09:42:10 CST; 1s ago
+</span></span><span style="display:flex;"><span>     Docs: man:libvirtd<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>           https://libvirt.org
+</span></span><span style="display:flex;"><span> Main PID: <span style="color:#ae81ff">5324</span> <span style="color:#f92672">(</span>libvirtd<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Tasks: <span style="color:#ae81ff">19</span> <span style="color:#f92672">(</span>limit: 32768<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Memory: 17.6M
+</span></span><span style="display:flex;"><span>   CGroup: /system.slice/libvirtd.service
+</span></span><span style="display:flex;"><span>           └─5324 /usr/sbin/libvirtd --timeout <span style="color:#ae81ff">120</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Jan <span style="color:#ae81ff">10</span> 09:42:10 pollochang-kvm-003.kvm-host.home.pollochang.work systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: Starting Virtualization daemon...
+</span></span><span style="display:flex;"><span>Jan <span style="color:#ae81ff">10</span> 09:42:10 pollochang-kvm-003.kvm-host.home.pollochang.work systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: Started Virtualization daemon.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl enable libvirtd</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@pollochang-kvm-003 ~<span style="color:#f92672">]</span><span style="color:#75715e"># </span>
 </span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"

@@ -1,0 +1,1353 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - oracle AWR PERF TREND HISTORY </title>
+    
+    
+    <meta content="Oracle, AWR" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 最近常常接觸 AWR 報表分析，想說AWR已經有儲存資料庫運作歷史資訊，為何不依據裡頭的紀錄資訊進行效能分析呢？因此開始著手研究如何將AWR的資料呈現出趨勢資料～
+觀察重點 當 % Non-Parse CPU 低於 80% 時，代表資料庫忙於解析而非執行，這時增加 CPU 核心也無法根本解決問題。 觀察 Per Transaction 的指標是否惡化。如果 Logical Reads/Tx 維持穩定，系統慢通常是併發或硬體問題；如果該值上升，則是 SQL 或索引問題。 監控 Shared Pool Statistics 趨勢時，應特別留意 % Mem for SQL w/exec &gt; 1 這個指標。如果該值變低，且 Sharable Memory 排名的 TOP SQL 佔比很高，就代表 Shared Pool 正在被少數幾句低效的 SQL 吞噬，這極易引發 ORA-04031 錯誤。 趨勢資料分析 指標分析項目
+summary
+Elapsed DBTime 負載強度 (Load Profile)
+Load Profile - DB Time(s) Load Profile - DB CPU(s) Load Profile - Redo size (bytes) Load Profile - Logical read (blocks) Load Profile - Block changes Load Profile - Physical read (blocks) Load Profile - Physical write (blocks) Load Profile - Read IO requests Load Profile - Write IO requests Load Profile - Read IO (MB) Load Profile - Write IO (MB) Load Profile - Logons Load Profile - User logons Load Profile - Executes Load Profile - Rollbacks 執行效率 (Efficiency)" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>oracle AWR PERF TREND HISTORY</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>最近常常接觸 AWR 報表分析，想說AWR已經有儲存資料庫運作歷史資訊，為何不依據裡頭的紀錄資訊進行效能分析呢？因此開始著手研究如何將AWR的資料呈現出趨勢資料～</p>
+<h2 id="觀察重點">觀察重點</h2>
+<ol>
+<li>當 % Non-Parse CPU 低於 80% 時，代表資料庫忙於解析而非執行，這時增加 CPU 核心也無法根本解決問題。</li>
+<li>觀察 Per Transaction 的指標是否惡化。如果 Logical Reads/Tx 維持穩定，系統慢通常是併發或硬體問題；如果該值上升，則是 SQL 或索引問題。</li>
+<li>監控 <strong><code>Shared Pool Statistics</code></strong> 趨勢時，應特別留意 <strong><code>% Mem for SQL w/exec &gt; 1</code></strong> 這個指標。如果該值變低，且 <code>Sharable Memory</code> 排名的 TOP SQL 佔比很高，就代表 Shared Pool 正在被少數幾句低效的 SQL 吞噬，這極易引發 <code>ORA-04031</code> 錯誤。</li>
+</ol>
+<h2 id="趨勢資料分析">趨勢資料分析</h2>
+<p>指標分析項目</p>
+<ul>
+<li>
+<p><strong>summary</strong></p>
+<ul>
+<li>Elapsed</li>
+<li>DBTime</li>
+</ul>
+</li>
+<li>
+<p><strong>負載強度 (Load Profile)</strong></p>
+<ul>
+<li>Load Profile - DB Time(s)</li>
+<li>Load Profile - DB CPU(s)</li>
+<li>Load Profile - Redo size (bytes)</li>
+<li>Load Profile - Logical read (blocks)</li>
+<li>Load Profile - Block changes</li>
+<li>Load Profile - Physical read (blocks)</li>
+<li>Load Profile - Physical write (blocks)</li>
+<li>Load Profile - Read IO requests</li>
+<li>Load Profile - Write IO requests</li>
+<li>Load Profile - Read IO (MB)</li>
+<li>Load Profile - Write IO (MB)</li>
+<li>Load Profile - Logons</li>
+<li>Load Profile - User logons</li>
+<li>Load Profile - Executes</li>
+<li>Load Profile - Rollbacks</li>
+</ul>
+</li>
+<li>
+<p><strong>執行效率 (Efficiency)</strong></p>
+<ul>
+<li>Efficiency - Buffer Nowait %</li>
+<li>Efficiency - Buffer Hit %</li>
+<li>Efficiency - Library Hit %</li>
+<li>Efficiency - Execute to Parse %</li>
+<li>Efficiency - Parse CPU to Parse Elapsd %</li>
+<li>Efficiency - Flash Cache Hit %</li>
+<li>Efficiency - Redo NoWait %</li>
+<li>Efficiency - In-memory Sort %</li>
+<li>Efficiency - Soft Parse %</li>
+<li>Efficiency - Latch Hit %</li>
+<li>Efficiency - % Non-Parse CPU</li>
+</ul>
+</li>
+<li>
+<p><strong>記憶體配置 (Memory &amp; Cache)</strong></p>
+<ul>
+<li>Memory Statistics - Host Mem (MB)</li>
+<li>Memory Statistics - SGA use (MB)</li>
+<li>Memory Statistics - PGA use (MB)</li>
+<li>Cache Sizes - Buffer Cache</li>
+<li>Cache Sizes - Shared Pool Size</li>
+<li>Cache Sizes - In-Memory Area</li>
+<li>Cache Sizes - Std Block Size</li>
+<li>Cache Sizes - Log Buffer</li>
+</ul>
+</li>
+<li>
+<p><strong>解析質量 (Shared Pool Stats)</strong></p>
+<ul>
+<li>Shared Pool Statistics - Memory Usage %</li>
+<li>Shared Pool Statistics - % SQL with executions&gt;1</li>
+<li>Shared Pool Statistics - % Memory for SQL w/exec&gt;1</li>
+</ul>
+</li>
+<li>
+<p><strong>瓶頸拆解 (Wait Class % DB Time)</strong></p>
+<ul>
+<li>% DB time - User I/O</li>
+<li>% DB time - System I/O</li>
+<li>% DB time - Network</li>
+<li>% DB time - Other</li>
+<li>% DB time - Commit</li>
+<li>% DB time - Concurrency</li>
+</ul>
+</li>
+</ul>
+<h3 id="dbtime">DBTime</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. 定義時間範圍與基礎快照資訊
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id, dbid, instance_number, begin_interval_time, end_interval_time,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 計算快照區間的總秒數，方便後續計算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        (<span style="color:#66d9ef">CAST</span>(end_interval_time <span style="color:#66d9ef">AS</span> DATE) <span style="color:#f92672">-</span> <span style="color:#66d9ef">CAST</span>(begin_interval_time <span style="color:#66d9ef">AS</span> DATE)) <span style="color:#f92672">*</span> <span style="color:#ae81ff">86400</span> <span style="color:#66d9ef">as</span> interval_seconds
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_time_model <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. 取得 DB Time 的原始累計值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, value
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sys_time_model
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DB time&#39;</span>
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>LICENSE <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">select</span> inst_id,CPU_CORE_COUNT_CURRENT <span style="color:#66d9ef">from</span> gV$LICENSE
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span>(
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DB.DBID,
+</span></span><span style="display:flex;"><span>    sr.snap_id,
+</span></span><span style="display:flex;"><span>    sr.instance_number,
+</span></span><span style="display:flex;"><span>    sr.begin_interval_time,
+</span></span><span style="display:flex;"><span>    sr.end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 3. 計算兩次快照間的增量 (Delta)，轉換為秒數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND((rt.value <span style="color:#f92672">-</span> LAG(rt.value) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> sr.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> db_time_seconds,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 4. 使用 CTE 預算的 interval_seconds 轉換成分鐘
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(sr.interval_seconds <span style="color:#f92672">/</span> <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> interval_minutes,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 5. 額外提供 AAS (Average Active Sessions) 指標，這是衡量負載最直觀的方式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(((rt.value <span style="color:#f92672">-</span> LAG(rt.value) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> sr.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(sr.interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> aas
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> snap_range sr
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> raw_time_model rt <span style="color:#66d9ef">ON</span> sr.snap_id <span style="color:#f92672">=</span> rt.snap_id <span style="color:#66d9ef">AND</span> sr.dbid <span style="color:#f92672">=</span> rt.dbid <span style="color:#66d9ef">AND</span> sr.instance_number <span style="color:#f92672">=</span> rt.instance_number
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> sr.snap_id
+</span></span><span style="display:flex;"><span>) T
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.db_time_seconds <span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |DB_TIME_SECONDS|INTERVAL_MINUTES|AAS |
+----------+-------+---------------+-----------------------+-----------------------+---------------+----------------+----+
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|              0|              10|   0|
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|              0|           10.02|   0|
+000000000|   1585|              1|2026-01-22 22:00:53.187|2026-01-22 22:10:53.517|              0|              10|   0|
+</code></pre><h3 id="load-profile-趨勢分析---增量delta">Load Profile 趨勢分析 - 增量（Delta）</h3>
+<p>這段 SQL 會精準計算出每個 Snapshot 區間內的增量（Delta）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time,
+</span></span><span style="display:flex;"><span>           (<span style="color:#66d9ef">CAST</span>(end_interval_time <span style="color:#66d9ef">AS</span> DATE) <span style="color:#f92672">-</span> <span style="color:#66d9ef">CAST</span>(begin_interval_time <span style="color:#66d9ef">AS</span> DATE)) <span style="color:#f92672">*</span> <span style="color:#ae81ff">86400</span> <span style="color:#66d9ef">as</span> interval_seconds
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_stats <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得 System Statistics (SYSSTAT) 的累計值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;redo size&#39;</span>, value)) <span style="color:#66d9ef">as</span> redo_size,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;session logical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> logical_reads,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;db block changes&#39;</span>, value)) <span style="color:#66d9ef">as</span> block_changes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> phys_reads,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical writes&#39;</span>, value)) <span style="color:#66d9ef">as</span> phys_writes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical read IO requests&#39;</span>, value)) <span style="color:#66d9ef">as</span> read_io_req,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical write IO requests&#39;</span>, value)) <span style="color:#66d9ef">as</span> write_io_req,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical read total bytes&#39;</span>, value)) <span style="color:#66d9ef">as</span> read_io_bytes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical write total bytes&#39;</span>, value)) <span style="color:#66d9ef">as</span> write_io_bytes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;logons cumulative&#39;</span>, value)) <span style="color:#66d9ef">as</span> logons,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;user logons cumulative&#39;</span>, value)) <span style="color:#66d9ef">as</span> user_logons,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;execute count&#39;</span>, value)) <span style="color:#66d9ef">as</span> executes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;user rollbacks&#39;</span>, value)) <span style="color:#66d9ef">as</span> rollbacks
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sysstat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;redo size&#39;</span>, <span style="color:#e6db74">&#39;session logical reads&#39;</span>, <span style="color:#e6db74">&#39;db block changes&#39;</span>, <span style="color:#e6db74">&#39;physical reads&#39;</span>, 
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;physical writes&#39;</span>, <span style="color:#e6db74">&#39;physical read IO requests&#39;</span>, <span style="color:#e6db74">&#39;physical write IO requests&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;physical read total bytes&#39;</span>, <span style="color:#e6db74">&#39;physical write total bytes&#39;</span>, 
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;logons cumulative&#39;</span>, <span style="color:#e6db74">&#39;user logons cumulative&#39;</span>, <span style="color:#e6db74">&#39;execute count&#39;</span>, <span style="color:#e6db74">&#39;user rollbacks&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_time_model <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;DB time&#39;</span>, value)) <span style="color:#66d9ef">as</span> db_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;DB CPU&#39;</span>, value)) <span style="color:#66d9ef">as</span> db_cpu
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sys_time_model
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;DB time&#39;</span>, <span style="color:#e6db74">&#39;DB CPU&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DB.DBID,
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    s.instance_number,
+</span></span><span style="display:flex;"><span>    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.end_interval_time,
+</span></span><span style="display:flex;"><span>    ROUND((tm.db_time <span style="color:#f92672">-</span> LAG(tm.db_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;DB Time (s)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND((tm.db_cpu <span style="color:#f92672">-</span> LAG(tm.db_cpu) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;DB CPU (s)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.redo_size <span style="color:#f92672">-</span> LAG(rs.redo_size) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Redo Size (bytes)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.logical_reads <span style="color:#f92672">-</span> LAG(rs.logical_reads) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Logical Reads (blocks)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.block_changes <span style="color:#f92672">-</span> LAG(rs.block_changes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Block Changes&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.phys_reads <span style="color:#f92672">-</span> LAG(rs.phys_reads) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Phys Reads (blocks)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.phys_writes <span style="color:#f92672">-</span> LAG(rs.phys_writes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Phys Writes (blocks)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.read_io_req <span style="color:#f92672">-</span> LAG(rs.read_io_req) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Read IO Req&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.write_io_req <span style="color:#f92672">-</span> LAG(rs.write_io_req) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Write IO Req&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND((rs.read_io_bytes <span style="color:#f92672">-</span> LAG(rs.read_io_bytes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Read IO (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND((rs.write_io_bytes <span style="color:#f92672">-</span> LAG(rs.write_io_bytes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Write IO (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.logons <span style="color:#f92672">-</span> LAG(rs.logons) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Logons&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.user_logons <span style="color:#f92672">-</span> LAG(rs.user_logons) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;User Logons&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.executes <span style="color:#f92672">-</span> LAG(rs.executes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Executes&#34;</span>,
+</span></span><span style="display:flex;"><span>    (rs.rollbacks <span style="color:#f92672">-</span> LAG(rs.rollbacks) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Rollbacks&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> raw_stats rs <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> rs.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> raw_time_model tm <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> tm.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id
+</span></span><span style="display:flex;"><span>) T
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.<span style="color:#e6db74">&#34;DB Time (s)&#34;</span> <span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |DB Time (s)|DB CPU (s)|Redo Size (bytes)|Logical Reads (blocks)|Block Changes|Phys Reads (blocks)|Phys Writes (blocks)|Read IO Req|Write IO Req|Read IO (MB)|Write IO (MB)|Logons|User Logons|Executes|Rollbacks|
+----------+-------+---------------+-----------------------+-----------------------+-----------+----------+-----------------+----------------------+-------------+-------------------+--------------------+-----------+------------+------------+-------------+------+-----------+--------+---------+
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|          0|         0|          2761472|                 15282|         8634|                  0|                 671|          0|         392|       21.24|        15.44|     4|          0|     799|        0|
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|          0|         0|          2769036|                 15753|         8750|                  0|                 675|          0|         379|       30.97|        22.36|     6|          0|     841|        0|
+000000000|   1585|              1|2026-01-22 22:00:53.187|2026-01-22 22:10:53.517|          0|         0|          2773864|                 19615|         8748|                  0|                 766|          0|         416|       21.48|        16.27|     3|          0|     718|        0|
+</code></pre><h4 id="指標分析說明">指標分析說明</h4>
+<p>| <strong>DB Time vs DB CPU</strong> | 如果 DB Time 遠高於 DB CPU，代表資料庫大部分時間在「等待」（如 I/O, Lock），而非在「運算」。 |
+| <strong>Redo Size</strong> | 反映資料庫的 <strong>DML 密集度</strong>。如果數值激增，可能是有大型 Batch Job 或索引維護。 |
+| <strong>Logical vs Physical Reads</strong> | 物理讀取（Physical Reads）過高代表快取命中率（Buffer Cache Hit Ratio）不足，通常與全表掃描（Full Table Scan）有關。 |
+| <strong>Executes &amp; Logons</strong> | <code>Logons</code> 很高但 <code>User Logons</code> 不高，可能是中間層連線池（Connection Pool）配置不當，導致頻繁重連。 |
+| <strong>Rollbacks</strong> | 正常的系統 Rollback 應該極低。若數值偏高，需檢查應用程式邏輯是否有大量異常導致的事務回滾。 |</p>
+<h3 id="load-profile-趨勢分析---per-second-每秒平均-或-per-transaction-每個事務平均">Load Profile 趨勢分析 - Per Second (每秒平均) 或 Per Transaction (每個事務平均)</h3>
+<p>核心計算公式</p>
+<ol>
+<li><strong>Per Second</strong>: Value / Interval Duration (seconds)</li>
+<li><strong>Transactions (事務數)</strong>: 在 Oracle AWR 中，事務數定義為 <code>User Commits</code> + <code>User Rollbacks</code>。</li>
+<li><strong>Per Transaction</strong>: Value / (Delta User Commits + Delta User Rollbacks)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">-- 計算快照區間的總秒數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           (<span style="color:#66d9ef">CAST</span>(end_interval_time <span style="color:#66d9ef">AS</span> DATE) <span style="color:#f92672">-</span> <span style="color:#66d9ef">CAST</span>(begin_interval_time <span style="color:#66d9ef">AS</span> DATE)) <span style="color:#f92672">*</span> <span style="color:#ae81ff">86400</span> <span style="color:#66d9ef">as</span> interval_seconds
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_stats <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;redo size&#39;</span>, value)) <span style="color:#66d9ef">as</span> redo_size,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;session logical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> logical_reads,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> phys_reads,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical read total bytes&#39;</span>, value)) <span style="color:#66d9ef">as</span> read_io_bytes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;execute count&#39;</span>, value)) <span style="color:#66d9ef">as</span> executes,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;user commits&#39;</span>, value)) <span style="color:#66d9ef">as</span> commits,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;user rollbacks&#39;</span>, value)) <span style="color:#66d9ef">as</span> rollbacks
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sysstat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;redo size&#39;</span>, <span style="color:#e6db74">&#39;session logical reads&#39;</span>, <span style="color:#e6db74">&#39;physical reads&#39;</span>, 
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;physical read total bytes&#39;</span>, <span style="color:#e6db74">&#39;execute count&#39;</span>, <span style="color:#e6db74">&#39;user commits&#39;</span>, <span style="color:#e6db74">&#39;user rollbacks&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>deltas <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 先計算出每個指標的增量 (Delta)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        DB.DBID,
+</span></span><span style="display:flex;"><span>	    s.snap_id,
+</span></span><span style="display:flex;"><span>	    s.instance_number,
+</span></span><span style="display:flex;"><span>	    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>	    s.end_interval_time,
+</span></span><span style="display:flex;"><span>		s.interval_seconds,
+</span></span><span style="display:flex;"><span>        (rs.redo_size <span style="color:#f92672">-</span> LAG(rs.redo_size) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_redo,
+</span></span><span style="display:flex;"><span>        (rs.logical_reads <span style="color:#f92672">-</span> LAG(rs.logical_reads) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_lread,
+</span></span><span style="display:flex;"><span>        (rs.phys_reads <span style="color:#f92672">-</span> LAG(rs.phys_reads) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_pread,
+</span></span><span style="display:flex;"><span>        (rs.read_io_bytes <span style="color:#f92672">-</span> LAG(rs.read_io_bytes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_read_bytes,
+</span></span><span style="display:flex;"><span>        (rs.executes <span style="color:#f92672">-</span> LAG(rs.executes) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_exec,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 事務數計算：Commits + Rollbacks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ( (rs.commits <span style="color:#f92672">-</span> LAG(rs.commits) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>          (rs.rollbacks <span style="color:#f92672">-</span> LAG(rs.rollbacks) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) ) <span style="color:#66d9ef">as</span> d_tx
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> raw_stats rs <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> rs.snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 最終輸出：標準化指標
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DBID,snap_id,instance_number,begin_interval_time,end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Per Second (每秒)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(d_redo <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Redo/s (bytes)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_lread <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Logical Reads/s&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_pread <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Phys Reads/s&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_exec <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Executes/s&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_tx <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(interval_seconds, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Transactions/s&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Per Transaction (每個事務)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(d_redo <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_tx, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Redo/Tx (bytes)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_lread <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_tx, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Logical Reads/Tx&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(d_pread <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_tx, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Phys Reads/Tx&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND((d_read_bytes<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_tx, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Read KB/Tx&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> deltas
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> d_tx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">-- 過濾掉重啟後的負值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |Redo/s (bytes)|Logical Reads/s|Phys Reads/s|Executes/s|Transactions/s|Redo/Tx (bytes)|Logical Reads/Tx|Phys Reads/Tx|Read KB/Tx|
+----------+-------+---------------+-----------------------+-----------------------+--------------+---------------+------------+----------+--------------+---------------+----------------+-------------+----------+
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|       4602.45|          25.47|           0|      1.33|          0.03|      184098.13|          1018.8|            0|   1450.13|
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|       4607.38|          26.21|           0|       1.4|          0.02|       184602.4|          1050.2|            0|   2113.97|
+000000000|   1585|              1|2026-01-22 22:00:53.187|2026-01-22 22:10:53.517|       4623.11|          32.69|           0|       1.2|          0.03|      184924.27|         1307.67|            0|   1466.13|
+</code></pre><h4 id="指標分析說明---如何解讀這些標準化數據">指標分析說明 - 如何解讀這些標準化數據？</h4>
+<p>當您將數據轉換為這兩種維度後，分析的角度會變得完全不同：</p>
+<h5 id="1-per-second-每秒平均--觀察負載強度">1. Per Second (每秒平均) — 觀察「負載強度」</h5>
+<ul>
+<li><strong>用途</strong>: 用來判斷系統的<strong>吞吐量上限</strong>。</li>
+<li><strong>案例</strong>: 如果 <code>Transactions/s</code> 在某個時段維持在高點，但 <code>Executes/s</code> 突然飆升，這通常代表有大量的短小 SQL 在重複執行，可能是程式迴圈寫得不好。</li>
+<li><strong>硬體關聯</strong>: <code>Redo/s</code> 直接關聯到 Log Writer (LGWR) 的壓力與磁碟寫入頻寬。</li>
+</ul>
+<h5 id="2-per-transaction-每個事務--觀察工作效率">2. Per Transaction (每個事務) — 觀察「工作效率」</h5>
+<ul>
+<li><strong>用途</strong>: 用來判斷<strong>應用程式行為是否改變</strong>。</li>
+<li><strong>大師心法</strong>: 這是我最喜歡的指標。在正常的系統中，每個事務消耗的資源應該是穩定的。</li>
+<li><strong>異常檢測</strong>:</li>
+<li>如果 <code>Logical Reads/Tx</code> 從 1,000 變成 50,000，即便 <code>Transactions/s</code> 沒變，資料庫也會變慢。這代表<strong>索引失效</strong>或<strong>執行計畫改變</strong>，導致每個交易都要讀取更多資料塊。</li>
+<li>如果 <code>Redo/Tx</code> 突然變大，代表單個交易處理的資料量變多了（例如從更新 1 筆變成更新 100 筆）。</li>
+</ul>
+<h3 id="efficiency-percentages-趨勢分析">Efficiency Percentages 趨勢分析</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_stats <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">-- Buffer Hit 相關
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;session logical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> log_rd,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical reads&#39;</span>, value)) <span style="color:#66d9ef">as</span> phy_rd,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical reads direct&#39;</span>, value)) <span style="color:#66d9ef">as</span> phy_rd_dir,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;physical reads cache&#39;</span>, value)) <span style="color:#66d9ef">as</span> phy_rd_ch,
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">-- Parse 相關
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;parse count (total)&#39;</span>, value)) <span style="color:#66d9ef">as</span> prs_tot,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;parse count (hard)&#39;</span>, value)) <span style="color:#66d9ef">as</span> prs_hard,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;execute count&#39;</span>, value)) <span style="color:#66d9ef">as</span> exec_cnt,
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">-- Redo / Buffer / Latch Nowait
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;redo log space requests&#39;</span>, value)) <span style="color:#66d9ef">as</span> redo_spc_req,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;buffer is not pinned count&#39;</span>, value)) <span style="color:#66d9ef">as</span> buf_not_pin, <span style="color:#75715e">-- 簡化計算用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;latch free&#39;</span>, value)) <span style="color:#66d9ef">as</span> latch_wait,
+</span></span><span style="display:flex;"><span>           <span style="color:#75715e">-- Sort
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;sorts (memory)&#39;</span>, value)) <span style="color:#66d9ef">as</span> sort_mem,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;sorts (disk)&#39;</span>, value)) <span style="color:#66d9ef">as</span> sort_disk
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sysstat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_time <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;DB CPU&#39;</span>, value)) <span style="color:#66d9ef">as</span> db_cpu,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;parse time elapsed&#39;</span>, value)) <span style="color:#66d9ef">as</span> prs_elap,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;parse time cpu&#39;</span>, value)) <span style="color:#66d9ef">as</span> prs_cpu
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sys_time_model
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>deltas <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 計算各項指標增量 (Delta)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>		DB.DBID,
+</span></span><span style="display:flex;"><span>	    s.snap_id,
+</span></span><span style="display:flex;"><span>	    s.instance_number,
+</span></span><span style="display:flex;"><span>	    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>	    s.end_interval_time,
+</span></span><span style="display:flex;"><span>        (rs.log_rd <span style="color:#f92672">-</span> LAG(rs.log_rd) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_log_rd,
+</span></span><span style="display:flex;"><span>        (rs.phy_rd <span style="color:#f92672">-</span> LAG(rs.phy_rd) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_phy_rd,
+</span></span><span style="display:flex;"><span>        (rs.phy_rd_dir <span style="color:#f92672">-</span> LAG(rs.phy_rd_dir) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_phy_rd_dir,
+</span></span><span style="display:flex;"><span>        (rs.prs_tot <span style="color:#f92672">-</span> LAG(rs.prs_tot) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_prs_tot,
+</span></span><span style="display:flex;"><span>        (rs.prs_hard <span style="color:#f92672">-</span> LAG(rs.prs_hard) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_prs_hard,
+</span></span><span style="display:flex;"><span>        (rs.exec_cnt <span style="color:#f92672">-</span> LAG(rs.exec_cnt) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_exec,
+</span></span><span style="display:flex;"><span>        (rs.sort_mem <span style="color:#f92672">-</span> LAG(rs.sort_mem) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_sort_mem,
+</span></span><span style="display:flex;"><span>        (rs.sort_disk <span style="color:#f92672">-</span> LAG(rs.sort_disk) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_sort_disk,
+</span></span><span style="display:flex;"><span>        (rt.db_cpu <span style="color:#f92672">-</span> LAG(rt.db_cpu) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_db_cpu,
+</span></span><span style="display:flex;"><span>        (rt.prs_elap <span style="color:#f92672">-</span> LAG(rt.prs_elap) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_prs_elap,
+</span></span><span style="display:flex;"><span>        (rt.prs_cpu <span style="color:#f92672">-</span> LAG(rt.prs_cpu) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_prs_cpu
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> raw_stats rs <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> rs.snap_id
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> raw_time rt <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> rt.snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DBID,snap_id,instance_number,begin_interval_time,end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. Buffer Hit %: 1 - (Physical Reads Cache / Session Logical Reads)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> ( (d_phy_rd <span style="color:#f92672">-</span> d_phy_rd_dir) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_log_rd, <span style="color:#ae81ff">0</span>) )), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Buffer Hit %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. Soft Parse %: 1 - (Hard Parse / Total Parse)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> ( d_prs_hard <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_prs_tot, <span style="color:#ae81ff">0</span>) )), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Soft Parse %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 3. Execute to Parse %: 1 - (Total Parse / Execute Count)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> ( d_prs_tot <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_exec, <span style="color:#ae81ff">0</span>) )), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Execute to Parse %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 4. Parse CPU to Parse Elapsd %: (Parse CPU / Parse Elapsed)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> ( d_prs_cpu <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_prs_elap, <span style="color:#ae81ff">0</span>) ), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Parse CPU to Elap %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 5. In-memory Sort %: Memory Sorts / (Memory + Disk Sorts)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> ( d_sort_mem <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_sort_mem <span style="color:#f92672">+</span> d_sort_disk, <span style="color:#ae81ff">0</span>) ), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;In-memory Sort %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 6. % Non-Parse CPU: (DB CPU - Parse CPU) / DB CPU
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> ( (d_db_cpu <span style="color:#f92672">-</span> d_prs_cpu) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_cpu, <span style="color:#ae81ff">0</span>) ), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Non-Parse CPU&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> deltas
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> d_log_rd <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |Buffer Hit %|Soft Parse %|Execute to Parse %|Parse CPU to Elap %|In-memory Sort %|% Non-Parse CPU|
+----------+-------+---------------+-----------------------+-----------------------+------------+------------+------------------+-------------------+----------------+---------------+
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|         100|       99.65|             28.29|                   |             100|               |
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|         100|       99.67|             27.47|                   |             100|               |
+000000000|   1585|              1|2026-01-22 22:00:53.187|2026-01-22 22:10:53.517|         100|       99.59|             31.48|                   |             100|               |
+</code></pre><h4 id="指標分析說明-1">指標分析說明</h4>
+<p>不要只看數值高低，要看它們的<strong>穩定性</strong></p>
+<p>| <strong>Buffer Hit %</strong> | 通常 &gt; 95% | 若突然下降，檢查是否有新的大表全表掃描（Full Table Scan）。 |
+| <strong>Soft Parse %</strong> | 應接近 100% | 若下降，代表硬解析（Hard Parse）過多，請檢查 SQL 是否未使用 <strong>Bind Variables</strong>。 |
+| <strong>Execute to Parse %</strong> | 越高越好 | 數值低代表 SQL 被解析後只執行了幾次就關閉了，這會浪費大量的 CPU。這通常與應用程式的游標（Cursor）處理邏輯有關。 |
+| <strong>In-memory Sort %</strong> | 應接近 100% | 若下降，代表 <code>PGA_AGGREGATE_TARGET</code> 可能不足，導致排序溢出到磁碟（Temp Tablespace）。 |
+| <strong>% Non-Parse CPU</strong> | 應接近 100% | 若此值過低（例如 &lt; 80%），說明資料庫花了太多 CPU 在「解析 SQL」而不是「執行 SQL」。 |</p>
+<h3 id="memory-statistics-趨勢分析">Memory Statistics 趨勢分析</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_osstat <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得主機實體記憶體總量 (Host Mem)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(stat_name, <span style="color:#e6db74">&#39;PHYSICAL_MEMORY_BYTES&#39;</span>, value)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> host_mem_mb
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_osstat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;PHYSICAL_MEMORY_BYTES&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_sgastat <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得該快照點 SGA 的總和 (SGA Use)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">-- 注意：SGA 在 AWR 中是分組件記錄的，需要加總
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(BYTES) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> sga_use_mb
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sgastat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_pgastat <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得該快照點 PGA 的總分配量 (PGA Use)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(DECODE(name, <span style="color:#e6db74">&#39;total PGA allocated&#39;</span>, value)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> pga_use_mb
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_pgastat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;total PGA allocated&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DB.DBID,
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    s.instance_number,
+</span></span><span style="display:flex;"><span>    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Memory Statistics 指標
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(os.host_mem_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Host Mem (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(sga.sga_use_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;SGA use (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(pga.pga_use_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;PGA use (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 衍生計算：總資料庫記憶體佔主機比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND((sga.sga_use_mb <span style="color:#f92672">+</span> pga.pga_use_mb) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(os.host_mem_mb, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;DB Mem/Host %&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_osstat os <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> os.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_sgastat sga <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sga.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_pgastat pga <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> pga.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |Host Mem (MB)|SGA use (MB)|PGA use (MB)|DB Mem/Host %|
+----------+-------+---------------+-----------------------+-----------------------+-------------+------------+------------+-------------+
+000000000|   1582|              1|2026-01-22 21:30:52.250|2026-01-22 21:40:52.537|      7935.07|     2245.29|      382.34|        33.11|
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|      7935.07|     2245.31|       377.9|        33.06|
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|      7935.07|     2245.21|      382.81|        33.12|
+</code></pre><h4 id="指標分析說明---記憶體指標的觀察重點">指標分析說明 - 記憶體指標的觀察重點</h4>
+<p>這些數據在容量規劃與穩定性分析中至關重要：</p>
+<ol>
+<li><strong>Host Mem (MB)</strong>:</li>
+</ol>
+<ul>
+<li>這是您作業系統偵測到的總實體記憶體。</li>
+<li><strong>觀察重點</strong>：此值通常是固定的。如果您的趨勢圖中這個值變小了，可能代表主機發生了硬體故障或是虛擬機動態調整了記憶體（Hot-unplug）。</li>
+</ul>
+<ol start="2">
+<li><strong>SGA use (MB)</strong>:</li>
+</ol>
+<ul>
+<li>包含 Buffer Cache, Shared Pool, Large Pool 等。</li>
+<li><strong>觀察重點</strong>：如果您啟用了 <strong>AMM (Automatic Memory Management)</strong> 或 <strong>ASMM (Automatic Shared Memory Management)</strong>，您會看到 SGA 各組件之間的大小變動。若 SGA 總量持續接近 <code>sga_max_size</code>，代表資料庫已充分利用預配記憶體。</li>
+</ul>
+<ol start="3">
+<li><strong>PGA use (MB)</strong>:</li>
+</ol>
+<ul>
+<li>這是資料庫分配給所有 Session 進行排序、Hash Join 等運算所需的記憶體總和。</li>
+<li><strong>觀察重點</strong>：這是最容易波動的指標。如果 PGA 趨勢出現「尖峰（Spike）」，通常代表該時段有大型的 Batch Job（如大量的 Parallel Query 或大型排序）在運行。如果 PGA 持續攀升而不下降，則要警惕是否存在 <strong>Memory Leak</strong>（雖然在 Oracle 中較少見，但某些 OCI 驅動或 Bug 可能導致此現象）。</li>
+</ul>
+<h3 id="cache-sizes-趨勢分析">Cache Sizes 趨勢分析</h3>
+<p>啟用了 ASMM (Automatic Shared Memory Management)，Buffer Cache 與 Shared Pool 的大小會隨負載動態調整，觀察這部分的趨勢能幫助判斷：「資料庫是否在特定的時段因為記憶體抖動（Memory Resizing）而導致效能波動？」</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_sga_cache <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 從 SGASTAT 彙總各關鍵組件的大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- Buffer Cache 通常紀錄為 &#39;buffer_cache&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(DECODE(name, <span style="color:#e6db74">&#39;buffer_cache&#39;</span>, BYTES, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> buffer_cache_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- Shared Pool 需要加總 pool 欄位為 &#39;shared pool&#39; 的所有項目
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> pool <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;shared pool&#39;</span> <span style="color:#66d9ef">THEN</span> BYTES <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> shared_pool_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- In-Memory Area (若未啟用則為 0)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> pool <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;inmemory pool&#39;</span> <span style="color:#66d9ef">THEN</span> BYTES <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> inmemory_mb,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- Log Buffer 是固定大小的項
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">MAX</span>(DECODE(name, <span style="color:#e6db74">&#39;log_buffer&#39;</span>, BYTES, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#66d9ef">as</span> log_buffer_mb
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sgastat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_params <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 獲取標準塊大小 (db_block_size)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id,
+</span></span><span style="display:flex;"><span>        value <span style="color:#66d9ef">as</span> std_block_size
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_parameter
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> parameter_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;db_block_size&#39;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DB.DBID,
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    s.instance_number,
+</span></span><span style="display:flex;"><span>    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Cache Sizes 指標
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#66d9ef">c</span>.buffer_cache_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Buffer Cache (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">c</span>.shared_pool_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Shared Pool (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">c</span>.inmemory_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;In-Memory Area (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">c</span>.log_buffer_mb, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Log Buffer (MB)&#34;</span>,
+</span></span><span style="display:flex;"><span>    p.std_block_size <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Std Block Size&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_sga_cache <span style="color:#66d9ef">c</span> <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_params p <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> p.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |Buffer Cache (MB)|Shared Pool (MB)|In-Memory Area (MB)|Log Buffer (MB)|Std Block Size|
+----------+-------+---------------+-----------------------+-----------------------+-----------------+----------------+-------------------+---------------+--------------+
+000000000|   1582|              1|2026-01-22 21:30:52.250|2026-01-22 21:40:52.537|             1728|          357.29|                  0|           7.51|8192          |
+000000000|   1583|              1|2026-01-22 21:40:52.537|2026-01-22 21:50:52.851|             1728|          357.31|                  0|           7.51|8192          |
+000000000|   1584|              1|2026-01-22 21:50:52.851|2026-01-22 22:00:53.187|             1728|          357.21|                  0|           7.51|8192          |
+</code></pre><h4 id="指標分析說明---快取大小背後的調校重點">指標分析說明 - 快取大小背後的調校重點</h4>
+<p>當您觀察這些數據的趨勢時，應特別留意以下現象：</p>
+<ol>
+<li><strong>Buffer Cache 與 Shared Pool 的「拉鋸戰」</strong>:</li>
+</ol>
+<ul>
+<li>如果您發現一個增加時，另一個就減少，這代表 <strong>ASMM (Automatic Shared Memory Management)</strong> 正在運作。</li>
+<li><strong>診斷心法</strong>：如果這種切換頻率過高（例如每小時都在變動），可能會觸發 <code>library cache load lock</code> 等等待事件，甚至導致大量的 SQL Hard Parse（因為 Shared Pool 被縮小導致快取失效）。</li>
+</ul>
+<ol start="2">
+<li><strong>Log Buffer (MB)</strong>:</li>
+</ol>
+<ul>
+<li>Log Buffer 通常在啟動後就是固定的。</li>
+<li><strong>診斷心法</strong>：如果 <code>log_buffer</code> 在 AWR 顯示過小（通常現代系統建議在 32MB~128MB 以上），且您在負載期間看到大量的 <code>log buffer space</code> 等待，就需要考慮手動加大。</li>
+</ul>
+<ol start="3">
+<li><strong>In-Memory Area</strong>:</li>
+</ol>
+<ul>
+<li>如果您的資料庫使用了 <strong>In-Memory Column Store</strong>，此處會顯示分配的大小。</li>
+<li><strong>觀察重點</strong>：確保此數值維持穩定。若發現 IM 列存空間不足，Oracle 會自動將資料回退到 Buffer Cache 讀取，這會讓查詢速度大幅下降。</li>
+</ul>
+<ol start="4">
+<li><strong>Std Block Size</strong>:</li>
+</ol>
+<ul>
+<li>這是一個參考值（通常是 8192）。雖然它在單一實例中不會變動，但在計算 <strong>Load Profile</strong>（如 Physical Reads 的 Blocks 轉成 Bytes）時，它是不可或缺的基數。</li>
+</ul>
+<h3 id="shared-pool-statistics-趨勢分析">Shared Pool Statistics 趨勢分析</h3>
+<p>在 AWR 報告中，<strong>Shared Pool Statistics</strong> 區塊是診斷 <strong>「硬解析 (Hard Parse) 壓力」</strong> 與 <strong>「SQL 重用率」</strong> 的關鍵。</p>
+<p>這些指標能幫助識别系統是否存在「過多的一次性 SQL (One-time SQL)」，這類 SQL 會迅速消耗 Shared Pool 空間，導致正常的 SQL 被擠出 (Age out)，進而引發 <code>Library Cache</code> 競爭。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_shared_pool <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. 計算 Shared Pool 使用率 (總量 vs 空閒)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(bytes) <span style="color:#66d9ef">as</span> total_sp_bytes,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;free memory&#39;</span> <span style="color:#66d9ef">THEN</span> bytes <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> free_sp_bytes
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sgastat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> pool <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;shared pool&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_sql_reuse <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. 計算 SQL 重用性 (基於 AWR 捕獲到的 SQL)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">-- 注意：AWR 僅記錄 Top SQL，但其比例趨勢仍具備高度參考價值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>        snap_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">COUNT</span>(sql_id) <span style="color:#66d9ef">as</span> total_sql_count,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> executions_total <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> sql_id <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> reused_sql_count,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(sharable_mem) <span style="color:#66d9ef">as</span> total_sql_mem_bytes,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> executions_total <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> sharable_mem <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> reused_sql_mem_bytes
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sqlstat
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    DB.DBID,
+</span></span><span style="display:flex;"><span>    s.snap_id,
+</span></span><span style="display:flex;"><span>    s.instance_number,
+</span></span><span style="display:flex;"><span>    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>    s.end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Shared Pool Statistics 指標
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">-- Memory Usage %: (Total - Free) / Total
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> (sp.total_sp_bytes <span style="color:#f92672">-</span> sp.free_sp_bytes) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(sp.total_sp_bytes, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;SP Memory Usage %&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- % SQL with executions &gt; 1: (重用 SQL 數 / 總 SQL 數)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> sr.reused_sql_count <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(sr.total_sql_count, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% SQL w/exec&gt;1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- % Memory for SQL w/exec &gt; 1: (重用 SQL 佔用的記憶體 / 總 SQL 記憶體)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> sr.reused_sql_mem_bytes <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(sr.total_sql_mem_bytes, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Mem for SQL w/exec&gt;1&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(sr.total_sql_mem_bytes <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;Total_SQL_Mem_MB&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(sr.avg_sql_mem_bytes <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;avg_SQL_Mem_MB&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_shared_pool sp <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sp.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> raw_sql_reuse sr <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> sr.snap_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |SP Memory Usage %|% SQL w/exec&gt;1|% Mem for SQL w/exec&gt;1|Total_SQL_Mem_MB|avg_SQL_Mem_MB|
+----------+-------+---------------+-----------------------+-----------------------+-----------------+--------------+----------------------+----------------+--------------+
+1979277899|   1590|              1|2026-01-22 22:50:54.714|2026-01-22 23:00:55.037|            63.48|           100|                   100|            3.18|          0.05|
+1979277899|   1591|              1|2026-01-22 23:00:55.037|2026-01-22 23:10:55.378|            63.45|           100|                   100|            3.75|          0.06|
+1979277899|   1592|              1|2026-01-22 23:10:55.378|2026-01-22 23:20:55.697|            63.47|         98.41|                 99.21|            3.33|          0.05|
+1979277899|   1593|              1|2026-01-22 23:20:55.697|2026-01-22 23:30:55.994|            63.48|         98.44|                 99.27|            3.59|          0.06|
+1979277899|   1594|              1|2026-01-22 23:30:55.994|2026-01-22 23:40:56.287|            63.46|           100|                   100|            3.03|          0.05|
+1979277899|   1595|              1|2026-01-22 23:40:56.287|2026-01-22 23:50:56.589|            63.48|           100|                   100|            3.24|          0.05|
+</code></pre><h4 id="指標分析說明---如何根據這些數據進行調優">指標分析說明 - 如何根據這些數據進行調優？</h4>
+<p>當這三個指標出現異常時，通常代表著不同的效能危機：</p>
+<h5 id="1--sql-with-executions--1-sql-重用率">1. % SQL with executions &gt; 1 (SQL 重用率)</h5>
+<ul>
+<li><strong>理想狀態</strong>：應保持在 <strong>80% - 95%</strong> 以上。</li>
+<li><strong>警訊</strong>：如果這個值很低（例如 &lt; 50%），代表系統中充斥著大量<strong>未綁定變數 (Literal SQL)</strong>。</li>
+<li><strong>影響</strong>：這會導致極高的 CPU 消耗在硬解析上，並可能引發 <code>latch: shared pool</code> 或 <code>library cache pin</code> 等待。</li>
+</ul>
+<h5 id="2--memory-for-sql-wexec--1-重用-sql-的記憶體佔比">2. % Memory for SQL w/exec &gt; 1 (重用 SQL 的記憶體佔比)</h5>
+<ul>
+<li><strong>理想狀態</strong>：此值應盡可能<strong>接近 100%</strong>。</li>
+<li><strong>診斷心法</strong>：如果此值顯著低於 90%，代表 Shared Pool 的大部分記憶體都被那些「只執行一次就再也不用」的 SQL 給佔據了。這就是所謂的 <strong>Shared Pool 碎片化</strong>。</li>
+<li><strong>對策</strong>：考慮將初始化參數 <code>CURSOR_SHARING</code> 暫時改為 <code>FORCE</code> (需謹慎評估執行計畫風險)，或者推動開發團隊修改程式碼使用綁定變數。</li>
+</ul>
+<h5 id="3-memory-usage--shared-pool-使用率">3. Memory Usage % (Shared Pool 使用率)</h5>
+<ul>
+<li><strong>觀察重點</strong>：在生產環境中，這個值通常會穩定在 <strong>90% - 95%</strong>。</li>
+<li><strong>關鍵細節</strong>：如果使用率一直維持在 99% 以上且 <code>Free Memory</code> 極低，加上重用率低，這就是觸發 <code>ORA-04031</code> 錯誤的前兆。</li>
+</ul>
+<h5 id="total_sql_mem_mb-avg_sql_mem_mb">Total_SQL_Mem_MB, avg_SQL_Mem_MB</h5>
+<ol>
+<li><strong>階梯式上升 (The Staircase)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：記憶體佔用在某個時間點上升後就不再下降，呈現階梯狀。</li>
+<li><strong>含義</strong>：這代表有新的 SQL 進入了 Shared Pool 但沒有被釋放（可能是因為 <code>Version Count</code> 攀升或是不斷有新的 Literal SQL 產生）。</li>
+</ul>
+<ol start="2">
+<li><strong>與「SQL 重用率」的反向關聯</strong>:</li>
+</ol>
+<ul>
+<li><strong>聯動分析</strong>：請將這條線與你之前的 <strong><code>% SQL with executions &gt; 1</code></strong> 趨勢圖放在一起看。</li>
+<li><strong>大師心法</strong>：如果「總記憶體消耗」上升，而「重用率」下降，這 100% 是因為應用程式正在大量使用未綁定變數的 SQL，正在污染 Shared Pool。</li>
+</ul>
+<ol start="3">
+<li><strong>峰值 (Max) 與平均值 (Avg) 的間距</strong>:</li>
+</ol>
+<ul>
+<li><strong>含義</strong>：如果 <code>Max</code> 遠大於 <code>Avg</code>，說明該小時內有「瞬時巨獸」出現（例如一次性的大型 IN 清單查詢），這會導致 Shared Pool 瞬間碎片化。</li>
+</ul>
+<h3 id="-db-time-by-wait-class-趨勢分析">% DB Time by Wait Class 趨勢分析</h3>
+<p>將 <strong>DB Time</strong> 拆解為各個 <strong>Wait Class (等待類別)</strong> 的佔比，是判斷資料庫「瓶頸性質」的最快路徑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> snap_range <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> snap_id, dbid, instance_number, begin_interval_time, end_interval_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_snapshot
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> instance_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> end_interval_time <span style="color:#f92672">&gt;=</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">AND</span> begin_interval_time <span style="color:#f92672">&lt;=</span> SYSDATE
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>DB <span style="color:#66d9ef">AS</span> (<span style="color:#66d9ef">SELECT</span> DBID <span style="color:#66d9ef">FROM</span> V$DATABASE),
+</span></span><span style="display:flex;"><span>raw_db_time <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得總 DB Time 的累計值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">MAX</span>(value) <span style="color:#66d9ef">as</span> db_time_val
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_sys_time_model
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> stat_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DB time&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>raw_wait_class <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 取得各 Wait Class 的總等待時間累計值 (單位：微秒)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">-- 過濾掉 Idle 等待，因為它不計入 DB Time
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> snap_id,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;User I/O&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> user_io_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;System I/O&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> system_io_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;Network&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> network_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;Commit&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> commit_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;Concurrency&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> concurrency_time,
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">SUM</span>(DECODE(wait_class, <span style="color:#e6db74">&#39;Other&#39;</span>, time_waited_micro, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">as</span> other_time
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> dba_hist_system_event
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> wait_class <span style="color:#f92672">&lt;&gt;</span> <span style="color:#e6db74">&#39;Idle&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>deltas <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 計算增量 (Delta)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>	    DB.DBID,
+</span></span><span style="display:flex;"><span>	    s.snap_id,
+</span></span><span style="display:flex;"><span>	    s.instance_number,
+</span></span><span style="display:flex;"><span>	    s.begin_interval_time,
+</span></span><span style="display:flex;"><span>	    s.end_interval_time,
+</span></span><span style="display:flex;"><span>        (t.db_time_val <span style="color:#f92672">-</span> LAG(t.db_time_val) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_db_time,
+</span></span><span style="display:flex;"><span>        (wc.user_io_time <span style="color:#f92672">-</span> LAG(wc.user_io_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_user_io,
+</span></span><span style="display:flex;"><span>        (wc.system_io_time <span style="color:#f92672">-</span> LAG(wc.system_io_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_sys_io,
+</span></span><span style="display:flex;"><span>        (wc.network_time <span style="color:#f92672">-</span> LAG(wc.network_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_net,
+</span></span><span style="display:flex;"><span>        (wc.commit_time <span style="color:#f92672">-</span> LAG(wc.commit_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_cmt,
+</span></span><span style="display:flex;"><span>        (wc.concurrency_time <span style="color:#f92672">-</span> LAG(wc.concurrency_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_concur,
+</span></span><span style="display:flex;"><span>        (wc.other_time <span style="color:#f92672">-</span> LAG(wc.other_time) OVER (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> s.snap_id)) <span style="color:#66d9ef">as</span> d_other
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> snap_range s
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> DB <span style="color:#66d9ef">on</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> raw_db_time t <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> t.snap_id
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> raw_wait_class wc <span style="color:#66d9ef">ON</span> s.snap_id <span style="color:#f92672">=</span> wc.snap_id
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>	DBID,snap_id,instance_number,begin_interval_time,end_interval_time,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 計算百分比
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_user_io <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% User I/O&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_sys_io <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% System I/O&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_net <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Network&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_cmt <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Commit&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_concur <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Concurrency&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> d_other <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% Other&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 補充：DB CPU 佔比 (DB Time = CPU + Wait Time)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ROUND(<span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> (d_db_time <span style="color:#f92672">-</span> (d_user_io <span style="color:#f92672">+</span> d_sys_io <span style="color:#f92672">+</span> d_net <span style="color:#f92672">+</span> d_cmt <span style="color:#f92672">+</span> d_concur <span style="color:#f92672">+</span> d_other)) <span style="color:#f92672">/</span> <span style="color:#66d9ef">NULLIF</span>(d_db_time, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> <span style="color:#e6db74">&#34;% DB CPU (Est.)&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> deltas
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> d_db_time <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> snap_id
+</span></span></code></pre></div><p>執行結果範例</p>
+<pre tabindex="0"><code>DBID      |SNAP_ID|INSTANCE_NUMBER|BEGIN_INTERVAL_TIME    |END_INTERVAL_TIME      |% User I/O|% System I/O|% Network|% Commit|% Concurrency|% Other|% DB CPU (Est.)|
+----------+-------+---------------+-----------------------+-----------------------+----------+------------+---------+--------+-------------+-------+---------------+
+000000000|   1611|              1|2026-01-23 02:20:01.195|2026-01-23 02:30:01.515|      8.92|    162661.1|      0.2|  150.37|      3439.44|8234.61|     -174394.63|
+000000000|   1651|              1|2026-01-23 09:00:13.253|2026-01-23 09:10:13.591|       2.3|      386.14|     0.01|    1.28|         0.01|  20.49|        -310.23|
+000000000|   1653|              1|2026-01-23 09:20:13.886|2026-01-23 09:30:14.200|      24.4|      126.35|        0|    0.11|         0.01|   6.55|         -57.42|
+</code></pre><h4 id="指標分析說明-2">指標分析說明</h4>
+<ol>
+<li><strong>% User I/O 高 (例如 &gt; 40%)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：資料庫花大量時間在等待從磁碟讀取資料。</li>
+<li><strong>原因</strong>：通常是 SQL 缺少索引導致全表掃描（Full Table Scan），或是 <code>Buffer Cache</code> 太小。</li>
+</ul>
+<ol start="2">
+<li><strong>% Commit 高 (通常是 <code>log file sync</code>)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：每個事務（Transaction）提交時太慢。</li>
+<li><strong>原因</strong>：磁碟寫入 Redo Log 的速度跟不上，或者是應用程式採取了過於頻繁的提交（例如在迴圈內 Commit）。</li>
+</ul>
+<ol start="3">
+<li><strong>% Concurrency 高</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：Session 之間在互相排隊。</li>
+<li><strong>原因</strong>：常見於鎖競爭（TX - row lock contention）或熱點塊（Latch / Buffer Busy Waits）。這通常需要優化應用程式邏輯。</li>
+</ul>
+<ol start="4">
+<li><strong>% System I/O 高</strong>:</li>
+</ol>
+<ul>
+<li><strong>原因</strong>：通常與後端進程（如 DBWR 或 LGWR）的寫入壓力有關，或是正在執行備份、資料庫檢查點（Checkpoint）。</li>
+</ul>
+<ol start="5">
+<li><strong>% DB CPU 高 (補充指標)</strong>:</li>
+</ol>
+<ul>
+<li><strong>現象</strong>：這是好事，說明資料庫主要在「做事」而非「等待」。</li>
+<li><strong>例外</strong>：如果 CPU 100% 且系統很慢，則代表有 SQL 正在進行大量的邏輯讀（Logical Reads）或運算複雜度過高。</li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr/">
+                                <h3 class="">Oracle AWR 常用筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-02</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/test-redolog-file/">
+                                <h3 class="">Redo test</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-12-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-clusterware-1/">
+                                <h3 class="">Oracle Clusterware 初學</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-ocfs2-1/">
+                                <h3 class="">Oracle OCFS2 初學</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-07-03</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240313-1/">
+                                <h3 class="">Oracle PL/SQL 學習筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/pl/sql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">PL/SQL</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
