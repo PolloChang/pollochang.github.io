@@ -6,7 +6,17 @@
     <description>Recent content in Oracle-databases on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 15 Jan 2026 21:23:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/oracle-database/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Jan 2026 21:23:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/oracle-database/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>oracle AWR TOP SQL</title>
+      <link>http://pollochang.work/oracle-database/oracle-awr-top-sql/</link>
+      <pubDate>Fri, 16 Jan 2026 21:23:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/oracle-awr-top-sql/</guid>
+      <description>以下我針對 AWR 中的 TOP SQL 進行研究
+SQL ordered by Elapsed Time SQL ordered by CPU Time SQL ordered by User I/O Wait Time SQL ordered by Gets SQL ordered by Reads SQL ordered by Physical Reads (UnOptimized) SQL ordered by Executions SQL ordered by Parse Calls SQL ordered by Sharable Memory SQL ordered by Version Count 尋找方式 1. SQL ordered by TOP Event WITH sql_metrics AS ( -- 1. 從歷史視圖中加總各項增量指標 SELECT s.</description>
+    </item>
+    
     <item>
       <title>oracle AWR PERF TREND HISTORY</title>
       <link>http://pollochang.work/oracle-database/oracle-awr-perf-trend-history/</link>
@@ -75,15 +85,6 @@ Load Profile - DB Time(s) Load Profile - DB CPU(s) Load Profile - Redo size (byt
       <description>Oracle Cluster File System 2 (OCFS2) 文件系统
 指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
 [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://pollochang.work/oracle-database/oracle-awr-top-sql/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://pollochang.work/oracle-database/oracle-awr-top-sql/</guid>
-      <description>SQL ordered by Elapsed Time SQL ordered by CPU Time SQL ordered by User I/O Wait Time SQL ordered by Gets SQL ordered by Reads SQL ordered by Physical Reads (UnOptimized) SQL ordered by Executions SQL ordered by Parse Calls SQL ordered by Sharable Memory SQL ordered by Version Count 尋找方式 1. SQL ordered by TOP Event WITH sql_metrics AS ( -- 1. 從歷史視圖中加總各項增量指標 SELECT s.sql_id, SUM(s.elapsed_time_delta) / 1000000 as total_elapsed_sec, SUM(s.</description>
     </item>
     
   </channel>
