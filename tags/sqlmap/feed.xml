@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>sqlmap on PolloChang 工作筆記</title>
+    <title>Sqlmap on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/sqlmap/</link>
-    <description>Recent content in sqlmap on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Sqlmap on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 18 Aug 2024 00:02:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/sqlmap/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Aug 2024 00:02:07 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/sqlmap/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sick Grails - SQL Injection</title>
       <link>http://pollochang.work/worknot/sick-grails-sql-inject/</link>
       <pubDate>Sun, 18 Aug 2024 00:02:07 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/sick-grails-sql-inject/</guid>
-      <description>聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。
-漏洞名稱 SQL Injection
-目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係
-環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &amp;#39;範例表單&amp;#39;; COMMENT ON COLUMN EX100.</description>
+      <description>聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。&#xA;漏洞名稱 SQL Injection&#xA;目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係&#xA;環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &amp;#39;範例表單&amp;#39;; COMMENT ON COLUMN EX100.</description>
     </item>
-    
   </channel>
 </rss>

@@ -214,7 +214,7 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * questions.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * The constants of this enumerated class provide a simple classification of the
@@ -263,52 +263,52 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @jls 9.6.4.1 @Target
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @jls 4.1 The Kinds of Types and Values
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> ElementType <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> ElementType {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Class, interface (including annotation interface), enum, or record
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * declaration */</span>
-</span></span><span style="display:flex;"><span>    TYPE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    TYPE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Field declaration (includes enum constants) */</span>
-</span></span><span style="display:flex;"><span>    FIELD<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    FIELD,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Method declaration */</span>
-</span></span><span style="display:flex;"><span>    METHOD<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    METHOD,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Formal parameter declaration */</span>
-</span></span><span style="display:flex;"><span>    PARAMETER<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    PARAMETER,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Constructor declaration */</span>
-</span></span><span style="display:flex;"><span>    CONSTRUCTOR<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    CONSTRUCTOR,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Local variable declaration */</span>
-</span></span><span style="display:flex;"><span>    LOCAL_VARIABLE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    LOCAL_VARIABLE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Annotation interface declaration (Formerly known as an annotation type.) */</span>
-</span></span><span style="display:flex;"><span>    ANNOTATION_TYPE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    ANNOTATION_TYPE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** Package declaration */</span>
-</span></span><span style="display:flex;"><span>    PACKAGE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    PACKAGE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Type parameter declaration
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 1.8
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    TYPE_PARAMETER<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    TYPE_PARAMETER,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Use of a type
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 1.8
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    TYPE_USE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    TYPE_USE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Module declaration.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 9
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    MODULE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    MODULE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Record component
@@ -318,8 +318,8 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @since 16
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    RECORD_COMPONENT<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    RECORD_COMPONENT;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="annotation-生命週期-retention">annotation 生命週期: @Retention</h3>
 <h4 id="類別-1">類別</h4>
 <ul>
@@ -353,7 +353,7 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * questions.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> java.lang.annotation;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Annotation retention policy.  The constants of this enumerated class
@@ -364,18 +364,18 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @author  Joshua Bloch
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @since 1.5
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> RetentionPolicy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> RetentionPolicy {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be discarded by the compiler.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    SOURCE<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    SOURCE,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be recorded in the class file by the compiler
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * but need not be retained by the VM at run time.  This is the default
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * behavior.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    CLASS<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    CLASS,
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Annotations are to be recorded in the class file by the compiler and
@@ -384,7 +384,7 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @see java.lang.reflect.AnnotatedElement
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
 </span></span><span style="display:flex;"><span>    RUNTIME
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="spring-aop">Spring AOP</h2>
 <ul>
 <li>環境: grails 5.3.5</li>
@@ -484,15 +484,15 @@ layui.use('element', function(){
 <li>work.pollochang.annotation.Test1.java</li>
 </ul>
 <p>這邊先建立一個 annotation</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> work.pollochang.annotation<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> work.pollochang.annotation;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.annotation.*<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.annotation.*;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">({</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">,</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span>({ElementType.<span style="color:#a6e22e">METHOD</span>, ElementType.<span style="color:#a6e22e">TYPE</span>})
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span>(RetentionPolicy.<span style="color:#a6e22e">RUNTIME</span>)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Documented</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Test1 <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Test1 {
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>work.pollochang.example.ex2.Example2Service.groovy</li>
 </ul>

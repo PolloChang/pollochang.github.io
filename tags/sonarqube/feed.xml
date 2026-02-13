@@ -4,28 +4,23 @@
     <title>SonarQube on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/sonarqube/</link>
     <description>Recent content in SonarQube on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Fri, 04 Oct 2024 23:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/sonarqube/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Oct 2024 23:44:47 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/sonarqube/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SonarQube-API</title>
       <link>http://pollochang.work/worknot/sonarqube-api/</link>
       <pubDate>Fri, 04 Oct 2024 23:44:47 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/sonarqube-api/</guid>
-      <description>基本 URL: http:///api 如何驗證 創建 API Token 登入到 SonarQube 的 Web 界面。 點擊右上角的你的使用者名稱，然後選擇 “我的帳戶 (My Account)”。 在 “安全 (Security)” 標籤中，你會看到一個按鈕 “生成令牌 (Generate Tokens)”。 給令牌命名並點擊生成。生成後記下這個令牌，因為你無法再次查看它。 使用帳號驗證 curl -k -u &amp;lt;your-token&amp;gt;: &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用 HTTP Authorization Header 以下範例將使用 Authorization Header 方式驗證，方變程式化使用
-curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用API查詢資料 列出所有的 project-key 路徑: /api/projects/search curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 列出專案 服務 目前的弱點數量 curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;https://&amp;lt;your-sonarqube-instance&amp;gt;/api/issues/search?componentKeys=&amp;lt;project-key&amp;gt;&amp;amp;types=VULNERABILITY&amp;amp;resolved=false&amp;#39; 列出歷次掃描的點數量 路徑: /api/measures/search_history curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/measures/search_history?</description>
+      <description>基本 URL: http:///api 如何驗證 創建 API Token 登入到 SonarQube 的 Web 界面。 點擊右上角的你的使用者名稱，然後選擇 “我的帳戶 (My Account)”。 在 “安全 (Security)” 標籤中，你會看到一個按鈕 “生成令牌 (Generate Tokens)”。 給令牌命名並點擊生成。生成後記下這個令牌，因為你無法再次查看它。 使用帳號驗證 curl -k -u &amp;lt;your-token&amp;gt;: &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用 HTTP Authorization Header 以下範例將使用 Authorization Header 方式驗證，方變程式化使用&#xA;curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 使用API查詢資料 列出所有的 project-key 路徑: /api/projects/search curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/projects/search&amp;#39; 列出專案 服務 目前的弱點數量 curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;https://&amp;lt;your-sonarqube-instance&amp;gt;/api/issues/search?componentKeys=&amp;lt;project-key&amp;gt;&amp;amp;types=VULNERABILITY&amp;amp;resolved=false&amp;#39; 列出歷次掃描的點數量 路徑: /api/measures/search_history curl -k -H &amp;#34;Authorization: Bearer &amp;lt;your-token&amp;gt;&amp;#34; &amp;#39;&amp;lt;your-sonarqube-instance/measures/search_history?</description>
     </item>
-    
     <item>
       <title>透過 Jenkins Pipeline 執行 SonarQube 源碼掃描</title>
       <link>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</link>
       <pubDate>Sat, 10 Aug 2024 11:44:47 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</guid>
-      <description>環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&amp;gt; Security -&amp;gt; Generate Tokens
-jenkins 設定 環境 Manage Jenkins &amp;gt; Manage Credentials manage &amp;gt; system &amp;gt; SonarQube servers manage &amp;gt; system Tools &amp;gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&amp;#34;${JENKINS_HOME}&amp;#34; env.JAVA_HOME=&amp;#34;${tool &amp;#39;openjdk-17&amp;#39;}&amp;#34; env.GRAILS_HOME=&amp;#34;/usr/local/lib/grails/grails-5.3.3&amp;#34; env.PATH=&amp;#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&amp;#34; stage (&amp;#39;Checkout&amp;#39;) { git branch: &amp;#39;master&amp;#39;, credentialsId: &amp;#39;credentialsId&amp;#39;, url: &amp;#34;&amp;lt;git url&amp;gt;&amp;#34; } stage (&amp;#39;Build&amp;#39;) { sh &amp;#34;grails test war ${env.</description>
+      <description>環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&amp;gt; Security -&amp;gt; Generate Tokens&#xA;jenkins 設定 環境 Manage Jenkins &amp;gt; Manage Credentials manage &amp;gt; system &amp;gt; SonarQube servers manage &amp;gt; system Tools &amp;gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&amp;#34;${JENKINS_HOME}&amp;#34; env.JAVA_HOME=&amp;#34;${tool &amp;#39;openjdk-17&amp;#39;}&amp;#34; env.GRAILS_HOME=&amp;#34;/usr/local/lib/grails/grails-5.3.3&amp;#34; env.PATH=&amp;#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&amp;#34; stage (&amp;#39;Checkout&amp;#39;) { git branch: &amp;#39;master&amp;#39;, credentialsId: &amp;#39;credentialsId&amp;#39;, url: &amp;#34;&amp;lt;git url&amp;gt;&amp;#34; } stage (&amp;#39;Build&amp;#39;) { sh &amp;#34;grails test war ${env.</description>
     </item>
-    
   </channel>
 </rss>

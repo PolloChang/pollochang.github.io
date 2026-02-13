@@ -4,66 +4,51 @@
     <title>KVM on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/kvm/</link>
     <description>Recent content in KVM on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/kvm/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/kvm/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy KVM on Oracle Linux 8</title>
       <link>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</link>
       <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
-      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
-Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
+      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10&#xA;Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
     </item>
-    
     <item>
       <title>KVM 網路</title>
       <link>http://pollochang.work/worknot/kvm-network/</link>
       <pubDate>Sat, 14 Jun 2025 11:44:47 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/kvm-network/</guid>
       <description>KVM 網路介面 virtio: 半虛擬化網路介面接近原生的效能。 spapr-vlan: QEMU 模擬的網路介面類型之一，專為 PowerPC (sPAPR) 架構的 KVM 虛擬機器設計，特別是用於 AIX 等 Power 架構的客戶端作業系統。 </description>
     </item>
-    
     <item>
       <title>Deploy AIX in KVM</title>
       <link>http://pollochang.work/worknot/deploy-aix-in-kvm/</link>
       <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/deploy-aix-in-kvm/</guid>
-      <description>最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機
-執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
-&amp;lt;domain type=&amp;#39;qemu&amp;#39;&amp;gt; &amp;lt;name&amp;gt;aix&amp;lt;/name&amp;gt; &amp;lt;uuid&amp;gt;808a3d10-32f3-433e-a18e-67c25310ddc1&amp;lt;/uuid&amp;gt; &amp;lt;memory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/memory&amp;gt; &amp;lt;currentMemory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/currentMemory&amp;gt; &amp;lt;vcpu placement=&amp;#39;static&amp;#39;&amp;gt;4&amp;lt;/vcpu&amp;gt; &amp;lt;os&amp;gt; &amp;lt;type arch=&amp;#39;ppc64&amp;#39; machine=&amp;#39;pseries-7.</description>
+      <description>最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機&#xA;執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容&#xA;&amp;lt;domain type=&amp;#39;qemu&amp;#39;&amp;gt; &amp;lt;name&amp;gt;aix&amp;lt;/name&amp;gt; &amp;lt;uuid&amp;gt;808a3d10-32f3-433e-a18e-67c25310ddc1&amp;lt;/uuid&amp;gt; &amp;lt;memory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/memory&amp;gt; &amp;lt;currentMemory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/currentMemory&amp;gt; &amp;lt;vcpu placement=&amp;#39;static&amp;#39;&amp;gt;4&amp;lt;/vcpu&amp;gt; &amp;lt;os&amp;gt; &amp;lt;type arch=&amp;#39;ppc64&amp;#39; machine=&amp;#39;pseries-7.</description>
     </item>
-    
     <item>
       <title>KVM 相關 disk</title>
       <link>http://pollochang.work/worknot/kvm-cli-disk/</link>
       <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/kvm-cli-disk/</guid>
       <description>qemu-img convert -f raw -O qcow2 manage manage.qcow2 qcow2 轉 VMDisk qemu-img convert -f qcow2 -O vmdk zimbra9-ubuntu18.04 zimbra9-ubuntu18.04.vmdk 熱擴展磁碟 sudo virsh blockresize &amp;lt;vm_name&amp;gt; &amp;lt;disk_path&amp;gt; &amp;lt;size_in_bytes&amp;gt; qemu-img resize /kvm/win10 +20G qemu-img info /kvm/win10 [sudo] password for jameschang: image: /kvm/win10 file format: qcow2 virtual size: 40 GiB (42949672960 bytes) disk size: 39.8 GiB cluster_size: 65536 Format specific information: compat: 1.1 compression type: zlib lazy refcounts: true refcount bits: 16 corrupt: false extended l2: false 擴展完記得</description>
     </item>
-    
     <item>
       <title>KVM 相關 VM</title>
       <link>http://pollochang.work/worknot/kvm-cli-vm/</link>
       <pubDate>Mon, 11 Nov 2024 22:20:18 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/kvm-cli-vm/</guid>
-      <description>建立虛擬機器 KVM 新增硬碟
-sudo qemu-img create -f qcow2 /home/jameschang/VMS/linux/debian9.qcow2 20G sudo qemu-img create -f qcow2 /kvm/zimbraBuild.qcow2 50G 查詢可用的作業系統 osinfo-query os | grep debian 查詢可以用的網路 sudo virsh net-list # 在 VM 中安裝 Ubuntu Linux 18.04（遠端主機） sudo virt-install --virt-type kvm --name debian9 --ram 4096 --disk /home/jameschang/VMS/linux/debian9.qcow2,format=qcow2 --network network=network1 --graphics vnc,listen=0.0.0.0,password=debian9 --noautoconsole --os-type=linux --os-variant=debian9 --cdrom=/data/softwares/linux/debian-9.13.0-amd64-netinst.iso virsh vncdisplay debian9 virsh iface-bridge wlp1s0 br0 virsh iface-bridge eth0 wlp1s0 sudo qemu-img create -f qcow2 /kvm/zimbra8-ubuntu20.04.qcow2 20G sudo virt-install --virt-type kvm --name zimbraBuild --ram 4096 --disk /kvm/zimbra8-ubuntu20.</description>
+      <description>建立虛擬機器 KVM 新增硬碟&#xA;sudo qemu-img create -f qcow2 /home/jameschang/VMS/linux/debian9.qcow2 20G sudo qemu-img create -f qcow2 /kvm/zimbraBuild.qcow2 50G 查詢可用的作業系統 osinfo-query os | grep debian 查詢可以用的網路 sudo virsh net-list # 在 VM 中安裝 Ubuntu Linux 18.04（遠端主機） sudo virt-install --virt-type kvm --name debian9 --ram 4096 --disk /home/jameschang/VMS/linux/debian9.qcow2,format=qcow2 --network network=network1 --graphics vnc,listen=0.0.0.0,password=debian9 --noautoconsole --os-type=linux --os-variant=debian9 --cdrom=/data/softwares/linux/debian-9.13.0-amd64-netinst.iso virsh vncdisplay debian9 virsh iface-bridge wlp1s0 br0 virsh iface-bridge eth0 wlp1s0 sudo qemu-img create -f qcow2 /kvm/zimbra8-ubuntu20.04.qcow2 20G sudo virt-install --virt-type kvm --name zimbraBuild --ram 4096 --disk /kvm/zimbra8-ubuntu20.</description>
     </item>
-    
     <item>
       <title>KVM 網路</title>
       <link>http://pollochang.work/worknot/kvm-cli-netowrk/</link>
       <pubDate>Mon, 11 Nov 2024 22:19:25 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/kvm-cli-netowrk/</guid>
       <description>KVM 網路 檢視網路 # 列出全部網路設定，包含未啟動的網路 ❯ sudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default active yes yes private inactive no yes public active yes yes Name: 網路介面名稱 State: 目前狀態 active: 啟動 inactive: 未啟動 Autostart: 開機時自動啟動 yes: 開機時自動啟動 no: 開機時不自動啟動 Persistent: 永久保存 編輯網路 virsh net-list # 列出全部網路設定，包含未啟動的網路 virsh net-list --all virsh net-edit $NETWORK_NAME 编辑段落 &amp;lt;mtu size=&amp;#34;9000&amp;#34;/&amp;gt; &amp;lt;dhcp&amp;gt; &amp;lt;range start=&amp;#39;192.168.122.100&amp;#39; end=&amp;#39;192.168.122.254&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:ed:3c:bc&amp;#39; name=&amp;#39;winxp&amp;#39; ip=&amp;#39;192.168.122.2&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:19:1b:70&amp;#39; name=&amp;#39;loki&amp;#39; ip=&amp;#39;192.168.122.3&amp;#39;/&amp;gt; &amp;lt;host mac=&amp;#39;52:54:00:b8:f1:68&amp;#39; name=&amp;#39;gilLab&amp;#39; ip=&amp;#39;192.</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,0 +1,855 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - SQL tunning task common </title>
+    
+    
+    <meta content="Oracle, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 以**「電商物流系統」**為主題。這個場景包含了高頻交易、大量文字描述以及複雜的關聯。
+以下是針對 Oracle 11g 環境設計的實作腳本。
+第一步：設計與建立資料表 (DDL) 我們設計五張表：客戶 (CUSTOMERS)、商品 (PRODUCTS)、訂單主檔 (ORDERS)、訂單明細 (ORDER_ITEMS)、以及物流追蹤備註 (LOGISTICS_DETAIL)。
+-- 1. 客戶表 CREATE TABLE CUSTOMERS ( CUST_ID NUMBER PRIMARY KEY, CUST_NAME VARCHAR2(100), CITY VARCHAR2(20), MEMBER_LEVEL NUMBER(1), -- 1-5 級 REMARK CLOB ); -- 2. 商品表 CREATE TABLE PRODUCTS ( PROD_ID NUMBER PRIMARY KEY, PROD_NAME VARCHAR2(200), CATEGORY VARCHAR2(50), PRICE NUMBER(10,2), STATUS CHAR(1) -- &#39;Y&#39;: 上架, &#39;N&#39;: 下架 ); -- 3. 訂單主檔 CREATE TABLE ORDERS ( ORDER_ID NUMBER PRIMARY KEY, CUST_ID NUMBER, ORDER_DATE DATE, TOTAL_AMOUNT NUMBER(12,2), PAYMENT_METHOD VARCHAR2(20) ); -- 4." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>SQL tunning task common</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>以**「電商物流系統」**為主題。這個場景包含了高頻交易、大量文字描述以及複雜的關聯。</p>
+<p>以下是針對 Oracle 11g 環境設計的實作腳本。</p>
+<hr>
+<h2 id="第一步設計與建立資料表-ddl">第一步：設計與建立資料表 (DDL)</h2>
+<p>我們設計五張表：客戶 (<code>CUSTOMERS</code>)、商品 (<code>PRODUCTS</code>)、訂單主檔 (<code>ORDERS</code>)、訂單明細 (<code>ORDER_ITEMS</code>)、以及物流追蹤備註 (<code>LOGISTICS_DETAIL</code>)。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 1. 客戶表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> CUSTOMERS (
+</span></span><span style="display:flex;"><span>    CUST_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    CUST_NAME VARCHAR2(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    CITY VARCHAR2(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    MEMBER_LEVEL NUMBER(<span style="color:#ae81ff">1</span>), <span style="color:#75715e">-- 1-5 級
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    REMARK <span style="color:#66d9ef">CLOB</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 商品表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> PRODUCTS (
+</span></span><span style="display:flex;"><span>    PROD_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    PROD_NAME VARCHAR2(<span style="color:#ae81ff">200</span>),
+</span></span><span style="display:flex;"><span>    CATEGORY VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    PRICE NUMBER(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    STATUS CHAR(<span style="color:#ae81ff">1</span>) <span style="color:#75715e">-- &#39;Y&#39;: 上架, &#39;N&#39;: 下架
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 訂單主檔
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> ORDERS (
+</span></span><span style="display:flex;"><span>    ORDER_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    CUST_ID NUMBER,
+</span></span><span style="display:flex;"><span>    ORDER_DATE DATE,
+</span></span><span style="display:flex;"><span>    TOTAL_AMOUNT NUMBER(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    PAYMENT_METHOD VARCHAR2(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 4. 訂單明細 (大表)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> ORDER_ITEMS (
+</span></span><span style="display:flex;"><span>    ITEM_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    ORDER_ID NUMBER,
+</span></span><span style="display:flex;"><span>    PROD_ID NUMBER,
+</span></span><span style="display:flex;"><span>    QUANTITY NUMBER(<span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>    UNIT_PRICE NUMBER(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 5. 物流詳細追蹤 (含有大量文字與狀態)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> LOGISTICS_DETAIL (
+</span></span><span style="display:flex;"><span>    LOG_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    ORDER_ID NUMBER,
+</span></span><span style="display:flex;"><span>    TRACKING_NUM VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    UPDATE_TIME <span style="color:#66d9ef">TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    STATION_INFO VARCHAR2(<span style="color:#ae81ff">500</span>),
+</span></span><span style="display:flex;"><span>    FULL_LOG <span style="color:#66d9ef">CLOB</span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><hr>
+<h2 id="第二步產生-10-萬筆測試資料-dml">第二步：產生 10 萬筆測試資料 (DML)</h2>
+<p>我們利用 <code>CONNECT BY</code> 與 <code>dbms_random</code> 快速生成模擬資料。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 插入商品 (10萬筆)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> PRODUCTS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Product_&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">5</span>) <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Electronics&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Books&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Clothing&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Home&#39;</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Food&#39;</span> <span style="color:#66d9ef">END</span>,
+</span></span><span style="display:flex;"><span>    DBMS_RANDOM.VALUE(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5000</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Y&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 插入客戶 (10萬筆)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> CUSTOMERS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;User_&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">4</span>) <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Taipei&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Taichung&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Kaohsiung&#39;</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Tainan&#39;</span> <span style="color:#66d9ef">END</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">5</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Customer preference notes for ID &#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">LEVEL</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 插入訂單主檔 (10萬筆)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> ORDERS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100000</span>)),
+</span></span><span style="display:flex;"><span>    TO_DATE(<span style="color:#e6db74">&#39;2023-01-01&#39;</span>,<span style="color:#e6db74">&#39;YYYY-MM-DD&#39;</span>) <span style="color:#f92672">+</span> DBMS_RANDOM.VALUE(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">365</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0</span>, <span style="color:#75715e">-- 後續更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Credit Card&#39;</span> <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Transfer&#39;</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Cash&#39;</span> <span style="color:#66d9ef">END</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 插入訂單明細 (10萬筆，讓每筆訂單至少對應一個商品)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> ORDER_ITEMS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>, <span style="color:#75715e">-- 這裡簡化為 1:1，你可以自行調整為 1:N
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100000</span>)),
+</span></span><span style="display:flex;"><span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>)),
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 插入物流明細 (10萬筆)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> LOGISTICS_DETAIL
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;TRK&#39;</span> <span style="color:#f92672">||</span> LPAD(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#39;0&#39;</span>),
+</span></span><span style="display:flex;"><span>    SYSTIMESTAMP <span style="color:#f92672">-</span> DBMS_RANDOM.VALUE(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Arrived at station &#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    RPAD(<span style="color:#e6db74">&#39;Detailed log for shipment &#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">1000</span>, <span style="color:#e6db74">&#39;*&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMIT</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 收集統計資訊 (Oracle 調校必備)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> DBMS_STATS.GATHER_SCHEMA_STATS(<span style="color:#66d9ef">USER</span>);
+</span></span></code></pre></div><hr>
+<h2 id="第三步10-組不同難度的-sql-練習">第三步：10 組不同難度的 SQL 練習</h2>
+<p>這裡提供從簡單到「效能殺手級」的 SQL，你可以嘗試查看執行計畫 (Explain Plan) 並建立索引或改寫 SQL 來優化。</p>
+<h3 id="1-簡單精確匹配與排序">1. 簡單：精確匹配與排序</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出所有住在「Taipei」且會員等級為 5 的客戶名稱。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> CUST_NAME <span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">WHERE</span> CITY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Taipei&#39;</span> <span style="color:#66d9ef">AND</span> MEMBER_LEVEL <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><h3 id="2-中等基本-join-與-聚合">2. 中等：基本 Join 與 聚合</h3>
+<blockquote>
+<p><strong>需求：</strong> 計算每個分類 (Category) 的商品平均價格，且只顯示平均價大於 1000 的分類。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> CATEGORY, <span style="color:#66d9ef">AVG</span>(PRICE) <span style="color:#66d9ef">FROM</span> PRODUCTS <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> CATEGORY <span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">AVG</span>(PRICE) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1000</span>;
+</span></span></code></pre></div><h3 id="3-中等三表關聯">3. 中等：三表關聯</h3>
+<blockquote>
+<p><strong>需求：</strong> 查詢客戶 ID 為 5000 的所有訂單日期及其購買的商品名稱。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> o.ORDER_DATE, p.PROD_NAME 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> ORDERS o
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> ORDER_ITEMS i <span style="color:#66d9ef">ON</span> o.ORDER_ID <span style="color:#f92672">=</span> i.ORDER_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> PRODUCTS p <span style="color:#66d9ef">ON</span> i.PROD_ID <span style="color:#f92672">=</span> p.PROD_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> o.CUST_ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>;
+</span></span></code></pre></div><h3 id="4-進階子查詢與-in-潛在效能問題">4. 進階：子查詢與 IN (潛在效能問題)</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出所有購買過「Electronics」類別商品的客戶清單。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> CUSTOMERS 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> CUST_ID <span style="color:#66d9ef">IN</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> o.CUST_ID <span style="color:#66d9ef">FROM</span> ORDERS o 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> ORDER_ITEMS i <span style="color:#66d9ef">ON</span> o.ORDER_ID <span style="color:#f92672">=</span> i.ORDER_ID
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> i.PROD_ID <span style="color:#66d9ef">IN</span> (<span style="color:#66d9ef">SELECT</span> PROD_ID <span style="color:#66d9ef">FROM</span> PRODUCTS <span style="color:#66d9ef">WHERE</span> CATEGORY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Electronics&#39;</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h3 id="5-進階exists-替代-join">5. 進階：Exists 替代 Join</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出有物流更新記錄，且物流訊息包含 &lsquo;station 10&rsquo; 的訂單主檔。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> ORDERS o
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">EXISTS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">FROM</span> LOGISTICS_DETAIL l 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> l.ORDER_ID <span style="color:#f92672">=</span> o.ORDER_ID <span style="color:#66d9ef">AND</span> l.STATION_INFO <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%station 10%&#39;</span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h3 id="6-複雜分析函數-window-functions">6. 複雜：分析函數 (Window Functions)</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出每個城市中，消費金額最高的前三名客戶 (不建立實體表，動態計算)。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.CUST_NAME, <span style="color:#66d9ef">c</span>.CITY, <span style="color:#66d9ef">SUM</span>(o.TOTAL_AMOUNT) <span style="color:#66d9ef">as</span> spent,
+</span></span><span style="display:flex;"><span>           RANK() OVER (PARTITION <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">c</span>.CITY <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">SUM</span>(o.TOTAL_AMOUNT) <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> rnk
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">c</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">JOIN</span> ORDERS o <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">c</span>.CUST_ID <span style="color:#f92672">=</span> o.CUST_ID
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">c</span>.CUST_NAME, <span style="color:#66d9ef">c</span>.CITY
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">WHERE</span> rnk <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span>;
+</span></span></code></pre></div><h3 id="7-複雜clob-文字檢索與過濾">7. 複雜：CLOB 文字檢索與過濾</h3>
+<blockquote>
+<p><strong>需求：</strong> 在物流日誌 (CLOB) 中搜尋特定關鍵字，並結合大表關聯。這通常會導致全表掃描。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> o.ORDER_ID, l.TRACKING_NUM 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> ORDERS o
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> LOGISTICS_DETAIL l <span style="color:#66d9ef">ON</span> o.ORDER_ID <span style="color:#f92672">=</span> l.ORDER_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> DBMS_LOB.INSTR(l.FULL_LOG, <span style="color:#e6db74">&#39;shipment 99999&#39;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div><h3 id="8-超級複雜with-子句與多重聚合-cte">8. 超級複雜：WITH 子句與多重聚合 (CTE)</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出「高價值客戶」：定義為總消費額高於該城市平均消費額的客戶，並列出他們最常購買的商品類別。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> CityAvg <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.CITY, <span style="color:#66d9ef">AVG</span>(o.TOTAL_AMOUNT) <span style="color:#66d9ef">as</span> city_avg_spent
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">c</span> <span style="color:#66d9ef">JOIN</span> ORDERS o <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">c</span>.CUST_ID <span style="color:#f92672">=</span> o.CUST_ID
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">c</span>.CITY
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.CUST_NAME, p.CATEGORY, <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">c</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> ORDERS o <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">c</span>.CUST_ID <span style="color:#f92672">=</span> o.CUST_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> ORDER_ITEMS i <span style="color:#66d9ef">ON</span> o.ORDER_ID <span style="color:#f92672">=</span> i.ORDER_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> PRODUCTS p <span style="color:#66d9ef">ON</span> i.PROD_ID <span style="color:#f92672">=</span> p.PROD_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> CityAvg ca <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">c</span>.CITY <span style="color:#f92672">=</span> ca.CITY
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">c</span>.CUST_NAME, p.CATEGORY, ca.city_avg_spent
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">SUM</span>(o.TOTAL_AMOUNT) <span style="color:#f92672">&gt;</span> ca.city_avg_spent;
+</span></span></code></pre></div><h3 id="9-超級複雜關聯子查詢-correlated-subquery">9. 超級複雜：關聯子查詢 (Correlated Subquery)</h3>
+<blockquote>
+<p><strong>需求：</strong> 找出每一筆訂單中，價格高於該訂單內所有商品平均價格的明細。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> ORDER_ITEMS i1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> UNIT_PRICE <span style="color:#f92672">&gt;</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">AVG</span>(UNIT_PRICE) <span style="color:#66d9ef">FROM</span> ORDER_ITEMS i2 <span style="color:#66d9ef">WHERE</span> i2.ORDER_ID <span style="color:#f92672">=</span> i1.ORDER_ID
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h3 id="10-終極挑戰笛卡兒積風險與反模式">10. 終極挑戰：笛卡兒積風險與反模式</h3>
+<blockquote>
+<p><strong>需求：</strong> 故意寫出一個沒有適當 Join 條件或是在大型非索引欄位上做 <code>OR</code> 運算的查詢，觀察 Oracle 的 CBO (Cost-Based Optimizer) 如何掙扎。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.CUST_NAME, p.PROD_NAME, l.STATION_INFO
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">c</span>, PRODUCTS p, LOGISTICS_DETAIL l
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> (<span style="color:#66d9ef">c</span>.CUST_ID <span style="color:#f92672">=</span> l.ORDER_ID <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">c</span>.CUST_NAME <span style="color:#f92672">=</span> l.TRACKING_NUM)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AND</span> p.PRICE <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">4900</span>;
+</span></span></code></pre></div><hr>
+<h2 id="調校建議步驟">調校建議步驟</h2>
+<ol>
+<li><strong>開啟追蹤：</strong> 使用 <code>SET AUTOTRACE ON</code> 或 <code>EXPLAIN PLAN FOR...</code>。</li>
+<li><strong>觀察數據分布：</strong> 10 萬筆資料下，某些欄位（如 <code>CITY</code>）重複率高，適合建立 Bitmap Index（如果是 Data Warehouse 環境）或 B-Tree Index。</li>
+<li><strong>針對 CLOB 優化：</strong> 考慮是否需要 Full Text Index (Oracle Text)。</li>
+<li><strong>改寫 SQL：</strong> 試著將 <code>IN</code> 改成 <code>EXISTS</code> 或 <code>JOIN</code>，觀察 Cost 的變化。</li>
+</ol>
+<h2 id="調校紀錄">調校紀錄</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">EXPLAIN</span> PLAN <span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">SELECT</span> CUST_NAME <span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">WHERE</span> CITY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Taipei&#39;</span> <span style="color:#66d9ef">AND</span> MEMBER_LEVEL <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">TABLE</span>(DBMS_XPLAN.DISPLAY);
+</span></span></code></pre></div><pre tabindex="0"><code>PLAN_TABLE_OUTPUT                                                              |
+-------------------------------------------------------------------------------+
+Plan hash value: 2008213504                                                    |
+                                                                               |
+-------------------------------------------------------------------------------|
+| Id  | Operation         | Name      | Rows  | Bytes | Cost (%CPU)| Time     ||
+-------------------------------------------------------------------------------|
+|   0 | SELECT STATEMENT  |           | 54445 |  4625K|  6207   (1)| 00:01:15 ||
+|*  1 |  TABLE ACCESS FULL| CUSTOMERS | 54445 |  4625K|  6207   (1)| 00:01:15 ||
+-------------------------------------------------------------------------------|
+                                                                               |
+Predicate Information (identified by operation id):                            |
+---------------------------------------------------                            |
+                                                                               |
+   1 - filter(&#34;MEMBER_LEVEL&#34;=5 AND &#34;CITY&#34;=&#39;Taipei&#39;)                            |
+                                                                               |
+Note                                                                           |
+-----                                                                          |
+   - dynamic sampling used for this statement (level=2)                        |
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_cust_city_level <span style="color:#66d9ef">ON</span> CUSTOMERS (CITY, MEMBER_LEVEL) NOSEGMENT;
+</span></span></code></pre></div><pre tabindex="0"><code>Query	CREATE INDEX idx_cust_city_level ON CUSTOMERS (CITY, MEMBER_LEVEL) NOSEGMENT
+Updated Rows	0
+Execute time	0.014s
+Start time	Fri Feb 06 13:39:05 CST 2026
+Finish time	Fri Feb 06 13:39:05 CST 2026
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">SESSION</span> <span style="color:#66d9ef">SET</span> <span style="color:#e6db74">&#34;_use_nosegment_indexes&#34;</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">EXPLAIN</span> PLAN <span style="color:#66d9ef">FOR</span> <span style="color:#66d9ef">SELECT</span> CUST_NAME <span style="color:#66d9ef">FROM</span> CUSTOMERS <span style="color:#66d9ef">WHERE</span> CITY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Taipei&#39;</span> <span style="color:#66d9ef">AND</span> MEMBER_LEVEL <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">TABLE</span>(DBMS_XPLAN.DISPLAY);
+</span></span></code></pre></div><pre tabindex="0"><code>PLAN_TABLE_OUTPUT                                                                                  |
+---------------------------------------------------------------------------------------------------+
+Plan hash value: 4017564175                                                                        |
+                                                                                                   |
+---------------------------------------------------------------------------------------------------|
+| Id  | Operation                   | Name                | Rows  | Bytes | Cost (%CPU)| Time     ||
+---------------------------------------------------------------------------------------------------|
+|   0 | SELECT STATEMENT            |                     | 54445 |  4625K|     9   (0)| 00:00:01 ||
+|   1 |  TABLE ACCESS BY INDEX ROWID| CUSTOMERS           | 54445 |  4625K|     9   (0)| 00:00:01 ||
+|*  2 |   INDEX RANGE SCAN          | IDX_CUST_CITY_LEVEL | 10729 |       |     1   (0)| 00:00:01 ||
+---------------------------------------------------------------------------------------------------|
+                                                                                                   |
+Predicate Information (identified by operation id):                                                |
+---------------------------------------------------                                                |
+                                                                                                   |
+   2 - access(&#34;CITY&#34;=&#39;Taipei&#39; AND &#34;MEMBER_LEVEL&#34;=5)                                                |
+                                                                                                   |
+Note                                                                                               |
+-----                                                                                              |
+   - dynamic sampling used for this statement (level=2)                                            |
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 刪除虛擬索引
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">INDEX</span> idx_cust_city_level;
+</span></span></code></pre></div><pre tabindex="0"><code>Query	-- 刪除虛擬索引
+	DROP INDEX idx_cust_city_level
+Updated Rows	0
+Execute time	0.014s
+Start time	Fri Feb 06 13:42:57 CST 2026
+Finish time	Fri Feb 06 13:42:57 CST 2026
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建立實體索引（正式讓查詢變快）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_cust_city_level <span style="color:#66d9ef">ON</span> CUSTOMERS (CITY, MEMBER_LEVEL) ;
+</span></span></code></pre></div><pre tabindex="0"><code>Query	-- 建立實體索引（正式讓查詢變快）
+	CREATE INDEX idx_cust_city_level ON CUSTOMERS (CITY, MEMBER_LEVEL) 
+Updated Rows	0
+Execute time	4s
+Start time	Fri Feb 06 13:43:02 CST 2026
+Finish time	Fri Feb 06 13:43:07 CST 2026
+</code></pre></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-mes/">
+                                <h3 class="">SQL tunning task MES</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-top-sql/">
+                                <h3 class="">oracle AWR TOP SQL</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-perf-trend-history/">
+                                <h3 class="">oracle AWR PERF TREND HISTORY</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr/">
+                                <h3 class="">Oracle AWR 常用筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-02</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/test-redolog-file/">
+                                <h3 class="">Redo test</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-12-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

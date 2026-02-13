@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>jenkins on PolloChang 工作筆記</title>
+    <title>Jenkins on PolloChang 工作筆記</title>
     <link>http://pollochang.work/categories/jenkins/</link>
-    <description>Recent content in jenkins on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Jenkins on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 05 May 2024 11:34:09 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/jenkins/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 May 2024 11:34:09 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/categories/jenkins/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jenkins 客製化UI</title>
       <link>http://pollochang.work/worknot/worknot-20240505-1/</link>
       <pubDate>Sun, 05 May 2024 11:34:09 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240505-1/</guid>
-      <description>環境 jenkins version: 2.440.3 Login Theme 客製化登入頁面
-安裝 Plugin Login Theme: https://plugins.jenkins.io/login-theme/ 設定 Plugin 設定位置: manage/appearance/Appearance
-Login Page Theme header 可以設定登入的歡迎語
-&amp;lt;h3&amp;gt;Welcome to PolloChang&amp;#39;s Jenkins!&amp;lt;/h3&amp;gt; Branding 設定 logo
-https://pollochang.work/images/logo.jpg Custom CSS position: absolute; inset: 0; z-index: 1; background: linear-gradient( 135deg, rgb(69, 123, 157) 10%, rgb(188, 187, 206) 30%, rgb(235, 176, 163) 50%, rgb(244, 213, 177) 70%, rgb(139, 185, 198) 90%, rgb(44, 113, 149) 110% ); 設定過程中記得不要登出檢查，要開無痕檢查，不然設定錯誤會無法登入。
-Customizable Header 客製化 Header</description>
+      <description>環境 jenkins version: 2.440.3 Login Theme 客製化登入頁面&#xA;安裝 Plugin Login Theme: https://plugins.jenkins.io/login-theme/ 設定 Plugin 設定位置: manage/appearance/Appearance&#xA;Login Page Theme header 可以設定登入的歡迎語&#xA;&amp;lt;h3&amp;gt;Welcome to PolloChang&amp;#39;s Jenkins!&amp;lt;/h3&amp;gt; Branding 設定 logo&#xA;https://pollochang.work/images/logo.jpg Custom CSS position: absolute; inset: 0; z-index: 1; background: linear-gradient( 135deg, rgb(69, 123, 157) 10%, rgb(188, 187, 206) 30%, rgb(235, 176, 163) 50%, rgb(244, 213, 177) 70%, rgb(139, 185, 198) 90%, rgb(44, 113, 149) 110% ); 設定過程中記得不要登出檢查，要開無痕檢查，不然設定錯誤會無法登入。&#xA;Customizable Header 客製化 Header</description>
     </item>
-    
   </channel>
 </rss>

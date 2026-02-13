@@ -14,7 +14,7 @@
 下載連結UNetbootin for Debian (64-bit) for Linux
 安裝
 suod apt install ./unetbootin_575-1_amd64.deb 需要root 執行 執行時記得需要用root權限執行，不然會讀不到USB隨身碟。
-jameschang@JamesChangNB:~/下載$ xhost local:root non-network local connections being added to access control list jameschang@JamesChangNB:~/下載$ sudo QT_X11_NO_MITSHM=1 /usr/bin/unetbootin jameschang@JamesChangNB:df -Th /dev/sdb1 vfat 58G 2.9G 56G 5% /media/jameschang/D-LIVE 10_1 jameschang@JamesChangNB:~/下載$ sudo umount /dev/sdb1 jameschang@JamesChangNB:~/下載$ sudo mkfs.vfat /dev/sdb1 mkfs.fat 4.1 (2017-01-24)
+jameschang@JamesChangNB:~/下載$ xhost local:root non-network local connections being added to access control list jameschang@JamesChangNB:~/下載$ sudo QT_X11_NO_MITSHM=1 /usr/bin/unetbootin jameschang@JamesChangNB:df -Th /dev/sdb1 vfat 58G 2.9G 56G 5% /media/jameschang/D-LIVE 10_1 jameschang@JamesChangNB:/下載$ sudo umount /dev/sdb1 jameschang@JamesChangNB:/下載$ sudo mkfs.vfat /dev/sdb1 mkfs.fat 4.1 (2017-01-24)
 jameschang@JamesChangNB:sudo dd if=/home/jameschang/debs/debian-10.10.0-amd64-netinst.iso of=/dev/sdb1
 sudo cp /home/jameschang/debs/debian-10.10.0-amd64-netinst.iso /dev/sdb1
 fdisk /dev/sdb1
@@ -182,8 +182,8 @@ layui.use('element', function(){
 </span></span></code></pre></div><h2 id="heading"></h2>
 <p>jameschang@JamesChangNB:df -Th
 /dev/sdb1      vfat       58G  2.9G   56G    5% /media/jameschang/D-LIVE 10_1
-jameschang@JamesChangNB:~/下載$ sudo umount /dev/sdb1
-jameschang@JamesChangNB:~/下載$ sudo mkfs.vfat /dev/sdb1
+jameschang@JamesChangNB:<del>/下載$ sudo umount /dev/sdb1
+jameschang@JamesChangNB:</del>/下載$ sudo mkfs.vfat /dev/sdb1
 mkfs.fat 4.1 (2017-01-24)</p>
 <p>jameschang@JamesChangNB:sudo dd if=/home/jameschang/debs/debian-10.10.0-amd64-netinst.iso of=/dev/sdb1</p>
 <p>sudo cp /home/jameschang/debs/debian-10.10.0-amd64-netinst.iso /dev/sdb1</p>

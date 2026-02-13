@@ -172,60 +172,60 @@ layui.use('element', function(){
 <p>我鮮強調一次是，「似乎」。</p>
 <h2 id="讓我來說說吧">讓我來說說吧</h2>
 <p>一個網站只有一個工程師開發。程式碼風格不一致(應該)沒有關係。例如，縮排、命名規則不一致、包含與更動業務邏輯前的程式片段，如下列範例:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> user_input <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> user_input <span style="color:#f92672">=</span> 0;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//for(int i=1;i&lt;=9;i++) {
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//            for(int j=1;j&lt;=i;j++) {
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">//               System.out.print(j+&#34;×&#34;+i+&#34;=&#34;+i*j+&#34;\t&#34;);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//            }
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//            System.out.println();
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//        }
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> Not_too_good <span style="color:#f92672">=</span> 60<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">int</span> OK <span style="color:#f92672">=</span> 80<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> good <span style="color:#f92672">=</span> 100<span style="color:#f92672">;</span>String showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//for(int i=1;i&lt;=9;i++) {</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//            for(int j=1;j&lt;=i;j++) {</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//               System.out.print(j+&#34;×&#34;+i+&#34;=&#34;+i*j+&#34;\t&#34;);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//            }</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//            System.out.println();</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//        }</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>user_input <span style="color:#f92672">&lt;</span> Not_too_good<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>     showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not too good&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>user_input <span style="color:#f92672">&lt;</span> OK<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not bad&#34;</span><span style="color:#f92672">;}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>user_input <span style="color:#f92672">&lt;</span> good<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OK&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Good&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>showMsg<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> Not_too_good <span style="color:#f92672">=</span> 60;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">int</span> OK <span style="color:#f92672">=</span> 80;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> good <span style="color:#f92672">=</span> 100;String showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(user_input <span style="color:#f92672">&lt;</span> Not_too_good){
+</span></span><span style="display:flex;"><span>     showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not too good&#34;</span>;
+</span></span><span style="display:flex;"><span>      }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(user_input <span style="color:#f92672">&lt;</span> OK){
+</span></span><span style="display:flex;"><span>showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not bad&#34;</span>;}<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(user_input <span style="color:#f92672">&lt;</span> good){
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OK&#34;</span>;
+</span></span><span style="display:flex;"><span>  }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Good&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(showMsg);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>  }
 </span></span></code></pre></div><p>上述程式碼確實可以執行，可是相信大家都閱讀得很痛苦吧？這也是我第一個專案接手的程式碼品質，裡頭中充趕專案時程、能跑就好的影子，後續如何出了什麼狀況以後再說。</p>
 <p>下列是我整理過後的程式片段：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/*
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">* 判別分數工具
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> userInput <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    String showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> userInput <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>    String showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> NOT_TOO_GOOD <span style="color:#f92672">=</span> 60<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> OK <span style="color:#f92672">=</span> 80<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> GOOD <span style="color:#f92672">=</span> 100<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> NOT_TOO_GOOD <span style="color:#f92672">=</span> 60;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> OK <span style="color:#f92672">=</span> 80;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> GOOD <span style="color:#f92672">=</span> 100;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>userInput <span style="color:#f92672">&lt;</span> NOT_TOO_GOOD<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not too good&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>userInput <span style="color:#f92672">&lt;</span> OK<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not bad&#34;</span><span style="color:#f92672">;}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>userInput <span style="color:#f92672">&lt;</span> GOOD<span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OK&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Good&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(userInput <span style="color:#f92672">&lt;</span> NOT_TOO_GOOD){
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not too good&#34;</span>;
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(userInput <span style="color:#f92672">&lt;</span> OK){
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not bad&#34;</span>;}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(userInput <span style="color:#f92672">&lt;</span> GOOD){
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OK&#34;</span>;
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>      showMsg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Good&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>showMsg<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(showMsg);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>這樣的程式片段會比上述的狀況好閱讀的多了。</p>
 <h2 id="程式碼其實是一份協調過的文件">程式碼其實是一份協調過的文件</h2>
 <p>程式碼執行的結果最後還是由使用者進行操作、反饋。而程式開發人員其實也只是將各種的討論結果寫成程式碼而已。在我的職涯的前一兩年每天都會在不停的Codding，之後大部分的時間都在閱讀文件，如：需求設計文件、規格、技術文章。還有進行除錯、研究如何將新的技術導入專案中等等非寫程式碼的工作，大約一天只會有一到兩個小時執行Codding。</p>

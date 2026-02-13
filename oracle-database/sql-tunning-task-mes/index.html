@@ -1,0 +1,753 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - SQL tunning task MES </title>
+    
+    
+    <meta content="Oracle, 工作雜記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 第一步：MES 系統資料表設計 (DDL) 我們設計六張核心表，涵蓋工單、批次（Lot）、機台、過帳紀錄與參數採集。
+-- 1. 工單表 (Work Orders) CREATE TABLE MES_WORK_ORDERS ( WO_ID NUMBER PRIMARY KEY, WO_NO VARCHAR2(50) NOT NULL, PART_NO VARCHAR2(50), TARGET_QTY NUMBER(10), CREATE_TIME DATE, STATUS CHAR(1) -- &#39;O&#39;: Open, &#39;C&#39;: Closed ); -- 2. 批次主檔 (WIP Lots) CREATE TABLE MES_WIP_LOTS ( LOT_ID NUMBER PRIMARY KEY, LOT_NO VARCHAR2(50) UNIQUE, WO_ID NUMBER, CURR_STEP VARCHAR2(20), QTY NUMBER(10,2), IS_HOLD CHAR(1) DEFAULT &#39;N&#39; ); -- 3. 生產設備表 (Equipment) CREATE TABLE MES_EQUIPMENT ( EQP_ID NUMBER PRIMARY KEY, EQP_CODE VARCHAR2(50), EQP_TYPE VARCHAR2(20), LOCATION VARCHAR2(50), LAST_MAINTENANCE DATE ); -- 4." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>SQL tunning task MES</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="第一步mes-系統資料表設計-ddl">第一步：MES 系統資料表設計 (DDL)</h2>
+<p>我們設計六張核心表，涵蓋工單、批次（Lot）、機台、過帳紀錄與參數採集。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 1. 工單表 (Work Orders)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_WORK_ORDERS (
+</span></span><span style="display:flex;"><span>    WO_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    WO_NO VARCHAR2(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    PART_NO VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    TARGET_QTY NUMBER(<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>    CREATE_TIME DATE,
+</span></span><span style="display:flex;"><span>    STATUS CHAR(<span style="color:#ae81ff">1</span>) <span style="color:#75715e">-- &#39;O&#39;: Open, &#39;C&#39;: Closed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 批次主檔 (WIP Lots)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_WIP_LOTS (
+</span></span><span style="display:flex;"><span>    LOT_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    LOT_NO VARCHAR2(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">UNIQUE</span>,
+</span></span><span style="display:flex;"><span>    WO_ID NUMBER,
+</span></span><span style="display:flex;"><span>    CURR_STEP VARCHAR2(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    QTY NUMBER(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    IS_HOLD CHAR(<span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;N&#39;</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 生產設備表 (Equipment)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_EQUIPMENT (
+</span></span><span style="display:flex;"><span>    EQP_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    EQP_CODE VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    EQP_TYPE VARCHAR2(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LOCATION</span> VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    LAST_MAINTENANCE DATE
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 4. 生產過帳歷史 (Move History) - 這是調校重點（大表）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_MOVE_HISTORY (
+</span></span><span style="display:flex;"><span>    TXN_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    LOT_ID NUMBER,
+</span></span><span style="display:flex;"><span>    STEP_ID VARCHAR2(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    EQP_ID NUMBER,
+</span></span><span style="display:flex;"><span>    OP_ID NUMBER, <span style="color:#75715e">-- 操作人員
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    START_TIME DATE,
+</span></span><span style="display:flex;"><span>    END_TIME DATE,
+</span></span><span style="display:flex;"><span>    TXN_CODE VARCHAR2(<span style="color:#ae81ff">10</span>) <span style="color:#75715e">-- &#39;TRACKIN&#39;, &#39;TRACKOUT&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 5. 品質量測數據 (Quality Data) - 數字密集
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_QUALITY_DATA (
+</span></span><span style="display:flex;"><span>    DATA_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    TXN_ID NUMBER,
+</span></span><span style="display:flex;"><span>    MEASURE_ITEM VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    VALUE_NUM NUMBER(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>    UPPER_LIMIT NUMBER(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>    LOWER_LIMIT NUMBER(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">RESULT</span> CHAR(<span style="color:#ae81ff">1</span>) <span style="color:#75715e">-- &#39;P&#39;: Pass, &#39;F&#39;: Fail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 6. 系統異常日誌 (Error Logs) - 包含 CLOB
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> MES_SYSTEM_LOGS (
+</span></span><span style="display:flex;"><span>    LOG_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    MODULE_NAME VARCHAR2(<span style="color:#ae81ff">50</span>),
+</span></span><span style="display:flex;"><span>    OCCUR_TIME <span style="color:#66d9ef">TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    ERROR_CODE VARCHAR2(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>    STACK_TRACE <span style="color:#66d9ef">CLOB</span>,
+</span></span><span style="display:flex;"><span>    REMARK VARCHAR2(<span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><hr>
+<h2 id="第二步快速產生-1000-萬筆資料-dml">第二步：快速產生 1,000 萬筆資料 (DML)</h2>
+<p>對於 10M 等級的資料，建議使用 <code>/*+ APPEND */</code> 進行直接路徑插入 (Direct Path Insert)，並將表設為 <code>NOLOGGING</code> 以加快速度。</p>
+<blockquote>
+<p><strong>注意：</strong> 執行前請確認磁碟空間充足（預計約需 10GB~20GB 空間）。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 以生產歷史表為例 (產生 1000 萬筆)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#75715e">/*+ APPEND */</span> <span style="color:#66d9ef">INTO</span> MES_MOVE_HISTORY
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LEVEL</span>,
+</span></span><span style="display:flex;"><span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1000000</span>)), <span style="color:#75715e">-- 假設有 100 萬個批次
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#39;STEP_&#39;</span> <span style="color:#f92672">||</span> LPAD(TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100</span>)), <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;0&#39;</span>),
+</span></span><span style="display:flex;"><span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5000</span>)), <span style="color:#75715e">-- 5000 台設備
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    TRUNC(DBMS_RANDOM.VALUE(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1000</span>)), <span style="color:#75715e">-- 1000 個作業員
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    SYSDATE <span style="color:#f92672">-</span> DBMS_RANDOM.VALUE(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">365</span>),
+</span></span><span style="display:flex;"><span>    SYSDATE <span style="color:#f92672">-</span> DBMS_RANDOM.VALUE(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">364</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">MOD</span>(<span style="color:#66d9ef">LEVEL</span>, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">WHEN</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;TRACKIN&#39;</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;TRACKOUT&#39;</span> <span style="color:#66d9ef">END</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> DUAL <span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10000000</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMIT</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 務必收集統計資訊，否則 CBO 會誤判
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> DBMS_STATS.GATHER_TABLE_STATS(<span style="color:#66d9ef">USER</span>, <span style="color:#e6db74">&#39;MES_MOVE_HISTORY&#39;</span>, <span style="color:#66d9ef">CASCADE</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">TRUE</span>);
+</span></span></code></pre></div><p><em>(以此類推完成其他表，建議分批 Commit 或調整 Undo Segment)</em></p>
+<hr>
+<h2 id="第三步10-組-mes-調校專用-sql">第三步：10 組 MES 調校專用 SQL</h2>
+<h3 id="1-基礎查詢索引失效測試">1. 基礎查詢：索引失效測試</h3>
+<blockquote>
+<p><strong>情境：</strong> 找出某個時間區段內的過帳紀錄，但 <code>START_TIME</code> 被套用了函數導致無法走 Index。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> TO_CHAR(START_TIME, <span style="color:#e6db74">&#39;YYYYMMDD&#39;</span>) <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;20250520&#39;</span>;
+</span></span></code></pre></div><h3 id="2-聚合分析產線稼動率計算">2. 聚合分析：產線稼動率計算</h3>
+<blockquote>
+<p><strong>情境：</strong> 計算每台設備在過去一週的總加工時數（End - Start）。這在 10M 筆資料下會觸發大量 Hash Aggregate。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> EQP_ID, <span style="color:#66d9ef">SUM</span>((END_TIME <span style="color:#f92672">-</span> START_TIME) <span style="color:#f92672">*</span> <span style="color:#ae81ff">24</span>) <span style="color:#66d9ef">as</span> WORK_HOURS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> START_TIME <span style="color:#f92672">&gt;</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> EQP_ID;
+</span></span></code></pre></div><h3 id="3-多表關聯wip-在製清單">3. 多表關聯：WIP 在製清單</h3>
+<blockquote>
+<p><strong>情境：</strong> 找出所有狀態為 &lsquo;Open&rsquo; 的工單中，目前被 &lsquo;Hold&rsquo; 住的 Lot 以及它們所在的機台。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> w.WO_NO, l.LOT_NO, e.EQP_CODE
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> MES_WORK_ORDERS w
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_WIP_LOTS l <span style="color:#66d9ef">ON</span> w.WO_ID <span style="color:#f92672">=</span> l.WO_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_MOVE_HISTORY m <span style="color:#66d9ef">ON</span> l.LOT_ID <span style="color:#f92672">=</span> m.LOT_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_EQUIPMENT e <span style="color:#66d9ef">ON</span> m.EQP_ID <span style="color:#f92672">=</span> e.EQP_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> w.STATUS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;O&#39;</span> <span style="color:#66d9ef">AND</span> l.IS_HOLD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Y&#39;</span> <span style="color:#66d9ef">AND</span> m.TXN_CODE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TRACKIN&#39;</span>;
+</span></span></code></pre></div><h3 id="4-視窗函數leadlag-分析-進程時效">4. 視窗函數：Lead/Lag 分析 (進程時效)</h3>
+<blockquote>
+<p><strong>情境：</strong> 計算每個 Lot 從上一個站點到下一個站點的「移轉時間」(Transfer Time)。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> LOT_ID, STEP_ID, START_TIME,
+</span></span><span style="display:flex;"><span>       LAG(END_TIME) OVER (PARTITION <span style="color:#66d9ef">BY</span> LOT_ID <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> START_TIME) <span style="color:#66d9ef">as</span> PREV_END_TIME
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY;
+</span></span></code></pre></div><h3 id="5-品質數據追蹤離群值檢索">5. 品質數據追蹤：離群值檢索</h3>
+<blockquote>
+<p><strong>情境：</strong> 找出所有量測值 (VALUE_NUM) 超出上下限且屬於 &lsquo;Electronics&rsquo; 類別設備生產的 Lot。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> l.LOT_NO, q.MEASURE_ITEM, q.VALUE_NUM
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> MES_QUALITY_DATA q
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_MOVE_HISTORY m <span style="color:#66d9ef">ON</span> q.TXN_ID <span style="color:#f92672">=</span> m.TXN_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_WIP_LOTS l <span style="color:#66d9ef">ON</span> m.LOT_ID <span style="color:#f92672">=</span> l.LOT_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> q.<span style="color:#66d9ef">RESULT</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;F&#39;</span> <span style="color:#66d9ef">AND</span> q.VALUE_NUM <span style="color:#f92672">&gt;</span> q.UPPER_LIMIT;
+</span></span></code></pre></div><h3 id="6-複雜子查詢尚未完成量測的批次">6. 複雜子查詢：尚未完成量測的批次</h3>
+<blockquote>
+<p><strong>情境：</strong> 找出已過帳 (TRACKOUT) 但在 <code>MES_QUALITY_DATA</code> 表中卻沒有對應數據的紀錄（測試 NOT EXISTS 效能）。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY m
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> TXN_CODE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TRACKOUT&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">FROM</span> MES_QUALITY_DATA q <span style="color:#66d9ef">WHERE</span> q.TXN_ID <span style="color:#f92672">=</span> m.TXN_ID);
+</span></span></code></pre></div><h3 id="7-clob-全文檢索與效能瓶頸">7. CLOB 全文檢索與效能瓶頸</h3>
+<blockquote>
+<p><strong>情境：</strong> 在 1000 萬筆日誌中，搜尋 Stack Trace 包含 &lsquo;NullPointerException&rsquo; 且發生在特定機台模組的錯誤。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> MES_SYSTEM_LOGS 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> MODULE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;WAFER_ETCH&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">AND</span> STACK_TRACE <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%NullPointerException%&#39;</span>;
+</span></span></code></pre></div><h3 id="8-階層式查詢-hierarchical批次拆分追溯-splitmerge">8. 階層式查詢 (Hierarchical)：批次拆分追溯 (Split/Merge)</h3>
+<blockquote>
+<p><strong>情境：</strong> 在 MES 中，Lot 會被拆分或合併，利用 <code>CONNECT BY</code> 找出某個祖先批次的所有子孫批次（假設有 Parent_Lot 欄位）。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 需先在 MES_WIP_LOTS 增加 PARENT_LOT_ID 欄位
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">LEVEL</span>, LOT_NO <span style="color:#66d9ef">FROM</span> MES_WIP_LOTS
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">START</span> <span style="color:#66d9ef">WITH</span> LOT_NO <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ROOT_LOT_001&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CONNECT</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">PRIOR</span> LOT_ID <span style="color:#f92672">=</span> PARENT_LOT_ID;
+</span></span></code></pre></div><h3 id="9-關聯子查詢更新-correlated-update">9. 關聯子查詢更新 (Correlated Update)</h3>
+<blockquote>
+<p><strong>情境：</strong> 根據最新的 <code>MES_MOVE_HISTORY</code> 更新 <code>MES_WIP_LOTS</code> 的當前站點 <code>CURR_STEP</code>。這在大表更新時非常耗時。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">UPDATE</span> MES_WIP_LOTS l
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> CURR_STEP <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MAX</span>(STEP_ID) <span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY m 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> m.LOT_ID <span style="color:#f92672">=</span> l.LOT_ID
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">EXISTS</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY m <span style="color:#66d9ef">WHERE</span> m.LOT_ID <span style="color:#f92672">=</span> l.LOT_ID);
+</span></span></code></pre></div><h3 id="10-終極挑戰多維度生產報表-complex-pivotrollup">10. 終極挑戰：多維度生產報表 (Complex Pivot/Rollup)</h3>
+<blockquote>
+<p><strong>情境：</strong> 產生一份報表，按「日、班別 (Shift)、機台類型」統計良率，並計算與前一天的增長率。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> TRUNC(START_TIME) <span style="color:#66d9ef">as</span> PROD_DATE, 
+</span></span><span style="display:flex;"><span>       e.EQP_TYPE,
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> m.LOT_ID) <span style="color:#66d9ef">as</span> TOTAL_LOTS,
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> q.<span style="color:#66d9ef">RESULT</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;P&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">END</span>) <span style="color:#f92672">/</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> YIELD_RATE
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> MES_MOVE_HISTORY m
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> MES_EQUIPMENT e <span style="color:#66d9ef">ON</span> m.EQP_ID <span style="color:#f92672">=</span> e.EQP_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> MES_QUALITY_DATA q <span style="color:#66d9ef">ON</span> m.TXN_ID <span style="color:#f92672">=</span> q.TXN_ID
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">ROLLUP</span>(TRUNC(START_TIME), e.EQP_TYPE);
+</span></span></code></pre></div><hr>
+<h2 id="下一步建議">下一步建議</h2>
+<p>在 1,000 萬筆資料下，索引的選擇（B-Tree vs Bitmap）以及 <strong>Partitioning (分區)</strong> 會是效能的關鍵。</p>
+<p>您是否希望我針對其中一個 SQL，示範如何建立 <strong>Partition (範圍或雜湊分區)</strong> 來大幅提升查詢速度？</p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-common/">
+                                <h3 class="">SQL tunning task common</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-top-sql/">
+                                <h3 class="">oracle AWR TOP SQL</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-perf-trend-history/">
+                                <h3 class="">oracle AWR PERF TREND HISTORY</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr/">
+                                <h3 class="">Oracle AWR 常用筆記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-02</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/test-redolog-file/">
+                                <h3 class="">Redo test</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-12-29</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

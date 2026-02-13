@@ -4,36 +4,30 @@
     <title>Debian on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/debian/</link>
     <description>Recent content in Debian on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 05 May 2024 12:03:56 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 May 2024 12:03:56 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>jenkins 安裝</title>
       <link>http://pollochang.work/worknot/jenkins-install/</link>
       <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jenkins-install/</guid>
       <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部署 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
     </item>
-    
     <item>
       <title>Linux 發行板核心版本整理</title>
       <link>http://pollochang.work/worknot/worknot-20240309/</link>
       <pubDate>Sat, 09 Mar 2024 11:27:26 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240309/</guid>
-      <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下
-Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
+      <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下&#xA;Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
     </item>
-    
     <item>
       <title>筆記型電腦安裝 Debian 調整</title>
       <link>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</link>
       <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
-      
       <guid>http://pollochang.work/post/2024-02-28-gmone-%E7%9B%B8%E9%97%9C/</guid>
       <description>筆記型電腦 調整 筆記型電腦插入滑鼠裝置自動關閉滑鼠板 Gnome gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled-on-external-mouse 我發現在 Debian 10 (Gnome3.30.2) 不會正常作用 電源管理 tlp sudo apt install tlp tlp-rdw sudo tlp start sudo tlp-stat -s sudo systemctl enable tlp 參考資料 GNOME: How To Disable The Touchpad When A Mouse Is Plugged In And While Typing</description>
     </item>
-    
   </channel>
 </rss>

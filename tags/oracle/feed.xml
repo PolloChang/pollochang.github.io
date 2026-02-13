@@ -4,134 +4,107 @@
     <title>Oracle on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/oracle/</link>
     <description>Recent content in Oracle on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 15 Jan 2026 23:23:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Jan 2026 23:50:53 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL tunning task common</title>
+      <link>http://pollochang.work/oracle-database/sql-tunning-task-common/</link>
+      <pubDate>Sat, 31 Jan 2026 23:50:53 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/sql-tunning-task-common/</guid>
+      <description>以**「電商物流系統」**為主題。這個場景包含了高頻交易、大量文字描述以及複雜的關聯。&#xA;以下是針對 Oracle 11g 環境設計的實作腳本。&#xA;第一步：設計與建立資料表 (DDL) 我們設計五張表：客戶 (CUSTOMERS)、商品 (PRODUCTS)、訂單主檔 (ORDERS)、訂單明細 (ORDER_ITEMS)、以及物流追蹤備註 (LOGISTICS_DETAIL)。&#xA;-- 1. 客戶表 CREATE TABLE CUSTOMERS ( CUST_ID NUMBER PRIMARY KEY, CUST_NAME VARCHAR2(100), CITY VARCHAR2(20), MEMBER_LEVEL NUMBER(1), -- 1-5 級 REMARK CLOB ); -- 2. 商品表 CREATE TABLE PRODUCTS ( PROD_ID NUMBER PRIMARY KEY, PROD_NAME VARCHAR2(200), CATEGORY VARCHAR2(50), PRICE NUMBER(10,2), STATUS CHAR(1) -- &amp;#39;Y&amp;#39;: 上架, &amp;#39;N&amp;#39;: 下架 ); -- 3. 訂單主檔 CREATE TABLE ORDERS ( ORDER_ID NUMBER PRIMARY KEY, CUST_ID NUMBER, ORDER_DATE DATE, TOTAL_AMOUNT NUMBER(12,2), PAYMENT_METHOD VARCHAR2(20) ); -- 4.</description>
+    </item>
+    <item>
+      <title>SQL tunning task MES</title>
+      <link>http://pollochang.work/oracle-database/sql-tunning-task-mes/</link>
+      <pubDate>Sat, 31 Jan 2026 23:50:53 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/sql-tunning-task-mes/</guid>
+      <description>第一步：MES 系統資料表設計 (DDL) 我們設計六張核心表，涵蓋工單、批次（Lot）、機台、過帳紀錄與參數採集。&#xA;-- 1. 工單表 (Work Orders) CREATE TABLE MES_WORK_ORDERS ( WO_ID NUMBER PRIMARY KEY, WO_NO VARCHAR2(50) NOT NULL, PART_NO VARCHAR2(50), TARGET_QTY NUMBER(10), CREATE_TIME DATE, STATUS CHAR(1) -- &amp;#39;O&amp;#39;: Open, &amp;#39;C&amp;#39;: Closed ); -- 2. 批次主檔 (WIP Lots) CREATE TABLE MES_WIP_LOTS ( LOT_ID NUMBER PRIMARY KEY, LOT_NO VARCHAR2(50) UNIQUE, WO_ID NUMBER, CURR_STEP VARCHAR2(20), QTY NUMBER(10,2), IS_HOLD CHAR(1) DEFAULT &amp;#39;N&amp;#39; ); -- 3. 生產設備表 (Equipment) CREATE TABLE MES_EQUIPMENT ( EQP_ID NUMBER PRIMARY KEY, EQP_CODE VARCHAR2(50), EQP_TYPE VARCHAR2(20), LOCATION VARCHAR2(50), LAST_MAINTENANCE DATE ); -- 4.</description>
+    </item>
     <item>
       <title>oracle AWR TOP SQL</title>
       <link>http://pollochang.work/oracle-database/oracle-awr-top-sql/</link>
       <pubDate>Thu, 15 Jan 2026 23:23:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/oracle-awr-top-sql/</guid>
-      <description>以下我針對 AWR 中的 TOP SQL 進行研究
-SQL ordered by Elapsed Time SQL ordered by CPU Time SQL ordered by User I/O Wait Time SQL ordered by Gets SQL ordered by Reads SQL ordered by Physical Reads (UnOptimized) SQL ordered by Executions SQL ordered by Parse Calls SQL ordered by Sharable Memory SQL ordered by Version Count 尋找方式 1. SQL ordered by TOP Event WITH sql_metrics AS ( -- 1. 從歷史視圖中加總各項增量指標 SELECT s.</description>
+      <description>以下我針對 AWR 中的 TOP SQL 進行研究&#xA;SQL ordered by Elapsed Time SQL ordered by CPU Time SQL ordered by User I/O Wait Time SQL ordered by Gets SQL ordered by Reads SQL ordered by Physical Reads (UnOptimized) SQL ordered by Executions SQL ordered by Parse Calls SQL ordered by Sharable Memory SQL ordered by Version Count 尋找方式 1. SQL ordered by TOP Event WITH sql_metrics AS ( -- 1. 從歷史視圖中加總各項增量指標 SELECT s.</description>
     </item>
-    
     <item>
       <title>oracle AWR PERF TREND HISTORY</title>
       <link>http://pollochang.work/oracle-database/oracle-awr-perf-trend-history/</link>
       <pubDate>Thu, 15 Jan 2026 21:23:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/oracle-awr-perf-trend-history/</guid>
-      <description>最近常常接觸 AWR 報表分析，想說AWR已經有儲存資料庫運作歷史資訊，為何不依據裡頭的紀錄資訊進行效能分析呢？因此開始著手研究如何將AWR的資料呈現出趨勢資料～
-觀察重點 當 % Non-Parse CPU 低於 80% 時，代表資料庫忙於解析而非執行，這時增加 CPU 核心也無法根本解決問題。 觀察 Per Transaction 的指標是否惡化。如果 Logical Reads/Tx 維持穩定，系統慢通常是併發或硬體問題；如果該值上升，則是 SQL 或索引問題。 監控 Shared Pool Statistics 趨勢時，應特別留意 % Mem for SQL w/exec &amp;gt; 1 這個指標。如果該值變低，且 Sharable Memory 排名的 TOP SQL 佔比很高，就代表 Shared Pool 正在被少數幾句低效的 SQL 吞噬，這極易引發 ORA-04031 錯誤。 趨勢資料分析 指標分析項目
-summary
-Elapsed DBTime 負載強度 (Load Profile)
-Load Profile - DB Time(s) Load Profile - DB CPU(s) Load Profile - Redo size (bytes) Load Profile - Logical read (blocks) Load Profile - Block changes Load Profile - Physical read (blocks) Load Profile - Physical write (blocks) Load Profile - Read IO requests Load Profile - Write IO requests Load Profile - Read IO (MB) Load Profile - Write IO (MB) Load Profile - Logons Load Profile - User logons Load Profile - Executes Load Profile - Rollbacks 執行效率 (Efficiency)</description>
+      <description>最近常常接觸 AWR 報表分析，想說AWR已經有儲存資料庫運作歷史資訊，為何不依據裡頭的紀錄資訊進行效能分析呢？因此開始著手研究如何將AWR的資料呈現出趨勢資料～&#xA;觀察重點 當 % Non-Parse CPU 低於 80% 時，代表資料庫忙於解析而非執行，這時增加 CPU 核心也無法根本解決問題。 觀察 Per Transaction 的指標是否惡化。如果 Logical Reads/Tx 維持穩定，系統慢通常是併發或硬體問題；如果該值上升，則是 SQL 或索引問題。 監控 Shared Pool Statistics 趨勢時，應特別留意 % Mem for SQL w/exec &amp;gt; 1 這個指標。如果該值變低，且 Sharable Memory 排名的 TOP SQL 佔比很高，就代表 Shared Pool 正在被少數幾句低效的 SQL 吞噬，這極易引發 ORA-04031 錯誤。 趨勢資料分析 指標分析項目&#xA;summary&#xA;Elapsed DBTime 負載強度 (Load Profile)&#xA;Load Profile - DB Time(s) Load Profile - DB CPU(s) Load Profile - Redo size (bytes) Load Profile - Logical read (blocks) Load Profile - Block changes Load Profile - Physical read (blocks) Load Profile - Physical write (blocks) Load Profile - Read IO requests Load Profile - Write IO requests Load Profile - Read IO (MB) Load Profile - Write IO (MB) Load Profile - Logons Load Profile - User logons Load Profile - Executes Load Profile - Rollbacks 執行效率 (Efficiency)</description>
     </item>
-    
     <item>
       <title>Oracle AWR 常用筆記</title>
       <link>http://pollochang.work/oracle-database/oracle-awr/</link>
       <pubDate>Fri, 02 Jan 2026 20:57:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/oracle-awr/</guid>
       <description>--手動執行快照 exec DBMS_WORKLOAD_REPOSITORY.CREATE_SNAPSHOT(); -- 設定AWR 快照區間 BEGIN DBMS_WORKLOAD_REPOSITORY.MODIFY_SNAPSHOT_SETTINGS( retention =&amp;gt; 259200, -- 以分鐘為單位 (7天 = 7 * 24 * 60) interval =&amp;gt; 10 -- 以分鐘為單位 ); END; -- 查詢 AWR 資料範圍 select SNAP_ID,DBID,INSTANCE_NUMBER,BEGIN_INTERVAL_TIME,END_INTERVAL_TIME FROM awr_pdb_snapshot WHERE END_INTERVAL_TIME &amp;gt;= to_date(&amp;#39;2025-12-27 22:55:00&amp;#39;,&amp;#39;yyyy-mm-dd hh24:mi:ss&amp;#39;) AND BEGIN_INTERVAL_TIME &amp;lt;= to_date(&amp;#39;2025-12-28 05:20:00&amp;#39;,&amp;#39;yyyy-mm-dd hh24:mi:ss&amp;#39;) AND INSTANCE_NUMBER=1 ORDER BY SNAP_ID; -- 輸出 AWR HTML SELECT DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_HTML(1979277899,1,88, 89) FROM dual; --輸出AWR TEXT SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_TEXT(1979277899,1,88, 89) ); SELECT output FROM TABLE( DBMS_WORKLOAD_REPOSITORY.</description>
     </item>
-    
     <item>
       <title>Redo test</title>
       <link>http://pollochang.work/oracle-database/test-redolog-file/</link>
       <pubDate>Mon, 29 Dec 2025 23:50:53 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/test-redolog-file/</guid>
       <description>Test Summary insert and delete item start_storm start_storm_batch_commit start_storm_optimized start_storm_hint test result success execute timeout success success time range 2025-12-30 14:34:06 - 2025-12-30 14:37:50 2025-12-29 10:01:54 - 2025-12-29 21:49:39 2025-12-30 09:28:01 - 2025-12-30 09:34:40 2025-12-30 09:40:52 - 2025-12-30 09:42:25 total run time(s) 224 42465 399 93 CTAS item start_ctas start_ctas_nologging start_ctas_nologging_paralel test result success success success time range 2025-12-30 10:50:23 - 2025-12-30 10:51:54 2025-12-30 11:01:09 - 2025-12-30 11:01:11 2025-12-30 13:58:01 - 2025-12-30 13:58:03 total run time(s) 91 2 2 測試環境 DB version: Oracle 19c OS: Oracle linux 7 CPU: 4 vCore RAM: 8G 測試前準備 SELECT GROUP# , status, bytes/1024/1024 FROM v$log l; GROUP#|STATUS |BYTES/1024/1024 ------+--------+--------------- 1|INACTIVE| 200 2|INACTIVE| 200 3|ACTIVE | 200 4|CURRENT | 10 5|UNUSED | 10 6|UNUSED | 10 ALTER DATABASE ADD LOGFILE GROUP 4 (&amp;#39;/u01/app/oracle/oradata/DB/redo04.</description>
     </item>
-    
     <item>
       <title>各式檔案雜湊</title>
       <link>http://pollochang.work/worknot/file-checksum/</link>
       <pubDate>Wed, 11 Jun 2025 11:54:59 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/file-checksum/</guid>
       <description>oracle AIX.PPC64_193000_db_home.zip tags: oracle sha256sum: 03cb2aff2984b47597108572048d4ee432c7e05a74362829f5ddb5540baf56b1 oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm tags: oracle sha256sum: 141926e265ff3cbc8ce7c8a67ab2ad2d40d5fb4de3a105d0cdd20de4e23dbd2a oracle-database-preinstall-21c-1.0-1.el8.x86_64.rpm tags: oracle sha256sum: 3e99be00f010988370885c1e58acbc6d8a93c6d2d790cbb95420dd8ea554b36b V982063-01.zip tags: oracle sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 v9.7fp7_linuxx64_server.tar.gz tags: db2 sha256sum: 8b9a15035204aa99dfc00217849cf79996adb1b625306951121e849c48dc344b OracleLinux-R9-U6-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 6aab225832263299c209aa1096b665e36c789ea6d0da77c19920e6ad21620bb7 OracleLinux-R9-U6-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: d420b4d02ca8172236dfe60cb2c0d2b407645e9a8ed460c5ccdf7b6a868ea8de OracleLinux-R9-U6-x86_64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 499dd0df4969fbd06d0d3083a572504b51aca5a4428bcbff51a68c47925bcbad OracleLinux-R9-U6-aarch64-dvd.iso tags: oracle, Oracle Linux sha256sum: 5480e921172545afd6dd6c09b6e1d6df8f24ca109a2ca4ce6b8b641597bb67ea OracleLinux-R9-U6-aarch64-boot-uek.iso tags: oracle, Oracle Linux sha256sum: 18ad394a43bfb3ade82b5625fa335d21ba544fd91ddb4f0bdb5edeed6b76fda2 OracleLinux-R8-U10-x86_64-dvd.iso tags: oracle, Oracle Linux sha256sum: 7676a80eeaafa16903eebb2abba147a3afe230b130cc066d56fdd6854d8da900 OracleLinux-R8-U10-x86_64-boot.iso tags: oracle, Oracle Linux sha256sum: c7009ca2b28ddbedd6c09fc9141f933dec01a6ea73c503634786809746af1906 OracleLinux-R8-U10-x86_64-boot-uek.</description>
     </item>
-    
     <item>
       <title>Oracle Clusterware 初學</title>
       <link>http://pollochang.work/oracle-database/oracle-clusterware-1/</link>
       <pubDate>Wed, 03 Jul 2024 23:57:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/oracle-clusterware-1/</guid>
       <description>指令 crsctl status res -t crsctl status res -t 功能: 顯示集群資源的狀態，以表格形式展示各資源的詳細信息。 參數: -t 是 &amp;ndash;terse 的縮寫，表示以簡潔的表格格式輸出信息。 示例 NAME TARGET STATE SERVER STATE_DETAIL -------------------------------------------------------------- ora.net1.network ONLINE ONLINE node1, node2 ONLINE ora.asm ONLINE ONLINE node1 ONLINE ora.db ONLINE ONLINE node1 ONLINE ora.listener ONLINE ONLINE node1, node2 ONLINE 示例解釋 ora.diskgroup1: 這是一個磁碟組資源，當前狀態是 ONLINE。 ora.db1: 這是資料庫資源，當前狀態是 ONLINE。 ora.listener1: 這是資料庫監聽器資源，當前狀態是 ONLINE。 主要字段解釋 NAME: 資源的名稱。 TARGET: 設定的目標狀態。 STATE: 當前狀態。 SERVER: 資源所在的節點。 STATE_DETAIL: 其他詳細狀態信息。 常見用途 檢查資源狀態: 確認集群中各個資源的運行狀態。 故障排查: 用於排查集群問題，了解哪些資源可能存在問題。 監控集群健康: 確保所有必要的資源都在正常運行。 檢查資源詳細信息: crsctl status res &amp;lt;resource_name&amp;gt; -details 查看集群狀態: crsctl check cluster 查看節點狀態: crsctl status resource -t 參考資料 1 Introduction to Oracle Clusterware </description>
     </item>
-    
     <item>
       <title>Oracle OCFS2 初學</title>
       <link>http://pollochang.work/oracle-database/oracle-ocfs2-1/</link>
       <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>
-      
       <guid>http://pollochang.work/oracle-database/oracle-ocfs2-1/</guid>
-      <description>Oracle Cluster File System 2 (OCFS2) 文件系统
-指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果
-[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
+      <description>Oracle Cluster File System 2 (OCFS2) 文件系统&#xA;指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果&#xA;[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
     </item>
-    
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
       <link>http://pollochang.work/worknot/worknot-20240313-1/</link>
       <pubDate>Wed, 13 Mar 2024 14:54:24 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240313-1/</guid>
-      <description>切字串成陣列
-regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
+      <description>切字串成陣列&#xA;regexp_substr select regexp_substr ( :str, &amp;#39;[^,]+&amp;#39;, 1, level ) value from dual 參考資料 How to split comma separated value strings into rows in Oracle Database REGEXP_SUBSTR </description>
     </item>
-    
     <item>
       <title>Oracle PL/SQL 學習筆記</title>
       <link>http://pollochang.work/worknot/worknot-20240313/</link>
       <pubDate>Wed, 13 Mar 2024 14:42:44 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240313/</guid>
       <description>判斷式 if else if a &amp;gt; b then t := 0; elsif a &amp;gt; c then t := 1; else t := 2; end if; 迴圈 LOOP ... V_LOOP_CONT := V_LOOP_CONT +1 ; IF V_TOTAL_LOOP_CONT &amp;lt;= V_LOOP_CONT THEN EXIT; END IF; END LOOP; package head CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.0 2024-03-13 PolloChang 1. 初次新增 ******************************************************************************/ FUNCTION FUNCTION_NAME_1 (P_VAL IN VARCHAR2) RETURN VARCHAR2; END PK_1; body CREATE OR REPLACE PACKAGE PK_1 AS /****************************************************************************** NAME: PK_1 PURPOSE: PK_1 REVISIONS: Ver Date Author Description --------- ---------- --------------- ------------------------------------ 1.</description>
     </item>
-    
     <item>
       <title>Oracle 學習筆記</title>
       <link>http://pollochang.work/worknot/worknot-20240307/</link>
       <pubDate>Thu, 07 Mar 2024 22:43:06 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240307/</guid>
-      <description>最近在工作上遇到Oracle 發生的系統效能問題，雖然有順利解決了，但是在解決的過程中似乎覺的自己對Oracle知識相當貧乏，於是在這邊筆記一下我學到的知識。
-學習的過過程中難免會出現紀錄錯誤，而且目前是因為工作上需要而自學。因此內容有錯還請見諒。
-Oracle Instance Instance 是一個由各種設定檔組成的記憶體結構，基本上當資料庫連線到Oracle 時是連接到 Instance。Instance 與 Database 是可以互不相依的，也就是說 Instance 與 Database 可以單獨存在。
-以下是Oracle Instance 的架構圖
-Instance 有兩中配置方式:
-Single Instance Oracle RAC (Oracle Real Application Clusters) Single 是單純一個Database 配置一個 Instance ，而 Oracle RAC 是一個 Database 配置多個 Instance。
-在 Oracle 12c 之後可以將 Read/Write 與 Read-Only 兩個 不同的Instance 共存在 同一個 Database 中。在12c之前除非是 Standby database 都是 Read/Write。
-Instance 如果需要改 Read/Write 或是 Read-Only 可以透過參數 INSTANCE_MODE 調整。
-INSTANCE_MODE = { READ-WRITE | READ-ONLY | READ-MOSTLY } Oracle資料庫結構概述 記憶體結構（Instance）：記憶體結構包含由一些記憶體空間及與處理程式(Process)所組合而成的，會隨著資料庫的開啟與關閉而消失。 實體結構（Database）：實體結構包含存在儲存媒體上的一些檔案，不會因為資料庫開啟關閉而消失。 Oracle 記憶體結構 共享記憶體（System Global Area；SGA）：主要是做資料交換的暫存記憶體空間。 背景處理程式（Background Process）：主要是Oracle記憶體結構與實體結構之間的溝通橋樑。 軟體程式碼區域（Software Code Area）：主要是存放Oracle軟體可執行程式的地方，同時軟體程式碼區域也是屬於Oracle Instance的一部份。 PGA（Program Global Area；PGA）：PGA是一塊私有的記憶體區塊，包含了有server process正在執行的工作資訊。每一個server process都有一個自己的PGA。。 UGA（User Global Area；UGA）：UGA主要是儲存使用者特定的連線狀態，UGA可能在SGA中分配，也可能在PGA中分配，這取決於Oracle的網路連線方式，看是使用多執行緒伺服器模式（Multi-Thread Server）還是專屬伺服器模式（Dedicated Server）。 其他處理程式（Other Process）：主要是使用者與Oracle記憶體結構之間的溝通橋樑。 Oracle 記憶體模組 Oracle 對於記憶體主要以兩個模組管理:KSM、KGH</description>
+      <description>最近在工作上遇到Oracle 發生的系統效能問題，雖然有順利解決了，但是在解決的過程中似乎覺的自己對Oracle知識相當貧乏，於是在這邊筆記一下我學到的知識。&#xA;學習的過過程中難免會出現紀錄錯誤，而且目前是因為工作上需要而自學。因此內容有錯還請見諒。&#xA;Oracle Instance Instance 是一個由各種設定檔組成的記憶體結構，基本上當資料庫連線到Oracle 時是連接到 Instance。Instance 與 Database 是可以互不相依的，也就是說 Instance 與 Database 可以單獨存在。&#xA;以下是Oracle Instance 的架構圖&#xA;Instance 有兩中配置方式:&#xA;Single Instance Oracle RAC (Oracle Real Application Clusters) Single 是單純一個Database 配置一個 Instance ，而 Oracle RAC 是一個 Database 配置多個 Instance。&#xA;在 Oracle 12c 之後可以將 Read/Write 與 Read-Only 兩個 不同的Instance 共存在 同一個 Database 中。在12c之前除非是 Standby database 都是 Read/Write。&#xA;Instance 如果需要改 Read/Write 或是 Read-Only 可以透過參數 INSTANCE_MODE 調整。&#xA;INSTANCE_MODE = { READ-WRITE | READ-ONLY | READ-MOSTLY } Oracle資料庫結構概述 記憶體結構（Instance）：記憶體結構包含由一些記憶體空間及與處理程式(Process)所組合而成的，會隨著資料庫的開啟與關閉而消失。 實體結構（Database）：實體結構包含存在儲存媒體上的一些檔案，不會因為資料庫開啟關閉而消失。 Oracle 記憶體結構 共享記憶體（System Global Area；SGA）：主要是做資料交換的暫存記憶體空間。 背景處理程式（Background Process）：主要是Oracle記憶體結構與實體結構之間的溝通橋樑。 軟體程式碼區域（Software Code Area）：主要是存放Oracle軟體可執行程式的地方，同時軟體程式碼區域也是屬於Oracle Instance的一部份。 PGA（Program Global Area；PGA）：PGA是一塊私有的記憶體區塊，包含了有server process正在執行的工作資訊。每一個server process都有一個自己的PGA。。 UGA（User Global Area；UGA）：UGA主要是儲存使用者特定的連線狀態，UGA可能在SGA中分配，也可能在PGA中分配，這取決於Oracle的網路連線方式，看是使用多執行緒伺服器模式（Multi-Thread Server）還是專屬伺服器模式（Dedicated Server）。 其他處理程式（Other Process）：主要是使用者與Oracle記憶體結構之間的溝通橋樑。 Oracle 記憶體模組 Oracle 對於記憶體主要以兩個模組管理:KSM、KGH</description>
     </item>
-    
     <item>
       <title>oracle 監控SQL 效能</title>
       <link>http://pollochang.work/worknot/worknot-20240305/</link>
       <pubDate>Tue, 05 Mar 2024 00:02:22 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240305/</guid>
-      <description>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。
-SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &amp;gt; 0 ORDER BY (SA.</description>
+      <description>這幾天在調校系統校能，想說從資料庫快取中看看能不能找出花費系統高的系統資源，後來從網路拼拼湊湊加上過去的經驗拼湊下面的監控SQL。拼湊好後，會透過kettle 搭配系統排程匯出查詢結果。&#xA;SELECT * FROM ( SELECT 1 QUERY_STATUS, SA.SQL_ID, SA.SQL_TEXT, SA.SQL_FULLTEXT, SA.EXECUTIONS EXECUTIONS, --執行次數 ROUND(SA.ELAPSED_TIME / 1000000, 2) ELAPSED_TIME, --總共執行時間(秒) ROUND(SA.ELAPSED_TIME / 1000000 / SA.EXECUTIONS, 2) ELAPSED_TIME_AVERAGE, --平均執行時間(秒) ROUND(SA.CPU_TIME / 1000000, 2) CPU_TIME, --CPU 執行時間 SA.DISK_READS, ROUND(SA.PLSQL_EXEC_TIME / 1000000, 2) PLSQL_EXEC_TIME, --(秒) ROUND(SA.USER_IO_WAIT_TIME / 1000000, 2) USER_IO_WAIT_TIME, --(秒) SA.COMMAND_TYPE, SA.HASH_VALUE, SA.PARSING_USER_ID PARSING_USER_ID, U.USERNAME USERNAME --帳號名稱 FROM V$SQLAREA SA LEFT JOIN ALL_USERS U ON SA.PARSING_USER_ID = U.USER_ID WHERE SA.EXECUTIONS &amp;gt; 0 ORDER BY (SA.</description>
     </item>
-    
     <item>
       <title>oracle 記憶體監控</title>
       <link>http://pollochang.work/worknot/worknot-20240304/</link>
       <pubDate>Mon, 04 Mar 2024 00:02:22 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240304/</guid>
-      <description>透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況
-select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &amp;#39;SGA&amp;#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&amp;#39;Maximum SGA Size&amp;#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&amp;#39;free memory&amp;#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &amp;#39;PGA&amp;#39; name,(select value/1024/1024 total from v$pgastat where name=&amp;#39;aggregate PGA target parameter&amp;#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &amp;#39;maximum PGA allocated&amp;#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&amp;#39;total PGA allocated&amp;#39;)used from dual ) ); sqlplus / as sysdba &amp;lt;&amp;lt; EOF @/home/oracle/check-health-script/check-memory.</description>
+      <description>透過 v$sgastat 、v$pgastat 檢測 SGA PGA 空間使用狀況&#xA;select name,used,free, pctused, max_allocated , sysdate opdt from ( select name,total,round(total-free,2) used, round(free,2) free,round((total-free)/total*100,2) pctused, round(MAX_ALLOCATED,2) MAX_ALLOCATED from ( select &amp;#39;SGA&amp;#39; name,(select sum(value/1024/1024) from v$sga) total, (SELECT SUM (bytes/1024/1024) FROM V$SGAINFO WHERE NAME=&amp;#39;Maximum SGA Size&amp;#39;) MAX_ALLOCATED , (select sum(bytes/1024/1024) from v$sgastat where name=&amp;#39;free memory&amp;#39;)free from dual ) union select name,total,round(used,2)used,round(total-used,2)free,round(used/total*100,2) pctused,round(MAX_ALLOCATED,2) from ( select &amp;#39;PGA&amp;#39; name,(select value/1024/1024 total from v$pgastat where name=&amp;#39;aggregate PGA target parameter&amp;#39;)total, (SELECT (value/1024/1024) FROM V$PGASTAT WHERE NAME = &amp;#39;maximum PGA allocated&amp;#39;) MAX_ALLOCATED, (select value/1024/1024 used from v$pgastat where name=&amp;#39;total PGA allocated&amp;#39;)used from dual ) ); sqlplus / as sysdba &amp;lt;&amp;lt; EOF @/home/oracle/check-health-script/check-memory.</description>
     </item>
-    
   </channel>
 </rss>

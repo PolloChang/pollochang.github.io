@@ -1,406 +1,292 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on PolloChang 工作筆記</title>
+    <title>Linux on PolloChang 工作筆記</title>
     <link>http://pollochang.work/categories/linux/</link>
-    <description>Recent content in linux on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Linux on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 14 Jan 2026 23:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Feb 2026 22:08:21 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ntp-server</title>
+      <link>http://pollochang.work/worknot/ntp-server/</link>
+      <pubDate>Mon, 09 Feb 2026 22:08:21 +0800</pubDate>
+      <guid>http://pollochang.work/worknot/ntp-server/</guid>
+      <description>部屬 NTP Server Oracle Linux 7 安裝 ntp 服務 yum install ntp /etc/ntp.conf # 先拒絕IPv4 &amp;amp; IPv6的用戶存取服務 restrict default kod nomodify notrap nopeer noquery restrict -6 default kod nomodify notrap nopeer noquery # 設定需要的時間伺服器進入 restrict 118.163.81.61 restrict 118.163.81.63 restrict 211.22.103.157 # 允許本機與相關網段 restrict 127.0.0.1 restrict ::1 restrict 192.168.56.0 mask 255.255.255.0 nomodify # 設定校時用的Server，perfer為最優先 server 118.163.81.61 prefer server 118.163.81.63 server 211.22.103.157 systemctl enable --now ntpd firewall-cmd --add-port=123/udp --permanent &amp;amp;&amp;amp; systemctl restart firewalld 檢查有設定成功 ntpq -p 以下為檢查結果</description>
+    </item>
     <item>
       <title>deploy-glassfish-on-oracle-linux</title>
       <link>http://pollochang.work/worknot/deploy-glassfish-on-oracle-linux/</link>
       <pubDate>Wed, 14 Jan 2026 23:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/deploy-glassfish-on-oracle-linux/</guid>
       <description>mkdir -p /usr/local/lib/jvm wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz wget https://ftp.jaist.ac.jp/pub/eclipse/ee4j/glassfish/glassfish-7.1.0.zip tar -zxf OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz -C /usr/local/lib/jvm ln -s /usr/local/lib/jvm/jdk-17.0.17+10 /usr/local/lib/jvm/jdk-17-lasted unzip -q glassfish-7.1.0.zip -d /opt/ sudo useradd -s /bin/bash -d /opt/glassfish7 --system glassfish chown -R glassfish: /opt/glassfish7 export JAVA_HOME=&amp;#34;/usr/local/lib/jvm/jdk-17-lasted&amp;#34; export PATH=${PATH}:${JAVA_HOME}/bin # 啟動網域 /opt/glassfish7/bin/asadmin start-domain # 設定管理員密碼 /opt/glassfish7/bin/asadmin change-admin-password # 啟用遠端管理介面 (GUI) /opt/glassfish7/bin/asadmin enable-secure-admin /opt/glassfish7/bin/asadmin restart-domain [glassfish@test-ap-150 ~]$ export JAVA_HOME=&amp;#34;/usr/local/lib/jvm/jdk-17-lasted&amp;#34; [glassfish@test-ap-150 ~]$ java -version -bash: java: command not found [glassfish@test-ap-150 ~]$ export PATH=${PATH}:${JAVA_HOME}/bin [glassfish@test-ap-150 ~]$ java -version openjdk version &amp;#34;17.</description>
     </item>
-    
     <item>
       <title>Build Template - Oracle Linux 8</title>
       <link>http://pollochang.work/worknot/build-template-oracle-linux-8/</link>
       <pubDate>Tue, 07 Oct 2025 10:06:25 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/build-template-oracle-linux-8/</guid>
-      <description>Oracle Linux 8 範本建置紀錄
-通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理
-sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.</description>
+      <description>Oracle Linux 8 範本建置紀錄&#xA;通用設定 建置前置作業 更新作業系統 sudo dnf update -y 安裝常用的軟體 這部份可以依據實際狀況處理&#xA;sudo dnf install epel-release # OL7 sudo yum install -y oracle-7 sudo dnf install -y vim nmon 如果是虛擬機複製，請更新 host keys sudo rm -f /etc/ssh/ssh_host_* &amp;amp;&amp;amp;\ sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key &amp;amp;&amp;amp;\ sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key sudo sshd -t sudo systemctl restart sshd 設定殼層 系統登入訊息: /etc/profile.d/ssh-login-info.sh #!/bin/sh # Script Name: /etc/profile.</description>
     </item>
-    
     <item>
       <title>howdy 人臉辨識</title>
       <link>http://pollochang.work/worknot/howdy/</link>
       <pubDate>Sun, 29 Jun 2025 09:34:41 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/howdy/</guid>
       <description>環境 OS: Debian 12 安裝 git clone git@github.com:boltgolt/howdy.git sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install -y \ python3 python3-pip python3-setuptools python3-wheel \ cmake make build-essential \ libpam0g-dev libinih-dev libevdev-dev python3-opencv \ python3-dev libopencv-dev python3-pip python3-venv v4l-utils sudo pip install dlib opencv-python --break-system-packages sudo ln -s /usr/bin/python3 /usr/bin/python meson setup build meson compile -C build meson install -C build v4l2-ctl --list-devices sudo howdy config device_path: /dev/video0 sudo howdy -U pollochang add /etc/pam.</description>
     </item>
-    
     <item>
       <title>UxPlay - IPhone 螢幕投影</title>
       <link>http://pollochang.work/worknot/uxplay/</link>
       <pubDate>Sun, 29 Jun 2025 06:53:48 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/uxplay/</guid>
-      <description>安裝 UxPlay 安裝必要套件
-sudo apt install pkg-config pkgconf cmake build-essential libssl-dev libplist-dev \ libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev cmake . make -j $(nproc) sudo make install sudo systemctl enable --now avahi-daemon.service sudo firewall-cmd --reload /etc/firewalld/services/uxplay.xml &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34;?&amp;gt; &amp;lt;service&amp;gt; &amp;lt;description&amp;gt;An open-source AirPlay mirroring server based on RPiPlay&amp;lt;/description&amp;gt; &amp;lt;port port=&amp;#34;6000-6001&amp;#34; protocol=&amp;#34;udp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7011&amp;#34; protocol=&amp;#34;udp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7000-7001&amp;#34; protocol=&amp;#34;tcp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7100&amp;#34; protocol=&amp;#34;tcp&amp;#34;/&amp;gt; &amp;lt;/service&amp;gt; sudo systemctl restart firewalld sudo firewall-cmd --zone=public --add-service=uxplay --permanent sudo firewall-cmd --reload /usr/local/bin/uxplay -p -vs waylandsink -fps 60 -s 1920x1080 ~/.</description>
+      <description>安裝 UxPlay 安裝必要套件&#xA;sudo apt install pkg-config pkgconf cmake build-essential libssl-dev libplist-dev \ libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev cmake . make -j $(nproc) sudo make install sudo systemctl enable --now avahi-daemon.service sudo firewall-cmd --reload /etc/firewalld/services/uxplay.xml &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34;?&amp;gt; &amp;lt;service&amp;gt; &amp;lt;description&amp;gt;An open-source AirPlay mirroring server based on RPiPlay&amp;lt;/description&amp;gt; &amp;lt;port port=&amp;#34;6000-6001&amp;#34; protocol=&amp;#34;udp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7011&amp;#34; protocol=&amp;#34;udp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7000-7001&amp;#34; protocol=&amp;#34;tcp&amp;#34;/&amp;gt; &amp;lt;port port=&amp;#34;7100&amp;#34; protocol=&amp;#34;tcp&amp;#34;/&amp;gt; &amp;lt;/service&amp;gt; sudo systemctl restart firewalld sudo firewall-cmd --zone=public --add-service=uxplay --permanent sudo firewall-cmd --reload /usr/local/bin/uxplay -p -vs waylandsink -fps 60 -s 1920x1080 ~/.</description>
     </item>
-    
     <item>
       <title>我使用Debian的方式</title>
       <link>http://pollochang.work/worknot/my-debian-policy/</link>
       <pubDate>Sat, 14 Jun 2025 08:37:57 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/my-debian-policy/</guid>
       <description>移除 Gnome 桌面預設 sudo apt remove packagekit 移除 packagekit : 因為我想100%決定我何時更新 </description>
     </item>
-    
     <item>
       <title>Linux Gdisk Error</title>
       <link>http://pollochang.work/worknot/linux-gdisk-error/</link>
       <pubDate>Thu, 06 Feb 2025 22:22:37 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-gdisk-error/</guid>
-      <description>今天在實驗室中擴充一顆虛擬硬碟到 150 G，原先是 50G。但是不管是重新開機都無法識別。
-後來發現 GPT 分割表未更新，如下
-root@moniter:~# fdisk -l /dev/sda GPT PMBR size mismatch (104857599 != 314572799) will be corrected by write. The backup GPT table is not on the end of the device. Disk /dev/sda: 150 GiB, 161061273600 bytes, 314572800 sectors Disk model: QEMU HARDDISK Units: sectors of 1 * 512 = 512 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disklabel type: gpt Disk identifier: 7F238892-1C86-461A-8E79-62365FFA4746 Device Start End Sectors Size Type /dev/sda1 2048 104855551 104853504 50G Linux filesystem 以下是處理方式</description>
+      <description>今天在實驗室中擴充一顆虛擬硬碟到 150 G，原先是 50G。但是不管是重新開機都無法識別。&#xA;後來發現 GPT 分割表未更新，如下&#xA;root@moniter:~# fdisk -l /dev/sda GPT PMBR size mismatch (104857599 != 314572799) will be corrected by write. The backup GPT table is not on the end of the device. Disk /dev/sda: 150 GiB, 161061273600 bytes, 314572800 sectors Disk model: QEMU HARDDISK Units: sectors of 1 * 512 = 512 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disklabel type: gpt Disk identifier: 7F238892-1C86-461A-8E79-62365FFA4746 Device Start End Sectors Size Type /dev/sda1 2048 104855551 104853504 50G Linux filesystem 以下是處理方式</description>
     </item>
-    
     <item>
       <title>linux 登入使用 google auth 二階段驗證</title>
       <link>http://pollochang.work/worknot/linux-google-authenticator/</link>
       <pubDate>Sat, 11 Jan 2025 22:36:14 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-google-authenticator/</guid>
-      <description>環境 OS: Debian 12 安裝及部屬 安裝 安裝 libpam-google-authenticator
-sudo apt -y install libpam-google-authenticator 設定 ssh 登入 /etc/pam.d/sshd auth required pam_google_authenticator.so /etc/ssh/sshd_config ChallengeResponseAuthentication yes #no 執行
-google-authenticator 設定 gnmoe 登入 /etc/pam.d/gdm-password auth required pam_google_authenticator.so @include common-auth # 在這行之前 重起 gdm
-sudo systemctl restart gdm </description>
+      <description>環境 OS: Debian 12 安裝及部屬 安裝 安裝 libpam-google-authenticator&#xA;sudo apt -y install libpam-google-authenticator 設定 ssh 登入 /etc/pam.d/sshd auth required pam_google_authenticator.so /etc/ssh/sshd_config ChallengeResponseAuthentication yes #no 執行&#xA;google-authenticator 設定 gnmoe 登入 /etc/pam.d/gdm-password auth required pam_google_authenticator.so @include common-auth # 在這行之前 重起 gdm&#xA;sudo systemctl restart gdm </description>
     </item>
-    
     <item>
       <title>Disable Gnome Auto Upate</title>
       <link>http://pollochang.work/worknot/disable-gnome-auto-upate/</link>
       <pubDate>Thu, 09 Jan 2025 20:04:08 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/disable-gnome-auto-upate/</guid>
-      <description>禁止 Gnome 自動背景更新
-設定文件: /etc/PackageKit/PackageKit.conf 設定文禁止更新
-#PreventNetworkAccess=false PreventNetworkAccess=true sudo systemctl daemon-reload sudo systemctl restart packagekit </description>
+      <description>禁止 Gnome 自動背景更新&#xA;設定文件: /etc/PackageKit/PackageKit.conf 設定文禁止更新&#xA;#PreventNetworkAccess=false PreventNetworkAccess=true sudo systemctl daemon-reload sudo systemctl restart packagekit </description>
     </item>
-    
     <item>
       <title>將腳本丟到背景執行</title>
       <link>http://pollochang.work/worknot/worknot-20241230-1/</link>
       <pubDate>Mon, 30 Dec 2024 11:24:09 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20241230-1/</guid>
       <description># 將腳本丟到背景執行，會輸出背景執行 PID Number nohup /usr/local/bin/example-shell.sh &amp;amp; # 監控結果 tail -f nohup.out # 監控背景程序還有執行 watch -n 1 &amp;#34;ps -p 120448 -o pid,ppid,%cpu,%mem,cmd&amp;#34; </description>
     </item>
-    
     <item>
       <title>systemctl</title>
       <link>http://pollochang.work/worknot/systemctl/</link>
       <pubDate>Sun, 22 Dec 2024 23:31:25 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/systemctl/</guid>
-      <description>變更 systemctl 默認編輯器 sudo update-alternatives --config editor 執行結果
-root@example:~# sudo update-alternatives --config editor There are 3 choices for the alternative editor (providing /usr/bin/editor). Selection Path Priority Status ------------------------------------------------------------ * 0 /bin/nano 40 auto mode 1 /bin/nano 40 manual mode 2 /usr/bin/vim.basic 30 manual mode 3 /usr/bin/vim.tiny 15 manual mode Press &amp;lt;enter&amp;gt; to keep the current choice[*], or type selection number: 2 update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode 同檔名優先權 在 /etc/systemd/system 與 /lib/systemd/system 有相同服務檔案名，會優先使用 /etc/systemd/system 路徑中的內容。</description>
+      <description>變更 systemctl 默認編輯器 sudo update-alternatives --config editor 執行結果&#xA;root@example:~# sudo update-alternatives --config editor There are 3 choices for the alternative editor (providing /usr/bin/editor). Selection Path Priority Status ------------------------------------------------------------ * 0 /bin/nano 40 auto mode 1 /bin/nano 40 manual mode 2 /usr/bin/vim.basic 30 manual mode 3 /usr/bin/vim.tiny 15 manual mode Press &amp;lt;enter&amp;gt; to keep the current choice[*], or type selection number: 2 update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode 同檔名優先權 在 /etc/systemd/system 與 /lib/systemd/system 有相同服務檔案名，會優先使用 /etc/systemd/system 路徑中的內容。</description>
     </item>
-    
     <item>
       <title>nmcli 指令操作</title>
       <link>http://pollochang.work/worknot/nmcli/</link>
       <pubDate>Wed, 18 Dec 2024 22:19:44 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/nmcli/</guid>
-      <description>處理前動作 檢查文件中已經有配置: /etc/network/interfaces 如果有需要註解，範例如下:
-# The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp 新增網卡配置 sudo nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1 ipv4.method manual 設定完需要重起 NetworkManager
-sudo systemctl restart NetworkManager 修改網卡配置 新增額外的DNS sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8 修改網址 sudo nmcli connection modify enp1s0 ipv4.addresses 192.168.17.208/24 修改 gateway sudo nmcli connection modify enp1s0 ipv4.gateway 192.168.17.254 修改DNS sudo nmcli connection modify enp1s0 ipv4.</description>
+      <description>處理前動作 檢查文件中已經有配置: /etc/network/interfaces 如果有需要註解，範例如下:&#xA;# The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp 新增網卡配置 sudo nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1 ipv4.method manual 設定完需要重起 NetworkManager&#xA;sudo systemctl restart NetworkManager 修改網卡配置 新增額外的DNS sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8 修改網址 sudo nmcli connection modify enp1s0 ipv4.addresses 192.168.17.208/24 修改 gateway sudo nmcli connection modify enp1s0 ipv4.gateway 192.168.17.254 修改DNS sudo nmcli connection modify enp1s0 ipv4.</description>
     </item>
-    
     <item>
       <title>關閉centos7防火牆firewalld改用傳統的iptables</title>
       <link>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</link>
       <pubDate>Thu, 21 Nov 2024 23:05:07 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/%E9%97%9C%E9%96%89centos7%E9%98%B2%E7%81%AB%E7%89%86firewalld%E6%94%B9%E7%94%A8%E5%82%B3%E7%B5%B1%E7%9A%84iptables/</guid>
-      <description>關閉 centos7 防火牆 firewalld 改用傳統的 iptables 這樣做的原因 因為firewalld 政策是對外嚴謹對內寬鬆，所以當需求是需要對內嚴謹時無法滿足需求
-處理方式 預設開機不啟動 且 立即停止
-systemctl disable --now firewalld 改用傳統的 iptables-services , 安裝
-yum install iptables-utils iptables-services -y 設定網路 清空 sudo iptables -F sudo iptables -X sudo iptables -Z 允許輸入 sudo iptables -I INPUT 1 -s 192.168.56.0/24 -j ACCEPT sudo iptables -A INPUT -i lo -j ACCEPT sudo iptables -A INPUT -s 0.0.0.0/0 -j DROP 允許輸出 sudo iptables -I OUTPUT 1 -d 192.</description>
+      <description>關閉 centos7 防火牆 firewalld 改用傳統的 iptables 這樣做的原因 因為firewalld 政策是對外嚴謹對內寬鬆，所以當需求是需要對內嚴謹時無法滿足需求&#xA;處理方式 預設開機不啟動 且 立即停止&#xA;systemctl disable --now firewalld 改用傳統的 iptables-services , 安裝&#xA;yum install iptables-utils iptables-services -y 設定網路 清空 sudo iptables -F sudo iptables -X sudo iptables -Z 允許輸入 sudo iptables -I INPUT 1 -s 192.168.56.0/24 -j ACCEPT sudo iptables -A INPUT -i lo -j ACCEPT sudo iptables -A INPUT -s 0.0.0.0/0 -j DROP 允許輸出 sudo iptables -I OUTPUT 1 -d 192.</description>
     </item>
-    
     <item>
       <title>Firewalld Common Questions</title>
       <link>http://pollochang.work/worknot/firewalld-common-questions/</link>
       <pubDate>Thu, 21 Nov 2024 23:01:31 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/firewalld-common-questions/</guid>
       <description>firewalld 問題整理 AllowZoneDrifting is enabled. 出現 AllowZoneDrifting is enabled. [root@ex-ap test]# systemctl status firewalld ● firewalld.service - firewalld - dynamic firewall daemon Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled) Active: active (running) since Sun 2022-02-13 09:58:54 CST; 2s ago Docs: man:firewalld(1) Main PID: 7200 (firewalld) Tasks: 2 CGroup: /system.slice/firewalld.service └─7200 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid Feb 13 09:58:53 ex-ap systemd[1]: Starting firewalld - dynamic firewall daemon... Feb 13 09:58:54 ex-ap systemd[1]: Started firewalld - dynamic firewall daemon.</description>
     </item>
-    
     <item>
       <title>Firewalld 學習筆記</title>
       <link>http://pollochang.work/worknot/firewalld/</link>
       <pubDate>Thu, 21 Nov 2024 23:00:29 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/firewalld/</guid>
-      <description>以下是 firewalld 學習筆記
-firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。
-一條網路連線或介面只能隸屬於一個區域，我們可以自訂區域的設定，也可以直接從 firewalld 預設的幾個區域中選擇：
-區域 描述 drop 任何往內的封包都會被丟棄，只允許往外傳送的封包。 block 任何來自於外部的連線都會被阻擋，只允許自己系統主動建立的連線。 public 公開區域，預設不信任其他電腦與網路，只有被允許的連線才能進入。通常大部分的連線設定都會放在這裡。 external 公開區域，適用於 NAT 網路環境。 dmz 非軍事區域（demilitarized zone，有點像是放在外頭的危險區域），允許外部的連線進入，但其對內的連線則有限制，只有被允許的連線才能連進內部網路。 work 公司內部等工作區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 home 家裡頭的網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 internal 內部網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 trusted 完全信任的區域，接受所有連線。 libvirt KVM 主機介面 docker docker 網路介面 firewall-cmd命令中使用的參數以及作用 參數 作用 &amp;ndash;get-default-zone 查訪默認的區域名稱 &amp;ndash;set-default-zone=&amp;lt;區域名稱&amp;gt; 設置默認的區域，使其永久生效 &amp;ndash;get-zones 顯示可用的區域 &amp;ndash;get-services 顯示預定義的服務 &amp;ndash;get-active-zones 顯示當前正在使用的區域、來源地址和網卡名稱 &amp;ndash;add-source= 將源自此IP或子網的流量導向指定的區域 &amp;ndash;remove-source= 不再將源自此IP或子網的流量導向這個區域 &amp;ndash;add-interface=&amp;lt;網卡名稱&amp;gt; 將源自該網卡的所有流量都導向某個指定區域 &amp;ndash;change-interface=&amp;lt;網卡名稱&amp;gt; 將某個網卡與區域進行關聯 &amp;ndash;list-all 顯示當前區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;list-all-zones 顯示所有區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;add-service=&amp;lt;服務名&amp;gt; 設置默認區域允許該服務的流量 &amp;ndash;add-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域允許該端口的流量 &amp;ndash;remove-service=&amp;lt;服務名&amp;gt; 設置默認區域不再允許該服務的流量 &amp;ndash;remove-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域不再允許該端口的流量 &amp;ndash;reload 讓“永久生效”的配置規則立即生效，並覆蓋當前的配置規則 &amp;ndash;panic-on 開啟應急狀況模式 &amp;ndash;panic-off 關閉應急狀況模式 遷移網卡到別的區域 查詢網卡名稱 sudo ifconfig 移除網卡原有區域 新增至目標區域 sudo firewall-cmd --permanent --zone=public --change-interface=ens160 sudo firewall-cmd --permanent --zone=trusted --change-interface=virbr1 sudo firewall-cmd --permanent --zone=internal --change-interface=eth1 查詢那協正在運作的 zone sudo firewall-cmd --get-active-zones 規則 開放特定 port sudo firewall-cmd --permanent --zone=public --add-port=10010/tcp sudo firewall-cmd --permanent --zone=public --add-port=10020/tcp sudo firewall-cmd --permanent --zone=libvirt --add-port=33899/tcp 設定IP 只通哪個Port sudo firewall-cmd --permanent --zone=public --add-rich-rule=&amp;#39;rule family=&amp;#34;ipv4&amp;#34; source address=&amp;#34;192.</description>
+      <description>以下是 firewalld 學習筆記&#xA;firewall 網路來源優先 有設定 IP source 優先 有設定 網卡 優先 預設區域 區域簡介 firewalld 的區域（zone）可用來設定網路連線、介面等所處的運作環境，對內使用的區域其防火牆規則會較為寬鬆，反之若是對外的區域其規則會較為嚴謹。&#xA;一條網路連線或介面只能隸屬於一個區域，我們可以自訂區域的設定，也可以直接從 firewalld 預設的幾個區域中選擇：&#xA;區域 描述 drop 任何往內的封包都會被丟棄，只允許往外傳送的封包。 block 任何來自於外部的連線都會被阻擋，只允許自己系統主動建立的連線。 public 公開區域，預設不信任其他電腦與網路，只有被允許的連線才能進入。通常大部分的連線設定都會放在這裡。 external 公開區域，適用於 NAT 網路環境。 dmz 非軍事區域（demilitarized zone，有點像是放在外頭的危險區域），允許外部的連線進入，但其對內的連線則有限制，只有被允許的連線才能連進內部網路。 work 公司內部等工作區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 home 家裡頭的網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 internal 內部網路區域，在此區域中不應該會有惡意的攻擊者。只有被允許的連線可以進入。 trusted 完全信任的區域，接受所有連線。 libvirt KVM 主機介面 docker docker 網路介面 firewall-cmd命令中使用的參數以及作用 參數 作用 &amp;ndash;get-default-zone 查訪默認的區域名稱 &amp;ndash;set-default-zone=&amp;lt;區域名稱&amp;gt; 設置默認的區域，使其永久生效 &amp;ndash;get-zones 顯示可用的區域 &amp;ndash;get-services 顯示預定義的服務 &amp;ndash;get-active-zones 顯示當前正在使用的區域、來源地址和網卡名稱 &amp;ndash;add-source= 將源自此IP或子網的流量導向指定的區域 &amp;ndash;remove-source= 不再將源自此IP或子網的流量導向這個區域 &amp;ndash;add-interface=&amp;lt;網卡名稱&amp;gt; 將源自該網卡的所有流量都導向某個指定區域 &amp;ndash;change-interface=&amp;lt;網卡名稱&amp;gt; 將某個網卡與區域進行關聯 &amp;ndash;list-all 顯示當前區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;list-all-zones 顯示所有區域的網卡配置參數、資源、端口以及服務等信息 &amp;ndash;add-service=&amp;lt;服務名&amp;gt; 設置默認區域允許該服務的流量 &amp;ndash;add-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域允許該端口的流量 &amp;ndash;remove-service=&amp;lt;服務名&amp;gt; 設置默認區域不再允許該服務的流量 &amp;ndash;remove-port=&amp;lt;端口號/協議&amp;gt; 設置默認區域不再允許該端口的流量 &amp;ndash;reload 讓“永久生效”的配置規則立即生效，並覆蓋當前的配置規則 &amp;ndash;panic-on 開啟應急狀況模式 &amp;ndash;panic-off 關閉應急狀況模式 遷移網卡到別的區域 查詢網卡名稱 sudo ifconfig 移除網卡原有區域 新增至目標區域 sudo firewall-cmd --permanent --zone=public --change-interface=ens160 sudo firewall-cmd --permanent --zone=trusted --change-interface=virbr1 sudo firewall-cmd --permanent --zone=internal --change-interface=eth1 查詢那協正在運作的 zone sudo firewall-cmd --get-active-zones 規則 開放特定 port sudo firewall-cmd --permanent --zone=public --add-port=10010/tcp sudo firewall-cmd --permanent --zone=public --add-port=10020/tcp sudo firewall-cmd --permanent --zone=libvirt --add-port=33899/tcp 設定IP 只通哪個Port sudo firewall-cmd --permanent --zone=public --add-rich-rule=&amp;#39;rule family=&amp;#34;ipv4&amp;#34; source address=&amp;#34;192.</description>
     </item>
-    
     <item>
       <title>Firewalld Forward Port 防火牆轉發</title>
       <link>http://pollochang.work/worknot/firewalld-forward-port/</link>
       <pubDate>Thu, 21 Nov 2024 22:59:15 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/firewalld-forward-port/</guid>
       <description># firewall-cmd --add-forward-port=port=port-number:proto=tcp|udp|sctp|dccp:toport=port-number sudo firewall-cmd --query-masquerade # 查詢有IP 偽裝 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --permanent --zone=public --add-forward-port=port=33822:proto=tcp:toport=22:toaddr=203.74.221.35 </description>
     </item>
-    
     <item>
       <title>Create Local Repository for Yum</title>
       <link>http://pollochang.work/worknot/create-local-repository-for-yum/</link>
       <pubDate>Thu, 21 Nov 2024 22:50:58 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/create-local-repository-for-yum/</guid>
-      <description>建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7
-100GB 存放空間
-安裝工具 yum install yum-utils createrepo -y
-啟用 EPEL sudo yum install epel-release sudo yum update 檢查 yum repolist yum-config-manager &amp;ndash;add-repo https://download.docker.com/linux/centos/docker-ce.repo
-下載 reposync -l --repoid=base --repoid=extras --repoid=updates --download_path=/var/www/html/centos/7 --download-metadata reposync -l --repoid=epel --download_path=/var/www/html/centos/ --download-metadata --newest-only reposync -l --repoid=docker-ce-stable --download_path=/var/www/html/centos/ --download-metadata --newest-only &amp;ndash;gpgcheck 檢查GPG，失敗澤刪除檔案
-gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，一般內部部署軟體包下載可以關掉。
-&amp;ndash;newest-only 只抓最新的檔案
-建立本地yum倉庫 mkdir -p /home/yum/local/ 建立repo檔案 /etc/yum.repos.d/local.repo
-[Local] name=Local Yum baseurl=file:///home/yum gpgcheck=0 enabled=1 [DVD] name=DVD Yum baseurl=file:///mnt/iso gpgcheck=0 enabled=1 安裝 createrepo yum install createrepo</description>
+      <description>建立本地yum倉庫 生一個CentOS7 的環境 local repository 環境 CentOS 7&#xA;100GB 存放空間&#xA;安裝工具 yum install yum-utils createrepo -y&#xA;啟用 EPEL sudo yum install epel-release sudo yum update 檢查 yum repolist yum-config-manager &amp;ndash;add-repo https://download.docker.com/linux/centos/docker-ce.repo&#xA;下載 reposync -l --repoid=base --repoid=extras --repoid=updates --download_path=/var/www/html/centos/7 --download-metadata reposync -l --repoid=epel --download_path=/var/www/html/centos/ --download-metadata --newest-only reposync -l --repoid=docker-ce-stable --download_path=/var/www/html/centos/ --download-metadata --newest-only &amp;ndash;gpgcheck 檢查GPG，失敗澤刪除檔案&#xA;gpgcheck是gpg簽名是否開啟的選項名稱，1是開啟，0是不開啟，一般內部部署軟體包下載可以關掉。&#xA;&amp;ndash;newest-only 只抓最新的檔案&#xA;建立本地yum倉庫 mkdir -p /home/yum/local/ 建立repo檔案 /etc/yum.repos.d/local.repo&#xA;[Local] name=Local Yum baseurl=file:///home/yum gpgcheck=0 enabled=1 [DVD] name=DVD Yum baseurl=file:///mnt/iso gpgcheck=0 enabled=1 安裝 createrepo yum install createrepo</description>
     </item>
-    
     <item>
       <title>CRON[204259]: PAM unable to dlopen(pam_pwquality.so)</title>
       <link>http://pollochang.work/worknot/worknot-20241118-1/</link>
       <pubDate>Mon, 18 Nov 2024 12:23:09 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20241118-1/</guid>
       <description>詳細錯誤訊息 Nov 18 12:17:01 91214Desktop CRON[204259]: PAM unable to dlopen(pam_pwquality.so): /lib/security/pam_pwquality.so: cannot open shared object file: No such file or directory Nov 18 12:17:01 91214Desktop CRON[204259]: PAM adding faulty module: pam_pwquality.so Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0) Nov 18 12:17:01 91214Desktop CRON[204259]: pam_unix(cron:session): session closed for user root 環境 Debian 11 解決方式 sudo apt install libpam-pwquality sudo mkdir -p /lib/security sudo ln -s /lib/x86_64-linux-gnu/security/pam_pwquality.</description>
     </item>
-    
     <item>
       <title>install-open-project-on-debain11</title>
       <link>http://pollochang.work/worknot/install-open-project-on-debain11/</link>
       <pubDate>Mon, 18 Nov 2024 12:23:09 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/install-open-project-on-debain11/</guid>
       <description>環境 OS: Debain 11 RAM: 4G CPU: 4 Core 新增資料庫 su postgres -c psql CREATE DATABASE openprojectdb; CREATE USER openprojectap WITH PASSWORD &amp;#39;Pass@wd&amp;#39;; GRANT ALL ON DATABASE openprojectdb to openprojectap; ALTER USER openprojectap WITH PASSWORD &amp;#39;paddww&amp;#39;; 安裝指令 apt install -y apt-transport-https ca-certificates wget gpg wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor &amp;gt; /etc/apt/trusted.gpg.d/packager-io.gpg wget -O /etc/apt/sources.list.d/openproject.list https://dl.packager.io/srv/opf/openproject/stable/15/installer/debian/11.repo apt update apt install openproject sudo openproject configure &amp;ndash;base-url https://10.1.4.43/openproject</description>
     </item>
-    
     <item>
       <title>Fail2ban</title>
       <link>http://pollochang.work/worknot/linux-fail2ban/</link>
       <pubDate>Wed, 13 Nov 2024 00:18:25 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-fail2ban/</guid>
-      <description>fail2ban 安裝 apt install fail2ban -y 狀態 檢查監控的服務
-fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; banip &amp;ldquo;IP-Address&amp;rdquo;
-fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; unbanip &amp;ldquo;Banned IP-Address&amp;rdquo;
-fail2ban-client set sshd unbanip 10.137.26.29 </description>
+      <description>fail2ban 安裝 apt install fail2ban -y 狀態 檢查監控的服務&#xA;fail2ban-client status 檢查被攔阻的IP fail2ban-client status zimbra-smtp 設定完成後檢查 fail2ban-regex /var/log/zimbra.log /etc/fail2ban/filter.d/zimbra-smtp.conf 加载所有配置 fail2ban-client reload Ban an IP address fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; banip &amp;ldquo;IP-Address&amp;rdquo;&#xA;fail2ban-client set sshd banip 10.137.26.29 Unban an IP address. fail2ban-client set &amp;ldquo;Jail-Name&amp;rdquo; unbanip &amp;ldquo;Banned IP-Address&amp;rdquo;&#xA;fail2ban-client set sshd unbanip 10.137.26.29 </description>
     </item>
-    
     <item>
       <title>Nmon</title>
       <link>http://pollochang.work/worknot/nmon-20241028-1/</link>
       <pubDate>Mon, 28 Oct 2024 22:08:21 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/nmon-20241028-1/</guid>
-      <description>nmon nmon_analyser 69 版本有問題，所以我這邊下載 66
-wget https://sourceforge.net/projects/nmon/files/nmon_analyser_v66.zip 官方網站: https://nmon.sourceforge.io/pmwiki.php</description>
+      <description>nmon nmon_analyser 69 版本有問題，所以我這邊下載 66&#xA;wget https://sourceforge.net/projects/nmon/files/nmon_analyser_v66.zip 官方網站: https://nmon.sourceforge.io/pmwiki.php</description>
     </item>
-    
     <item>
       <title>linux 設定網路</title>
       <link>http://pollochang.work/worknot/worknot-20240805-1/</link>
       <pubDate>Mon, 05 Aug 2024 22:41:58 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240805-1/</guid>
       <description>設定網路 啟動網卡 sudo ip link set eth0 up 透過 DHCP 取得IP sudo dhclient eth0 安裝 NetworkManager Debian sudo apt install network-manager sudo systemctl start NetworkManager sudo systemctl enable NetworkManager </description>
     </item>
-    
     <item>
       <title>Arch Linux 安裝</title>
       <link>http://pollochang.work/worknot/arch-linux-20240802/</link>
       <pubDate>Fri, 02 Aug 2024 22:40:11 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/arch-linux-20240802/</guid>
-      <description>環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站
-可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/
-/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/nvme0n1 mklabel gpt # parted /dev/nvme0n1 # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl + D gdisk /dev/nvme0n1 # /dev/sda1 -&amp;gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&amp;gt; 4G (swap) # /dev/sda3 -&amp;gt; (/) # 檢查結果 fdisk -l mkfs.</description>
+      <description>環境 KVM CPU: 2 core RAM: 2G 環境調查事項 開機方式: bios_grub or UEFI 環境規劃 硬碟 swap: 4G bios_grub: 1M /boot: 1GB 下載 wget https://linux.cs.nctu.edu.tw/archlinux/iso/2024.08.01/archlinux-2024.08.01-x86_64.iso 安裝 SOP 選擇鏡像站&#xA;可以從這裡選擇較進的鏡像站: https://archlinux.org/mirrorlist/&#xA;/etc/pacman.d/mirrorlist Server = http://archlinux.cs.nycu.edu.tw/$repo/os/$arch # 檢查網路 ping -c 3 8.8.8.8 # 檢查是否為UEFI模式開機 cat /sys/firmware/efi/fw_platform_size # 分割硬碟 fdisk -l # Create a GPT partition table: # parted /dev/nvme0n1 mklabel gpt # parted /dev/nvme0n1 # mkpart primary 1MiB 2MiB # set 1 bios_grub on # mkpart primary 2MiB 100% # ctrl + D gdisk /dev/nvme0n1 # /dev/sda1 -&amp;gt; 1M (boot) 1G (efi_system_partition) # /dev/sda2 -&amp;gt; 4G (swap) # /dev/sda3 -&amp;gt; (/) # 檢查結果 fdisk -l mkfs.</description>
     </item>
-    
     <item>
       <title>Debiain 桌面設定</title>
       <link>http://pollochang.work/worknot/worknot-20240801-1/</link>
       <pubDate>Thu, 01 Aug 2024 23:37:45 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240801-1/</guid>
       <description>筆電 蓋上螢幕不休眠 /etc/systemd/logind.conf HandleLidSwitch=ignore sudo systemctl restart systemd-logind sudp reboot </description>
     </item>
-    
     <item>
       <title>在 Linux 中 製作 USB 開機牒</title>
       <link>http://pollochang.work/worknot/worknot-20240717-2/</link>
       <pubDate>Wed, 17 Jul 2024 23:04:42 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240717-2/</guid>
       <description>方案 BalenaEtcher 環境 OS: Debian 12 處理步驟 curl -1sLf &amp;#39;https://dl.cloudsmith.io/public/balena/etcher/setup.deb.sh&amp;#39; | sudo -E bash sudo apt update sudo apt install balena-etcher-electron </description>
     </item>
-    
     <item>
       <title>Linux Iconv</title>
       <link>http://pollochang.work/worknot/linux-iconv/</link>
       <pubDate>Fri, 05 Jul 2024 14:16:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-iconv/</guid>
-      <description>Linux 轉碼工具
-# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql </description>
+      <description>Linux 轉碼工具&#xA;# 查詢檔案編碼 file -i source-file.sql # 執行轉碼 iconv -f utf-16le -t UTF-8 source-file.sql -o gole-file.sql </description>
     </item>
-    
     <item>
       <title>在 Linux 中，su account 和 su - account 有以下主要差別</title>
       <link>http://pollochang.work/worknot/worknot-20240704-1/</link>
       <pubDate>Thu, 04 Jul 2024 18:18:54 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240704-1/</guid>
       <description>su account 保持當前環境：su account 切換到 account 用戶時，會保留當前用戶的環境變量和當前目錄。 不會加載 account 用戶的環境配置：這意味著 account 用戶的 .bash_profile 或 .profile 等配置文件不會被執行。 當前目錄不變：切換到 account 用戶後，會保持在切換前的目錄。 su - account 模擬完整登錄：su - account 切換到 account 用戶時，會模擬完整的登錄過程，就像 account 用戶剛剛通過 SSH 或登入界面登錄一樣。 加載 account 用戶的環境配置：account 用戶的 .bash_profile 或 .profile 等配置文件會被執行，設置該用戶的環境變量。 切換到用戶的主目錄：切換到 account 用戶後，會自動進入該用戶的主目錄（通常是 /home/account）。 </description>
     </item>
-    
     <item>
       <title>Linux Grub2 Set Default(手動設定開機時要啟動的 linux 核心)</title>
       <link>http://pollochang.work/worknot/linux-grub2-set-default/</link>
       <pubDate>Wed, 03 Jul 2024 23:43:33 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-grub2-set-default/</guid>
-      <description>手動設定開機時要啟動的 linux 核心
-操作步驟
-查看目前已經有安哪些核心 選擇核心 重新生成GRUB配置 重新開機 檢查 # 1. 查看目前已經有安哪些核心 grep ^menuentry /boot/grub2/grub.cfg # 2. 選擇核心 grub2-set-default 0 # 3. 重新生成GRUB配置 grub2-mkconfig -o /boot/grub2/grub.cfg # 4. 重新開機 reboot # 5. 檢查 uname -a 處理結果
-[root@test-os yum.repos.d]# grep ^menuentry /boot/grub2/grub.cfg menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.14.35-2047.537.4.el7uek.x86_64&amp;#39; --class oracle --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option &amp;#39;gnulinux-4.14.35-2047.537.4.el7uek.x86_64-advanced-cf7b3276-fddb-46de-917a-bbb2ca596c54&amp;#39; { menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.</description>
+      <description>手動設定開機時要啟動的 linux 核心&#xA;操作步驟&#xA;查看目前已經有安哪些核心 選擇核心 重新生成GRUB配置 重新開機 檢查 # 1. 查看目前已經有安哪些核心 grep ^menuentry /boot/grub2/grub.cfg # 2. 選擇核心 grub2-set-default 0 # 3. 重新生成GRUB配置 grub2-mkconfig -o /boot/grub2/grub.cfg # 4. 重新開機 reboot # 5. 檢查 uname -a 處理結果&#xA;[root@test-os yum.repos.d]# grep ^menuentry /boot/grub2/grub.cfg menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.14.35-2047.537.4.el7uek.x86_64&amp;#39; --class oracle --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option &amp;#39;gnulinux-4.14.35-2047.537.4.el7uek.x86_64-advanced-cf7b3276-fddb-46de-917a-bbb2ca596c54&amp;#39; { menuentry &amp;#39;Oracle Linux Server 7.9, with Unbreakable Enterprise Kernel 4.</description>
     </item>
-    
     <item>
       <title>設定 Linux 檔案瀏覽器 Files 預設的 Columns</title>
       <link>http://pollochang.work/worknot/worknot-20240701-1/</link>
       <pubDate>Mon, 01 Jul 2024 09:48:08 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240701-1/</guid>
-      <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values
-name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
+      <description> 使用以下命令來查看當前設置： gsettings get org.gnome.nautilus.list-view default-visible-columns 設置你想要的欄位，例如： gsettings set org.gnome.nautilus.list-view default-visible-columns &amp;#34;[&amp;#39;name&amp;#39;, &amp;#39;size&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;date_modified&amp;#39;]&amp;#34; default-visible-columns values&#xA;name: 檔案或目錄的名稱 size: 檔案的大小 type: 檔案的類型 date_modified: 檔案的修改日期 date_accessed: 檔案的訪問日期 owner: 檔案的所有者 group: 檔案的群組 permissions: 檔案的權限 detailed_type: 檔案的詳細類型（例如“MPEG-4 影片”、“PNG 圖片”） </description>
     </item>
-    
     <item>
       <title>linux last 指令</title>
       <link>http://pollochang.work/worknot/worknot-20240625-1/</link>
       <pubDate>Tue, 25 Jun 2024 12:24:41 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240625-1/</guid>
       <description>統計每個 IP 地址的出現次數 last | awk &amp;#39;{print $3}&amp;#39; | grep -Eo &amp;#39;([0-9]{1,3}\.){3}[0-9]{1,3}&amp;#39; | sort | uniq -c | sort -nr last： 顯示用戶登錄的歷史記錄。 awk &amp;lsquo;{print $3}&amp;rsquo;： 提取輸出的第三列，通常是 IP 地址或主機名。 grep -Eo &amp;lsquo;([0-9]{1,3}.){3}[0-9]{1,3}&amp;rsquo;： 使用正則表達式過濾出有效的 IP 地址。 sort： 將結果排序，這一步是 uniq -c 正常工作的前提。 uniq -c： 統計每個唯一 IP 地址的出現次數。 sort -nr：按數量從大到小排序。 </description>
     </item>
-    
     <item>
       <title>Linux 硬體檢視</title>
       <link>http://pollochang.work/worknot/linux-hardware-view/</link>
       <pubDate>Tue, 18 Jun 2024 00:25:07 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-hardware-view/</guid>
       <description>使用 lshw 工具 安裝 Debian sudo apt install lshw 檢測 CPU ❯ sudo lshw -short -class bus -class cpu H/W path Device Class Description ========================================================= /0 bus 01M3M4 /0/400 processor 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz /0/100/d bus Tiger Lake-LP Thunderbolt 4 USB Controller /0/100/d/0 usb1 bus xHCI Host Controller /0/100/d/1 usb2 bus xHCI Host Controller /0/100/d.2 bus Tiger Lake-LP Thunderbolt 4 NHI #0 /0/100/14 bus Tiger Lake-LP USB 3.</description>
     </item>
-    
     <item>
       <title>Update Nvidia 470 Dirver</title>
       <link>http://pollochang.work/worknot/update-nvidia-470-dirver/</link>
       <pubDate>Tue, 11 Jun 2024 22:29:27 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/update-nvidia-470-dirver/</guid>
-      <description>Linux 安裝 NVidia 驅動程式
-環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt install linux-image-$(uname -r)-dbg linux-image-$(uname -r) linux-headers-$(uname -r) sudo apt -y install build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
+      <description>Linux 安裝 NVidia 驅動程式&#xA;環境 OS: Debian 11 GPU: Nvidia 410 建議開機: boot 執行步驟 檢查 GPU 型號 lspci -nn | egrep -i &amp;#34;3d|display|vga&amp;#34; 00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics 630 [8086:591b] (rev 04) 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP106M [GeForce GTX 1060 Mobile] [10de:1c20] (rev a1) 安裝 linux-headers 及必要套件 Debian sudo apt install linux-image-$(uname -r)-dbg linux-image-$(uname -r) linux-headers-$(uname -r) sudo apt -y install build-essential libglvnd-dev pkg-config gcc g++ make 移除不必要套件 下載最新 Nvidia driver 到以下網址下載最新的驅動程式</description>
     </item>
-    
     <item>
       <title>putty 編譯安裝</title>
       <link>http://pollochang.work/worknot/worknot-20240605-1/</link>
       <pubDate>Wed, 05 Jun 2024 22:52:47 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240605-1/</guid>
       <description>編譯安裝 下載 putty wget https://the.earth.li/~sgtatham/putty/latest/putty-0.83.tar.gz tar -zxf putty-0.83.tar.gz cd putty-0.83 建立 catch cmake . ❯ cmake . -- The C compiler identification is GNU 12.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Found Git: /usr/bin/git (found version &amp;#34;2.39.2&amp;#34;) -- Looking for sys/auxv.</description>
     </item>
-    
     <item>
       <title>Linux Cli Netstat</title>
       <link>http://pollochang.work/worknot/linux-cli-netstat/</link>
       <pubDate>Mon, 03 Jun 2024 12:29:55 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/linux-cli-netstat/</guid>
-      <description>線上手冊內容 NETSTAT(8)	Linux System Administrator&amp;#39;s Manual	NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships SYNOPSIS netstat	[address_family_options] [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] [--l2cap|-2]	[--rfcomm|-f]	[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--nu‐ meric-ports] [--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o] [--program|-p] [--verbose|-v] [--continuous|-c] [--wide|-W] netstat {--route|-r} [address_family_options] [--extend|-e[--extend|-e]] [--verbose|-v] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--interfaces|-i} [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v] [--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] netstat {--version|-V} netstat {--help|-h} address_family_options: [-4|--inet] [-6|--inet6] [--protocol={inet,inet6,unix,ipx,ax25,netrom,ddp,bluetooth, .</description>
+      <description>線上手冊內容 NETSTAT(8)&#x9;Linux System Administrator&amp;#39;s Manual&#x9;NETSTAT(8) NAME netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships SYNOPSIS netstat&#x9;[address_family_options] [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] [--l2cap|-2]&#x9;[--rfcomm|-f]&#x9;[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--nu‐ meric-ports] [--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o] [--program|-p] [--verbose|-v] [--continuous|-c] [--wide|-W] netstat {--route|-r} [address_family_options] [--extend|-e[--extend|-e]] [--verbose|-v] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--interfaces|-i} [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v] [--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] [--numeric-ports] [--numeric-users] [--continuous|-c] netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--udplite|-U] [--sctp|-S] [--raw|-w] netstat {--version|-V} netstat {--help|-h} address_family_options: [-4|--inet] [-6|--inet6] [--protocol={inet,inet6,unix,ipx,ax25,netrom,ddp,bluetooth, .</description>
     </item>
-    
     <item>
       <title>nginx ssl 設定步驟</title>
       <link>http://pollochang.work/worknot/worknot-20240529-1/</link>
       <pubDate>Wed, 29 May 2024 21:27:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240529-1/</guid>
       <description>檢查本機的OpenSSL支援加密協定 openssl ciphers -v | grep TLS ❯ openssl ciphers -v | grep TLS TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD TLS_CHACHA20_POLY1305_SHA256 TLSv1.3 Kx=any Au=any Enc=CHACHA20/POLY1305(256) Mac=AEAD TLS_AES_128_GCM_SHA256 TLSv1.3 Kx=any Au=any Enc=AESGCM(128) Mac=AEAD ECDHE-ECDSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(256) Mac=AEAD ECDHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=ECDH Au=RSA Enc=AESGCM(256) Mac=AEAD DHE-RSA-AES256-GCM-SHA384 TLSv1.2 Kx=DH Au=RSA Enc=AESGCM(256) Mac=AEAD ECDHE-ECDSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=ECDSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=ECDH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD DHE-RSA-CHACHA20-POLY1305 TLSv1.2 Kx=DH Au=RSA Enc=CHACHA20/POLY1305(256) Mac=AEAD ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.</description>
     </item>
-    
     <item>
       <title>linux CLI rsync</title>
       <link>http://pollochang.work/worknot/worknot-20240518-1/</link>
       <pubDate>Sat, 18 May 2024 00:08:34 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240518-1/</guid>
       <description>中斷續傳 rsync -P --rsh=ssh jameschang@[IP]:[source-path] [gold-path] -P 顯示進度</description>
     </item>
-    
     <item>
       <title>一到指令刪除相關進程</title>
       <link>http://pollochang.work/worknot/worknot-20240427/</link>
       <pubDate>Sat, 27 Apr 2024 23:22:46 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240427/</guid>
-      <description>查詢 java 所有的進程
-❯ top -b -n 1 | grep java | cut -c 1-7 8190 15263 15512 16641 17148 假設我要刪除 java 全部的進程可以這樣處理
-❯ top -b -n 1 | grep java | cut -c 1-7 | xargs kill -9 </description>
+      <description>查詢 java 所有的進程&#xA;❯ top -b -n 1 | grep java | cut -c 1-7 8190 15263 15512 16641 17148 假設我要刪除 java 全部的進程可以這樣處理&#xA;❯ top -b -n 1 | grep java | cut -c 1-7 | xargs kill -9 </description>
     </item>
-    
     <item>
       <title>KDE 桌面 CLI</title>
       <link>http://pollochang.work/worknot/worknot-20240409/</link>
       <pubDate>Tue, 09 Apr 2024 10:59:52 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240409/</guid>
       <description>KED 強制登出使用者 sudo pkill -KILL -u [username]] 是直接強制踢出指定使用者所有程序</description>
     </item>
-    
     <item>
       <title>Linux 發行板核心版本整理</title>
       <link>http://pollochang.work/worknot/worknot-20240309/</link>
       <pubDate>Sat, 09 Mar 2024 11:27:26 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240309/</guid>
-      <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下
-Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
+      <description>前幾天在工作中因為要導入GBC，但是在客戶的系統當中有非RedHat衍生發行板的系統，所以想說用相近的 Linux Kernel 作為導入的基礎，在這邊把整好的核心版本整理一下&#xA;Linux 發行板 Kernel Version Rocky Linux 8 4.18.0 Rocky Linux 9 5.14.0 Red Hat Enterprise Linux 2.1 2.4.9 Red Hat Enterprise Linux 3 2.4.21 Red Hat Enterprise Linux 4 2.6.9 Red Hat Enterprise Linux 5 2.6.18 Red Hat Enterprise Linux 6 2.6.32 Red Hat Enterprise Linux 7 3.10.0 Red Hat Enterprise Linux 8 4.18.0 Red Hat Enterprise Linux 9 5.14.0 Oracle VM 3 4.1 Oracle Linux 6 2.</description>
     </item>
-    
     <item>
       <title>windows ssh key 登入 Linux</title>
       <link>http://pollochang.work/worknot/windows-ssh-key-login/</link>
       <pubDate>Wed, 15 Nov 2023 20:53:54 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/windows-ssh-key-login/</guid>
-      <description>先產生 ssh 金鑰
-ssh-keygen 將公鑰上傳到目標主機
-type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {account}@{IP-ADDRESS-OR-FQDN} &amp;#34;cat &amp;gt;&amp;gt; .ssh/authorized_keys&amp;#34; </description>
+      <description>先產生 ssh 金鑰&#xA;ssh-keygen 將公鑰上傳到目標主機&#xA;type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {account}@{IP-ADDRESS-OR-FQDN} &amp;#34;cat &amp;gt;&amp;gt; .ssh/authorized_keys&amp;#34; </description>
     </item>
-    
   </channel>
 </rss>

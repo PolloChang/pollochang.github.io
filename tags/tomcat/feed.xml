@@ -1,41 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tomcat on PolloChang 工作筆記</title>
+    <title>Tomcat on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/tomcat/</link>
-    <description>Recent content in tomcat on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Tomcat on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 18 Jun 2025 22:21:10 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/tomcat/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Jun 2025 22:21:10 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/tomcat/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tomcat Attachment Error</title>
       <link>http://pollochang.work/worknot/tomcat-attachment-error/</link>
       <pubDate>Wed, 18 Jun 2025 22:21:10 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/tomcat-attachment-error/</guid>
-      <description>這幾天在公司測試環境頻繁的出現下面的錯誤訊息:
-Caused by: org.springframework.web.multipart.MultipartException: Could not parse multipart servlet request; nested exception is org.apache.tomcat.util.http.fileupload.impl.FileCountLimitExceededException: attachment 這條訊息是這樣說的: 檔案數量限制 (Could not parse multipart servlet request) 。
-我苦思了兩天，回想這一個禮拜我都沒有任何維護測試環境的紀錄，為什麼卻在這兩天開發的工程師頻頻像我反應類似的錯誤訊息，而且他們都說自己的本機環境不會上道測試機反而會出錯。最終我實在忍不住到處詢問期胎維護工程師。我們大約找了半天左右才發現是 tomcat 9.0.106 新增對 multi-part request 的限制，預設是 10。
-我的天呀！小版本號不修復 bug 給我新增個 API 限制！這違反 「語義化版本控制、向下相容性和最少驚訝原則」。我只能說: 「我好驚訝！好險！這是發生在測試環境！」。
-另外，我還認真的尋找原始需求出處: Refactor TaskQueue to use RetryableQueue interface #861，其中的 需求敘述並未提到 新增 maxPartCount 的限制，實在不清楚為什麼新增。或許開發者在開發過程中靈光一閃加了過去被提出的需求也說不定。
-以下是 doc 文件的原文
-&amp;lt;tr id=&amp;#34;Attributes_Common Attributes_maxPartCount&amp;#34;&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code class=&amp;#34;attributeName&amp;#34;&amp;gt;maxPartCount&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;p&amp;gt;The maximum total number of parts permitted in a request where the content type is &amp;lt;code&amp;gt;multipart/form-data&amp;lt;/code&amp;gt;.</description>
+      <description>這幾天在公司測試環境頻繁的出現下面的錯誤訊息:&#xA;Caused by: org.springframework.web.multipart.MultipartException: Could not parse multipart servlet request; nested exception is org.apache.tomcat.util.http.fileupload.impl.FileCountLimitExceededException: attachment 這條訊息是這樣說的: 檔案數量限制 (Could not parse multipart servlet request) 。&#xA;我苦思了兩天，回想這一個禮拜我都沒有任何維護測試環境的紀錄，為什麼卻在這兩天開發的工程師頻頻像我反應類似的錯誤訊息，而且他們都說自己的本機環境不會上道測試機反而會出錯。最終我實在忍不住到處詢問期胎維護工程師。我們大約找了半天左右才發現是 tomcat 9.0.106 新增對 multi-part request 的限制，預設是 10。&#xA;我的天呀！小版本號不修復 bug 給我新增個 API 限制！這違反 「語義化版本控制、向下相容性和最少驚訝原則」。我只能說: 「我好驚訝！好險！這是發生在測試環境！」。&#xA;另外，我還認真的尋找原始需求出處: Refactor TaskQueue to use RetryableQueue interface #861，其中的 需求敘述並未提到 新增 maxPartCount 的限制，實在不清楚為什麼新增。或許開發者在開發過程中靈光一閃加了過去被提出的需求也說不定。&#xA;以下是 doc 文件的原文&#xA;&amp;lt;tr id=&amp;#34;Attributes_Common Attributes_maxPartCount&amp;#34;&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code class=&amp;#34;attributeName&amp;#34;&amp;gt;maxPartCount&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;p&amp;gt;The maximum total number of parts permitted in a request where the content type is &amp;lt;code&amp;gt;multipart/form-data&amp;lt;/code&amp;gt;.</description>
     </item>
-    
     <item>
       <title>來架個網站吧-23.網站環境建置-建立AP</title>
       <link>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</link>
       <pubDate>Wed, 28 Feb 2024 19:20:17 +0800</pubDate>
-      
       <guid>http://pollochang.work/post/1000-23.%E7%B6%B2%E7%AB%99%E7%92%B0%E5%A2%83%E5%BB%BA%E7%BD%AE-%E5%BB%BA%E7%AB%8Bap/</guid>
-      <description>來架個網站吧-23.網站環境建置-建立AP tags: 來架個網站吧 tomcat 我是目錄
-Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部署的 Servlet容器。
-然而tomcat受歡迎的背後，卻也背負不少的CVE認證，所以這邊我會先說明一下如何建立安全？的tomcat 服務。以下是濃縮版本，當然也歡迎在留言區補充～
-建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部署tomcat服務會做的一些事項:
-移除 tomcat 版本號 禁止自動部署 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：
-&amp;lt;Connector server=&amp;#34;application server&amp;#34; /&amp;gt; 但是這樣的作法在 404 頁面 時仍然會出現 tomcat 版本資訊。為了解決這個狀況，目前現行可靠的作法是把 catalina.jar 打開之後，修改 ServerInfo.properties 裡面的資訊。
-一行指令版本 export tomcatHome=&amp;#34;/opt/apache-tomcat&amp;#34; &amp;amp;&amp;amp;\ export tomcatVersion=&amp;#34;7.0.109&amp;#34; &amp;amp;&amp;amp;\ export javaHome=&amp;#34;/usr/local/jvm/jdk17_latest&amp;#34; &amp;amp;&amp;amp;\ mkdir -p ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar.bk &amp;amp;&amp;amp;\ unzip -q ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar -d ${tomcatHome}/catalina_jar-${tomcatVersion}/ &amp;amp;&amp;amp;\ sed -i &amp;#39;/^server.</description>
+      <description>來架個網站吧-23.網站環境建置-建立AP tags: 來架個網站吧 tomcat 我是目錄&#xA;Grails 在生產環境中，最佳的拍檔就是 tomcat 啦～簡單，可以快速部署的 Servlet容器。&#xA;然而tomcat受歡迎的背後，卻也背負不少的CVE認證，所以這邊我會先說明一下如何建立安全？的tomcat 服務。以下是濃縮版本，當然也歡迎在留言區補充～&#xA;建立安全的tomcat？ 在可怕的網路世界？能隱藏訊息就隱藏，能多做一點預防措施就多做一點吧。以下是我後來在部署tomcat服務會做的一些事項:&#xA;移除 tomcat 版本號 禁止自動部署 關閉遠端關閉服務port 刪除 webapps 內所有服務 移除 tomcat 版本號 刪除版本號最主要目的是為了防止對外洩漏tomcat 版本資訊，比較簡單的作法是直接在 conf/server.xml 指定 server name，如下：&#xA;&amp;lt;Connector server=&amp;#34;application server&amp;#34; /&amp;gt; 但是這樣的作法在 404 頁面 時仍然會出現 tomcat 版本資訊。為了解決這個狀況，目前現行可靠的作法是把 catalina.jar 打開之後，修改 ServerInfo.properties 裡面的資訊。&#xA;一行指令版本 export tomcatHome=&amp;#34;/opt/apache-tomcat&amp;#34; &amp;amp;&amp;amp;\ export tomcatVersion=&amp;#34;7.0.109&amp;#34; &amp;amp;&amp;amp;\ export javaHome=&amp;#34;/usr/local/jvm/jdk17_latest&amp;#34; &amp;amp;&amp;amp;\ mkdir -p ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion} &amp;amp;&amp;amp;\ cp ${tomcatHome}/apache-tomcat-${tomcatVersion}/lib/catalina.jar ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar.bk &amp;amp;&amp;amp;\ unzip -q ${tomcatHome}/catalina_jar-${tomcatVersion}/catalina.jar -d ${tomcatHome}/catalina_jar-${tomcatVersion}/ &amp;amp;&amp;amp;\ sed -i &amp;#39;/^server.</description>
     </item>
-    
   </channel>
 </rss>

@@ -4,30 +4,23 @@
     <title>資安 on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/%E8%B3%87%E5%AE%89/</link>
     <description>Recent content in 資安 on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 18 Aug 2024 00:02:07 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/%E8%B3%87%E5%AE%89/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Aug 2024 00:02:07 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/%E8%B3%87%E5%AE%89/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sick Grails - SQL Injection</title>
       <link>http://pollochang.work/worknot/sick-grails-sql-inject/</link>
       <pubDate>Sun, 18 Aug 2024 00:02:07 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/sick-grails-sql-inject/</guid>
-      <description>聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。
-漏洞名稱 SQL Injection
-目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係
-環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &amp;#39;範例表單&amp;#39;; COMMENT ON COLUMN EX100.</description>
+      <description>聲明: 進行滲透測試必須在合法的範圍內進行，並且要有網站擁有者的明確許可。如果你有這些權限，並且目的是進行安全測試。&#xA;漏洞名稱 SQL Injection&#xA;目標 透過實際程式範例讓程式開發人員理解 程式 與 SQL Injection 之間的關係&#xA;環境 網站環境 grails version: 5.3.3 java version: java 17 範例程式: https://github.com/PolloChang/sick-grails.git CREATE SEQUENCE hibernate_sequence MINVALUE 1000; CREATE TABLE EX100 ( OBJID BIGSERIAL PRIMARY KEY, VERSION BIGINT NOT NULL, MAN_CREATED VARCHAR(20) NOT NULL, DATE_CREATED TIMESTAMP NOT NULL, MAN_LAST_UPDATED VARCHAR(20) NULL, LAST_UPDATED TIMESTAMP NULL, NOTE VARCHAR(50) NULL, STRINGS VARCHAR(50) NULL, INTEGERS INTEGER NULL, ATMS INTEGER NULL, STATUS INTEGER NULL, ARTICLE TEXT NULL ); COMMENT ON TABLE EX100 IS &amp;#39;範例表單&amp;#39;; COMMENT ON COLUMN EX100.</description>
     </item>
-    
     <item>
       <title>TWGCB 資料庫建立腳本</title>
       <link>http://pollochang.work/worknot/db-schema/</link>
       <pubDate>Sat, 06 Apr 2024 11:57:51 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/db-schema/</guid>
-      <description>最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機
-資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, note varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type smallint, cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
+      <description>最近在整理 GCB 的相關資料，想說把它匯入資料庫後，未來會比較好管理導入的主機&#xA;資料庫環境 OS: Debian 12 DB: postgresql 資料庫 schema 進入資料庫 sudo su - postgres psql 建立資料庫 create database twgcb_db; CREATE ROLE twgcb_role NOINHERIT; GRANT ConNECT on DATABASE twgcb_db TO twgcb_role; CREATE USER twgcbu WITH PASSWORD &amp;#39;PASSWORD&amp;#39;; GRANT twgcbu TO twgcb_role; 建立 table TWGCB 資料表 create table twgcb ( id bigint generated always as identity, version int default 0, issure int default 2, note varchar(100), date_created timestamp default CURRENT_TIMESTAMP not null, man_created varchar(20) not null, last_updated timestamp, man_last_updated varchar(20), twgcb_id char(17) not null , type smallint, cname varchar(50), explanation text, instructions text, default_value varchar(100), remark varchar(100), primary key (id) ); CREATE UNIQUE INDEX twgcb_un1 ON twgcb (twgcb_id); comment on table twgcb is &amp;#39;TWGCB&amp;#39;; comment on column twgcb.</description>
     </item>
-    
   </channel>
 </rss>

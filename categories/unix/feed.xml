@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>unix on PolloChang 工作筆記</title>
+    <title>Unix on PolloChang 工作筆記</title>
     <link>http://pollochang.work/categories/unix/</link>
-    <description>Recent content in unix on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Unix on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/unix/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Oct 2025 12:20:50 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/categories/unix/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy KVM on Oracle Linux 8</title>
       <link>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</link>
       <pubDate>Wed, 08 Oct 2025 12:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/deploy-kvm-on-oracle-linux/</guid>
-      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10
-Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
+      <description>KVM 主機架構 pollochang-ovirt hostname: ovirt-020 FQDN: ovirt-020.kvm-host.home.pollochang.work IP: 172.30.1.20/24 CPU: 2 vCore RAM: 8 G Disk: 50 G pollochang-kvm-003 用途: AP hostname: pollochang-kvm-003 FQDN: pollochang-kvm-003.kvm-host.home.pollochang.work IP: 172.30.1.3/24 pollochang-kvm-004 用途: AP hostname: pollochang-kvm-004 FQDN: pollochang-kvm-004.kvm-host.home.pollochang.work IP: 172.30.1.4/24 安裝前置作業 透過文件取得軟體相容性 透過下表可以得知，OLVM 當前僅支援 Oracle Linux 8，為了日後維護的方便，因此在此次實現我挑選Oracle Linux 8.10&#xA;Release Platform Compute host requirement Minimum kernel requirement OLVM requirement Oracle Linux 8 x86-64 OL8 Update 8 and higher UEK R7 Update 2 (5.15.0-200) and higher UEK R6 Update 3 (5.</description>
     </item>
-    
     <item>
       <title>AIX常用指令</title>
       <link>http://pollochang.work/worknot/aix-common/</link>
       <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/aix-common/</guid>
-      <description>帳戶類 新增使用者 useradd pollo mkdir -p /home/pollo chown pollo:staff /home/pollo 使用者名稱長度： AIX 的使用者名稱最長只能有 8 個字元。
-預設的主要群組: staff
-硬碟空間 檢查目錄分配狀況 # df -P Filesystem 512-blocks Used Available Capacity Mounted on /dev/hd4 524288 87152 437136 17% / /dev/hd2 4980736 4257848 722888 86% /usr /dev/hd9var 524288 70520 453768 14% /var /dev/hd3 262144 2024 260120 1% /tmp /dev/hd1 262144 158168 103976 61% /home /dev/hd11admin 262144 760 261384 1% /admin /proc - - - - /proc /dev/hd10opt 262144 35616 226528 14% /opt /dev/livedump 524288 736 523552 1% /var/adm/ras/livedump /ahafs - - - - /aha 檢查硬碟空間使用狀況 # lsvg rootvg VOLUME GROUP: rootvg VG IDENTIFIER: 00222eff0000a5000000019725ba2202 VG STATE: active PP SIZE: 128 megabyte(s) VG PERMISSION: read/write TOTAL PPs: 799 (102272 megabytes) MAX LVs: 256 FREE PPs: 756 (96768 megabytes) LVs: 12 USED PPs: 43 (5504 megabytes) OPEN LVs: 11 QUORUM: 2 (Enabled) TOTAL PVs: 1 VG DESCRIPTORS: 2 STALE PVs: 0 STALE PPs: 0 ACTIVE PVs: 1 AUTO ON: yes MAX PPs per VG: 32512 MAX PPs per PV: 1016 MAX PVs: 32 LTG size (Dynamic): 128 kilobyte(s) AUTO SYNC: no HOT SPARE: no BB POLICY: relocatable PV RESTRICTION: none INFINITE RETRY: no DISK BLOCK SIZE: 512 CRITICAL VG: no FS SYNC OPTION: no CRITICAL PVs: no 擴充目錄空間 chfs -a size=+10G /dev/hd1 記憶體 擴充 swap 到4G # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 512MB 1 yes yes lv 0 chps -s 32 hd6 # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 4608MB 0 yes yes lv 0 網路 設定 hostname(主機名稱) smitty hostname 操作 /etc/profile alias ll=&amp;#39;ls -l&amp;#39; </description>
+      <description>帳戶類 新增使用者 useradd pollo mkdir -p /home/pollo chown pollo:staff /home/pollo 使用者名稱長度： AIX 的使用者名稱最長只能有 8 個字元。&#xA;預設的主要群組: staff&#xA;硬碟空間 檢查目錄分配狀況 # df -P Filesystem 512-blocks Used Available Capacity Mounted on /dev/hd4 524288 87152 437136 17% / /dev/hd2 4980736 4257848 722888 86% /usr /dev/hd9var 524288 70520 453768 14% /var /dev/hd3 262144 2024 260120 1% /tmp /dev/hd1 262144 158168 103976 61% /home /dev/hd11admin 262144 760 261384 1% /admin /proc - - - - /proc /dev/hd10opt 262144 35616 226528 14% /opt /dev/livedump 524288 736 523552 1% /var/adm/ras/livedump /ahafs - - - - /aha 檢查硬碟空間使用狀況 # lsvg rootvg VOLUME GROUP: rootvg VG IDENTIFIER: 00222eff0000a5000000019725ba2202 VG STATE: active PP SIZE: 128 megabyte(s) VG PERMISSION: read/write TOTAL PPs: 799 (102272 megabytes) MAX LVs: 256 FREE PPs: 756 (96768 megabytes) LVs: 12 USED PPs: 43 (5504 megabytes) OPEN LVs: 11 QUORUM: 2 (Enabled) TOTAL PVs: 1 VG DESCRIPTORS: 2 STALE PVs: 0 STALE PPs: 0 ACTIVE PVs: 1 AUTO ON: yes MAX PPs per VG: 32512 MAX PPs per PV: 1016 MAX PVs: 32 LTG size (Dynamic): 128 kilobyte(s) AUTO SYNC: no HOT SPARE: no BB POLICY: relocatable PV RESTRICTION: none INFINITE RETRY: no DISK BLOCK SIZE: 512 CRITICAL VG: no FS SYNC OPTION: no CRITICAL PVs: no 擴充目錄空間 chfs -a size=+10G /dev/hd1 記憶體 擴充 swap 到4G # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 512MB 1 yes yes lv 0 chps -s 32 hd6 # lsps -a Page Space Physical Volume Volume Group Size %Used Active Auto Type Chksum hd6 hdisk0 rootvg 4608MB 0 yes yes lv 0 網路 設定 hostname(主機名稱) smitty hostname 操作 /etc/profile alias ll=&amp;#39;ls -l&amp;#39; </description>
     </item>
-    
     <item>
       <title>Deploy AIX in KVM</title>
       <link>http://pollochang.work/worknot/deploy-aix-in-kvm/</link>
       <pubDate>Sun, 01 Jun 2025 12:20:50 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/deploy-aix-in-kvm/</guid>
-      <description>最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機
-執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容
-&amp;lt;domain type=&amp;#39;qemu&amp;#39;&amp;gt; &amp;lt;name&amp;gt;aix&amp;lt;/name&amp;gt; &amp;lt;uuid&amp;gt;808a3d10-32f3-433e-a18e-67c25310ddc1&amp;lt;/uuid&amp;gt; &amp;lt;memory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/memory&amp;gt; &amp;lt;currentMemory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/currentMemory&amp;gt; &amp;lt;vcpu placement=&amp;#39;static&amp;#39;&amp;gt;4&amp;lt;/vcpu&amp;gt; &amp;lt;os&amp;gt; &amp;lt;type arch=&amp;#39;ppc64&amp;#39; machine=&amp;#39;pseries-7.</description>
+      <description>最近工作上碰觸到 AIX ，為了驗證自己寫的腳本能在 AIX 上執行，因此我在 KVM 中建立 AIX 的虛擬機&#xA;執行環境 硬體環境 CPU: 11th Gen Intel® Core™ i5-1145G7 × 8 RAM: 32.0 GiB Operating System: Debian GNU/Linux 12 (bookworm) Kernel: Linux 6.1.0-35-amd64 Architecture: x86-64 Hardware Vendor: Dell Inc. Hardware Model: Latitude 5420 Firmware Version: 1.30.0 KVM: QEMU emulator version 7.2.17 (Debian 1:7.2+dfsg-7+deb12u13) 準備文件 ISO file: aix_7200-04-02-2027_1of2_072020.iso (sha256sum: adab6bbd266525d467b5d3af77aa241e97272a1df754318492c9d23e4881abbd) aix-quem-kvm.xml aix-quem-kvm.xml 文件內容&#xA;&amp;lt;domain type=&amp;#39;qemu&amp;#39;&amp;gt; &amp;lt;name&amp;gt;aix&amp;lt;/name&amp;gt; &amp;lt;uuid&amp;gt;808a3d10-32f3-433e-a18e-67c25310ddc1&amp;lt;/uuid&amp;gt; &amp;lt;memory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/memory&amp;gt; &amp;lt;currentMemory unit=&amp;#39;KiB&amp;#39;&amp;gt;8388608&amp;lt;/currentMemory&amp;gt; &amp;lt;vcpu placement=&amp;#39;static&amp;#39;&amp;gt;4&amp;lt;/vcpu&amp;gt; &amp;lt;os&amp;gt; &amp;lt;type arch=&amp;#39;ppc64&amp;#39; machine=&amp;#39;pseries-7.</description>
     </item>
-    
   </channel>
 </rss>

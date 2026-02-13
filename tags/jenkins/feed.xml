@@ -1,53 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>jenkins on PolloChang 工作筆記</title>
+    <title>Jenkins on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/jenkins/</link>
-    <description>Recent content in jenkins on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Jenkins on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 10 Aug 2024 11:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/jenkins/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Aug 2024 11:44:47 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/jenkins/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>透過 Jenkins Pipeline 執行 SonarQube 源碼掃描</title>
       <link>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</link>
       <pubDate>Sat, 10 Aug 2024 11:44:47 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jenkins-sonarqube-pipeline-20240810-1/</guid>
-      <description>環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&amp;gt; Security -&amp;gt; Generate Tokens
-jenkins 設定 環境 Manage Jenkins &amp;gt; Manage Credentials manage &amp;gt; system &amp;gt; SonarQube servers manage &amp;gt; system Tools &amp;gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&amp;#34;${JENKINS_HOME}&amp;#34; env.JAVA_HOME=&amp;#34;${tool &amp;#39;openjdk-17&amp;#39;}&amp;#34; env.GRAILS_HOME=&amp;#34;/usr/local/lib/grails/grails-5.3.3&amp;#34; env.PATH=&amp;#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&amp;#34; stage (&amp;#39;Checkout&amp;#39;) { git branch: &amp;#39;master&amp;#39;, credentialsId: &amp;#39;credentialsId&amp;#39;, url: &amp;#34;&amp;lt;git url&amp;gt;&amp;#34; } stage (&amp;#39;Build&amp;#39;) { sh &amp;#34;grails test war ${env.</description>
+      <description>環境準備 安裝 SonarQube Server jenknins plugin: SonarQube Scanner SonarQube Generate SonarQube Token My Account -&amp;gt; Security -&amp;gt; Generate Tokens&#xA;jenkins 設定 環境 Manage Jenkins &amp;gt; Manage Credentials manage &amp;gt; system &amp;gt; SonarQube servers manage &amp;gt; system Tools &amp;gt; SonarQube Scanner 專案 pipline 已下為 grails 專案設定 node { env.SONAR_USER_HOME=&amp;#34;${JENKINS_HOME}&amp;#34; env.JAVA_HOME=&amp;#34;${tool &amp;#39;openjdk-17&amp;#39;}&amp;#34; env.GRAILS_HOME=&amp;#34;/usr/local/lib/grails/grails-5.3.3&amp;#34; env.PATH=&amp;#34;${env.JAVA_HOME}/bin:${env.GRAILS_HOME}/bin:${env.PATH}&amp;#34; stage (&amp;#39;Checkout&amp;#39;) { git branch: &amp;#39;master&amp;#39;, credentialsId: &amp;#39;credentialsId&amp;#39;, url: &amp;#34;&amp;lt;git url&amp;gt;&amp;#34; } stage (&amp;#39;Build&amp;#39;) { sh &amp;#34;grails test war ${env.</description>
     </item>
-    
     <item>
       <title>透過 Jenkins Pipeline 執行 Jmeter 進行壓力測試</title>
       <link>http://pollochang.work/worknot/jenkins-jmeter-pipeline-20240810-1/</link>
       <pubDate>Sat, 10 Aug 2024 08:31:14 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jenkins-jmeter-pipeline-20240810-1/</guid>
       <description> Pipeline script node { stage(&amp;#34;set env&amp;#34;){ def BUILDVERSION = sh(script: &amp;#34;echo `date +%s`&amp;#34;, returnStdout: true).trim() //apache-jmeter目錄 env.JMETER_HOME=&amp;#34;/usr/local/share/apache-jmeter-5.5&amp;#34; env.JMETER_REPORT=&amp;#34;${BUILDVERSION}.jtl&amp;#34; env.JVM_ARGS=&amp;#34;-Xms10240m -Xmx10240m&amp;#34; //刪除之前測試結果 // deleteDir() } stage(&amp;#39;refresh jmx&amp;#39;){ } stage(&amp;#39;Run JMeter Tests&amp;#39;) { sh &amp;#34;/usr/local/share/apache-jmeter-5.5/bin/jmeter.sh -n -t /tmp/ntlcPublic.jmx -l ${JMETER_REPORT}&amp;#34; } stage(&amp;#39;Publish Performance Report&amp;#39;) { perfReport errorFailedThresholds: true, errorUnstableThresholds: true, sourceDataFiles: JMETER_REPORT, relativeFailedThresholdPositive: &amp;#39;90&amp;#39;, relativeUnstableThresholdPositive: &amp;#39;80&amp;#39;, threshold: [ thresholdName: &amp;#39;Average Response Time&amp;#39;, unstableThreshold: &amp;#39;1500&amp;#39;, failedThreshold: &amp;#39;3000&amp;#39; ] } } perfReport 說明 relativeFailedThresholdPositive: &amp;lsquo;90&amp;rsquo; 指定了如果 90% 或更多的請求的響應時間超過 failedThreshold，構建將失敗。 relativeUnstableThresholdPositive: &amp;lsquo;80&amp;rsquo; 指定了如果 80% 或更多的請求的響應時間超過 unstableThreshold，構建將被標記為不穩定。 threshold 配置了具體的響應時間閾值（如「平均響應時間」）。在這裡，如果平均響應時間超過 1500 毫秒，構建將被標記為不穩定；如果超過 3000 毫秒，構建將失敗。 </description>
     </item>
-    
     <item>
       <title>jenkins 安裝</title>
       <link>http://pollochang.work/worknot/jenkins-install/</link>
       <pubDate>Sun, 05 May 2024 12:03:56 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jenkins-install/</guid>
       <description>環境 OS: Debian 12, Oracle Linux 9 jenkins version: 2.462.1 jre: adoptium jre 17 安裝 安裝必要package Debian sudo apt install -y fontconfig tar zip git wget Oracle Linux 9 sudo dnf install -y fontconfig tar zip git wget 部署 tomcat 安裝 jre 從 adoptium 官方網站下載 java 17 安裝 jre sudo mkdir -p /usr/local/lib/jvm sudo tar -zxf ~/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz -C /usr/local/lib/jvm cd /usr/local/lib/jvm/ sudo ln -s jdk-17.0.12+7-jre jre-17-latest 安裝 tomcat 設定使用者 sudo useradd --system -r tomcat -s /sbin/nologin sudo useradd --system -r jenkins -s /bin/bash passwd jenkins sudo usermod -a -G tomcat jenkins visudo tee /etc/sudoers.</description>
     </item>
-    
     <item>
       <title>Jenkins 客製化UI</title>
       <link>http://pollochang.work/worknot/worknot-20240505-1/</link>
       <pubDate>Sun, 05 May 2024 11:34:09 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240505-1/</guid>
-      <description>環境 jenkins version: 2.440.3 Login Theme 客製化登入頁面
-安裝 Plugin Login Theme: https://plugins.jenkins.io/login-theme/ 設定 Plugin 設定位置: manage/appearance/Appearance
-Login Page Theme header 可以設定登入的歡迎語
-&amp;lt;h3&amp;gt;Welcome to PolloChang&amp;#39;s Jenkins!&amp;lt;/h3&amp;gt; Branding 設定 logo
-https://pollochang.work/images/logo.jpg Custom CSS position: absolute; inset: 0; z-index: 1; background: linear-gradient( 135deg, rgb(69, 123, 157) 10%, rgb(188, 187, 206) 30%, rgb(235, 176, 163) 50%, rgb(244, 213, 177) 70%, rgb(139, 185, 198) 90%, rgb(44, 113, 149) 110% ); 設定過程中記得不要登出檢查，要開無痕檢查，不然設定錯誤會無法登入。
-Customizable Header 客製化 Header</description>
+      <description>環境 jenkins version: 2.440.3 Login Theme 客製化登入頁面&#xA;安裝 Plugin Login Theme: https://plugins.jenkins.io/login-theme/ 設定 Plugin 設定位置: manage/appearance/Appearance&#xA;Login Page Theme header 可以設定登入的歡迎語&#xA;&amp;lt;h3&amp;gt;Welcome to PolloChang&amp;#39;s Jenkins!&amp;lt;/h3&amp;gt; Branding 設定 logo&#xA;https://pollochang.work/images/logo.jpg Custom CSS position: absolute; inset: 0; z-index: 1; background: linear-gradient( 135deg, rgb(69, 123, 157) 10%, rgb(188, 187, 206) 30%, rgb(235, 176, 163) 50%, rgb(244, 213, 177) 70%, rgb(139, 185, 198) 90%, rgb(44, 113, 149) 110% ); 設定過程中記得不要登出檢查，要開無痕檢查，不然設定錯誤會無法登入。&#xA;Customizable Header 客製化 Header</description>
     </item>
-    
   </channel>
 </rss>

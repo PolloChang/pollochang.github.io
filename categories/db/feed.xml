@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DB on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/db/</link>
+    <description>Recent content in DB on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Thu, 05 Feb 2026 12:03:56 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/categories/db/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在 Linux 安裝 MSSQL 2022</title>
+      <link>http://pollochang.work/worknot/install-mssql2022-on-ol8/</link>
+      <pubDate>Thu, 05 Feb 2026 12:03:56 +0800</pubDate>
+      <guid>http://pollochang.work/worknot/install-mssql2022-on-ol8/</guid>
+      <description>system requirement OS: Oracle Linux 8 RAM: 4G Disk Minimum free disk space: 6 GB File system: XFS or EXT4 安裝 安裝 python2&#xA;sudo alternatives --config python # If not configured, install python2 and openssl10 using the following commands: sudo yum install -y python2 compat-openssl10 # Configure python2 as the default interpreter using this command: sudo alternatives --config python [root@mssql-server-2022 ~]# sudo alternatives --config python There are 2 programs which provide &amp;#39;python&amp;#39;.</description>
+    </item>
+  </channel>
+</rss>

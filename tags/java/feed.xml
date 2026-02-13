@@ -4,75 +4,51 @@
     <title>Java on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/java/</link>
     <description>Recent content in Java on PolloChang 工作筆記</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 11 May 2025 23:09:02 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/java/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 May 2025 23:09:02 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/java/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jmx_exporter</title>
       <link>http://pollochang.work/worknot/jmx_exporter/</link>
       <pubDate>Sun, 11 May 2025 23:09:02 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/jmx_exporter/</guid>
-      <description>jmx_exporter
-使用方式 監控 JVM 與 tomcat 資訊
-/path/to/your/jmx-exporter.yml # https://grafana.com/grafana/dashboards/8704-tomcat-dashboard/ --- whitelistObjectNames: [&amp;#34;java.lang:type=OperatingSystem&amp;#34;, &amp;#34;Catalina:*&amp;#34;] rules: - pattern: &amp;#39;Catalina&amp;lt;type=Server&amp;gt;&amp;lt;&amp;gt;serverInfo: (.+)&amp;#39; name: tomcat_serverinfo value: 1 labels: serverInfo: &amp;#34;$1&amp;#34; type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=GlobalRequestProcessor, name=\&amp;#34;(\w+-\w+)-(\d+)\&amp;#34;&amp;gt;&amp;lt;&amp;gt;(\w+):&amp;#39; name: tomcat_$3_total labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat global $3 type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;j2eeType=Servlet, WebModule=//([-a-zA-Z0-9+&amp;amp;@#/%?=~_|!:.,;]*[-a-zA-Z0-9+&amp;amp;@#/%=~_|]), name=([-a-zA-Z0-9+/$%~_-|!.]*), J2EEApplication=none, J2EEServer=none&amp;gt;&amp;lt;&amp;gt;(requestCount|processingTime|errorCount):&amp;#39; name: tomcat_servlet_$3_total labels: module: &amp;#34;$1&amp;#34; servlet: &amp;#34;$2&amp;#34; help: Tomcat servlet $3 total type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=ThreadPool, name=&amp;#34;(\w+-\w+)-(\d+)&amp;#34;&amp;gt;&amp;lt;&amp;gt;(currentThreadCount|currentThreadsBusy|keepAliveCount|connectionCount|acceptCount|acceptorThreadCount|pollerThreadCount|maxThreads|minSpareThreads):&amp;#39; name: tomcat_threadpool_$3 labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat threadpool $3 type: GAUGE - pattern: &amp;#39;Catalina&amp;lt;type=Manager, host=([-a-zA-Z0-9+&amp;amp;@#/%?</description>
+      <description>jmx_exporter&#xA;使用方式 監控 JVM 與 tomcat 資訊&#xA;/path/to/your/jmx-exporter.yml # https://grafana.com/grafana/dashboards/8704-tomcat-dashboard/ --- whitelistObjectNames: [&amp;#34;java.lang:type=OperatingSystem&amp;#34;, &amp;#34;Catalina:*&amp;#34;] rules: - pattern: &amp;#39;Catalina&amp;lt;type=Server&amp;gt;&amp;lt;&amp;gt;serverInfo: (.+)&amp;#39; name: tomcat_serverinfo value: 1 labels: serverInfo: &amp;#34;$1&amp;#34; type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=GlobalRequestProcessor, name=\&amp;#34;(\w+-\w+)-(\d+)\&amp;#34;&amp;gt;&amp;lt;&amp;gt;(\w+):&amp;#39; name: tomcat_$3_total labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat global $3 type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;j2eeType=Servlet, WebModule=//([-a-zA-Z0-9+&amp;amp;@#/%?=~_|!:.,;]*[-a-zA-Z0-9+&amp;amp;@#/%=~_|]), name=([-a-zA-Z0-9+/$%~_-|!.]*), J2EEApplication=none, J2EEServer=none&amp;gt;&amp;lt;&amp;gt;(requestCount|processingTime|errorCount):&amp;#39; name: tomcat_servlet_$3_total labels: module: &amp;#34;$1&amp;#34; servlet: &amp;#34;$2&amp;#34; help: Tomcat servlet $3 total type: COUNTER - pattern: &amp;#39;Catalina&amp;lt;type=ThreadPool, name=&amp;#34;(\w+-\w+)-(\d+)&amp;#34;&amp;gt;&amp;lt;&amp;gt;(currentThreadCount|currentThreadsBusy|keepAliveCount|connectionCount|acceptCount|acceptorThreadCount|pollerThreadCount|maxThreads|minSpareThreads):&amp;#39; name: tomcat_threadpool_$3 labels: port: &amp;#34;$2&amp;#34; protocol: &amp;#34;$1&amp;#34; help: Tomcat threadpool $3 type: GAUGE - pattern: &amp;#39;Catalina&amp;lt;type=Manager, host=([-a-zA-Z0-9+&amp;amp;@#/%?</description>
     </item>
-    
     <item>
       <title>grails5 hibernate 建立監聽事件研究</title>
       <link>http://pollochang.work/worknot/worknot-20240416-2/</link>
       <pubDate>Tue, 16 Apr 2024 20:37:55 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240416-2/</guid>
       <description>注入: conf/spring/resources.groovy package spring import work.pollochang.pollo.grails.db.aop.CustomInterceptor // Place your Spring DSL code here beans = { customInterceptor(CustomInterceptor) } 設定 log &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;clr&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.ColorConverter&amp;#34; /&amp;gt; &amp;lt;conversionRule conversionWord=&amp;#34;wex&amp;#34; converterClass=&amp;#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&amp;#34; /&amp;gt; &amp;lt;appender name=&amp;#34;STDOUT&amp;#34; class=&amp;#34;ch.qos.logback.core.ConsoleAppender&amp;#34;&amp;gt; &amp;lt;encoder&amp;gt; &amp;lt;charset&amp;gt;UTF-8&amp;lt;/charset&amp;gt; &amp;lt;pattern&amp;gt;%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wex&amp;lt;/pattern&amp;gt; &amp;lt;/encoder&amp;gt; &amp;lt;/appender&amp;gt; &amp;lt;logger name=&amp;#34;org.hibernate&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.demo&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;logger name=&amp;#34;work.pollochang.pollo.grails.db.aop&amp;#34; level=&amp;#34;trace&amp;#34; /&amp;gt; &amp;lt;root level=&amp;#34;error&amp;#34;&amp;gt; &amp;lt;appender-ref ref=&amp;#34;STDOUT&amp;#34; /&amp;gt; &amp;lt;/root&amp;gt; &amp;lt;/configuration&amp;gt; 系統初始化 /usr/local/lib/jvm/jdk-17.0.8.1+1/bin/java -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:CICompilerCount=3 -Dfile.</description>
     </item>
-    
     <item>
       <title>grails 攔截器</title>
       <link>http://pollochang.work/worknot/worknot-20240416-1/</link>
       <pubDate>Tue, 16 Apr 2024 12:18:12 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240416-1/</guid>
       <description>Interceptor 介面： org.hibernate.Interceptor 介面允許您在 Hibernate 事件的各個階段介入，並提供了一些方法來實現您自己的邏輯。EmptyInterceptor 是 Interceptor 介面的一個簡單實現，它包含了所有方法的空實現。 SessionFactoryObserver 介面： org.hibernate.SessionFactoryObserver 介面允許您觀察 SessionFactory 的生命週期事件，在 SessionFactory 創建、關閉等事件發生時執行自定義邏輯。 EventListeners 介面： org.hibernate.event.service.spi.EventListenerRegistry 介面允許您註冊和管理 Hibernate 事件監聽器。您可以註冊自定義的事件監聽器來處理 Hibernate 事件，例如實體生命週期事件、持久化操作事件等。 EventType 和 EventListener 介面： org.hibernate.event.spi.EventType 定義了 Hibernate 中的各種事件類型，org.hibernate.event.spi.PostInsertEventListener、org.hibernate.event.spi.PreUpdateEventListener 等介面定義了對應事件的監聽器介面。您可以實現這些介面來監聽特定的事件，在事件發生時執行自定義邏輯。 Custom Type 和 User Type： org.hibernate.usertype.UserType 介面允許您定義自定義的數據類型，以便在實體類中使用。您可以實現這個介面來定義自己的數據類型，例如枚舉類型、自定義對象類型等。 Custom Dialect： org.hibernate.dialect.Dialect 類允許您實現自定義的數據庫方言，以適配不同的數據庫。您可以擴展這個類，並實現數據庫相關的行為，例如數據類型映射、SQL 方言等。 EntityInterceptor 介面： org.hibernate.Interceptor 介面的子介面，用於在實體加載、保存、更新等操作時執行自定義邏輯。 AuditInterceptor 介面： 用於實現審計功能，記錄實體的創建、修改、刪除等操作。 範例程式 EntityIntercepto package work.pollochang.pollo.grails.db.aop; import org.grails.web.util.WebUtils; import org.hibernate.EmptyInterceptor; import org.hibernate.internal.EntityManagerMessageLogger; import org.hibernate.internal.HEMLogging; import org.hibernate.type.Type; import java.sql.Connection; import java.</description>
     </item>
-    
     <item>
       <title>annotation 與 AOP</title>
       <link>http://pollochang.work/worknot/worknot-20240413/</link>
       <pubDate>Sat, 13 Apr 2024 17:12:49 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20240413/</guid>
-      <description>範例程式完整專案:
-Java 基本內置 annotation @Override 重寫父層的方法
-@Deprecated 表示該方法再為雷會被棄用
-@SuppressWarnings 主要的用處就是忽略警告信息
-規定 annotation 可以放在哪裡 類別 ElementType.TYPE : 能修飾類、接口、枚舉、注解 ElementType.FIELD : 能修飾字段、枚舉的常量 ElementType.METHOD : 能修飾方法 ElementType.PARAMETER : 能修飾方法參數 ElementType.CONSTRUCTOR : 能修飾構造函數 ElementType.LOCAL_VARIABLE : 能修飾局部變量 ElementType.ANNOTATION_TYPE : 能修飾注解 (元注解就是此種) ElementType.PACKAGE : 能修飾包 ElementType.TYPE_PARAMETER: (java8)類型參數聲明 ElementType.TYPE_USE: (java8)使用類型 ElementType.MODULE: (java9)模組聲明 ElementType.RECORD_COMPONENT: (java16)記錄組件 原始碼 /* * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved. * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.</description>
+      <description>範例程式完整專案:&#xA;Java 基本內置 annotation @Override 重寫父層的方法&#xA;@Deprecated 表示該方法再為雷會被棄用&#xA;@SuppressWarnings 主要的用處就是忽略警告信息&#xA;規定 annotation 可以放在哪裡 類別 ElementType.TYPE : 能修飾類、接口、枚舉、注解 ElementType.FIELD : 能修飾字段、枚舉的常量 ElementType.METHOD : 能修飾方法 ElementType.PARAMETER : 能修飾方法參數 ElementType.CONSTRUCTOR : 能修飾構造函數 ElementType.LOCAL_VARIABLE : 能修飾局部變量 ElementType.ANNOTATION_TYPE : 能修飾注解 (元注解就是此種) ElementType.PACKAGE : 能修飾包 ElementType.TYPE_PARAMETER: (java8)類型參數聲明 ElementType.TYPE_USE: (java8)使用類型 ElementType.MODULE: (java9)模組聲明 ElementType.RECORD_COMPONENT: (java16)記錄組件 原始碼 /* * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved. * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.</description>
     </item>
-    
     <item>
       <title>CNS11643 轉 UTF8 經驗</title>
       <link>http://pollochang.work/post/cns11643/</link>
       <pubDate>Thu, 21 Mar 2024 22:02:53 +0800</pubDate>
-      
       <guid>http://pollochang.work/post/cns11643/</guid>
-      <description>unicode: 萬國碼，設計上一共有17個平面。在第0的平面中，可以直接用一個 UTF-8 表示。 CNS11643: 中文標準交換碼，是中華民國國家標準11643號，簡稱CNS 11643，舊名通用漢字標準交換碼，是中華民國政府為中文資訊處理製定的字元編碼方案，與許多學術圖書館係統採用的CCCII同屬於中文交換碼。CSIC基於ISO 2022定義，和ASCII相容，其EUC版本為EUC-TW。 最近工作上碰到 Oracle 編碼是 US7ASII ， 而存放的有中文資料，於是遇到了轉碼問題。對方的轉碼在Java邏輯大緻上如下：
-使用 ISO-8859-1 方式讀取資料庫 解析成字: 兩個位元碼 在將兩個位元碼搜尋對應的 CNS11643 編碼 在將 CNS11643 編碼對應成 unicode 在處理這塊之前其實我分不清處什麼是unicode 跟 UTF-8，後來才知道 UTF 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？
-在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 𡪨 與 張 這個字為例。
-張
-以下是這個字的編碼資訊:
-CNS11643 網站中 Unicode: 5F35 HTML Entity:	張張 UTF-8 Encoding (hex):	0xE5 0xBC 0xB5 UTF-16 Encoding (hex):	0x5F35 UTF-32 Encoding (hex):	0x00005F35 𡪨</description>
+      <description>unicode: 萬國碼，設計上一共有17個平面。在第0的平面中，可以直接用一個 UTF-8 表示。 CNS11643: 中文標準交換碼，是中華民國國家標準11643號，簡稱CNS 11643，舊名通用漢字標準交換碼，是中華民國政府為中文資訊處理製定的字元編碼方案，與許多學術圖書館係統採用的CCCII同屬於中文交換碼。CSIC基於ISO 2022定義，和ASCII相容，其EUC版本為EUC-TW。 最近工作上碰到 Oracle 編碼是 US7ASII ， 而存放的有中文資料，於是遇到了轉碼問題。對方的轉碼在Java邏輯大緻上如下：&#xA;使用 ISO-8859-1 方式讀取資料庫 解析成字: 兩個位元碼 在將兩個位元碼搜尋對應的 CNS11643 編碼 在將 CNS11643 編碼對應成 unicode 在處理這塊之前其實我分不清處什麼是unicode 跟 UTF-8，後來才知道 UTF 是 Unicode Transformation Format 的縮寫。UTF 主要是為了解決不同平臺傳輸間的問題？&#xA;在這次經驗中遇到了CNS11643 對找錶 中 unicode 在 Java 如何處理。我這邊以 𡪨 與 張 這個字為例。&#xA;張&#xA;以下是這個字的編碼資訊:&#xA;CNS11643 網站中 Unicode: 5F35 HTML Entity:&#x9;張張 UTF-8 Encoding (hex):&#x9;0xE5 0xBC 0xB5 UTF-16 Encoding (hex):&#x9;0x5F35 UTF-32 Encoding (hex):&#x9;0x00005F35 𡪨</description>
     </item>
-    
     <item>
       <title>GC實驗: String 相接 與 系統效能 關係</title>
       <link>http://pollochang.work/worknot/worknot-20230414/</link>
       <pubDate>Fri, 14 Apr 2023 20:53:54 +0800</pubDate>
-      
       <guid>http://pollochang.work/worknot/worknot-20230414/</guid>
-      <description>做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。
-實驗目的 了解String 相接 與 系統效能 關係
-實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m -XX:+UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSScavengeBeforeRemark -XX:+ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly -XX:+CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:+DisableExplicitGC -verbose:gc -server 實驗項目 實驗項目: 單純 String 接拼 實驗程式碼 public class TestString{ public static void main(String[] args){ String test = &amp;#34;&amp;#34;; for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test += &amp;#34;1234&amp;#34;+&amp;#34;5678&amp;#34;; } } } 實驗項目: StringBuffer 接字串 實驗程式碼 public class TestString{ public static void main(String[] args){ StringBuffer test = new StringBuffer(); for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test.</description>
+      <description>做這個實驗只是想要說服同事，系統中有出現大量的字串相接，會讓系統效能變差。可以透過 StringBuffer 優化。&#xA;實驗目的 了解String 相接 與 系統效能 關係&#xA;實踐環境 java version: java 6 實驗環境 -Xms30M -Xmx30M -Xmn10M -Xss256k -XX:MaxPermSize=2m -XX:+UseConcMarkSweepGC -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSScavengeBeforeRemark -XX:+ScavengeBeforeFullGC -XX:MaxTenuringThreshold=30 -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=80 -XX:+UseCMSInitiatingOccupancyOnly -XX:+CMSParallelRemarkEnabled -Xloggc:/home/jameschang/test-gc.log -XX:+DisableExplicitGC -verbose:gc -server 實驗項目 實驗項目: 單純 String 接拼 實驗程式碼 public class TestString{ public static void main(String[] args){ String test = &amp;#34;&amp;#34;; for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test += &amp;#34;1234&amp;#34;+&amp;#34;5678&amp;#34;; } } } 實驗項目: StringBuffer 接字串 實驗程式碼 public class TestString{ public static void main(String[] args){ StringBuffer test = new StringBuffer(); for(int i = 0; i &amp;lt;- 50000; i++&amp;gt;){ test.</description>
     </item>
-    
   </channel>
 </rss>

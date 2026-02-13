@@ -1,0 +1,594 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 在 Linux 安裝 MSSQL 2022 </title>
+    
+    
+    <meta content="MSSQL, DB" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - system requirement OS: Oracle Linux 8 RAM: 4G Disk Minimum free disk space: 6 GB File system: XFS or EXT4 安裝 安裝 python2
+sudo alternatives --config python # If not configured, install python2 and openssl10 using the following commands: sudo yum install -y python2 compat-openssl10 # Configure python2 as the default interpreter using this command: sudo alternatives --config python [root@mssql-server-2022 ~]# sudo alternatives --config python There are 2 programs which provide &#39;python&#39;." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>在 Linux 安裝 MSSQL 2022</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/db/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">DB</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="system-requirement">system requirement</h2>
+<ul>
+<li>OS: Oracle Linux 8</li>
+<li>RAM: 4G</li>
+<li>Disk
+<ul>
+<li>Minimum free disk space: 6 GB</li>
+<li>File system: XFS or EXT4</li>
+</ul>
+</li>
+</ul>
+<h2 id="安裝">安裝</h2>
+<p>安裝 python2</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo alternatives --config python
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If not configured, install python2 and openssl10 using the following commands:</span>
+</span></span><span style="display:flex;"><span>sudo yum install -y python2 compat-openssl10
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configure python2 as the default interpreter using this command:</span>
+</span></span><span style="display:flex;"><span>sudo alternatives --config python
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>[root@mssql-server-2022 ~]# sudo alternatives --config python
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>There are 2 programs which provide &#39;python&#39;.
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  Selection    Command
+</span></span><span style="display:flex;"><span>-----------------------------------------------
+</span></span><span style="display:flex;"><span>*+ 1           /usr/libexec/no-python
+</span></span><span style="display:flex;"><span>   2           /usr/bin/python2
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>Enter to keep the current selection[+], or type selection number: 2
+</span></span></code></pre></div><p>下載 mssql-server-2022 repo</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo curl -o /etc/yum.repos.d/mssql-server.repo https://packages.microsoft.com/config/rhel/8/mssql-server-2022.repo
+</span></span><span style="display:flex;"><span>sudo yum install -y mssql-server
+</span></span></code></pre></div><h2 id="最佳化">最佳化</h2>
+<ul>
+<li>/usr/lib/tuned/mssql/tuned.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>summary<span style="color:#f92672">=</span>Optimize <span style="color:#66d9ef">for</span> Microsoft SQL Server
+</span></span><span style="display:flex;"><span>include<span style="color:#f92672">=</span>throughput-performance
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>cpu<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>force_latency<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sysctl<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>vm.swappiness <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>vm.dirty_background_ratio <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>vm.dirty_ratio <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>vm.dirty_expire_centisecs <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span>vm.dirty_writeback_centisecs <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>vm.transparent_hugepages<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For multi-instance SQL deployments, use</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># vm.transparent_hugepages=madvise</span>
+</span></span><span style="display:flex;"><span>vm.max_map_count<span style="color:#f92672">=</span><span style="color:#ae81ff">1600000</span>
+</span></span><span style="display:flex;"><span>net.core.rmem_default <span style="color:#f92672">=</span> <span style="color:#ae81ff">262144</span>
+</span></span><span style="display:flex;"><span>net.core.rmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">4194304</span>
+</span></span><span style="display:flex;"><span>net.core.wmem_default <span style="color:#f92672">=</span> <span style="color:#ae81ff">262144</span>
+</span></span><span style="display:flex;"><span>net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">1048576</span>
+</span></span><span style="display:flex;"><span>kernel.numa_balancing<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>kernel.sched_latency_ns <span style="color:#f92672">=</span> <span style="color:#ae81ff">60000000</span>
+</span></span><span style="display:flex;"><span>kernel.sched_migration_cost_ns <span style="color:#f92672">=</span> <span style="color:#ae81ff">500000</span>
+</span></span><span style="display:flex;"><span>kernel.sched_min_granularity_ns <span style="color:#f92672">=</span> <span style="color:#ae81ff">15000000</span>
+</span></span><span style="display:flex;"><span>kernel.sched_wakeup_granularity_ns <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000000</span>
+</span></span></code></pre></div><p>啟動 tuned</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo tuned-adm profile mssql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141-mssql2022 ~<span style="color:#f92672">]</span><span style="color:#75715e"># tuned-adm list</span>
+</span></span><span style="display:flex;"><span>Available profiles:
+</span></span><span style="display:flex;"><span>- accelerator-performance     - Throughput performance based tuning with disabled higher latency STOP states
+</span></span><span style="display:flex;"><span>- aws                         - Optimize <span style="color:#66d9ef">for</span> aws ec2 instances
+</span></span><span style="display:flex;"><span>- balanced                    - General non-specialized tuned profile
+</span></span><span style="display:flex;"><span>- desktop                     - Optimize <span style="color:#66d9ef">for</span> the desktop use-case
+</span></span><span style="display:flex;"><span>- epyc-eda                    - Optimize <span style="color:#66d9ef">for</span> EDA compute workloads on AMD EPYC CPUs
+</span></span><span style="display:flex;"><span>- hpc-compute                 - Optimize <span style="color:#66d9ef">for</span> HPC compute workloads
+</span></span><span style="display:flex;"><span>- intel-sst                   - Configure <span style="color:#66d9ef">for</span> Intel Speed Select Base Frequency
+</span></span><span style="display:flex;"><span>- latency-performance         - Optimize <span style="color:#66d9ef">for</span> deterministic performance at the cost of increased power consumption
+</span></span><span style="display:flex;"><span>- mssql                       - Optimize <span style="color:#66d9ef">for</span> Microsoft SQL Server
+</span></span><span style="display:flex;"><span>- network-latency             - Optimize <span style="color:#66d9ef">for</span> deterministic performance at the cost of increased power consumption, focused on low latency network performance
+</span></span><span style="display:flex;"><span>- network-throughput          - Optimize <span style="color:#66d9ef">for</span> streaming network throughput, generally only necessary on older CPUs or 40G+ networks
+</span></span><span style="display:flex;"><span>- optimize-serial-console     - Optimize <span style="color:#66d9ef">for</span> serial console use.
+</span></span><span style="display:flex;"><span>- powersave                   - Optimize <span style="color:#66d9ef">for</span> low power consumption
+</span></span><span style="display:flex;"><span>- throughput-performance      - Broadly applicable tuning that provides excellent performance across a variety of common server workloads
+</span></span><span style="display:flex;"><span>- virtual-guest               - Optimize <span style="color:#66d9ef">for</span> running inside a virtual guest
+</span></span><span style="display:flex;"><span>- virtual-host                - Optimize <span style="color:#66d9ef">for</span> running KVM guests
+</span></span><span style="display:flex;"><span>Current active profile: virtual-guest
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141-mssql2022 ~<span style="color:#f92672">]</span><span style="color:#75715e"># sudo tuned-adm profile mssql</span>
+</span></span></code></pre></div><ul>
+<li>Kernel settings for virtual address space</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sysctl -w vm.max_map_count<span style="color:#f92672">=</span><span style="color:#ae81ff">1600000</span>
+</span></span></code></pre></div><ul>
+<li>Leave Transparent Huge Pages (THP) enabled</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo madvise &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</span></span></code></pre></div><pre tabindex="0"><code>[root@db141-mssql2022 ~]# tuned-adm off
+[root@db141-mssql2022 ~]# tuned-adm profile mssql
+[root@db141-mssql2022 ~]# tuned-adm active
+Current active profile: mssql
+</code></pre><h3 id="網卡設定">網卡設定</h3>
+<ul>
+<li>實體機</li>
+</ul>
+<p>Set both the rx (receive) and tx (transmit) buffer size to 4 KB:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141-mssql2022 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ethtool -g enp1s0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141-mssql2022 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ethtool -G enp1s0 rx 4096 tx 4096</span>
+</span></span><span style="display:flex;"><span>netlink error: Operation not supported
+</span></span></code></pre></div><ul>
+<li>虛擬機</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;interface</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;bridge&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;mac</span> <span style="color:#a6e22e">address=</span><span style="color:#e6db74">&#39;52:54:00:6b:54:f7&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">bridge=</span><span style="color:#e6db74">&#39;public&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;model</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;virtio&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;vhost&#39;</span> <span style="color:#a6e22e">rx_queue_size=</span><span style="color:#e6db74">&#39;4096&#39;</span> <span style="color:#a6e22e">tx_queue_size=</span><span style="color:#e6db74">&#39;4096&#39;</span> <span style="color:#a6e22e">queues=</span><span style="color:#e6db74">&#39;4&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;address</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;pci&#39;</span> <span style="color:#a6e22e">domain=</span><span style="color:#e6db74">&#39;0x0000&#39;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#39;0x01&#39;</span> <span style="color:#a6e22e">slot=</span><span style="color:#e6db74">&#39;0x00&#39;</span> <span style="color:#a6e22e">function=</span><span style="color:#e6db74">&#39;0x0&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/interface&gt;</span>
+</span></span></code></pre></div><p>queues = VM CPU Core</p>
+<h2 id="設定資料庫">設定資料庫</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /opt/mssql/bin/mssql-conf setup
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>1433/tcp --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><pre tabindex="0"><code>Fd831554@1234
+</code></pre><p>安裝 CLI 工具</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://packages.microsoft.com/config/rhel/8/prod.repo | sudo tee /etc/yum.repos.d/mssql-release.repo
+</span></span><span style="display:flex;"><span>sudo yum install -y mssql-tools18 unixODBC-devel
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - mssql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;export PATH=&#34;$PATH:/opt/mssql-tools18/bin&#34;&#39;</span> &gt;&gt; ~/.bash_profile
+</span></span><span style="display:flex;"><span>source ~/.bash_profile
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlcmd -C -S localhost -U sa
+</span></span></code></pre></div><h2 id="建立新資料庫">建立新資料庫</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CREATE DATABASE db1;
+</span></span><span style="display:flex;"><span>GO
+</span></span><span style="display:flex;"><span>SELECT Name FROM sys.databases;
+</span></span><span style="display:flex;"><span>GO
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>USE db1;
+</span></span><span style="display:flex;"><span>GO;
+</span></span><span style="display:flex;"><span>CREATE TABLE dbo.Inventory
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>    id INT,
+</span></span><span style="display:flex;"><span>    name NVARCHAR <span style="color:#f92672">(</span>50<span style="color:#f92672">)</span>,
+</span></span><span style="display:flex;"><span>    quantity INT,
+</span></span><span style="display:flex;"><span>    PRIMARY KEY <span style="color:#f92672">(</span>id<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>INSERT INTO dbo.Inventory
+</span></span><span style="display:flex;"><span>VALUES <span style="color:#f92672">(</span>1, <span style="color:#e6db74">&#39;banana&#39;</span>, 150<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INSERT INTO dbo.Inventory
+</span></span><span style="display:flex;"><span>VALUES <span style="color:#f92672">(</span>2, <span style="color:#e6db74">&#39;orange&#39;</span>, 154<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>GO;
+</span></span></code></pre></div><h2 id="建立使用者">建立使用者</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 建立伺服器登入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> LOGIN pollochang <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;P@ssw0rd&#39;</span>, CHECK_POLICY <span style="color:#f92672">=</span> <span style="color:#66d9ef">OFF</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, type_desc <span style="color:#66d9ef">FROM</span> sys.server_principals <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pollochang&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 可省略，預設資料庫設定
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> LOGIN pollochang <span style="color:#66d9ef">WITH</span> DEFAULT_DATABASE <span style="color:#f92672">=</span> db1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 在 db1 資料庫裡，為伺服器登入 pollochang 建立對應的資料庫使用者 pollochang
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pollochang <span style="color:#66d9ef">FOR</span> LOGIN pollochang;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 分配基本權限
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> sp_addrolemember <span style="color:#e6db74">&#39;db_datareader&#39;</span>, <span style="color:#e6db74">&#39;pollochang&#39;</span>; <span style="color:#75715e">-- 可讀取數據
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> sp_addrolemember <span style="color:#e6db74">&#39;db_datawriter&#39;</span>, <span style="color:#e6db74">&#39;pollochang&#39;</span>; <span style="color:#75715e">-- 可寫入數據
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> sp_addrolemember <span style="color:#e6db74">&#39;db_owner&#39;</span>, <span style="color:#e6db74">&#39;pollochang&#39;</span>; <span style="color:#75715e">-- 完全控制數據庫
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>USE db1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">go</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> db1user <span style="color:#66d9ef">FOR</span> LOGIN pollochang;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXEC</span> sp_addrolemember <span style="color:#e6db74">&#39;db_owner&#39;</span>, <span style="color:#e6db74">&#39;pollochang&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GO</span>
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<p><a href="https://hasura.io/learn/database/microsoft-sql-server/installation/2-installing-mssql-linux/">MS SQL Server on Linux</a></p>
+<p><a href="https://severalnines.com/database-blog/sql-server-linux-installation-and-configuration">SQL Server On Linux Installation and Configuration</a></p>
+<p><a href="https://docs.microsoft.com/zh-tw/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-ver15">快速入門：在 Ubuntu 上安裝 SQL Server 並建立資料庫</a></p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/worknot-20240313-2/">
+                                <h3 class="">MSSQL 雜記</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-13</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/mssql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">MSSQL</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

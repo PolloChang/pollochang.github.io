@@ -216,32 +216,32 @@ layui.use('element', function(){
 <li>sick-grails/grails-app/services/ex/Ex100Service.groovy</li>
 </ul>
 <p>在程式中有透過字串組SQL方式進行查詢</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>LinkedHashMap <span style="color:#a6e22e">filter2</span><span style="color:#f92672">(</span>GrailsParameterMap params<span style="color:#f92672">){</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>LinkedHashMap <span style="color:#a6e22e">filter2</span>(GrailsParameterMap params){
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    LinkedHashMap result <span style="color:#f92672">=</span> <span style="color:#f92672">[:]</span>
+</span></span><span style="display:flex;"><span>    LinkedHashMap result <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>:<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>Ex100<span style="color:#f92672">&gt;</span> ex100L <span style="color:#f92672">=</span> Ex100<span style="color:#f92672">.</span><span style="color:#a6e22e">createCriteria</span><span style="color:#f92672">().</span><span style="color:#a6e22e">list</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    List<span style="color:#f92672">&lt;</span>Ex100<span style="color:#f92672">&gt;</span> ex100L <span style="color:#f92672">=</span> Ex100.<span style="color:#a6e22e">createCriteria</span>().<span style="color:#a6e22e">list</span>() {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>params<span style="color:#f92672">?.</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">){</span>
-</span></span><span style="display:flex;"><span>            sqlRestriction<span style="color:#f92672">(</span><span style="color:#e6db74">&#34; this_.strings = &#39;${params?.strings}&#39; &#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(params<span style="color:#f92672">?</span>.<span style="color:#a6e22e">strings</span>){
+</span></span><span style="display:flex;"><span>            sqlRestriction(<span style="color:#e6db74">&#34; this_.strings = &#39;${params?.strings}&#39; &#34;</span>)
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    result<span style="color:#f92672">.</span><span style="color:#a6e22e">rows</span> <span style="color:#f92672">=</span> ex100L<span style="color:#f92672">.</span><span style="color:#a6e22e">collect</span> <span style="color:#f92672">{</span> it <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    result.<span style="color:#a6e22e">rows</span> <span style="color:#f92672">=</span> ex100L.<span style="color:#a6e22e">collect</span> { it <span style="color:#f92672">-&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">[</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                id          <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">,</span>
-</span></span><span style="display:flex;"><span>                strings     <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">,</span>
-</span></span><span style="display:flex;"><span>                integers    <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">integers</span><span style="color:#f92672">,</span>
-</span></span><span style="display:flex;"><span>                atms        <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">atms</span><span style="color:#f92672">,</span>
-</span></span><span style="display:flex;"><span>                status      <span style="color:#f92672">:</span> it<span style="color:#f92672">?.</span><span style="color:#a6e22e">status</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                id          : it<span style="color:#f92672">?</span>.<span style="color:#a6e22e">id</span>,
+</span></span><span style="display:flex;"><span>                strings     : it<span style="color:#f92672">?</span>.<span style="color:#a6e22e">strings</span>,
+</span></span><span style="display:flex;"><span>                integers    : it<span style="color:#f92672">?</span>.<span style="color:#a6e22e">integers</span>,
+</span></span><span style="display:flex;"><span>                atms        : it<span style="color:#f92672">?</span>.<span style="color:#a6e22e">atms</span>,
+</span></span><span style="display:flex;"><span>                status      : it<span style="color:#f92672">?</span>.<span style="color:#a6e22e">status</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="方式">方式</h2>
 <ol>
 <li>爬網站每個頁面並紀錄每個頁面可以傳遞的參數</li>

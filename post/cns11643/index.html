@@ -200,31 +200,31 @@ layui.use('element', function(){
 <li>C/C++/Java source code	&ldquo;\uD846\uDEA8&rdquo;</li>
 </ul>
 <p>在 Java 中可以很輕易處理<code>張</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String unicodeString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\u5F35&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>unicodeString<span style="color:#f92672">);</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String unicodeString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\u5F35&#34;</span>;
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(unicodeString);
 </span></span></code></pre></div><p>然而在處理<code>𡪨</code> 時就無法，因此必須改用UTF-32 顯示處理，實際處理方式如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>String hexString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;21AA8&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>String hexString <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;21AA8&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 假設你有一個UTF-32編碼的碼點 21AA8
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> codePoint <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>hexString<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">(),</span> 16<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 假設你有一個UTF-32編碼的碼點 21AA8</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> codePoint <span style="color:#f92672">=</span> Integer.<span style="color:#a6e22e">parseInt</span>(hexString.<span style="color:#a6e22e">toString</span>(), 16);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 創建ByteBuffer以容納UTF-32編碼的碼點
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ByteBuffer byteBuffer <span style="color:#f92672">=</span> ByteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">allocate</span><span style="color:#f92672">(</span>4<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>byteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">putInt</span><span style="color:#f92672">(</span>codePoint<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將ByteBuffer從寫模式切換到讀模式
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>byteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">flip</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 創建ByteBuffer以容納UTF-32編碼的碼點</span>
+</span></span><span style="display:flex;"><span>ByteBuffer byteBuffer <span style="color:#f92672">=</span> ByteBuffer.<span style="color:#a6e22e">allocate</span>(4);
+</span></span><span style="display:flex;"><span>byteBuffer.<span style="color:#a6e22e">putInt</span>(codePoint);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將ByteBuffer從寫模式切換到讀模式</span>
+</span></span><span style="display:flex;"><span>byteBuffer.<span style="color:#a6e22e">flip</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 使用UTF-32編碼創建字符串
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Charset utf32Charset <span style="color:#f92672">=</span> Charset<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UTF-32&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>String utf32String <span style="color:#f92672">=</span> utf32Charset<span style="color:#f92672">.</span><span style="color:#a6e22e">decode</span><span style="color:#f92672">(</span>byteBuffer<span style="color:#f92672">).</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 使用UTF-32編碼創建字符串</span>
+</span></span><span style="display:flex;"><span>Charset utf32Charset <span style="color:#f92672">=</span> Charset.<span style="color:#a6e22e">forName</span>(<span style="color:#e6db74">&#34;UTF-32&#34;</span>);
+</span></span><span style="display:flex;"><span>String utf32String <span style="color:#f92672">=</span> utf32Charset.<span style="color:#a6e22e">decode</span>(byteBuffer).<span style="color:#a6e22e">toString</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將UTF-32字符串轉換為UTF-8編碼的字節序列
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> utf8Bytes <span style="color:#f92672">=</span> utf32String<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span>StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 將UTF-32字符串轉換為UTF-8編碼的字節序列</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> utf8Bytes <span style="color:#f92672">=</span> utf32String.<span style="color:#a6e22e">getBytes</span>(StandardCharsets.<span style="color:#a6e22e">UTF_8</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>String showString <span style="color:#f92672">=</span>  String<span style="color:#f92672">(</span>utf8Bytes<span style="color:#f92672">,</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>String showString <span style="color:#f92672">=</span>  String(utf8Bytes, StandardCharsets.<span style="color:#a6e22e">UTF_8</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> showString<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> showString;
 </span></span></code></pre></div><p>所以在處理 CNS11643 轉 Unicode 的處理方式建議直接從 UTF-32 直接著手比較可以預防第零字面以外的字。</p>
 <h2 id="參考資料">參考資料</h2>
 <ul>

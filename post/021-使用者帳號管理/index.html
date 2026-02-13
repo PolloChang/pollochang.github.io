@@ -17,7 +17,7 @@ settings &gt;&gt; Details &gt;&gt; Users 到使用者管理頁面之後，需要
 之後就會出現剛剛新增使用者的資訊在使用者管理頁面中
 看完以上，是不是覺得跟在 windows 上一樣簡單。接下來看看剛剛一番操作之後系統發生什麼變化呢？
 帳號資訊: /etc/passwd 系統會將使用者資訊紀錄在這個文件中：/etc/passwd
-&gt; $ cat /etc/passwd | grep pollochang pollochang❌1001:1001:pollochang,,,:/home/pollochang:/bin/bash 以冒號 : 為分隔欄位
+&gt; $ cat /etc/passwd | grep pollochang pollochang:x:1001:1001:pollochang,,,:/home/pollochang:/bin/bash 以冒號 : 為分隔欄位
 帳號名稱 密碼: 因為密碼都紀錄在 /etc/shadow 文件中，所以這裡是以 x 表示 UID: 使用者在系統的唯一代號 GID: 使用者群組代號 使用者資訊說明欄位 使用者家目錄 使用者預設shell 名稱 密碼資訊: /etc/shadow 以冒號 : 為分隔欄位
 root@JamesChangNB:~# cat /etc/shadow | grep pollochang pollochang:$6$JaseGnZpc.VeUeCM$/iu963R2FHzoGV5zBkh390weaQ0osO3wwE54xobUX8I6llYULw/004iL8mvUVAFfq9SraOPBWV97.EgPhslvt.:19269:0:99999:7::: Username(使用者名稱)
 Password(密碼): 這裡已經是加密過後資訊
@@ -196,7 +196,7 @@ layui.use('element', function(){
 <h2 id="帳號資訊-etcpasswd">帳號資訊: /etc/passwd</h2>
 <p>系統會將使用者資訊紀錄在這個文件中：<code>/etc/passwd</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; $ cat /etc/passwd | grep pollochang
-</span></span><span style="display:flex;"><span>pollochang❌1001:1001:pollochang,,,:/home/pollochang:/bin/bash
+</span></span><span style="display:flex;"><span>pollochang:x:1001:1001:pollochang,,,:/home/pollochang:/bin/bash
 </span></span></code></pre></div><p>以冒號 <code>:</code> 為分隔欄位</p>
 <ol>
 <li>帳號名稱</li>
