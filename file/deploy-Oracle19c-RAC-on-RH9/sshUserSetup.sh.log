@@ -1,0 +1,135 @@
+[grid@db141 ~]$ $ORACLE_HOME/oui/prov/resources/scripts/sshUserSetup.sh -user grid  -hosts "db141 db142"  -advanced -noPromptPassphrase
+The output of this script is also logged into /tmp/sshUserSetup_2026-02-22-15-33-41.log
+Hosts are db141 db142
+user is grid
+Platform:- Linux 
+Checking if the remote hosts are reachable
+PING db141 (192.168.122.141) 56(84) bytes of data.
+64 bytes from db141.pollo.local (192.168.122.141): icmp_seq=1 ttl=64 time=0.016 ms
+64 bytes from db141.pollo.local (192.168.122.141): icmp_seq=2 ttl=64 time=0.111 ms
+64 bytes from db141.pollo.local (192.168.122.141): icmp_seq=3 ttl=64 time=0.108 ms
+64 bytes from db141.pollo.local (192.168.122.141): icmp_seq=4 ttl=64 time=0.116 ms
+64 bytes from db141.pollo.local (192.168.122.141): icmp_seq=5 ttl=64 time=0.075 ms
+
+--- db141 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4033ms
+rtt min/avg/max/mdev = 0.016/0.085/0.116/0.037 ms
+PING db142 (192.168.122.142) 56(84) bytes of data.
+64 bytes from db142.pollo.local (192.168.122.142): icmp_seq=1 ttl=64 time=0.822 ms
+64 bytes from db142.pollo.local (192.168.122.142): icmp_seq=2 ttl=64 time=0.831 ms
+64 bytes from db142.pollo.local (192.168.122.142): icmp_seq=3 ttl=64 time=0.255 ms
+64 bytes from db142.pollo.local (192.168.122.142): icmp_seq=4 ttl=64 time=0.949 ms
+64 bytes from db142.pollo.local (192.168.122.142): icmp_seq=5 ttl=64 time=0.799 ms
+
+--- db142 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4059ms
+rtt min/avg/max/mdev = 0.255/0.731/0.949/0.243 ms
+Remote host reachability check succeeded.
+The following hosts are reachable: db141 db142.
+The following hosts are not reachable: .
+All hosts are reachable. Proceeding further...
+firsthost db141
+numhosts 2
+The script will setup SSH connectivity from the host db141 to all
+the remote hosts. After the script is executed, the user can use SSH to run
+commands on the remote hosts or copy files between this host db141
+and the remote hosts without being prompted for passwords or confirmations.
+
+NOTE 1:
+As part of the setup procedure, this script will use ssh and scp to copy
+files between the local host and the remote hosts. Since the script does not
+store passwords, you may be prompted for the passwords during the execution of
+the script whenever ssh or scp is invoked.
+
+NOTE 2:
+AS PER SSH REQUIREMENTS, THIS SCRIPT WILL SECURE THE USER HOME DIRECTORY
+AND THE .ssh DIRECTORY BY REVOKING GROUP AND WORLD WRITE PRIVILEGES TO THESE
+directories.
+
+Do you want to continue and let the script make the above mentioned changes (yes/no)?
+yes
+
+The user chose yes
+User chose to skip passphrase related questions.
+Creating .ssh directory on local host, if not present already
+Creating authorized_keys file on local host
+Changing permissions on authorized_keys to 644 on local host
+Creating known_hosts file on local host
+Changing permissions on known_hosts to 644 on local host
+Creating config file on local host
+If a config file exists already at /home/grid/.ssh/config, it would be backed up to /home/grid/.ssh/config.backup.
+Creating .ssh directory and setting permissions on remote host db141
+THE SCRIPT WOULD ALSO BE REVOKING WRITE PERMISSIONS FOR group AND others ON THE HOME DIRECTORY FOR grid. THIS IS AN SSH REQUIREMENT.
+The script would create ~grid/.ssh/config file on remote host db141. If a config file exists already at ~grid/.ssh/config, it would be backed up to ~grid/.ssh/config.backup.
+The user may be prompted for a password here since the script would be running SSH on host db141.
+Warning: Permanently added 'db141' (ED25519) to the list of known hosts.
+grid@db141's password: 
+Done with creating .ssh directory and setting permissions on remote host db141.
+Creating .ssh directory and setting permissions on remote host db142
+THE SCRIPT WOULD ALSO BE REVOKING WRITE PERMISSIONS FOR group AND others ON THE HOME DIRECTORY FOR grid. THIS IS AN SSH REQUIREMENT.
+The script would create ~grid/.ssh/config file on remote host db142. If a config file exists already at ~grid/.ssh/config, it would be backed up to ~grid/.ssh/config.backup.
+The user may be prompted for a password here since the script would be running SSH on host db142.
+Warning: Permanently added 'db142' (ED25519) to the list of known hosts.
+Done with creating .ssh directory and setting permissions on remote host db142.
+Copying local host public key to the remote host db141
+The user may be prompted for a password or passphrase here since the script would be using SCP for host db141.
+grid@db141's password: 
+Done copying local host public key to the remote host db141
+Copying local host public key to the remote host db142
+The user may be prompted for a password or passphrase here since the script would be using SCP for host db142.
+Done copying local host public key to the remote host db142
+Creating keys on remote host db141 if they do not exist already. This is required to setup SSH on host db141.
+
+Creating keys on remote host db142 if they do not exist already. This is required to setup SSH on host db142.
+
+Updating authorized_keys file on remote host db141
+Updating known_hosts file on remote host db141
+Updating authorized_keys file on remote host db142
+Updating known_hosts file on remote host db142
+cat: /home/grid/.ssh/known_hosts.tmp: No such file or directory
+cat: /home/grid/.ssh/authorized_keys.tmp: No such file or directory
+SSH setup is complete.
+
+------------------------------------------------------------------------
+Verifying SSH setup
+===================
+The script will now run the date command on the remote nodes using ssh
+to verify if ssh is setup correctly. IF THE SETUP IS CORRECTLY SETUP,
+THERE SHOULD BE NO OUTPUT OTHER THAN THE DATE AND SSH SHOULD NOT ASK FOR
+PASSWORDS. If you see any output other than date or are prompted for the
+password, ssh is not setup correctly and you will need to resolve the
+issue and set up ssh again.
+The possible causes for failure could be:
+1. The server settings in /etc/ssh/sshd_config file do not allow ssh
+for user grid.
+2. The server may have disabled public key based authentication.
+3. The client public key on the server may be outdated.
+4. ~grid or ~grid/.ssh on the remote host may not be owned by grid.
+5. User may not have passed -shared option for shared remote users or
+may be passing the -shared option for non-shared remote users.
+6. If there is output in addition to the date, but no password is asked,
+it may be a security alert shown as part of company policy. Append the
+additional text to the <OMS HOME>/sysman/prov/resources/ignoreMessages.txt file.
+------------------------------------------------------------------------
+--db141:--
+Running /usr/bin/ssh -x -l grid db141 date to verify SSH connectivity has been setup from local host to db141.
+IF YOU SEE ANY OTHER OUTPUT BESIDES THE OUTPUT OF THE DATE COMMAND OR IF YOU ARE PROMPTED FOR A PASSWORD HERE, IT MEANS SSH SETUP HAS NOT BEEN SUCCESSFUL. Please note that being prompted for a passphrase may be OK but being prompted for a password is ERROR.
+Sun Feb 22 03:34:05 PM CST 2026
+------------------------------------------------------------------------
+--db142:--
+Running /usr/bin/ssh -x -l grid db142 date to verify SSH connectivity has been setup from local host to db142.
+IF YOU SEE ANY OTHER OUTPUT BESIDES THE OUTPUT OF THE DATE COMMAND OR IF YOU ARE PROMPTED FOR A PASSWORD HERE, IT MEANS SSH SETUP HAS NOT BEEN SUCCESSFUL. Please note that being prompted for a passphrase may be OK but being prompted for a password is ERROR.
+Sun Feb 22 03:34:06 PM CST 2026
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Verifying SSH connectivity has been setup from db141 to db141
+IF YOU SEE ANY OTHER OUTPUT BESIDES THE OUTPUT OF THE DATE COMMAND OR IF YOU ARE PROMPTED FOR A PASSWORD HERE, IT MEANS SSH SETUP HAS NOT BEEN SUCCESSFUL.
+Sun Feb 22 03:34:06 PM CST 2026
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Verifying SSH connectivity has been setup from db141 to db142
+IF YOU SEE ANY OTHER OUTPUT BESIDES THE OUTPUT OF THE DATE COMMAND OR IF YOU ARE PROMPTED FOR A PASSWORD HERE, IT MEANS SSH SETUP HAS NOT BEEN SUCCESSFUL.
+Sun Feb 22 03:34:07 PM CST 2026
+------------------------------------------------------------------------
+-Verification from complete-
+SSH verification complete.

@@ -1,0 +1,1287 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - deploy Oracle19c RAC on RHEL9 </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 準備檔案 Oracle Database 19.3.0.0.0 for Linux x86-64 File Name: LINUX.X64_193000_db_home.zip (2.8 GB) sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64 File Name: V982068-01.zip (2.7 GB) sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026)) File Name: p6880880_190000_Linux-x86-64.zip sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7 GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB) sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73 DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB) sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5 KVM 預先設定 KVM VM 的 MAC Address printf &#39;52:54:00:%02x:%02x:%02x\n&#39; $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)) 環境資訊 硬體資訊 ❯ screenfetch _,met$$$$$gg." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>deploy Oracle19c RAC on RHEL9</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="準備檔案">準備檔案</h2>
+<ul>
+<li>Oracle Database 19.3.0.0.0 for Linux x86-64
+<ul>
+<li>File Name: LINUX.X64_193000_db_home.zip  (2.8 GB)</li>
+<li>sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8</li>
+</ul>
+</li>
+<li>Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64
+<ul>
+<li>File Name: V982068-01.zip (2.7 GB)</li>
+<li>sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e</li>
+</ul>
+</li>
+<li>OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026))
+<ul>
+<li>File Name: p6880880_190000_Linux-x86-64.zip</li>
+<li>sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7</li>
+</ul>
+</li>
+<li>GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64)
+<ul>
+<li>File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB)</li>
+<li>sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73</li>
+</ul>
+</li>
+<li>DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64)
+<ul>
+<li>File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB)</li>
+<li>sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5</li>
+</ul>
+</li>
+</ul>
+<h2 id="kvm">KVM</h2>
+<ul>
+<li>預先設定 KVM VM 的 MAC Address</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>printf <span style="color:#e6db74">&#39;52:54:00:%02x:%02x:%02x\n&#39;</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span>
+</span></span></code></pre></div><h2 id="環境資訊">環境資訊</h2>
+<h3 id="硬體資訊">硬體資訊</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ screenfetch                          
+</span></span><span style="display:flex;"><span>         _,met$$$$$gg.           pollochang@pollo-nb-5310
+</span></span><span style="display:flex;"><span>      ,g$$$$$$$$$$$$$$$P.        OS: Debian <span style="color:#ae81ff">13</span> trixie
+</span></span><span style="display:flex;"><span>    ,g$$P<span style="color:#e6db74">&#34;&#34;</span>       <span style="color:#e6db74">&#34;&#34;&#34;Y</span>$$<span style="color:#e6db74">.&#34;</span>.      Kernel: x86_64 Linux 6.12.63+deb13-amd64
+</span></span><span style="display:flex;"><span>   ,$$P<span style="color:#e6db74">&#39;              `$$$.      Uptime: 1d 7h 34m
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#39;</span>,$$P       ,ggs.     <span style="color:#e6db74">`</span>$$b:    Packages: <span style="color:#ae81ff">2925</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">`</span>d$$<span style="color:#e6db74">&#39;     ,$P&#34;&#39;</span>   .    $$$     Shell: zsh 5.9
+</span></span><span style="display:flex;"><span>   $$P      d<span style="color:#e6db74">$&#39;     ,    $$P     Resolution: 2970x1680
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">   $$:      $$.   -    ,d$$&#39;</span>     DE: GNOME 48.4
+</span></span><span style="display:flex;"><span>   $$<span style="color:#ae81ff">\;</span>      Y$b._   _,d$P<span style="color:#e6db74">&#39;      WM: Mutter
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">   Y$$.    `.`&#34;Y$$$$P&#34;&#39;</span>          WM Theme: 
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">`</span>$$b      <span style="color:#e6db74">&#34;-.__               GTK Theme: Adwaita [GTK2/3]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    `Y</span>$$<span style="color:#e6db74">                         Icon Theme: Adwaita
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">     `Y</span>$$<span style="color:#e6db74">.                       Font: Cantarell 11
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">       `</span>$$<span style="color:#e6db74">b.                     Disk: 604G / 1.9T (35%)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         `Y</span>$$<span style="color:#e6db74">b.                  CPU: Intel Core i5-10310U @ 8x 4.4GHz [71.0°C]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            `&#34;</span>Y$b._              GPU: UHD Graphics
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">`</span><span style="color:#e6db74">&#34;&#34;&#34;&#34;</span>            RAM: 27513MiB / 63996MiB
+</span></span></code></pre></div><h3 id="vm-host">VM Host</h3>
+<ul>
+<li>VM Planform: KVM</li>
+<li>Share Disk
+<ul>
+<li>Oracle database:
+<ul>
+<li>/var/lib/libvirt/images/db145-data-01.raw
+<ul>
+<li>10G</li>
+</ul>
+</li>
+<li>/var/lib/libvirt/images/db145-data-02.raw
+<ul>
+<li>10G</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Oracle grid:
+<ul>
+<li>/var/lib/libvirt/images/db145-OCR-01.raw</li>
+<li>/var/lib/libvirt/images/db145-OCR-02.raw</li>
+<li>/var/lib/libvirt/images/db145-OCR-03.raw</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="資料庫系統">資料庫系統</h3>
+<ul>
+<li>OS Version: Redhat Linux 9.7 (Minimal Linux Installation)</li>
+<li>CPU: 4 vCore</li>
+<li>RAM: 16G</li>
+<li>Disk:
+<ul>
+<li>swap: 16G</li>
+<li>/boot: 1G</li>
+<li>/u01: 20G</li>
+</ul>
+</li>
+<li>Database Info
+<ul>
+<li>Database version: Oracle Database 19.3.0.0.0 for Linux x86-64</li>
+<li>domain
+<ul>
+<li>db145.pollo.local</li>
+</ul>
+</li>
+<li>scan IP:
+<ul>
+<li>192.168.122.145</li>
+<li>192.168.122.146</li>
+<li>192.168.122.147</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>common-server
+<ul>
+<li>hostname: common-server-005.pollo.local</li>
+<li>IP: 192.168.122.5</li>
+<li>Service
+<ul>
+<li>DNS Server</li>
+<li>NTP Server</li>
+<li>NFS server: 這邊我是為了節省點腦的硬碟空間</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>database host 1
+<ul>
+<li>hostname: db141.pollo.local</li>
+<li>ORCLE_SID: db141 (這個有區分大小寫)</li>
+<li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
+<li>Pulic IP: 192.168.122.141
+<ul>
+<li>MAC: 52:54:00:b5:8b:7a</li>
+</ul>
+</li>
+<li>Virtual IP: 192.168.122.143 , db141-vip.pollo.local</li>
+<li>Private IP: 192.168.55.141 , db141-priv.pollo.local</li>
+<li>CPU: 8vCore</li>
+<li>RAM: 16G</li>
+<li>SWAP: 16G</li>
+</ul>
+</li>
+<li>database host2
+<ul>
+<li>hostname: db142.pollo.local</li>
+<li>ORCLE_SID: db142 (這個有區分大小寫)</li>
+<li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
+<li>Pulic IP: 192.168.122.142
+<ul>
+<li>MAC: 52:54:00:19:ae:b2</li>
+</ul>
+</li>
+<li>Virtual IP: 192.168.122.144 , db142-vip.pollo.local</li>
+<li>Private IP: 192.168.55.142 , db142-priv.pollo.local</li>
+<li>CPU: 8vCore</li>
+<li>RAM: 16G</li>
+<li>SWAP: 16G</li>
+</ul>
+</li>
+<li>Disk Groups
+<ul>
+<li>database
+<ul>
+<li>DATA-01: 20G</li>
+<li>DATA-02: 20G</li>
+</ul>
+</li>
+<li>grid (asm disk)
+<ul>
+<li>OCR-01: 5 G</li>
+<li>OCR-02: 5 G</li>
+<li>OCR-03: 5 G</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="規劃-asm">規劃 ASM</h3>
+<p>既然您正在安裝 RAC，而不是單節點的 Standalone Cluster，您只有兩個主要的選項：</p>
+<ol>
+<li><strong><code>FLEX_ASM_STORAGE</code></strong> (Oracle Flex Cluster 架構)</li>
+<li><strong><code>CLIENT_ASM_STORAGE</code></strong> (傳統/標準 Cluster 架構)</li>
+</ol>
+<h3 id="針對-oracle-rac-19c-的選擇建議"><strong>針對 Oracle RAC 19c 的選擇建議</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">選項</th>
+<th style="text-align:left">描述 (RAC 架構)</th>
+<th style="text-align:left"><strong>適用於</strong></th>
+<th style="text-align:left"><strong>建議</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>CLIENT_ASM_STORAGE</code></strong></td>
+<td style="text-align:left">這是<strong>傳統/標準 RAC (Standard Cluster)</strong> 的存儲模型。</td>
+<td style="text-align:left">您的 Cluster <strong>不</strong>需要使用 <strong>Flex ASM</strong> (多個節點共用一個 ASM 實例池)。通常適用於大多數<strong>兩節點 RAC</strong> 或小型 RAC 環境。</td>
+<td style="text-align:left"><strong>對於您的兩節點 RAC 環境，這是最簡單、最常見且推薦的選擇。</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>FLEX_ASM_STORAGE</code></strong></td>
+<td style="text-align:left">這是 <strong>Flex Cluster</strong> 的存儲模型，它<strong>要求使用 Flex ASM</strong>。</td>
+<td style="text-align:left">您的 Cluster 規模較大 (通常超過 4 個節點)，或您希望將 ASM 實例與資料庫實例分離，以實現更高的可擴展性和靈活性。</td>
+<td style="text-align:left">除非您明確需要 Flex ASM 的功能，否則<strong>不推薦</strong>在簡單的兩節點環境中使用此選項。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>FILE_SYSTEM_STORAGE</code></strong></td>
+<td style="text-align:left">使用共享文件系統或 NFS 存儲 OCR 和 Voting Disk。</td>
+<td style="text-align:left">[cite_start]<strong>僅適用於 Standalone Cluster</strong> (單節點 GI/非 RAC) [cite: 1] 或 Flex Cluster 中的 Hub 節點。</td>
+<td style="text-align:left"><strong>不適用於您的兩節點 RAC 安裝。</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="最終決定與配置"><strong>最終決定與配置</strong></h3>
+<p>基於您在兩節點環境中安裝 RAC 的情況，最直接且穩定可靠的選擇是使用 <strong>Standard Cluster</strong> 架構，並讓每個節點運行自己的 ASM 實例。</p>
+<p>因此，您應該在安裝配置文件中設定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>oracle.install.crs.config.storageOption<span style="color:#f92672">=</span>CLIENT_ASM_STORAGE
+</span></span></code></pre></div><p>這個設定將指示安裝程式使用傳統的 ASM 存儲模型來配置 OCR 和 Voting Disks，這要求您已經準備好了 ASM Disk Group (透過 ASMLib 或 UDEV) 來存儲這些文件。</p>
+<h2 id="部屬-nfs-server">部屬 NFS server</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install nfs-utils
+</span></span><span style="display:flex;"><span>systemctl enable --now rpcbind nfs-server nfs-lock nfs-idmap
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /data/share/oracle
+</span></span></code></pre></div><ul>
+<li>/etc/exports</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/data/share/oracle     192.168.122.0/24<span style="color:#f92672">(</span>rw,sync,no_subtree_check<span style="color:#f92672">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart nfs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --permanent --zone<span style="color:#f92672">=</span>public --add-service<span style="color:#f92672">=</span>nfs
+</span></span><span style="display:flex;"><span>firewall-cmd --reload
+</span></span></code></pre></div><h2 id="部屬-dns-server">部屬 DNS Server</h2>
+<ul>
+<li>安裝 DNS 伺服器</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo yum install dnsmasq
+</span></span></code></pre></div><ul>
+<li>設定文件: <code>/etc/dnsmasq.conf</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>resolv-file<span style="color:#f92672">=</span>/etc/resolv.dnsmasq.conf
+</span></span><span style="display:flex;"><span>addn-hosts<span style="color:#f92672">=</span>/etc/dnsmasq.hosts
+</span></span><span style="display:flex;"><span>listen-address<span style="color:#f92672">=</span>127.0.0.1,192.168.122.5
+</span></span></code></pre></div><ul>
+<li>設定文件: <code>/etc/dnsmasq.hosts</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## Oracle 19c 19.30</span>
+</span></span><span style="display:flex;"><span>192.168.122.141 db141.pollo.local
+</span></span><span style="display:flex;"><span>192.168.122.142 db142.pollo.local
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Oracle Private</span>
+</span></span><span style="display:flex;"><span>192.168.55.141 db141-priv.pollo.local
+</span></span><span style="display:flex;"><span>192.168.55.142 db142-priv.pollo.local
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Oracle Virtual</span>
+</span></span><span style="display:flex;"><span>192.168.122.143 db141-vip.pollo.local
+</span></span><span style="display:flex;"><span>192.168.122.144 db142-vip.pollo.local
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Oracle SCAN (oracle.install.crs.config.gpnp.scanName) [INS-40718]</span>
+</span></span><span style="display:flex;"><span>192.168.122.145 db-scan.pollo.local
+</span></span><span style="display:flex;"><span>192.168.122.146 db-scan.pollo.local
+</span></span><span style="display:flex;"><span>192.168.122.147 db-scan.pollo.local
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable --now dnsmasq
+</span></span></code></pre></div><p>檢查設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnsmasq --test
+</span></span></code></pre></div><ul>
+<li>設定防火牆</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --add-service<span style="color:#f92672">=</span>dns --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --add-service<span style="color:#f92672">=</span>dhcp --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span></code></pre></div><h2 id="kvm-複製虛擬機">KVM 複製虛擬機</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="kvm-新增-asm-disk">KVM 新增 ASM Disk</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export VIRTUAL_DISK_HOME<span style="color:#f92672">=</span>/var/lib/libvirt/images
+</span></span><span style="display:flex;"><span>qemu-img create -f raw <span style="color:#e6db74">${</span>VIRTUAL_DISK_HOME<span style="color:#e6db74">}</span>/db145-data-01.raw 20G
+</span></span><span style="display:flex;"><span>qemu-img create -f raw <span style="color:#e6db74">${</span>VIRTUAL_DISK_HOME<span style="color:#e6db74">}</span>/db145-data-02.raw 20G
+</span></span><span style="display:flex;"><span>qemu-img create -f raw <span style="color:#e6db74">${</span>VIRTUAL_DISK_HOME<span style="color:#e6db74">}</span>/db145-OCR-01.raw 5G
+</span></span><span style="display:flex;"><span>qemu-img create -f raw <span style="color:#e6db74">${</span>VIRTUAL_DISK_HOME<span style="color:#e6db74">}</span>/db145-OCR-02.raw 5G
+</span></span><span style="display:flex;"><span>qemu-img create -f raw <span style="color:#e6db74">${</span>VIRTUAL_DISK_HOME<span style="color:#e6db74">}</span>/db145-OCR-03.raw 5G
+</span></span></code></pre></div><h3 id="kvm-xml-範例">KVM xml 範例</h3>
+<ul>
+<li>db141-ora19-rac, db142-ora19-rac</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#34;disk&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;qemu&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;raw&#34;</span> <span style="color:#a6e22e">cache=</span><span style="color:#e6db74">&#34;none&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;/var/lib/libvirt/images/db145-OCR-01.raw&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sda&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;serial&gt;</span>73efa1e1938ff3a830998761ecbf7b55<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/images/db145-OCR-02.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdb&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>1a257bcfd8edc33bc004b5f2415d423c<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/images/db145-OCR-03.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdc&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>b383c5977d884aa477de78db34346124<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/images/db145-data-01.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdd&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>8c7bcb226acd1a8eb5899e6f68e86e53<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/var/lib/libvirt/images/db145-data-02.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sde&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>061abe1be89145fabd72f7b702df6392<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span></code></pre></div><p>u cat create serial&rsquo;s value with command</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl rand -hex <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or</span>
+</span></span><span style="display:flex;"><span>cat /proc/sys/kernel/random/uuid | tr -d <span style="color:#e6db74">&#39;-&#39;</span>
+</span></span></code></pre></div><h2 id="實驗室中虛擬機設定-dns-clinet">實驗室中虛擬機設定-DNS Clinet</h2>
+<ul>
+<li>設定文件: /etc/resolv.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nameserver 192.168.122.5
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chattr +i /etc/resolv.conf
+</span></span></code></pre></div><p>check</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@common-server ~<span style="color:#f92672">]</span><span style="color:#75715e"># nslookup db141-vip.pollo.local</span>
+</span></span><span style="display:flex;"><span>Server:         127.0.0.1
+</span></span><span style="display:flex;"><span>Address:        127.0.0.1#53
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Name:   db141-vip.pollo.local
+</span></span><span style="display:flex;"><span>Address: 192.168.122.133
+</span></span></code></pre></div><h2 id="安裝資料庫">安裝資料庫</h2>
+<h3 id="部屬前置作業">部屬前置作業</h3>
+<h4 id="設定虛擬主機硬碟">設定虛擬主機硬碟</h4>
+<p>詳細請閱讀 [Oracle RAC VirtualBox 設定.docx]</p>
+<h4 id="設定系統校時">設定系統校時</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 切換到 root</span>
+</span></span><span style="display:flex;"><span>sudo -i
+</span></span><span style="display:flex;"><span>sudo yum install -y chrony
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定 NTP Server IP</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;server 192.168.122.5 iburst&#34;</span> &gt;&gt; /etc/chrony.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重起 chronyd</span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart chronyd
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now chronyd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 立即調整系統時間</span>
+</span></span><span style="display:flex;"><span>sudo chronyc -a makestep
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 確認結果</span>
+</span></span><span style="display:flex;"><span>sudo chronyc sources -V
+</span></span></code></pre></div><p>設定期望結果如下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 ~<span style="color:#f92672">]</span><span style="color:#75715e"># sudo chronyc sources -V</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">210</span> Number of sources <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>MS Name/IP address         Stratum Poll Reach LastRx Last sample
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===============================================================================</span>
+</span></span><span style="display:flex;"><span>^* 192.168.122.5                  <span style="color:#ae81ff">3</span>   <span style="color:#ae81ff">6</span>    <span style="color:#ae81ff">17</span>     <span style="color:#ae81ff">3</span>    -21us<span style="color:#f92672">[</span>  -81us<span style="color:#f92672">]</span> +/-   95ms
+</span></span></code></pre></div><h4 id="設定-dns">設定 DNS</h4>
+<ul>
+<li>設定文件: /etc/resolv.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nameserver 192.168.122.5
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chattr +i /etc/resolv.conf
+</span></span></code></pre></div><p>設定期望結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># nslookup db141-vip.pollo.local</span>
+</span></span><span style="display:flex;"><span>Server:         192.168.122.5
+</span></span><span style="display:flex;"><span>Address:        192.168.122.5#53
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Name:   db141-vip.pollo.local
+</span></span><span style="display:flex;"><span>Address: 192.168.122.133
+</span></span></code></pre></div><h4 id="設定-nfs-client">設定 NFS Client</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf install -y nfs-utils autofs
+</span></span><span style="display:flex;"><span>mkdir /etc/autofs
+</span></span></code></pre></div><ul>
+<li>/etc/auto.master.d/nfs.autofs</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/mnt/nfs /etc/autofs/oracle.nfs --timeout <span style="color:#ae81ff">60</span>
+</span></span></code></pre></div><ul>
+<li>/etc/autofs/oracle.nfs</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>software -fstype<span style="color:#f92672">=</span>nfs,vers<span style="color:#f92672">=</span>4,rw 192.168.122.1:/data/software
+</span></span></code></pre></div><p>測試</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart autofs
+</span></span><span style="display:flex;"><span>ls /mnt/nfs/software
+</span></span></code></pre></div><h4 id="禁用ipv6">禁用IPV6</h4>
+<p>避免引發 bug ，以下是紀錄</p>
+<ul>
+<li>
+<p>19c - 37015893</p>
+</li>
+<li>
+<p>26ai - 36326543</p>
+</li>
+<li>
+<p>21c - 33279556</p>
+</li>
+<li>
+<p>/etc/sysctl.d/900-disable-ipv6.conf</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net.ipv6.conf.lo.disable_ipv6<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>net.ipv6.conf.all.disable_ipv6<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>net.ipv6.conf.default.disable_ipv6<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo sysctl -p /etc/sysctl.d/900-disable-ipv6.conf
+</span></span></code></pre></div><p>重啟網路</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart NetworkManager
+</span></span></code></pre></div><h4 id="scp-程式處理">scp 程式處理</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mv /usr/bin/scp /usr/bin/scp.bk
+</span></span></code></pre></div><ul>
+<li>/usr/bin/scp</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>/usr/bin/scp.bk -T -O <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h4 id="關閉-selinux">關閉 SELinux</h4>
+<p>先是試看不關閉 SELinux</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo sed -i <span style="color:#e6db74">&#39;s/SELINUX=.*$/SELINUX=disabled/&#39;</span> /etc/selinux/config
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/^SELINUXTYPE=targeted/#&amp;/&#39;</span> /etc/selinux/config
+</span></span><span style="display:flex;"><span>setenforce <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h4 id="安裝-preinstall">安裝 preinstall</h4>
+<p>指令如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf install https://public-yum.oracle.com/repo/OracleLinux/OL9/appstream/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el9.x86_64.rpm
+</span></span></code></pre></div><p>檢查設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ulimit -H -n -u -s -l
+</span></span></code></pre></div><h4 id="packages">packages</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
+</span></span><span style="display:flex;"><span>dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+</span></span><span style="display:flex;"><span>dnf install bc binutils compat-openssl11 elfutils-libelf fontconfig glibc glibc-devel ksh libaio libasan liblsan libX11 libXau libXi libXrender libXtst libxcrypt-compat libgcc libibverbs libnsl librdmacm libstdc++ libxcb libvirt-libs make policycoreutils policycoreutils-python-utils smartmontools sysstat chkconfig glibc-headers net-tools nfs-utils libnsl2 libnsl2-devel
+</span></span></code></pre></div><h4 id="設定-pulic-ip--private-ip-網路">設定 Pulic IP , Private IP 網路</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmcli device
+</span></span><span style="display:flex;"><span>nmcli con add type ethernet con-name enp9s0 ifname enp9s0
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.addresses 192.168.55.142/24
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.gateway 192.168.55.1
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.method manual
+</span></span><span style="display:flex;"><span>nmcli connection up <span style="color:#e6db74">&#34;enp9s0&#34;</span>
+</span></span><span style="display:flex;"><span>nmcli connection down <span style="color:#e6db74">&#34;enp9s0&#34;</span>
+</span></span><span style="display:flex;"><span>systemctl restart NetworkManager
+</span></span><span style="display:flex;"><span>nmcli connection reload
+</span></span></code></pre></div><p>Pulic IP , Private IP 期望設定完成，期望結果如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 ~<span style="color:#f92672">]</span><span style="color:#75715e"># nmcli device</span>
+</span></span><span style="display:flex;"><span>nmcli con add type ethernet con-name enp9s0 ifname enp9s0
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.addresses 192.168.55.142/24
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.gateway 192.168.55.1
+</span></span><span style="display:flex;"><span>nmcli con mod enp9s0 ipv4.method manual
+</span></span><span style="display:flex;"><span>nmcli connection up <span style="color:#e6db74">&#34;enp9s0&#34;</span>
+</span></span><span style="display:flex;"><span>nmcli connection down <span style="color:#e6db74">&#34;enp9s0&#34;</span>
+</span></span><span style="display:flex;"><span>systemctl restart NetworkManager
+</span></span><span style="display:flex;"><span>nmcli connection reload
+</span></span><span style="display:flex;"><span>DEVICE  TYPE      STATE                                  CONNECTION         
+</span></span><span style="display:flex;"><span>enp1s0  ethernet  connected                              enp1s0             
+</span></span><span style="display:flex;"><span>enp9s0  ethernet  connecting <span style="color:#f92672">(</span>getting IP configuration<span style="color:#f92672">)</span>  Wired connection <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span>lo      loopback  connected <span style="color:#f92672">(</span>externally<span style="color:#f92672">)</span>                 lo                 
+</span></span><span style="display:flex;"><span>Connection <span style="color:#e6db74">&#39;enp9s0&#39;</span> <span style="color:#f92672">(</span>0a9fdf6b-c78c-49d1-96fe-2c3f3dfd969a<span style="color:#f92672">)</span> successfully added.
+</span></span><span style="display:flex;"><span>Connection successfully activated <span style="color:#f92672">(</span>D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Connection <span style="color:#e6db74">&#39;enp9s0&#39;</span> successfully deactivated <span style="color:#f92672">(</span>D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip a</span>
+</span></span><span style="display:flex;"><span>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">65536</span> qdisc noqueue state UNKNOWN group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span style="display:flex;"><span>    inet 127.0.0.1/8 scope host lo
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>2: enp1s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel state UP group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether 52:54:00:19:ae:b2 brd ff:ff:ff:ff:ff:ff
+</span></span><span style="display:flex;"><span>    inet 192.168.122.142/24 brd 192.168.122.255 scope global dynamic noprefixroute enp1s0
+</span></span><span style="display:flex;"><span>       valid_lft 3595sec preferred_lft 3595sec
+</span></span><span style="display:flex;"><span>3: enp9s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel state UP group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether 52:54:00:8a:dc:48 brd ff:ff:ff:ff:ff:ff
+</span></span><span style="display:flex;"><span>    inet 192.168.55.142/24 brd 192.168.55.255 scope global noprefixroute enp9s0
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span></code></pre></div><h4 id="設定-grid-帳號">設定 grid 帳號</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">54327</span> asmdba
+</span></span><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">54328</span> asmoper
+</span></span><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">54329</span> asmadmin
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># groupadd -g 54330 racdba</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd -u <span style="color:#ae81ff">54323</span> -g oinstall -G asmdba,asmadmin,asmoper grid
+</span></span><span style="display:flex;"><span>usermod -aG asmdba oracle
+</span></span></code></pre></div><h4 id="設定-grid-環境參數">設定 grid 環境參數</h4>
+<ul>
+<li>/etc/security/limits.d/99-grid-limits.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grid   soft   nofile    <span style="color:#ae81ff">1024</span>
+</span></span><span style="display:flex;"><span>grid   hard   nofile    <span style="color:#ae81ff">65536</span>
+</span></span><span style="display:flex;"><span>grid   soft   nproc     <span style="color:#ae81ff">16384</span>
+</span></span><span style="display:flex;"><span>grid   hard   nproc     <span style="color:#ae81ff">16384</span>
+</span></span><span style="display:flex;"><span>grid   soft   stack     <span style="color:#ae81ff">10240</span>
+</span></span><span style="display:flex;"><span>grid   hard   stack     <span style="color:#ae81ff">32768</span>
+</span></span><span style="display:flex;"><span>grid   hard   memlock   <span style="color:#ae81ff">134217728</span>
+</span></span><span style="display:flex;"><span>grid   soft   memlock   <span style="color:#ae81ff">134217728</span>
+</span></span></code></pre></div><h4 id="停用防火牆">停用防火牆</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl disable --now firewalld
+</span></span></code></pre></div><h4 id="disable-transparent-hugepages">Disable Transparent HugePages</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/kernel/mm/transparent_hugepage/enabled</span>
+</span></span><span style="display:flex;"><span>always madvise <span style="color:#f92672">[</span>never<span style="color:#f92672">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">##GRUB禁用透明大页和NUMA</span>
+</span></span><span style="display:flex;"><span>vi /etc/default/grub
+</span></span><span style="display:flex;"><span>GRUB_CMDLINE_LINUX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;resume=/dev/mapper/klas-swap rd.lvm.lv=klas/root rd.lvm.lv=klas/swap rhgb quiet numa=off transparent_hugepage=never crashkernel=1024M,high audit=0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##生成新的grub文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># BIOS启动：</span>
+</span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># UEFI启动：</span>
+</span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/efi/EFI/kylin/grub.cfg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##重启服务器并验证</span>
+</span></span><span style="display:flex;"><span>reboot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat /sys/kernel/mm/transparent_hugepage/enabled
+</span></span><span style="display:flex;"><span>always madvise <span style="color:#f92672">[</span>never<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="enabling-using-hugepages">Enabling Using HugePages</h4>
+<ul>
+<li>SGA -&gt; 9G</li>
+<li><code>grep Hugepagesize: /proc/meminfo</code> -&gt; 2048 KB</li>
+</ul>
+<p>HugePages 數量 = (SGA(KB) / 2048) + 10</p>
+<p>9 * 1024 * 1024 / 2048 +10 = 4,618</p>
+<ul>
+<li>/etc/sysctl.d/99-nr_hugepages.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vm.nr_hugepages <span style="color:#f92672">=</span> <span style="color:#ae81ff">4618</span>
+</span></span><span style="display:flex;"><span>vm.hugetlb_shm_group<span style="color:#f92672">=</span><span style="color:#ae81ff">54322</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sysctl -p /etc/sysctl.d/99-nr_hugepages.conf
+</span></span></code></pre></div><pre tabindex="0"><code>[root@db142 ~]# grep Hugepagesize: /proc/meminfo
+Hugepagesize:       2048 kB
+[root@db142 ~]# grep Huge /proc/meminfo
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+FileHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+[root@db142 ~]# vim /etc/sysctl.d/99-nr_hugepages.conf
+[root@db142 ~]# sysctl -p /etc/sysctl.d/99-nr_hugepages.conf
+vm.nr_hugepages = 4618
+[root@db142 ~]# grep Huge /proc/meminfo
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+FileHugePages:         0 kB
+HugePages_Total:    4618
+HugePages_Free:     4618
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:         9457664 kB
+</code></pre><h4 id="設定-oracle-主機帳號環境變數">設定 oracle 主機帳號環境變數</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /home/oracle/scripts /home/grid/scripts /u01/app/grid
+</span></span></code></pre></div><ul>
+<li>設定文件: <code>/home/oracle/scripts/setEnv.sh</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Oracle Settings</span>
+</span></span><span style="display:flex;"><span>export TMP<span style="color:#f92672">=</span>/tmp;
+</span></span><span style="display:flex;"><span>export TMPDIR<span style="color:#f92672">=</span>$TMP;
+</span></span><span style="display:flex;"><span>export ORACLE_BASE<span style="color:#f92672">=</span>/u01/app/oracle;
+</span></span><span style="display:flex;"><span>export ORACLE_UNQNAME<span style="color:#f92672">=</span>db145
+</span></span><span style="display:flex;"><span>export ORACLE_HOME<span style="color:#f92672">=</span>$ORACLE_BASE/product/19/db;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##### RAC Node Difference start #####</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># db141</span>
+</span></span><span style="display:flex;"><span>export ORACLE_HOSTNAME<span style="color:#f92672">=</span>db141;
+</span></span><span style="display:flex;"><span>export ORACLE_SID<span style="color:#f92672">=</span>db1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># db142</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export ORACLE_HOSTNAME=db142;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export ORACLE_SID=db2;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##### RAC Node Difference end  #####</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>/usr/sbin:$PATH; 
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$ORACLE_HOME/bin:$PATH; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$ORACLE_HOME/lib:/lib:/usr/lib; 
+</span></span><span style="display:flex;"><span>export CLASSPATH<span style="color:#f92672">=</span>$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; 
+</span></span></code></pre></div><ul>
+<li>設定文件: <code>/home/grid/scripts/setEnv.sh</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Oracle Settings</span>
+</span></span><span style="display:flex;"><span>export TMP<span style="color:#f92672">=</span>/tmp;
+</span></span><span style="display:flex;"><span>export TMPDIR<span style="color:#f92672">=</span>$TMP;
+</span></span><span style="display:flex;"><span>export ORACLE_BASE<span style="color:#f92672">=</span>/u01/app/grid;
+</span></span><span style="display:flex;"><span>export GRID_HOME<span style="color:#f92672">=</span>/u01/app/19/grid;
+</span></span><span style="display:flex;"><span>export ORACLE_HOME<span style="color:#f92672">=</span>$GRID_HOME
+</span></span><span style="display:flex;"><span>export CVUQDISK_GRP<span style="color:#f92672">=</span>oinstall
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export ORACLE_SID<span style="color:#f92672">=</span>+ASM1;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># db142</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># export ORACLE_SID=+ASM2;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>/usr/sbin:$PATH; 
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$ORACLE_HOME/bin:$PATH; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$ORACLE_HOME/lib:/lib:/usr/lib; 
+</span></span><span style="display:flex;"><span>export CLASSPATH<span style="color:#f92672">=</span>$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; 
+</span></span></code></pre></div><p>將 環境並數設定到使用者 bash 殼層</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -u oracle echo <span style="color:#e6db74">&#34;. /home/oracle/scripts/setEnv.sh&#34;</span> &gt;&gt; /home/oracle/.bash_profile
+</span></span><span style="display:flex;"><span>sudo -u grid echo <span style="color:#e6db74">&#34;. /home/grid/scripts/setEnv.sh&#34;</span> &gt;&gt; /home/grid/.bash_profile
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0755</span> /home/grid/scripts/*.sh
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0755</span> /home/oracle/scripts/*.sh
+</span></span><span style="display:flex;"><span>chown -R grid: /home/grid/ /u01
+</span></span><span style="display:flex;"><span>chown -R oracle: /home/oracle/
+</span></span></code></pre></div><h4 id="安裝-multipath-tool">安裝 multipath Tool</h4>
+<p>如果沒有使用 FC 這段可以不需要</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf install device-mapper-multipath
+</span></span></code></pre></div><h4 id="設定文件-etcscsi_idconfig">設定文件: /etc/scsi_id.config</h4>
+<p>檢查有文件: /etc/scsi_id.config ，如果沒有文件需要建立，內容如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>options<span style="color:#f92672">=</span>-g
+</span></span></code></pre></div><h4 id="格式化硬碟">格式化硬碟</h4>
+<p>以下任一主機設定即可</p>
+<p>檢查硬碟路徑，以下為分割前</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># fdisk -l | grep /dev/</span>
+</span></span><span style="display:flex;"><span>Disk /dev/vda: <span style="color:#ae81ff">100</span> GiB, <span style="color:#ae81ff">107374182400</span> bytes, <span style="color:#ae81ff">209715200</span> sectors
+</span></span><span style="display:flex;"><span>/dev/vda1  *       <span style="color:#ae81ff">2048</span>   <span style="color:#ae81ff">2099199</span>   <span style="color:#ae81ff">2097152</span>   1G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>/dev/vda2       <span style="color:#ae81ff">2099200</span> <span style="color:#ae81ff">209715199</span> <span style="color:#ae81ff">207616000</span>  99G 8e Linux LVM
+</span></span><span style="display:flex;"><span>Disk /dev/sda: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/sdb: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/sdc: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/sdd: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/sde: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/rhel-root: <span style="color:#ae81ff">83</span> GiB, <span style="color:#ae81ff">89116377088</span> bytes, <span style="color:#ae81ff">174055424</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/rhel-swap: <span style="color:#ae81ff">16</span> GiB, <span style="color:#ae81ff">17179869184</span> bytes, <span style="color:#ae81ff">33554432</span> sectors
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk /dev/vdb
+</span></span></code></pre></div><p>檢查硬碟路徑，以下為分割後</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># fdisk -l | grep /dev/</span>
+</span></span><span style="display:flex;"><span>Disk /dev/vda: <span style="color:#ae81ff">100</span> GiB, <span style="color:#ae81ff">107374182400</span> bytes, <span style="color:#ae81ff">209715200</span> sectors
+</span></span><span style="display:flex;"><span>/dev/vda1  *       <span style="color:#ae81ff">2048</span>   <span style="color:#ae81ff">2099199</span>   <span style="color:#ae81ff">2097152</span>   1G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>/dev/vda2       <span style="color:#ae81ff">2099200</span> <span style="color:#ae81ff">209715199</span> <span style="color:#ae81ff">207616000</span>  99G 8e Linux LVM
+</span></span><span style="display:flex;"><span>Disk /dev/sda: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>/dev/sda1        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">10485759</span> <span style="color:#ae81ff">10483712</span>   5G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>Disk /dev/sdb: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>/dev/sdb1        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">41943039</span> <span style="color:#ae81ff">41940992</span>  20G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>Disk /dev/sdc: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+</span></span><span style="display:flex;"><span>/dev/sdc1        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">41943039</span> <span style="color:#ae81ff">41940992</span>  20G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>Disk /dev/sdd: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>/dev/sdd1        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">10485759</span> <span style="color:#ae81ff">10483712</span>   5G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>Disk /dev/sde: <span style="color:#ae81ff">5</span> GiB, <span style="color:#ae81ff">5368709120</span> bytes, <span style="color:#ae81ff">10485760</span> sectors
+</span></span><span style="display:flex;"><span>/dev/sde1        <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">10485759</span> <span style="color:#ae81ff">10483712</span>   5G <span style="color:#ae81ff">83</span> Linux
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/rhel-root: <span style="color:#ae81ff">83</span> GiB, <span style="color:#ae81ff">89116377088</span> bytes, <span style="color:#ae81ff">174055424</span> sectors
+</span></span><span style="display:flex;"><span>Disk /dev/mapper/rhel-swap: <span style="color:#ae81ff">16</span> GiB, <span style="color:#ae81ff">17179869184</span> bytes, <span style="color:#ae81ff">33554432</span> sectors
+</span></span></code></pre></div><h4 id="create-the-asm-disks">Create the ASM Disks</h4>
+<p>以下任一主機設定即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/lib/udev/scsi_id -g -u -d /dev/sdb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /usr/lib/udev/scsi_id -g -u -d /dev/sda</span>
+</span></span><span style="display:flex;"><span>0QEMU_QEMU_HARDDISK_73efa1e1938ff3a830998761ecbf7b55
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /usr/lib/udev/scsi_id -g -u -d /dev/sdb</span>
+</span></span><span style="display:flex;"><span>0QEMU_QEMU_HARDDISK_061abe1be89145fabd72f7b702df6392
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /usr/lib/udev/scsi_id -g -u -d /dev/sdc</span>
+</span></span><span style="display:flex;"><span>0QEMU_QEMU_HARDDISK_8c7bcb226acd1a8eb5899e6f68e86e53
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /usr/lib/udev/scsi_id -g -u -d /dev/sdd</span>
+</span></span><span style="display:flex;"><span>0QEMU_QEMU_HARDDISK_b383c5977d884aa477de78db34346124
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /usr/lib/udev/scsi_id -g -u -d /dev/sde</span>
+</span></span><span style="display:flex;"><span>0QEMU_QEMU_HARDDISK_1a257bcfd8edc33bc004b5f2415d423c
+</span></span></code></pre></div><p>以下兩台主機都要設定</p>
+<ul>
+<li>/etc/udev/rules.d/99-oracle-asmdevices-ocr.rules</li>
+</ul>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/99-oracle-asmdevices-ocr.rules">99-oracle-asmdevices-ocr.rules</a></p>
+<ul>
+<li>/etc/udev/rules.d/99-oracle-asmdevices-data.rules</li>
+</ul>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/99-oracle-asmdevices-data.rules">99-oracle-asmdevices-data.rules</a></p>
+<p>重載 UDEV 規則</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/sbin/partprobe <span style="color:#f92672">&amp;&amp;</span> /sbin/udevadm control --reload-rules <span style="color:#f92672">&amp;&amp;</span> udevadm trigger <span style="color:#f92672">&amp;&amp;</span> ls -al /dev/oracleas*/*
+</span></span></code></pre></div><p>期望結果如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db141 ~<span style="color:#f92672">]</span><span style="color:#75715e"># /sbin/partprobe &amp;&amp; /sbin/udevadm control --reload-rules &amp;&amp; udevadm trigger &amp;&amp; ls -al /dev/oracleas*/*</span>
+</span></span><span style="display:flex;"><span>lrwxrwxrwx. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">7</span> Feb <span style="color:#ae81ff">22</span> 20:34 /dev/oracleasm-data/db145-data-01 -&gt; ../sdb1
+</span></span><span style="display:flex;"><span>lrwxrwxrwx. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">7</span> Feb <span style="color:#ae81ff">22</span> 20:34 /dev/oracleasm-data/db145-data-02 -&gt; ../sdc1
+</span></span><span style="display:flex;"><span>lrwxrwxrwx. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">7</span> Feb <span style="color:#ae81ff">22</span> 20:34 /dev/oracleasm-ocr/db145-OCR-01 -&gt; ../sda1
+</span></span><span style="display:flex;"><span>lrwxrwxrwx. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">7</span> Feb <span style="color:#ae81ff">22</span> 20:34 /dev/oracleasm-ocr/db145-OCR-02 -&gt; ../sdd1
+</span></span><span style="display:flex;"><span>lrwxrwxrwx. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">7</span> Feb <span style="color:#ae81ff">22</span> 20:34 /dev/oracleasm-ocr/db145-OCR-03 -&gt; ../sde1
+</span></span></code></pre></div><p>注意權限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 u01<span style="color:#f92672">]</span><span style="color:#75715e"># ls -al /dev/sd*1</span>
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8,  <span style="color:#ae81ff">1</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sda1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> oracle asmadmin 8, <span style="color:#ae81ff">17</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdb1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> oracle asmadmin 8, <span style="color:#ae81ff">33</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdc1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8, <span style="color:#ae81ff">49</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdd1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8, <span style="color:#ae81ff">65</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sde1
+</span></span></code></pre></div><h4 id="主機-ssh-key-登入設定">主機 ssh-key 登入設定</h4>
+<ul>
+<li>設定 ssh-key</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># passwd grid</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># passwd oracle</span>
+</span></span><span style="display:flex;"><span>su - oracle
+</span></span><span style="display:flex;"><span>su - grid
+</span></span><span style="display:flex;"><span>ssh-keygen
+</span></span><span style="display:flex;"><span>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cat ~/.ssh/id_rsa.pub # 兩台主機金鑰互相貼上到對應帳號 ~/.ssh/authorized_keys</span>
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db141.pollo.local &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db142.pollo.local &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db141 &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db142 &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db141-priv.pollo.local &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H db142-priv.pollo.local &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H localhost &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H 192.168.55.141 &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H 192.168.55.142 &gt;&gt; ~/.ssh/known_hosts
+</span></span><span style="display:flex;"><span>ssh-keyscan -H 127.0.0.1 &gt;&gt; ~/.ssh/known_hosts
+</span></span></code></pre></div><p>測試登入，登入過成功不需要輸入 <code>yes</code> 與 <code>密碼</code>，代表設定成功</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh db142-priv.pollo.local
+</span></span></code></pre></div><h3 id="install-the-grid-infrastructure">Install the Grid Infrastructure</h3>
+<p>grid@db141</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - grid
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/V982068-01.zip -d <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>mv $ORACLE_HOME/OPatch $ORACLE_HOME/OPatchOld
+</span></span><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/patches/p6880880_190000_Linux-x86-64.zip -d $ORACLE_HOME
+</span></span><span style="display:flex;"><span>rm -rf $ORACLE_HOME/OPatch/jre
+</span></span><span style="display:flex;"><span>cp -r $ORACLE_HOME/OPatchOld/jre $ORACLE_HOME/OPatch/
+</span></span><span style="display:flex;"><span>tar -xf /mnt/nfs/software/DB/Oracle/patches/stubs.tar -C $ORACLE_HOME/lib/stubs/
+</span></span><span style="display:flex;"><span>$ORACLE_HOME/OPatch/opatch version
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>grid@db141 ~<span style="color:#f92672">]</span>$ $ORACLE_HOME/OPatch/opatch version
+</span></span><span style="display:flex;"><span>OPatch Version: 12.2.0.1.46
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>OPatch succeeded.
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /u01/patch/
+</span></span><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/patches/p38629535_190000_Linux-x86-64.zip -d /u01/patch/
+</span></span></code></pre></div><ul>
+<li>Install the package cvudisk from the grid home as the “root” user on all nodes.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># root</span>
+</span></span><span style="display:flex;"><span>dnf localinstall /u01/app/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm -y
+</span></span><span style="display:flex;"><span>scp $ORACLE_HOME/cv/rpm/cvuqdisk-1.0.10-1.rpm db142:/tmp
+</span></span><span style="display:flex;"><span>dnf localinstall /tmp/cvuqdisk-1.0.10-1.rpm 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - grid
+</span></span><span style="display:flex;"><span>$ORACLE_HOME/oui/prov/resources/scripts/sshUserSetup.sh -user grid  -hosts <span style="color:#e6db74">&#34;db141 db142&#34;</span>  -advanced -noPromptPassphrase
+</span></span></code></pre></div><p>執行結果如下</p>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/sshUserSetup.sh.log">sshUserSetup.sh.log</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd $ORACLE_HOME
+</span></span><span style="display:flex;"><span>export CV_ASSUME_DISTID<span style="color:#f92672">=</span>OL8
+</span></span><span style="display:flex;"><span>./runcluvfy.sh stage -pre crsinst -n db141,db142 -verbose
+</span></span><span style="display:flex;"><span>/u01/patch/38629535/38661284/files/bin/cluvfyrac.sh 
+</span></span><span style="display:flex;"><span>./runcluvfy.sh stage -pre crsinst -n db141,db142 -fixup -verbose
+</span></span></code></pre></div><p>PRVG-11250 可以忽略</p>
+<ul>
+<li>設定文件: /u01/app/19/grid/install/response/gridsetup-20251021.rsp</li>
+</ul>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/gridsetup-20251021.rsp">gridsetup-20251021.rsp</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd $ORACLE_HOME
+</span></span><span style="display:flex;"><span>./gridSetup.sh -silent -applyRU /u01/patch/38629535 -waitforcompletion -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp
+</span></span></code></pre></div><p><a href="/file/deploy-Oracle19c-RAC-on-RH9/gridSetup.sh.log">gridSetup.sh.log</a></p>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/root_db141_2026-02-22_21-09-57-945014367.log">root_db141_2026-02-22_21-09-57-945014367.log</a></p>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/root_db142_2026-02-22_21-22-29-688558179.log">oot_db142_2026-02-22_21-22-29-688558179.log</a></p>
+<p>因為安裝過程中有出現 [WARNING] 在提示中要執行修復作業</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/u01/app/19/grid/gridSetup.sh -executeConfigTools -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp -silent
+</span></span></code></pre></div><pre tabindex="0"><code class="language-log" data-lang="log">[grid@db141 ~]$ /u01/app/19/grid/gridSetup.sh -executeConfigTools -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp -silent
+Launching Oracle Grid Infrastructure Setup Wizard...
+
+You can find the logs of this session at:
+/u01/app/oraInventory/logs/GridSetupActions2026-02-22_09-18-59PM
+
+You can find the log of this install session at:
+ /u01/app/oraInventory/logs/UpdateNodeList2026-02-22_09-18-59PM.log
+Successfully Configured Software.
+</code></pre><p><a href="/file/deploy-Oracle19c-RAC-on-RH9/UpdateNodeList2026-02-22_09-18-59PM.log">UpdateNodeList2026-02-22_09-18-59PM.log</a></p>
+<h4 id="檢查">檢查</h4>
+<p>做到這邊不要忘記執行檢查</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>crsctl stat res -t
+</span></span></code></pre></div><pre tabindex="0"><code class="language-log" data-lang="log">[grid@db141 ~]$ crsctl stat res -t
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       db141                    STABLE
+               ONLINE  ONLINE       db142                    STABLE
+ora.chad
+               ONLINE  ONLINE       db141                    STABLE
+               ONLINE  ONLINE       db142                    STABLE
+ora.net1.network
+               ONLINE  ONLINE       db141                    STABLE
+               ONLINE  ONLINE       db142                    STABLE
+ora.ons
+               ONLINE  ONLINE       db141                    STABLE
+               ONLINE  ONLINE       db142                    STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.ASMNET1LSNR_ASM.lsnr(ora.asmgroup)
+      1        ONLINE  ONLINE       db141                    STABLE
+      2        ONLINE  ONLINE       db142                    STABLE
+ora.LISTENER_SCAN1.lsnr
+      1        ONLINE  ONLINE       db142                    STABLE
+ora.LISTENER_SCAN2.lsnr
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.LISTENER_SCAN3.lsnr
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.LISTENER_SCAN4.lsnr
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.LISTENER_SCAN5.lsnr
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.LISTENER_SCAN6.lsnr
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.OCRDG.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       db141                    STABLE
+      2        ONLINE  ONLINE       db142                    STABLE
+ora.asm(ora.asmgroup)
+      1        ONLINE  ONLINE       db141                    Started,STABLE
+      2        ONLINE  ONLINE       db142                    Started,STABLE
+ora.asmnet1.asmnetwork(ora.asmgroup)
+      1        ONLINE  ONLINE       db141                    STABLE
+      2        ONLINE  ONLINE       db142                    STABLE
+ora.cvu
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.db141.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.db142.vip
+      1        ONLINE  ONLINE       db142                    STABLE
+ora.qosmserver
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.scan1.vip
+      1        ONLINE  ONLINE       db142                    STABLE
+ora.scan2.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.scan3.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.scan4.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.scan5.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+ora.scan6.vip
+      1        ONLINE  ONLINE       db141                    STABLE
+--------------------------------------------------------------------------------
+</code></pre><h3 id="安裝資料庫-1">安裝資料庫</h3>
+<p>db141,db142</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export ORACLE_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/u01/app/oracle/product/19/db&#34;</span>
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span> 
+</span></span><span style="display:flex;"><span>chown -R oracle: /u01/app/oracle
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/patches/p38632161_190000_Linux-x86-64.zip -d /u01/patch
+</span></span><span style="display:flex;"><span>chown -R oracle: /u01/patch/38632161
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - oracle
+</span></span><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/LINUX.X64_193000_db_home.zip -d <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>rm -rf $ORACLE_HOME/OPatch
+</span></span><span style="display:flex;"><span>unzip -q /mnt/nfs/software/DB/Oracle/patches/p6880880_190000_Linux-x86-64.zip -d $ORACLE_HOME
+</span></span><span style="display:flex;"><span>$ORACLE_HOME/OPatch/opatch version
+</span></span></code></pre></div><pre tabindex="0"><code class="language-log" data-lang="log">[oracle@db141 ~]$ unzip -q /mnt/nfs/software/DB/Oracle/LINUX.X64_193000_db_home.zip -d ${ORACLE_HOME}
+[oracle@db141 ~]$ rm -rf $ORACLE_HOME/OPatch
+[oracle@db141 ~]$ unzip -q /mnt/nfs/software/DB/Oracle/patches/p6880880_190000_Linux-x86-64-12.2.0.1.49.zip -d $ORACLE_HOME
+[oracle@db141 ~]$ $ORACLE_HOME/OPatch/opatch version
+OPatch Version: 12.2.0.1.49
+
+OPatch succeeded.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ORACLE_HOME/oui/prov/resources/scripts/sshUserSetup.sh -user oracle  -hosts <span style="color:#e6db74">&#34;db141 db142&#34;</span> -advanced -noPromptPassphrase
+</span></span></code></pre></div><ul>
+<li>${ORACLE_HOME}/install/response/db_install_INSTALL_DB_SWONLY.rsp</li>
+</ul>
+<p><a href="/file/deploy-Oracle19c-RAC-on-RH9/db_install_INSTALL_DB_SWONLY.rsp">db_install_INSTALL_DB_SWONLY.rsp</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd $ORACLE_HOME
+</span></span><span style="display:flex;"><span>export CV_ASSUME_DISTID<span style="color:#f92672">=</span>OL8
+</span></span><span style="display:flex;"><span>./runInstaller -waitforcompletion -applyRU /u01/patch/38632161 -silent -responseFile <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>/install/response/db_install_INSTALL_DB_SWONLY.rsp
+</span></span></code></pre></div><p><a href="/file/deploy-Oracle19c-RAC-on-RH9/runInstaller.log">runInstaller</a></p>
+<h3 id="建立資料庫">建立資料庫</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - grid
+</span></span><span style="display:flex;"><span>asmca -silent -createDiskGroup -diskGroupName DATA -disk <span style="color:#e6db74">&#39;/dev/oracleasm-ocr/db145-data-01&#39;</span> -disk <span style="color:#e6db74">&#39;/dev/oracleasm-ocr/db145-data-02&#39;</span> -redundancy NORMAL -au_size <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><ul>
+<li><code>$ORACLE_HOME/assistants/dbca/dbca_db.rsp</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>responseFileVersion<span style="color:#f92672">=</span>/oracle/assistants/rspfmt_dbca_response_schema_v19.0.0
+</span></span><span style="display:flex;"><span>gdbName<span style="color:#f92672">=</span>db
+</span></span><span style="display:flex;"><span>templateName<span style="color:#f92672">=</span>General_Purpose.dbc
+</span></span><span style="display:flex;"><span>sysPassword<span style="color:#f92672">=</span>P@ssw0rd
+</span></span><span style="display:flex;"><span>systemPassword<span style="color:#f92672">=</span>P@ssw0rd
+</span></span><span style="display:flex;"><span>characterSet<span style="color:#f92672">=</span>AL32UTF8
+</span></span><span style="display:flex;"><span>storageType<span style="color:#f92672">=</span>ASM
+</span></span><span style="display:flex;"><span>diskGroupName<span style="color:#f92672">=</span>+DATA
+</span></span><span style="display:flex;"><span>databaseConfigType<span style="color:#f92672">=</span>RAC
+</span></span><span style="display:flex;"><span>nodelist<span style="color:#f92672">=</span>db141,db142
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">``</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">```</span>bash
+</span></span><span style="display:flex;"><span>su - oracle
+</span></span><span style="display:flex;"><span>export CV_ASSUME_DISTID<span style="color:#f92672">=</span>OL8
+</span></span><span style="display:flex;"><span>dbca -silent -createDatabase -responseFile $ORACLE_HOME/assistants/dbca/dbca_db.rsp
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>oracle@db141 ~<span style="color:#f92672">]</span>$ dbca -silent -createDatabase -responseFile $ORACLE_HOME/assistants/dbca/dbca_db.rsp
+</span></span><span style="display:flex;"><span>Prepare <span style="color:#66d9ef">for</span> db operation
+</span></span><span style="display:flex;"><span>8% complete
+</span></span><span style="display:flex;"><span>Copying database files
+</span></span><span style="display:flex;"><span>33% complete
+</span></span><span style="display:flex;"><span>Creating and starting Oracle instance
+</span></span><span style="display:flex;"><span>34% complete
+</span></span><span style="display:flex;"><span>35% complete
+</span></span><span style="display:flex;"><span>39% complete
+</span></span><span style="display:flex;"><span>42% complete
+</span></span><span style="display:flex;"><span>45% complete
+</span></span><span style="display:flex;"><span>50% complete
+</span></span><span style="display:flex;"><span>Creating cluster database views
+</span></span><span style="display:flex;"><span>52% complete
+</span></span><span style="display:flex;"><span>67% complete
+</span></span><span style="display:flex;"><span>Completing Database Creation
+</span></span><span style="display:flex;"><span>71% complete
+</span></span><span style="display:flex;"><span>73% complete
+</span></span><span style="display:flex;"><span>75% complete
+</span></span><span style="display:flex;"><span>Executing Post Configuration Actions
+</span></span><span style="display:flex;"><span>100% complete
+</span></span><span style="display:flex;"><span>Database creation complete. For details check the logfiles at:
+</span></span><span style="display:flex;"><span> /u01/app/oracle/cfgtoollogs/dbca/db.
+</span></span><span style="display:flex;"><span>Database Information:
+</span></span><span style="display:flex;"><span>Global Database Name:db
+</span></span><span style="display:flex;"><span>System Identifier<span style="color:#f92672">(</span>SID<span style="color:#f92672">)</span> Prefix:db
+</span></span><span style="display:flex;"><span>Look at the log file <span style="color:#e6db74">&#34;/u01/app/oracle/cfgtoollogs/dbca/db/db6.log&#34;</span> <span style="color:#66d9ef">for</span> further details.
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://community.zextras.com/dns-server-installation-guide-on-centos-7-rhel-7-and-centos-8-rhel-8-using-dnsmasq/">Installing DNS Server on CentOS/RHEL using dnsmasq | Zimbra</a></li>
+<li><a href="https://gist.github.com/darklinden/f4f451421386c67c34c7b8694c67cd1e">Configure CentOS 7 Network Settings</a></li>
+<li><a href="https://kenwu0310.wordpress.com/2017/02/07/centos-7-%E5%AE%89%E8%A3%9D-ntp-network-time-protocol/">CentOS 7 安裝 NTP (Network Time Protocol) – 建立內部校時伺服器</a></li>
+<li><a href="https://oracledbwr.com/step-by-step-guide-to-install-oracle-19c-rac-installation-using-virtualbox/">Step By Step Guide To Install Oracle 19c RAC installation Using VirtualBox</a></li>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/supported-red-hat-enterprise-linux-9-distributions-for-x86-64.html">Supported Red Hat Enterprise Linux 9 Distributions for x86-64</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/12873476238">记一生产环境(RHEL7.9)静默模式Oracle 19c RAC集群和数据库软件安装分享</a></li>
+<li><a href="https://support.oracle.com/support/?kmContentId=3032014&amp;page=sptemplate&amp;sptemplate=km-article">(KB741614)Step by step Installation of Oracle grid infrastructure and Oracle RAC database 19c with Latest RU</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

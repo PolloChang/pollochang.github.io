@@ -1,0 +1,39 @@
+[grid@db141 grid]$ ./gridSetup.sh -silent -applyRU /u01/patch/38629535 -waitforcompletion -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp
+Preparing the home to patch...
+Applying the patch /u01/patch/38629535...
+Successfully applied the patch.
+The log can be found at: /tmp/GridSetupActions2026-02-22_08-55-44PM/installerPatchActions_2026-02-22_08-55-44PM.log
+Launching Oracle Grid Infrastructure Setup Wizard...
+
+[WARNING] [INS-40109] The specified Oracle Base location is not empty on this server.
+   ACTION: Specify an empty location for Oracle Base.
+[WARNING] [INS-32047] The location (/u01/app/oraInventory) specified for the central inventory is not empty.
+   ACTION: It is recommended to provide an empty location for the inventory.
+
+[WARNING] [INS-13014] Target environment does not meet some optional requirements.
+   CAUSE: Some of the optional prerequisites are not met. See logs for details. gridSetupActions2026-02-22_08-55-44PM.log
+   ACTION: Identify the list of failed prerequisite checks from the log: gridSetupActions2026-02-22_08-55-44PM.log. Then either from the log file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.
+The response file for this session can be found at:
+ /u01/app/19/grid/install/response/grid_2026-02-22_08-55-44PM.rsp
+
+You can find the log of this install session at:
+ /tmp/GridSetupActions2026-02-22_08-55-44PM/gridSetupActions2026-02-22_08-55-44PM.log
+
+As a root user, execute the following script(s):
+        1. /u01/app/oraInventory/orainstRoot.sh
+        2. /u01/app/19/grid/root.sh
+
+Execute /u01/app/oraInventory/orainstRoot.sh on the following nodes: 
+[db141, db142]
+Execute /u01/app/19/grid/root.sh on the following nodes: 
+[db141, db142]
+
+Run the script on the local node first. After successful completion, you can start the script in parallel on all other nodes.
+
+Successfully Setup Software with warning(s).
+As install user, execute the following command to complete the configuration.
+        /u01/app/19/grid/gridSetup.sh -executeConfigTools -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp [-silent]
+
+
+Moved the install session logs to:
+ /u01/app/oraInventory/logs/GridSetupActions2026-02-22_08-55-44PM

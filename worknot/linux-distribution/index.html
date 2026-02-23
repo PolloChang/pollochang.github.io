@@ -3,12 +3,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記</title>
+    <title>PolloChang 工作筆記 - Linux Distribution </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - Cockpit Web Console echo &#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list echo &#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list /etc/apt/preferences Package: * Pin: release a=bullseye Pin-Priority: 500 Package: cockpit Pin: release a=bullseye-backports Pin-Priority: 1000 Package: * Pin: release a=bullseye-backports Pin-Priority: 100 /etc/containers [registries.search] registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;] sudo apt install cockpit cockpit-podman nfs-common sudo apt install cockpit-machines sudo netstat -pnltu | grep 9090 sudo systemctl enable cockpit." name="description">
+    <meta content="PolloChang 工作筆記 - Linux 發行版
+Debian https://www.debian.org/ Fedora 特別發行版 Skarnet 的軟體堆疊可以被認為是一個發行版（肯定透過 lh-bootstrap） - 而且會是一個有趣的競爭者
+Oasis - 靜態連結的發行版，不怕用危害較小（但通常較不好用）的替代方案來取代常見的軟體
+KISS Linux - 非常簡單的發行版，相當模組化且可駭。套件管理器是一個 shell script
+Carbs Linux - KISS 的分支，有一個更像 xbps 的套件管理器（仍然用 sh 寫成）
+Venom Linux - 比上述選項更像典型的發行版，但仍然相當簡潔。也有一個基於 sh 的套件管理器
+參考資料 你認為哪個 Linux 發行版最嚴格地遵守 UNIX 哲學？ " name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -126,10 +132,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1></h1>
+                    <h1>Linux Distribution</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2025-06-04</span>
 
     
     
@@ -144,34 +150,34 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h1 id="cockpit-web-console">Cockpit Web Console</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span></code></pre></div><ul>
-<li>/etc/apt/preferences</li>
+                    <p>Linux 發行版</p>
+<h2 id="debian">Debian</h2>
+<ul>
+<li><a href="https://www.debian.org/">https://www.debian.org/</a></li>
 </ul>
-<pre tabindex="0"><code>Package: *
-Pin: release a=bullseye
-Pin-Priority: 500
-
-Package: cockpit
-Pin: release a=bullseye-backports
-Pin-Priority: 1000
-
-Package: *
-Pin: release a=bullseye-backports
-Pin-Priority: 100
-</code></pre><ul>
-<li>/etc/containers</li>
+<h2 id="fedora">Fedora</h2>
+<h2 id="特別發行版">特別發行版</h2>
+<ul>
+<li>
+<p><a href="https://skarnet.org/">Skarnet</a> 的軟體堆疊可以被認為是一個發行版（肯定透過 lh-bootstrap） - 而且會是一個有趣的競爭者</p>
+</li>
+<li>
+<p><a href="https://github.com/oasislinux/oasis">Oasis</a> - 靜態連結的發行版，不怕用危害較小（但通常較不好用）的替代方案來取代常見的軟體</p>
+</li>
+<li>
+<p><a href="https://github.com/kisslinux/">KISS Linux</a> - 非常簡單的發行版，相當模組化且可駭。套件管理器是一個 shell script</p>
+</li>
+<li>
+<p><a href="https://carbslinux.org/">Carbs Linux</a> - KISS 的分支，有一個更像 xbps 的套件管理器（仍然用 sh 寫成）</p>
+</li>
+<li>
+<p><a href="https://venomlinux.org/">Venom Linux</a> - 比上述選項更像典型的發行版，但仍然相當簡潔。也有一個基於 sh 的套件管理器</p>
+</li>
 </ul>
-<pre tabindex="0"><code>[registries.search]
-registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;]
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit cockpit-podman nfs-common
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit-machines
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo netstat -pnltu | grep <span style="color:#ae81ff">9090</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable cockpit.socket
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
-<p><a href="https://www.tecmint.com/manage-kvm-virtual-machines-using-cockpit-web-console/">Managing KVM Virtual Machines with Cockpit Web Console in Linux</a></p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://www.reddit.com/r/linuxquestions/comments/1ev3zrv/which_linux_distro_do_you_think_adheres_to_the/?tl=zh-hant">你認為哪個 Linux 發行版最嚴格地遵守 UNIX 哲學？</a></li>
+</ul>
 </div>
                 <div>
                     <script src="https://utteranc.es/client.js"

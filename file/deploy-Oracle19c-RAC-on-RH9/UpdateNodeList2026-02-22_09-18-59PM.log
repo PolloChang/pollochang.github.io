@@ -1,0 +1,601 @@
+
+INFO: Oracle Universal Installer version is 12.2.0.7.0
+
+INFO: Environment Variables: 
+
+INFO:   ORACLE_HOME = /u01/app/19/grid
+
+INFO:   PATH = /u01/app/19/grid/bin:/usr/sbin:/home/grid/.local/bin:/home/grid/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+INFO:   CLASSPATH = /u01/app/19/grid/JRE:/u01/app/19/grid/jlib:/u01/app/19/grid/rdbms/jlib
+
+INFO: Username:grid
+INFO: 
+=================================================================JVM PROPERTIES===========================================================
+oracle.installer.warningonremovefiles = true
+oracle.installer.removeHome = false
+file.encoding.pkg = sun.io
+oracle.installer.ignoreDiskLabel = false
+java.home = /u01/app/19/grid/jdk/jre
+actionable.validation.advisor.severity = FATAL
+autoConfigureVIP_helpid = S_HELP_AUTOCONFIGURE_VIP@oracle.sysman.oii.oiir.OiirRuntimeRes
+sun.font.fontmanager = sun.awt.X11FontManager
+oracle.installer.waitforcompletion = false
+java.endorsed.dirs = /u01/app/19/grid/jdk/jre/lib/endorsed
+oracle.installer.silent = true
+oracle.install.asm.util.asmtoolg.ASMTOOL_HOME = /u01/app/19/grid/bin
+oracle.installer.suppressedSource = false
+oracle.installer.rootshbackup = true
+oracle.installer.fastcopy = true
+sun.os.patch.level = unknown
+java.vendor.url = https://java.oracle.com/
+oracle.installer.acceptUntrustedCertificates = false
+java.version = 1.8.0_471
+oracle.installer.cleanup = false
+oracle.installer.suppressPostCopyScript = false
+oracle.installer.installAddOns = false
+oracle.installer.generateGUID = true
+oracle.installer.help = false
+oracle.srvm.formCluster = false
+oracle.install.commons.base.driver.common.SetupDriver = oracle.install.ivw.crs.driver.CRSImageSetupDriver
+oracle.installer.silentVariableValidation = false
+java.vendor.url.bug = https://bugreport.sun.com/bugreport/
+oracle.installer.oui_loc = /u01/app/19/grid/oui
+oracle.install.library.partition.diskmanager.ORAREMOTESERVICE_PATH = /u01/app/19/grid/bin
+oracle.installer.addNode = false
+user.name = grid
+sun.io.unicode.encoding = UnicodeLittle
+sun.jnu.encoding = UTF-8
+oracle.install.asm.util.kfod.PATH = /u01/app/19/grid/bin
+java.runtime.name = Java(TM) SE Runtime Environment
+oracle.installer.printmemory = false
+oracle.installer.performRemoteCopyInAPIMode = false
+oracle.installer.nobootStrap = false
+oracle.installer.dynamicLoadOnPrereqRetry = true
+oracle.installer.ntw32FoldersActions = true
+oracle.installer.preCloneSetup = false
+oracle.installer.removeallfiles = false
+java.specification.name = Java Platform API Specification
+oracle.installer.exitOnPrereqFailure = false
+user.timezone = Asia/Taipei
+path.separator = :
+file.encoding = UTF-8
+application.commandline.validateForMandatoryDependentArgs = true
+oracle.installer.ignorePatchConflicts = false
+sun.java.command = oracle.install.ivw.crs.driver.CRSConfigWizard -printtime ORACLE_HOME=/u01/app/19/grid -executeConfigTools -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp -silent
+oracle.installer.continueOnAllChecksPass = false
+oracle.installer.executeSysPrereqs = false
+oracle.installer.forceDeinstall = false
+oracle.installer.timestamp = 2026-02-22_09-18-59PM
+oracle.installer.detachHome = false
+java.io.tmpdir = /tmp/GridSetupActions2026-02-22_09-18-59PM
+oracle.installer.scratchPath = /u01/app/19/grid/inventory/Scripts
+user.language = en
+oracle.installer.skipACLSetting = false
+line.separator = 
+
+oracle.installer.enableRollingUpgrade = false
+oracle.installer.deinstall = false
+oracle.installer.rootshcumulative = false
+oracle.installer.gridConfig = true
+oracle.installer.defaultHomeName = false
+oracle.installer.ignoreSharedInventory = true
+java.vm.info = mixed mode
+java.vm.specification.name = Java Virtual Machine Specification
+oracle.installer.cleanUpOnExit = true
+oracle.installer.tempLogDir = /tmp/GridSetupActions2026-02-22_09-18-59PM
+exitOnMakeFailure_helpid = S_HELP_OPTION_EXITONMAKEFAILURE@oracle.sysman.oii.oiir.OiirRuntimeRes
+oracle.installer.summary_expand_nodes = Global,Langs,Space,NewInstalls,Upgrades,Reinstalls,Deinstalls,NewLangs
+oracle.installer.upgradeOUI = false
+oracle.install.commons.base.util.OracleServiceRegistry = oracle.install.driver.oui.OUIOracleServiceRegistry
+java.awt.printerjob = sun.print.PSPrinterJob
+oracle.installer.install.showproductname = true
+oracle.installer.showVariables = false
+oracle.installer.remoteActions = true
+oracle.installer.supportBinaryInventory = false
+OUI_TEMP_OB = /u01/app/oraInventory/logs/GridSetupActions2026-02-22_09-18-59PM/temp_ob
+oracle.installer.console = true
+oracle.installer.welcome = true
+os.name = Linux
+oracle.installer.exitOnVarValidationFailure = false
+java.specification.vendor = Oracle Corporation
+java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+oracle.installer.updateNodeList = false
+oracle.installer.suppressPreCopyScript = false
+java.library.path = /u01/app/19/grid/lib:/u01/app/19/grid/oui/lib/linux64:/u01/app/19/grid/bin:/u01/app/19/grid/lib:/lib:/usr/lib:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+SRVM_SAVE_CACHE = true
+java.class.version = 52.0
+oracle.install.commons.net.support.SSHSupportManager = oracle.install.commons.net.support.DefaultSSHSupportManager
+oracle.installer.printdiskusage = false
+oracle.installer.copy = true
+oracle.installer.config = true
+oracle.installer.allDepHomes = false
+application.commandline.currentContextId = GridSetup
+oracle.installer.record = false
+oracle.installer.remote = false
+oracle.installer.install.showinstalledproducts = true
+oracle.installer.fileActions = true
+sun.boot.library.path = /u01/app/19/grid/jdk/jre/lib/amd64
+example_ids = S_HELP_VARIABLE_DEFINITION,S_HELP_SESSION_VARIABLE_TITLE,S_HELP_SESSION_EX1,S_HELP_SESSION_EX2,S_HELP_SESSION_VARIABLE_LOOKUP,S_HELP_COMPONENT_VARIABLE_TITLE,S_HELP_COMPONENT_EX1,S_HELP_COMPONENT_EX2,S_HELP_COMPONENT_VARIABLE_LOOKUP
+sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+oracle.installer.install.showproductversion = true
+oracle.installer.wait = true
+oracle.installer.printtimeverbose = false
+oracle.installer.clusterEnabled = true
+oracle.install.asm.util.kfod.KFOD_ORACLE_HOME = /u01/app/19/grid
+oracle.installer.depHomesOnly = false
+oracle.installer.configWizard = true
+oracle.installer.clone = false
+oracle.installer.removeAllPatches = false
+java.vm.specification.version = 1.8
+oracle.installer.installUpdates = false
+awt.toolkit = sun.awt.X11.XToolkit
+oracle.installer.remotecopy.standalone = true
+sun.cpu.isalist = 
+oracle.installer.entryPoint = oracle.crs_Complete_cluster_install
+java.ext.dirs = /u01/app/19/grid/jdk/jre/lib/ext:/usr/java/packages/lib/ext
+oracle.installer.forceClone = false
+os.version = 5.14.0-611.30.1.el9_7.x86_64
+oracle.installer.appendConfigCommands = false
+application.commandline.toolName = gridSetup.sh
+oracle.installer.backupInventory = true
+user.home = /home/grid
+oracle.installer.testForAutoUpdates = false
+java.vm.vendor = Oracle Corporation
+oracle.installer.h = false
+oracle.installer.skipLogsToHome = false
+oracle.installer.exitOnStopInstall = false
+oracle.installer.splash = true
+oracle.installer.putTimestamp = false
+oracle.installer.mandatorySetup = false
+user.dir = /u01/app/19/grid
+oracle.installer.setCustomNodelist = false
+oracle.installer.printtime = true
+oracle.installer.executeRemotePrereqs = false
+oracle.installer.updateNodeListEx = false
+oracle.installer.exitonback = false
+oracle.installer.oh_admin_acl = false
+oracle.installer.responseFile = /u01/app/19/grid/install/response/gridsetup-20251021.rsp
+oracle.install.cvu.prereq_xml_loc = /u01/app/19/grid/cv/cvdata/cvu_prereq.xml
+sun.cpu.endian = little
+oracle.installer.sessionType = Install
+oracle.sysman.prov.PathsPropertiesLoc = /u01/app/19/grid/oui/prov/resources
+oracle.installer.link = true
+oracle.installer.library_loc = /u01/app/19/grid/oui/lib/linux64
+java.vm.version = 25.471-b09
+ORACLE_HOME = /u01/app/19/grid
+java.class.path = /u01/app/19/grid/install/jlib/installcommons_1.0.0b.jar:/u01/app/19/grid/install/jlib/instcommon.jar:/u01/app/19/grid/install/jlib/instcrs.jar:/u01/app/19/grid/install/jlib/pilot_1.0.0b.jar:/u01/app/19/grid/install/jlib/instdb.jar:/u01/app/19/grid/install/jlib/instclient.jar:/u01/app/19/grid/install/jlib/emCoreConsole.jar:/u01/app/19/grid/jlib/cvu.jar:/u01/app/19/grid/jlib/srvmhas.jar:/u01/app/19/grid/jlib/srvmasm.jar:/u01/app/19/grid/jlib/gns.jar:/u01/app/19/grid/jlib/srvm.jar:/u01/app/19/grid/jlib/oraclepki.jar:/u01/app/19/grid/jlib/mgmtca.jar:/u01/app/19/grid/jlib/mgmtua.jar:/u01/app/19/grid/jlib/clscred.jar:/u01/app/19/grid/jlib/oracle.dbtools-common.jar:/u01/app/19/grid/jlib/wsclient_extended.jar:/u01/app/19/grid/jlib/adf-share-ca.jar:/u01/app/19/grid/jlib/jmxspi.jar:/u01/app/19/grid/jlib/emca.jar:/u01/app/19/grid/jlib/entityManager_proxy.jar:/u01/app/19/grid/jlib/javax.security.jacc_1.0.0.0_1-1.jar:/u01/app/19/grid/jlib/orai18n-mapping.jar:/u01/app/19/grid/jlib/orai18n-utility.jar:/u01/app/19/grid/jlib/orai18n-translation.jar:/u01/app/19/grid/jlib/jwc-cred.jar:/u01/app/19/grid/jdbc/lib/ojdbc8.jar:/u01/app/19/grid/OPatch/jlib/opatchsdk.jar:/u01/app/19/grid/OPatch/jlib/opatch.jar:/u01/app/19/grid/oui/jlib/OraPrereqChecks.jar:/u01/app/19/grid/oui/jlib/prov_fixup.jar:/u01/app/19/grid/oui/jlib/ssh.jar:/u01/app/19/grid/oui/jlib/jsch.jar:/u01/app/19/grid/oui/jlib/remoteinterfaces.jar:/u01/app/19/grid/oui/jlib/OraPrereq.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api-schema_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/share.jar:/u01/app/19/grid/oui/jlib/OraSuiteInstaller.jar:/u01/app/19/grid/oui/jlib/InstHelp_pt_BR.jar:/u01/app/19/grid/oui/jlib/InstHelp_fr.jar:/u01/app/19/grid/oui/jlib/InstHelp_ja.jar:/u01/app/19/grid/oui/jlib/swingaccess.jar:/u01/app/19/grid/oui/jlib/ewt3.jar:/u01/app/19/grid/oui/jlib/InstHelp_es.jar:/u01/app/19/grid/oui/jlib/xml.jar:/u01/app/19/grid/oui/jlib/OraInstallerNet.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api-interfaces_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/jewt4.jar:/u01/app/19/grid/oui/jlib/emCfg.jar:/u01/app/19/grid/oui/jlib/oui.jar:/u01/app/19/grid/oui/jlib/filesList.jar:/u01/app/19/grid/oui/jlib/InstHelp.jar:/u01/app/19/grid/oui/jlib/orai18n-collation.jar:/u01/app/19/grid/oui/jlib/ohj.jar:/u01/app/19/grid/oui/jlib/InstHelp_zh_CN.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/InstHelp_it.jar:/u01/app/19/grid/oui/jlib/InstHelp_zh_TW.jar:/u01/app/19/grid/oui/jlib/classes12.jar:/u01/app/19/grid/oui/jlib/xmlparserv2.jar:/u01/app/19/grid/oui/jlib/http_client.jar:/u01/app/19/grid/oui/jlib/OraCheckPoint.jar:/u01/app/19/grid/oui/jlib/oneclick.jar:/u01/app/19/grid/oui/jlib/InstHelp_de.jar:/u01/app/19/grid/oui/jlib/InstImages.jar:/u01/app/19/grid/oui/jlib/ojmisc.jar:/u01/app/19/grid/oui/jlib/oracle_ice.jar:/u01/app/19/grid/oui/jlib/InstHelp_ko.jar:/u01/app/19/grid/oui/jlib/help-share.jar:/u01/app/19/grid/oui/jlib/OraInstaller.jar:/u01/app/19/grid/oui/jlib/ewt3-swingaccess.jar
+oracle.installer.oneclick = false
+oracle.installer.ouiApiMode = true
+os.arch = amd64
+oracle.installer.attachHome = false
+oracle.installer.addLangs = false
+oracle.installer.ignoreDiskWarning = false
+oracle.installer.createLinkBackup = true
+oracle.installer.compsdeinstall = true
+oracle.installer.homepermissioncheck = true
+oracle.installer.force = false
+oracle.installer.cfs = false
+oracle.installer.repeat = true
+oracle.installer.doNotUpdateNodeList = false
+sun.java.launcher = SUN_STANDARD
+CV_HOME = /u01/app/19/grid/
+java.specification.maintenance.version = 6
+java.vm.specification.vendor = Oracle Corporation
+oracle.installer.showLoadProgress = false
+oracle.installer.defaultifyLanguages = false
+file.separator = /
+oracle.installer.ignorePreReq = false
+CVU_OS_SETTINGS = SHELL_NOFILE_SOFT_LIMIT:1024,SHELL_STACK_SOFT_LIMIT:10240,SHELL_UMASK:0022
+java.runtime.version = 1.8.0_471-b09
+sun.boot.class.path = /u01/app/19/grid/jdk/jre/lib/resources.jar:/u01/app/19/grid/jdk/jre/lib/rt.jar:/u01/app/19/grid/jdk/jre/lib/jsse.jar:/u01/app/19/grid/jdk/jre/lib/jce.jar:/u01/app/19/grid/jdk/jre/lib/charsets.jar:/u01/app/19/grid/jdk/jre/lib/jfr.jar:/u01/app/19/grid/jdk/jre/classes
+java.security.policy = jar:file:/u01/app/19/grid/install/jlib/installcommons_1.0.0b.jar!/oracle/install/commons/base/driver/common/installer.policy
+oracle.installer.relink = false
+user.country = US
+oracle.installer.ignoreSysPrereqs = false
+oracle.installer.debug = false
+oracle.installer.remoteInvocation = false
+oracle.installer.local = false
+oracle.installer.useExistingInventory = true
+oracle.installer.clusterSwitch = false
+oracle.installer.background = true
+java.vendor = Oracle Corporation
+oracle.installer.logCopyRequired = false
+java.specification.version = 1.8
+oracle.installer.logPrefix = gridSetupActions
+sun.arch.data.model = 64
+==========================================================================================================================================
+INFO: Creating a new Install area Control for this inventory session with new  access level  2
+INFO: Install area Control created with access level  2
+INFO: Initializing Logs dir to - /u01/app/oraInventory/logs
+INFO: Ending the inventory Session 
+INFO: Using an existing InstallAreaControl for this Inventory Session with existing access level 1
+INFO: config-context initialized
+INFO: 
+ The Runconfig command constructed is /u01/app/19/grid/oui/bin/runConfig.sh ORACLE_HOME=/u01/app/19/grid MODE=perform ACTION=configure RERUN=true $*
+INFO: Since the option is to overwrite the existing /u01/app/19/grid/cfgtoollogs/configToolAllCommands file, backing it up
+INFO: The backed up file name is /u01/app/19/grid/cfgtoollogs/configToolAllCommands.bak
+INFO: Done processing command line arguments
+INFO: Setting variable 'ORACLE_HOME' to '/u01/app/19/grid'. Received the value from the command line.
+INFO: Setting variable 'CLUSTER_NEW_NODES' to ''. Received the value from the command line.
+INFO: Setting variable 'NODES_TO_SET' to 'db141,db142'. Received the value from the command line.
+INFO: Setting variable 'CRS' to 'true'. Received the value from the command line.
+INFO: Done creating session context and setting session variables as per command line
+INFO: Creating a new Install area Control for this inventory session with new  access level  1
+INFO: Install area Control created with access level  1
+****************************************************************************
+INFO: Oracle Universal Installer version is 12.2.0.7.0
+
+INFO: Environment Variables: 
+
+INFO:   ORACLE_HOME = /u01/app/19/grid
+
+INFO:   PATH = /u01/app/19/grid/bin:/usr/sbin:/home/grid/.local/bin:/home/grid/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+
+INFO:   CLASSPATH = /u01/app/19/grid/JRE:/u01/app/19/grid/jlib:/u01/app/19/grid/rdbms/jlib
+
+INFO: Username:grid
+INFO: 
+=================================================================JVM PROPERTIES===========================================================
+oracle.installer.warningonremovefiles = true
+oracle.installer.removeHome = false
+file.encoding.pkg = sun.io
+oracle.installer.ignoreDiskLabel = false
+java.home = /u01/app/19/grid/jdk/jre
+HOME_LOCATION_API = /u01/app/19/grid
+actionable.validation.advisor.severity = FATAL
+autoConfigureVIP_helpid = S_HELP_AUTOCONFIGURE_VIP@oracle.sysman.oii.oiir.OiirRuntimeRes
+sun.font.fontmanager = sun.awt.X11FontManager
+oracle.installer.waitforcompletion = false
+java.endorsed.dirs = /u01/app/19/grid/jdk/jre/lib/endorsed
+oracle.installer.silent = true
+oracle.install.asm.util.asmtoolg.ASMTOOL_HOME = /u01/app/19/grid/bin
+oracle.installer.suppressedSource = false
+oracle.installer.rootshbackup = true
+oracle.installer.fastcopy = true
+sun.os.patch.level = unknown
+java.vendor.url = https://java.oracle.com/
+oracle.installer.acceptUntrustedCertificates = false
+java.version = 1.8.0_471
+oracle.installer.cleanup = false
+oracle.installer.suppressPostCopyScript = false
+oracle.installer.installAddOns = false
+oracle.installer.generateGUID = true
+oracle.installer.help = false
+oracle.srvm.formCluster = false
+oracle.install.commons.base.driver.common.SetupDriver = oracle.install.ivw.crs.driver.CRSImageSetupDriver
+oracle.installer.silentVariableValidation = false
+java.vendor.url.bug = https://bugreport.sun.com/bugreport/
+oracle.installer.oui_loc = /u01/app/19/grid/oui
+java.protocol.handler.pkgs = |oracle.sysman.oii
+oracle.install.library.partition.diskmanager.ORAREMOTESERVICE_PATH = /u01/app/19/grid/bin
+oracle.installer.addNode = false
+user.name = grid
+sun.io.unicode.encoding = UnicodeLittle
+sun.jnu.encoding = UTF-8
+oracle.install.asm.util.kfod.PATH = /u01/app/19/grid/bin
+java.runtime.name = Java(TM) SE Runtime Environment
+oracle.installer.printmemory = false
+oracle.installer.performRemoteCopyInAPIMode = false
+DO_NOT_UPDATE_LOCAL_NODE_LIST = false
+oracle.installer.nobootStrap = false
+oracle.installer.dynamicLoadOnPrereqRetry = true
+oracle.installer.ntw32FoldersActions = true
+oracle.installer.preCloneSetup = false
+oracle.installer.removeallfiles = false
+java.specification.name = Java Platform API Specification
+oracle.installer.exitOnPrereqFailure = false
+user.timezone = Asia/Taipei
+path.separator = :
+file.encoding = UTF-8
+application.commandline.validateForMandatoryDependentArgs = true
+oracle.installer.ignorePatchConflicts = false
+sun.java.command = oracle.install.ivw.crs.driver.CRSConfigWizard -printtime ORACLE_HOME=/u01/app/19/grid -executeConfigTools -responseFile /u01/app/19/grid/install/response/gridsetup-20251021.rsp -silent
+oracle.installer.continueOnAllChecksPass = false
+oracle.installer.executeSysPrereqs = false
+oracle.installer.forceDeinstall = false
+oracle.installer.timestamp = 2026-02-22_09-18-59PM
+oracle.installer.detachHome = false
+java.io.tmpdir = /tmp/GridSetupActions2026-02-22_09-18-59PM
+oracle.installer.scratchPath = /tmp/GridSetupActions2026-02-22_09-18-59PM
+user.language = en
+oracle.installer.skipACLSetting = false
+line.separator = 
+
+oracle.installer.enableRollingUpgrade = false
+oracle.installer.deinstall = false
+oracle.installer.rootshcumulative = false
+oracle.installer.gridConfig = true
+oracle.installer.defaultHomeName = false
+oracle.installer.ignoreSharedInventory = true
+java.vm.info = mixed mode
+java.vm.specification.name = Java Virtual Machine Specification
+oracle.installer.cleanUpOnExit = true
+oracle.installer.tempLogDir = /tmp/GridSetupActions2026-02-22_09-18-59PM
+oracle.installer.font = SansSerif
+exitOnMakeFailure_helpid = S_HELP_OPTION_EXITONMAKEFAILURE@oracle.sysman.oii.oiir.OiirRuntimeRes
+oracle.installer.summary_expand_nodes = Global,Langs,Space,NewInstalls,Upgrades,Reinstalls,Deinstalls,NewLangs
+oracle.installer.upgradeOUI = false
+oracle.install.commons.base.util.OracleServiceRegistry = oracle.install.driver.oui.OUIOracleServiceRegistry
+java.awt.printerjob = sun.print.PSPrinterJob
+oracle.installer.install.showproductname = true
+oracle.installer.showVariables = false
+oracle.installer.remoteActions = true
+oracle.installer.supportBinaryInventory = false
+OUI_TEMP_OB = /u01/app/oraInventory/logs/GridSetupActions2026-02-22_09-18-59PM/temp_ob
+oracle.installer.console = true
+oracle.installer.welcome = true
+os.name = Linux
+oracle.installer.exitOnVarValidationFailure = false
+java.specification.vendor = Oracle Corporation
+java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+oracle.installer.updateNodeList = true
+oracle.installer.suppressPreCopyScript = false
+java.library.path = /u01/app/19/grid/lib:/u01/app/19/grid/oui/lib/linux64:/u01/app/19/grid/bin:/u01/app/19/grid/lib:/lib:/usr/lib:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+SRVM_SAVE_CACHE = true
+java.class.version = 52.0
+oracle.install.commons.net.support.SSHSupportManager = oracle.install.commons.net.support.DefaultSSHSupportManager
+oracle.installer.printdiskusage = false
+oracle.installer.jre_loc = /u01/app/19/grid/jdk/jre
+oracle.installer.copy = true
+oracle.installer.config = true
+oracle.installer.allDepHomes = false
+application.commandline.currentContextId = GridSetup
+oracle.installer.record = false
+oracle.installer.remote = false
+oracle.installer.install.showinstalledproducts = true
+oracle.installer.fileActions = true
+sun.boot.library.path = /u01/app/19/grid/jdk/jre/lib/amd64
+example_ids = S_HELP_VARIABLE_DEFINITION,S_HELP_SESSION_VARIABLE_TITLE,S_HELP_SESSION_EX1,S_HELP_SESSION_EX2,S_HELP_SESSION_VARIABLE_LOOKUP,S_HELP_COMPONENT_VARIABLE_TITLE,S_HELP_COMPONENT_EX1,S_HELP_COMPONENT_EX2,S_HELP_COMPONENT_VARIABLE_LOOKUP
+sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+oracle.installer.install.showproductversion = true
+oracle.installer.wait = true
+oracle.installer.printtimeverbose = false
+oracle.installer.clusterEnabled = true
+oracle.install.asm.util.kfod.KFOD_ORACLE_HOME = /u01/app/19/grid
+oracle.installer.depHomesOnly = false
+oracle.installer.configWizard = true
+oracle.installer.clone = false
+oracle.installer.removeAllPatches = false
+java.vm.specification.version = 1.8
+oracle.installer.installUpdates = false
+awt.toolkit = sun.awt.X11.XToolkit
+oracle.installer.remotecopy.standalone = true
+sun.cpu.isalist = 
+oracle.installer.entryPoint = oracle.crs_Complete_cluster_install
+java.ext.dirs = /u01/app/19/grid/jdk/jre/lib/ext:/usr/java/packages/lib/ext
+oracle.installer.forceClone = false
+os.version = 5.14.0-611.30.1.el9_7.x86_64
+oracle.installer.appendConfigCommands = false
+application.commandline.toolName = gridSetup.sh
+oracle.installer.backupInventory = true
+user.home = /home/grid
+oracle.installer.testForAutoUpdates = false
+java.vm.vendor = Oracle Corporation
+oracle.installer.h = false
+oracle.installer.skipLogsToHome = false
+oracle.installer.exitOnStopInstall = false
+oracle.installer.splash = true
+oracle.installer.putTimestamp = false
+oracle.installer.mandatorySetup = false
+user.dir = /u01/app/19/grid
+oracle.installer.setCustomNodelist = true
+oracle.installer.printtime = true
+oracle.installer.executeRemotePrereqs = false
+oracle.installer.updateNodeListEx = false
+oracle.installer.exitonback = false
+oracle.installer.oh_admin_acl = false
+oracle.installer.responseFile = /u01/app/19/grid/install/response/gridsetup-20251021.rsp
+oracle.install.cvu.prereq_xml_loc = /u01/app/19/grid/cv/cvdata/cvu_prereq.xml
+sun.cpu.endian = little
+oracle.installer.sessionType = Install
+oracle.sysman.prov.PathsPropertiesLoc = /u01/app/19/grid/oui/prov/resources
+oracle.installer.link = true
+oracle.installer.library_loc = /u01/app/19/grid/oui/lib/linux64
+java.vm.version = 25.471-b09
+ORACLE_HOME = /u01/app/19/grid
+java.class.path = /u01/app/19/grid/install/jlib/installcommons_1.0.0b.jar:/u01/app/19/grid/install/jlib/instcommon.jar:/u01/app/19/grid/install/jlib/instcrs.jar:/u01/app/19/grid/install/jlib/pilot_1.0.0b.jar:/u01/app/19/grid/install/jlib/instdb.jar:/u01/app/19/grid/install/jlib/instclient.jar:/u01/app/19/grid/install/jlib/emCoreConsole.jar:/u01/app/19/grid/jlib/cvu.jar:/u01/app/19/grid/jlib/srvmhas.jar:/u01/app/19/grid/jlib/srvmasm.jar:/u01/app/19/grid/jlib/gns.jar:/u01/app/19/grid/jlib/srvm.jar:/u01/app/19/grid/jlib/oraclepki.jar:/u01/app/19/grid/jlib/mgmtca.jar:/u01/app/19/grid/jlib/mgmtua.jar:/u01/app/19/grid/jlib/clscred.jar:/u01/app/19/grid/jlib/oracle.dbtools-common.jar:/u01/app/19/grid/jlib/wsclient_extended.jar:/u01/app/19/grid/jlib/adf-share-ca.jar:/u01/app/19/grid/jlib/jmxspi.jar:/u01/app/19/grid/jlib/emca.jar:/u01/app/19/grid/jlib/entityManager_proxy.jar:/u01/app/19/grid/jlib/javax.security.jacc_1.0.0.0_1-1.jar:/u01/app/19/grid/jlib/orai18n-mapping.jar:/u01/app/19/grid/jlib/orai18n-utility.jar:/u01/app/19/grid/jlib/orai18n-translation.jar:/u01/app/19/grid/jlib/jwc-cred.jar:/u01/app/19/grid/jdbc/lib/ojdbc8.jar:/u01/app/19/grid/OPatch/jlib/opatchsdk.jar:/u01/app/19/grid/OPatch/jlib/opatch.jar:/u01/app/19/grid/oui/jlib/OraPrereqChecks.jar:/u01/app/19/grid/oui/jlib/prov_fixup.jar:/u01/app/19/grid/oui/jlib/ssh.jar:/u01/app/19/grid/oui/jlib/jsch.jar:/u01/app/19/grid/oui/jlib/remoteinterfaces.jar:/u01/app/19/grid/oui/jlib/OraPrereq.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api-schema_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/share.jar:/u01/app/19/grid/oui/jlib/OraSuiteInstaller.jar:/u01/app/19/grid/oui/jlib/InstHelp_pt_BR.jar:/u01/app/19/grid/oui/jlib/InstHelp_fr.jar:/u01/app/19/grid/oui/jlib/InstHelp_ja.jar:/u01/app/19/grid/oui/jlib/swingaccess.jar:/u01/app/19/grid/oui/jlib/ewt3.jar:/u01/app/19/grid/oui/jlib/InstHelp_es.jar:/u01/app/19/grid/oui/jlib/xml.jar:/u01/app/19/grid/oui/jlib/OraInstallerNet.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api-interfaces_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/jewt4.jar:/u01/app/19/grid/oui/jlib/emCfg.jar:/u01/app/19/grid/oui/jlib/oui.jar:/u01/app/19/grid/oui/jlib/filesList.jar:/u01/app/19/grid/oui/jlib/InstHelp.jar:/u01/app/19/grid/oui/jlib/orai18n-collation.jar:/u01/app/19/grid/oui/jlib/ohj.jar:/u01/app/19/grid/oui/jlib/InstHelp_zh_CN.jar:/u01/app/19/grid/oui/jlib/com.oracle.glcm.patch.opatch-common-api_13.9.3.0.jar:/u01/app/19/grid/oui/jlib/InstHelp_it.jar:/u01/app/19/grid/oui/jlib/InstHelp_zh_TW.jar:/u01/app/19/grid/oui/jlib/classes12.jar:/u01/app/19/grid/oui/jlib/xmlparserv2.jar:/u01/app/19/grid/oui/jlib/http_client.jar:/u01/app/19/grid/oui/jlib/OraCheckPoint.jar:/u01/app/19/grid/oui/jlib/oneclick.jar:/u01/app/19/grid/oui/jlib/InstHelp_de.jar:/u01/app/19/grid/oui/jlib/InstImages.jar:/u01/app/19/grid/oui/jlib/ojmisc.jar:/u01/app/19/grid/oui/jlib/oracle_ice.jar:/u01/app/19/grid/oui/jlib/InstHelp_ko.jar:/u01/app/19/grid/oui/jlib/help-share.jar:/u01/app/19/grid/oui/jlib/OraInstaller.jar:/u01/app/19/grid/oui/jlib/ewt3-swingaccess.jar
+oracle.installer.oneclick = false
+oracle.installer.ouiApiMode = true
+os.arch = amd64
+oracle.installer.attachHome = false
+oracle.installer.addLangs = false
+oracle.installer.ignoreDiskWarning = false
+oracle.installer.createLinkBackup = true
+oracle.installer.compsdeinstall = true
+oracle.installer.homepermissioncheck = true
+oracle.installer.force = false
+oracle.installer.cfs = false
+oracle.installer.repeat = true
+oracle.installer.doNotUpdateNodeList = true
+sun.java.launcher = SUN_STANDARD
+CV_HOME = /u01/app/19/grid/
+java.specification.maintenance.version = 6
+java.vm.specification.vendor = Oracle Corporation
+oracle.installer.showLoadProgress = false
+oracle.installer.defaultifyLanguages = false
+file.separator = /
+oracle.installer.ignorePreReq = false
+CVU_OS_SETTINGS = SHELL_NOFILE_SOFT_LIMIT:1024,SHELL_STACK_SOFT_LIMIT:10240,SHELL_UMASK:0022
+java.runtime.version = 1.8.0_471-b09
+sun.boot.class.path = /u01/app/19/grid/jdk/jre/lib/resources.jar:/u01/app/19/grid/jdk/jre/lib/rt.jar:/u01/app/19/grid/jdk/jre/lib/jsse.jar:/u01/app/19/grid/jdk/jre/lib/jce.jar:/u01/app/19/grid/jdk/jre/lib/charsets.jar:/u01/app/19/grid/jdk/jre/lib/jfr.jar:/u01/app/19/grid/jdk/jre/classes
+oracle.installer.inventory_location = /u01/app/oraInventory
+java.security.policy = jar:file:/u01/app/19/grid/install/jlib/installcommons_1.0.0b.jar!/oracle/install/commons/base/driver/common/installer.policy
+oracle.installer.ignoreExitCode = true
+oracle.installer.relink = false
+user.country = US
+oracle.installer.ignoreSysPrereqs = false
+oracle.installer.debug = false
+oracle.installer.remoteInvocation = false
+oracle.installer.local = false
+oracle.installer.useExistingInventory = true
+oracle.installer.clusterSwitch = false
+oracle.installer.background = true
+java.vendor = Oracle Corporation
+oracle.installer.logCopyRequired = false
+java.specification.version = 1.8
+oracle.installer.logPrefix = gridSetupActions
+sun.arch.data.model = 64
+==========================================================================================================================================
+INFO: Initializing Logs dir to - /u01/app/oraInventory/logs
+INFO: Setting variable 'INVENTORY_LOCATION' to '/u01/app/oraInventory'. Received the value from a code block.
+INFO: Created OiicStandardInventorySession.
+INFO: Checkpoint:getting indexSession from checkpoint factory
+INFO: Checkpoint:Index file :/u01/app/19/grid/install/checkpoints/oui/index.xml not found.
+INFO: Checkpoint:Initializing checkpoint session in oiicUpdateNodeList.
+INFO: Checkpoint:Location is- /u01/app/19/grid/install
+INFO: Checkpoint:Initializing checkpoint session in oiicUpdateNodeList.
+INFO: Checkpoint:Index session object added to oiicexitops.
+INFO: Checkpoint:Initializing checkpoint session for UpdateNodeList.
+INFO: Checkpoint:checkpointfile :/u01/app/19/grid/install/checkpoints/oui/checkpoint_null.xml not found,creating one for this session
+INFO: Checkpoint:constructing checkpoint with name:oracle.installer.updateNodeList in checkpoint factory
+INFO: Setting variable 'CLUSTER_NODES' to 'db141,db142'. Received the value from a code block.
+INFO: CRS clusterware not found. Defaulting to vendor clusterware.
+INFO: Vendor clusterware is not detected.
+INFO: Local node 'db141' is derived from the cluster node list.
+INFO: Setting variable 'LOCAL_NODE' to 'db141'. Received the value from a code block.
+INFO: Setting variable 'REMOTE_NODES' to 'db142'. Received the value from a code block.
+INFO: Saving the install inventory which has the access of 1
+INFO: Saving a backup of central inventory.
+INFO: The flags set for this home (/u01/app/19/grid) are:localnode|crs
+INFO: Updating XML inventory.
+INFO: Saving a backup of inventory for home:/u01/app/19/grid
+INFO: Setting permission on dir : /u01/app/19/grid/inventory/backup
+INFO: Executing command find /u01/app/19/grid/inventory/backup -type d -exec chmod  -f 0750 {} ";" 
+INFO: Executing command find /u01/app/19/grid/inventory/backup -type f -exec chmod  -f 0640 {} ";" 
+INFO: Saving comps.xml for /u01/app/19/grid
+INFO: Setting permission on dir : /u01/app/19/grid/inventory/ContentsXML
+INFO: Executing command find /u01/app/19/grid/inventory/ContentsXML -type d -exec chmod  -f 0750 {} ";" 
+INFO: Executing command find /u01/app/19/grid/inventory/ContentsXML -type f -exec chmod  -f 0640 {} ";" 
+INFO: Setting permission on dir : /u01/app/oraInventory/ContentsXML /u01/app/oraInventory/logs /u01/app/oraInventory/backup  /u01/app/oraInventory/oraInst.loc
+INFO: Executing command find /u01/app/oraInventory/ContentsXML /u01/app/oraInventory/logs /u01/app/oraInventory/backup  /u01/app/oraInventory/oraInst.loc -type d -exec chmod  -f 0770 {} ";" 
+INFO: Executing command find /u01/app/oraInventory/ContentsXML /u01/app/oraInventory/logs /u01/app/oraInventory/backup  /u01/app/oraInventory/oraInst.loc -type f -exec chmod  -f 0660 {} ";" 
+INFO: Executing command find /u01/app/oraInventory/logs -type f -exec chmod  -f 0640 {} ";" 
+INFO: Current Inventory:
+        Oracle Home: OraGI19Home1
+                Oracle Grid Infrastructure 19c 19.0.0.0.0 
+                Java Development Kit 1.8.0.201.0 
+                oracle.swd.oui.core.min 12.2.0.7.0 
+                Installer SDK Component 12.2.0.7.0 
+                Oracle One-Off Patch Installer 12.2.0.1.15 
+                Oracle Universal Installer 12.2.0.7.0 
+                Tomcat Container 19.0.0.0.0 
+                Oracle Grid Infrastructure Bundled Agents 19.0.0.0.0 
+                Oracle Core Required Support Files for Core DB 19.0.0.0.0 
+                Oracle Grid Management Database 19.0.0.0.0 
+                Oracle USM Deconfiguration 19.0.0.0.0 
+                Oracle DBCA Deconfiguration 19.0.0.0.0 
+                Oracle Quality of Service Management (Server) 19.0.0.0.0 
+                Universal Storage Manager Files 19.0.0.0.0 
+                Oracle Text Required Support Files 19.0.0.0.0 
+                Oracle JDBC Server Support Package 19.0.0.0.0 
+                Database Workspace Manager 19.0.0.0.0 
+                Hadoopcore Component 19.0.0.0.0 
+                Automatic Storage Management Assistant 19.0.0.0.0 
+                Oracle Database 19c Multimedia Files 19.0.0.0.0 
+                Oracle Multimedia Java Advanced Imaging 19.0.0.0.0 
+                Oracle Globalization Support 19.0.0.0.0 
+                Oracle Multimedia Locator Java Required Support Files 19.0.0.0.0 
+                Oracle Multimedia Locator RDBMS Files 19.0.0.0.0 
+                Oracle Bali Share 11.1.1.6.0 
+                Oracle Globalization Support For Core 19.0.0.0.0 
+                Expat libraries 2.0.1.0.4 
+                BLASLAPACK Component 19.0.0.0.0 
+                DB TOOLS Listener 19.0.0.0.0 
+                Oracle Database Deconfiguration 19.0.0.0.0 
+                RHP Files for Common 19.0.0.0.0 
+                RHP Files for DB 19.0.0.0.0 
+                Perl Modules 5.28.1.0.0 
+                Oracle JVM For Core 19.0.0.0.0 
+                Perl Interpreter 5.28.1.0.0 
+                Secure Socket Layer 19.0.0.0.0 
+                Oracle Universal Connection Pool 19.0.0.0.0 
+                Oracle JDBC/OCI Instant Client 19.0.0.0.0 
+                Oracle Multimedia Client Option 19.0.0.0.0 
+                Oracle Java Client 19.0.0.0.0 
+                Database Migration Assistant for Unicode 19.0.0.0.0 
+                Oracle JFC Extended Windowing Toolkit 11.1.1.6.0 
+                OLAP SQL Scripts 19.0.0.0.0 
+                PL/SQL Embedded Gateway 19.0.0.0.0 
+                Database SQL Scripts 19.0.0.0.0 
+                SSL Required Support Files for InstantClient 19.0.0.0.0 
+                LDAP Required Support Files 19.0.0.0.0 
+                SQL*Plus Files for Instant Client 19.0.0.0.0 
+                Oracle Net Required Support Files 19.0.0.0.0 
+                Oracle Notification Service for Instant Client 19.0.0.0.0 
+                Deinstallation Tool 19.0.0.0.0 
+                Oracle Locale Builder 19.0.0.0.0 
+                XML Parser for Java 19.0.0.0.0 
+                Oracle Security Developer Tools 19.0.0.0.0 
+                Oracle Wallet Manager 19.0.0.0.0 
+                Installation Plugin Files 19.0.0.0.0 
+                Platform Required Support Files 19.0.0.0.0 
+                Oracle Help Share Library 11.1.1.7.0 
+                Oracle Help for Java 11.1.1.7.0 
+                RDBMS Required Support Files for Instant Client 19.0.0.0.0 
+                Oracle Extended Windowing Toolkit 11.1.1.6.0 
+                oracle.swd.commonlogging 13.3.0.0.0 
+                Tracle File Analyzer 19.0.0.0.0 
+                oracle.swd.opatchautodb 12.2.0.1.5 
+                Oracle LDAP administration 19.0.0.0.0 
+                RHP Files for CRS 19.0.0.0.0 
+                Cluster Verification Utility Files 19.0.0.0.0 
+                RDBMS Required Support Files 19.0.0.0.0 
+                Cluster Verification Utility CRS Files 19.0.0.0.0 
+                Cluster Verification Utility Common Files 19.0.0.0.0 
+                Oracle Clusterware RDBMS Files 19.0.0.0.0 
+                Oracle Ice Browser 11.1.1.7.0 
+                Oracle Globalization Support 19.0.0.0.0 
+                Buildtools Common Files 19.0.0.0.0 
+                Oracle RAC Required Support Files-HAS 19.0.0.0.0 
+                SQL*Plus Required Support Files 19.0.0.0.0 
+                XDK Required Support Files 19.0.0.0.0 
+                Parser Generator Required Support Files 19.0.0.0.0 
+                Precompiler Required Support Files 19.0.0.0.0 
+                Installation Common Files 19.0.0.0.0 
+                Oracle Core Required Support Files 19.0.0.0.0 
+                HAS Common Files 19.0.0.0.0 
+                Required Support Files 19.0.0.0.0 
+                Oracle JDBC/THIN Interfaces 19.0.0.0.0 
+                Oracle Multimedia Locator 19.0.0.0.0 
+                Assistant Common Files 19.0.0.0.0 
+                Oracle Multimedia 19.0.0.0.0 
+                Oracle Netca Client 19.0.0.0.0 
+                Oracle Net 19.0.0.0.0 
+                HAS Files for DB 19.0.0.0.0 
+                PL/SQL 19.0.0.0.0 
+                Oracle Recovery Manager 19.0.0.0.0 
+                Oracle Database Utilities 19.0.0.0.0 
+                Oracle Notification Service 19.0.0.0.0 
+                SQL*Plus 19.0.0.0.0 
+                Oracle Advanced Security 19.0.0.0.0 
+                Cluster Ready Services Files 19.0.0.0.0 
+                Database Configuration and Upgrade Assistants 19.0.0.0.0 
+                Oracle JVM 19.0.0.0.0 
+                Oracle Internet Directory Client 19.0.0.0.0 
+                Oracle Net Listener 19.0.0.0.0 
+                Oracle Database 19c 19.0.0.0.0 
+                Interim Patch# 29401763
+                Interim Patch# 29517242
+                Interim Patch# 29517247
+                Interim Patch# 29585399
+                Interim Patch# 36758186
+                Interim Patch# 38632161
+                Interim Patch# 38653268
+                Interim Patch# 38661284
+                Interim Patch# 38729293
+
+INFO: Starting remote cmd threads...............
+INFO: All remote cmd threads started...............
+INFO: New thread started for node : db142
+INFO: Running command '/u01/app/19/grid/oui/bin/runInstaller  -paramFile /u01/app/19/grid/oui/clusterparam.ini  -silent -ignoreSysPrereqs -updateNodeList -setCustomNodelist -noClusterEnabled ORACLE_HOME=/u01/app/19/grid "CLUSTER_NODES={db141,db142}" "NODES_TO_SET={db141,db142}" CRS=true  LOCAL_NODE=db142 -remoteInvocation -invokingNodeName db141 -logFilePath "/u01/app/oraInventory/logs" -timestamp 2026-02-22_09-18-59PM -doNotUpdateNodeList ' on the nodes 'db142'.
+INFO: Invoking OUI on cluster nodes db142
+INFO: /u01/app/19/grid/oui/bin/runInstaller  -paramFile /u01/app/19/grid/oui/clusterparam.ini  -silent -ignoreSysPrereqs -updateNodeList -setCustomNodelist -noClusterEnabled ORACLE_HOME=/u01/app/19/grid "CLUSTER_NODES={db141,db142}" "NODES_TO_SET={db141,db142}" CRS=true  LOCAL_NODE=db142 -remoteInvocation -invokingNodeName db141 -logFilePath "/u01/app/oraInventory/logs" -timestamp 2026-02-22_09-18-59PM -doNotUpdateNodeList 
+INFO: Command execution completes for node : db142
+INFO: Command execution sucess for node : db142
+INFO: All threads completed its operations
+INFO: Checkpoint:Index file written and updated
+INFO: Done calling doOperation.
+INFO: 'UpdateNodeList' was successful.

@@ -1,0 +1,63 @@
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= grid
+    ORACLE_HOME=  /u01/app/19/grid
+   Copying dbhome to /usr/local/bin ...
+   Copying oraenv to /usr/local/bin ...
+   Copying coraenv to /usr/local/bin ...
+
+
+Creating /etc/oratab file...
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+Relinking oracle with rac_on option
+Using configuration parameter file: /u01/app/19/grid/crs/install/crsconfig_params
+The log of current session can be found at:
+  /u01/app/grid/crsdata/db141/crsconfig/rootcrs_db141_2026-02-22_09-10-10PM.log
+2026/02/22 21:10:25 CLSRSC-594: Executing installation step 1 of 19: 'ValidateEnv'.
+2026/02/22 21:10:25 CLSRSC-363: User ignored prerequisites during installation
+2026/02/22 21:10:25 CLSRSC-594: Executing installation step 2 of 19: 'CheckFirstNode'.
+2026/02/22 21:10:27 CLSRSC-594: Executing installation step 3 of 19: 'GenSiteGUIDs'.
+2026/02/22 21:10:28 CLSRSC-594: Executing installation step 4 of 19: 'SetupOSD'.
+Redirecting to /bin/systemctl restart rsyslog.service
+2026/02/22 21:10:28 CLSRSC-594: Executing installation step 5 of 19: 'CheckCRSConfig'.
+2026/02/22 21:10:28 CLSRSC-594: Executing installation step 6 of 19: 'SetupLocalGPNP'.
+2026/02/22 21:10:39 CLSRSC-594: Executing installation step 7 of 19: 'CreateRootCert'.
+2026/02/22 21:10:44 CLSRSC-594: Executing installation step 8 of 19: 'ConfigOLR'.
+2026/02/22 21:11:07 CLSRSC-594: Executing installation step 9 of 19: 'ConfigCHMOS'.
+2026/02/22 21:11:07 CLSRSC-594: Executing installation step 10 of 19: 'CreateOHASD'.
+2026/02/22 21:11:12 CLSRSC-594: Executing installation step 11 of 19: 'ConfigOHASD'.
+2026/02/22 21:11:17 CLSRSC-330: Adding Clusterware entries to file 'oracle-ohasd.service'
+2026/02/22 21:11:46 CLSRSC-594: Executing installation step 12 of 19: 'SetupTFA'.
+2026/02/22 21:11:46 CLSRSC-594: Executing installation step 13 of 19: 'InstallAFD'.
+2026/02/22 21:11:46 CLSRSC-594: Executing installation step 14 of 19: 'InstallACFS'.
+2026/02/22 21:11:51 CLSRSC-594: Executing installation step 15 of 19: 'InstallKA'.
+2026/02/22 21:11:56 CLSRSC-594: Executing installation step 16 of 19: 'InitConfig'.
+2026/02/22 21:13:13 CLSRSC-4002: Successfully installed Oracle Trace File Analyzer (TFA) Collector.
+
+ASM has been created and started successfully.
+
+[DBT-30001] Disk groups created successfully. Check /u01/app/grid/cfgtoollogs/asmca/asmca-260222PM091226.log for details.
+
+2026/02/22 21:13:20 CLSRSC-482: Running command: '/u01/app/19/grid/bin/ocrconfig -upgrade grid oinstall'
+CRS-4256: Updating the profile
+Successful addition of voting disk 892405cdc9384fbfbffafb54f5d2ee2f.
+Successful addition of voting disk 9746a1201eb94fdebfc2c4dc20c100c4.
+Successful addition of voting disk 75a8b326e4c24ffabf349d7dfadc28bc.
+Successfully replaced voting disk group with +OCRDG.
+CRS-4256: Updating the profile
+CRS-4266: Voting file(s) successfully replaced
+##  STATE    File Universal Id                File Name Disk group
+--  -----    -----------------                --------- ---------
+ 1. ONLINE   892405cdc9384fbfbffafb54f5d2ee2f (/dev/oracleasm-ocr/db145-OCR-01) [OCRDG]
+ 2. ONLINE   9746a1201eb94fdebfc2c4dc20c100c4 (/dev/oracleasm-ocr/db145-OCR-03) [OCRDG]
+ 3. ONLINE   75a8b326e4c24ffabf349d7dfadc28bc (/dev/oracleasm-ocr/db145-OCR-02) [OCRDG]
+Located 3 voting disk(s).
+2026/02/22 21:14:13 CLSRSC-594: Executing installation step 17 of 19: 'StartCluster'.
+2026/02/22 21:15:12 CLSRSC-343: Successfully started Oracle Clusterware stack
+2026/02/22 21:15:12 CLSRSC-594: Executing installation step 18 of 19: 'ConfigNode'.
+2026/02/22 21:16:42 CLSRSC-594: Executing installation step 19 of 19: 'PostConfig'.
+2026/02/22 21:17:07 CLSRSC-325: Configure Oracle Grid Infrastructure for a Cluster ... succeeded

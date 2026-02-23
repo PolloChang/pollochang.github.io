@@ -1,0 +1,44 @@
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= grid
+    ORACLE_HOME=  /u01/app/19/grid
+   Copying dbhome to /usr/local/bin ...
+   Copying oraenv to /usr/local/bin ...
+   Copying coraenv to /usr/local/bin ...
+
+
+Creating /etc/oratab file...
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+Relinking oracle with rac_on option
+Using configuration parameter file: /u01/app/19/grid/crs/install/crsconfig_params
+The log of current session can be found at:
+  /u01/app/grid/crsdata/db142/crsconfig/rootcrs_db142_2026-02-22_09-22-48PM.log
+2026/02/22 21:22:56 CLSRSC-594: Executing installation step 1 of 19: 'ValidateEnv'.
+2026/02/22 21:22:56 CLSRSC-363: User ignored prerequisites during installation
+2026/02/22 21:22:57 CLSRSC-594: Executing installation step 2 of 19: 'CheckFirstNode'.
+2026/02/22 21:22:58 CLSRSC-594: Executing installation step 3 of 19: 'GenSiteGUIDs'.
+2026/02/22 21:22:58 CLSRSC-594: Executing installation step 4 of 19: 'SetupOSD'.
+Redirecting to /bin/systemctl restart rsyslog.service
+2026/02/22 21:22:58 CLSRSC-594: Executing installation step 5 of 19: 'CheckCRSConfig'.
+2026/02/22 21:22:59 CLSRSC-594: Executing installation step 6 of 19: 'SetupLocalGPNP'.
+2026/02/22 21:23:00 CLSRSC-594: Executing installation step 7 of 19: 'CreateRootCert'.
+2026/02/22 21:23:00 CLSRSC-594: Executing installation step 8 of 19: 'ConfigOLR'.
+2026/02/22 21:23:17 CLSRSC-594: Executing installation step 9 of 19: 'ConfigCHMOS'.
+2026/02/22 21:23:17 CLSRSC-594: Executing installation step 10 of 19: 'CreateOHASD'.
+2026/02/22 21:23:18 CLSRSC-594: Executing installation step 11 of 19: 'ConfigOHASD'.
+2026/02/22 21:23:22 CLSRSC-330: Adding Clusterware entries to file 'oracle-ohasd.service'
+2026/02/22 21:23:41 CLSRSC-594: Executing installation step 12 of 19: 'SetupTFA'.
+2026/02/22 21:23:42 CLSRSC-594: Executing installation step 13 of 19: 'InstallAFD'.
+2026/02/22 21:23:42 CLSRSC-594: Executing installation step 14 of 19: 'InstallACFS'.
+2026/02/22 21:23:43 CLSRSC-594: Executing installation step 15 of 19: 'InstallKA'.
+2026/02/22 21:23:44 CLSRSC-594: Executing installation step 16 of 19: 'InitConfig'.
+2026/02/22 21:23:52 CLSRSC-594: Executing installation step 17 of 19: 'StartCluster'.
+2026/02/22 21:24:34 CLSRSC-343: Successfully started Oracle Clusterware stack
+2026/02/22 21:24:34 CLSRSC-594: Executing installation step 18 of 19: 'ConfigNode'.
+2026/02/22 21:24:50 CLSRSC-594: Executing installation step 19 of 19: 'PostConfig'.
+2026/02/22 21:24:59 CLSRSC-325: Configure Oracle Grid Infrastructure for a Cluster ... succeeded
+2026/02/22 21:25:10 CLSRSC-4002: Successfully installed Oracle Trace File Analyzer (TFA) Collector.

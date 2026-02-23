@@ -1,0 +1,3 @@
+KERNEL=="sd?1", SUBSYSTEM=="block", PROGRAM=="/usr/lib/udev/scsi_id -g -u -d /dev/$parent", RESULT=="0QEMU_QEMU_HARDDISK_73efa1e1938ff3a830998761ecbf7b55", SYMLINK+="oracleasm-ocr/db145-OCR-01", OWNER="grid", GROUP="asmadmin", MODE="0660"
+KERNEL=="sd?1", SUBSYSTEM=="block", PROGRAM=="/usr/lib/udev/scsi_id -g -u -d /dev/$parent", RESULT=="0QEMU_QEMU_HARDDISK_b383c5977d884aa477de78db34346124", SYMLINK+="oracleasm-ocr/db145-OCR-02", OWNER="grid", GROUP="asmadmin", MODE="0660"
+KERNEL=="sd?1", SUBSYSTEM=="block", PROGRAM=="/usr/lib/udev/scsi_id -g -u -d /dev/$parent", RESULT=="0QEMU_QEMU_HARDDISK_1a257bcfd8edc33bc004b5f2415d423c", SYMLINK+="oracleasm-ocr/db145-OCR-03", OWNER="grid", GROUP="asmadmin", MODE="0660"

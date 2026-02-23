@@ -3,12 +3,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記</title>
+    <title>PolloChang 工作筆記 - Build Tomcat Rmp on Oracle Linux </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - Cockpit Web Console echo &#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list echo &#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list /etc/apt/preferences Package: * Pin: release a=bullseye Pin-Priority: 500 Package: cockpit Pin: release a=bullseye-backports Pin-Priority: 1000 Package: * Pin: release a=bullseye-backports Pin-Priority: 100 /etc/containers [registries.search] registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;] sudo apt install cockpit cockpit-podman nfs-common sudo apt install cockpit-machines sudo netstat -pnltu | grep 9090 sudo systemctl enable cockpit." name="description">
+    <meta content="PolloChang 工作筆記 - 技術需求 OS: Redhat java version: jre17 ~/rpmbuild/SPECS/tomcat.spec Name: tomcat Version: 9.0.91 Release: 1%{?dist} Summary: Apache Tomcat 9 License: Apache License 2.0 Group: Applications/Internet URL: https://tomcat.apache.org/ Source0: apache-tomcat-%{version}.tar.gz BuildArch: noarch Requires: java-17-openjdk %description Apache Tomcat is an open-source implementation of the Java Servlet, JavaServer Pages, Java Expression Language, and Java WebSocket technologies. %prep %setup -q -n apache-tomcat-%{version} %build # No build required as it&#39;s a binary release %install rm -rf %{buildroot} mkdir -p %{buildroot}/opt/tomcat cp -a * %{buildroot}/opt/tomcat # Create symbolic links mkdir -p %{buildroot}/usr/bin ln -s /opt/tomcat/bin/catalina." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -126,10 +126,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1></h1>
+                    <h1>Build Tomcat Rmp on Oracle Linux</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-08-29</span>
 
     
     
@@ -144,35 +144,53 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h1 id="cockpit-web-console">Cockpit Web Console</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span></code></pre></div><ul>
-<li>/etc/apt/preferences</li>
+                    <h2 id="技術需求">技術需求</h2>
+<ul>
+<li>OS: Redhat</li>
+<li>java version: jre17</li>
 </ul>
-<pre tabindex="0"><code>Package: *
-Pin: release a=bullseye
-Pin-Priority: 500
-
-Package: cockpit
-Pin: release a=bullseye-backports
-Pin-Priority: 1000
-
-Package: *
-Pin: release a=bullseye-backports
-Pin-Priority: 100
-</code></pre><ul>
-<li>/etc/containers</li>
+<h2 id="heading"></h2>
+<ul>
+<li>~/rpmbuild/SPECS/tomcat.spec</li>
 </ul>
-<pre tabindex="0"><code>[registries.search]
-registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;]
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit cockpit-podman nfs-common
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit-machines
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo netstat -pnltu | grep <span style="color:#ae81ff">9090</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable cockpit.socket
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
-<p><a href="https://www.tecmint.com/manage-kvm-virtual-machines-using-cockpit-web-console/">Managing KVM Virtual Machines with Cockpit Web Console in Linux</a></p>
-</div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Name: tomcat
+</span></span><span style="display:flex;"><span>Version: 9.0.91
+</span></span><span style="display:flex;"><span>Release: 1%<span style="color:#f92672">{</span>?dist<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>Summary: Apache Tomcat <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>License: Apache License 2.0
+</span></span><span style="display:flex;"><span>Group: Applications/Internet
+</span></span><span style="display:flex;"><span>URL: https://tomcat.apache.org/
+</span></span><span style="display:flex;"><span>Source0: apache-tomcat-%<span style="color:#f92672">{</span>version<span style="color:#f92672">}</span>.tar.gz
+</span></span><span style="display:flex;"><span>BuildArch: noarch
+</span></span><span style="display:flex;"><span>Requires: java-17-openjdk
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%description
+</span></span><span style="display:flex;"><span>Apache Tomcat is an open-source implementation of the Java Servlet, JavaServer Pages, Java Expression Language, and Java WebSocket technologies.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%prep
+</span></span><span style="display:flex;"><span>%setup -q -n apache-tomcat-%<span style="color:#f92672">{</span>version<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%build
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># No build required as it&#39;s a binary release</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%install
+</span></span><span style="display:flex;"><span>rm -rf %<span style="color:#f92672">{</span>buildroot<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>mkdir -p %<span style="color:#f92672">{</span>buildroot<span style="color:#f92672">}</span>/opt/tomcat
+</span></span><span style="display:flex;"><span>cp -a * %<span style="color:#f92672">{</span>buildroot<span style="color:#f92672">}</span>/opt/tomcat
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create symbolic links</span>
+</span></span><span style="display:flex;"><span>mkdir -p %<span style="color:#f92672">{</span>buildroot<span style="color:#f92672">}</span>/usr/bin
+</span></span><span style="display:flex;"><span>ln -s /opt/tomcat/bin/catalina.sh %<span style="color:#f92672">{</span>buildroot<span style="color:#f92672">}</span>/usr/bin/tomcat
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%files
+</span></span><span style="display:flex;"><span>%defattr<span style="color:#f92672">(</span>-,root,root,-<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>/opt/tomcat
+</span></span><span style="display:flex;"><span>/usr/bin/tomcat
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%changelog
+</span></span><span style="display:flex;"><span>* Wed Aug <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">2024</span> Your Name &lt;your.email@example.com&gt; - 9.0.91-1
+</span></span><span style="display:flex;"><span>- Initial RPM release
+</span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"

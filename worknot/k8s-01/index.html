@@ -3,12 +3,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>PolloChang 工作筆記</title>
+    <title>PolloChang 工作筆記 - K8s 安裝規劃 </title>
     
     
     <meta content="PolloChang 工作筆記" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - Cockpit Web Console echo &#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list echo &#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34; | sudo tee -a /etc/apt/sources.list /etc/apt/preferences Package: * Pin: release a=bullseye Pin-Priority: 500 Package: cockpit Pin: release a=bullseye-backports Pin-Priority: 1000 Package: * Pin: release a=bullseye-backports Pin-Priority: 100 /etc/containers [registries.search] registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;] sudo apt install cockpit cockpit-podman nfs-common sudo apt install cockpit-machines sudo netstat -pnltu | grep 9090 sudo systemctl enable cockpit." name="description">
+    <meta content="PolloChang 工作筆記 - 環境 OS: Debian 12 主機規劃 pl-dns-01 hostname: pl-dns-01.demo.pollochang.local cpu: 2 ram: 1G disk: 20G IP: 192.168.56.100 pl-k8s-master-01 hostname: pl-k8s-master-01.demo.pollochang.local cpu: 2 ram: 8G disk: 20G IP: 192.168.56.200 pl-k8s-worker-00 hostname: pl-k8s-worker-00.demo.pollochang.local cpu: 2 ram: 8G disk: 20G IP: 192.168.56.210 pl-k8s-worker-01 hostname: pl-k8s-worker-01.demo.pollochang.local cpu: 2 ram: 8G disk: 20G IP: 192.168.56.211 清除設定
+cat /etc/network/interfaces # The primary network interface # allow-hotplug enp1s0 # iface enp1s0 inet dhcp # 列出網卡 sudo nmcli device # 設定網路 nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -126,10 +127,10 @@ layui.use('element', function(){
             <div class="layui-card single-card">
                 <br />
                 <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1></h1>
+                    <h1>K8s 安裝規劃</h1>
                     <h3 style="margin-top:10px; margin-bottom:10px"> 
     <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
+    <span>2024-12-17</span>
 
     
     
@@ -144,35 +145,65 @@ layui.use('element', function(){
 
                 </blockquote>
                 <div class="layui-card-body markdown-body single-content">
-                    <h1 id="cockpit-web-console">Cockpit Web Console</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free&#34;</span> | sudo tee -a /etc/apt/sources.list
-</span></span></code></pre></div><ul>
-<li>/etc/apt/preferences</li>
+                    <h2 id="環境">環境</h2>
+<ul>
+<li>OS: Debian 12</li>
+<li>主機規劃
+<ul>
+<li>pl-dns-01
+<ul>
+<li>hostname: pl-dns-01.demo.pollochang.local</li>
+<li>cpu: 2</li>
+<li>ram: 1G</li>
+<li>disk: 20G</li>
+<li>IP: 192.168.56.100</li>
 </ul>
-<pre tabindex="0"><code>Package: *
-Pin: release a=bullseye
-Pin-Priority: 500
-
-Package: cockpit
-Pin: release a=bullseye-backports
-Pin-Priority: 1000
-
-Package: *
-Pin: release a=bullseye-backports
-Pin-Priority: 100
-</code></pre><ul>
-<li>/etc/containers</li>
+</li>
+<li>pl-k8s-master-01
+<ul>
+<li>hostname: pl-k8s-master-01.demo.pollochang.local</li>
+<li>cpu: 2</li>
+<li>ram: 8G</li>
+<li>disk: 20G</li>
+<li>IP: 192.168.56.200</li>
 </ul>
-<pre tabindex="0"><code>[registries.search]
-registries = [&#39;docker.io&#39;, &#39;registry.fedoraproject.org&#39;, &#39;quay.io&#39;, &#39;registry.access.redhat.com&#39;, &#39;registry.centos.org&#39;]
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit cockpit-podman nfs-common
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install cockpit-machines
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo netstat -pnltu | grep <span style="color:#ae81ff">9090</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable cockpit.socket
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
-<p><a href="https://www.tecmint.com/manage-kvm-virtual-machines-using-cockpit-web-console/">Managing KVM Virtual Machines with Cockpit Web Console in Linux</a></p>
-</div>
+</li>
+<li>pl-k8s-worker-00
+<ul>
+<li>hostname: pl-k8s-worker-00.demo.pollochang.local</li>
+<li>cpu: 2</li>
+<li>ram: 8G</li>
+<li>disk: 20G</li>
+<li>IP: 192.168.56.210</li>
+</ul>
+</li>
+<li>pl-k8s-worker-01
+<ul>
+<li>hostname: pl-k8s-worker-01.demo.pollochang.local</li>
+<li>cpu: 2</li>
+<li>ram: 8G</li>
+<li>disk: 20G</li>
+<li>IP: 192.168.56.211</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>清除設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/network/interfaces
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The primary network interface</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># allow-hotplug enp1s0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># iface enp1s0 inet dhcp</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 列出網卡</span>
+</span></span><span style="display:flex;"><span>sudo nmcli device
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定網路</span>
+</span></span><span style="display:flex;"><span>nmcli connection add type ethernet con-name enp1s0 ifname enp1s0 ipv4.addresses 192.168.56.100/24 gw4 192.168.56.1 ipv4.dns 127.0.0.1  ipv4.method manual
+</span></span><span style="display:flex;"><span>sudo nmcli connection modify enp1s0 +ipv4.dns 8.8.8.8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重起網卡</span>
+</span></span><span style="display:flex;"><span>sudo nmcli connection down enp1s0
+</span></span><span style="display:flex;"><span>sudo nmcli connection up enp1s0
+</span></span></code></pre></div></div>
                 <div>
                     <script src="https://utteranc.es/client.js"
                         repo="PolloChang/commentsforpollochang"

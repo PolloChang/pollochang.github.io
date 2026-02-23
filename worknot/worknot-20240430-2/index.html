@@ -1,0 +1,450 @@
+<html>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - dalai </title>
+    
+    
+    <meta content="PolloChang 工作筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 作業環境 OS: Debian 12 安裝流程 sudo apt install curl curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - sudo apt install nodejs npx dalai alpaca install 7B ❯ npx dalai alpaca install 7B Need to install the following packages: dalai@0.3.1 Ok to proceed? (y) y mkdir /home/pollochang/dalai { method: &#39;install&#39;, callparams: [ &#39;7B&#39; ] } 2 [Error: ENOENT: no such file or directory, rename &#39;/home/pollochang/dalai/alpaca/models&#39; -&gt; &#39;/home/pollochang/dalai/tmp/models&#39;] { errno: -2, code: &#39;ENOENT&#39;, syscall: &#39;rename&#39;, path: &#39;/home/pollochang/dalai/alpaca/models&#39;, dest: &#39;/home/pollochang/dalai/tmp/models&#39; } 3 [Error: ENOENT: no such file or directory, lstat &#39;/home/pollochang/dalai/alpaca&#39;] { errno: -2, code: &#39;ENOENT&#39;, syscall: &#39;lstat&#39;, path: &#39;/home/pollochang/dalai/alpaca&#39; } mkdir /home/pollochang/dalai/alpaca try fetching /home/pollochang/dalai/alpaca https://github." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>dalai</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-04-30</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="作業環境">作業環境</h2>
+<ul>
+<li>OS: Debian 12</li>
+</ul>
+<h2 id="安裝流程">安裝流程</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install curl
+</span></span><span style="display:flex;"><span>curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+</span></span><span style="display:flex;"><span>sudo apt install nodejs
+</span></span><span style="display:flex;"><span>npx dalai alpaca install 7B
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ npx dalai alpaca install 7B
+</span></span><span style="display:flex;"><span>Need to install the following packages:
+</span></span><span style="display:flex;"><span>dalai@0.3.1
+</span></span><span style="display:flex;"><span>Ok to proceed? <span style="color:#f92672">(</span>y<span style="color:#f92672">)</span> y
+</span></span><span style="display:flex;"><span>mkdir /home/pollochang/dalai
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span> method: <span style="color:#e6db74">&#39;install&#39;</span>, callparams: <span style="color:#f92672">[</span> <span style="color:#e6db74">&#39;7B&#39;</span> <span style="color:#f92672">]</span> <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> <span style="color:#f92672">[</span>Error: ENOENT: no such file or directory, rename <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca/models&#39;</span> -&gt; <span style="color:#e6db74">&#39;/home/pollochang/dalai/tmp/models&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  errno: -2,
+</span></span><span style="display:flex;"><span>  code: <span style="color:#e6db74">&#39;ENOENT&#39;</span>,
+</span></span><span style="display:flex;"><span>  syscall: <span style="color:#e6db74">&#39;rename&#39;</span>,
+</span></span><span style="display:flex;"><span>  path: <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca/models&#39;</span>,
+</span></span><span style="display:flex;"><span>  dest: <span style="color:#e6db74">&#39;/home/pollochang/dalai/tmp/models&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> <span style="color:#f92672">[</span>Error: ENOENT: no such file or directory, lstat <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  errno: -2,
+</span></span><span style="display:flex;"><span>  code: <span style="color:#e6db74">&#39;ENOENT&#39;</span>,
+</span></span><span style="display:flex;"><span>  syscall: <span style="color:#e6db74">&#39;lstat&#39;</span>,
+</span></span><span style="display:flex;"><span>  path: <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>mkdir /home/pollochang/dalai/alpaca
+</span></span><span style="display:flex;"><span>try fetching /home/pollochang/dalai/alpaca https://github.com/ItsPi3141/alpaca.cpp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>E<span style="color:#f92672">]</span> Pull TypeError: Cannot read properties of null <span style="color:#f92672">(</span>reading <span style="color:#e6db74">&#39;split&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at new GitConfig <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:1626:30<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at GitConfig.from <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:1649:12<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at GitConfigManager.get <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:1772:22<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at async _getConfig <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:5513:18<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at async normalizeAuthorObject <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:5523:19<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at async Object.pull <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/isomorphic-git/index.cjs:11895:20<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at async Dalai.add <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/dalai/index.js:394:7<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    at async Dalai.install <span style="color:#f92672">(</span>/home/pollochang/.npm/_npx/3c737cbb02d79cc9/node_modules/dalai/index.js:346:5<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  caller: <span style="color:#e6db74">&#39;git.pull&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>try cloning /home/pollochang/dalai/alpaca https://github.com/ItsPi3141/alpaca.cpp
+</span></span><span style="display:flex;"><span>next alpaca <span style="color:#f92672">[</span>AsyncFunction: make<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>exec: make in /home/pollochang/dalai/alpaca
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span>pollochang@pollo-chang-nb:~/dalai/alpaca$ make
+</span></span><span style="display:flex;"><span>I llama.cpp build info: 
+</span></span><span style="display:flex;"><span>I UNAME_S:  Linux
+</span></span><span style="display:flex;"><span>I UNAME_P:  unknown
+</span></span><span style="display:flex;"><span>I UNAME_M:  x86_64
+</span></span><span style="display:flex;"><span>I CFLAGS:   -I.              -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c11   -fPIC -pthread -mavx -mavx2 -mfma -mf16c -msse3
+</span></span><span style="display:flex;"><span>I CXXFLAGS: -I. -I./examples -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c++11 -fPIC -pthread
+</span></span><span style="display:flex;"><span>I LDFLAGS:  
+</span></span><span style="display:flex;"><span>I CC:       cc <span style="color:#f92672">(</span>Debian 12.2.0-14<span style="color:#f92672">)</span> 12.2.0
+</span></span><span style="display:flex;"><span>I CXX:      g++ <span style="color:#f92672">(</span>Debian 12.2.0-14<span style="color:#f92672">)</span> 12.2.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cc  -I.              -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c11   -fPIC -pthread -mavx -mavx2 -mfma -mf16c -msse3   -c ggml.c -o ggml.o
+</span></span><span style="display:flex;"><span>g++ -I. -I./examples -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c++11 -fPIC -pthread -c utils.cpp -o utils.o
+</span></span><span style="display:flex;"><span>g++ -I. -I./examples -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c++11 -fPIC -pthread main.cpp ggml.o utils.o -o main 
+</span></span><span style="display:flex;"><span>./main -h
+</span></span><span style="display:flex;"><span>usage: ./main <span style="color:#f92672">[</span>options<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>options:
+</span></span><span style="display:flex;"><span>  -h, --help            show this help message and exit
+</span></span><span style="display:flex;"><span>  -i, --interactive     run in interactive mode
+</span></span><span style="display:flex;"><span>  --interactive-start   run in interactive mode and poll user input at startup
+</span></span><span style="display:flex;"><span>  -r PROMPT, --reverse-prompt PROMPT
+</span></span><span style="display:flex;"><span>                        in interactive mode, poll user input upon seeing PROMPT
+</span></span><span style="display:flex;"><span>  --color               colorise output to distinguish prompt and user input from generations
+</span></span><span style="display:flex;"><span>  -s SEED, --seed SEED  RNG seed <span style="color:#f92672">(</span>default: -1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -t N, --threads N     number of threads to use during computation <span style="color:#f92672">(</span>default: 4<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -p PROMPT, --prompt PROMPT
+</span></span><span style="display:flex;"><span>                        prompt to start generation with <span style="color:#f92672">(</span>default: random<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -f FNAME, --file FNAME
+</span></span><span style="display:flex;"><span>                        prompt file to start generation.
+</span></span><span style="display:flex;"><span>  -n N, --n_predict N   number of tokens to predict <span style="color:#f92672">(</span>default: 128<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  --top_k N             top-k sampling <span style="color:#f92672">(</span>default: 40<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  --top_p N             top-p sampling <span style="color:#f92672">(</span>default: 0.9<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  --repeat_last_n N     last n tokens to consider <span style="color:#66d9ef">for</span> penalize <span style="color:#f92672">(</span>default: 64<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  --repeat_penalty N    penalize repeat sequence of tokens <span style="color:#f92672">(</span>default: 1.3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -c N, --ctx_size N    size of the prompt context <span style="color:#f92672">(</span>default: 2048<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  --temp N              temperature <span style="color:#f92672">(</span>default: 0.1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -b N, --batch_size N  batch size <span style="color:#66d9ef">for</span> prompt processing <span style="color:#f92672">(</span>default: 8<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -m FNAME, --model FNAME
+</span></span><span style="display:flex;"><span>                        model path <span style="color:#f92672">(</span>default: ggml-alpaca-7b-q4.bin<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>g++ -I. -I./examples -O3 -DNDEBUG -std<span style="color:#f92672">=</span>c++11 -fPIC -pthread quantize.cpp ggml.o utils.o -o quantize 
+</span></span><span style="display:flex;"><span>pollochang@pollo-chang-nb:~/dalai/alpaca$ exit
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span> <span style="color:#f92672">[</span>Error: ENOENT: no such file or directory, rename <span style="color:#e6db74">&#39;/home/pollochang/dalai/tmp/models&#39;</span> -&gt; <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca/models&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  errno: -2,
+</span></span><span style="display:flex;"><span>  code: <span style="color:#e6db74">&#39;ENOENT&#39;</span>,
+</span></span><span style="display:flex;"><span>  syscall: <span style="color:#e6db74">&#39;rename&#39;</span>,
+</span></span><span style="display:flex;"><span>  path: <span style="color:#e6db74">&#39;/home/pollochang/dalai/tmp/models&#39;</span>,
+</span></span><span style="display:flex;"><span>  dest: <span style="color:#e6db74">&#39;/home/pollochang/dalai/alpaca/models&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>alpaca.add <span style="color:#f92672">[</span> <span style="color:#e6db74">&#39;7B&#39;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>dir /home/pollochang/dalai/alpaca/models/7B
+</span></span><span style="display:flex;"><span>downloading torrent
+</span></span><span style="display:flex;"><span>ggml-model-q4_0.bin 100%<span style="color:#f92672">[==================================================================================</span>&gt;<span style="color:#f92672">]</span> <span style="color:#66d9ef">done</span>      
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>~ 43m 48s                                                                                                                                                  00:41:26
+</span></span><span style="display:flex;"><span>❯ 
+</span></span></code></pre></div><p>使用: http://localhost:3000</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://brezular.com/2023/04/14/running-alpaca-ai-on-low-cost-pc-with-dalai/">Running Alpaca AI on Low Cost PC with DALAI</a></li>
+<li><a href="https://ivonblog.com/posts/dalai-llama-installation/">Dalai本機安裝教學，與LLaMA大型語言模型離線聊天</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-oracle18c-install/">
+                        <h3 class="">安</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-17</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/database/">
+                        <h3 class="">資料庫維護經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-01</span>
+
+    
+    
+
+    
+
+    
+
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
