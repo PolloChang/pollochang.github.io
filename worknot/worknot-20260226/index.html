@@ -1,0 +1,697 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Debian13 安裝 Ansible </title>
+    
+    
+    <meta content="linux, ansible, debian" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 以下是我在 Debian 13 安裝 Ansible 紀錄
+sudo apt install python3-venv -y mkdir ~/ansible_legacy &amp;&amp; cd ~/ansible_legacy python3 -m venv venv source venv/bin/activate pip install &#34;ansible-core&lt;2.17&#34; vim ~/.zshrc # source ~/ansible_legacy/venv/bin/activate 結果如下
+❯ sudo apt install python3-venv -y Installing: python3-venv Installing dependencies: python3-pip-whl python3-setuptools-whl python3.13-venv Summary: Upgrading: 0, Installing: 4, Removing: 0, Not Upgrading: 0 Download size: 2,782 kB Space needed: 2,957 kB / 961 GB available Get:1 http://ftp.tw.debian.org/debian trixie/main amd64 python3-pip-whl all 25." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Debian13 安裝 Ansible</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-26</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/ansible/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">ansible</span>
+        </a>
+    
+        <a href="/tags/debian/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">debian</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>以下是我在 Debian 13 安裝 Ansible 紀錄</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install python3-venv -y
+</span></span><span style="display:flex;"><span>mkdir ~/ansible_legacy <span style="color:#f92672">&amp;&amp;</span> cd ~/ansible_legacy
+</span></span><span style="display:flex;"><span>python3 -m venv venv
+</span></span><span style="display:flex;"><span>source venv/bin/activate
+</span></span><span style="display:flex;"><span>pip install <span style="color:#e6db74">&#34;ansible-core&lt;2.17&#34;</span>
+</span></span><span style="display:flex;"><span>vim ~/.zshrc
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># source ~/ansible_legacy/venv/bin/activate</span>
+</span></span></code></pre></div><p>結果如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ sudo apt install python3-venv -y
+</span></span><span style="display:flex;"><span>Installing:                     
+</span></span><span style="display:flex;"><span>  python3-venv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Installing dependencies:
+</span></span><span style="display:flex;"><span>  python3-pip-whl  python3-setuptools-whl  python3.13-venv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Summary:
+</span></span><span style="display:flex;"><span>  Upgrading: 0, Installing: 4, Removing: 0, Not Upgrading: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  Download size: 2,782 kB
+</span></span><span style="display:flex;"><span>  Space needed: 2,957 kB / <span style="color:#ae81ff">961</span> GB available
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Get:1 http://ftp.tw.debian.org/debian trixie/main amd64 python3-pip-whl all 25.1.1+dfsg-1 <span style="color:#f92672">[</span>1,507 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:2 http://ftp.tw.debian.org/debian trixie/main amd64 python3-setuptools-whl all 78.1.1-0.1 <span style="color:#f92672">[</span>1,268 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:3 http://ftp.tw.debian.org/debian trixie/main amd64 python3.13-venv amd64 3.13.5-2 <span style="color:#f92672">[</span>5,472 B<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:4 http://ftp.tw.debian.org/debian trixie/main amd64 python3-venv amd64 3.13.5-1 <span style="color:#f92672">[</span>1,180 B<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Fetched 2,782 kB in 2s <span style="color:#f92672">(</span>1,679 kB/s<span style="color:#f92672">)</span>      
+</span></span><span style="display:flex;"><span>Selecting previously unselected package python3-pip-whl.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>Reading database ... <span style="color:#ae81ff">332994</span> files and directories currently installed.<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Preparing to unpack .../python3-pip-whl_25.1.1+dfsg-1_all.deb ...
+</span></span><span style="display:flex;"><span>Unpacking python3-pip-whl <span style="color:#f92672">(</span>25.1.1+dfsg-1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Selecting previously unselected package python3-setuptools-whl.
+</span></span><span style="display:flex;"><span>Preparing to unpack .../python3-setuptools-whl_78.1.1-0.1_all.deb ...
+</span></span><span style="display:flex;"><span>Unpacking python3-setuptools-whl <span style="color:#f92672">(</span>78.1.1-0.1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Selecting previously unselected package python3.13-venv.
+</span></span><span style="display:flex;"><span>Preparing to unpack .../python3.13-venv_3.13.5-2_amd64.deb ...
+</span></span><span style="display:flex;"><span>Unpacking python3.13-venv <span style="color:#f92672">(</span>3.13.5-2<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Selecting previously unselected package python3-venv.
+</span></span><span style="display:flex;"><span>Preparing to unpack .../python3-venv_3.13.5-1_amd64.deb ...
+</span></span><span style="display:flex;"><span>Unpacking python3-venv <span style="color:#f92672">(</span>3.13.5-1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Setting up python3-setuptools-whl <span style="color:#f92672">(</span>78.1.1-0.1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Setting up python3-pip-whl <span style="color:#f92672">(</span>25.1.1+dfsg-1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Setting up python3.13-venv <span style="color:#f92672">(</span>3.13.5-2<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Setting up python3-venv <span style="color:#f92672">(</span>3.13.5-1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ mkdir ~/ansible_legacy <span style="color:#f92672">&amp;&amp;</span> cd ~/ansible_legacy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ python3 -m venv venv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ source venv/bin/activate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ pip install <span style="color:#e6db74">&#34;ansible-core&lt;2.17&#34;</span>
+</span></span><span style="display:flex;"><span>Collecting ansible-core&lt;2.17
+</span></span><span style="display:flex;"><span>  Downloading ansible_core-2.16.17-py3-none-any.whl.metadata <span style="color:#f92672">(</span>6.9 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting jinja2&gt;<span style="color:#f92672">=</span>3.0.0 <span style="color:#f92672">(</span>from ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading jinja2-3.1.6-py3-none-any.whl.metadata <span style="color:#f92672">(</span>2.9 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting PyYAML&gt;<span style="color:#f92672">=</span>5.1 <span style="color:#f92672">(</span>from ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata <span style="color:#f92672">(</span>2.4 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting cryptography <span style="color:#f92672">(</span>from ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl.metadata <span style="color:#f92672">(</span>5.7 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting packaging <span style="color:#f92672">(</span>from ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading packaging-26.0-py3-none-any.whl.metadata <span style="color:#f92672">(</span>3.3 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting resolvelib&lt;1.1.0,&gt;<span style="color:#f92672">=</span>0.5.3 <span style="color:#f92672">(</span>from ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading resolvelib-1.0.1-py2.py3-none-any.whl.metadata <span style="color:#f92672">(</span>4.0 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting MarkupSafe&gt;<span style="color:#f92672">=</span>2.0 <span style="color:#f92672">(</span>from jinja2&gt;<span style="color:#f92672">=</span>3.0.0-&gt;ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading markupsafe-3.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata <span style="color:#f92672">(</span>2.7 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting cffi&gt;<span style="color:#f92672">=</span>2.0.0 <span style="color:#f92672">(</span>from cryptography-&gt;ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading cffi-2.0.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata <span style="color:#f92672">(</span>2.6 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Collecting pycparser <span style="color:#f92672">(</span>from cffi&gt;<span style="color:#f92672">=</span>2.0.0-&gt;cryptography-&gt;ansible-core&lt;2.17<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Downloading pycparser-3.0-py3-none-any.whl.metadata <span style="color:#f92672">(</span>8.2 kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading ansible_core-2.16.17-py3-none-any.whl <span style="color:#f92672">(</span>2.2 MB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 168.7 kB/s eta 0:00:00
+</span></span><span style="display:flex;"><span>Downloading resolvelib-1.0.1-py2.py3-none-any.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">17</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading jinja2-3.1.6-py3-none-any.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">134</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading markupsafe-3.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">22</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">801</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 105.9 kB/s eta 0:00:00
+</span></span><span style="display:flex;"><span>Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl <span style="color:#f92672">(</span>4.5 MB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 73.5 kB/s eta 0:00:00
+</span></span><span style="display:flex;"><span>Downloading cffi-2.0.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">219</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading packaging-26.0-py3-none-any.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">74</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Downloading pycparser-3.0-py3-none-any.whl <span style="color:#f92672">(</span><span style="color:#ae81ff">48</span> kB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Installing collected packages: resolvelib, PyYAML, pycparser, packaging, MarkupSafe, jinja2, cffi, cryptography, ansible-core
+</span></span><span style="display:flex;"><span>Successfully installed MarkupSafe-3.0.3 PyYAML-6.0.3 ansible-core-2.16.17 cffi-2.0.0 cryptography-46.0.5 jinja2-3.1.6 packaging-26.0 pycparser-3.0 resolvelib-1.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>❯ ansible --version 
+</span></span><span style="display:flex;"><span>ansible <span style="color:#f92672">[</span>core 2.16.17<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  config file <span style="color:#f92672">=</span> None
+</span></span><span style="display:flex;"><span>  configured module search path <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;/home/pollochang/.ansible/plugins/modules&#39;</span>, <span style="color:#e6db74">&#39;/usr/share/ansible/plugins/modules&#39;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  ansible python module location <span style="color:#f92672">=</span> /home/pollochang/ansible_legacy/venv/lib/python3.13/site-packages/ansible
+</span></span><span style="display:flex;"><span>  ansible collection location <span style="color:#f92672">=</span> /home/pollochang/.ansible/collections:/usr/share/ansible/collections
+</span></span><span style="display:flex;"><span>  executable location <span style="color:#f92672">=</span> /home/pollochang/ansible_legacy/venv/bin/ansible
+</span></span><span style="display:flex;"><span>  python version <span style="color:#f92672">=</span> 3.13.5 <span style="color:#f92672">(</span>main, Jun <span style="color:#ae81ff">25</span> 2025, 18:55:22<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>GCC 14.2.0<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>/home/pollochang/ansible_legacy/venv/bin/python3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  jinja version <span style="color:#f92672">=</span> 3.1.6
+</span></span><span style="display:flex;"><span>  libyaml <span style="color:#f92672">=</span> True
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/kvm-network/">
+                                <h3 class="">KVM 網路</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/kvm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">KVM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/my-debian-policy/">
+                                <h3 class="">我使用Debian的方式</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/debain/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">debain</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/file-checksum/">
+                                <h3 class="">各式檔案雜湊</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-11</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">oracle</span>
+        </a>
+    
+        <a href="/tags/db2/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">db2</span>
+        </a>
+    
+        <a href="/tags/ibm/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">IBM</span>
+        </a>
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/lnav/">
+                                <h3 class="">lnav 使用方式</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/%e6%97%a5%e8%aa%8c%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">日誌分析工具</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/worknot/goaccess/">
+                                <h3 class="">Goaccess 日誌分析</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2025-06-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">linux</span>
+        </a>
+    
+        <a href="/tags/%e6%97%a5%e8%aa%8c%e5%88%86%e6%9e%90%e5%b7%a5%e5%85%b7/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">日誌分析工具</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

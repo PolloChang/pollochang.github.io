@@ -6,14 +6,21 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 22 Feb 2026 23:57:49 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Feb 2026 01:24:09 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debian13 安裝 Ansible</title>
+      <link>http://pollochang.work/worknot/worknot-20260226/</link>
+      <pubDate>Thu, 26 Feb 2026 01:24:09 +0800</pubDate>
+      <guid>http://pollochang.work/worknot/worknot-20260226/</guid>
+      <description>以下是我在 Debian 13 安裝 Ansible 紀錄&#xA;sudo apt install python3-venv -y mkdir ~/ansible_legacy &amp;amp;&amp;amp; cd ~/ansible_legacy python3 -m venv venv source venv/bin/activate pip install &amp;#34;ansible-core&amp;lt;2.17&amp;#34; vim ~/.zshrc # source ~/ansible_legacy/venv/bin/activate 結果如下&#xA;❯ sudo apt install python3-venv -y Installing: python3-venv Installing dependencies: python3-pip-whl python3-setuptools-whl python3.13-venv Summary: Upgrading: 0, Installing: 4, Removing: 0, Not Upgrading: 0 Download size: 2,782 kB Space needed: 2,957 kB / 961 GB available Get:1 http://ftp.tw.debian.org/debian trixie/main amd64 python3-pip-whl all 25.</description>
+    </item>
     <item>
       <title>deploy Oracle19c RAC on RHEL9</title>
       <link>http://pollochang.work/oracle-database/deploy-oracle19c-rac-on-rhel9/</link>
       <pubDate>Sun, 22 Feb 2026 23:57:49 +0800</pubDate>
       <guid>http://pollochang.work/oracle-database/deploy-oracle19c-rac-on-rhel9/</guid>
-      <description>準備檔案 Oracle Database 19.3.0.0.0 for Linux x86-64 File Name: LINUX.X64_193000_db_home.zip (2.8 GB) sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64 File Name: V982068-01.zip (2.7 GB) sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026)) File Name: p6880880_190000_Linux-x86-64.zip sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7 GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB) sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73 DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB) sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5 KVM 預先設定 KVM VM 的 MAC Address printf &amp;#39;52:54:00:%02x:%02x:%02x\n&amp;#39; $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)) 環境資訊 硬體資訊 ❯ screenfetch _,met$$$$$gg.</description>
+      <description>準備檔案 Oracle Database 19.3.0.0.0 for Linux x86-64 File Name: LINUX.X64_193000_db_home.zip (2.8 GB) sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64 File Name: V982068-01.zip (2.7 GB) sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026)) File Name: p6880880_190000_Linux-x86-64.zip sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7 GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB) sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73 DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB) sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5 KVM 預先設定 KVM VM 的 MAC Address printf &amp;#39;52:54:00:%02x:%02x:%02x\n&amp;#39; $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)) 環境資訊 硬體資訊 第一個版本(notebook version): 這是我的筆記型電腦 ❯ screenfetch _,met$$$$$gg.</description>
     </item>
     <item>
       <title>ntp-server</title>

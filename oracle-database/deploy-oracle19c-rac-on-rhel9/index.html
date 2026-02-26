@@ -8,7 +8,7 @@
     
     <meta content="Oracle, RAC" name="keywords">
     
-    <meta content="PolloChang 工作筆記 - 準備檔案 Oracle Database 19.3.0.0.0 for Linux x86-64 File Name: LINUX.X64_193000_db_home.zip (2.8 GB) sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64 File Name: V982068-01.zip (2.7 GB) sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026)) File Name: p6880880_190000_Linux-x86-64.zip sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7 GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB) sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73 DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB) sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5 KVM 預先設定 KVM VM 的 MAC Address printf &#39;52:54:00:%02x:%02x:%02x\n&#39; $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)) 環境資訊 硬體資訊 ❯ screenfetch _,met$$$$$gg." name="description">
+    <meta content="PolloChang 工作筆記 - 準備檔案 Oracle Database 19.3.0.0.0 for Linux x86-64 File Name: LINUX.X64_193000_db_home.zip (2.8 GB) sha256sum: ba8329c757133da313ed3b6d7f86c5ac42cd9970a28bf2e6233f3235233aa8d8 Oracle Database Grid Infrastructure 19.3.0.0.0 for Linux x86-64 File Name: V982068-01.zip (2.7 GB) sha256sum: d668002664d9399cf61eb03c0d1e3687121fc890b1ddd50b35dcbe13c5307d2e OPatch 12.2.0.1.49 (Patch 6880880: OPatch 12.2.0.1.49 for DB 19.0.0.0.0 (Jan 2026)) File Name: p6880880_190000_Linux-x86-64.zip sha256sum: 79181853ce156252719dc2ace2327f9388a694c33312c2da1eac2ffdacb0dcf7 GI RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38629535_190000_Linux-x86-64.zip (3.8 GB) sha256sum: ce2eb4ea9b973e788ceb6f2bd4c8365999e2a26521c14e4267eea727c7c22d73 DATABASE RELEASE UPDATE 19.30.0.0.0(REL-JAN260130)(Patch:Linux x86-64) File Name: p38632161_190000_Linux-x86-64.zip (2.1 GB) sha256sum: 74bb470a435de8eb129cd94d65aa7052f4998671053c29efb60dbf510b83a8f5 KVM 預先設定 KVM VM 的 MAC Address printf &#39;52:54:00:%02x:%02x:%02x\n&#39; $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)) 環境資訊 硬體資訊 第一個版本(notebook version): 這是我的筆記型電腦 ❯ screenfetch _,met$$$$$gg." name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     
@@ -200,6 +200,7 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>printf <span style="color:#e6db74">&#39;52:54:00:%02x:%02x:%02x\n&#39;</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span> <span style="color:#66d9ef">$((</span>RANDOM%256<span style="color:#66d9ef">))</span>
 </span></span></code></pre></div><h2 id="環境資訊">環境資訊</h2>
 <h3 id="硬體資訊">硬體資訊</h3>
+<h4 id="第一個版本notebook-version-這是我的筆記型電腦">第一個版本(notebook version): 這是我的筆記型電腦</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ screenfetch                          
 </span></span><span style="display:flex;"><span>         _,met$$$$$gg.           pollochang@pollo-nb-5310
 </span></span><span style="display:flex;"><span>      ,g$$$$$$$$$$$$$$$P.        OS: Debian <span style="color:#ae81ff">13</span> trixie
@@ -218,23 +219,31 @@ layui.use('element', function(){
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         `Y</span>$$<span style="color:#e6db74">b.                  CPU: Intel Core i5-10310U @ 8x 4.4GHz [71.0°C]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            `&#34;</span>Y$b._              GPU: UHD Graphics
 </span></span><span style="display:flex;"><span>                <span style="color:#e6db74">`</span><span style="color:#e6db74">&#34;&#34;&#34;&#34;</span>            RAM: 27513MiB / 63996MiB
+</span></span></code></pre></div><h4 id="第二個版本lab-version-這是我的實驗室主機">第二個版本(lab version): 這是我的實驗室主機</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@kvm-004 ~<span style="color:#f92672">]</span><span style="color:#75715e"># df -h</span>
+</span></span><span style="display:flex;"><span>/dev/nvme1n1    954G  107G  847G  12% /vm-disk-02
+</span></span><span style="display:flex;"><span>/dev/nvme0n1    932G  150G  782G  17% /vm-disk-01
+</span></span><span style="display:flex;"><span>/dev/sdb2      1014M  351M  664M  35% /boot
+</span></span><span style="display:flex;"><span>/dev/sdb1      1022M  6.0M 1017M   1% /boot/efi
+</span></span><span style="display:flex;"><span>/dev/sdd1       1.9T   14G  1.9T   1% /nas-disk-01
+</span></span><span style="display:flex;"><span>/dev/sdc1       932G   52G  880G   6% /vm-disk-03
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@kvm-004 ~<span style="color:#f92672">]</span><span style="color:#75715e"># lsblk -d -o NAME,MODEL,ROTA,SIZE</span>
+</span></span><span style="display:flex;"><span>NAME    MODEL                                    ROTA   SIZE
+</span></span><span style="display:flex;"><span>sdb     Samsung SSD <span style="color:#ae81ff">870</span>                             <span style="color:#ae81ff">0</span> 465.8G
+</span></span><span style="display:flex;"><span>sdc     WDC WD10TPVT-00U                            <span style="color:#ae81ff">1</span> 931.5G
+</span></span><span style="display:flex;"><span>sdd     WDC WD20EZAZ-00G                            <span style="color:#ae81ff">1</span>   1.8T
+</span></span><span style="display:flex;"><span>nvme1n1 ADATA SX8200PNP                             <span style="color:#ae81ff">0</span> 953.9G
+</span></span><span style="display:flex;"><span>nvme0n1 CT1000P3PSSD8                               <span style="color:#ae81ff">0</span> 931.5G
 </span></span></code></pre></div><h3 id="vm-host">VM Host</h3>
+<h4 id="notebook-version">notebook version</h4>
 <ul>
 <li>VM Planform: KVM</li>
 <li>Share Disk
 <ul>
 <li>Oracle database:
 <ul>
-<li>/var/lib/libvirt/images/db145-data-01.raw
-<ul>
-<li>10G</li>
-</ul>
-</li>
-<li>/var/lib/libvirt/images/db145-data-02.raw
-<ul>
-<li>10G</li>
-</ul>
-</li>
+<li>/var/lib/libvirt/images/db145-data-01.raw</li>
+<li>/var/lib/libvirt/images/db145-data-02.raw</li>
 </ul>
 </li>
 <li>Oracle grid:
@@ -247,10 +256,32 @@ layui.use('element', function(){
 </ul>
 </li>
 </ul>
+<h4 id="lab-version">lab version</h4>
+<ul>
+<li>VM Planform: Oracle KVM</li>
+<li>Share Disk
+<ul>
+<li>Oracle database:(data 寫在兩顆硬碟)
+<ul>
+<li>/vm-disk-01/db155-data-01.raw</li>
+<li>/vm-disk-02/db155-data-02.raw</li>
+</ul>
+</li>
+<li>Oracle grid:
+<ul>
+<li>/vm-disk-03/db155-OCR-01.raw</li>
+<li>/vm-disk-03/db155-OCR-02.raw</li>
+<li>/vm-disk-03/db155-OCR-03.raw</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h3 id="資料庫系統">資料庫系統</h3>
+<h4 id="notebook-version-1">notebook version</h4>
 <ul>
 <li>OS Version: Redhat Linux 9.7 (Minimal Linux Installation)</li>
-<li>CPU: 4 vCore</li>
+<li>CPU: 8 vCore</li>
 <li>RAM: 16G</li>
 <li>Disk:
 <ul>
@@ -261,7 +292,7 @@ layui.use('element', function(){
 </li>
 <li>Database Info
 <ul>
-<li>Database version: Oracle Database 19.3.0.0.0 for Linux x86-64</li>
+<li>Database version: Oracle Database 19.30.0.0.0 for Linux x86-64</li>
 <li>domain
 <ul>
 <li>db145.pollo.local</li>
@@ -292,7 +323,7 @@ layui.use('element', function(){
 <li>database host 1
 <ul>
 <li>hostname: db141.pollo.local</li>
-<li>ORCLE_SID: db141 (這個有區分大小寫)</li>
+<li>ORCLE_SID: db1 (這個有區分大小寫)</li>
 <li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
 <li>Pulic IP: 192.168.122.141
 <ul>
@@ -309,7 +340,7 @@ layui.use('element', function(){
 <li>database host2
 <ul>
 <li>hostname: db142.pollo.local</li>
-<li>ORCLE_SID: db142 (這個有區分大小寫)</li>
+<li>ORCLE_SID: db2 (這個有區分大小寫)</li>
 <li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
 <li>Pulic IP: 192.168.122.142
 <ul>
@@ -329,6 +360,98 @@ layui.use('element', function(){
 <ul>
 <li>DATA-01: 20G</li>
 <li>DATA-02: 20G</li>
+</ul>
+</li>
+<li>grid (asm disk)
+<ul>
+<li>OCR-01: 5 G</li>
+<li>OCR-02: 5 G</li>
+<li>OCR-03: 5 G</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="lab-version-1">lab version</h4>
+<ul>
+<li>OS Version: Redhat Linux 9.7 (Minimal Linux Installation)</li>
+<li>CPU: 8 vCore</li>
+<li>RAM: 16G</li>
+<li>Disk:
+<ul>
+<li>swap: 16G</li>
+<li>/boot: 1G</li>
+<li>/u01: 20G</li>
+</ul>
+</li>
+<li>Database Info
+<ul>
+<li>Database version: Oracle Database 19.30.0.0.0 for Linux x86-64</li>
+<li>domain
+<ul>
+<li>db155.home.pollochang.work</li>
+</ul>
+</li>
+<li>scan IP:
+<ul>
+<li>172.30.1.155</li>
+<li>172.30.1.156</li>
+<li>172.30.1.157</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>database host 1
+<ul>
+<li>hostname: db151.home.pollochang.work</li>
+<li>ORCLE_SID: db151 (這個有區分大小寫)</li>
+<li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
+<li>Pulic IP: 172.30.1.151
+<ul>
+<li>NIC:</li>
+<li>MAC:</li>
+</ul>
+</li>
+<li>Virtual IP: 172.30.1.153 , db151-vip.home.pollochang.work</li>
+<li>Private IP: 10.192.0.151 , db151-home.pollochang.work
+<ul>
+<li>MAC:</li>
+</ul>
+</li>
+<li>CPU: 8vCore</li>
+<li>RAM: 16G</li>
+<li>SWAP: 16G</li>
+</ul>
+</li>
+<li>database host2
+<ul>
+<li>hostname: db152.home.pollochang.work</li>
+<li>ORCLE_SID: db2 (這個有區分大小寫)</li>
+<li>ORACLE_HOME: /u01/app/oracle/product/19/db</li>
+<li>Pulic IP: 172.30.1.152
+<ul>
+<li>NIC:</li>
+<li>MAC:</li>
+</ul>
+</li>
+<li>Virtual IP: 172.30.1.154 , db152-vip.home.pollochang.work</li>
+<li>Private IP: 10.192.0.152 , db152-priv.home.pollochang.work
+<ul>
+<li>NIC:</li>
+<li>MAC:</li>
+</ul>
+</li>
+<li>CPU: 8vCore</li>
+<li>RAM: 16G</li>
+<li>SWAP: 16G</li>
+</ul>
+</li>
+<li>Disk Groups
+<ul>
+<li>database
+<ul>
+<li>DATA-01: 50G</li>
+<li>DATA-02: 50G</li>
 </ul>
 </li>
 <li>grid (asm disk)

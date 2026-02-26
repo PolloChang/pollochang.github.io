@@ -6,8 +6,15 @@
     <description>Recent content in Worknots on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 09 Feb 2026 22:08:21 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Feb 2026 01:24:09 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/worknot/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debian13 安裝 Ansible</title>
+      <link>http://pollochang.work/worknot/worknot-20260226/</link>
+      <pubDate>Thu, 26 Feb 2026 01:24:09 +0800</pubDate>
+      <guid>http://pollochang.work/worknot/worknot-20260226/</guid>
+      <description>以下是我在 Debian 13 安裝 Ansible 紀錄&#xA;sudo apt install python3-venv -y mkdir ~/ansible_legacy &amp;amp;&amp;amp; cd ~/ansible_legacy python3 -m venv venv source venv/bin/activate pip install &amp;#34;ansible-core&amp;lt;2.17&amp;#34; vim ~/.zshrc # source ~/ansible_legacy/venv/bin/activate 結果如下&#xA;❯ sudo apt install python3-venv -y Installing: python3-venv Installing dependencies: python3-pip-whl python3-setuptools-whl python3.13-venv Summary: Upgrading: 0, Installing: 4, Removing: 0, Not Upgrading: 0 Download size: 2,782 kB Space needed: 2,957 kB / 961 GB available Get:1 http://ftp.tw.debian.org/debian trixie/main amd64 python3-pip-whl all 25.</description>
+    </item>
     <item>
       <title>ntp-server</title>
       <link>http://pollochang.work/worknot/ntp-server/</link>
