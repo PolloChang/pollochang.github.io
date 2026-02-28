@@ -1,0 +1,49 @@
+[oracle@db124-oracle-26ai db]$ ./runInstaller -silent -responseFile ${ORACLE_HOME}/install/response/db_install_INSTALL_DB_SWONLY.rsp
+Launching Oracle Database Setup Wizard...
+
+The response file for this session can be found at:
+ /u01/app/oracle/product/26/db/install/response/db_2026-02-28_05-17-20PM.rsp
+
+You can find the log of this install session at:
+ /tmp/InstallActions2026-02-28_05-17-20PM/installActions2026-02-28_05-17-20PM.log
+
+As a root user, run the following script(s):
+        1. /u01/app/oraInventory/orainstRoot.sh
+        2. /u01/app/oracle/product/26/db/root.sh
+
+Run /u01/app/oraInventory/orainstRoot.sh on the following nodes: 
+[db124-oracle-26ai]
+Run /u01/app/oracle/product/26/db/root.sh on the following nodes: 
+[db124-oracle-26ai]
+
+
+Successfully Setup Software.
+Moved the install session logs to:
+ /u01/app/oraInventory/logs/InstallActions2026-02-28_05-17-20PM
+[oracle@db124-oracle-26ai db]$ logout
+[root@db124-oracle-26ai ~]# /u01/app/oraInventory/orainstRoot.sh
+Changing permissions of /u01/app/oraInventory.
+Adding read,write permissions for group.
+Removing read,write,execute permissions for world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+[root@db124-oracle-26ai ~]# /u01/app/oracle/product/26/db/root.sh
+Check /u01/app/oracle/product/26/db/install/root_db124-oracle-26ai_2026-02-28_17-19-56-057736172.log for the output of root script
+[root@db124-oracle-26ai ~]# cat /u01/app/oracle/product/26/db/install/root_db124-oracle-26ai_2026-02-28_17-19-56-057736172.log
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /u01/app/oracle/product/26/db
+   Copying dbhome to /usr/local/bin ...
+   Copying oraenv to /usr/local/bin ...
+   Copying coraenv to /usr/local/bin ...
+
+
+Creating /etc/oratab file...
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+[root@db124-oracle-26ai ~]# 
