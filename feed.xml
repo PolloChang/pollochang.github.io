@@ -6,8 +6,15 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Thu, 26 Feb 2026 01:24:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 10:57:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>deploy Oracle26ai on Oracle Linux 8</title>
+      <link>http://pollochang.work/oracle-database/deploy-oracle26ai-on-ol8/</link>
+      <pubDate>Sat, 28 Feb 2026 10:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/deploy-oracle26ai-on-ol8/</guid>
+      <description>資料庫環境 Database version: ORACLE_HOME: /u01/app/oracle/product/26/db 準備檔案 資料庫軟體: LINUX.X64_2326100_db_home.zip sha256sum : 5419f613af80477403edbd12f6ce038f3dba5da535b619d3928aee340f0d9ed6 database-preinstall RPM: oracle-ai-database-preinstall-26ai-1.0-0.1.el8.x86_64.rpm Download Page: https://www.oracle.com/database/technologies/oracle26ai-linux-downloads.html&#xA;環境準備 OS: Oracle Linux Server release 8.10 Oracle Linux 8.8 with the Unbreakable Enterprise Kernel 8: 5.15.0-313.189.5.1.el8uek.x86_64 CPU: 8 vCore RAM: 16G SWAP: 16G Disk: 50 Gib Total 安裝步驟 Preinstallation dnf install oracle-ai-database-preinstall-26ai 執行結果&#xA;oracle-ai-database-preinstall-26ai.log Configuring HugePages on Linux 設定前&#xA;[root@db124-oracle-26ai ~]# grep Huge /proc/meminfo AnonHugePages: 26624 kB ShmemHugePages: 0 kB FileHugePages: 2048 kB HugePages_Total: 0 HugePages_Free: 0 HugePages_Rsvd: 0 HugePages_Surp: 0 Hugepagesize: 2048 kB Hugetlb: 0 kB 設定公式如下</description>
+    </item>
     <item>
       <title>Debian13 安裝 Ansible</title>
       <link>http://pollochang.work/worknot/worknot-20260226/</link>

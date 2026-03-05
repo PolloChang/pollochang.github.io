@@ -1,0 +1,890 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - deploy Oracle26ai on Oracle Linux 8 </title>
+    
+    
+    <meta content="Oracle" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 資料庫環境 Database version: ORACLE_HOME: /u01/app/oracle/product/26/db 準備檔案 資料庫軟體: LINUX.X64_2326100_db_home.zip sha256sum : 5419f613af80477403edbd12f6ce038f3dba5da535b619d3928aee340f0d9ed6 database-preinstall RPM: oracle-ai-database-preinstall-26ai-1.0-0.1.el8.x86_64.rpm Download Page: https://www.oracle.com/database/technologies/oracle26ai-linux-downloads.html
+環境準備 OS: Oracle Linux Server release 8.10 Oracle Linux 8.8 with the Unbreakable Enterprise Kernel 8: 5.15.0-313.189.5.1.el8uek.x86_64 CPU: 8 vCore RAM: 16G SWAP: 16G Disk: 50 Gib Total 安裝步驟 Preinstallation dnf install oracle-ai-database-preinstall-26ai 執行結果
+oracle-ai-database-preinstall-26ai.log Configuring HugePages on Linux 設定前
+[root@db124-oracle-26ai ~]# grep Huge /proc/meminfo AnonHugePages: 26624 kB ShmemHugePages: 0 kB FileHugePages: 2048 kB HugePages_Total: 0 HugePages_Free: 0 HugePages_Rsvd: 0 HugePages_Surp: 0 Hugepagesize: 2048 kB Hugetlb: 0 kB 設定公式如下" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>deploy Oracle26ai on Oracle Linux 8</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h2 id="資料庫環境">資料庫環境</h2>
+<ul>
+<li>Database version:</li>
+<li>ORACLE_HOME: /u01/app/oracle/product/26/db</li>
+</ul>
+<h2 id="準備檔案">準備檔案</h2>
+<ul>
+<li>資料庫軟體: LINUX.X64_2326100_db_home.zip
+<ul>
+<li>sha256sum : 5419f613af80477403edbd12f6ce038f3dba5da535b619d3928aee340f0d9ed6</li>
+</ul>
+</li>
+<li>database-preinstall RPM: oracle-ai-database-preinstall-26ai-1.0-0.1.el8.x86_64.rpm</li>
+</ul>
+<p>Download Page: <a href="https://www.oracle.com/database/technologies/oracle26ai-linux-downloads.html">https://www.oracle.com/database/technologies/oracle26ai-linux-downloads.html</a></p>
+<h2 id="環境準備">環境準備</h2>
+<ul>
+<li>OS: Oracle Linux Server release 8.10
+<ul>
+<li>Oracle Linux 8.8 with the Unbreakable Enterprise Kernel 8:</li>
+<li>5.15.0-313.189.5.1.el8uek.x86_64</li>
+</ul>
+</li>
+<li>CPU: 8 vCore</li>
+<li>RAM: 16G</li>
+<li>SWAP: 16G</li>
+<li>Disk: 50 Gib Total</li>
+</ul>
+<h2 id="安裝步驟">安裝步驟</h2>
+<h3 id="preinstallation">Preinstallation</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf install oracle-ai-database-preinstall-26ai
+</span></span></code></pre></div><p>執行結果</p>
+<ul>
+<li><a href="/file/deploy-Oracle26ai-on-OL8/sshUserSetup.sh.log">oracle-ai-database-preinstall-26ai.log</a></li>
+</ul>
+<h3 id="configuring-hugepages-on-linux">Configuring HugePages on Linux</h3>
+<p>設定前</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># grep Huge /proc/meminfo</span>
+</span></span><span style="display:flex;"><span>AnonHugePages:     <span style="color:#ae81ff">26624</span> kB
+</span></span><span style="display:flex;"><span>ShmemHugePages:        <span style="color:#ae81ff">0</span> kB
+</span></span><span style="display:flex;"><span>FileHugePages:      <span style="color:#ae81ff">2048</span> kB
+</span></span><span style="display:flex;"><span>HugePages_Total:       <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>HugePages_Free:        <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>HugePages_Rsvd:        <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>HugePages_Surp:        <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Hugepagesize:       <span style="color:#ae81ff">2048</span> kB
+</span></span><span style="display:flex;"><span>Hugetlb:               <span style="color:#ae81ff">0</span> kB
+</span></span></code></pre></div><p>設定公式如下</p>
+<p>$HugePages_Total = \frac{SGA_SIZE}{Hugepagesize} + 少量緩衝$</p>
+<p>$$\text{HugePages_Total} = \frac{\text{SGA_TARGET (MB)}}{2 \text{ MB}} + \text{Margin (少量緩衝)}$$</p>
+<ul>
+<li>/etc/sysctl.d/99-oracle-hugepages.conf</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vm.nr_hugepages <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sysctl -p /etc/sysctl.d/99-oracle-hugepages.conf
+</span></span></code></pre></div><p>設定結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># grep Huge /proc/meminfo</span>
+</span></span><span style="display:flex;"><span>AnonHugePages:     <span style="color:#ae81ff">26624</span> kB
+</span></span><span style="display:flex;"><span>ShmemHugePages:        <span style="color:#ae81ff">0</span> kB
+</span></span><span style="display:flex;"><span>FileHugePages:      <span style="color:#ae81ff">2048</span> kB
+</span></span><span style="display:flex;"><span>HugePages_Total:    <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>HugePages_Free:     <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>HugePages_Rsvd:        <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>HugePages_Surp:        <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Hugepagesize:       <span style="color:#ae81ff">2048</span> kB
+</span></span><span style="display:flex;"><span>Hugetlb:         <span style="color:#ae81ff">8388608</span> kB
+</span></span></code></pre></div><h3 id="transparent-hugepages-madvise-is-recommand">Transparent HugePages madvise is Recommand</h3>
+<p>26ai 之後建議有更動，改為 <code>madvise</code> 在 19c 是 <code>never</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/kernel/mm/transparent_hugepage/enabled</span>
+</span></span><span style="display:flex;"><span>always <span style="color:#f92672">[</span>madvise<span style="color:#f92672">]</span> never
+</span></span></code></pre></div><h3 id="虛擬機檢查事項---clock-source--tsc-time-stamp-counter">虛擬機檢查事項 - Clock Source = tsc (Time Stamp Counter)</h3>
+<p>Oracle 建議將時鐘源設定為 tsc (Time Stamp Counter)，因為它的讀取延遲最低，能顯著減少系統呼叫的開銷。</p>
+<p>設定前</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/devices/system/clocksource/clocksource0/available_clocksource</span>
+</span></span><span style="display:flex;"><span>kvm-clock tsc acpi_pm 
+</span></span></code></pre></div><p>設定後</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/devices/system/clocksource/clocksource0/current_clocksource</span>
+</span></span><span style="display:flex;"><span>tsc
+</span></span></code></pre></div><p>操做紀錄如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/devices/system/clocksource/clocksource0/available_clocksource</span>
+</span></span><span style="display:flex;"><span>kvm-clock tsc acpi_pm 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># echo &#34;tsc&#34; &gt; /sys/devices/system/clocksource/clocksource0/current_clocksource</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /sys/devices/system/clocksource/clocksource0/current_clocksource</span>
+</span></span><span style="display:flex;"><span>tsc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># vim /etc/default/grub</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># grub2-mkconfig -o /boot/grub2/grub.cfg</span>
+</span></span><span style="display:flex;"><span>Generating grub configuration file ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db124-oracle-26ai ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/default/grub</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ...[內容忽略]</span>
+</span></span><span style="display:flex;"><span>GRUB_CMDLINE_LINUX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;... transparent_hugepage=madvise clocksource=tsc&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ...[內容忽略]</span>
+</span></span></code></pre></div><h3 id="建立目錄">建立目錄</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /u01/app/oracle
+</span></span><span style="display:flex;"><span>mkdir -p /u01/app/oraInventory
+</span></span><span style="display:flex;"><span>chown -R oracle:oinstall /u01/app/oracle
+</span></span><span style="display:flex;"><span>chown -R oracle:oinstall /u01/app/oraInventory
+</span></span><span style="display:flex;"><span>chmod -R <span style="color:#ae81ff">775</span> /u01/app
+</span></span></code></pre></div><p>建立 $ORACLE_HOME</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - oracle
+</span></span><span style="display:flex;"><span>mkdir -p /u01/app/oracle/product/26/db
+</span></span></code></pre></div><h3 id="設定環境參數">設定環境參數</h3>
+<ul>
+<li>設定文件: <code>/home/oracle/scripts/setEnv.sh</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Oracle Settings</span>
+</span></span><span style="display:flex;"><span>export TMP<span style="color:#f92672">=</span>/tmp;
+</span></span><span style="display:flex;"><span>export TMPDIR<span style="color:#f92672">=</span>$TMP;
+</span></span><span style="display:flex;"><span>export ORACLE_BASE<span style="color:#f92672">=</span>/u01/app/oracle;
+</span></span><span style="display:flex;"><span>export ORACLE_UNQNAME<span style="color:#f92672">=</span>db124
+</span></span><span style="display:flex;"><span>export ORACLE_HOME<span style="color:#f92672">=</span>$ORACLE_BASE/product/26/db;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export ORACLE_HOSTNAME<span style="color:#f92672">=</span>db124-oracle-26ai;
+</span></span><span style="display:flex;"><span>export ORACLE_SID<span style="color:#f92672">=</span>db124;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>/usr/sbin:$PATH; 
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$ORACLE_HOME/bin:$PATH; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$ORACLE_HOME/lib:/lib:/usr/lib; 
+</span></span><span style="display:flex;"><span>export CLASSPATH<span style="color:#f92672">=</span>$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;. /home/oracle/scripts/setEnv.sh&#34;</span> &gt;&gt; /home/oracle/.bash_profile
+</span></span></code></pre></div><h3 id="安裝資料庫軟體">安裝資料庫軟體</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - oracle
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>unzip -q /mnt/nfs/oracle-source/Oracle-AI-database-26ai/LINUX.X64_2326100_db_home.zip -d <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>oracle@db124-oracle-26ai db<span style="color:#f92672">]</span>$ ./runInstaller -help
+</span></span><span style="display:flex;"><span>Usage:  runInstaller <span style="color:#f92672">[</span>&lt;flag&gt;<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>&lt;command&gt; &lt;option&gt;<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Following are the possible flags: 
+</span></span><span style="display:flex;"><span>        -help - display help. 
+</span></span><span style="display:flex;"><span>        -silent - run in silent mode. The inputs can be a response file or a list of command line variable value pairs.
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">[</span>-ignorePrereqFailure - ignore all prerequisite checks failures.<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        -responseFile &lt; specify the complete path of the response file to use &gt;
+</span></span><span style="display:flex;"><span>        -executePrereqs | -executeConfigTools | -createGoldImage
+</span></span><span style="display:flex;"><span>        -executeConfigTools - run the config tools <span style="color:#66d9ef">for</span> an installed home <span style="color:#66d9ef">if</span> applicable.
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">[</span>-skipStackCheck - skip the stack status check.<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        -debug - run in debug mode.
+</span></span><span style="display:flex;"><span>        -applyOneOffs &lt; value &gt; - specify one or more paths of one-off patches to apply to the Oracle home.
+</span></span><span style="display:flex;"><span>        -nApplyOneOffs &lt; specify a path to a location that contains multiple one-off patches to apply to the Oracle home &gt;
+</span></span><span style="display:flex;"><span>        -executeRootScript - specify this flag to run the root script automatically <span style="color:#66d9ef">if</span> applicable.
+</span></span><span style="display:flex;"><span>                -configMethod &lt; ROOT | SUDO &gt; - specify the configuration method to be used <span style="color:#66d9ef">for</span> automatic root script execution.
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">[</span>-sudoPath &lt; specify the absolute path of the sudo program &gt;<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">[</span>-sudoUserName &lt; specify the name of the user who is in the sudoers list &gt;<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Following are the possible commands: 
+</span></span><span style="display:flex;"><span>        -setupDBHome - install the Oracle Database software home <span style="color:#f92672">(</span>Oracle home<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>        -setupDBHomeAs &lt; sourceHome &gt; - install the software with Oracle base and privileged O/S groups similar to the specified Oracle home.
+</span></span><span style="display:flex;"><span>        -createDatabase - install the Oracle Database software <span style="color:#f92672">(</span>Oracle home<span style="color:#f92672">)</span> and create a new Single Instance Database.
+</span></span><span style="display:flex;"><span>        -extendDBHome - extend the Oracle Database software home.
+</span></span><span style="display:flex;"><span>        -createGoldImage - create a gold image from the current Oracle home.
+</span></span><span style="display:flex;"><span>        -deployDBGoldImage - deploy the given Oracle Database gold image into the specified target home as the root OS user.
+</span></span><span style="display:flex;"><span>        -deployDBGoldImageAsHomeUser - deploy the given Oracle Database gold image into the specified target home as the home owner OS user.
+</span></span></code></pre></div><p>設定 db_install.rsp</p>
+<p><a href="/file/deploy-Oracle26ai-on-OL8/db_install.rsp">原本的 db_install.rsp</a></p>
+<p>設定文件: install/response/db_install_INSTALL_DB_SWONLY.rsp</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>oracle.install.responseFileVersion<span style="color:#f92672">=</span>/oracle/install/rspfmt_dbinstall_response_schema_v23.0.0
+</span></span><span style="display:flex;"><span>oracle.install.option<span style="color:#f92672">=</span>INSTALL_DB_SWONLY
+</span></span><span style="display:flex;"><span>UNIX_GROUP_NAME<span style="color:#f92672">=</span>oinstall
+</span></span><span style="display:flex;"><span>INVENTORY_LOCATION<span style="color:#f92672">=</span>/u01/app/oraInventory
+</span></span><span style="display:flex;"><span>SELECTED_LANGUAGES<span style="color:#f92672">=</span>en
+</span></span><span style="display:flex;"><span>ORACLE_HOME<span style="color:#f92672">=</span>/u01/app/oracle/product/26/db
+</span></span><span style="display:flex;"><span>ORACLE_BASE<span style="color:#f92672">=</span>/u01/app/oracle
+</span></span><span style="display:flex;"><span>installEdition<span style="color:#f92672">=</span>EE
+</span></span><span style="display:flex;"><span>OSDBA<span style="color:#f92672">=</span>dba
+</span></span><span style="display:flex;"><span>OSOPER<span style="color:#f92672">=</span>oper
+</span></span><span style="display:flex;"><span>OSBACKUPDBA<span style="color:#f92672">=</span>dba
+</span></span><span style="display:flex;"><span>OSDGDBA<span style="color:#f92672">=</span>dba
+</span></span><span style="display:flex;"><span>OSKMDBA<span style="color:#f92672">=</span>dba
+</span></span><span style="display:flex;"><span>OSRACDBA<span style="color:#f92672">=</span>dba
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>./runInstaller -silent -responseFile <span style="color:#e6db74">${</span>ORACLE_HOME<span style="color:#e6db74">}</span>/install/response/db_install_INSTALL_DB_SWONLY.rsp
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - root
+</span></span><span style="display:flex;"><span>/u01/app/oraInventory/orainstRoot.sh
+</span></span><span style="display:flex;"><span>/u01/app/oracle/product/26/db/root.sh
+</span></span></code></pre></div><p>安裝紀錄如檔案內容</p>
+<p><a href="/file/deploy-Oracle26ai-on-OL8/runInstaller.log">runInstaller.log</a></p>
+<h3 id="建立資料庫-instancecdbpdb">建立資料庫 instance(CDB,PDB)</h3>
+<ul>
+<li>$ORACLE_HOME/assistants/dbca/dbca_pdb.rsp</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>responseFileVersion<span style="color:#f92672">=</span>/oracle/assistants/rspfmt_dbca_response_schema_v23.0.0
+</span></span><span style="display:flex;"><span>gdbName<span style="color:#f92672">=</span>db
+</span></span><span style="display:flex;"><span>sid<span style="color:#f92672">=</span>db124
+</span></span><span style="display:flex;"><span>templateName<span style="color:#f92672">=</span>General_Purpose.dbc
+</span></span><span style="display:flex;"><span>sysPassword<span style="color:#f92672">=</span>P0ssw0rd..
+</span></span><span style="display:flex;"><span>systemPassword<span style="color:#f92672">=</span>P0ssw0rd..
+</span></span><span style="display:flex;"><span>characterSet<span style="color:#f92672">=</span>AL32UTF8
+</span></span><span style="display:flex;"><span>createAsContainerDatabase<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>pdbName<span style="color:#f92672">=</span>pollodb
+</span></span><span style="display:flex;"><span>numberOfPDBs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>pdbAdminPassword<span style="color:#f92672">=</span>P0ssw0rd..
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dbca -silent -createDatabase -responseFile $ORACLE_HOME/assistants/dbca/dbca_pdb.rsp
+</span></span></code></pre></div><p>安裝紀錄</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>oracle@db124-oracle-26ai ~<span style="color:#f92672">]</span>$ dbca -silent -createDatabase -responseFile $ORACLE_HOME/assistants/dbca/dbca_pdb.rsp
+</span></span><span style="display:flex;"><span>Prepare <span style="color:#66d9ef">for</span> db operation
+</span></span><span style="display:flex;"><span>8% complete
+</span></span><span style="display:flex;"><span>Copying database files
+</span></span><span style="display:flex;"><span>31% complete
+</span></span><span style="display:flex;"><span>Creating and starting Oracle instance
+</span></span><span style="display:flex;"><span>32% complete
+</span></span><span style="display:flex;"><span>36% complete
+</span></span><span style="display:flex;"><span>39% complete
+</span></span><span style="display:flex;"><span>42% complete
+</span></span><span style="display:flex;"><span>46% complete
+</span></span><span style="display:flex;"><span>Completing Database Creation
+</span></span><span style="display:flex;"><span>51% complete
+</span></span><span style="display:flex;"><span>53% complete
+</span></span><span style="display:flex;"><span>54% complete
+</span></span><span style="display:flex;"><span>Creating Pluggable Databases
+</span></span><span style="display:flex;"><span>58% complete
+</span></span><span style="display:flex;"><span>77% complete
+</span></span><span style="display:flex;"><span>Executing Post Configuration Actions
+</span></span><span style="display:flex;"><span>100% complete
+</span></span><span style="display:flex;"><span>Database creation complete. For details check the logfiles at:
+</span></span><span style="display:flex;"><span> /u01/app/oracle/cfgtoollogs/dbca/db.
+</span></span><span style="display:flex;"><span>Database Information:
+</span></span><span style="display:flex;"><span>Global Database Name:db
+</span></span><span style="display:flex;"><span>System Identifier<span style="color:#f92672">(</span>SID<span style="color:#f92672">)</span>:db124
+</span></span><span style="display:flex;"><span>Look at the log file <span style="color:#e6db74">&#34;/u01/app/oracle/cfgtoollogs/dbca/db/db3.log&#34;</span> <span style="color:#66d9ef">for</span> further details.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>oracle@db124-oracle-26ai ~<span style="color:#f92672">]</span>$ 
+</span></span></code></pre></div><h2 id="安裝完成後作業">安裝完成後作業</h2>
+<ul>
+<li>設定註冊文件: <code>/etc/oratab</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>db124:/u01/app/oracle/product/26/db:Y
+</span></span></code></pre></div><h3 id="設定資料庫-開機時啟動">設定資料庫 開機時啟動</h3>
+<ul>
+<li>/home/oracle/scripts/start-all.sh</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>. /home/oracle/scripts/setEnv.sh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export ORAENV_ASK<span style="color:#f92672">=</span>NO
+</span></span><span style="display:flex;"><span>. oraenv
+</span></span><span style="display:flex;"><span>export ORAENV_ASK<span style="color:#f92672">=</span>YES
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dbstart $ORACLE_HOME
+</span></span></code></pre></div><ul>
+<li>/home/oracle/scripts/stop-all.sh</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>. /home/oracle/scripts/setEnv.sh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export ORAENV_ASK<span style="color:#f92672">=</span>NO
+</span></span><span style="display:flex;"><span>. oraenv
+</span></span><span style="display:flex;"><span>export ORAENV_ASK<span style="color:#f92672">=</span>YES
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dbshut $ORACLE_HOME
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0755</span> /home/oracle/scripts/*.sh
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/oracle.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>The Oracle Database Service
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>syslog.target network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># systemd ignores PAM limits, so set any necessary limits in the service.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Not really a bug, but a feature.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://bugzilla.redhat.com/show_bug.cgi?id=754285</span>
+</span></span><span style="display:flex;"><span>LimitMEMLOCK<span style="color:#f92672">=</span>infinity
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>RemainAfterExit<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>oracle
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>oinstall
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/bash -c <span style="color:#e6db74">&#39;/home/oracle/scripts/start-all.sh&#39;</span>
+</span></span><span style="display:flex;"><span>ExecStop<span style="color:#f92672">=</span>/bin/bash -c <span style="color:#e6db74">&#39;/home/oracle/scripts/stop-all.sh&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set resource limits</span>
+</span></span><span style="display:flex;"><span>LimitNOFILE<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
+</span></span><span style="display:flex;"><span>LimitNPROC<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
+</span></span><span style="display:flex;"><span>LimitSTACK<span style="color:#f92672">=</span>infinity
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start oracle
+</span></span></code></pre></div><h3 id="設定-pdb-開機時啟動">設定 PDB 開機時啟動</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">session</span> <span style="color:#66d9ef">set</span> container<span style="color:#f92672">=</span>CDB$ROOT;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SQL</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> pdbs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    CON_ID CON_NAME                       <span style="color:#66d9ef">OPEN</span> <span style="color:#66d9ef">MODE</span>  RESTRICTED
+</span></span><span style="display:flex;"><span><span style="color:#75715e">---------- ------------------------------ ---------- ----------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#ae81ff">2</span> PDB$SEED                       <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">ONLY</span>  <span style="color:#66d9ef">NO</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#ae81ff">3</span> POLLODB                        MOUNTED
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> PLUGGABLE <span style="color:#66d9ef">DATABASE</span> POLLODB <span style="color:#66d9ef">OPEN</span> <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">WRITE</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> pluggable <span style="color:#66d9ef">database</span> POLLODB SAVE <span style="color:#66d9ef">STATE</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SQL</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">show</span> pdbs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    CON_ID CON_NAME                       <span style="color:#66d9ef">OPEN</span> <span style="color:#66d9ef">MODE</span>  RESTRICTED
+</span></span><span style="display:flex;"><span><span style="color:#75715e">---------- ------------------------------ ---------- ----------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#ae81ff">2</span> PDB$SEED                       <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">ONLY</span>  <span style="color:#66d9ef">NO</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#ae81ff">3</span> POLLODB                        <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">WRITE</span> <span style="color:#66d9ef">NO</span>
+</span></span></code></pre></div><h3 id="啟用-archive-mode">啟用 Archive Mode</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>sqlplus <span style="color:#f92672">/</span> <span style="color:#66d9ef">as</span> sysdba
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">session</span> <span style="color:#66d9ef">set</span> container<span style="color:#f92672">=</span>CDB$ROOT;
+</span></span><span style="display:flex;"><span>shutdown <span style="color:#66d9ef">immediate</span>;
+</span></span><span style="display:flex;"><span>STARTUP MOUNT;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">database</span> archivelog;
+</span></span><span style="display:flex;"><span>ARCHIVE LOG LIST;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">database</span> <span style="color:#66d9ef">open</span>;
+</span></span></code></pre></div><h2 id="新增使用者">新增使用者</h2>
+<p>檢查當前狀態</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> INSTANCE_NAME, STATUS <span style="color:#66d9ef">FROM</span> v$instance;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> tablespace_name, file_name <span style="color:#66d9ef">FROM</span> dba_data_files;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 多租戶環境需要檢查
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- SELECT SYS_CONTEXT(&#39;USERENV&#39;, &#39;CON_NAME&#39;) AS CONTAINER_NAME FROM DUAL;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">session</span> <span style="color:#66d9ef">set</span> container<span style="color:#f92672">=</span>POLLODB;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> pollo IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#34;P@ssw0rd..&#34;</span> ACCOUNT UNLOCK;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span>,RESOURCE <span style="color:#66d9ef">TO</span> pollo;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">USER</span> pollo QUOTA UNLIMITED <span style="color:#66d9ef">ON</span> USERS;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span>, <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">VIEW</span>, <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">PROCEDURE</span>, <span style="color:#66d9ef">CREATE</span> SEQUENCE <span style="color:#66d9ef">TO</span> pollo;
+</span></span></code></pre></div></div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/deploy-oracle19c-rac-on-rhel9/">
+                                <h3 class="">deploy Oracle19c RAC on RHEL9</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">RAC</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-mes/">
+                                <h3 class="">SQL tunning task MES</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-common/">
+                                <h3 class="">SQL tunning task common</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-top-sql/">
+                                <h3 class="">oracle AWR TOP SQL</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-awr-perf-trend-history/">
+                                <h3 class="">oracle AWR PERF TREND HISTORY</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/awr/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AWR</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
