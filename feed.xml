@@ -6,8 +6,29 @@
     <description>Recent content on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sat, 28 Feb 2026 10:57:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2026 23:00:52 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AL32UTF8_編碼起源與發展</title>
+      <link>http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/</link>
+      <pubDate>Sun, 22 Mar 2026 23:00:52 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/</guid>
+      <description>全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告 在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需求，從原本的區域性解決方案演變為一種全球性的技術指令。在此背景下，Oracle 公司的 AL32UTF8 字元集應運而生。本報告旨在詳盡探討 AL32UTF8 的起源時間、技術動機、架構原理及其在過去二十多年間如何隨着 Unicode 標準的演進而成為當前全球資料庫部署的核心標準。&#xA;早期運算環境與字元編碼的碎片化歷史 在探究 AL32UTF8 的起源之前，必須先行理解導致其產生的歷史背景。二十世紀五十年代至七十年代，電腦硬體與作業系統受限於極其有限的記憶體與儲存空間 ^1^。早期的資料輸入主要依賴穿孔卡片，這使得將英數符號壓縮至 6 位元（6-bit）或 8 位元（8-bit）格式成為當時的技術核心 ^1^。&#xA;1963 年美國國家標準學會（ANSI）發布了 ASCII 編碼，這是一種 7 位元的編碼方案，定義了 128 個字元，這在當時僅需處理英文與基本控制符號的環境下已顯足夠 ^1^。然而，隨着運算技術向歐洲及亞洲擴散，ASCII 的侷限性迅速顯現。為了支援不同國家的語言，各硬體廠商與標準組織開發了大量的 8 位元編碼方案（如 ISO-8859 系列），這雖然解決了特定區域的語言顯示問題，卻造成了嚴重的資料孤島與「編碼混亂」現象 ^1^。&#xA;1983 年，數位設備公司（DEC）發明了國家替換字元集（NRCS），試圖在單一終端上切換不同的 8 位元編碼 ^1^。然而，這種方法仍無法在同一個文件或資料庫欄位中同時儲存多國語言。真正促使技術界尋求「通用解決方案」的關鍵，是八十年代末期 Xerox PARC 與 Apple 對統一編碼的研究，這最終導致了 Unicode 聯盟在 1991 年發布了第一版 Unicode 標準 ^1^。&#xA;Oracle 資料庫全球化支援（NLS）的初期嘗試 Oracle 公司作為關聯式資料庫的領導者，在解決多語言問題上一直處於前沿。Oracle 的字元集命名遵循 &amp;lt;語言&amp;gt;&amp;lt;位元數&amp;gt;&amp;lt;編碼&amp;gt; 的嚴格約定，其中前綴「AL」代表「All Languages」（所有語言） ^2^。&#xA;在 Unicode 標準尚處於雛形階段時，Oracle 已開始在資料庫核心中整合相關支援。下表紀錄了 AL32UTF8 出現之前的 Unicode 演進路徑：</description>
+    </item>
+    <item>
+      <title>Oracle Encoding History - AL32UTF8</title>
+      <link>http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8-en/</link>
+      <pubDate>Sun, 22 Mar 2026 23:00:52 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8-en/</guid>
+      <description>The Cornerstone of the Globalized Information Era: A Deep Research Report on the Origins, Technical Evolution, and Architecture of Oracle AL32UTF8 In the history of Relational Database Management Systems (RDBMS), the representation of data has always been caught between the limitations of hardware and the demands of global information exchange. With the explosion of the Internet in the mid-1990s, the need for enterprises to support multi-language and multi-cultural data storage evolved from a regional solution into a global technical mandate.</description>
+    </item>
+    <item>
+      <title>資料庫連線管理</title>
+      <link>http://pollochang.work/oracle-database/connect-manage/</link>
+      <pubDate>Mon, 09 Mar 2026 23:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/connect-manage/</guid>
+      <description>程式語言連線方式比對: Java VS .NET 設定類別 設定名稱 設定說明 Java 參數名稱 (YAML) .Net (ODP.NET) 參數名稱 基礎配置 資料庫方言 告知 ORM 框架底層是哪種資料庫，以產生對應的 SQL。 dialect (無直接對應，ODP.NET 為 Oracle 專用原生驅動) 基礎配置 記錄 SQL 是否在 Console 或日誌中印出執行的 SQL 語法。 logSql (無直接對應，通常透過 .NET ORM 或 Oracle Trace 設定) 基礎配置 連線字串 指定要連線的資料庫 IP、Port 與 Service Name。 url Data Source 連線池開關 啟用連線池 是否啟用連線池機制來重複利用實體連線。 pooled Pooling 容量控制 初始連線數 連線池剛啟動時，預先建立的連線數量。 initialSize Min Pool Size (啟動時即盡量滿足此數量) 容量控制 最小閒置連線 連線池常態維持的最小連線數，減少突發流量的建立成本。 minIdle / minimumIdle Min Pool Size 容量控制 最大活動連線 整個連線池允許擴張到的極限總數，保護 DB 不被撐爆。 maxActive / maximumPoolSize Max Pool Size 容量控制 最大閒置連線 允許處於閒置狀態的最大連線數，超過此數的閒置連線會被釋放。 maxIdle (由 Min Pool Size 與 Decr 步進機制控制) 擴縮機制 連線增量 當連線不夠用時，一次額外建立的連線數量步進值。 (框架通常預設為 1，逐一增加) Incr Pool Size 擴縮機制 連線減量 當回收閒置連線時，一次關閉的連線數量步進值。 (框架通常由驅逐執行緒逐一回收) Decr Pool Size 生命週期 連線等待逾時 當池中無可用連線時，應用程式等待獲取連線的極限時間（毫秒/秒）。 maxWait / connectionTimeout Connection Timeout (預設單位為秒) 生命週期 最大存活時間 強制關閉並重建連線的時間上限，對於 RAC 環境的負載重新分配極為重要。 maxAge / maxLifetime Connection Lifetime (預設單位為秒) 生命週期 閒置回收時間 連線閒置超過此時間後，將被標記為可回收。 minEvictableIdleTimeMillis / idleTimeout (ODP.</description>
+    </item>
     <item>
       <title>deploy Oracle26ai on Oracle Linux 8</title>
       <link>http://pollochang.work/oracle-database/deploy-oracle26ai-on-ol8/</link>

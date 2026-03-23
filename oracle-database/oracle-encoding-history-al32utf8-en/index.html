@@ -1,0 +1,1023 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Oracle Encoding History - AL32UTF8 </title>
+    
+    
+    <meta content="Oracle, AI Content" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - The Cornerstone of the Globalized Information Era: A Deep Research Report on the Origins, Technical Evolution, and Architecture of Oracle AL32UTF8 In the history of Relational Database Management Systems (RDBMS), the representation of data has always been caught between the limitations of hardware and the demands of global information exchange. With the explosion of the Internet in the mid-1990s, the need for enterprises to support multi-language and multi-cultural data storage evolved from a regional solution into a global technical mandate." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Oracle Encoding History - AL32UTF8</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <h1 id="the-cornerstone-of-the-globalized-information-era-a-deep-research-report-on-the-origins-technical-evolution-and-architecture-of-oracle-al32utf8">The Cornerstone of the Globalized Information Era: A Deep Research Report on the Origins, Technical Evolution, and Architecture of Oracle AL32UTF8</h1>
+<p>In the history of Relational Database Management Systems (RDBMS), the
+representation of data has always been caught between the limitations of
+hardware and the demands of global information exchange. With the
+explosion of the Internet in the mid-1990s, the need for enterprises to
+support multi-language and multi-cultural data storage evolved from a
+regional solution into a global technical mandate. In this context,
+Oracle's AL32UTF8 character set was born. This report explores the
+origins, technical motivations, architectural principles, and evolution
+of AL32UTF8 alongside Unicode standards over the past two decades.</p>
+<h2 id="the-fragmented-history-of-early-computing-and-character-encoding">The Fragmented History of Early Computing and Character Encoding</h2>
+<p>Before exploring the origins of AL32UTF8, it is essential to understand
+the historical context. From the 1950s to the 1970s, computer hardware
+and operating systems were limited by extremely scarce memory and
+storage. Early data entry relied on punched cards, making the
+compression of alphanumeric symbols into 6-bit or 8-bit formats a core
+technical focus.</p>
+<p>In 1963, the American National Standards Institute (ANSI) released
+ASCII, a 7-bit encoding defining 128 characters, which was sufficient
+for environments handling English and basic control symbols. However, as
+computing expanded to Europe and Asia, the limitations of ASCII became
+evident. To support different languages, various 8-bit encoding schemes
+(such as the ISO-8859 series) were developed. While these solved
+regional display issues, they created data silos and &quot;encoding chaos&quot;.</p>
+<p>In 1983, Digital Equipment Corporation (DEC) invented the National
+Replacement Character Set (NRCS) to switch between different 8-bit
+encodings on a single terminal.^1^ However, this still failed to allow
+the simultaneous storage of multiple languages in a single document or
+database field. The real catalyst for a &quot;universal solution&quot; was the
+research conducted by Xerox PARC and Apple in the late 1980s, which led
+the Unicode Consortium to release Version 1.0 of the Unicode Standard in
+1991.</p>
+<h2 id="early-attempts-at-oracle-globalization-support-nls">Early Attempts at Oracle Globalization Support (NLS)</h2>
+<p>As a leader in RDBMS, Oracle has always been at the forefront of solving
+multi-language issues. Oracle's character set naming follows a strict
+convention: &lt;Language&gt;&lt;Bit count&gt;&lt;Encoding&gt;, where the prefix
+&quot;AL&quot; stands for &quot;All Languages&quot;.^2^</p>
+<p>Even when the Unicode standard was in its infancy, Oracle began
+integrating support into its database core. The following table records
+the evolution of Oracle Unicode character sets prior to the emergence of
+AL32UTF8:</p>
+<h3 id="table-1-evolution-of-early-oracle-unicode-character-sets">Table 1: Evolution of Early Oracle Unicode Character Sets</h3>
+<hr>
+<p><strong>Character Set</strong> <strong>First Supported <strong>Unicode         <strong>Encoding
+Version</strong>         Version</strong>         Features and
+Limitations</strong></p>
+<hr>
+<p>AL24UTFFSS        Oracle 7.2        Unicode 1.1       Early UTF-FSS
+implementation;
+max 3 bytes; now
+obsolete.^2^</p>
+<p>UTF8 (Early)      Oracle 8.0        Unicode 2.1       Initial
+standardization;
+still limited by
+the 3-byte
+assumption.^4^</p>
+<p>UTF8 (Mid)        Oracle 8.1.7      Unicode 3.0       Implemented as
+CESU-8; handles
+only the Basic
+Multilingual Plane
+(BMP).^2^</p>
+<h2 id="mainframes4">UTFE              Oracle 8i         Unicode 2.1/3.0   Designed
+specifically for
+EBCDIC platforms
+(e.g., IBM
+Mainframes).^4^</h2>
+<p>Historical records show that Oracle began supporting Unicode as a
+database character set starting with Oracle 7, originally named
+AL24UTFFSS.^2^ The &quot;24&quot; in the name suggests that the character
+encoding space was primarily designed for a 24-bit logical range.
+However, as the Unicode standard transitioned to versions 2.0 and 3.0,
+it became clear that early encoding schemes could not fully map the
+global need for all characters, setting the stage for AL32UTF8.</p>
+<h2 id="the-origin-of-al32utf8-oracle-9i-and-unicode-31">The Origin of AL32UTF8: Oracle 9i and Unicode 3.1</h2>
+<p>The official origin of the AL32UTF8 encoding can be traced back to
+<strong>Oracle 9i Release 1 (9.0.1)</strong>, released in June 2001.^6^ This was not
+just a new version release, but a fundamental architectural
+restructuring by Oracle to align with the evolution of Unicode.</p>
+<h3 id="the-necessity-of-breaking-the-3-byte-barrier">The Necessity of Breaking the 3-Byte Barrier</h3>
+<p>Before 9i, Oracle's recommended Unicode character set was &quot;UTF8.&quot;
+While the name appeared standard, the legacy UTF8 implementation could
+only handle the Unicode &quot;Basic Multilingual Plane&quot; (BMP, range U+0000
+to U+FFFF).^4^ Characters within the BMP require at most 3 bytes when
+using UTF-8 encoding.^1^</p>
+<p>However, the situation changed in 2001 when the Unicode Consortium
+released <strong>Unicode 3.1</strong>. This version introduced &quot;Supplementary
+Characters,&quot; which have code points beyond U+FFFF, located in
+supplementary planes 1 through 14.^4^ According to the IANA standard for
+UTF-8, these characters must be represented using 4 bytes.^1^</p>
+<p>The legacy Oracle &quot;UTF8&quot; character set, due to its architectural
+limitations, could not store 4-byte sequences directly. It chose to
+treat supplementary characters as a pair of &quot;Surrogate Pairs,&quot; with
+each part occupying 3 bytes, totaling 6 bytes.^2^ This implementation,
+later known as CESU-8, was viable for internal processing but posed
+significant risks of data inconsistency and corruption when interacting
+with web transmissions, XML parsers, and Java applications that expect
+standard 4-byte UTF-8.^1^</p>
+<h3 id="2001-2002-the-two-phase-establishment-of-al32utf8">2001-2002: The Two-Phase Establishment of AL32UTF8</h3>
+<p>To address these technical flaws, Oracle 9i introduced AL32UTF8. The
+&quot;32&quot; in its naming convention implies support for up to 4-byte
+(32-bit) encoding, distinguishing it from the legacy &quot;24&quot; series.</p>
+<ul>
+<li>
+<p><strong>June 2001</strong>: Oracle 9i Release 1 was released, officially
+incorporating AL32UTF8. At this stage, the character set provided
+preliminary support for Unicode 3.0.^2^</p>
+</li>
+<li>
+<p><strong>May 2002</strong>: Oracle 9i Release 2 (9.2.0) was released, updating
+AL32UTF8 to fully support the Unicode 3.1 standard.^6^</p>
+</li>
+</ul>
+<p>This update was critical because Unicode 3.1 allocated 44,946 new
+supplementary characters for the first time, including CJK Extension B
+ideographs essential for Asian markets.^9^ The birth of AL32UTF8 marked
+the moment Oracle databases gained the potential to process every
+character in human history.</p>
+<h2 id="technical-architecture-the-encoding-mechanism-of-al32utf8">Technical Architecture: The Encoding Mechanism of AL32UTF8</h2>
+<p>AL32UTF8 is a variable-length multi-byte encoding. Its core advantage
+lies in its efficient use of space and strict adherence to standards. It
+dynamically adjusts the storage required for each character based on its
+Unicode code point.^1^</p>
+<h3 id="byte-allocation-and-language-mapping">Byte Allocation and Language Mapping</h3>
+<p>In AL32UTF8, the storage length of a character depends on its position
+in the Unicode code table. This mechanism ensures complete backward
+compatibility with ASCII while supporting complex Asian languages.</p>
+<h3 id="table-2-al32utf8-storage-allocation-model">Table 2: AL32UTF8 Storage Allocation Model</h3>
+<hr>
+<p><strong>Bytes Used</strong>          <strong>Code Point Range      <strong>Primary Languages and
+(Hex)</strong>                 Symbols</strong></p>
+<hr>
+<p>1 Byte                  U+0000 - U+007F         Basic ASCII, English
+letters, numbers,
+punctuation.^1^</p>
+<p>2 Bytes                 U+0080 - U+07FF         Western European,
+Latin, Greek, Arabic,
+Hebrew, etc..^1^</p>
+<p>3 Bytes                 U+0800 - U+FFFF         Common CJK ideographs,
+Thai, Indic, Euro
+symbol (€).^1^</p>
+<h2 id="modern-emojis1">4 Bytes                 U+10000 - U+10FFFF      Rare ideographs,
+historic scripts,
+modern Emojis.^1^</h2>
+<p>This layered storage mechanism means that for English-only systems,
+migrating to AL32UTF8 does not increase storage requirements (1:1
+ratio). For systems using Western European languages, storage needs may
+increase slightly, while CJK systems typically require 3 or 4 bytes per
+character.^1^</p>
+<h3 id="key-confrontation-al32utf8-vs-legacy-utf8">Key Confrontation: AL32UTF8 vs. Legacy UTF8</h3>
+<p>Although developers often use these terms interchangeably, they are
+distinct entities at the database level. This naming confusion has led
+to countless disasters during upgrade processes.</p>
+<h3 id="table-3-in-depth-comparison-of-al32utf8-and-utf8-character-sets">Table 3: In-depth Comparison of AL32UTF8 and UTF8 Character Sets</h3>
+<hr>
+<p><strong>Feature</strong>             <strong>AL32UTF8 (Standard    <strong>UTF8 (Legacy
+UTF-8)</strong>                CESU-8)</strong></p>
+<hr>
+<p><strong>Standard Compliance</strong> Complies with IANA      Effectively CESU-8;
+registration and        non-standard UTF-8.^4^
+XML/Java             <br>
+expectations.^1^</p>
+<p><strong>Supplementary         Single character stored Surrogate pair mode,
+Characters</strong>            in 4 bytes.^1^          totaling 6 bytes.^2^</p>
+<p><strong>Future                Continuously updated    Permanently stuck at
+Upgradeability</strong>        with Unicode standards  Unicode 3.0.^2^
+in each Oracle       <br>
+release.^2^</p>
+<h2 id="deployments1---------forms-6i2"><strong>Recommended Usage</strong>   Preferred for all new   Only for legacy
+database                compatibility (e.g.,
+deployments.^1^         Forms 6i).^2^</h2>
+<p>According to Oracle globalization expert Sergiusz Wolicki, the legacy
+UTF8 was retained only to maintain backward compatibility for old
+applications unable to handle character widths exceeding 3 bytes.^16^
+However, in modern web environments, using legacy UTF8 to process XML or
+URL addresses risks security vulnerabilities or system crashes if 4-byte
+sequences are parsed as invalid bytes.^4^</p>
+<h2 id="synchronization-with-unicode-standards-over-time">Synchronization with Unicode Standards Over Time</h2>
+<p>Since its inception in 2001, AL32UTF8 has not remained static. Oracle's
+engineering teams synchronize AL32UTF8's character library and
+collation logic with the latest Unicode standards in every major
+release.^4^</p>
+<h3 id="version-evolution-timeline">Version Evolution Timeline</h3>
+<ol>
+<li>
+<p><strong>Oracle 10g Release 2</strong>: Upgraded AL32UTF8 to <strong>Unicode 4.0</strong>.^2^
+This was vital for supporting rapidly changing e-commerce and
+globalized applications.</p>
+</li>
+<li>
+<p><strong>Oracle 11g</strong>: Entered the <strong>Unicode 5.0</strong> era.^4^ Oracle further
+optimized Linguistic Sorting performance during this stage.</p>
+</li>
+<li>
+<p><strong>Oracle 12c Release 2 (12.2)</strong>: A turning point where Oracle made
+AL32UTF8 the <strong>default character set for OUI and DBCA</strong>. Most new
+Oracle databases now adopt this standard automatically.</p>
+</li>
+<li>
+<p><strong>Oracle 23c / 23ai</strong>: The latest versions have reached <strong>Unicode
+15.0</strong> compliance.^1^ This ensures that multi-language corpora for
+Large Language Models (LLMs) can be stored precisely and without
+loss.</p>
+</li>
+</ol>
+<h2 id="the-asian-market-cjk-extension-areas-and-al32utf8">The Asian Market: CJK Extension Areas and AL32UTF8</h2>
+<p>For data processing in the Greater China region (including Hong Kong and
+Taiwan), the significance of AL32UTF8 goes beyond technical metrics.
+Standards like HKSCS in Hong Kong and GB18030 in Mainland China contain
+a large number of special ideographs and names that cannot fit into
+traditional 16-bit (UCS-2) or 3-byte UTF-8 spaces.^9^</p>
+<p>In Taiwan and Hong Kong's legal and financial systems, support for
+Unicode 3.1 and subsequent extensions became a hard requirement. Without
+AL32UTF8, systems would display these &quot;Supplementary Characters&quot; as
+inverted question marks (?) or &quot;tofu&quot; boxes, potentially invalidating
+legal documents or causing transaction errors.^3^ Consequently, large
+enterprises in the Asia-Pacific region have prioritized migrating to
+AL32UTF8 as a core IT infrastructure task since 2001.</p>
+<h2 id="character-set-migration-technical-challenges-and-engineering-practice">Character Set Migration: Technical Challenges and Engineering Practice</h2>
+<p>When migrating from a single-byte encoding (e.g., WE8MSWIN1252) or a
+regional multi-byte encoding (e.g., ZHS16GBK) to AL32UTF8, enterprises
+face complex engineering challenges, primarily due to the &quot;byte
+expansion&quot; effect.</p>
+<h3 id="the-shift-in-length-semantics">The Shift in Length Semantics</h3>
+<p>This is the most frequently overlooked pitfall. In a single-byte
+environment, VARCHAR2(10) means 10 bytes and can store exactly 10
+characters.^14^ However, in AL32UTF8:</p>
+<ul>
+<li>
+<p>10 Chinese characters require 30 bytes.</p>
+</li>
+<li>
+<p>If the definition remains VARCHAR2(10), the system will throw an
+ORA-01401 error (value too large for column).</p>
+</li>
+</ul>
+<p>To solve this, Oracle introduced <strong>Character Length Semantics</strong>.
+Administrators can set the NLS_LENGTH_SEMANTICS=CHAR parameter or
+explicitly specify VARCHAR2(10 CHAR) when defining tables. This
+instructs Oracle to reserve enough internal space (up to 40 bytes) to
+ensure 10 characters can be stored regardless of their byte count.</p>
+<h3 id="table-4-key-technical-constraints-in-al32utf8-migration">Table 4: Key Technical Constraints in AL32UTF8 Migration</h3>
+<hr>
+<p><strong>Constraint</strong>          <strong>Impact</strong>              <strong>Solution</strong></p>
+<hr>
+<p><strong>Object Name 30-Byte   Table and column names  Use the Character Set
+Limit</strong>                 are limited to 30       Scanner (CSSCAN) to
+bytes. Multi-byte       identify and rename
+characters shorten the  affected objects before
+allowable name length.  migration.</p>
+<p><strong>Data Truncation       Column capacity may be  Expand column length
+Risk</strong>                  insufficient for        definitions or adopt
+encoding expansion.     CHAR semantics.</p>
+<p><strong>Usernames and         Non-ASCII usernames may Oracle recommends using
+Passwords</strong>             fail authentication due ASCII for credentials
+to byte conversion.^15^ or resetting them after
+migration.^15^</p>
+<h2 id="failure15------------necessary"><strong>Index Length Limits</strong> Composite index totals  Review index
+are restricted.         definitions; reduce
+Expansion may cause     column lengths or use
+index creation          virtual columns if
+failure.^15^            necessary.</h2>
+<h3 id="modern-migration-the-role-of-dmu">Modern Migration: The Role of DMU</h3>
+<p>Historically, DBAs relied on the CSALTER script for &quot;quick switching,&quot;
+but this was proven dangerous and lost official support after 10gR1.^2^
+The only currently recommended method is the <strong>Database Migration
+Assistant for Unicode (DMU)</strong>.</p>
+<p>DMU provides a logical workflow to scan data, identify corruption or
+truncation risks, and perform &quot;in-place conversion&quot; during downtime.
+This significantly reduces downtime compared to traditional
+export/import methods while providing higher data integrity guarantees.</p>
+<h2 id="performance-and-storage-trade-offs">Performance and Storage Trade-offs</h2>
+<p>While AL32UTF8 offers unparalleled flexibility, architects must
+acknowledge its side effects. Compared to single-byte character sets,
+AL32UTF8 carries a cost in performance and storage.</p>
+<h3 id="storage-expansion">Storage Expansion</h3>
+<p>For systems storing large amounts of non-ASCII data, AL32UTF8 costs
+more. For example, a pure Chinese document takes 2 bytes per character
+in ZHS16GBK but 3 bytes in AL32UTF8, increasing disk and Buffer Cache
+requirements by 50%.^1^</p>
+<h3 id="computational-overhead">Computational Overhead</h3>
+<p>Because AL32UTF8 is a variable-length encoding, string functions (like
+LENGTH, SUBSTR, or INSTR) cannot use simple address offsets to locate
+data. The engine must scan the byte sequence from the beginning of the
+string to determine character boundaries.^1^ This adds CPU overhead
+during massive text searches.^4^</p>
+<h3 id="alternative-national-character-set-al16utf16">Alternative: National Character Set (AL16UTF16)</h3>
+<p>To balance storage efficiency, Oracle 9i recommended using <strong>AL16UTF16</strong>
+as the &quot;National Character Set&quot; alongside AL32UTF8.^1^</p>
+<p>AL16UTF16 uses a 16-bit fixed length (or surrogate pairs). For most
+Asian ideographs, it requires only 2 bytes compared to 3 bytes in
+AL32UTF8. For back-end systems primarily handling Asian languages that
+do not require frequent web encoding conversions, storing data in
+NVARCHAR2 fields (mapping to AL16UTF16) often yields better spatial
+performance.^1^</p>
+<h2 id="strategic-significance-for-integrity-and-security">Strategic Significance for Integrity and Security</h2>
+<p>The origin and promotion of AL32UTF8 are fundamentally part of a
+database security strategy. Non-standard encoding handling is often a
+breeding ground for Cross-Site Scripting (XSS) or SQL injection.^4^</p>
+<p>When processing XML data submitted from the web, if the database uses
+legacy UTF8 (CESU-8) while the web server uses standard UTF-8, malicious
+byte sequences might bypass web-layer filters and be misparsed at the
+database level.^4^ AL32UTF8, as a strict implementation of standard
+UTF-8, ensures &quot;end-to-end encoding consistency&quot; from the browser to
+the database, providing a security baseline for modern financial and
+e-government systems.</p>
+<h2 id="future-outlook-al32utf8-in-the-ai-era">Future Outlook: AL32UTF8 in the AI Era</h2>
+<p>In the 2020s, the rise of AI databases (like Oracle 23ai) has further
+cemented the status of AL32UTF8. Vector Search and multi-language
+Embeddings models rely on a precise understanding of semantics across
+languages. AL32UTF8's total semantic coverage allows the database to
+serve as a unified storage layer for everything from Emojis to ancient
+manuscripts.^1^</p>
+<p>Furthermore, Oracle has optimized the Unicode Collation Algorithm in
+recent versions, significantly boosting AL32UTF8 performance when
+executing complex mixed-language sorting queries. It is foreseeable that
+for the next two decades, AL32UTF8 will remain the irreplaceable global
+standard in the RDBMS field.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In summary, the AL32UTF8 encoding originated with <strong>Oracle 9i Release 1
+in June 2001</strong> and reached maturity with full Unicode 3.1 support in
+<strong>Release 2 in May 2002</strong>.^2^ Its emergence was a technical necessity,
+solving the fatal flaw of the legacy UTF8's inability to handle 4-byte
+supplementary characters and providing a robust infrastructure for
+globalized web applications.</p>
+<p>From its introduction in 9i to becoming the default standard in 12.2 and
+achieving Unicode 15.0 compliance in 23c, the history of AL32UTF8 is a
+microcosm of the synchronized development between Oracle databases and
+global information exchange standards. For modern enterprises, adopting
+AL32UTF8 is not just about supporting multiple languages; it is about
+ensuring standardization, security, and compatibility in the upcoming AI
+era.</p>
+<h4 id="引用的著作">引用的著作</h4>
+<ol>
+<li>
+<p>Why the Database Character Set Matters | timesten - Oracle Blogs,
+檢索日期：3月 19, 2026，
+<a href="https://blogs.oracle.com/timesten/why-databasecharacterset-matters">[https://blogs.oracle.com/timesten/why-databasecharacterset-matters]{.underline}</a></p>
+</li>
+<li>
+<p>4 About Globalization and Multibyte Support, 檢索日期：3月 19,
+2026，
+<a href="https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm">[https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm]{.underline}</a></p>
+</li>
+<li>
+<p>UTF8 &amp; AL32UTF8 - Hewlett Packard Enterprise Community,
+檢索日期：3月 19, 2026，
+<a href="https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206">[https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206]{.underline}</a></p>
+</li>
+<li>
+<p>6 Supporting Multilingual Databases with Unicode - Oracle Help
+Center, 檢索日期：3月 19, 2026，
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html">[https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
+</li>
+<li>
+<p>Supporting Multilingual Databases with Unicode - Oracle,
+檢索日期：3月 19, 2026，
+<a href="https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm">[https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm]{.underline}</a></p>
+</li>
+<li>
+<p>6 Supporting Multilingual Databases with Unicode - Oracle Help
+Center, 檢索日期：3月 19, 2026，
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
+</li>
+<li>
+<p>Oracle 9i, 檢索日期：3月 19, 2026，
+<a href="https://www.orafaq.com/wiki/Oracle_9i">[https://www.orafaq.com/wiki/Oracle_9i]{.underline}</a></p>
+</li>
+<li>
+<p>RDBMS 8/8i/9i/10g Timeline (History) - Oracle Forums, 檢索日期：3月
+19, 2026，
+<a href="https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581">[https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581]{.underline}</a></p>
+</li>
+<li>
+<p>6 Supporting Multilingual Databases with Unicode, 檢索日期：3月 19,
+2026，
+<a href="https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm">[https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm]{.underline}</a></p>
+</li>
+<li>
+<p>5 Globalization Support, 檢索日期：3月 19, 2026，
+<a href="http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm">[http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm]{.underline}</a></p>
+</li>
+<li>
+<p>Supplementary Characters in the Java Platform - Oracle,
+檢索日期：3月 19, 2026，
+<a href="https://www.oracle.com/technical-resources/articles/javase/supplementary.html">[https://www.oracle.com/technical-resources/articles/javase/supplementary.html]{.underline}</a></p>
+</li>
+<li>
+<p>UAX #27: Unicode 3.1, 檢索日期：3月 19, 2026，
+<a href="http://www.unicode.org/reports/tr27/tr27-3.html">[http://www.unicode.org/reports/tr27/tr27-3.html]{.underline}</a></p>
+</li>
+<li>
+<p>UTF-8 - Wikipedia, 檢索日期：3月 19, 2026，
+<a href="https://en.wikipedia.org/wiki/UTF-8">[https://en.wikipedia.org/wiki/UTF-8]{.underline}</a></p>
+</li>
+<li>
+<p>Difference between AL32UTF8 and UTF8 - Oracle Forums, 檢索日期：3月
+19, 2026，
+<a href="https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382">[https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382]{.underline}</a></p>
+</li>
+<li>
+<p>11 Character Set Migration - Database - Oracle Help Center,
+檢索日期：3月 19, 2026，
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html]{.underline}</a></p>
+</li>
+<li>
+<p>oracle database - Character set encodings and storage size factors -
+Stack Overflow, 檢索日期：3月 19, 2026，
+<a href="https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors">[https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors]{.underline}</a></p>
+</li>
+<li>
+<p>Manually Creating an Oracle Database, 檢索日期：3月 19, 2026，
+<a href="https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm">[https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm]{.underline}</a></p>
+</li>
+<li>
+<p>2 Creating and Configuring an Oracle Database, 檢索日期：3月 19,
+2026，
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html">[https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html]{.underline}</a></p>
+</li>
+<li>
+<p>DB wrong character set following control file re-creation. How to
+correct it ? - Oracle Forums, 檢索日期：3月 19, 2026，
+<a href="https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757">[https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757]{.underline}</a></p>
+</li>
+<li>
+<p>NLS_LENGTH_SEMANTICS - Oracle Forums, 檢索日期：3月 19, 2026，
+<a href="https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994">[https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994]{.underline}</a></p>
+</li>
+<li>
+<p>Character Set Support - Oracle Help Center, 檢索日期：3月 19, 2026，
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html">[https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html]{.underline}</a></p>
+</li>
+<li>
+<p>How can I tell if my Oracle system is set to support Unicode or
+multibyte characters?, 檢索日期：3月 19, 2026，
+<a href="https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac">[https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac]{.underline}</a></p>
+</li>
+<li>
+<p>Oracle recommends AL32UTF8 but installs WE8MSWIN1252, 檢索日期：3月
+19, 2026，
+<a href="https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661">[https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661]{.underline}</a></p>
+</li>
+<li>
+<p>National Character Set | Oracle 9i Fundamentals I Exam Cram 2 -
+Flylib.com, 檢索日期：3月 19, 2026，
+<a href="https://flylib.com/books/en/3.485.1.90/1/">[https://flylib.com/books/en/3.485.1.90/1/]{.underline}</a></p>
+</li>
+</ol>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-encoding-history-al32utf8/">
+                                <h3 class="">AL32UTF8_編碼起源與發展</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/deploy-oracle26ai-on-ol8/">
+                                <h3 class="">deploy Oracle26ai on Oracle Linux 8</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/deploy-oracle19c-rac-on-rhel9/">
+                                <h3 class="">deploy Oracle19c RAC on RHEL9</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/rac/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">RAC</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-mes/">
+                                <h3 class="">SQL tunning task MES</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/sql-tunning-task-common/">
+                                <h3 class="">SQL tunning task common</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-01-31</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

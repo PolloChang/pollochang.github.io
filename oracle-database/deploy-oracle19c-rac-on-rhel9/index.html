@@ -413,7 +413,7 @@ layui.use('element', function(){
 </ul>
 </li>
 <li>Virtual IP: 172.30.1.153 , db151-vip.home.pollochang.work</li>
-<li>Private IP: 10.192.0.151 , db151-home.pollochang.work
+<li>Private IP: 10.192.0.151 , db151-priv.pollochang.work
 <ul>
 <li>MAC:</li>
 </ul>
@@ -610,6 +610,42 @@ layui.use('element', function(){
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl rand -hex <span style="color:#ae81ff">16</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># or</span>
 </span></span><span style="display:flex;"><span>cat /proc/sys/kernel/random/uuid | tr -d <span style="color:#e6db74">&#39;-&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#34;disk&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;qemu&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;raw&#34;</span> <span style="color:#a6e22e">cache=</span><span style="color:#e6db74">&#34;none&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#34;/vm-disk-01/db155-data-01.raw&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sda&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;serial&gt;</span>a192c87c7e61400d9b4a1c844040b255<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/vm-disk-02/db155-data-02.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdb&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>e4cf29cbcb1643478d1543cc1e38b099<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/vm-disk-03/db155-OCR-01.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdc&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>764a0afaedd5492992c7322f7e01dcec<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/vm-disk-03/db155-OCR-02.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sdd&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>6d68e8d7f63e4829a0a1c3f025dad2be<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;disk</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;file&#39;</span> <span style="color:#a6e22e">device=</span><span style="color:#e6db74">&#39;disk&#39;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;driver</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;qemu&#39;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;source</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;/vm-disk-03/db155-OCR-03.raw&#39;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">dev=</span><span style="color:#e6db74">&#34;sde&#34;</span> <span style="color:#a6e22e">bus=</span><span style="color:#e6db74">&#34;scsi&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;serial&gt;</span>df770ddcbd2247898ff726def561c783<span style="color:#f92672">&lt;/serial&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;shareable/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/disk&gt;</span>
 </span></span></code></pre></div><h2 id="實驗室中虛擬機設定-dns-clinet">實驗室中虛擬機設定-DNS Clinet</h2>
 <ul>
 <li>設定文件: /etc/resolv.conf</li>
@@ -702,6 +738,7 @@ layui.use('element', function(){
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>/usr/bin/scp.bk -T -O <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /usr/bin/scp
 </span></span></code></pre></div><h4 id="關閉-selinux">關閉 SELinux</h4>
 <p>先是試看不關閉 SELinux</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo sed -i <span style="color:#e6db74">&#39;s/SELINUX=.*$/SELINUX=disabled/&#39;</span> /etc/selinux/config
@@ -756,6 +793,15 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>    link/ether 52:54:00:8a:dc:48 brd ff:ff:ff:ff:ff:ff
 </span></span><span style="display:flex;"><span>    inet 192.168.55.142/24 brd 192.168.55.255 scope global noprefixroute enp9s0
 </span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmcli device
+</span></span><span style="display:flex;"><span>nmcli con add type ethernet con-name enp7s0 ifname enp7s0
+</span></span><span style="display:flex;"><span>nmcli con mod enp7s0 ipv4.addresses 10.192.0.151/24
+</span></span><span style="display:flex;"><span>nmcli con mod enp7s0 ipv4.gateway 10.192.0.254
+</span></span><span style="display:flex;"><span>nmcli con mod enp7s0 ipv4.method manual
+</span></span><span style="display:flex;"><span>nmcli connection up <span style="color:#e6db74">&#34;enp7s0&#34;</span>
+</span></span><span style="display:flex;"><span>nmcli connection down <span style="color:#e6db74">&#34;enp7s0&#34;</span>
+</span></span><span style="display:flex;"><span>systemctl restart NetworkManager
+</span></span><span style="display:flex;"><span>nmcli connection reload
 </span></span></code></pre></div><h4 id="設定-grid-帳號">設定 grid 帳號</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">54327</span> asmdba
 </span></span><span style="display:flex;"><span>groupadd -g <span style="color:#ae81ff">54328</span> asmoper
@@ -802,7 +848,7 @@ layui.use('element', function(){
 <li><code>grep Hugepagesize: /proc/meminfo</code> -&gt; 2048 KB</li>
 </ul>
 <p>HugePages 數量 = (SGA(KB) / 2048) + 10</p>
-<p>9 * 1024 * 1024 / 2048 +10 = 4,618</p>
+<p>(9 * 1024 * 1024 / 2048) +10 = 4,618</p>
 <ul>
 <li>/etc/sysctl.d/99-nr_hugepages.conf</li>
 </ul>
@@ -960,8 +1006,8 @@ Hugetlb:         9457664 kB
 </span></span></code></pre></div><p>注意權限</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@db142 u01<span style="color:#f92672">]</span><span style="color:#75715e"># ls -al /dev/sd*1</span>
 </span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8,  <span style="color:#ae81ff">1</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sda1
-</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> oracle asmadmin 8, <span style="color:#ae81ff">17</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdb1
-</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> oracle asmadmin 8, <span style="color:#ae81ff">33</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdc1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid asmadmin 8, <span style="color:#ae81ff">17</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdb1
+</span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid asmadmin 8, <span style="color:#ae81ff">33</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdc1
 </span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8, <span style="color:#ae81ff">49</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sdd1
 </span></span><span style="display:flex;"><span>brw-rw----. <span style="color:#ae81ff">1</span> grid   asmadmin 8, <span style="color:#ae81ff">65</span> Feb <span style="color:#ae81ff">22</span> 14:24 /dev/sde1
 </span></span></code></pre></div><h4 id="主機-ssh-key-登入設定">主機 ssh-key 登入設定</h4>
