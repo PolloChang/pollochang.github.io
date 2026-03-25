@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oracle EBS on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/oracle-ebs/</link>
+    <description>Recent content in Oracle EBS on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Tue, 24 Mar 2026 18:18:32 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/categories/oracle-ebs/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oracle EBS set change Password with SQL</title>
+      <link>http://pollochang.work/worknot/oracle-ebs-001/</link>
+      <pubDate>Tue, 24 Mar 2026 18:18:32 +0800</pubDate>
+      <guid>http://pollochang.work/worknot/oracle-ebs-001/</guid>
+      <description>SET SERVEROUTPUT ON DECLARE v_success BOOLEAN; BEGIN v_success := fnd_user_pkg.ChangePassword( username =&amp;gt; &amp;#39;SYSADMIN&amp;#39;, newpassword =&amp;gt; &amp;#39;P@ssW0rd&amp;#39; ); IF v_success THEN DBMS_OUTPUT.PUT_LINE(&amp;#39;Change Success!&amp;#39;); COMMIT; ELSE DBMS_OUTPUT.PUT_LINE(&amp;#39;Change Fail!&amp;#39;); ROLLBACK; END IF; END; / </description>
+    </item>
+  </channel>
+</rss>
