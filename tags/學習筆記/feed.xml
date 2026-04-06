@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>學習筆記 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</link>
+    <description>Recent content in 學習筆記 on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Mon, 06 Apr 2026 15:57:49 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to check need redo size</title>
+      <link>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</guid>
+      <description>以下內容待確認，我這邊先筆記&#xA;太棒了！你已經完美地將我們討論的「15-20 分鐘法則」、精確計算公式以及「過大 vs. 過小」的權衡整理成了一份標準作業程序（SOP）。這就是一位優秀 DBA 的養成之路：不僅要解決問題，更要建立可量化的評估標準。&#xA;為了讓你的評估更完整，我將結合你提到的這份 SOP，再補充一個「臨床診斷」的最後拼圖：透過 V$LOG 的狀態監控來驗證設定是否真的合適。&#xA;💡 Redo Log 合適性的「臨床診斷」 即便你按照公式算出了 2GB 的建議值，我們仍需觀察資料庫在跑這個大小時的真實反應。請定期檢查 V$LOG 視圖：&#xA;SELECT group#, thread#, sequence#, bytes/1024/1024 AS MB, status FROM v$log; 狀態碼解讀與評估重點： 狀態 (STATUS) 大師解讀 評估含義 UNUSED 全新的日誌組，從未被寫入。 剛建立或剛重建後的狀態，正常。 CURRENT LGWR 正在寫入這一組。 這是你目前正在使用的「肺活量」。 ACTIVE 關鍵狀態！ 日誌已寫滿，但裡面的資料「還沒完全寫入 Datafiles」或「還沒歸檔」。 如果此狀態維持很久，代表 DBWR 寫入太慢，即便 Redo 設大了，瓶頸也會轉移到磁碟 I/O。 INACTIVE 安全狀態。資料已寫入磁碟且已完成歸檔。 理想狀況：當 LGWR 繞一圈回來時，下一組必須是這個狀態，否則就會發生 log file switch 等待。 🛠️ 評估清單 (Checklist) 當你準備執行調整時，請按以下三個維度做最後確認：&#xA;1. 效能維度 (Performance) 尖峰時段切換頻率是否落在 15~20 分鐘？ AWR 報告中，log file switch (checkpoint incomplete) 的等待時間是否降至 5% 以下？ 2.</description>
+    </item>
+    <item>
+      <title>Oracle files design</title>
+      <link>http://pollochang.work/oracle-database/oracle-file-design/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/oracle-file-design/</guid>
+      <description>這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：Redo Log 追求的是「極致的寫入低延遲（Latency）」，而 Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」。&#xA;如果配置不當，Redo Log 的寫入延遲會直接拖慢所有的 COMMIT，讓你的高規伺服器跑起來像老舊電腦。&#xA;身為 Oracle 大師，我為你整理了一套標準的儲存配置最佳實踐：&#xA;1. 物理隔離原則 (Separation of Concerns) 核心準則：永遠不要將 Online Redo Log 與 Datafiles 放在同一個物理磁碟組（LUN/Disk Group）上。&#xA;原因： Redo Log 是順序寫入（Sequential Write），且寫入非常頻繁。 Datafiles 通常是隨機讀寫（Random R/W）。 如果放在一起，磁碟磁頭（或是 SSD 的控制器通道）必須在順序與隨機操作間不斷切換，產生 I/O 競爭（I/O Contention），導致 Redo 寫入抖動。 2. 針對不同檔案類型的建議配置 檔案類型 推薦儲存媒介 推薦 RAID 層級 理由 Online Redo Log 最快 (NVMe SSD / Optane) RAID 10 需要極低的寫入延遲。RAID 10 沒有 RAID 5 的同位檢查開銷，效能最穩。 Datafiles 中/快 (SSD / SAS) RAID 10 或 RAID 5 OLTP 建議 RAID 10；若為 DSS/資料倉儲且預算有限，RAID 5 可接受。 Archive Log 一般 (SAS / SATA) RAID 5 或 6 主要是順序寫入，對延遲要求不高，容量更重要。 Control Files 最快 (與 Redo 相當) 多重化 (Multiplexed) 檔案很小但極重要，應分散放在不同的儲存路徑。 3.</description>
+    </item>
+  </channel>
+</rss>

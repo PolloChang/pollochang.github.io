@@ -6,8 +6,29 @@
     <description>Recent content in Oracle on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Sun, 22 Mar 2026 23:00:52 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2026 15:57:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/categories/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to check need redo size</title>
+      <link>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</guid>
+      <description>以下內容待確認，我這邊先筆記&#xA;太棒了！你已經完美地將我們討論的「15-20 分鐘法則」、精確計算公式以及「過大 vs. 過小」的權衡整理成了一份標準作業程序（SOP）。這就是一位優秀 DBA 的養成之路：不僅要解決問題，更要建立可量化的評估標準。&#xA;為了讓你的評估更完整，我將結合你提到的這份 SOP，再補充一個「臨床診斷」的最後拼圖：透過 V$LOG 的狀態監控來驗證設定是否真的合適。&#xA;💡 Redo Log 合適性的「臨床診斷」 即便你按照公式算出了 2GB 的建議值，我們仍需觀察資料庫在跑這個大小時的真實反應。請定期檢查 V$LOG 視圖：&#xA;SELECT group#, thread#, sequence#, bytes/1024/1024 AS MB, status FROM v$log; 狀態碼解讀與評估重點： 狀態 (STATUS) 大師解讀 評估含義 UNUSED 全新的日誌組，從未被寫入。 剛建立或剛重建後的狀態，正常。 CURRENT LGWR 正在寫入這一組。 這是你目前正在使用的「肺活量」。 ACTIVE 關鍵狀態！ 日誌已寫滿，但裡面的資料「還沒完全寫入 Datafiles」或「還沒歸檔」。 如果此狀態維持很久，代表 DBWR 寫入太慢，即便 Redo 設大了，瓶頸也會轉移到磁碟 I/O。 INACTIVE 安全狀態。資料已寫入磁碟且已完成歸檔。 理想狀況：當 LGWR 繞一圈回來時，下一組必須是這個狀態，否則就會發生 log file switch 等待。 🛠️ 評估清單 (Checklist) 當你準備執行調整時，請按以下三個維度做最後確認：&#xA;1. 效能維度 (Performance) 尖峰時段切換頻率是否落在 15~20 分鐘？ AWR 報告中，log file switch (checkpoint incomplete) 的等待時間是否降至 5% 以下？ 2.</description>
+    </item>
+    <item>
+      <title>Oracle files design</title>
+      <link>http://pollochang.work/oracle-database/oracle-file-design/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/oracle-file-design/</guid>
+      <description>這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：Redo Log 追求的是「極致的寫入低延遲（Latency）」，而 Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」。&#xA;如果配置不當，Redo Log 的寫入延遲會直接拖慢所有的 COMMIT，讓你的高規伺服器跑起來像老舊電腦。&#xA;身為 Oracle 大師，我為你整理了一套標準的儲存配置最佳實踐：&#xA;1. 物理隔離原則 (Separation of Concerns) 核心準則：永遠不要將 Online Redo Log 與 Datafiles 放在同一個物理磁碟組（LUN/Disk Group）上。&#xA;原因： Redo Log 是順序寫入（Sequential Write），且寫入非常頻繁。 Datafiles 通常是隨機讀寫（Random R/W）。 如果放在一起，磁碟磁頭（或是 SSD 的控制器通道）必須在順序與隨機操作間不斷切換，產生 I/O 競爭（I/O Contention），導致 Redo 寫入抖動。 2. 針對不同檔案類型的建議配置 檔案類型 推薦儲存媒介 推薦 RAID 層級 理由 Online Redo Log 最快 (NVMe SSD / Optane) RAID 10 需要極低的寫入延遲。RAID 10 沒有 RAID 5 的同位檢查開銷，效能最穩。 Datafiles 中/快 (SSD / SAS) RAID 10 或 RAID 5 OLTP 建議 RAID 10；若為 DSS/資料倉儲且預算有限，RAID 5 可接受。 Archive Log 一般 (SAS / SATA) RAID 5 或 6 主要是順序寫入，對延遲要求不高，容量更重要。 Control Files 最快 (與 Redo 相當) 多重化 (Multiplexed) 檔案很小但極重要，應分散放在不同的儲存路徑。 3.</description>
+    </item>
+    <item>
+      <title>maa consolidation TW</title>
+      <link>http://pollochang.work/oracle-database/maa-consolidation-tw/</link>
+      <pubDate>Sun, 05 Apr 2026 16:23:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/maa-consolidation-tw/</guid>
+      <description>Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南 資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 1。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 1。&#xA;資料庫整合的定義與演進背景 資料庫整合本質上是指將多個獨立的資料庫部署到單一組運算基礎設施之上的過程。這與傳統的伺服器整合（Server Consolidation）雖有相似之處，但兩者在技術層次與管理範疇上存在本質區別。伺服器整合通常涉及將多個物理伺服器轉換為運行多個虛擬機器（VM）的單一物理節點，而資料庫整合則更進一步，專注於在資料庫引擎層級實現資源的高效共享與隔離 1。&#xA;推動資料庫整合的主要動力在於現代硬體效能的飛躍發展。當前單一伺服器已能提供數百個處理器核心，若不進行整合，這些強大的運算資源將因負載不均而造成巨大的浪費。透過整合，企業能夠在更少的伺服器上運行更多的資料庫，這不僅降低了基礎設施的資本支出（CAPEX），更顯著減少了空間、電力、冷卻及人力維運等營運支出（OPEX）1。在 IT 資產管理中，每個物理伺服器或虛擬機器都被視為一個「配置項」（Configuration Item, CI），必須經過部署、網路連接、安全加固與持續維護。整合後的環境能減少 CI 數量，從而降低整體系統的複雜度 1。&#xA;核心商業目標與整合驅動力 實施資料庫整合並非單純的硬體搬遷，而是一項旨在提升企業競爭力的戰略轉型。下表概述了資料庫整合的五大核心目標及其具體的實現價值：&#xA;目標維度 描述與實現價值 預期業務成果 降低成本 透過提升運算資產利用率，減少硬體購買與維護費用；利用 Oracle 資源管理功能實現動態分配 1。 顯著降低總體擁有成本 (TCO) 與每筆交易成本。 簡化管理 透過標準化配置與減少需維護的系統數量（如使用多租戶架構管理多個 PDB），簡化日常維運 1。 提高資料庫管理員 (DBA) 的人機比，縮短維護窗口。 增強安全性 減少系統脆弱點，統一安全策略，並利用 Exadata 內建的安全加固功能強化隔離機制 1。 確保資料符合 PCI 與 HIPAA 等嚴格合規要求 1。 達成可用性目標 透過硬化系統防止故障擴散，部署多層隔離機制縮小「故障影響範圍」（Blast Radius）1。 實現關鍵業務系統的持續可用與零停機維護。 交付預期效能 確保單一資料庫的異常不會影響其他資料庫，精確分配 CPU、記憶體與 I/O 資源 1。 保證各部門應用程式在共享環境下仍能滿足其 SLA 要求。 虛擬機器與叢集技術在整合中的角色 在整合架構中，虛擬機器（Virtual Machines, VMs）與 Oracle Real Application Clusters (RAC) 扮演著截然不同但互補的角色。</description>
+    </item>
     <item>
       <title>AL32UTF8_編碼起源與發展</title>
       <link>http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/</link>

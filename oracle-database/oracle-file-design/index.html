@@ -1,0 +1,697 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - Oracle files design </title>
+    
+    
+    <meta content="Oracle, AI, 學習筆記" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：Redo Log 追求的是「極致的寫入低延遲（Latency）」，而 Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」。
+如果配置不當，Redo Log 的寫入延遲會直接拖慢所有的 COMMIT，讓你的高規伺服器跑起來像老舊電腦。
+身為 Oracle 大師，我為你整理了一套標準的儲存配置最佳實踐：
+1. 物理隔離原則 (Separation of Concerns) 核心準則：永遠不要將 Online Redo Log 與 Datafiles 放在同一個物理磁碟組（LUN/Disk Group）上。
+原因： Redo Log 是順序寫入（Sequential Write），且寫入非常頻繁。 Datafiles 通常是隨機讀寫（Random R/W）。 如果放在一起，磁碟磁頭（或是 SSD 的控制器通道）必須在順序與隨機操作間不斷切換，產生 I/O 競爭（I/O Contention），導致 Redo 寫入抖動。 2. 針對不同檔案類型的建議配置 檔案類型 推薦儲存媒介 推薦 RAID 層級 理由 Online Redo Log 最快 (NVMe SSD / Optane) RAID 10 需要極低的寫入延遲。RAID 10 沒有 RAID 5 的同位檢查開銷，效能最穩。 Datafiles 中/快 (SSD / SAS) RAID 10 或 RAID 5 OLTP 建議 RAID 10；若為 DSS/資料倉儲且預算有限，RAID 5 可接受。 Archive Log 一般 (SAS / SATA) RAID 5 或 6 主要是順序寫入，對延遲要求不高，容量更重要。 Control Files 最快 (與 Redo 相當) 多重化 (Multiplexed) 檔案很小但極重要，應分散放在不同的儲存路徑。 3." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>Oracle files design</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：<strong>Redo Log 追求的是「極致的寫入低延遲（Latency）」</strong>，而 <strong>Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」</strong>。</p>
+<p>如果配置不當，Redo Log 的寫入延遲會直接拖慢所有的 <code>COMMIT</code>，讓你的高規伺服器跑起來像老舊電腦。</p>
+<p>身為 <strong>Oracle 大師</strong>，我為你整理了一套標準的儲存配置最佳實踐：</p>
+<hr>
+<h2 id="1-物理隔離原則-separation-of-concerns">1. 物理隔離原則 (Separation of Concerns)</h2>
+<p><strong>核心準則：永遠不要將 Online Redo Log 與 Datafiles 放在同一個物理磁碟組（LUN/Disk Group）上。</strong></p>
+<ul>
+<li><strong>原因</strong>：
+<ul>
+<li><strong>Redo Log</strong> 是<strong>順序寫入（Sequential Write）</strong>，且寫入非常頻繁。</li>
+<li><strong>Datafiles</strong> 通常是<strong>隨機讀寫（Random R/W）</strong>。</li>
+<li>如果放在一起，磁碟磁頭（或是 SSD 的控制器通道）必須在順序與隨機操作間不斷切換，產生 I/O 競爭（I/O Contention），導致 Redo 寫入抖動。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-針對不同檔案類型的建議配置">2. 針對不同檔案類型的建議配置</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">檔案類型</th>
+<th style="text-align:left">推薦儲存媒介</th>
+<th style="text-align:left">推薦 RAID 層級</th>
+<th style="text-align:left">理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Online Redo Log</strong></td>
+<td style="text-align:left"><strong>最快 (NVMe SSD / Optane)</strong></td>
+<td style="text-align:left"><strong>RAID 10</strong></td>
+<td style="text-align:left">需要極低的寫入延遲。RAID 10 沒有 RAID 5 的同位檢查開銷，效能最穩。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Datafiles</strong></td>
+<td style="text-align:left"><strong>中/快 (SSD / SAS)</strong></td>
+<td style="text-align:left"><strong>RAID 10 或 RAID 5</strong></td>
+<td style="text-align:left">OLTP 建議 RAID 10；若為 DSS/資料倉儲且預算有限，RAID 5 可接受。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Archive Log</strong></td>
+<td style="text-align:left"><strong>一般 (SAS / SATA)</strong></td>
+<td style="text-align:left"><strong>RAID 5 或 6</strong></td>
+<td style="text-align:left">主要是順序寫入，對延遲要求不高，容量更重要。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Control Files</strong></td>
+<td style="text-align:left"><strong>最快 (與 Redo 相當)</strong></td>
+<td style="text-align:left"><strong>多重化 (Multiplexed)</strong></td>
+<td style="text-align:left">檔案很小但極重要，應分散放在不同的儲存路徑。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-使用-asm-automatic-storage-management-的最佳實踐">3. 使用 ASM (Automatic Storage Management) 的最佳實踐</h2>
+<p>如果你使用 Oracle ASM（這是現代 DBA 的標配），建議至少規劃兩個 <strong>Disk Group</strong>：</p>
+<h3 id="a-data-存放-datafiles">A. <code>+DATA</code> (存放 Datafiles)</h3>
+<ul>
+<li>用於儲存所有數據文件。</li>
+<li>配置建議：使用多個大小相同的 LUN 來確保資料均勻分布（Striping）。</li>
+</ul>
+<h3 id="b-reco-或-fra-存放-redo-archive-control-backup">B. <code>+RECO</code> 或 <code>+FRA</code> (存放 Redo, Archive, Control, Backup)</h3>
+<ul>
+<li><strong>大師進階建議</strong>：雖然這是一個通用做法，但在<strong>極高性能需求</strong>的系統中，我會建議額外獨立出一個 <strong><code>+REDO</code></strong> 磁碟組。</li>
+<li><strong><code>+REDO</code></strong>：僅放置 Online Redo Log，並使用高品質、低延遲的 SSD。</li>
+</ul>
+<hr>
+<h2 id="4-關鍵配置細節-微調心法">4. 關鍵配置細節 (微調心法)</h2>
+<h3 id="1-多重化-multiplexing">1. 多重化 (Multiplexing)</h3>
+<p>不要只依賴儲存設備的 RAID。在 Oracle 層級，你應該：</p>
+<ul>
+<li>Redo Log 每組至少有兩個成員，分別放在不同的磁碟組（例如一個在 <code>+DATA</code> 作為備份，一個在 <code>+REDO</code> 作為主要）。</li>
+<li>控制文件（Control Files）至少保留三份，分散在不同路徑。</li>
+</ul>
+<h3 id="2-儲存對齊-storage-alignment">2. 儲存對齊 (Storage Alignment)</h3>
+<p>確保你的作業系統分區、LUN 條帶大小（Stripe Size）與 Oracle 的 <code>DB_BLOCK_SIZE</code> 是對齊的。不對齊會導致「I/O 放大」，原本一個 Block 的讀取會變成兩次實體 I/O。</p>
+<h3 id="3-非同步-io-asynchronous-io">3. 非同步 I/O (Asynchronous I/O)</h3>
+<p>確保你的儲存掛載參數支援並啟用了 Asynchronous I/O。</p>
+<ul>
+<li>檢查參數：<code>DISK_ASYNCH_IO = TRUE</code> 且 <code>FILESYSTEMIO_OPTIONS = SETALL</code>（若使用檔案系統）。</li>
+</ul>
+<hr>
+<h2 id="5-總結大師的滿分佈局">5. 總結：大師的「滿分佈局」</h2>
+<p>想像你的儲存是一個多層級結構：</p>
+<ol>
+<li><strong>頂層 (SSD/NVMe RAID 10)</strong>: 專屬給 Online Redo Log 與 Tempfile（Tempfile 頻繁讀寫也需要速度）。</li>
+<li><strong>中層 (Flash/SAS RAID 10)</strong>: 給繁忙的 Datafiles。</li>
+<li><strong>底層 (High-Capacity HDD/SAS RAID 5/6)</strong>: 給 Archive Log 與 備份檔案。</li>
+</ol>
+<hr>
+<h3 id="大師的思考題">大師的思考題：</h3>
+<p>你現在的儲存是使用 <strong>SAN (光纖通道)</strong> 還是 <strong>本地 SSD</strong>？</p>
+<p>如果是 SAN，我們還要考慮 <strong>HBA 卡的佇列深度（Queue Depth）</strong>。如果你的 Redo Log 寫入壓力很大，HBA 卡的設定不當也會造成排隊。</p>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+            <div class="layui-card single-card">
+                <h2 class="single-title">Relevant Topics</h2>
+                
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/how-to-check-need-redo.size/">
+                                <h3 class="">How to check need redo size</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/maa-consolidation-tw/">
+                                <h3 class="">maa consolidation TW</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-encoding-history-al32utf8/">
+                                <h3 class="">AL32UTF8_編碼起源與發展</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+        <a href="/tags/encoding/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/oracle-encoding-history-al32utf8-en/">
+                                <h3 class="">Oracle Encoding History - AL32UTF8</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+        <a href="/tags/encoding/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                    <div style="margin-left: 10px;">
+                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                            <a href="/oracle-database/deploy-oracle26ai-on-ol8/">
+                                <h3 class="">deploy Oracle26ai on Oracle Linux 8</h3>
+                            </a>
+                            
+                            <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+                        </blockquote>
+                    </div>
+                	
+                
+                <br />
+            </div>
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
