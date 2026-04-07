@@ -141,6 +141,55 @@ layui.use('element', function(){
 <div class="layui-container">
         
             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/oracle-index-maintain/">
+            <h2 class="">Oracle Index 維護方式</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-07</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				Oracle 11g 1. 清查統計資訊：確認資料的「新鮮度」 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。
+實務作法： 使用以下 SQL 找出深度異常（&gt;=3）且統計資訊超過 7 天未更新的索引：
+SELECT owner, ...
+             <a href="/oracle-database/oracle-index-maintain/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+    
+            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/oracle-database/how-to-check-need-redo.size/">
             <h2 class="">How to check need redo size</h2>
         </a>
@@ -526,46 +575,6 @@ layui.use('element', function(){
 以下是針對 Oracle 11g 環境設計的實作腳本。
 第一步：設計與建立資料表 (DDL) 我們設計五張表：客戶 (CUSTOMERS)、商品 (PRODUCTS)、訂單主檔 (ORDERS)、 ...
              <a href="/oracle-database/sql-tunning-task-common/"><span style="color:#01AAED">Read More</span></a>
-        </h3>
-    </blockquote>
-
-    
-            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-        <a href="/oracle-database/sql-tunning-task-mes/">
-            <h2 class="">SQL tunning task MES</h2>
-        </a>
-        <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-01-31</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-        <h3>
-        	
-				第一步：MES 系統資料表設計 (DDL) 我們設計六張核心表，涵蓋工單、批次（Lot）、機台、過帳紀錄與參數採集。
--- 1. 工單表 (Work Orders) CREATE TABLE MES_WORK_ORDERS ( WO_ID NUMBER PRIMARY KEY, WO_NO ...
-             <a href="/oracle-database/sql-tunning-task-mes/"><span style="color:#01AAED">Read More</span></a>
         </h3>
     </blockquote>
 

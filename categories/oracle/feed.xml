@@ -6,8 +6,15 @@
     <description>Recent content in Oracle on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Mon, 06 Apr 2026 15:57:49 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 23:00:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/categories/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oracle Index 維護方式</title>
+      <link>http://pollochang.work/oracle-database/oracle-index-maintain/</link>
+      <pubDate>Tue, 07 Apr 2026 23:00:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/oracle-index-maintain/</guid>
+      <description>Oracle 11g 1. 清查統計資訊：確認資料的「新鮮度」 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。&#xA;實務作法： 使用以下 SQL 找出深度異常（&amp;gt;=3）且統計資訊超過 7 天未更新的索引：&#xA;SELECT owner, index_name, table_name, blevel, leaf_blocks, num_rows, last_analyzed FROM dba_indexes WHERE blevel &amp;gt;= 3 AND last_analyzed &amp;lt; SYSDATE - 7 AND owner NOT IN (&amp;#39;SYS&amp;#39;, &amp;#39;SYSTEM&amp;#39;); 2. 確認使用情況：找出「殭屍索引」 在 11g 中，這一步最耗時但也最省資源。&#xA;開啟監控 (Monitoring)： 11g 必須針對每個索引手動開啟監控。 ALTER INDEX schema_name.index_name MONITORING USAGE; 檢查結果： 觀察一兩個完整業務週期（例如一週或一個月）後查詢： SELECT index_name, used, start_monitoring, end_monitoring FROM v$object_usage; 大師筆記： v$object_usage 只能看到當前使用者的監控。若要看全庫，需以 SYS 權限查詢底層表 sys.object_usage。</description>
+    </item>
     <item>
       <title>How to check need redo size</title>
       <link>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</link>
