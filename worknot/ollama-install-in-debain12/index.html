@@ -1024,7 +1024,76 @@ GID=&#39;1000&#39;
 </span></span><span style="display:flex;"><span>    volumes:
 </span></span><span style="display:flex;"><span>      - /data/anythingllm/data/chroma-data:/chroma/chroma
 </span></span><span style="display:flex;"><span>    restart: unless-stopped
-</span></span></code></pre></div><h2 id="llm-相關資源">LLM 相關資源</h2>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ./build/bin/llama-cli <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m /usr/share/ollama/.ollama/models/blobs/sha256-ef3922f6835ee8e6232e03f48a3375b27bc882beb10cfbfefc5e23a2d0f01b17 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -t <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --system-prompt-file /usr/share/ollama/oracle_expert.txt <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -c <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --temp 0.5 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --repeat-penalty 1.1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -n -1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --top-k <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --top-p 0.9 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --prompt <span style="color:#e6db74">&#34;什麼是 Oraacel Database&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./build/bin/llama-cli <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m /path/to/your/model.gguf <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -t <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -c <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --temp 0.7 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --repeat-penalty 1.1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -n -1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --prompt <span style="color:#e6db74">&#34;User: Hello! \nAssistant:&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su - ollama <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>/usr/local/bin/llama-server <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m /usr/share/ollama/.ollama/models/blobs/sha256-ef3922f6835ee8e6232e03f48a3375b27bc882beb10cfbfefc5e23a2d0f01b17 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -t <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -c <span style="color:#ae81ff">8192</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --port <span style="color:#ae81ff">8080</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --host 0.0.0.0
+</span></span></code></pre></div><ul>
+<li>/etc/systemd/system/gemma4-server.service</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Gemma <span style="color:#ae81ff">4</span> MoE Server <span style="color:#f92672">(</span>llama.cpp<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以 ollama 帳號執行，解決所有權限問題</span>
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>ollama
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>ollama
+</span></span><span style="display:flex;"><span>WorkingDirectory<span style="color:#f92672">=</span>/usr/share/ollama
+</span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/local/bin/llama-server <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -m /usr/share/ollama/.ollama/models/blobs/sha256-ef3922f6835ee8e6232e03f48a3375b27bc882beb10cfbfefc5e23a2d0f01b17 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -t <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  ---system-prompt <span style="color:#e6db74">&#34;Role: You are an &#39;Oracle Database Grandmaster&#39;, an expert in design, O&amp;M, and performance tuning. Goal: Provide precise, structural, and helpful solutions for Oracle DB technical challenges. Language: Always respond in Traditional Chinese (繁體中文). Rules: 1. Greeting: Start by introducing yourself as the Grandmaster. Ask for specific issues (e.g., Architecture, SQL Tuning, Backup/Recovery). 2. Knowledge: Provide deep-dive technical insights but keep the language concise. Use professional terminology with clear explanations. 3. Action: Offer step-by-step solutions and provide optimized SQL/Code snippets when applicable. 4. Safety First: Always emphasize database security, stability, and the &#39;Why&#39; behind best practices. 5. Tone: Professional, confident, and patient.&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -c <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --temp 0.5 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --repeat-penalty 1.1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -n -1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --top-k <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --top-p 0.9 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --port <span style="color:#ae81ff">8080</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --host 0.0.0.0
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span>RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><ul>
+<li>/usr/share/ollama/oracle_expert.txt</li>
+</ul>
+<pre tabindex="0"><code>Role: You are an &#39;Oracle Database Grandmaster&#39;, an expert in design, O&amp;M, and performance tuning. 
+Goal: Provide precise, structural, and helpful solutions for Oracle DB technical challenges. 
+Language: Always respond in Traditional Chinese (繁體中文).
+
+Rules:
+1. Greeting: Start by introducing yourself as the Grandmaster. Ask for specific issues (e.g., Architecture, SQL Tuning, Backup/Recovery).
+2. Knowledge: Provide deep-dive technical insights but keep the language concise. Use professional terminology with clear explanations.
+3. Action: Offer step-by-step solutions and provide optimized SQL/Code snippets when applicable. 
+4. Safety First: Always emphasize database security, stability, and the &#34;Why&#34; behind best practices.
+5. Tone: Professional, confident, and patient.
+</code></pre><h2 id="llm-相關資源">LLM 相關資源</h2>
 <ul>
 <li><a href="https://github.com/Hannibal046/Awesome-LLM">Awesome LLM</a></li>
 <li><a href="https://github.com/eugeneyan/open-llms">Open LLMs</a></li>

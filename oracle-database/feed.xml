@@ -6,8 +6,15 @@
     <description>Recent content in Oracle-Databases on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 07 Apr 2026 23:00:49 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 22:57:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/oracle-database/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>open Statspack</title>
+      <link>http://pollochang.work/oracle-database/open-statspack/</link>
+      <pubDate>Tue, 14 Apr 2026 22:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/open-statspack/</guid>
+      <description>因為 Oracle AWR 需要 DIAGNOSTIC+TUNING 授權才可以明確使用，但是在實務中沒有監控 DBA 只能當通靈大師 Tunning Database，因此轉而使用Oracle Statspack 作為替代方案。&#xA;以下是啟用方式&#xA;Statspack 啟用方式 進入 Sqlplus 檢查 job_queue_processes &amp;gt; 0 SQL&amp;gt; show parameter job_queue_processes; NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ job_queue_processes integer 80 規劃一個 tablespace 空間供 Statspack 存放資料 CREATE TABLESPACE PERFSTAT DATAFILE &amp;#39;/u01/app/oracle/oradata/DB/PERFSTAT01.dbf&amp;#39; SIZE 100M AUTOEXTEND ON NEXT 10M; SQL&amp;gt; select file_name from sys.dba_data_files;&#xD;FILE_NAME&#xD;--------------------------------------------------------------------------------&#xD;/u01/app/oracle/oradata/DB/system01.dbf&#xD;/u01/app/oracle/oradata/DB/sysaux01.dbf&#xD;/u01/app/oracle/oradata/DB/users01.dbf&#xD;/u01/app/oracle/oradata/DB/undotbs01.dbf&#xD;SQL&amp;gt; CREATE TABLESPACE PERFSTAT DATAFILE &amp;#39;/u01/app/oracle/oradata/DB/PERFSTAT01.dbf&amp;#39; SIZE 100M AUTOEXTEND ON NEXT 10M;&#xD;Tablespace created.</description>
+    </item>
     <item>
       <title>Oracle Index 維護方式</title>
       <link>http://pollochang.work/oracle-database/oracle-index-maintain/</link>
@@ -140,6 +147,13 @@
       <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>
       <guid>http://pollochang.work/oracle-database/oracle-ocfs2-1/</guid>
       <description>Oracle Cluster File System 2 (OCFS2) 文件系统&#xA;指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果&#xA;[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://pollochang.work/oracle-database/%E8%B3%87%E6%96%99%E5%BA%AB%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://pollochang.work/oracle-database/%E8%B3%87%E6%96%99%E5%BA%AB%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</guid>
+      <description>環境 安裝 sqlplus wget unzip -q instantclient-basic-linux.x64-19.30.0.0.0dbru.zip uznip -q instantclient-sqlplus-linux.x64-19.30.0.0.0dbru.zip sudo mv instantclient_19_30 /usr/local/sqlplus sudo mkdir -p /usr/local/sqlplus/lib cd /usr/local/sqlplus # 進入你那個充滿 .so 的目錄後執行： ln -sf $(pwd)/libclntsh.so ./lib/libclntsh.so ln -sf $(pwd)/libclntsh.so.19.1 ./lib/libclntsh.so.19.1 ln -sf $(pwd)/libnnz19.so ./lib/libnnz19.so ln -sf $(pwd)/libociei.so ./lib/libociei.so ln -sf $(pwd)/libclntshcore.so.19.1 ./lib/libclntshcore.so.19.1 export ORACLE_HOME=/usr/local/sqlplus # 同時包含根目錄與 lib 目錄，確保 HammerDB 不管怎麼找都找得到 export LD_LIBRARY_PATH=$ORACLE_HOME:$ORACLE_HOME/lib:$LD_LIBRARY_PATH export TNS_ADMIN=$ORACLE_HOME/network/admin export PATH=$ORACLE_HOME:$PATH /usr/local/sqlplus/network/admin/tnsnames.ora db151 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.30.1.151)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = db) ) ) -- 以 SYSDBA 身份執行 CREATE USER masterdba IDENTIFIED BY &amp;#34;1qaz@WSX3edc&amp;#34; ACCOUNT UNLOCK; -- 賦予必要的權限 GRANT CONNECT, RESOURCE, DBA TO masterdba; ALTER USER masterdba QUOTA UNLIMITED ON USERS; 安裝 hammerdb sudo apt install libtcl8.</description>
     </item>
   </channel>
 </rss>

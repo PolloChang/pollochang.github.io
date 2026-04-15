@@ -6,8 +6,15 @@
     <description>Recent content in Oracle on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 07 Apr 2026 23:00:49 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 22:57:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/categories/oracle/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>open Statspack</title>
+      <link>http://pollochang.work/oracle-database/open-statspack/</link>
+      <pubDate>Tue, 14 Apr 2026 22:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/open-statspack/</guid>
+      <description>因為 Oracle AWR 需要 DIAGNOSTIC+TUNING 授權才可以明確使用，但是在實務中沒有監控 DBA 只能當通靈大師 Tunning Database，因此轉而使用Oracle Statspack 作為替代方案。&#xA;以下是啟用方式&#xA;Statspack 啟用方式 進入 Sqlplus 檢查 job_queue_processes &amp;gt; 0 SQL&amp;gt; show parameter job_queue_processes; NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ job_queue_processes integer 80 規劃一個 tablespace 空間供 Statspack 存放資料 CREATE TABLESPACE PERFSTAT DATAFILE &amp;#39;/u01/app/oracle/oradata/DB/PERFSTAT01.dbf&amp;#39; SIZE 100M AUTOEXTEND ON NEXT 10M; SQL&amp;gt; select file_name from sys.dba_data_files;&#xD;FILE_NAME&#xD;--------------------------------------------------------------------------------&#xD;/u01/app/oracle/oradata/DB/system01.dbf&#xD;/u01/app/oracle/oradata/DB/sysaux01.dbf&#xD;/u01/app/oracle/oradata/DB/users01.dbf&#xD;/u01/app/oracle/oradata/DB/undotbs01.dbf&#xD;SQL&amp;gt; CREATE TABLESPACE PERFSTAT DATAFILE &amp;#39;/u01/app/oracle/oradata/DB/PERFSTAT01.dbf&amp;#39; SIZE 100M AUTOEXTEND ON NEXT 10M;&#xD;Tablespace created.</description>
+    </item>
     <item>
       <title>Oracle Index 維護方式</title>
       <link>http://pollochang.work/oracle-database/oracle-index-maintain/</link>
