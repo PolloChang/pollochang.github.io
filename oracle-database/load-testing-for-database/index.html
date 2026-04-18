@@ -1,0 +1,554 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PolloChang 工作筆記 - 資料庫壓力測試 </title>
+    
+    
+    <meta content="HammerDB, Oracle" name="keywords">
+    
+    <meta content="PolloChang 工作筆記 - 最近在工作中安裝完資料庫後，在煩惱有什方式可以測試資料庫效能足夠應付未來的業務需求。一開始的想法是自己寫腳本進行測試，但是想到要自己寫就開始發懶，因此開始有沒有別人寫好的工具。
+在努力的搜尋過後，發現 HammerDB 是符合我的需求: OpenSource, 易於安裝, CLI 執行。
+以下是我初次學習安裝的紀錄
+環境 壓力測試AP主機: 個人電腦 ❯ fastfetch _,met$$$$$gg. pollochang@pollo-nb-5310 ,g$$$$$$$$$$$$$$$P. ------------------------ ,g$$P&#34;&#34; &#34;&#34;&#34;Y$$.&#34;. OS: Debian GNU/Linux 13 (trixie) x86_64 ,$$P&#39; `$$$. Host: Latitude 5310 &#39;,$$P ,ggs. `$$b: Kernel: Linux 6.12.74&#43;deb13&#43;1-amd64 `d$$&#39; ,$P&#34;&#39; . $$$ Uptime: 15 hours, 13 mins $$P d$&#39; , $$P Packages: 3357 (dpkg) $$: $$. - ,d$$&#39; Shell: zsh 5.9 $$; Y$b._ _,d$P&#39; Display (AUO212D): 1920x1080 @ 60 Hz (as 1536x864) in 13&#34; [Built-in] Y$$." name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+        <link rel="icon" href="/images/logo.jpg">
+    
+
+    
+
+    
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+          gtag('config', 'G-7QK0FBKQ5Q');
+        </script>
+    
+
+    
+
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/self/css/default.css">
+    <script src=" /layui/layui.js"></script>
+
+    <link rel="stylesheet" async href="/self/css/markdown.min.css">
+    <link rel="stylesheet" async href="/self/css/gallery.css">
+    
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
+
+<body>
+    
+    <header class="layui-header layui-bg-cyan">
+
+    
+        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
+    
+    
+    <a class="nav-self-logo" href="/">
+        PolloChang 工作筆記
+    </a>
+
+    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+        
+        
+        
+        
+
+        
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
+            
+                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
+            
+        
+
+        
+        <li class="layui-nav-item" id="nav_small">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
+            </a>
+
+            <dl class="layui-nav-child">
+                
+                
+                
+
+                
+                    
+                        <dd><a href="/post/">文章</a></dd>
+                    
+                        <dd><a href="/worknot/">工作隨手記</a></dd>
+                    
+                        <dd><a href="/oracle-database/">oracle-database</a></dd>
+                    
+                        <dd><a href="/k8s/">k8s</a></dd>
+                    
+                        <dd><a href="/personal-zone/">個人經歷</a></dd>
+                    
+                        <dd><a href="/about/">關於</a></dd>
+                    
+                
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+        <div id="content" style="min-height:80%">
+<div class="layui-container" style="margin-bottom: 10px">
+    
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
+            <div class="layui-card single-card">
+                <br />
+                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
+                    <h1>資料庫壓力測試</h1>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-18</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/hammerdb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">HammerDB</span>
+        </a>
+    
+    
+</h3>
+
+                </blockquote>
+                <div class="layui-card-body markdown-body single-content">
+                    <p>最近在工作中安裝完資料庫後，在煩惱有什方式可以測試資料庫效能足夠應付未來的業務需求。一開始的想法是自己寫腳本進行測試，但是想到要自己寫就開始發懶，因此開始有沒有別人寫好的工具。</p>
+<p>在努力的搜尋過後，發現 HammerDB 是符合我的需求: OpenSource, 易於安裝, CLI 執行。</p>
+<p>以下是我初次學習安裝的紀錄</p>
+<h2 id="環境">環境</h2>
+<ul>
+<li>壓力測試AP主機: 個人電腦</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>❯ fastfetch                                       
+</span></span><span style="display:flex;"><span>        _,met$$$$$gg.          pollochang@pollo-nb-5310
+</span></span><span style="display:flex;"><span>     ,g$$$$$$$$$$$$$$$P.       ------------------------
+</span></span><span style="display:flex;"><span>   ,g$$P<span style="color:#e6db74">&#34;&#34;</span>       <span style="color:#e6db74">&#34;&#34;&#34;Y</span>$$<span style="color:#e6db74">.&#34;</span>.     OS: Debian GNU/Linux <span style="color:#ae81ff">13</span> <span style="color:#f92672">(</span>trixie<span style="color:#f92672">)</span> x86_64
+</span></span><span style="display:flex;"><span>  ,$$P<span style="color:#e6db74">&#39;              `$$$.     Host: Latitude 5310
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span>,$$P       ,ggs.     <span style="color:#e6db74">`</span>$$b:    Kernel: Linux 6.12.74+deb13+1-amd64
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>d$$<span style="color:#e6db74">&#39;     ,$P&#34;&#39;</span>   .    $$$     Uptime: <span style="color:#ae81ff">15</span> hours, <span style="color:#ae81ff">13</span> mins
+</span></span><span style="display:flex;"><span> $$P      d<span style="color:#e6db74">$&#39;     ,    $$P     Packages: 3357 (dpkg)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> $$:      $$.   -    ,d$$&#39;</span>     Shell: zsh 5.9
+</span></span><span style="display:flex;"><span> $$;      Y$b._   _,d$P<span style="color:#e6db74">&#39;       Display (AUO212D): 1920x1080 @ 60 Hz (as 1536x864) in 13&#34; [Built-in]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> Y$$.    `.`&#34;Y$$$$P&#34;&#39;</span>          DE: GNOME 48.7
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">`</span>$$b      <span style="color:#e6db74">&#34;-.__               WM: Mutter (Wayland)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  `Y</span>$$<span style="color:#e6db74">b                        WM Theme: Adwaita
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">   `Y</span>$$<span style="color:#e6db74">.                       Theme: Adwaita [GTK2/3/4]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">     `</span>$$<span style="color:#e6db74">b.                     Icons: Adwaita [GTK2/3/4]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">       `Y</span>$$<span style="color:#e6db74">b.                  Font: Cantarell (11pt) [GTK2/3/4]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         `&#34;</span>Y$b._               Cursor: Adwaita <span style="color:#f92672">(</span>24px<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#e6db74">`</span><span style="color:#e6db74">&#34;&#34;&#34;&#34;</span>             Terminal: tabby 1.0.228
+</span></span><span style="display:flex;"><span>                               Terminal Font: MesloLGS NF <span style="color:#f92672">(</span>16pt<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                               CPU: Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-10310U <span style="color:#f92672">(</span>8<span style="color:#f92672">)</span> @ 4.40 GHz
+</span></span><span style="display:flex;"><span>                               GPU: Intel UHD Graphics @ 1.15 GHz <span style="color:#f92672">[</span>Integrated<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                               Memory: 7.54 GiB / 62.50 GiB <span style="color:#f92672">(</span>12%<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                               Swap: <span style="color:#ae81ff">0</span> B / 977.00 MiB <span style="color:#f92672">(</span>0%<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                               Disk <span style="color:#f92672">(</span>/<span style="color:#f92672">)</span>: 1.16 TiB / 1.79 TiB <span style="color:#f92672">(</span>65%<span style="color:#f92672">)</span> - ext4
+</span></span><span style="display:flex;"><span>                               Local IP <span style="color:#f92672">(</span>wlo1<span style="color:#f92672">)</span>: 172.30.2.10/24
+</span></span><span style="display:flex;"><span>                               Battery <span style="color:#f92672">(</span>DELL WXW8096<span style="color:#f92672">)</span>: 94% <span style="color:#f92672">[</span>Charging, AC Connected<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                               Locale: en_US.UTF-8
+</span></span></code></pre></div><ul>
+<li>測試資料庫: Oracle 19c</li>
+</ul>
+<h2 id="安裝-sqlplus">安裝 sqlplus</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget 
+</span></span><span style="display:flex;"><span>unzip -q instantclient-basic-linux.x64-19.30.0.0.0dbru.zip
+</span></span><span style="display:flex;"><span>uznip -q instantclient-sqlplus-linux.x64-19.30.0.0.0dbru.zip
+</span></span><span style="display:flex;"><span>sudo mv instantclient_19_30 /usr/local/sqlplus
+</span></span><span style="display:flex;"><span>sudo mkdir -p /usr/local/sqlplus/lib
+</span></span><span style="display:flex;"><span>cd /usr/local/sqlplus
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 進入你那個充滿 .so 的目錄後執行：</span>
+</span></span><span style="display:flex;"><span>ln -sf <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/libclntsh.so ./lib/libclntsh.so
+</span></span><span style="display:flex;"><span>ln -sf <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/libclntsh.so.19.1 ./lib/libclntsh.so.19.1
+</span></span><span style="display:flex;"><span>ln -sf <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/libnnz19.so ./lib/libnnz19.so
+</span></span><span style="display:flex;"><span>ln -sf <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/libociei.so ./lib/libociei.so
+</span></span><span style="display:flex;"><span>ln -sf <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/libclntshcore.so.19.1 ./lib/libclntshcore.so.19.1
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export ORACLE_HOME<span style="color:#f92672">=</span>/usr/local/sqlplus
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 同時包含根目錄與 lib 目錄，確保 HammerDB 不管怎麼找都找得到</span>
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$ORACLE_HOME:$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+</span></span><span style="display:flex;"><span>export TNS_ADMIN<span style="color:#f92672">=</span>$ORACLE_HOME/network/admin
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$ORACLE_HOME:$PATH
+</span></span></code></pre></div><ul>
+<li>/usr/local/sqlplus/network/admin/tnsnames.ora</li>
+</ul>
+<pre tabindex="0"><code>db151 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 172.30.1.151)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = db)
+    )
+  )
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 以 SYSDBA 身份執行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> masterdba IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#34;1qaz@WSX3edc&#34;</span> ACCOUNT UNLOCK;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 賦予必要的權限
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">CONNECT</span>, RESOURCE, DBA <span style="color:#66d9ef">TO</span> masterdba;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">USER</span> masterdba QUOTA UNLIMITED <span style="color:#66d9ef">ON</span> USERS;
+</span></span></code></pre></div><h2 id="安裝-hammerdb">安裝 hammerdb</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install libtcl8.6 libtk8.6 unixodbc unixodbc-dev
+</span></span><span style="display:flex;"><span>sudo apt install tcl tk
+</span></span></code></pre></div><p>下載 hammerdb-5.0-1.el9.x86_64.rpm 直接解壓縮就可以直接使用了</p>
+<h2 id="進行壓力測試">進行壓力測試</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./hammerdbcli
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dbset db ora
+</span></span><span style="display:flex;"><span>diset connection system_user masterdba
+</span></span><span style="display:flex;"><span>diset connection system_password Aa1234..
+</span></span><span style="display:flex;"><span>diset connection instance db151
+</span></span><span style="display:flex;"><span>diset connection instance //172.30.1.151:1521/db151
+</span></span><span style="display:flex;"><span>vudestroy
+</span></span><span style="display:flex;"><span>buildschema
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定為計時模式 (Timed)</span>
+</span></span><span style="display:flex;"><span>diset tpcc ora_driver timed
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定測試執行時間 (分鐘)，例如 2 分鐘</span>
+</span></span><span style="display:flex;"><span>diset tpcc duration <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定預熱時間 (分鐘)，確保 Buffer Cache 已填滿</span>
+</span></span><span style="display:flex;"><span>diset tpcc rampup <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 載入腳本：</span>
+</span></span><span style="display:flex;"><span>loadscript
+</span></span><span style="display:flex;"><span>vucreate
+</span></span><span style="display:flex;"><span>vuset vu <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>vurun
+</span></span></code></pre></div><p>以下是測試結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hammerdb&gt;vudestroy
+</span></span><span style="display:flex;"><span>vudestroy success
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;vuset vu <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;vucreate
+</span></span><span style="display:flex;"><span>Vuser <span style="color:#ae81ff">1</span> created MONITOR - WAIT IDLE
+</span></span><span style="display:flex;"><span>Vuser <span style="color:#ae81ff">2</span> created - WAIT IDLE
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> Virtual Users Created with Monitor VU
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;vurun
+</span></span><span style="display:flex;"><span>Vuser 1:RUNNING
+</span></span><span style="display:flex;"><span>Vuser 1:DBVersion:19.0.0.0.0
+</span></span><span style="display:flex;"><span>Vuser 1:Beginning rampup time of <span style="color:#ae81ff">1</span> minutes
+</span></span><span style="display:flex;"><span>Vuser 2:RUNNING
+</span></span><span style="display:flex;"><span>Vuser 2:Processing <span style="color:#ae81ff">10000000</span> transactions with output suppressed...
+</span></span><span style="display:flex;"><span>Vuser 1:Rampup <span style="color:#ae81ff">1</span> minutes complete ...
+</span></span><span style="display:flex;"><span>Vuser 1:Rampup complete, Taking start AWR snapshot.
+</span></span><span style="display:flex;"><span>Vuser 1:Start Snapshot <span style="color:#ae81ff">73</span> taken at <span style="color:#ae81ff">13</span> APR <span style="color:#ae81ff">2026</span> 08:48 of instance db151 <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span> of database DB <span style="color:#f92672">(</span>1994028977<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Vuser 1:Timing test period of <span style="color:#ae81ff">1</span> in minutes
+</span></span><span style="display:flex;"><span>Vuser 1:1 ...,
+</span></span><span style="display:flex;"><span>Vuser 1:Test complete, Taking end AWR snapshot.
+</span></span><span style="display:flex;"><span>Vuser 1:End Snapshot <span style="color:#ae81ff">74</span> taken at <span style="color:#ae81ff">13</span> APR <span style="color:#ae81ff">2026</span> 08:49 of instance db151 <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span> of database DB <span style="color:#f92672">(</span>1994028977<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Vuser 1:Test complete: view report from SNAPID <span style="color:#ae81ff">73</span> to <span style="color:#ae81ff">74</span>
+</span></span><span style="display:flex;"><span>Vuser 1:1 Active Virtual Users configured
+</span></span><span style="display:flex;"><span>Vuser 1:TEST RESULT : System achieved <span style="color:#ae81ff">4132</span> NOPM from <span style="color:#ae81ff">8873</span> Oracle TPM
+</span></span><span style="display:flex;"><span>Vuser 2:FINISHED SUCCESS
+</span></span><span style="display:flex;"><span>Vuser 1:FINISHED SUCCESS
+</span></span><span style="display:flex;"><span>ALL VIRTUAL USERS COMPLETE
+</span></span><span style="display:flex;"><span>Benchmark Run jobid<span style="color:#f92672">=</span>69DC3D3B64F403E233732313
+</span></span><span style="display:flex;"><span>hammerdb&gt;
+</span></span></code></pre></div><p>測試結果簡單說明</p>
+<ul>
+<li>TPM (Transactions Per Minute): 8873（這是 Oracle 每分鐘處理的所有交易總數）。</li>
+<li>NOPM (New Orders Per Minute): 4132（這是 TPROC-C 核心指標，代表每分鐘完成的「新訂單」交易，通常用來跨平台比較）。</li>
+<li>AWR Snapshot: 自動觸發了 Snapshots 73 到 74。</li>
+<li>jobid: 此次執行的 id ，未來在查詢報告會使用到</li>
+</ul>
+<h3 id="查看報告方式">查看報告方式</h3>
+<h4 id="在-cli-模式中查看報告內容">在 CLI 模式中查看報告內容</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看有跑過哪些測試</span>
+</span></span><span style="display:flex;"><span>jobs timestamp
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看報告</span>
+</span></span><span style="display:flex;"><span>jobs &lt;jobID&gt; result
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hammerdb&gt;jobs timestamp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F1C0255303E293430313&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 10:51:44&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F1C825D803E283531333&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 10:51:52&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F20D29EC03E283933343&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 10:53:01&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F2462D5903E273932303&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 10:53:58&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F4B6528403E223639373&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 11:04:22&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F4C2533E03E243439313&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 11:04:34&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F4E2552603E263032303&#34;</span>: <span style="color:#e6db74">&#34;2026-04-18 11:05:06&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;jobs 69E2F2462D5903E273932303 result
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;69E2F2462D5903E273932303&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;2026-04-18 10:53:58&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;1 Active Virtual Users configured&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;TEST RESULT : System achieved 4171 NOPM from 8797 Oracle TPM&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="在web-介面查看報告">在web 介面查看報告</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hammerdbws
+</span></span></code></pre></div><p>打開瀏覽器入 <code>http://localhost:8080</code> 就可以輕鬆查看報告</p>
+<h2 id="操作方式">操作方式</h2>
+<h3 id="重新建立測試資料">重新建立測試資料</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># drop user tpcc cascade;</span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;vudestroy
+</span></span><span style="display:flex;"><span>vudestroy success
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hammerdb&gt;buildschema
+</span></span><span style="display:flex;"><span>Script cleared
+</span></span></code></pre></div><h2 id="referance">Referance</h2>
+<ul>
+<li><a href="https://www.hammerdb.com/docs/index.html">HammerDB Documentation</a></li>
+</ul>
+</div>
+                <div>
+                    <script src="https://utteranc.es/client.js"
+                        repo="PolloChang/commentsforpollochang"
+                        issue-term="pathname"
+                        theme="github-light"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+            
+
+            <div class="layui-card single-card">
+                <h2 class="single-title">Recent Posts</h2>
+            
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/cns11643/">
+                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-21</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/cns11643/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
+        </a>
+    
+        <a href="/tags/java/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/db-postgresql-note/">
+                        <h3 class="">db-postgresql-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/postgresql/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/docker-note/">
+                        <h3 class="">docker-note</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-03-15</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/docker/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
+                        <h3 class="">關閉IPv6</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+                <div style="margin-left: 10px;">
+                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
+                        <h3 class="">輸入法相關</h3>
+                    </a>
+                    <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2024-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/linux/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
+        </a>
+    
+    
+</h3>
+
+                    </blockquote>
+                </div>
+                
+            
+            <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        </div><footer>
+    
+    
+    <div class="layui-container">
+        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -168,6 +168,447 @@ layui.use('element', function(){
                     
                     
                             <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/load-testing-for-database/">
+            <h2 class="">資料庫壓力測試</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-18</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/hammerdb/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">HammerDB</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				最近在工作中安裝完資料庫後，在煩惱有什方式可以測試資料庫效能足夠應付未來的業務需求。一開始的想法是自己寫腳本進行測試，但是想到要自己寫就開始發懶，因此開始有沒有別人寫好的工具。
+在努力的搜尋過後，發現 HammerDB 是符合我的需求: OpenSource, 易於安裝, CLI 執行。
+以下是我初 ...
+             <a href="/oracle-database/load-testing-for-database/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/open-statspack/">
+            <h2 class="">open Statspack</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-14</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				因為 Oracle AWR 需要 DIAGNOSTIC+TUNING 授權才可以明確使用，但是在實務中沒有監控 DBA 只能當通靈大師 Tunning Database，因此轉而使用Oracle Statspack 作為替代方案。
+以下是啟用方式
+Statspack 啟用方式 進入 Sqlplus  ...
+             <a href="/oracle-database/open-statspack/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/oracle-index-maintain/">
+            <h2 class="">Oracle Index 維護方式</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-07</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				Oracle 11g 1. 清查統計資訊：確認資料的「新鮮度」 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。
+實務作法： 使用以下 SQL 找出深度異常（&gt;=3）且統計資訊超過 7 天未更新的索引：
+SELECT owner, ...
+             <a href="/oracle-database/oracle-index-maintain/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/oracle-file-design/">
+            <h2 class="">Oracle files design</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：Redo Log 追求的是「極致的寫入低延遲（Latency）」，而 Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」。
+如果配置不當，Redo Log  ...
+             <a href="/oracle-database/oracle-file-design/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/how-to-check-need-redo.size/">
+            <h2 class="">How to check need redo size</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-06</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				以下內容待確認，我這邊先筆記
+太棒了！你已經完美地將我們討論的「15-20 分鐘法則」、精確計算公式以及「過大 vs. 過小」的權衡整理成了一份標準作業程序（SOP）。這就是一位優秀 DBA 的養成之路：不僅要解決問題，更要建立可量化的評估標準。
+為了讓你的評估更完整，我將結合你提到的這份 SOP， ...
+             <a href="/oracle-database/how-to-check-need-redo.size/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/maa-consolidation-tw/">
+            <h2 class="">maa consolidation TW</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-04-05</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南 資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 1。為了達成這些目標，資料庫整 ...
+             <a href="/oracle-database/maa-consolidation-tw/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/oracle-encoding-history-al32utf8-en/">
+            <h2 class="">Oracle Encoding History - AL32UTF8</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+        <a href="/tags/encoding/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				The Cornerstone of the Globalized Information Era: A Deep Research Report on the Origins, Technical Evolution, and Architecture of Oracle AL32UTF8 In ...
+             <a href="/oracle-database/oracle-encoding-history-al32utf8-en/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/oracle-encoding-history-al32utf8/">
+            <h2 class="">AL32UTF8_編碼起源與發展</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-22</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+        <a href="/tags/ai-content/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
+        </a>
+    
+        <a href="/tags/encoding/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告 在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需 ...
+             <a href="/oracle-database/oracle-encoding-history-al32utf8/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/connect-manage/">
+            <h2 class="">資料庫連線管理</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-03-09</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+
+    
+    
+</h3>
+
+        <h3>
+        	
+				程式語言連線方式比對: Java VS .NET 設定類別 設定名稱 設定說明 Java 參數名稱 (YAML) .Net (ODP.NET) 參數名稱 基礎配置 資料庫方言 告知 ORM 框架底層是哪種資料庫，以產生對應的 SQL。 dialect (無直接對應，ODP.NET 為 Oracle  ...
+             <a href="/oracle-database/connect-manage/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
+        <a href="/oracle-database/deploy-oracle26ai-on-ol8/">
+            <h2 class="">deploy Oracle26ai on Oracle Linux 8</h2>
+        </a>
+        <h3 style="margin-top:10px; margin-bottom:10px"> 
+    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
+    <span>2026-02-28</span>
+
+    
+     
+    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
+    
+
+    
+        <a href="/categories/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+
+    
+    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
+    
+
+    
+        <a href="/tags/oracle/">
+            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
+        </a>
+    
+    
+</h3>
+
+        <h3>
+        	
+				資料庫環境 Database version: ORACLE_HOME: /u01/app/oracle/product/26/db 準備檔案 資料庫軟體: LINUX.X64_2326100_db_home.zip sha256sum : ...
+             <a href="/oracle-database/deploy-oracle26ai-on-ol8/"><span style="color:#01AAED">Read More</span></a>
+        </h3>
+    </blockquote>
+
+                    
+                
+                
+                    
+                    
+                            <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
         <a href="/worknot/oracle-ebs-001/">
             <h2 class="">Oracle EBS set change Password with SQL</h2>
         </a>
@@ -1251,6 +1692,10 @@ sudo sysctl ...
                     
                         <a href="/tags/grub/">
                             <span class="layui-badge layui-bg-green" style="margin: 5px">grub</span>
+                        </a>
+                    
+                        <a href="/tags/hammerdb/">
+                            <span class="layui-badge layui-bg-green" style="margin: 5px">hammerdb</span>
                         </a>
                     
                         <a href="/tags/hugo/">

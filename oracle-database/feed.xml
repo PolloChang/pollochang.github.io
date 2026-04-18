@@ -6,8 +6,15 @@
     <description>Recent content in Oracle-Databases on PolloChang 工作筆記</description>
     <generator>Hugo</generator>
     <language>zh-TW</language>
-    <lastBuildDate>Tue, 14 Apr 2026 22:57:49 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 18 Apr 2026 08:57:49 +0800</lastBuildDate>
     <atom:link href="http://pollochang.work/oracle-database/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>資料庫壓力測試</title>
+      <link>http://pollochang.work/oracle-database/load-testing-for-database/</link>
+      <pubDate>Sat, 18 Apr 2026 08:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/load-testing-for-database/</guid>
+      <description>最近在工作中安裝完資料庫後，在煩惱有什方式可以測試資料庫效能足夠應付未來的業務需求。一開始的想法是自己寫腳本進行測試，但是想到要自己寫就開始發懶，因此開始有沒有別人寫好的工具。&#xA;在努力的搜尋過後，發現 HammerDB 是符合我的需求: OpenSource, 易於安裝, CLI 執行。&#xA;以下是我初次學習安裝的紀錄&#xA;環境 壓力測試AP主機: 個人電腦 ❯ fastfetch _,met$$$$$gg. pollochang@pollo-nb-5310 ,g$$$$$$$$$$$$$$$P. ------------------------ ,g$$P&amp;#34;&amp;#34; &amp;#34;&amp;#34;&amp;#34;Y$$.&amp;#34;. OS: Debian GNU/Linux 13 (trixie) x86_64 ,$$P&amp;#39; `$$$. Host: Latitude 5310 &amp;#39;,$$P ,ggs. `$$b: Kernel: Linux 6.12.74+deb13+1-amd64 `d$$&amp;#39; ,$P&amp;#34;&amp;#39; . $$$ Uptime: 15 hours, 13 mins $$P d$&amp;#39; , $$P Packages: 3357 (dpkg) $$: $$. - ,d$$&amp;#39; Shell: zsh 5.9 $$; Y$b._ _,d$P&amp;#39; Display (AUO212D): 1920x1080 @ 60 Hz (as 1536x864) in 13&amp;#34; [Built-in] Y$$.</description>
+    </item>
     <item>
       <title>open Statspack</title>
       <link>http://pollochang.work/oracle-database/open-statspack/</link>
@@ -147,13 +154,6 @@
       <pubDate>Wed, 03 Jul 2024 23:50:53 +0800</pubDate>
       <guid>http://pollochang.work/oracle-database/oracle-ocfs2-1/</guid>
       <description>Oracle Cluster File System 2 (OCFS2) 文件系统&#xA;指令 手動掛載 mount -t ocfs2 /dev/xvdb1 /data 處理結果&#xA;[root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot [root@testAP ~]# mount -t ocfs2 /dev/xvdb1 /data [root@testAP ~]# df -h Filesystem Size Used Avail Use% Mounted on /dev/mapper/ol-root 291G 189G 103G 65% / /dev/xvda1 497M 267M 230M 54% /boot /dev/xvdb1 1.0T 896G 129G 88% /data 開機時自動掛載 /etc/fstab /dev/xvdb1 /data ocfs2 defaults,_netdev 0 0 </description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://pollochang.work/oracle-database/%E8%B3%87%E6%96%99%E5%BA%AB%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://pollochang.work/oracle-database/%E8%B3%87%E6%96%99%E5%BA%AB%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</guid>
-      <description>環境 安裝 sqlplus wget unzip -q instantclient-basic-linux.x64-19.30.0.0.0dbru.zip uznip -q instantclient-sqlplus-linux.x64-19.30.0.0.0dbru.zip sudo mv instantclient_19_30 /usr/local/sqlplus sudo mkdir -p /usr/local/sqlplus/lib cd /usr/local/sqlplus # 進入你那個充滿 .so 的目錄後執行： ln -sf $(pwd)/libclntsh.so ./lib/libclntsh.so ln -sf $(pwd)/libclntsh.so.19.1 ./lib/libclntsh.so.19.1 ln -sf $(pwd)/libnnz19.so ./lib/libnnz19.so ln -sf $(pwd)/libociei.so ./lib/libociei.so ln -sf $(pwd)/libclntshcore.so.19.1 ./lib/libclntshcore.so.19.1 export ORACLE_HOME=/usr/local/sqlplus # 同時包含根目錄與 lib 目錄，確保 HammerDB 不管怎麼找都找得到 export LD_LIBRARY_PATH=$ORACLE_HOME:$ORACLE_HOME/lib:$LD_LIBRARY_PATH export TNS_ADMIN=$ORACLE_HOME/network/admin export PATH=$ORACLE_HOME:$PATH /usr/local/sqlplus/network/admin/tnsnames.ora db151 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.30.1.151)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = db) ) ) -- 以 SYSDBA 身份執行 CREATE USER masterdba IDENTIFIED BY &amp;#34;1qaz@WSX3edc&amp;#34; ACCOUNT UNLOCK; -- 賦予必要的權限 GRANT CONNECT, RESOURCE, DBA TO masterdba; ALTER USER masterdba QUOTA UNLIMITED ON USERS; 安裝 hammerdb sudo apt install libtcl8.</description>
     </item>
   </channel>
 </rss>

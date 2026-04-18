@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HammerDB on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/hammerdb/</link>
+    <description>Recent content in HammerDB on PolloChang 工作筆記</description>
+    <generator>Hugo</generator>
+    <language>zh-TW</language>
+    <lastBuildDate>Sat, 18 Apr 2026 08:57:49 +0800</lastBuildDate>
+    <atom:link href="http://pollochang.work/tags/hammerdb/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>資料庫壓力測試</title>
+      <link>http://pollochang.work/oracle-database/load-testing-for-database/</link>
+      <pubDate>Sat, 18 Apr 2026 08:57:49 +0800</pubDate>
+      <guid>http://pollochang.work/oracle-database/load-testing-for-database/</guid>
+      <description>最近在工作中安裝完資料庫後，在煩惱有什方式可以測試資料庫效能足夠應付未來的業務需求。一開始的想法是自己寫腳本進行測試，但是想到要自己寫就開始發懶，因此開始有沒有別人寫好的工具。&#xA;在努力的搜尋過後，發現 HammerDB 是符合我的需求: OpenSource, 易於安裝, CLI 執行。&#xA;以下是我初次學習安裝的紀錄&#xA;環境 壓力測試AP主機: 個人電腦 ❯ fastfetch _,met$$$$$gg. pollochang@pollo-nb-5310 ,g$$$$$$$$$$$$$$$P. ------------------------ ,g$$P&amp;#34;&amp;#34; &amp;#34;&amp;#34;&amp;#34;Y$$.&amp;#34;. OS: Debian GNU/Linux 13 (trixie) x86_64 ,$$P&amp;#39; `$$$. Host: Latitude 5310 &amp;#39;,$$P ,ggs. `$$b: Kernel: Linux 6.12.74+deb13+1-amd64 `d$$&amp;#39; ,$P&amp;#34;&amp;#39; . $$$ Uptime: 15 hours, 13 mins $$P d$&amp;#39; , $$P Packages: 3357 (dpkg) $$: $$. - ,d$$&amp;#39; Shell: zsh 5.9 $$; Y$b._ _,d$P&amp;#39; Display (AUO212D): 1920x1080 @ 60 Hz (as 1536x864) in 13&amp;#34; [Built-in] Y$$.</description>
+    </item>
+  </channel>
+</rss>
