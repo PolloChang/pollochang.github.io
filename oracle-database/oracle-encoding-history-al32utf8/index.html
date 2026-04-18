@@ -1,180 +1,867 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html
+  lang="zh-TW"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="dark"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="zh-TW">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
 
-    <title>PolloChang 工作筆記 - AL32UTF8_編碼起源與發展 </title>
-    
-    
-    <meta content="Oracle, AI Content, Encoding" name="keywords">
-    
-    <meta content="PolloChang 工作筆記 - 全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告 在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需求，從原本的區域性解決方案演變為一種全球性的技術指令。在此背景下，Oracle 公司的 AL32UTF8 字元集應運而生。本報告旨在詳盡探討 AL32UTF8 的起源時間、技術動機、架構原理及其在過去二十多年間如何隨着 Unicode 標準的演進而成為當前全球資料庫部署的核心標準。
-早期運算環境與字元編碼的碎片化歷史 在探究 AL32UTF8 的起源之前，必須先行理解導致其產生的歷史背景。二十世紀五十年代至七十年代，電腦硬體與作業系統受限於極其有限的記憶體與儲存空間 ^1^。早期的資料輸入主要依賴穿孔卡片，這使得將英數符號壓縮至 6 位元（6-bit）或 8 位元（8-bit）格式成為當時的技術核心 ^1^。
-1963 年美國國家標準學會（ANSI）發布了 ASCII 編碼，這是一種 7 位元的編碼方案，定義了 128 個字元，這在當時僅需處理英文與基本控制符號的環境下已顯足夠 ^1^。然而，隨着運算技術向歐洲及亞洲擴散，ASCII 的侷限性迅速顯現。為了支援不同國家的語言，各硬體廠商與標準組織開發了大量的 8 位元編碼方案（如 ISO-8859 系列），這雖然解決了特定區域的語言顯示問題，卻造成了嚴重的資料孤島與「編碼混亂」現象 ^1^。
-1983 年，數位設備公司（DEC）發明了國家替換字元集（NRCS），試圖在單一終端上切換不同的 8 位元編碼 ^1^。然而，這種方法仍無法在同一個文件或資料庫欄位中同時儲存多國語言。真正促使技術界尋求「通用解決方案」的關鍵，是八十年代末期 Xerox PARC 與 Apple 對統一編碼的研究，這最終導致了 Unicode 聯盟在 1991 年發布了第一版 Unicode 標準 ^1^。
-Oracle 資料庫全球化支援（NLS）的初期嘗試 Oracle 公司作為關聯式資料庫的領導者，在解決多語言問題上一直處於前沿。Oracle 的字元集命名遵循 &lt;語言&gt;&lt;位元數&gt;&lt;編碼&gt; 的嚴格約定，其中前綴「AL」代表「All Languages」（所有語言） ^2^。
-在 Unicode 標準尚處於雛形階段時，Oracle 已開始在資料庫核心中整合相關支援。下表紀錄了 AL32UTF8 出現之前的 Unicode 演進路徑：" name="description">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    
-        <link rel="icon" href="/images/logo.jpg">
-    
+  
+  
+    <title>AL32UTF8_編碼起源與發展 &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="AL32UTF8_編碼起源與發展 &middot; PolloChang 工作筆記">
+  
 
-    
+  
+  
+    <meta name="description" content="我是一隻雞">
+  
+  
+    <meta name="keywords" content="Oracle,AI Content,Encoding,">
+  
+  
+  
+  <link rel="canonical" href="http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/">
+  
+  
 
+  
+  
+    <meta name="author" content="PolloChang">
+  
+  
     
+      
         
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)};
-          gtag('js', new Date());
-          gtag('config', 'G-7QK0FBKQ5Q');
-        </script>
-    
-
-    
-
-    <link rel="stylesheet" href="/layui/css/layui.css">
-    <link rel="stylesheet" href="/self/css/default.css">
-    <script src=" /layui/layui.js"></script>
-
-    <link rel="stylesheet" async href="/self/css/markdown.min.css">
-    <link rel="stylesheet" async href="/self/css/gallery.css">
-    
-    
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
-
-<body>
-    
-    <header class="layui-header layui-bg-cyan">
-
-    
-        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
-    
-    
-    <a class="nav-self-logo" href="/">
-        PolloChang 工作筆記
-    </a>
-
-    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+          <link href="https://github.com/PolloChang" rel="me">
         
+      
+    
+      
         
+          <link href="https://www.linkedin.com/in/chang-pollo-903301219" rel="me">
         
-        
+      
+    
+  
 
-        
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
-            
-        
+  
+  <meta property="og:url" content="http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/">
+  <meta property="og:site_name" content="PolloChang 工作筆記">
+  <meta property="og:title" content="AL32UTF8_編碼起源與發展">
+  <meta property="og:description" content="全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告 # 在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需求，從原本的區域性解決方案演變為一種全球性的技術指令。在此背景下，Oracle 公司的 AL32UTF8 字元集應運而生。本報告旨在詳盡探討 AL32UTF8 的起源時間、技術動機、架構原理及其在過去二十多年間如何隨着 Unicode 標準的演進而成為當前全球資料庫部署的核心標準。">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="oracle-database">
+    <meta property="article:published_time" content="2026-03-22T23:00:52+08:00">
+    <meta property="article:modified_time" content="2026-03-22T23:00:52+08:00">
+    <meta property="article:tag" content="Oracle">
+    <meta property="article:tag" content="AI Content">
+    <meta property="article:tag" content="Encoding">
 
-        
-        <li class="layui-nav-item" id="nav_small">
-            <a href="javascript:;">
-                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
-            </a>
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AL32UTF8_編碼起源與發展">
+  <meta name="twitter:description" content="全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告 # 在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需求，從原本的區域性解決方案演變為一種全球性的技術指令。在此背景下，Oracle 公司的 AL32UTF8 字元集應運而生。本報告旨在詳盡探討 AL32UTF8 的起源時間、技術動機、架構原理及其在過去二十多年間如何隨着 Unicode 標準的演進而成為當前全球資料庫部署的核心標準。">
 
-            <dl class="layui-nav-child">
-                
-                
-                
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
 
-                
-                    
-                        <dd><a href="/post/">文章</a></dd>
-                    
-                        <dd><a href="/worknot/">工作隨手記</a></dd>
-                    
-                        <dd><a href="/oracle-database/">oracle-database</a></dd>
-                    
-                        <dd><a href="/k8s/">k8s</a></dd>
-                    
-                        <dd><a href="/personal-zone/">個人經歷</a></dd>
-                    
-                        <dd><a href="/about/">關於</a></dd>
-                    
-                
-            </dl>
-        </li>
-    </ul>
-</header>
+  
+  
+  
+  
+  
+  
 
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.07a8088c33086a4f22f8c0e9b9dd8b3d24774753ce35a341034d6f7c1e249b72e184af812c1341e6a62df443da9e4bb28feddf7f5c6f07b24a20a900ef559483.css"
+    integrity="sha512-B6gIjDMIak8i&#43;MDpud2LPSR3R1PONaNBA01vfB4km3LhhK&#43;BLBNB5qYt9EPankuyj&#43;3ff1xvB7JKIKkA71WUgw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.0fa2a78284c4ed567ca02f5c37008b7b0127c3081f48b033f1c537c24766b8d57da49e0316c193c94bfd77da998acb9863844e045800340b2303522672e1ac79.js"
+      integrity="sha512-D6KngoTE7VZ8oC9cNwCLewEnwwgfSLAz8cU3wkdmuNV9pJ4DFsGTyUv9d9qZisuYY4ROBFgANAsjA1ImcuGseQ=="
+      data-copy="複製"
+      data-copied="已複製"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Oracle-Databases",
+    "name": "AL32UTF8_編碼起源與發展",
+    "headline": "AL32UTF8_編碼起源與發展",
+    
+    "inLanguage": "zh-TW",
+    "url" : "http://pollochang.work/oracle-database/oracle-encoding-history-al32utf8/",
+    "author" : {
+      "@type": "Person",
+      "name": "PolloChang"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-03-22T23:00:52\u002b08:00",
+    "datePublished": "2026-03-22T23:00:52\u002b08:00",
+    
+    "dateModified": "2026-03-22T23:00:52\u002b08:00",
+    
+    "keywords": ["Oracle","AI Content","Encoding"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "6766"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
 <script>
-layui.use('element', function(){
-  var element = layui.element;
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7QK0FBKQ5Q');
 </script>
 
-        <div id="content" style="min-height:80%">
-<div class="layui-container" style="margin-bottom: 10px">
+
+
+
+
+  
+
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-你的ID"
+     crossorigin="anonymous"></script>
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        快轉到主要內容
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      PolloChang 工作筆記
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/post/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="文章"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          文章
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/worknot/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="工作隨手記"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          工作隨手記
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/oracle-database/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Oracle"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Oracle
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/k8s/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="K8s"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          K8s
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/personal-zone/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="個人經歷"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          個人經歷
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="關於"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          關於
+        </span>
+      
+    </a>
+  
+
+    
+  
+
+  
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/post/"
+        aria-label="文章"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          文章
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/worknot/"
+        aria-label="工作隨手記"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          工作隨手記
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/oracle-database/"
+        aria-label="Oracle"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          Oracle
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/k8s/"
+        aria-label="K8s"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          K8s
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/personal-zone/"
+        aria-label="個人經歷"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          個人經歷
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="關於"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          關於
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
     
 
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
-            <div class="layui-card single-card">
-                <br />
-                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>AL32UTF8_編碼起源與發展</h1>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        AL32UTF8_編碼起源與發展
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-03-22T23:00:52&#43;08:00">March 22, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>6766 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">14 分鐘</span>
+    
 
     
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
+  </div>
+
+  
+
+  
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="PolloChang"
+        src="/images/logo_hu_1397cd167e9991d2.jpg"
+        data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        作者
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        PolloChang
+      </div>
+    
+    
+      <div class="text-sm text-neutral-700 dark:text-neutral-400">我是一隻雞</div>
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/PolloChang"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://www.linkedin.com/in/chang-pollo-903301219"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
 
     
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
 
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
 
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
 
-                </blockquote>
-                <div class="layui-card-body markdown-body single-content">
-                    <h1 id="全球化資訊時代的基石oracle-al32utf8-字元集起源技術演進與架構深度研究報告">全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告</h1>
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">全球化資訊時代的基石：Oracle AL32UTF8 字元集起源、技術演進與架構深度研究報告
+    <div id="全球化資訊時代的基石oracle-al32utf8-字元集起源技術演進與架構深度研究報告" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%85%a8%e7%90%83%e5%8c%96%e8%b3%87%e8%a8%8a%e6%99%82%e4%bb%a3%e7%9a%84%e5%9f%ba%e7%9f%b3oracle-al32utf8-%e5%ad%97%e5%85%83%e9%9b%86%e8%b5%b7%e6%ba%90%e6%8a%80%e8%a1%93%e6%bc%94%e9%80%b2%e8%88%87%e6%9e%b6%e6%a7%8b%e6%b7%b1%e5%ba%a6%e7%a0%94%e7%a9%b6%e5%a0%b1%e5%91%8a" aria-label="定位點">#</a>
+    </span>
+    
+</h1>
 <p>在當代關聯式資料庫管理系統（RDBMS）的發展史中，資料的表現形式始終受到底層硬體限制與全球資訊交換需求之間的雙重拉鋸。隨着網際網路在二十世紀九十年代中期的爆發式增長，企業對於支援多語言、多文化數據儲存的需求，從原本的區域性解決方案演變為一種全球性的技術指令。在此背景下，Oracle
 公司的 AL32UTF8 字元集應運而生。本報告旨在詳盡探討 AL32UTF8
 的起源時間、技術動機、架構原理及其在過去二十多年間如何隨着 Unicode
 標準的演進而成為當前全球資料庫部署的核心標準。</p>
-<h2 id="早期運算環境與字元編碼的碎片化歷史">早期運算環境與字元編碼的碎片化歷史</h2>
+
+<h2 class="relative group">早期運算環境與字元編碼的碎片化歷史
+    <div id="早期運算環境與字元編碼的碎片化歷史" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%97%a9%e6%9c%9f%e9%81%8b%e7%ae%97%e7%92%b0%e5%a2%83%e8%88%87%e5%ad%97%e5%85%83%e7%b7%a8%e7%a2%bc%e7%9a%84%e7%a2%8e%e7%89%87%e5%8c%96%e6%ad%b7%e5%8f%b2" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>在探究 AL32UTF8
 的起源之前，必須先行理解導致其產生的歷史背景。二十世紀五十年代至七十年代，電腦硬體與作業系統受限於極其有限的記憶體與儲存空間
 ^1^。早期的資料輸入主要依賴穿孔卡片，這使得將英數符號壓縮至 6
@@ -193,7 +880,16 @@ layui.use('element', function(){
 ^1^。然而，這種方法仍無法在同一個文件或資料庫欄位中同時儲存多國語言。真正促使技術界尋求「通用解決方案」的關鍵，是八十年代末期
 Xerox PARC 與 Apple 對統一編碼的研究，這最終導致了 Unicode 聯盟在 1991
 年發布了第一版 Unicode 標準 ^1^。</p>
-<h2 id="oracle-資料庫全球化支援nls的初期嘗試">Oracle 資料庫全球化支援（NLS）的初期嘗試</h2>
+
+<h2 class="relative group">Oracle 資料庫全球化支援（NLS）的初期嘗試
+    <div id="oracle-資料庫全球化支援nls的初期嘗試" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-%e8%b3%87%e6%96%99%e5%ba%ab%e5%85%a8%e7%90%83%e5%8c%96%e6%94%af%e6%8f%b4nls%e7%9a%84%e5%88%9d%e6%9c%9f%e5%98%97%e8%a9%a6" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>Oracle
 公司作為關聯式資料庫的領導者，在解決多語言問題上一直處於前沿。Oracle
 的字元集命名遵循 &lt;語言&gt;&lt;位元數&gt;&lt;編碼&gt;
@@ -201,7 +897,16 @@ Xerox PARC 與 Apple 對統一編碼的研究，這最終導致了 Unicode 聯�
 <p>在 Unicode 標準尚處於雛形階段時，Oracle
 已開始在資料庫核心中整合相關支援。下表紀錄了 AL32UTF8 出現之前的 Unicode
 演進路徑：</p>
-<h3 id="表-1oracle-早期-unicode-字元集演進">表 1：Oracle 早期 Unicode 字元集演進</h3>
+
+<h3 class="relative group">表 1：Oracle 早期 Unicode 字元集演進
+    <div id="表-1oracle-早期-unicode-字元集演進" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a1%a8-1oracle-%e6%97%a9%e6%9c%9f-unicode-%e5%ad%97%e5%85%83%e9%9b%86%e6%bc%94%e9%80%b2" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <hr>
 <p><strong>字元集名稱</strong>    <strong>首次支援版本</strong>   <strong>對應 Unicode    <strong>編碼特性與侷限</strong>
 版本</strong></p>
@@ -212,19 +917,46 @@ Xerox PARC 與 Apple 對統一編碼的研究，這最終導致了 Unicode 聯�
 <p>UTF8 (中期)       Oracle 8.1.7       Unicode 3.0       實作為
 CESU-8；僅能處理基本多語言平面（BMP）
 ^2^。</p>
-<h2 id="mainframe設計的-unicode-支援-4">UTFE              Oracle 8i          Unicode 2.1/3.0   專為 EBCDIC 平台（如 IBM
-Mainframe）設計的 Unicode 支援 ^4^。</h2>
+
+<h2 class="relative group">UTFE              Oracle 8i          Unicode 2.1/3.0   專為 EBCDIC 平台（如 IBM
+Mainframe）設計的 Unicode 支援 ^4^。
+    <div id="mainframe設計的-unicode-支援-4" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#mainframe%e8%a8%ad%e8%a8%88%e7%9a%84-unicode-%e6%94%af%e6%8f%b4-4" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>根據歷史資料顯示，Oracle 從 Oracle 7 開始支援 Unicode
 作為資料庫字元集，最初的產品名為 AL24UTFFSS
 ^2^。其名稱中的「24」代表字元編碼空間在設計上主要考慮了 24
 位元的邏輯範圍 ^2^。然而，隨着 Unicode 標準向 2.0 及 3.0
 版本過渡，早期編碼方案無法完整對應全球所有字元的需求日益凸顯，這為
 AL32UTF8 的誕生埋下了伏筆。</p>
-<h2 id="al32utf8-的起源oracle-9i-與-unicode-31-的對接">AL32UTF8 的起源：Oracle 9i 與 Unicode 3.1 的對接</h2>
+
+<h2 class="relative group">AL32UTF8 的起源：Oracle 9i 與 Unicode 3.1 的對接
+    <div id="al32utf8-的起源oracle-9i-與-unicode-31-的對接" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#al32utf8-%e7%9a%84%e8%b5%b7%e6%ba%90oracle-9i-%e8%88%87-unicode-31-%e7%9a%84%e5%b0%8d%e6%8e%a5" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>AL32UTF8 編碼的正式起源可追溯至 2001 年 6 月發布的 <strong>Oracle 9i Release 1
 (9.0.1)</strong> ^5^。這不僅是一個新版本的發布，更是 Oracle 針對 Unicode
 演進方向所做出的根本性架構重構。</p>
-<h3 id="突破-3-位元組障礙的必要性">突破 3 位元組障礙的必要性</h3>
+
+<h3 class="relative group">突破 3 位元組障礙的必要性
+    <div id="突破-3-位元組障礙的必要性" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%aa%81%e7%a0%b4-3-%e4%bd%8d%e5%85%83%e7%b5%84%e9%9a%9c%e7%a4%99%e7%9a%84%e5%bf%85%e8%a6%81%e6%80%a7" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 9i 之前，Oracle 推薦的 Unicode
 字元集名稱為「UTF8」。雖然名稱看似標準，但在技術實作上，舊有的 UTF8
 僅能處理 Unicode 的「基本多語言平面」（BMP，範圍 U+0000 至 U+FFFF）
@@ -242,7 +974,16 @@ Pairs），每部分佔用 3 個位元組，總計 6 個位元組
 CESU-8，雖然在內部處理上可行，但在與網路傳輸、XML 解析器以及 Java
 應用程式（預期 4 位元組 UTF-8）互動時，會導致嚴重的資料不一致與毀損風險
 ^1^。</p>
-<h3 id="2001-2002al32utf8-的兩階段確立">2001-2002：AL32UTF8 的兩階段確立</h3>
+
+<h3 class="relative group">2001-2002：AL32UTF8 的兩階段確立
+    <div id="2001-2002al32utf8-的兩階段確立" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2001-2002al32utf8-%e7%9a%84%e5%85%a9%e9%9a%8e%e6%ae%b5%e7%a2%ba%e7%ab%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>為了解決上述技術缺陷，Oracle 9i 引入了
 AL32UTF8。其「32」在命名法中暗示了對 4 位元組（32
 位元）編碼的支持，並與舊有的「24」系列進行區分 ^2^。</p>
@@ -260,15 +1001,42 @@ AL32UTF8。此時，該字元集初步支援 Unicode 3.0 標準 ^5^。</p>
 個增補字元，其中包括對亞洲市場極其重要的 CJK 擴展 B 區漢字
 ^12^。AL32UTF8 的誕生標誌著 Oracle
 數據庫正式具備了處理人類歷史上所有文字的潛力。</p>
-<h2 id="技術架構解析al32utf8-的編碼機制">技術架構解析：AL32UTF8 的編碼機制</h2>
+
+<h2 class="relative group">技術架構解析：AL32UTF8 的編碼機制
+    <div id="技術架構解析al32utf8-的編碼機制" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%8a%80%e8%a1%93%e6%9e%b6%e6%a7%8b%e8%a7%a3%e6%9e%90al32utf8-%e7%9a%84%e7%b7%a8%e7%a2%bc%e6%a9%9f%e5%88%b6" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>AL32UTF8
 是一種變長多位元組編碼，其核心優勢在於對空間的極致利用與對標準的高度遵從。它根據
 Unicode 碼位的不同，動態調整每個字元所需的儲存空間 ^1^。</p>
-<h3 id="位元組分配與語言對應">位元組分配與語言對應</h3>
+
+<h3 class="relative group">位元組分配與語言對應
+    <div id="位元組分配與語言對應" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e4%bd%8d%e5%85%83%e7%b5%84%e5%88%86%e9%85%8d%e8%88%87%e8%aa%9e%e8%a8%80%e5%b0%8d%e6%87%89" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 AL32UTF8 中，字元的儲存長度直接取決於其在 Unicode
 碼表中的位置。這種機制確保了與 ASCII
 的完全向後兼容性，同時支援複雜的亞洲語言。</p>
-<h3 id="表-2al32utf8-儲存空間分配模型">表 2：AL32UTF8 儲存空間分配模型</h3>
+
+<h3 class="relative group">表 2：AL32UTF8 儲存空間分配模型
+    <div id="表-2al32utf8-儲存空間分配模型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a1%a8-2al32utf8-%e5%84%b2%e5%ad%98%e7%a9%ba%e9%96%93%e5%88%86%e9%85%8d%e6%a8%a1%e5%9e%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <hr>
 <p><strong>佔用位元組數</strong>        <strong>碼位範圍 (十六進制)</strong> <strong>主要涵蓋語言與符號</strong></p>
 <hr>
@@ -276,14 +1044,41 @@ Unicode 碼位的不同，動態調整每個字元所需的儲存空間 ^1^。</
 <p>2 位元組                U+0080 - U+07FF         西歐、拉丁文、希臘文、阿拉伯文、希伯來文等 ^1^。</p>
 <p>3 位元組                U+0800 - U+FFFF         常用中日韓漢字（CJK）、泰文、印度文、歐元符號（€）
 ^1^。</p>
-<h2 id="4-位元組----------------u10000---u10ffff------罕見漢字歷史遺留文字現代表情符號-emoji-1">4 位元組                U+10000 - U+10FFFF      罕見漢字、歷史遺留文字、現代表情符號 (Emoji) ^1^。</h2>
+
+<h2 class="relative group">4 位元組                U+10000 - U+10FFFF      罕見漢字、歷史遺留文字、現代表情符號 (Emoji) ^1^。
+    <div id="4-位元組----------------u10000---u10ffff------罕見漢字歷史遺留文字現代表情符號-emoji-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e4%bd%8d%e5%85%83%e7%b5%84----------------u10000---u10ffff------%e7%bd%95%e8%a6%8b%e6%bc%a2%e5%ad%97%e6%ad%b7%e5%8f%b2%e9%81%ba%e7%95%99%e6%96%87%e5%ad%97%e7%8f%be%e4%bb%a3%e8%a1%a8%e6%83%85%e7%ac%a6%e8%99%9f-emoji-1" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>這種分層儲存機制意味着，對於絕大多數僅包含英文的系統，遷移到 AL32UTF8
 不會導致儲存空間的增加（1:1
 比例），而對於德文或法文系統，儲存需求可能略微增加，對於中日韓系統，則每個字元固定佔用
 3 或 4 位元組 ^1^。</p>
-<h3 id="關鍵差異al32utf8-與舊版-utf8-的對抗">關鍵差異：AL32UTF8 與舊版 UTF8 的對抗</h3>
+
+<h3 class="relative group">關鍵差異：AL32UTF8 與舊版 UTF8 的對抗
+    <div id="關鍵差異al32utf8-與舊版-utf8-的對抗" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%97%9c%e9%8d%b5%e5%b7%ae%e7%95%b0al32utf8-%e8%88%87%e8%88%8a%e7%89%88-utf8-%e7%9a%84%e5%b0%8d%e6%8a%97" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>儘管許多開發者傾向於交替使用這兩個學名，但在資料庫底層，它們是截然不同的實體。這種「命名上的混淆」曾導致無數升級過程中的災難。</p>
-<h3 id="表-3al32utf8-與-utf8-字元集深度對比">表 3：AL32UTF8 與 UTF8 字元集深度對比</h3>
+
+<h3 class="relative group">表 3：AL32UTF8 與 UTF8 字元集深度對比
+    <div id="表-3al32utf8-與-utf8-字元集深度對比" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a1%a8-3al32utf8-%e8%88%87-utf8-%e5%ad%97%e5%85%83%e9%9b%86%e6%b7%b1%e5%ba%a6%e5%b0%8d%e6%af%94" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <hr>
 <p><strong>比較項目</strong>            <strong>AL32UTF8 (標準         <strong>UTF8 (舊版 CESU-8)</strong>
 UTF-8)</strong></p>
@@ -294,18 +1089,45 @@ XML/Java 預期 ^1^。      UTF-8 ^4^。</p>
 位元組 ^4^。</p>
 <p><strong>未來升級能力</strong>        隨 Oracle 版本持續更新   永久停留在 Unicode 3.0
 Unicode 標準 ^4^。       版本 ^2^。</p>
-<h2 id="1--------------------forms-6i-2"><strong>建議用途</strong>            所有新部署數據庫的首選   僅用於舊版應用兼容（如
-^1^。                    Forms 6i） ^2^。</h2>
+
+<h2 class="relative group"><strong>建議用途</strong>            所有新部署數據庫的首選   僅用於舊版應用兼容（如
+^1^。                    Forms 6i） ^2^。
+    <div id="1--------------------forms-6i-2" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1--------------------forms-6i-2" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>根據 Oracle 全球化專家 Sergiusz Wolicki 的觀點，舊版 UTF8
 之所以被保留，是為了維護那些無法處理超過 3
 位元組寬度的老舊應用程式的向後兼容性 ^30^。然而，在現代 Web
 環境中，使用舊版 UTF8 處理 XML 或 URL 位址時，可能會因為 4
 位元組序列被解析為無效位元組而導致安全漏洞或系統崩潰 ^4^。</p>
-<h2 id="隨版本演進的-unicode-同步歷程">隨版本演進的 Unicode 同步歷程</h2>
+
+<h2 class="relative group">隨版本演進的 Unicode 同步歷程
+    <div id="隨版本演進的-unicode-同步歷程" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%9a%a8%e7%89%88%e6%9c%ac%e6%bc%94%e9%80%b2%e7%9a%84-unicode-%e5%90%8c%e6%ad%a5%e6%ad%b7%e7%a8%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>AL32UTF8 自 2001 年誕生以來，並非一成不變。Oracle
 的工程團隊在每一次主版本發布中，都會將 AL32UTF8
 的字元庫與排序邏輯與最新的 Unicode 標準進行同步 ^4^。</p>
-<h3 id="版本演進時間軸">版本演進時間軸</h3>
+
+<h3 class="relative group">版本演進時間軸
+    <div id="版本演進時間軸" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%89%88%e6%9c%ac%e6%bc%94%e9%80%b2%e6%99%82%e9%96%93%e8%bb%b8" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ol>
 <li>
 <p><strong>Oracle 10g Release 2</strong>：將 AL32UTF8 的對應標準升級至 <strong>Unicode
@@ -328,7 +1150,16 @@ AL32UTF8 設為 <strong>OUI 與 DBCA 的預設字元集</strong>
 的通用性確保了大型語言模型（LLM）處理的多語言語料能被精確、無損地儲存。</p>
 </li>
 </ol>
-<h2 id="亞洲市場的特殊性cjk-擴展區與-al32utf8">亞洲市場的特殊性：CJK 擴展區與 AL32UTF8</h2>
+
+<h2 class="relative group">亞洲市場的特殊性：CJK 擴展區與 AL32UTF8
+    <div id="亞洲市場的特殊性cjk-擴展區與-al32utf8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e4%ba%9e%e6%b4%b2%e5%b8%82%e5%a0%b4%e7%9a%84%e7%89%b9%e6%ae%8a%e6%80%a7cjk-%e6%93%b4%e5%b1%95%e5%8d%80%e8%88%87-al32utf8" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>對於大中華區（中港台）的數據處理，AL32UTF8
 的意義遠超其技術指標。二十世紀九十年代末，香港政府發展了 HKSCS
 字元集，中國大陸推出了 GB18030
@@ -339,11 +1170,29 @@ AL32UTF8 設為 <strong>OUI 與 DBCA 的預設字元集</strong>
 AL32UTF8，系統在遇到這些「增補字元」時會顯示為反轉的問號（?）或「豆腐塊」空格，進而導致法律文件失效或金融交易錯誤
 ^28^。因此，在 2001 年後，亞太地區的大型企業紛紛將遷移至 AL32UTF8
 作為資訊基礎建設的核心任務。</p>
-<h2 id="字元集遷移技術挑戰與工程實務">字元集遷移：技術挑戰與工程實務</h2>
+
+<h2 class="relative group">字元集遷移：技術挑戰與工程實務
+    <div id="字元集遷移技術挑戰與工程實務" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ad%97%e5%85%83%e9%9b%86%e9%81%b7%e7%a7%bb%e6%8a%80%e8%a1%93%e6%8c%91%e6%88%b0%e8%88%87%e5%b7%a5%e7%a8%8b%e5%af%a6%e5%8b%99" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>當一個企業決定從舊有的單位元組編碼（如
 WE8MSWIN1252）或區域性多位元組編碼（如 ZHS16GBK）遷移到 AL32UTF8
 時，會面臨複雜的工程挑戰。這些挑戰並非來自資料庫本身，而是來自於「位元組擴張」效應。</p>
-<h3 id="長度語義length-semantics的轉變">長度語義（Length Semantics）的轉變</h3>
+
+<h3 class="relative group">長度語義（Length Semantics）的轉變
+    <div id="長度語義length-semantics的轉變" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%95%b7%e5%ba%a6%e8%aa%9e%e7%be%a9length-semantics%e7%9a%84%e8%bd%89%e8%ae%8a" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>這是遷移過程中最容易被忽視的陷阱。在單位元組環境下，VARCHAR2(10) 代表 10
 個位元組，也恰好能存 10 個字元 ^23^。然而，在 AL32UTF8 下：</p>
 <ul>
@@ -358,7 +1207,16 @@ WE8MSWIN1252）或區域性多位元組編碼（如 ZHS16GBK）遷移到 AL32UTF
 NLS_LENGTH_SEMANTICS=CHAR 參數，或在定義表格時明確指定 VARCHAR2(10 CHAR)
 ^25^。這會指示 Oracle 內部預留足夠的空間（最多 40 位元組），以確保 10
 個字元不論其佔用多少位元組都能被安全儲存。</p>
-<h3 id="表-4遷移至-al32utf8-的主要技術限制">表 4：遷移至 AL32UTF8 的主要技術限制</h3>
+
+<h3 class="relative group">表 4：遷移至 AL32UTF8 的主要技術限制
+    <div id="表-4遷移至-al32utf8-的主要技術限制" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a1%a8-4%e9%81%b7%e7%a7%bb%e8%87%b3-al32utf8-%e7%9a%84%e4%b8%bb%e8%a6%81%e6%8a%80%e8%a1%93%e9%99%90%e5%88%b6" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <hr>
 <p><strong>限制項目</strong>            <strong>具體影響</strong>                                         <strong>建議解決方案</strong></p>
 <hr>
@@ -367,9 +1225,27 @@ NLS_LENGTH_SEMANTICS=CHAR 參數，或在定義表格時明確指定 VARCHAR2(10
 <p><strong>資料截斷風險</strong>        欄位實際容量不足以應付編碼膨脹 ^24^。                擴大欄位長度定義，或採用 CHAR 語義 ^25^。</p>
 <p><strong>用戶名與密碼認證</strong>    非 ASCII 用戶名在認證時可能因位元組轉換失敗 ^23^。   Oracle 建議用戶名與密碼應儘量使用 ASCII
 字符，或遷移後重置認證資訊 ^24^。</p>
-<h2 id="35"><strong>索引長度限制</strong>        複合索引的總長度受限。編碼膨脹可能導致索引創建失敗   審查索引定義，必要時縮減索引欄位或改用虛擬列。
-^35^。</h2>
-<h3 id="現代遷移工具dmu-的角色">現代遷移工具：DMU 的角色</h3>
+
+<h2 class="relative group"><strong>索引長度限制</strong>        複合索引的總長度受限。編碼膨脹可能導致索引創建失敗   審查索引定義，必要時縮減索引欄位或改用虛擬列。
+^35^。
+    <div id="35" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#35" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">現代遷移工具：DMU 的角色
+    <div id="現代遷移工具dmu-的角色" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%8f%be%e4%bb%a3%e9%81%b7%e7%a7%bb%e5%b7%a5%e5%85%b7dmu-%e7%9a%84%e8%a7%92%e8%89%b2" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>過去，DBA 依賴 CSALTER
 腳本進行「快速切換」，但這已被證明是極其危險的操作，且在 10gR1
 之後已正式失去支援 ^9^。當前 Oracle 唯一推薦的遷移方式是使用 <strong>Database
@@ -377,27 +1253,72 @@ Migration Assistant for Unicode (DMU)</strong> ^24^。</p>
 <p>DMU
 提供了一個邏輯工作流，能夠掃描現有資料、識別潛在的毀損或截斷風險，並在停機窗口內完成「原地轉換」（In-place
 conversion）。這種方式相比於傳統的「匯出/匯入」大幅縮短了停機時間，並提高了資料完整性的保證。</p>
-<h2 id="效能與儲存的取捨分析">效能與儲存的取捨分析</h2>
+
+<h2 class="relative group">效能與儲存的取捨分析
+    <div id="效能與儲存的取捨分析" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%95%88%e8%83%bd%e8%88%87%e5%84%b2%e5%ad%98%e7%9a%84%e5%8f%96%e6%8d%a8%e5%88%86%e6%9e%90" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>儘管 AL32UTF8
 提供了無與倫比的靈活性，但作為一名專業的架構師，必須正視其帶來的副作用。AL32UTF8
 與單位元組字元集相比，在效能與儲存上存在明顯的代價。</p>
-<h3 id="儲存空間的膨脹">儲存空間的膨脹</h3>
+
+<h3 class="relative group">儲存空間的膨脹
+    <div id="儲存空間的膨脹" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%84%b2%e5%ad%98%e7%a9%ba%e9%96%93%e7%9a%84%e8%86%a8%e8%84%b9" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>對於儲存大量非 ASCII 數據的系統，AL32UTF8
 的儲存成本較高。例如，一份純中文文件在 ZHS16GBK 中每個字元佔用 2
 位元組，而在 AL32UTF8 中則為 3
 位元組，這意味着磁碟空間與緩衝緩存（Buffer Cache）的需求將增加 50% ^1^。</p>
-<h3 id="運算開銷">運算開銷</h3>
+
+<h3 class="relative group">運算開銷
+    <div id="運算開銷" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%81%8b%e7%ae%97%e9%96%8b%e9%8a%b7" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>由於 AL32UTF8 是變長編碼，資料庫引擎在執行字串函數（如 LENGTH、SUBSTR 或
 INSTR）時，無法再像單位元組編碼那樣通過位址偏移（Offset）直接定位。系統必須從字串開頭逐字掃描位元組序列，判斷其開頭位元組以計算字元邊界
 ^1^。這在處理海量文字檢索時，會帶來額外的 CPU 消耗 ^20^。</p>
-<h3 id="解決方案國家字元集al16utf16">解決方案：國家字元集（AL16UTF16）</h3>
+
+<h3 class="relative group">解決方案：國家字元集（AL16UTF16）
+    <div id="解決方案國家字元集al16utf16" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a7%a3%e6%b1%ba%e6%96%b9%e6%a1%88%e5%9c%8b%e5%ae%b6%e5%ad%97%e5%85%83%e9%9b%86al16utf16" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>為了平衡儲存效率，Oracle 9i 推出 AL32UTF8 的同時，也建議在特定場景下使用
 <strong>AL16UTF16</strong> 作為「國家字元集」 ^1^。</p>
 <p>AL16UTF16 採用 16 位元固定長度（或代理對），對於大多數亞洲漢字，它僅需 2
 位元組，而 AL32UTF8 需要 3
 位元組。對於以亞洲語言為主、且不需要頻繁進行網頁編碼轉換的後端運算系統，將資料儲存在
 NVARCHAR2 欄位中（對應 AL16UTF16）往往能獲得更好的空間效能 ^1^。</p>
-<h2 id="數據完整性與安全性的戰略意義">數據完整性與安全性的戰略意義</h2>
+
+<h2 class="relative group">數據完整性與安全性的戰略意義
+    <div id="數據完整性與安全性的戰略意義" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%95%b8%e6%93%9a%e5%ae%8c%e6%95%b4%e6%80%a7%e8%88%87%e5%ae%89%e5%85%a8%e6%80%a7%e7%9a%84%e6%88%b0%e7%95%a5%e6%84%8f%e7%be%a9" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>AL32UTF8
 的起源與推廣，本質上也是資料庫安全策略的一部分。非標準的編碼處理常是駭客發動跨站腳本攻擊（XSS）或
 SQL 注入的溫床 ^4^。</p>
@@ -406,7 +1327,16 @@ Web 伺服器使用的是標準 UTF-8，那麼非法或惡意構造的位元組�
 Web 層的過濾機制，並在進入資料庫時被錯誤解析，從而導致資料庫邏輯被篡改
 ^4^。AL32UTF8 作為對標準 UTF-8
 的嚴格實作，確保了從瀏覽器、應用伺服器到資料庫底層的「端到端編碼一致性」，這對於現代金融與電子政務系統來說，是不可逾越的安全底線。</p>
-<h2 id="未來展望ai-時代的-al32utf8">未來展望：AI 時代的 AL32UTF8</h2>
+
+<h2 class="relative group">未來展望：AI 時代的 AL32UTF8
+    <div id="未來展望ai-時代的-al32utf8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%9c%aa%e4%be%86%e5%b1%95%e6%9c%9bai-%e6%99%82%e4%bb%a3%e7%9a%84-al32utf8" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>進入 2020 年代，隨着 AI 數據庫（如 Oracle 23ai）的出現，AL32UTF8
 的地位被進一步鞏固。向量搜索（Vector
 Search）與多語言嵌入（Embeddings）模型依賴於對不同語言語義的精確理解。AL32UTF8
@@ -416,7 +1346,16 @@ Search）與多語言嵌入（Embeddings）模型依賴於對不同語言語義�
 Algorithm），這使得 AL32UTF8
 在執行涉及多國語言混合排序的複雜查詢時，效能得到了顯著提升。可以預見，在未來的二十年內，AL32UTF8
 仍將是關聯式資料庫領域無可取代的全球標準。</p>
-<h2 id="結論">結論</h2>
+
+<h2 class="relative group">結論
+    <div id="結論" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b5%90%e8%ab%96" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>總結而言，AL32UTF8 編碼起源於 <strong>2001 年 6 月的 Oracle 9i Release
 1</strong>，並在 <strong>2002 年 5 月的 Release 2</strong> 中達到完整支援 Unicode 3.1
 的成熟階段 ^5^。它的出現是技術演進的必然結果，成功解決了舊有 UTF8
@@ -429,629 +1368,386 @@ AL32UTF8
 不僅是為了支援多種語言，更是為了確保資料的標準性、安全性以及在未來 AI
 時代的兼容性。在當前的技術生態中，AL32UTF8
 已不僅僅是一個字元集選項，它是全球數據流動的通用貨幣，是資訊無國界化的技術保證。</p>
-<h4 id="引用的著作">引用的著作</h4>
+
+<h4 class="relative group">引用的著作
+    <div id="引用的著作" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%bc%95%e7%94%a8%e7%9a%84%e8%91%97%e4%bd%9c" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ol>
 <li>
 <p>Why the Database Character Set Matters | timesten - Oracle Blogs,
 檢索日期：3月 19, 2026，
-<a href="https://blogs.oracle.com/timesten/why-databasecharacterset-matters">[https://blogs.oracle.com/timesten/why-databasecharacterset-matters]{.underline}</a></p>
+<a href="https://blogs.oracle.com/timesten/why-databasecharacterset-matters"  target="_blank" rel="noreferrer">[https://blogs.oracle.com/timesten/why-databasecharacterset-matters]{.underline}</a></p>
 </li>
 <li>
 <p>4 About Globalization and Multibyte Support, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm">[https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/E12530_01/oam.1014/b32410/utf8intr.htm]{.underline}</a></p>
 </li>
 <li>
 <p>2 Choosing a Character Set - Database - Oracle Help Center,
 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/choosing-character-set.html">[https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/choosing-character-set.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/choosing-character-set.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/choosing-character-set.html]{.underline}</a></p>
 </li>
 <li>
 <p>6 Supporting Multilingual Databases with Unicode - Oracle Help
 Center, 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html">[https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
 </li>
 <li>
 <p>6 Supporting Multilingual Databases with Unicode - Oracle Help
 Center, 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/supporting-multilingual-databases-with-unicode.html]{.underline}</a></p>
 </li>
 <li>
 <p>6 Supporting Multilingual Databases with Unicode, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm">[https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch6unico.htm]{.underline}</a></p>
 </li>
 <li>
 <p>6 Supporting Multilingual Databases with Unicode, 檢索日期：3月 19,
 2026，
-<a href="http://www.asktheway.org/official-documents/oracle/E11882_01/server.112/e10729/ch6unicode.htm">[http://www.asktheway.org/official-documents/oracle/E11882_01/server.112/e10729/ch6unicode.htm]{.underline}</a></p>
+<a href="http://www.asktheway.org/official-documents/oracle/E11882_01/server.112/e10729/ch6unicode.htm"  target="_blank" rel="noreferrer">[http://www.asktheway.org/official-documents/oracle/E11882_01/server.112/e10729/ch6unicode.htm]{.underline}</a></p>
 </li>
 <li>
 <p>How can I tell if my Oracle system is set to support Unicode or
 multibyte characters? - Stack Overflow, 檢索日期：3月 19, 2026，
-<a href="https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac/47363013">[https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac/47363013]{.underline}</a></p>
+<a href="https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac/47363013"  target="_blank" rel="noreferrer">[https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac/47363013]{.underline}</a></p>
 </li>
 <li>
 <p>How can I tell if my Oracle system is set to support Unicode or
 multibyte characters?, 檢索日期：3月 19, 2026，
-<a href="https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac">[https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac]{.underline}</a></p>
+<a href="https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac"  target="_blank" rel="noreferrer">[https://stackoverflow.com/questions/9703421/how-can-i-tell-if-my-oracle-system-is-set-to-support-unicode-or-multibyte-charac]{.underline}</a></p>
 </li>
 <li>
 <p>Oracle 9i, 檢索日期：3月 19, 2026，
-<a href="https://www.orafaq.com/wiki/Oracle_9i">[https://www.orafaq.com/wiki/Oracle_9i]{.underline}</a></p>
+<a href="https://www.orafaq.com/wiki/Oracle_9i"  target="_blank" rel="noreferrer">[https://www.orafaq.com/wiki/Oracle_9i]{.underline}</a></p>
 </li>
 <li>
 <p>RDBMS 8/8i/9i/10g Timeline (History) - Oracle Forums, 檢索日期：3月
 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581">[https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/rdbms-8-8i-9i-10g-timeline-history-8581]{.underline}</a></p>
 </li>
 <li>
 <p>Supporting Multilingual Databases with Unicode - Oracle,
 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm">[https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/A97385_01/server.920/a96529/ch5.htm]{.underline}</a></p>
 </li>
 <li>
 <p>Supplementary Characters in the Java Platform - Oracle,
 檢索日期：3月 19, 2026，
-<a href="https://www.oracle.com/technical-resources/articles/javase/supplementary.html">[https://www.oracle.com/technical-resources/articles/javase/supplementary.html]{.underline}</a></p>
+<a href="https://www.oracle.com/technical-resources/articles/javase/supplementary.html"  target="_blank" rel="noreferrer">[https://www.oracle.com/technical-resources/articles/javase/supplementary.html]{.underline}</a></p>
 </li>
 <li>
 <p>UTF8 &amp; AL32UTF8 - Hewlett Packard Enterprise Community,
 檢索日期：3月 19, 2026，
-<a href="https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206">[https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206]{.underline}</a></p>
+<a href="https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206"  target="_blank" rel="noreferrer">[https://community.hpe.com/t5/operating-system-hp-ux/utf8-amp-al32utf8/td-p/3610206]{.underline}</a></p>
 </li>
 <li>
 <p>Globalization support in Oracle | My coding journal, 檢索日期：3月
 19, 2026，
-<a href="https://vivekrathod.com/2013/01/29/globalization-support-in-oracle.html">[https://vivekrathod.com/2013/01/29/globalization-support-in-oracle.html]{.underline}</a></p>
+<a href="https://vivekrathod.com/2013/01/29/globalization-support-in-oracle.html"  target="_blank" rel="noreferrer">[https://vivekrathod.com/2013/01/29/globalization-support-in-oracle.html]{.underline}</a></p>
 </li>
 <li>
 <p>UAX #27: Unicode 3.1, 檢索日期：3月 19, 2026，
-<a href="http://www.unicode.org/reports/tr27/tr27-3.html">[http://www.unicode.org/reports/tr27/tr27-3.html]{.underline}</a></p>
+<a href="http://www.unicode.org/reports/tr27/tr27-3.html"  target="_blank" rel="noreferrer">[http://www.unicode.org/reports/tr27/tr27-3.html]{.underline}</a></p>
 </li>
 <li>
 <p>Difference between AL32UTF8 and UTF8 | Oracle &amp; Unix -
 WordPress.com, 檢索日期：3月 19, 2026，
-<a href="https://oracleunix.wordpress.com/2005/11/17/difference-between-al32utf8-and-utf8/">[https://oracleunix.wordpress.com/2005/11/17/difference-between-al32utf8-and-utf8/]{.underline}</a></p>
+<a href="https://oracleunix.wordpress.com/2005/11/17/difference-between-al32utf8-and-utf8/"  target="_blank" rel="noreferrer">[https://oracleunix.wordpress.com/2005/11/17/difference-between-al32utf8-and-utf8/]{.underline}</a></p>
 </li>
 <li>
 <p>Difference between AL32UTF8 and UTF8 - Oracle Forums, 檢索日期：3月
 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382">[https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/difference-between-al32utf8-and-utf8-9382]{.underline}</a></p>
 </li>
 <li>
 <p>Character Set Support - Oracle Help Center, 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html">[https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/Character-Set-Support.html]{.underline}</a></p>
 </li>
 <li>
 <p>2 Creating and Configuring an Oracle Database, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html">[https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/18/admin/creating-and-configuring-an-oracle-database.html]{.underline}</a></p>
 </li>
 <li>
 <p>Manually Creating an Oracle Database, 檢索日期：3月 19, 2026，
-<a href="https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm">[https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm]{.underline}</a></p>
+<a href="https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm"  target="_blank" rel="noreferrer">[https://www.filibeto.org/sun/lib/nonsun/oracle/11.1.0.6.0/B28359_01/server.111/b28310/create002.htm]{.underline}</a></p>
 </li>
 <li>
 <p>Oracle9i Database Migration - Oracle Help Center, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/cd/A97385_01/server.920/a96530.pdf">[https://docs.oracle.com/cd/A97385_01/server.920/a96530.pdf]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/A97385_01/server.920/a96530.pdf"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/A97385_01/server.920/a96530.pdf]{.underline}</a></p>
 </li>
 <li>
 <p>11 Character Set Migration - Oracle, 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch11char.htm">[https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch11char.htm]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch11char.htm"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/B13789_01/server.101/b10749/ch11char.htm]{.underline}</a></p>
 </li>
 <li>
 <p>11 Character Set Migration - Database - Oracle Help Center,
 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/23/nlspg/character-set-migration.html]{.underline}</a></p>
 </li>
 <li>
 <p>oracle database - Character set encodings and storage size factors -
 Stack Overflow, 檢索日期：3月 19, 2026，
-<a href="https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors">[https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors]{.underline}</a></p>
+<a href="https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors"  target="_blank" rel="noreferrer">[https://stackoverflow.com/questions/14991238/character-set-encodings-and-storage-size-factors]{.underline}</a></p>
 </li>
 <li>
 <p>Database Globalization Support Guide - Oracle, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/database-globalization-support-guide.pdf">[https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/database-globalization-support-guide.pdf]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/database-globalization-support-guide.pdf"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/21/nlspg/database-globalization-support-guide.pdf]{.underline}</a></p>
 </li>
 <li>
 <p>Using Different Languages in Oracle - Part 1 - GotoDBA,
 檢索日期：3月 19, 2026，
-<a href="https://gotodba.com/2016/08/30/using-different-languages-in-oracle-part-1/">[https://gotodba.com/2016/08/30/using-different-languages-in-oracle-part-1/]{.underline}</a></p>
+<a href="https://gotodba.com/2016/08/30/using-different-languages-in-oracle-part-1/"  target="_blank" rel="noreferrer">[https://gotodba.com/2016/08/30/using-different-languages-in-oracle-part-1/]{.underline}</a></p>
 </li>
 <li>
 <p>[转载]Oracle Character set &ndash; Everything a New oracle DBA needs to
 know - 博客园, 檢索日期：3月 19, 2026，
-<a href="https://www.cnblogs.com/fangwenyu/archive/2012/02/03/2337448.html">[https://www.cnblogs.com/fangwenyu/archive/2012/02/03/2337448.html]{.underline}</a></p>
+<a href="https://www.cnblogs.com/fangwenyu/archive/2012/02/03/2337448.html"  target="_blank" rel="noreferrer">[https://www.cnblogs.com/fangwenyu/archive/2012/02/03/2337448.html]{.underline}</a></p>
 </li>
 <li>
 <p>Database Globalization Support Guide - Oracle Help Center,
 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/database-globalization-support-guide.pdf">[https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/database-globalization-support-guide.pdf]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/database-globalization-support-guide.pdf"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/database/oracle/oracle-database/18/nlspg/database-globalization-support-guide.pdf]{.underline}</a></p>
 </li>
 <li>
 <p>DB wrong character set following control file re-creation. How to
 correct it ? - Oracle Forums, 檢索日期：3月 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757">[https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/db-wrong-character-set-following-control-file-re-creation-h-8757]{.underline}</a></p>
 </li>
 <li>
 <p>Disadvantages of setting the whole DB charset to Unicode vs some
 NVARCHAR2 in Oracle DB? - Stack Overflow, 檢索日期：3月 19, 2026，
-<a href="https://stackoverflow.com/questions/12801207/disadvantages-of-setting-the-whole-db-charset-to-unicode-vs-some-nvarchar2-in-or">[https://stackoverflow.com/questions/12801207/disadvantages-of-setting-the-whole-db-charset-to-unicode-vs-some-nvarchar2-in-or]{.underline}</a></p>
+<a href="https://stackoverflow.com/questions/12801207/disadvantages-of-setting-the-whole-db-charset-to-unicode-vs-some-nvarchar2-in-or"  target="_blank" rel="noreferrer">[https://stackoverflow.com/questions/12801207/disadvantages-of-setting-the-whole-db-charset-to-unicode-vs-some-nvarchar2-in-or]{.underline}</a></p>
 </li>
 <li>
 <p>NLS_LENGTH_SEMANTICS - Oracle Forums, 檢索日期：3月 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994">[https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/nls-length-semantics-6994]{.underline}</a></p>
 </li>
 <li>
 <p>Choose a Character Set for Autonomous AI Database - Oracle Help
 Center, 檢索日期：3月 19, 2026，
-<a href="https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-character-set-selection.html">[https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-character-set-selection.html]{.underline}</a></p>
+<a href="https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-character-set-selection.html"  target="_blank" rel="noreferrer">[https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-character-set-selection.html]{.underline}</a></p>
 </li>
 <li>
 <p>5 Globalization Support, 檢索日期：3月 19, 2026，
-<a href="http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm">[http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm]{.underline}</a></p>
+<a href="http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm"  target="_blank" rel="noreferrer">[http://luna-ext.di.fc.ul.pt/oracle11g/timesten.112/e13065/globalization.htm]{.underline}</a></p>
 </li>
 <li>
 <p>5 Advanced Topics in the DMU - Oracle Help Center, 檢索日期：3月 19,
 2026，
-<a href="https://docs.oracle.com/cd/E26101_01/doc/doc.11/e26097/ch5advanced.htm">[https://docs.oracle.com/cd/E26101_01/doc/doc.11/e26097/ch5advanced.htm]{.underline}</a></p>
+<a href="https://docs.oracle.com/cd/E26101_01/doc/doc.11/e26097/ch5advanced.htm"  target="_blank" rel="noreferrer">[https://docs.oracle.com/cd/E26101_01/doc/doc.11/e26097/ch5advanced.htm]{.underline}</a></p>
 </li>
 <li>
 <p>Character Set Migration Best Practices - Oracle, 檢索日期：3月 19,
 2026，
-<a href="https://www.oracle.com/docs/tech/database/mwp.pdf">[https://www.oracle.com/docs/tech/database/mwp.pdf]{.underline}</a></p>
+<a href="https://www.oracle.com/docs/tech/database/mwp.pdf"  target="_blank" rel="noreferrer">[https://www.oracle.com/docs/tech/database/mwp.pdf]{.underline}</a></p>
 </li>
 <li>
 <p>Migrating to Unicode - W3C, 檢索日期：3月 19, 2026，
-<a href="https://www.w3.org/International/articles/unicode-migration/">[https://www.w3.org/International/articles/unicode-migration/]{.underline}</a></p>
+<a href="https://www.w3.org/International/articles/unicode-migration/"  target="_blank" rel="noreferrer">[https://www.w3.org/International/articles/unicode-migration/]{.underline}</a></p>
 </li>
 <li>
 <p>Database and client WE8ISO8859P1 with windows characters to migrate
 at AL32UTF8, 檢索日期：3月 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/database-and-client-we8iso8859p1-with-windows-characters-to-4045">[https://forums.oracle.com/ords/apexds/post/database-and-client-we8iso8859p1-with-windows-characters-to-4045]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/database-and-client-we8iso8859p1-with-windows-characters-to-4045"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/database-and-client-we8iso8859p1-with-windows-characters-to-4045]{.underline}</a></p>
 </li>
 <li>
 <p>Inverted question marks - Oracle Forums, 檢索日期：3月 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/inverted-question-marks-7207">[https://forums.oracle.com/ords/apexds/post/inverted-question-marks-7207]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/inverted-question-marks-7207"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/inverted-question-marks-7207]{.underline}</a></p>
 </li>
 <li>
 <p>Migration to Unicode Datatypes for Multilingual Databases and
 Applications in Oracle9i, 檢索日期：3月 19, 2026，
-<a href="https://www.oracle.com/technetwork/products/globalization/nchar-migration-60.pdf">[https://www.oracle.com/technetwork/products/globalization/nchar-migration-60.pdf]{.underline}</a></p>
+<a href="https://www.oracle.com/technetwork/products/globalization/nchar-migration-60.pdf"  target="_blank" rel="noreferrer">[https://www.oracle.com/technetwork/products/globalization/nchar-migration-60.pdf]{.underline}</a></p>
 </li>
 <li>
 <p>National Character Set | Oracle 9i Fundamentals I Exam Cram 2 -
 Flylib.com, 檢索日期：3月 19, 2026，
-<a href="https://flylib.com/books/en/3.485.1.90/1/">[https://flylib.com/books/en/3.485.1.90/1/]{.underline}</a></p>
+<a href="https://flylib.com/books/en/3.485.1.90/1/"  target="_blank" rel="noreferrer">[https://flylib.com/books/en/3.485.1.90/1/]{.underline}</a></p>
 </li>
 <li>
 <p>UTF-8 - Wikipedia, 檢索日期：3月 19, 2026，
-<a href="https://en.wikipedia.org/wiki/UTF-8">[https://en.wikipedia.org/wiki/UTF-8]{.underline}</a></p>
+<a href="https://en.wikipedia.org/wiki/UTF-8"  target="_blank" rel="noreferrer">[https://en.wikipedia.org/wiki/UTF-8]{.underline}</a></p>
 </li>
 <li>
 <p>Oracle recommends AL32UTF8 but installs WE8MSWIN1252, 檢索日期：3月
 19, 2026，
-<a href="https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661">[https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661]{.underline}</a></p>
+<a href="https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661"  target="_blank" rel="noreferrer">[https://forums.oracle.com/ords/apexds/post/oracle-recommends-al32utf8-but-installs-we8mswin1252-8661]{.underline}</a></p>
 </li>
 </ol>
-</div>
-                <div>
-                    <script src="https://utteranc.es/client.js"
-                        repo="PolloChang/commentsforpollochang"
-                        issue-term="pathname"
-                        theme="github-light"
-                        crossorigin="anonymous"
-                        async>
-                    </script>
-                </div>
-            </div>
+
+          
+          
+          
         </div>
+        
+        
 
-        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/oracle-encoding-history-al32utf8-en/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;Oracle Encoding History - AL32UTF8
+              </span>
+            </a>
             
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-encoding-history-al32utf8-en/">
-                                <h3 class="">Oracle Encoding History - AL32UTF8</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/deploy-oracle26ai-on-ol8/">
-                                <h3 class="">deploy Oracle26ai on Oracle Linux 8</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/deploy-oracle19c-rac-on-rhel9/">
-                                <h3 class="">deploy Oracle19c RAC on RHEL9</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-02-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/rac/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">RAC</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/sql-tunning-task-mes/">
-                                <h3 class="">SQL tunning task MES</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-01-31</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/sql-tunning-task-common/">
-                                <h3 class="">SQL tunning task common</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-01-31</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-03-22T23:00:52&#43;08:00">March 22, 2026</time>
+              </span>
             
-
-            <div class="layui-card single-card">
-                <h2 class="single-title">Recent Posts</h2>
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/maa-consolidation-tw/">
+              <span class="leading-6">
+                maa consolidation TW&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
             
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/cns11643/">
-                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/cns11643/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
-        </a>
-    
-        <a href="/tags/java/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/db-postgresql-note/">
-                        <h3 class="">db-postgresql-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/postgresql/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/docker-note/">
-                        <h3 class="">docker-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/docker/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
-                        <h3 class="">關閉IPv6</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
-                        <h3 class="">輸入法相關</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-04-05T16:23:49&#43;08:00">April 5, 2026</time>
+              </span>
             
-            <br />
-            </div>
-        </div>
-
+          
+        </span>
+      </div>
     </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="捲動到頁頂"
+    title="捲動到頁頂">
+    &uarr;
+  </a>
 </div>
 
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          PolloChang
+      </p>
+    
 
-        </div><footer>
     
     
-    <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
-    </div>
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        以 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 製作
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
 </footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="http://pollochang.work/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜尋"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="關閉 (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
 
-</body>
+    </div>
+  </body>
+  
 </html>

@@ -1,173 +1,868 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html
+  lang="zh-TW"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="dark"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="zh-TW">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
 
-    <title>PolloChang 工作筆記 - LibreNMS 安裝設定紀錄 </title>
-    
-    
-    <meta content="LibreNMS, LDAP, Home Lab" name="keywords">
-    
-    <meta content="PolloChang 工作筆記 - 部署環境 OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 18GB Devices: 20 Ports: 133 Health sensors: 47 Load: &lt; 0.1 MySQL CPU: 1 Socket, 2 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 30GB Load: &lt; 0.1 安裝前準被 librenms Domain : moniter.home.pollochang.work librenms web server Admin User 帳號: polloadmin Admin User 密碼: password Admin User Email: email@example." name="description">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    
-        <link rel="icon" href="/images/logo.jpg">
-    
+  
+  
+    <title>LibreNMS 安裝設定紀錄 &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="LibreNMS 安裝設定紀錄 &middot; PolloChang 工作筆記">
+  
 
-    
+  
+  
+    <meta name="description" content="我是一隻雞">
+  
+  
+    <meta name="keywords" content="LibreNMS,LDAP,">
+  
+  
+  
+  <link rel="canonical" href="http://pollochang.work/worknot/librenms/">
+  
+  
 
+  
+  
+    <meta name="author" content="PolloChang">
+  
+  
     
+      
         
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)};
-          gtag('js', new Date());
-          gtag('config', 'G-7QK0FBKQ5Q');
-        </script>
-    
-
-    
-
-    <link rel="stylesheet" href="/layui/css/layui.css">
-    <link rel="stylesheet" href="/self/css/default.css">
-    <script src=" /layui/layui.js"></script>
-
-    <link rel="stylesheet" async href="/self/css/markdown.min.css">
-    <link rel="stylesheet" async href="/self/css/gallery.css">
-    
-    
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
-
-<body>
-    
-    <header class="layui-header layui-bg-cyan">
-
-    
-        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
-    
-    
-    <a class="nav-self-logo" href="/">
-        PolloChang 工作筆記
-    </a>
-
-    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+          <link href="https://github.com/PolloChang" rel="me">
         
+      
+    
+      
         
+          <link href="https://www.linkedin.com/in/chang-pollo-903301219" rel="me">
         
-        
+      
+    
+  
 
-        
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
-            
-        
+  
+  <meta property="og:url" content="http://pollochang.work/worknot/librenms/">
+  <meta property="og:site_name" content="PolloChang 工作筆記">
+  <meta property="og:title" content="LibreNMS 安裝設定紀錄">
+  <meta property="og:description" content="部署環境 # OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement # LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 18GB Devices: 20 Ports: 133 Health sensors: 47 Load: &lt; 0.1 MySQL CPU: 1 Socket, 2 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 30GB Load: &lt; 0.1 安裝前準被 # librenms Domain : moniter.home.pollochang.work librenms web server Admin User 帳號: polloadmin Admin User 密碼: password Admin User Email: email@example.com 資料庫 資料庫名稱: librenms 帳號: librenms 密碼: password 安裝步驟 # 安裝資料庫 # MariaDB Server 1 2 3 4 sudo apt -y install apt-transport-https curl gnupg gnupg2 sudo mkdir -p /etc/apt/keyrings sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp &#39;https://mariadb.org/mariadb_release_signing_key.pgp&#39; chmod 0644 /etc/apt/keyrings/mariadb-keyring.pgp 設定文件: /etc/apt/sources.list.d/mariadb.sources 1 2 3 4 5 6 7 8 9 10 # MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC # https://mariadb.org/download/ X-Repolib-Name: MariaDB Types: deb # deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details. # URIs: https://deb.mariadb.org/11.4/debian URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian Suites: bookworm Components: main Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp 1 2 3 4 5 apt update # 檢查一下確實可以安裝到指定版本 apt list mariadb-server # mariadb-server/unknown 1:11.4.4&#43;maria~deb12 amd64 apt install mariadb-server mariadb-client 安裝 librenms # 1 apt install -y lsb-release ca-certificates wget acl curl fping git graphviz imagemagick mariadb-client mtr-tiny nginx-full nmap php-cli php-curl php-fpm php-gd php-gmp php-mbstring php-mysql php-snmp php-xml php-zip python3-dotenv python3-pymysql python3-redis python3-setuptools python3-systemd python3-pip rrdtool snmp snmpd unzip whois python3.11-venv 1 2 3 4 5 cd /tmp wget https://github.com/librenms/librenms/archive/refs/tags/25.1.0.tar.gz tar -zxf 25.1.0.tar.gz -C /opt/ cd /opt/ ln -s librenms-25.1.0 librenms 新增服務帳號: librenms">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="worknot">
+    <meta property="article:published_time" content="2025-02-02T20:46:41+08:00">
+    <meta property="article:modified_time" content="2025-02-02T20:46:41+08:00">
+    <meta property="article:tag" content="LibreNMS">
+    <meta property="article:tag" content="LDAP">
 
-        
-        <li class="layui-nav-item" id="nav_small">
-            <a href="javascript:;">
-                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
-            </a>
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LibreNMS 安裝設定紀錄">
+  <meta name="twitter:description" content="部署環境 # OS: Debian12 CPU: 2 Sockets, 2 Cores RAM: 6G Database: MariaDB: 11.4 System Requirement # LibreNMS CPU: 2 Sockets, 4 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 18GB Devices: 20 Ports: 133 Health sensors: 47 Load: &lt; 0.1 MySQL CPU: 1 Socket, 2 Cores Memory: 2G Disk Type: Raid 1, SSD Disk Space: 30GB Load: &lt; 0.1 安裝前準被 # librenms Domain : moniter.home.pollochang.work librenms web server Admin User 帳號: polloadmin Admin User 密碼: password Admin User Email: email@example.com 資料庫 資料庫名稱: librenms 帳號: librenms 密碼: password 安裝步驟 # 安裝資料庫 # MariaDB Server 1 2 3 4 sudo apt -y install apt-transport-https curl gnupg gnupg2 sudo mkdir -p /etc/apt/keyrings sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp &#39;https://mariadb.org/mariadb_release_signing_key.pgp&#39; chmod 0644 /etc/apt/keyrings/mariadb-keyring.pgp 設定文件: /etc/apt/sources.list.d/mariadb.sources 1 2 3 4 5 6 7 8 9 10 # MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC # https://mariadb.org/download/ X-Repolib-Name: MariaDB Types: deb # deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details. # URIs: https://deb.mariadb.org/11.4/debian URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian Suites: bookworm Components: main Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp 1 2 3 4 5 apt update # 檢查一下確實可以安裝到指定版本 apt list mariadb-server # mariadb-server/unknown 1:11.4.4&#43;maria~deb12 amd64 apt install mariadb-server mariadb-client 安裝 librenms # 1 apt install -y lsb-release ca-certificates wget acl curl fping git graphviz imagemagick mariadb-client mtr-tiny nginx-full nmap php-cli php-curl php-fpm php-gd php-gmp php-mbstring php-mysql php-snmp php-xml php-zip python3-dotenv python3-pymysql python3-redis python3-setuptools python3-systemd python3-pip rrdtool snmp snmpd unzip whois python3.11-venv 1 2 3 4 5 cd /tmp wget https://github.com/librenms/librenms/archive/refs/tags/25.1.0.tar.gz tar -zxf 25.1.0.tar.gz -C /opt/ cd /opt/ ln -s librenms-25.1.0 librenms 新增服務帳號: librenms">
 
-            <dl class="layui-nav-child">
-                
-                
-                
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
 
-                
-                    
-                        <dd><a href="/post/">文章</a></dd>
-                    
-                        <dd><a href="/worknot/">工作隨手記</a></dd>
-                    
-                        <dd><a href="/oracle-database/">oracle-database</a></dd>
-                    
-                        <dd><a href="/k8s/">k8s</a></dd>
-                    
-                        <dd><a href="/personal-zone/">個人經歷</a></dd>
-                    
-                        <dd><a href="/about/">關於</a></dd>
-                    
-                
-            </dl>
-        </li>
-    </ul>
-</header>
+  
+  
+  
+  
+  
+  
 
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.07a8088c33086a4f22f8c0e9b9dd8b3d24774753ce35a341034d6f7c1e249b72e184af812c1341e6a62df443da9e4bb28feddf7f5c6f07b24a20a900ef559483.css"
+    integrity="sha512-B6gIjDMIak8i&#43;MDpud2LPSR3R1PONaNBA01vfB4km3LhhK&#43;BLBNB5qYt9EPankuyj&#43;3ff1xvB7JKIKkA71WUgw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.0fa2a78284c4ed567ca02f5c37008b7b0127c3081f48b033f1c537c24766b8d57da49e0316c193c94bfd77da998acb9863844e045800340b2303522672e1ac79.js"
+      integrity="sha512-D6KngoTE7VZ8oC9cNwCLewEnwwgfSLAz8cU3wkdmuNV9pJ4DFsGTyUv9d9qZisuYY4ROBFgANAsjA1ImcuGseQ=="
+      data-copy="複製"
+      data-copied="已複製"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Worknots",
+    "name": "LibreNMS 安裝設定紀錄",
+    "headline": "LibreNMS 安裝設定紀錄",
+    
+    "inLanguage": "zh-TW",
+    "url" : "http://pollochang.work/worknot/librenms/",
+    "author" : {
+      "@type": "Person",
+      "name": "PolloChang"
+    },
+    "copyrightYear": "2025",
+    "dateCreated": "2025-02-02T20:46:41\u002b08:00",
+    "datePublished": "2025-02-02T20:46:41\u002b08:00",
+    
+    "dateModified": "2025-02-02T20:46:41\u002b08:00",
+    
+    "keywords": ["LibreNMS","LDAP"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1926"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
 <script>
-layui.use('element', function(){
-  var element = layui.element;
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7QK0FBKQ5Q');
 </script>
 
-        <div id="content" style="min-height:80%">
-<div class="layui-container" style="margin-bottom: 10px">
+
+
+
+
+  
+
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-你的ID"
+     crossorigin="anonymous"></script>
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        快轉到主要內容
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      PolloChang 工作筆記
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/post/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="文章"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          文章
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/worknot/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="工作隨手記"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          工作隨手記
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/oracle-database/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Oracle"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Oracle
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/k8s/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="K8s"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          K8s
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/personal-zone/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="個人經歷"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          個人經歷
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="關於"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          關於
+        </span>
+      
+    </a>
+  
+
+    
+  
+
+  
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/post/"
+        aria-label="文章"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          文章
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/worknot/"
+        aria-label="工作隨手記"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          工作隨手記
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/oracle-database/"
+        aria-label="Oracle"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          Oracle
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/k8s/"
+        aria-label="K8s"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          K8s
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/personal-zone/"
+        aria-label="個人經歷"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          個人經歷
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="關於"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          關於
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
     
 
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
-            <div class="layui-card single-card">
-                <br />
-                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>LibreNMS 安裝設定紀錄</h1>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2025-02-02</span>
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        LibreNMS 安裝設定紀錄
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2025-02-02T20:46:41&#43;08:00">February 2, 2025</time><span class="px-2 text-primary-500">&middot;</span><span>1926 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">4 分鐘</span>
+    
 
     
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
+  </div>
+
+  
+
+  
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="PolloChang"
+        src="/images/logo_hu_1397cd167e9991d2.jpg"
+        data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        作者
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        PolloChang
+      </div>
+    
+    
+      <div class="text-sm text-neutral-700 dark:text-neutral-400">我是一隻雞</div>
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/PolloChang"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://www.linkedin.com/in/chang-pollo-903301219"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
 
     
-        <a href="/categories/home-lab/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Home Lab</span>
-        </a>
-    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
 
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
 
-    
-        <a href="/tags/librenms/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LibreNMS</span>
-        </a>
-    
-        <a href="/tags/ldap/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">LDAP</span>
-        </a>
-    
-    
-</h3>
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
 
-                </blockquote>
-                <div class="layui-card-body markdown-body single-content">
-                    <h2 id="部署環境">部署環境</h2>
+        <div class="article-content max-w-prose mb-20">
+          
+<h2 class="relative group">部署環境
+    <div id="部署環境" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%83%a8%e7%bd%b2%e7%92%b0%e5%a2%83" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <ul>
 <li>OS: Debian12</li>
 <li>CPU: 2 Sockets, 2 Cores</li>
 <li>RAM: 6G</li>
 <li>Database: MariaDB: 11.4</li>
 </ul>
-<h3 id="system-requirement">System Requirement</h3>
+
+<h3 class="relative group">System Requirement
+    <div id="system-requirement" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#system-requirement" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ul>
 <li>LibreNMS
 <ul>
@@ -191,14 +886,23 @@ layui.use('element', function(){
 </ul>
 </li>
 </ul>
-<h2 id="安裝前準被">安裝前準被</h2>
+
+<h2 class="relative group">安裝前準被
+    <div id="安裝前準被" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%89%e8%a3%9d%e5%89%8d%e6%ba%96%e8%a2%ab" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <ul>
 <li>librenms Domain : moniter.home.pollochang.work</li>
 <li>librenms web server
 <ul>
 <li>Admin User 帳號: polloadmin</li>
 <li>Admin User 密碼: password</li>
-<li>Admin User Email: <a href="mailto:email@example.com">email@example.com</a></li>
+<li>Admin User Email: <a href="mailto:email@example.com" >email@example.com</a></li>
 </ul>
 </li>
 <li>資料庫
@@ -209,19 +913,61 @@ layui.use('element', function(){
 </ul>
 </li>
 </ul>
-<h2 id="安裝步驟">安裝步驟</h2>
-<h3 id="安裝資料庫">安裝資料庫</h3>
+
+<h2 class="relative group">安裝步驟
+    <div id="安裝步驟" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%89%e8%a3%9d%e6%ad%a5%e9%a9%9f" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">安裝資料庫
+    <div id="安裝資料庫" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%89%e8%a3%9d%e8%b3%87%e6%96%99%e5%ba%ab" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ul>
 <li>MariaDB Server</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install apt-transport-https curl gnupg gnupg2
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt -y install apt-transport-https curl gnupg gnupg2
 </span></span><span style="display:flex;"><span>sudo mkdir -p /etc/apt/keyrings
 </span></span><span style="display:flex;"><span>sudo curl -o /etc/apt/keyrings/mariadb-keyring.pgp <span style="color:#e6db74">&#39;https://mariadb.org/mariadb_release_signing_key.pgp&#39;</span>
-</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0644</span> /etc/apt/keyrings/mariadb-keyring.pgp
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0644</span> /etc/apt/keyrings/mariadb-keyring.pgp</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>設定文件: /etc/apt/sources.list.d/mariadb.sources</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC</span>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># https://mariadb.org/download/</span>
 </span></span><span style="display:flex;"><span>X-Repolib-Name: MariaDB
 </span></span><span style="display:flex;"><span>Types: deb
@@ -230,67 +976,229 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span>URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian
 </span></span><span style="display:flex;"><span>Suites: bookworm
 </span></span><span style="display:flex;"><span>Components: main
-</span></span><span style="display:flex;"><span>Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt update
+</span></span><span style="display:flex;"><span>Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt update
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查一下確實可以安裝到指定版本</span>
 </span></span><span style="display:flex;"><span>apt list mariadb-server
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># mariadb-server/unknown 1:11.4.4+maria~deb12 amd64</span>
-</span></span><span style="display:flex;"><span>apt install mariadb-server mariadb-client
-</span></span></code></pre></div><h3 id="安裝-librenms">安裝 librenms</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y lsb-release ca-certificates wget acl curl fping git graphviz imagemagick mariadb-client mtr-tiny nginx-full nmap php-cli php-curl php-fpm php-gd php-gmp php-mbstring php-mysql php-snmp php-xml php-zip python3-dotenv python3-pymysql python3-redis python3-setuptools python3-systemd python3-pip rrdtool snmp snmpd unzip whois python3.11-venv
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /tmp
+</span></span><span style="display:flex;"><span>apt install mariadb-server mariadb-client</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h3 class="relative group">安裝 librenms
+    <div id="安裝-librenms" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%89%e8%a3%9d-librenms" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y lsb-release ca-certificates wget acl curl fping git graphviz imagemagick mariadb-client mtr-tiny nginx-full nmap php-cli php-curl php-fpm php-gd php-gmp php-mbstring php-mysql php-snmp php-xml php-zip python3-dotenv python3-pymysql python3-redis python3-setuptools python3-systemd python3-pip rrdtool snmp snmpd unzip whois python3.11-venv</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /tmp
 </span></span><span style="display:flex;"><span>wget https://github.com/librenms/librenms/archive/refs/tags/25.1.0.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxf 25.1.0.tar.gz -C /opt/
 </span></span><span style="display:flex;"><span>cd /opt/
-</span></span><span style="display:flex;"><span>ln -s librenms-25.1.0 librenms
-</span></span></code></pre></div><p>新增服務帳號: librenms</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd librenms -d /opt/librenms -M -r -s <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>which bash<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>ln -s librenms-25.1.0 librenms</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>新增服務帳號: librenms</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd librenms -d /opt/librenms -M -r -s <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>which bash<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>chown -R librenms:librenms /opt/librenms*
 </span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">771</span> /opt/librenms
 </span></span><span style="display:flex;"><span>setfacl -d -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-</span></span><span style="display:flex;"><span>setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/
-</span></span></code></pre></div><p>Install PHP dependencies</p>
+</span></span><span style="display:flex;"><span>setfacl -R -m g::rwx /opt/librenms/rrd /opt/librenms/logs /opt/librenms/bootstrap/cache/ /opt/librenms/storage/</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Install PHP dependencies</p>
 <p>使用 Python 虛擬環境，因為在 Debian12 引入了 PEP 668，限制了對系統 Python 環境的直接修改。這樣所有的 Python 依賴都會安裝在 <code>~/librenms-venv</code> 內，而不影響系統環境。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - librenms
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su - librenms
 </span></span><span style="display:flex;"><span>python3 -m venv ~/librenms-venv
 </span></span><span style="display:flex;"><span>source ~/librenms-venv/bin/activate
 </span></span><span style="display:flex;"><span>pip install -r requirements.txt
 </span></span><span style="display:flex;"><span>./scripts/composer_wrapper.php install --no-dev
 </span></span><span style="display:flex;"><span>exit
 </span></span><span style="display:flex;"><span>su - librenms
-</span></span><span style="display:flex;"><span>pip3 install command_runner --break-system-packages
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timedatectl set-timezone Asia/Taipei
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span>pip3 install command_runner --break-system-packages</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timedatectl set-timezone Asia/Taipei</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>/etc/mysql/mariadb.conf.d/50-server.cnf</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>innodb_file_per_table<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>lower_case_table_names<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable mariadb
-</span></span><span style="display:flex;"><span>systemctl restart mariadb
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u root
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> librenms CHARACTER <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci;
+</span></span><span style="display:flex;"><span>lower_case_table_names<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable mariadb
+</span></span><span style="display:flex;"><span>systemctl restart mariadb</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u root</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> librenms CHARACTER <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> <span style="color:#e6db74">&#39;librenms&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;password&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> librenms.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> <span style="color:#e6db74">&#39;librenms&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
-</span></span><span style="display:flex;"><span>exit
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/librenms.conf
-</span></span><span style="display:flex;"><span>vim /etc/php/8.2/fpm/pool.d/librenms.conf
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span>exit</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/librenms.conf
+</span></span><span style="display:flex;"><span>vim /etc/php/8.2/fpm/pool.d/librenms.conf</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>編輯文件: /etc/php/8.2/fpm/pool.d/librenms.conf</li>
 </ul>
 <p>內容如如下:</p>
 <p>Change <code>[www]</code> to <code>[librenms]</code>:</p>
-<pre tabindex="0"><code class="language-conf" data-lang="conf">; [www]
-[librenms]
-</code></pre><p>Change user and group to &ldquo;librenms&rdquo;:</p>
-<pre tabindex="0"><code class="language-conf" data-lang="conf">user = librenms
-group = librenms
-</code></pre><p>Change listen to a unique path that must match your webserver&rsquo;s config (fastcgi_pass for NGINX and SetHandler for Apache) :</p>
-<pre tabindex="0"><code class="language-conf" data-lang="conf">listen = /run/php-fpm-librenms.sock
-</code></pre><ul>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>; [www]
+</span></span><span style="display:flex;"><span>[librenms]</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Change user and group to &ldquo;librenms&rdquo;:</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>user = librenms
+</span></span><span style="display:flex;"><span>group = librenms</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Change listen to a unique path that must match your webserver&rsquo;s config (fastcgi_pass for NGINX and SetHandler for Apache) :</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>listen = /run/php-fpm-librenms.sock</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>編輯文件: /etc/nginx/sites-enabled/librenms.vhost</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span> listen      80;
 </span></span><span style="display:flex;"><span> server_name moniter.home.pollochang.work;
 </span></span><span style="display:flex;"><span> root        /opt/librenms/html;
@@ -310,63 +1218,259 @@ group = librenms
 </span></span><span style="display:flex;"><span> location ~ /<span style="color:#ae81ff">\.</span><span style="color:#f92672">(</span>?!well-known<span style="color:#f92672">)</span>.* <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>  deny all;
 </span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><h4 id="檢查php時間與資料庫時間是否一致">檢查php時間與資料庫時間是否一致</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>php -r <span style="color:#e6db74">&#39;echo date(&#34;Y-m-d H:i:s&#34;);&#39;</span>
-</span></span></code></pre></div><p>如果錯誤要修正要編輯文件: /etc/php/8.2/fpm/php.ini</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span>
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">檢查php時間與資料庫時間是否一致
+    <div id="檢查php時間與資料庫時間是否一致" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%aa%a2%e6%9f%a5php%e6%99%82%e9%96%93%e8%88%87%e8%b3%87%e6%96%99%e5%ba%ab%e6%99%82%e9%96%93%e6%98%af%e5%90%a6%e4%b8%80%e8%87%b4" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>php -r <span style="color:#e6db74">&#39;echo date(&#34;Y-m-d H:i:s&#34;);&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>如果錯誤要修正要編輯文件: /etc/php/8.2/fpm/php.ini</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>/etc/php/8.2/cli/php.ini</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span>
-</span></span></code></pre></div><h4 id="設定-env">設定 <code>.env</code></h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date.timezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Asia/Taipei&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">設定 <code>.env</code>
+    <div id="設定-env" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a-env" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li>/opt/librenms/.env</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>APP_URL<span style="color:#f92672">=</span>http://moniter.home.pollochang.work
-</span></span></code></pre></div><ul>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>APP_URL<span style="color:#f92672">=</span>http://moniter.home.pollochang.work</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>/opt/librenms/config.php</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;base_url&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://moniter.home.pollochang.work/&#39;</span>;
-</span></span></code></pre></div><h4 id="啟動網頁服務">啟動網頁服務</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rm /etc/nginx/sites-enabled/default
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;base_url&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://moniter.home.pollochang.work/&#39;</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">啟動網頁服務
+    <div id="啟動網頁服務" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%95%9f%e5%8b%95%e7%b6%b2%e9%a0%81%e6%9c%8d%e5%8b%99" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rm /etc/nginx/sites-enabled/default
 </span></span><span style="display:flex;"><span>systemctl reload nginx
-</span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm
-</span></span></code></pre></div><p>Enable lnms command completion</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /opt/librenms/lnms /usr/bin/lnms
-</span></span><span style="display:flex;"><span>cp /opt/librenms/misc/lnms-completion.bash /etc/bash_completion.d/
-</span></span></code></pre></div><p>Configure snmpd</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf
-</span></span></code></pre></div><ul>
-<li>/etc/snmp/snmpd.conf</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># RANDOMSTRINGGOESHERE</span>
-</span></span><span style="display:flex;"><span>com2sec readonly  default        polloservermonitor
-</span></span></code></pre></div><h4 id="設定-snmp-服務">設定 SNMP 服務</h4>
+</span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Enable lnms command completion</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /opt/librenms/lnms /usr/bin/lnms
+</span></span><span style="display:flex;"><span>cp /opt/librenms/misc/lnms-completion.bash /etc/bash_completion.d/</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Configure snmpd</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/snmpd.conf.example /etc/snmp/snmpd.conf</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 <ul>
 <li>/etc/snmp/snmpd.conf</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># RANDOMSTRINGGOESHERE</span>
+</span></span><span style="display:flex;"><span>com2sec readonly  default        polloservermonitor</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">設定 SNMP 服務
+    <div id="設定-snmp-服務" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a-snmp-%e6%9c%8d%e5%8b%99" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<ul>
+<li>/etc/snmp/snmpd.conf</li>
+</ul>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
 </span></span><span style="display:flex;"><span>chmod +x /usr/bin/distro
 </span></span><span style="display:flex;"><span>systemctl enable snmpd
-</span></span><span style="display:flex;"><span>systemctl restart snmpd
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms.cron /etc/cron.d/librenms
-</span></span></code></pre></div><h4 id="啟用調度程式">啟用調度程式</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms-scheduler.service /opt/librenms/dist/librenms-scheduler.timer /etc/systemd/system/
+</span></span><span style="display:flex;"><span>systemctl restart snmpd</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms.cron /etc/cron.d/librenms</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">啟用調度程式
+    <div id="啟用調度程式" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%95%9f%e7%94%a8%e8%aa%bf%e5%ba%a6%e7%a8%8b%e5%bc%8f" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/dist/librenms-scheduler.service /opt/librenms/dist/librenms-scheduler.timer /etc/systemd/system/
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>systemctl enable librenms-scheduler.timer
-</span></span><span style="display:flex;"><span>systemctl start librenms-scheduler.timer
-</span></span></code></pre></div><h4 id="設定-logrotate">設定 logrotate</h4>
+</span></span><span style="display:flex;"><span>systemctl start librenms-scheduler.timer</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">設定 logrotate
+    <div id="設定-logrotate" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a-logrotate" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <p>Copy logrotate config</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/misc/librenms.logrotate /etc/logrotate.d/librenms
-</span></span></code></pre></div><h3 id="web-installer">Web installer</h3>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /opt/librenms/misc/librenms.logrotate /etc/logrotate.d/librenms</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h3 class="relative group">Web installer
+    <div id="web-installer" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#web-installer" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ul>
-<li>開啟瀏覽器進行安裝: <a href="http://moniter.home.pollochang.work/install">http://moniter.home.pollochang.work/install</a></li>
+<li>開啟瀏覽器進行安裝: <a href="http://moniter.home.pollochang.work/install"  target="_blank" rel="noreferrer">http://moniter.home.pollochang.work/install</a></li>
 </ul>
 <p>安裝完成之後確保設定文件權限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chown librenms:librenms /opt/librenms/config.php
-</span></span></code></pre></div><h2 id="搬移資料到指定目錄">搬移資料到指定目錄</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl stop php8.2-fpm nginx
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chown librenms:librenms /opt/librenms/config.php</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h2 class="relative group">搬移資料到指定目錄
+    <div id="搬移資料到指定目錄" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%90%ac%e7%a7%bb%e8%b3%87%e6%96%99%e5%88%b0%e6%8c%87%e5%ae%9a%e7%9b%ae%e9%8c%84" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl stop php8.2-fpm nginx
 </span></span><span style="display:flex;"><span>mkdir -p /data/librenms/
 </span></span><span style="display:flex;"><span>chown librenms:librenms /data/librenms/
 </span></span><span style="display:flex;"><span>sudo mv /opt/librenms/rrd /data/librenms/
@@ -375,8 +1479,19 @@ group = librenms
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ln -s /data/librenms/rrd /opt/librenms/rrd
 </span></span><span style="display:flex;"><span>ln -s /var/log/librenms /opt/librenms/logs
-</span></span><span style="display:flex;"><span>ln -s /data/librenms/storage /opt/librenms/storage
-</span></span></code></pre></div><h2 id="ldap-登入驗證設定">LDAP 登入驗證設定</h2>
+</span></span><span style="display:flex;"><span>ln -s /data/librenms/storage /opt/librenms/storage</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h2 class="relative group">LDAP 登入驗證設定
+    <div id="ldap-登入驗證設定" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#ldap-%e7%99%bb%e5%85%a5%e9%a9%97%e8%ad%89%e8%a8%ad%e5%ae%9a" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <ul>
 <li>
 <p>準備資訊</p>
@@ -393,7 +1508,45 @@ group = librenms
 <p>設定文件: /opt/librenms/config.php</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 LDAP 驗證</span>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 LDAP 驗證</span>
 </span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_mechanism&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ldap&#34;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#75715e">### MySQL 驗證（預設已啟用）</span>
 </span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_mechanism_mysql&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> true;
@@ -426,49 +1579,202 @@ group = librenms
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">### 啟用 LDAP 除錯（如遇問題可打開）</span>
 </span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_ldap_debug&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;
-</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_debug&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/librenms/
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;auth_debug&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> false;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/librenms/
 </span></span><span style="display:flex;"><span>systemctl restart php8.2-fpm nginx <span style="color:#f92672">&amp;&amp;</span> php artisan config:clear <span style="color:#f92672">&amp;&amp;</span> php artisan cache:clear
-</span></span><span style="display:flex;"><span>tail -f /opt/librenms/logs/librenms.log
-</span></span></code></pre></div><h2 id="監控設定">監控設定</h2>
-<h3 id="設定-optlibrenmsconfigphp">設定: /opt/librenms/config.php</h3>
-<h4 id="監控-proxmox">監控 proxmox</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 監控 proxmox</span>
-</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;enable_proxmox&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 1;
-</span></span></code></pre></div><h3 id="snmp">SNMP</h3>
-<h4 id="被監控的-pve-主機">被監控的 pve 主機</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install libpve-apiclient-perl sudo -y
+</span></span><span style="display:flex;"><span>tail -f /opt/librenms/logs/librenms.log</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h2 class="relative group">監控設定
+    <div id="監控設定" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%9b%a3%e6%8e%a7%e8%a8%ad%e5%ae%9a" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">設定: /opt/librenms/config.php
+    <div id="設定-optlibrenmsconfigphp" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a-optlibrenmsconfigphp" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+
+<h4 class="relative group">監控 proxmox
+    <div id="監控-proxmox" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%9b%a3%e6%8e%a7-proxmox" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 監控 proxmox</span>
+</span></span><span style="display:flex;"><span>$config<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;enable_proxmox&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> 1;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h3 class="relative group">SNMP
+    <div id="snmp" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#snmp" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+
+<h4 class="relative group">被監控的 pve 主機
+    <div id="被監控的-pve-主機" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a2%ab%e7%9b%a3%e6%8e%a7%e7%9a%84-pve-%e4%b8%bb%e6%a9%9f" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install libpve-apiclient-perl sudo -y
 </span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/librenms/librenms-agent/master/agent-local/proxmox -O /usr/local/bin/proxmox
-</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/proxmox
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/proxmox</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>設定文件: /etc/sudoers.d/snmp</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Debian-snmp     ALL<span style="color:#f92672">=(</span>ALL<span style="color:#f92672">)</span> NOPASSWD: /usr/local/bin/proxmox
-</span></span></code></pre></div><h4 id="被監控的-linux-主機">被監控的 Linux 主機</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Debian-snmp     ALL<span style="color:#f92672">=(</span>ALL<span style="color:#f92672">)</span> NOPASSWD: /usr/local/bin/proxmox</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h4 class="relative group">被監控的 Linux 主機
+    <div id="被監控的-linux-主機" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a2%ab%e7%9b%a3%e6%8e%a7%e7%9a%84-linux-%e4%b8%bb%e6%a9%9f" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <p>在被監控的 Linux 主機上設定 SNMPv3（Simple Network Management Protocol version 3）通常使用 <strong>Net-SNMP</strong>，並且需要進行加密和驗證設定，以確保安全性。</p>
 <hr>
-<h5 id="步驟-1安裝-snmp-相關套件"><strong>步驟 1：安裝 SNMP 相關套件</strong></h5>
-<h6 id="在-debianubuntu">在 Debian/Ubuntu：</h6>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install snmpd
-</span></span></code></pre></div><p><code>snmpd</code> vs <code>snmp</code></p>
+
+<h5 class="relative group"><strong>步驟 1：安裝 SNMP 相關套件</strong>
+    <div id="步驟-1安裝-snmp-相關套件" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-1%e5%ae%89%e8%a3%9d-snmp-%e7%9b%b8%e9%97%9c%e5%a5%97%e4%bb%b6" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
+
+<h6 class="relative group">在 Debian/Ubuntu：
+    <div id="在-debianubuntu" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%9c%a8-debianubuntu" aria-label="定位點">#</a>
+    </span>
+    
+</h6>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install snmpd</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p><code>snmpd</code> vs <code>snmp</code></p>
 <ul>
 <li>snmpd: 提供本機 snmp 監控資訊</li>
 <li>snmp: 用戶工具端，可以用他來取得其他主機 snmp 監控資訊</li>
 </ul>
-<h6 id="在-rhelcentosrocky-linux">在 RHEL/CentOS/Rocky Linux：</h6>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install net-snmp net-snmp-utils
-</span></span></code></pre></div><hr>
-<h5 id="步驟-2建立-snmpv3-使用者"><strong>步驟 2：建立 SNMPv3 使用者</strong></h5>
+
+<h6 class="relative group">在 RHEL/CentOS/Rocky Linux：
+    <div id="在-rhelcentosrocky-linux" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%9c%a8-rhelcentosrocky-linux" aria-label="定位點">#</a>
+    </span>
+    
+</h6>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install net-snmp net-snmp-utils</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h5 class="relative group"><strong>步驟 2：建立 SNMPv3 使用者</strong>
+    <div id="步驟-2建立-snmpv3-使用者" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-2%e5%bb%ba%e7%ab%8b-snmpv3-%e4%bd%bf%e7%94%a8%e8%80%85" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>SNMPv3 需要使用者驗證，因此需要手動建立使用者。</p>
 <ol>
 <li>
 <p>停止 SNMP 服務(新增帳戶前必要動作)：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl stop snmpd
-</span></span></code></pre></div></li>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl stop snmpd</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</li>
 <li>
 <p>使用 <code>net-snmp-create-v3-user</code> 工具來建立 SNMPv3 使用者：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo net-snmp-create-v3-user -ro -A <span style="color:#e6db74">&#34;auth_password&#34;</span> -X <span style="color:#e6db74">&#34;priv_password&#34;</span> -a SHA -x AES snmpuser
-</span></span></code></pre></div><ul>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo net-snmp-create-v3-user -ro -A <span style="color:#e6db74">&#34;auth_password&#34;</span> -X <span style="color:#e6db74">&#34;priv_password&#34;</span> -a SHA -x AES snmpuser</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li><code>-ro</code>：建立唯讀（Read-Only）使用者</li>
 <li><code>-A &quot;auth_password&quot;</code>：設定驗證密碼</li>
 <li><code>-X &quot;priv_password&quot;</code>：設定加密密碼</li>
@@ -501,271 +1807,372 @@ group = librenms
 <li>可選擇 <code>-rw</code> 來建立具備讀寫權限的使用者。</li>
 </ul>
 <hr>
-<h5 id="步驟-3修改-snmp-配置"><strong>步驟 3：修改 SNMP 配置</strong></h5>
+
+<h5 class="relative group"><strong>步驟 3：修改 SNMP 配置</strong>
+    <div id="步驟-3修改-snmp-配置" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-3%e4%bf%ae%e6%94%b9-snmp-%e9%85%8d%e7%bd%ae" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>開啟 SNMP 配置檔案：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/snmp/snmpd.conf
-</span></span></code></pre></div><p>確保以下內容存在：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#75715e"># 僅監聽本機與特定網卡 (例如 eth0)</span>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/snmp/snmpd.conf</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>確保以下內容存在：</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#75715e"># 僅監聽本機與特定網卡 (例如 eth0)</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 啟用 SNMPv3 使用者</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">createUser snmpuser SHA &#34;auth_password&#34; AES &#34;priv_password&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rouser snmpuser authPriv</span>
-</span></span></code></pre></div><p>如果要讓 SNMP 監聽在所有介面：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161,udp6:[::1]:161</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/etc/snmp/snmpd.conf.d/lab.conf
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rouser snmpuser authPriv</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>如果要讓 SNMP 監聽在所有介面：</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddress udp:161,udp6:[::1]:161</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/etc/snmp/snmpd.conf.d/lab.conf
 </span></span><span style="display:flex;"><span>agentaddress  172.30.1.200
-</span></span><span style="display:flex;"><span>chown root:Debian-snmp /etc/snmp/snmpd.conf.d/lab.conf
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.101&#34; port protocol=&#34;udp&#34; port=&#34;161&#34; accept&#39;</span> --permanent
-</span></span></code></pre></div><hr>
-<h5 id="步驟-4啟動並啟用-snmp-服務"><strong>步驟 4：啟動並啟用 SNMP 服務</strong></h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable snmpd
-</span></span><span style="display:flex;"><span>sudo systemctl restart snmpd
-</span></span></code></pre></div><hr>
-<h5 id="步驟-5測試-snmpv3-連線"><strong>步驟 5：測試 SNMPv3 連線</strong></h5>
+</span></span><span style="display:flex;"><span>chown root:Debian-snmp /etc/snmp/snmpd.conf.d/lab.conf</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>public --add-rich-rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rule family=&#34;ipv4&#34; source address=&#34;192.168.1.101&#34; port protocol=&#34;udp&#34; port=&#34;161&#34; accept&#39;</span> --permanent</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h5 class="relative group"><strong>步驟 4：啟動並啟用 SNMP 服務</strong>
+    <div id="步驟-4啟動並啟用-snmp-服務" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-4%e5%95%9f%e5%8b%95%e4%b8%a6%e5%95%9f%e7%94%a8-snmp-%e6%9c%8d%e5%8b%99" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable snmpd
+</span></span><span style="display:flex;"><span>sudo systemctl restart snmpd</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h5 class="relative group"><strong>步驟 5：測試 SNMPv3 連線</strong>
+    <div id="步驟-5測試-snmpv3-連線" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-5%e6%b8%ac%e8%a9%a6-snmpv3-%e9%80%a3%e7%b7%9a" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>測試：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -OQne -v <span style="color:#ae81ff">3</span> -t <span style="color:#ae81ff">10</span> -l authPriv -u snmpuser -a SHA -A auth_password -x AES -X priv_password  192.168.1.100 -Os 1.3.6.1.2.1.2.2.1
-</span></span></code></pre></div><hr>
-<h5 id="步驟-6開放防火牆"><strong>步驟 6：開放防火牆</strong></h5>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>snmpwalk -OQne -v <span style="color:#ae81ff">3</span> -t <span style="color:#ae81ff">10</span> -l authPriv -u snmpuser -a SHA -A auth_password -x AES -X priv_password  192.168.1.100 -Os 1.3.6.1.2.1.2.2.1</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h5 class="relative group"><strong>步驟 6：開放防火牆</strong>
+    <div id="步驟-6開放防火牆" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%ad%a5%e9%a9%9f-6%e9%96%8b%e6%94%be%e9%98%b2%e7%81%ab%e7%89%86" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>如果系統有啟用防火牆，則開放 UDP 161 端口：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --add-port<span style="color:#f92672">=</span>161/udp --permanent
-</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
-</span></span></code></pre></div><hr>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo firewall-cmd --add-port<span style="color:#f92672">=</span>161/udp --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
 <p>這樣就成功配置了一台支援 <strong>SNMPv3</strong> 的 Linux 伺服器，可用於 LibreNMS、Zabbix、Nagios 等監控系統。</p>
-<h2 id="plugin">Plugin</h2>
-<h3 id="weathermap">Weathermap</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install php-pear -y
+
+<h2 class="relative group">Plugin
+    <div id="plugin" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#plugin" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">Weathermap
+    <div id="weathermap" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#weathermap" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install php-pear -y
 </span></span><span style="display:flex;"><span>su - librenms
 </span></span><span style="display:flex;"><span>cd /opt/librenms/html/plugins
 </span></span><span style="display:flex;"><span>git clone https://github.com/librenms-plugins/Weathermap.git
-</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">775</span> /opt/librenms/html/plugins/Weathermap/configs
-</span></span></code></pre></div><ul>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">775</span> /opt/librenms/html/plugins/Weathermap/configs</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<ul>
 <li>設定排程文件: /etc/cron.d/librenms</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*/5 * * * * librenms /opt/librenms/html/plugins/Weathermap/map-poller.php &gt;&gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart cron php8.2-fpm nginx
-</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*/5 * * * * librenms /opt/librenms/html/plugins/Weathermap/map-poller.php &gt;&gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart cron php8.2-fpm nginx</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h2 class="relative group">參考資料
+    <div id="參考資料" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <ul>
-<li><a href="https://docs.librenms.org/Installation/Install-LibreNMS/#add-librenms-user">Install LibreNMS</a></li>
-<li><a href="https://docs.librenms.org/Support/Example-Hardware-Setup/#vvelox">Example Hardware Setups</a></li>
-<li><a href="https://community.librenms.org/t/librenms-web-console-user-group-membership-not-working-via-ldap-authentication/22750">LibreNMS Web Console user group membership not working via LDAP authentication</a></li>
-<li><a href="https://wiki.freedomstu.com/books/proxmox-ve-%E8%99%9B%E6%93%AC%E7%B3%BB%E7%B5%B1%E8%A8%98%E9%8C%84/page/proxmox-ve-%E5%AE%89%E8%A3%9D%E5%8F%8A%E8%A8%AD%E5%AE%9A-librenms-agent">Proxmox VE 安裝及設定 LibreNMS-Agent</a></li>
+<li><a href="https://docs.librenms.org/Installation/Install-LibreNMS/#add-librenms-user"  target="_blank" rel="noreferrer">Install LibreNMS</a></li>
+<li><a href="https://docs.librenms.org/Support/Example-Hardware-Setup/#vvelox"  target="_blank" rel="noreferrer">Example Hardware Setups</a></li>
+<li><a href="https://community.librenms.org/t/librenms-web-console-user-group-membership-not-working-via-ldap-authentication/22750"  target="_blank" rel="noreferrer">LibreNMS Web Console user group membership not working via LDAP authentication</a></li>
+<li><a href="https://wiki.freedomstu.com/books/proxmox-ve-%E8%99%9B%E6%93%AC%E7%B3%BB%E7%B5%B1%E8%A8%98%E9%8C%84/page/proxmox-ve-%E5%AE%89%E8%A3%9D%E5%8F%8A%E8%A8%AD%E5%AE%9A-librenms-agent"  target="_blank" rel="noreferrer">Proxmox VE 安裝及設定 LibreNMS-Agent</a></li>
 </ul>
-</div>
-                <div>
-                    <script src="https://utteranc.es/client.js"
-                        repo="PolloChang/commentsforpollochang"
-                        issue-term="pathname"
-                        theme="github-light"
-                        crossorigin="anonymous"
-                        async>
-                    </script>
-                </div>
-            </div>
+
+          
+          
+          
         </div>
+        
+        
 
-        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/worknot/linux-google-authenticator/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;linux 登入使用 google auth 二階段驗證
+              </span>
+            </a>
             
-
-            <div class="layui-card single-card">
-                <h2 class="single-title">Recent Posts</h2>
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2025-01-11T22:36:14&#43;08:00">January 11, 2025</time>
+              </span>
             
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/cns11643/">
-                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/cns11643/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
-        </a>
-    
-        <a href="/tags/java/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/db-postgresql-note/">
-                        <h3 class="">db-postgresql-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/postgresql/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/docker-note/">
-                        <h3 class="">docker-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/docker/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
-                        <h3 class="">關閉IPv6</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
-                        <h3 class="">輸入法相關</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/worknot/linux-gdisk-error/">
+              <span class="leading-6">
+                Linux Gdisk Error&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
             
-            <br />
-            </div>
-        </div>
-
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2025-02-06T22:22:37&#43;08:00">February 6, 2025</time>
+              </span>
+            
+          
+        </span>
+      </div>
     </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="捲動到頁頂"
+    title="捲動到頁頂">
+    &uarr;
+  </a>
 </div>
 
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          PolloChang
+      </p>
+    
 
-        </div><footer>
     
     
-    <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
-    </div>
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        以 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 製作
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
 </footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="http://pollochang.work/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜尋"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="關閉 (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
 
-</body>
+    </div>
+  </body>
+  
 </html>

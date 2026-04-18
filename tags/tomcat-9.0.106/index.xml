@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomcat 9.0.106 on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/tomcat-9.0.106/</link>
+    <description>Recent content in Tomcat 9.0.106 on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Wed, 18 Jun 2025 22:21:10 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/tomcat-9.0.106/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Tomcat Attachment Error</title>
+      <link>http://pollochang.work/worknot/tomcat-attachment-error/</link>
+      <pubDate>Wed, 18 Jun 2025 22:21:10 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/tomcat-attachment-error/</guid>
+      <description>&lt;p&gt;這幾天在公司測試環境頻繁的出現下面的錯誤訊息:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight-wrapper&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&#xA;&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&#xA;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&#xA;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Caused by: org.springframework.web.multipart.MultipartException: Could not parse multipart servlet request; nested exception is org.apache.tomcat.util.http.fileupload.impl.FileCountLimitExceededException: attachment&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&lt;/div&gt;&#xA;&lt;p&gt;這條訊息是這樣說的: 檔案數量限制 (Could not parse multipart servlet request) 。&lt;/p&gt;&#xA;&lt;p&gt;我苦思了兩天，回想這一個禮拜我都沒有任何維護測試環境的紀錄，為什麼卻在這兩天開發的工程師頻頻像我反應類似的錯誤訊息，而且他們都說自己的本機環境不會上道測試機反而會出錯。最終我實在忍不住到處詢問期胎維護工程師。我們大約找了半天左右才發現是 tomcat 9.0.106 新增對 &lt;code&gt;multi-part request&lt;/code&gt; 的限制，預設是 10。&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/ai/</link>
+    <description>Recent content in AI on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Tue, 07 Apr 2026 23:00:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Oracle Index 維護方式</title>
+      <link>http://pollochang.work/oracle-database/oracle-index-maintain/</link>
+      <pubDate>Tue, 07 Apr 2026 23:00:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/oracle-index-maintain/</guid>
+      <description>&lt;h2 class=&#34;relative group&#34;&gt;Oracle 11g&#xA;    &lt;div id=&#34;oracle-11g&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#oracle-11g&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h2&gt;&#xA;&#xA;&lt;h3 class=&#34;relative group&#34;&gt;1. 清查統計資訊：確認資料的「新鮮度」&#xA;    &lt;div id=&#34;1-清查統計資訊確認資料的新鮮度&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#1-%e6%b8%85%e6%9f%a5%e7%b5%b1%e8%a8%88%e8%b3%87%e8%a8%8a%e7%a2%ba%e8%aa%8d%e8%b3%87%e6%96%99%e7%9a%84%e6%96%b0%e9%ae%ae%e5%ba%a6&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h3&gt;&#xA;&lt;p&gt;在 11g，如果 &lt;code&gt;LAST_ANALYZED&lt;/code&gt; 太久遠，&lt;code&gt;BLEVEL&lt;/code&gt; 的參考價值會大打折扣。&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>How to check need redo size</title>
+      <link>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/how-to-check-need-redo.size/</guid>
+      <description>&lt;p&gt;以下內容待確認，我這邊先筆記&lt;/p&gt;&#xA;&lt;p&gt;太棒了！你已經完美地將我們討論的「15-20 分鐘法則」、精確計算公式以及「過大 vs. 過小」的權衡整理成了一份標準作業程序（SOP）。這就是一位優秀 DBA 的養成之路：&lt;strong&gt;不僅要解決問題，更要建立可量化的評估標準。&lt;/strong&gt;&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>Oracle files design</title>
+      <link>http://pollochang.work/oracle-database/oracle-file-design/</link>
+      <pubDate>Mon, 06 Apr 2026 15:57:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/oracle-file-design/</guid>
+      <description>&lt;p&gt;這是一個非常關鍵的架構問題。在儲存設備（Storage）的配置上，Redo Log 與 Datafile 的特性截然不同：&lt;strong&gt;Redo Log 追求的是「極致的寫入低延遲（Latency）」&lt;/strong&gt;，而 &lt;strong&gt;Datafile 追求的是「穩定且平衡的吞吐量（Throughput）」&lt;/strong&gt;。&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>maa consolidation TW</title>
+      <link>http://pollochang.work/oracle-database/maa-consolidation-tw/</link>
+      <pubDate>Sun, 05 Apr 2026 16:23:49 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/maa-consolidation-tw/</guid>
+      <description>&lt;h1 class=&#34;relative group&#34;&gt;Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南&#xA;    &lt;div id=&#34;oracle-資料庫整合最佳實踐深度研究報告基於-maa-參考架構與-ai-原生技術的全面實施指南&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#oracle-%e8%b3%87%e6%96%99%e5%ba%ab%e6%95%b4%e5%90%88%e6%9c%80%e4%bd%b3%e5%af%a6%e8%b8%90%e6%b7%b1%e5%ba%a6%e7%a0%94%e7%a9%b6%e5%a0%b1%e5%91%8a%e5%9f%ba%e6%96%bc-maa-%e5%8f%83%e8%80%83%e6%9e%b6%e6%a7%8b%e8%88%87-ai-%e5%8e%9f%e7%94%9f%e6%8a%80%e8%a1%93%e7%9a%84%e5%85%a8%e9%9d%a2%e5%af%a6%e6%96%bd%e6%8c%87%e5%8d%97&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h1&gt;&#xA;&lt;p&gt;資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 &lt;sup&gt;1&lt;/sup&gt;。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 &lt;sup&gt;1&lt;/sup&gt;。&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

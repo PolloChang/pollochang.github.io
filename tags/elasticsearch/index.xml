@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ElasticSearch on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/elasticsearch/</link>
+    <description>Recent content in ElasticSearch on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Sun, 11 May 2025 23:27:23 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Zabbix ElasticSearch</title>
+      <link>http://pollochang.work/worknot/zabbix-elasticsearch/</link>
+      <pubDate>Sun, 11 May 2025 23:27:23 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/zabbix-elasticsearch/</guid>
+      <description>&lt;h1 class=&#34;relative group&#34;&gt;Zabbix ElasticSearch&#xA;    &lt;div id=&#34;zabbix-elasticsearch&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#zabbix-elasticsearch&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h1&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;監控項關鍵字（item_key)&lt;/th&gt;&#xA;          &lt;th&gt;監控項名稱（item_name）&lt;/th&gt;&#xA;          &lt;th&gt;備註&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,count]&lt;/td&gt;&#xA;          &lt;td&gt;Total number of records&lt;/td&gt;&#xA;          &lt;td&gt;記錄總數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[{$NODENAME},index_total]&lt;/td&gt;&#xA;          &lt;td&gt;Records indexed per second&lt;/td&gt;&#xA;          &lt;td&gt;索引文檔總數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,unassigned_shards]&lt;/td&gt;&#xA;          &lt;td&gt;Number of unassigned shards&lt;/td&gt;&#xA;          &lt;td&gt;未分配的分片數，通常為0，當有某個節點的副本分片丟失該值就會增加。&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,number_of_nodes]&lt;/td&gt;&#xA;          &lt;td&gt;Number of nodes&lt;/td&gt;&#xA;          &lt;td&gt;節點數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,relocating_shards]&lt;/td&gt;&#xA;          &lt;td&gt;Number of relocating shards&lt;/td&gt;&#xA;          &lt;td&gt;當前節點遷往其他節點的分片數量，通常為0，當有節點加入或者退出時該值會增加。&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,initializing_shards]&lt;/td&gt;&#xA;          &lt;td&gt;Number of initializing shards&lt;/td&gt;&#xA;          &lt;td&gt;正在初始化的分片數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,number_of_data_nodes]&lt;/td&gt;&#xA;          &lt;td&gt;Number of data nodes&lt;/td&gt;&#xA;          &lt;td&gt;數據節點數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,active_shards]&lt;/td&gt;&#xA;          &lt;td&gt;Number of active shards&lt;/td&gt;&#xA;          &lt;td&gt;活躍的所有分片數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,active_primary_shards]&lt;/td&gt;&#xA;          &lt;td&gt;Number of active primary shards&lt;/td&gt;&#xA;          &lt;td&gt;活躍的主分片數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,index_total]&lt;/td&gt;&#xA;          &lt;td&gt;Cluster-wide records indexed per second&lt;/td&gt;&#xA;          &lt;td&gt;索引文檔數&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,size_in_bytes]&lt;/td&gt;&#xA;          &lt;td&gt;Cluster-wide storage size&lt;/td&gt;&#xA;          &lt;td&gt;數據總存儲容量&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[service,status]&lt;/td&gt;&#xA;          &lt;td&gt;Elasticsearch Service Status&lt;/td&gt;&#xA;          &lt;td&gt;服務狀態&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;ESzabbix[cluster,status]&lt;/td&gt;&#xA;          &lt;td&gt;ElasticSearch Cluster Status&lt;/td&gt;&#xA;          &lt;td&gt;集群狀態&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>K8s on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/k8s/</link>
+    <description>Recent content in K8s on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Tue, 08 Jul 2025 07:33:21 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>01 - K8s System Design</title>
+      <link>http://pollochang.work/k8s/01-k8s-system-design/</link>
+      <pubDate>Tue, 08 Jul 2025 07:33:21 +0800</pubDate>
+      
+      <guid>http://pollochang.work/k8s/01-k8s-system-design/</guid>
+      <description>&lt;p&gt;這是紀錄我學習 K8s 的筆記&lt;/p&gt;&#xA;&#xA;&lt;h2 class=&#34;relative group&#34;&gt;系統組成&#xA;    &lt;div id=&#34;系統組成&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#%e7%b3%bb%e7%b5%b1%e7%b5%84%e6%88%90&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;k8s 群集&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: k8s 主體&lt;/li&gt;&#xA;&lt;li&gt;k8s-master&#xA;&lt;ul&gt;&#xA;&lt;li&gt;IP: 192.168.100.200&lt;/li&gt;&#xA;&lt;li&gt;MAC: 52:54:00:13:43:a9&lt;/li&gt;&#xA;&lt;li&gt;domain: k8s-master.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 2&lt;/li&gt;&#xA;&lt;li&gt;RAM: 4GB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;k8s-node-01&#xA;&lt;ul&gt;&#xA;&lt;li&gt;IP: 192.168.100.201&lt;/li&gt;&#xA;&lt;li&gt;domain: k8s-node-01.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 4&lt;/li&gt;&#xA;&lt;li&gt;RAM: 8GB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;k8s-node-02&#xA;&lt;ul&gt;&#xA;&lt;li&gt;IP: 192.168.100.202&lt;/li&gt;&#xA;&lt;li&gt;domain: k8s-node-02.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 4&lt;/li&gt;&#xA;&lt;li&gt;RAM: 8GB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;git&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: 存放腳本&lt;/li&gt;&#xA;&lt;li&gt;CPU: 2&lt;/li&gt;&#xA;&lt;li&gt;RAM: 1GB&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/gitbucket/gitbucket&#34;  target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;GitBucket&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;jenkins&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: 包 java War 檔 與 建立 docker image&lt;/li&gt;&#xA;&lt;li&gt;IP: 192.168.100.199&lt;/li&gt;&#xA;&lt;li&gt;domain: jenkins.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 4&lt;/li&gt;&#xA;&lt;li&gt;RAM: 2GB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;docker repo&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: 儲存 docker image&lt;/li&gt;&#xA;&lt;li&gt;IP: 192.168.100.198&lt;/li&gt;&#xA;&lt;li&gt;domain: docker-repo.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 2&lt;/li&gt;&#xA;&lt;li&gt;RAM: 2GB&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://ithelp.ithome.com.tw/articles/10249640&#34;  target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;自架 Registry - Harbor&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;nginx&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: 作為與網際網路的代理 與 負載平衡&lt;/li&gt;&#xA;&lt;li&gt;IP: 192.168.100.197&lt;/li&gt;&#xA;&lt;li&gt;domain: nginx.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 2&lt;/li&gt;&#xA;&lt;li&gt;RAM: 2GB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;monitor&#xA;&lt;ul&gt;&#xA;&lt;li&gt;用途: 監控系統狀態&lt;/li&gt;&#xA;&lt;li&gt;IP: 192.168.100.196&lt;/li&gt;&#xA;&lt;li&gt;domain: monitor.k8s.local&lt;/li&gt;&#xA;&lt;li&gt;CPU: 4&lt;/li&gt;&#xA;&lt;li&gt;RAM: 8GB&lt;/li&gt;&#xA;&lt;li&gt;graylog , prometheus , grafana&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

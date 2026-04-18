@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomcat on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/categories/tomcat/</link>
+    <description>Recent content in Tomcat on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Thu, 02 Jan 2025 23:31:55 +0800</lastBuildDate><atom:link href="http://pollochang.work/categories/tomcat/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>tomcat log 格式探究</title>
+      <link>http://pollochang.work/worknot/tomcat-log-formatter/</link>
+      <pubDate>Thu, 02 Jan 2025 23:31:55 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/tomcat-log-formatter/</guid>
+      <description>&lt;p&gt;這幾天工作上有針對日誌設定做討論，但是單純對tomcat 日誌設定似乎缺少了實做探究，於是在下班之餘稍微探究了一下。今天先對日誌格式做研究。&lt;/p&gt;&#xA;&lt;p&gt;在官網對於 log 工具預設是由 java 原生日誌工具處理 &lt;code&gt;java.util.logging&lt;/code&gt;&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

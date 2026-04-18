@@ -1,201 +1,934 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html
+  lang="zh-TW"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="dark"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="zh-TW">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
 
-    <title>PolloChang 工作筆記 - Oracle Index 維護方式 </title>
-    
-    
-    <meta content="Oracle, AI, 學習筆記" name="keywords">
-    
-    <meta content="PolloChang 工作筆記 - Oracle 11g 1. 清查統計資訊：確認資料的「新鮮度」 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。
-實務作法： 使用以下 SQL 找出深度異常（&gt;=3）且統計資訊超過 7 天未更新的索引：
-SELECT owner, index_name, table_name, blevel, leaf_blocks, num_rows, last_analyzed FROM dba_indexes WHERE blevel &gt;= 3 AND last_analyzed &lt; SYSDATE - 7 AND owner NOT IN (&#39;SYS&#39;, &#39;SYSTEM&#39;); 2. 確認使用情況：找出「殭屍索引」 在 11g 中，這一步最耗時但也最省資源。
-開啟監控 (Monitoring)： 11g 必須針對每個索引手動開啟監控。 ALTER INDEX schema_name.index_name MONITORING USAGE; 檢查結果： 觀察一兩個完整業務週期（例如一週或一個月）後查詢： SELECT index_name, used, start_monitoring, end_monitoring FROM v$object_usage; 大師筆記： v$object_usage 只能看到當前使用者的監控。若要看全庫，需以 SYS 權限查詢底層表 sys.object_usage。" name="description">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    
-        <link rel="icon" href="/images/logo.jpg">
-    
+  
+  
+    <title>Oracle Index 維護方式 &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="Oracle Index 維護方式 &middot; PolloChang 工作筆記">
+  
 
-    
+  
+  
+    <meta name="description" content="我是一隻雞">
+  
+  
+    <meta name="keywords" content="Oracle,AI,學習筆記,">
+  
+  
+  
+  <link rel="canonical" href="http://pollochang.work/oracle-database/oracle-index-maintain/">
+  
+  
 
+  
+  
+    <meta name="author" content="PolloChang">
+  
+  
     
+      
         
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)};
-          gtag('js', new Date());
-          gtag('config', 'G-7QK0FBKQ5Q');
-        </script>
-    
-
-    
-
-    <link rel="stylesheet" href="/layui/css/layui.css">
-    <link rel="stylesheet" href="/self/css/default.css">
-    <script src=" /layui/layui.js"></script>
-
-    <link rel="stylesheet" async href="/self/css/markdown.min.css">
-    <link rel="stylesheet" async href="/self/css/gallery.css">
-    
-    
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
-
-<body>
-    
-    <header class="layui-header layui-bg-cyan">
-
-    
-        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
-    
-    
-    <a class="nav-self-logo" href="/">
-        PolloChang 工作筆記
-    </a>
-
-    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+          <link href="https://github.com/PolloChang" rel="me">
         
+      
+    
+      
         
+          <link href="https://www.linkedin.com/in/chang-pollo-903301219" rel="me">
         
-        
+      
+    
+  
 
-        
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
-            
-        
+  
+  <meta property="og:url" content="http://pollochang.work/oracle-database/oracle-index-maintain/">
+  <meta property="og:site_name" content="PolloChang 工作筆記">
+  <meta property="og:title" content="Oracle Index 維護方式">
+  <meta property="og:description" content="Oracle 11g # 1. 清查統計資訊：確認資料的「新鮮度」 # 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="oracle-database">
+    <meta property="article:published_time" content="2026-04-07T23:00:49+08:00">
+    <meta property="article:modified_time" content="2026-04-07T23:00:49+08:00">
+    <meta property="article:tag" content="Oracle">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="學習筆記">
 
-        
-        <li class="layui-nav-item" id="nav_small">
-            <a href="javascript:;">
-                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
-            </a>
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Oracle Index 維護方式">
+  <meta name="twitter:description" content="Oracle 11g # 1. 清查統計資訊：確認資料的「新鮮度」 # 在 11g，如果 LAST_ANALYZED 太久遠，BLEVEL 的參考價值會大打折扣。">
 
-            <dl class="layui-nav-child">
-                
-                
-                
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
 
-                
-                    
-                        <dd><a href="/post/">文章</a></dd>
-                    
-                        <dd><a href="/worknot/">工作隨手記</a></dd>
-                    
-                        <dd><a href="/oracle-database/">oracle-database</a></dd>
-                    
-                        <dd><a href="/k8s/">k8s</a></dd>
-                    
-                        <dd><a href="/personal-zone/">個人經歷</a></dd>
-                    
-                        <dd><a href="/about/">關於</a></dd>
-                    
-                
-            </dl>
-        </li>
-    </ul>
-</header>
+  
+  
+  
+  
+  
+  
 
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.07a8088c33086a4f22f8c0e9b9dd8b3d24774753ce35a341034d6f7c1e249b72e184af812c1341e6a62df443da9e4bb28feddf7f5c6f07b24a20a900ef559483.css"
+    integrity="sha512-B6gIjDMIak8i&#43;MDpud2LPSR3R1PONaNBA01vfB4km3LhhK&#43;BLBNB5qYt9EPankuyj&#43;3ff1xvB7JKIKkA71WUgw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.0fa2a78284c4ed567ca02f5c37008b7b0127c3081f48b033f1c537c24766b8d57da49e0316c193c94bfd77da998acb9863844e045800340b2303522672e1ac79.js"
+      integrity="sha512-D6KngoTE7VZ8oC9cNwCLewEnwwgfSLAz8cU3wkdmuNV9pJ4DFsGTyUv9d9qZisuYY4ROBFgANAsjA1ImcuGseQ=="
+      data-copy="複製"
+      data-copied="已複製"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Oracle-Databases",
+    "name": "Oracle Index 維護方式",
+    "headline": "Oracle Index 維護方式",
+    
+    "inLanguage": "zh-TW",
+    "url" : "http://pollochang.work/oracle-database/oracle-index-maintain/",
+    "author" : {
+      "@type": "Person",
+      "name": "PolloChang"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-04-07T23:00:49\u002b08:00",
+    "datePublished": "2026-04-07T23:00:49\u002b08:00",
+    
+    "dateModified": "2026-04-07T23:00:49\u002b08:00",
+    
+    "keywords": ["Oracle","AI","學習筆記"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "3915"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
 <script>
-layui.use('element', function(){
-  var element = layui.element;
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7QK0FBKQ5Q');
 </script>
 
-        <div id="content" style="min-height:80%">
-<div class="layui-container" style="margin-bottom: 10px">
+
+
+
+
+  
+
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-你的ID"
+     crossorigin="anonymous"></script>
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        快轉到主要內容
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      PolloChang 工作筆記
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/post/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="文章"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          文章
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/worknot/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="工作隨手記"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          工作隨手記
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/oracle-database/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Oracle"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Oracle
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/k8s/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="K8s"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          K8s
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/personal-zone/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="個人經歷"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          個人經歷
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="關於"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          關於
+        </span>
+      
+    </a>
+  
+
+    
+  
+
+  
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/post/"
+        aria-label="文章"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          文章
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/worknot/"
+        aria-label="工作隨手記"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          工作隨手記
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/oracle-database/"
+        aria-label="Oracle"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          Oracle
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/k8s/"
+        aria-label="K8s"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          K8s
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/personal-zone/"
+        aria-label="個人經歷"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          個人經歷
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="關於"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          關於
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
     
 
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
-            <div class="layui-card single-card">
-                <br />
-                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>Oracle Index 維護方式</h1>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-04-07</span>
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Oracle Index 維護方式
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-04-07T23:00:49&#43;08:00">April 7, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>3915 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">8 分鐘</span>
+    
 
     
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
+  </div>
+
+  
+
+  
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="PolloChang"
+        src="/images/logo_hu_1397cd167e9991d2.jpg"
+        data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        作者
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        PolloChang
+      </div>
+    
+    
+      <div class="text-sm text-neutral-700 dark:text-neutral-400">我是一隻雞</div>
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/PolloChang"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://www.linkedin.com/in/chang-pollo-903301219"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
 
     
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
 
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
 
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+
+        <div class="article-content max-w-prose mb-20">
+          
+<h2 class="relative group">Oracle 11g
+    <div id="oracle-11g" class="anchor"></div>
     
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-11g" aria-label="定位點">#</a>
+    </span>
     
-        <a href="/tags/ai/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
-        </a>
+</h2>
+
+<h3 class="relative group">1. 清查統計資訊：確認資料的「新鮮度」
+    <div id="1-清查統計資訊確認資料的新鮮度" class="anchor"></div>
     
-        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
-        </a>
-    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e6%b8%85%e6%9f%a5%e7%b5%b1%e8%a8%88%e8%b3%87%e8%a8%8a%e7%a2%ba%e8%aa%8d%e8%b3%87%e6%96%99%e7%9a%84%e6%96%b0%e9%ae%ae%e5%ba%a6" aria-label="定位點">#</a>
+    </span>
     
 </h3>
-
-                </blockquote>
-                <div class="layui-card-body markdown-body single-content">
-                    <h2 id="oracle-11g">Oracle 11g</h2>
-<h3 id="1-清查統計資訊確認資料的新鮮度">1. 清查統計資訊：確認資料的「新鮮度」</h3>
 <p>在 11g，如果 <code>LAST_ANALYZED</code> 太久遠，<code>BLEVEL</code> 的參考價值會大打折扣。</p>
 <p><strong>實務作法：</strong>
 使用以下 SQL 找出深度異常（&gt;=3）且統計資訊超過 7 天未更新的索引：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">owner</span>, index_name, <span style="color:#66d9ef">table_name</span>, blevel, 
 </span></span><span style="display:flex;"><span>    leaf_blocks, num_rows, last_analyzed
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_indexes
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> blevel <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span> 
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> last_analyzed <span style="color:#f92672">&lt;</span> SYSDATE <span style="color:#f92672">-</span> <span style="color:#ae81ff">7</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">owner</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;SYS&#39;</span>, <span style="color:#e6db74">&#39;SYSTEM&#39;</span>);
-</span></span></code></pre></div><hr>
-<h3 id="2-確認使用情況找出殭屍索引">2. 確認使用情況：找出「殭屍索引」</h3>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">owner</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;SYS&#39;</span>, <span style="color:#e6db74">&#39;SYSTEM&#39;</span>);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h3 class="relative group">2. 確認使用情況：找出「殭屍索引」
+    <div id="2-確認使用情況找出殭屍索引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e7%a2%ba%e8%aa%8d%e4%bd%bf%e7%94%a8%e6%83%85%e6%b3%81%e6%89%be%e5%87%ba%e6%ae%ad%e5%b1%8d%e7%b4%a2%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 11g 中，這一步最耗時但也最省資源。</p>
 <ul>
 <li><strong>開啟監控 (Monitoring)：</strong> 11g 必須針對每個索引手動開啟監控。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name MONITORING <span style="color:#66d9ef">USAGE</span>;
-</span></span></code></pre></div></li>
-<li><strong>檢查結果：</strong> 觀察一兩個完整業務週期（例如一週或一個月）後查詢：
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> index_name, used, start_monitoring, end_monitoring 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> v$object_usage;
-</span></span></code></pre></div><blockquote>
-<p><strong>大師筆記：</strong> <code>v$object_usage</code> 只能看到當前使用者的監控。若要看全庫，需以 SYS 權限查詢底層表 <code>sys.object_usage</code>。</p>
-</blockquote>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name MONITORING <span style="color:#66d9ef">USAGE</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 </li>
+<li><strong>檢查結果：</strong> 觀察一兩個完整業務週期（例如一週或一個月）後查詢：
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> index_name, used, start_monitoring, end_monitoring 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> v$object_usage;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<blockquote><p><strong>大師筆記：</strong> <code>v$object_usage</code> 只能看到當前使用者的監控。若要看全庫，需以 SYS 權限查詢底層表 <code>sys.object_usage</code>。</p>
+</blockquote></li>
 </ul>
 <hr>
-<h3 id="3-評估該刪除實施安全緩衝區">3. 評估該刪除：實施「安全緩衝區」</h3>
+
+<h3 class="relative group">3. 評估該刪除：實施「安全緩衝區」
+    <div id="3-評估該刪除實施安全緩衝區" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e8%a9%95%e4%bc%b0%e8%a9%b2%e5%88%aa%e9%99%a4%e5%af%a6%e6%96%bd%e5%ae%89%e5%85%a8%e7%b7%a9%e8%a1%9d%e5%8d%80" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>11g 引入了 <strong>Invisible Index (不可見索引)</strong>，這是業界公認最安全的刪除前置作業。</p>
 <ul>
 <li><strong>操作步驟：</strong>
@@ -204,58 +937,151 @@ layui.use('element', function(){
 <li>觀察 AWR 報告或應用程式有無報錯。</li>
 <li>若確定無誤，再執行 <code>DROP INDEX</code>。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> index_name INVISIBLE;
-</span></span></code></pre></div></li>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> index_name INVISIBLE;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</li>
 </ul>
 <hr>
-<h3 id="4-評估該優化深度的科學判斷">4. 評估該優化：深度的科學判斷</h3>
+
+<h3 class="relative group">4. 評估該優化：深度的科學判斷
+    <div id="4-評估該優化深度的科學判斷" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e8%a9%95%e4%bc%b0%e8%a9%b2%e5%84%aa%e5%8c%96%e6%b7%b1%e5%ba%a6%e7%9a%84%e7%a7%91%e5%ad%b8%e5%88%a4%e6%96%b7" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>針對你提到的 TIP，在 11g 實務中，我們判斷「是否值得 Rebuild」通常會動用 <code>VALIDATE STRUCTURE</code> 命令。</p>
 <p><strong>深度診斷步驟：</strong></p>
 <ol>
 <li><strong>收集索引內部碎片資訊：</strong>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ANALYZE</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name VALIDATE <span style="color:#66d9ef">STRUCTURE</span>;
-</span></span></code></pre></div></li>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ANALYZE</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name VALIDATE <span style="color:#66d9ef">STRUCTURE</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</li>
 <li><strong>查詢 <code>INDEX_STATS</code> 視圖：</strong>
 這是 11g DBA 的黃金準則，檢查這兩個指標：
 <ul>
 <li><strong>HEIGHT (即 BLEVEL+1)：</strong> 是否大於等於 4。</li>
 <li><strong>DEL_LF_ROWS_LEN / LF_ROWS_LEN：</strong> 刪除的列所佔空間是否超過 <strong>20%</strong>。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, height, del_lf_rows_len, lf_rows_len,
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> name, height, del_lf_rows_len, lf_rows_len,
 </span></span><span style="display:flex;"><span>       (del_lf_rows_len <span style="color:#f92672">/</span> decode(lf_rows_len, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, lf_rows_len) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#66d9ef">AS</span> pct_deleted
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> index_stats;
-</span></span></code></pre></div><blockquote>
-<p><strong>警語：</strong> 在 11g 中，<code>ANALYZE INDEX ... VALIDATE STRUCTURE</code> <strong>會鎖表 (Table Lock)</strong>。請務必在離峰時段操作。</p>
-</blockquote>
-</li>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> index_stats;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<blockquote><p><strong>警語：</strong> 在 11g 中，<code>ANALYZE INDEX ... VALIDATE STRUCTURE</code> <strong>會鎖表 (Table Lock)</strong>。請務必在離峰時段操作。</p>
+</blockquote></li>
 </ol>
 <hr>
-<h3 id="5-執行優化11g-的最佳實踐指令">5. 執行優化：11g 的最佳實踐指令</h3>
+
+<h3 class="relative group">5. 執行優化：11g 的最佳實踐指令
+    <div id="5-執行優化11g-的最佳實踐指令" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#5-%e5%9f%b7%e8%a1%8c%e5%84%aa%e5%8c%9611g-%e7%9a%84%e6%9c%80%e4%bd%b3%e5%af%a6%e8%b8%90%e6%8c%87%e4%bb%a4" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>若決定要 Rebuild，請遵循以下步驟以最小化對生產環境的衝擊：</p>
 <ol>
 <li><strong>Online Rebuild：</strong> 避免鎖定 DML 操作。</li>
 <li><strong>Parallel：</strong> 加快速度（需確認 CPU 負載）。</li>
 <li><strong>Reset Degree：</strong> 完成後務必改回 NOPARALLEL，否則 Optimizer 會誤判執行成本。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 1. 線上重建並啟動平行處理
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name REBUILD ONLINE PARALLEL <span style="color:#ae81ff">4</span>;
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 1. 線上重建並啟動平行處理
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name REBUILD ONLINE PARALLEL <span style="color:#ae81ff">4</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 恢復索引的平行度設定 (非常重要！)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name NOPARALLEL;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name NOPARALLEL;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 重新收集統計資訊
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">EXEC</span> DBMS_STATS.GATHER_INDEX_STATS(<span style="color:#e6db74">&#39;SCHEMA_NAME&#39;</span>, <span style="color:#e6db74">&#39;INDEX_NAME&#39;</span>);
-</span></span></code></pre></div><hr>
-<h3 id="總結大師建議">總結大師建議：</h3>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXEC</span> DBMS_STATS.GATHER_INDEX_STATS(<span style="color:#e6db74">&#39;SCHEMA_NAME&#39;</span>, <span style="color:#e6db74">&#39;INDEX_NAME&#39;</span>);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h3 class="relative group">總結大師建議：
+    <div id="總結大師建議" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b8%bd%e7%b5%90%e5%a4%a7%e5%b8%ab%e5%bb%ba%e8%ad%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 11g 實務中，<strong>「不要為了 Rebuild 而 Rebuild」</strong>。
 如果你發現一個索引深度為 4，但它是幾億筆資料且 key 是長字串（如 URL 或 GUID），這是正常現象。
 <strong>真正需要優化的是那些：資料量沒變、Key 很短，但深度卻莫名其妙增加的索引。</strong></p>
-<h2 id="oracle-19c">Oracle 19c</h2>
-<h3 id="1-清查統計資訊利用即時統計資訊">1. 清查統計資訊：利用「即時統計資訊」</h3>
+
+<h2 class="relative group">Oracle 19c
+    <div id="oracle-19c" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-19c" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">1. 清查統計資訊：利用「即時統計資訊」
+    <div id="1-清查統計資訊利用即時統計資訊" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e6%b8%85%e6%9f%a5%e7%b5%b1%e8%a8%88%e8%b3%87%e8%a8%8a%e5%88%a9%e7%94%a8%e5%8d%b3%e6%99%82%e7%b5%b1%e8%a8%88%e8%b3%87%e8%a8%8a" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 19c 中，Oracle 引入了 <strong>Real-time Statistics</strong>。當你在進行大量資料導入（Bulk Load）時，資料庫會自動更新統計資訊，不再像舊版本那樣非得等晚上排程。</p>
 <p><strong>實務作法：</strong>
 直接查詢 <code>DBA_INDEXES</code>，但 19c 我們更看重 <strong><code>BLEVEL</code></strong> 與 <strong><code>CLUSTERING_FACTOR</code></strong> 的比例。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">owner</span>, index_name, <span style="color:#66d9ef">table_name</span>, blevel, 
 </span></span><span style="display:flex;"><span>    leaf_blocks, num_rows, last_analyzed,
 </span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">SELECT</span> blocks <span style="color:#66d9ef">FROM</span> dba_tables t <span style="color:#66d9ef">WHERE</span> t.<span style="color:#66d9ef">table_name</span> <span style="color:#f92672">=</span> i.<span style="color:#66d9ef">table_name</span> <span style="color:#66d9ef">AND</span> t.<span style="color:#66d9ef">owner</span> <span style="color:#f92672">=</span> i.<span style="color:#66d9ef">owner</span>) <span style="color:#66d9ef">as</span> table_blocks,
@@ -263,22 +1089,56 @@ layui.use('element', function(){
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_indexes i
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> blevel <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span> 
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">owner</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;SYS&#39;</span>, <span style="color:#e6db74">&#39;SYSTEM&#39;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> blevel <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><hr>
-<h3 id="2-最後使用時間與次數19c-的自動監控">2. 最後使用時間與次數：19c 的自動監控</h3>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> blevel <span style="color:#66d9ef">DESC</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h3 class="relative group">2. 最後使用時間與次數：19c 的自動監控
+    <div id="2-最後使用時間與次數19c-的自動監控" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e6%9c%80%e5%be%8c%e4%bd%bf%e7%94%a8%e6%99%82%e9%96%93%e8%88%87%e6%ac%a1%e6%95%b819c-%e7%9a%84%e8%87%aa%e5%8b%95%e7%9b%a3%e6%8e%a7" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 11g 必須手動 <code>ALTER INDEX ... MONITORING USAGE</code>，但在 19c，資料庫<strong>預設會自動收集索引使用狀況</strong>。</p>
 <p><strong>最佳實踐：</strong>
 直接查詢 <code>DBA_INDEX_USAGE_INFO</code>。它不僅告訴你索引有沒有被使用過，還能告訴你<strong>使用了幾次</strong>、<strong>最後一次使用的時間</strong>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 19c 內建功能，直接看索引使用頻率與最後使用時間
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 19c 內建功能，直接看索引使用頻率與最後使用時間
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
 </span></span><span style="display:flex;"><span>    u.<span style="color:#66d9ef">owner</span>, u.index_name, u.<span style="color:#66d9ef">table_name</span>,
 </span></span><span style="display:flex;"><span>    u.total_access_count,
 </span></span><span style="display:flex;"><span>    u.last_used
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_index_usage_info u
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> dba_indexes i <span style="color:#66d9ef">ON</span> u.index_name <span style="color:#f92672">=</span> i.index_name <span style="color:#66d9ef">AND</span> u.<span style="color:#66d9ef">owner</span> <span style="color:#f92672">=</span> i.<span style="color:#66d9ef">owner</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> i.blevel <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span>;
-</span></span></code></pre></div><hr>
-<h3 id="3-評估該刪除自動索引與不可見測試">3. 評估該刪除：自動索引與不可見測試</h3>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> i.blevel <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h3 class="relative group">3. 評估該刪除：自動索引與不可見測試
+    <div id="3-評估該刪除自動索引與不可見測試" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e8%a9%95%e4%bc%b0%e8%a9%b2%e5%88%aa%e9%99%a4%e8%87%aa%e5%8b%95%e7%b4%a2%e5%bc%95%e8%88%87%e4%b8%8d%e5%8f%af%e8%a6%8b%e6%b8%ac%e8%a9%a6" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>19c Enterprise Edition 有一個殺手級功能：<strong>Automatic Indexing</strong>。它會自動評估並建立索引，也會自動標記不使用的索引。</p>
 <p><strong>實務作法：</strong>
 對於你懷疑深度過高且不常使用的索引，先執行 <strong>Invisible</strong>。</p>
@@ -287,49 +1147,134 @@ layui.use('element', function(){
 <li><strong>觀察期：</strong> 19c 的 <strong>Automatic Workload Repository (AWR)</strong> 會幫你監控是否有 SQL 因為少了這個索引而效能衰退。</li>
 </ol>
 <hr>
-<h3 id="4-評估該優化19c-的智慧化建議">4. 評估該優化：19c 的智慧化建議</h3>
+
+<h3 class="relative group">4. 評估該優化：19c 的智慧化建議
+    <div id="4-評估該優化19c-的智慧化建議" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e8%a9%95%e4%bc%b0%e8%a9%b2%e5%84%aa%e5%8c%9619c-%e7%9a%84%e6%99%ba%e6%85%a7%e5%8c%96%e5%bb%ba%e8%ad%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>針對你提到的那個 TIP（深度大於 3 或 4），19c 提供了一個更直覺的工具：<strong>Segment Advisor</strong>。</p>
 <p><strong>實務作法：</strong>
 不要再手動算 <code>BLEVEL</code> 了，直接請 Oracle 算給你聽：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 使用 DBMS_ADVISOR 建立一個 Segment Advisor 任務
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 使用 DBMS_ADVISOR 建立一個 Segment Advisor 任務
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 它可以精確告訴你索引「浪費了多少空間」，並直接建議是否該 REBUILD
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> 
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> 
 </span></span><span style="display:flex;"><span>    segment_name, segment_type, 
 </span></span><span style="display:flex;"><span>    alloc_mb, used_mb, reclaimable_mb, 
 </span></span><span style="display:flex;"><span>    recommendations
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">TABLE</span>(dbms_space.asa_recommendations(<span style="color:#e6db74">&#39;FALSE&#39;</span>, <span style="color:#e6db74">&#39;FALSE&#39;</span>, <span style="color:#e6db74">&#39;FALSE&#39;</span>));
-</span></span></code></pre></div><h3 id="5-執行優化19c-的無感重建">5. 執行優化：19c 的無感重建</h3>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">TABLE</span>(dbms_space.asa_recommendations(<span style="color:#e6db74">&#39;FALSE&#39;</span>, <span style="color:#e6db74">&#39;FALSE&#39;</span>, <span style="color:#e6db74">&#39;FALSE&#39;</span>));</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h3 class="relative group">5. 執行優化：19c 的無感重建
+    <div id="5-執行優化19c-的無感重建" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#5-%e5%9f%b7%e8%a1%8c%e5%84%aa%e5%8c%9619c-%e7%9a%84%e7%84%a1%e6%84%9f%e9%87%8d%e5%bb%ba" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 19c 重建索引時，建議使用以下組合拳：</p>
 <ul>
 <li><strong>ONLINE：</strong> 必備，19c 的 Online Rebuild 幾乎不影響併發。</li>
 <li><strong>PARALLEL：</strong> 善用 CPU 多核優化。</li>
 <li><strong>SHRINK SPACE (僅限特定情況)：</strong> 對於某些索引，如果你不想重建整個結構，可以使用 <code>COALESCE</code>（合併），它不會像 Rebuild 那樣佔用大量暫存空間。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 19c 推薦的重建方式
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name REBUILD ONLINE PARALLEL <span style="color:#ae81ff">8</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name NOPARALLEL;
-</span></span></code></pre></div><hr>
-<h3 id="大師的總結建議">大師的總結建議：</h3>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 19c 推薦的重建方式
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name REBUILD ONLINE PARALLEL <span style="color:#ae81ff">8</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">schema_name</span>.index_name NOPARALLEL;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h3 class="relative group">大師的總結建議：
+    <div id="大師的總結建議" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%a4%a7%e5%b8%ab%e7%9a%84%e7%b8%bd%e7%b5%90%e5%bb%ba%e8%ad%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 19c 中，你不需要再像 11g 那樣戰戰兢兢地手動監控。</p>
 <ol>
 <li><strong>利用 <code>DBA_INDEX_USAGE_INFO</code></strong> 排除掉沒人在用的索引（這佔了深度問題的 50%）。</li>
 <li><strong>利用 <code>Segment Advisor</code></strong> 獲取官方的空間回收建議。</li>
 <li><strong>確認 <code>BLEVEL</code> 的增長是否為常態：</strong> 如果是大量 <code>DELETE</code> 導致的（例如 Log 表），建議在 19c 中將該索引建立為 <strong>Global Hash Partitioned Index</strong>（如果底層是分區表），這能有效控制 B*Tree 的深度。</li>
 </ol>
-<h2 id="index-類型評估">Index 類型評估</h2>
+
+<h2 class="relative group">Index 類型評估
+    <div id="index-類型評估" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#index-%e9%a1%9e%e5%9e%8b%e8%a9%95%e4%bc%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>你好！我是 <strong>Oracle Database 大師</strong>。這是一個非常經典且關乎系統成敗的問題。選錯索引類型，輕則浪費空間，重則導致嚴重的鎖定（Locking）衝突與效能崩潰。</p>
 <p>在 Oracle 19c 的環境下，選擇索引的邏輯已經非常明確。我為你整理了一份<strong>決策指南</strong>，幫助你精準選型。</p>
 <hr>
-<h3 id="1-核心差異與選擇邏輯">1. 核心差異與選擇邏輯</h3>
+
+<h3 class="relative group">1. 核心差異與選擇邏輯
+    <div id="1-核心差異與選擇邏輯" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e6%a0%b8%e5%bf%83%e5%b7%ae%e7%95%b0%e8%88%87%e9%81%b8%e6%93%87%e9%82%8f%e8%bc%af" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>這兩種索引的底層結構完全不同，因此適用的場景也截然不同。</p>
-<h4 id="btree-index-預設索引">B*Tree Index (預設索引)</h4>
+
+<h4 class="relative group">B*Tree Index (預設索引)
+    <div id="btree-index-預設索引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#btree-index-%e9%a0%90%e8%a8%ad%e7%b4%a2%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li><strong>結構：</strong> 樹狀結構（Root -&gt; Branch -&gt; Leaf）。</li>
 <li><strong>適用對象：</strong> <strong>高基數（High Cardinality）</strong> 的欄位。也就是說，該欄位的值重複率很低，例如 <code>EMPLOYEE_ID</code>、<code>SSN</code>、<code>ORDER_NUMBER</code>。</li>
 <li><strong>適用操作：</strong> 精確查詢（<code>=</code>）、範圍查詢（<code>&gt;</code>、<code>&lt;</code>、<code>BETWEEN</code>）。</li>
 <li><strong>併發性：</strong> 優秀。多個使用者同時更新（DML）不同列時，不太會互相鎖定。</li>
 </ul>
-<h4 id="bitmap-index-點陣圖索引">Bitmap Index (點陣圖索引)</h4>
+
+<h4 class="relative group">Bitmap Index (點陣圖索引)
+    <div id="bitmap-index-點陣圖索引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#bitmap-index-%e9%bb%9e%e9%99%a3%e5%9c%96%e7%b4%a2%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li><strong>結構：</strong> 使用位元（0 與 1）的對應表來儲存資料與列的關係。</li>
 <li><strong>適用對象：</strong> <strong>低基數（Low Cardinality）</strong> 的欄位。例如 <code>GENDER</code> (男/女)、<code>STATUS</code> (有效/無效)、<code>REGION</code> (北/中/南/東)。</li>
@@ -337,14 +1282,41 @@ layui.use('element', function(){
 <li><strong>併發性：</strong> <strong>極差</strong>。更新一筆資料會鎖定整個「點陣圖段（Bitmap Segment）」，容易造成嚴重的 <code>TX - Row Lock Contention</code>。</li>
 </ul>
 <hr>
-<h3 id="2-實戰決策流程圖">2. 實戰決策流程圖</h3>
+
+<h3 class="relative group">2. 實戰決策流程圖
+    <div id="2-實戰決策流程圖" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e5%af%a6%e6%88%b0%e6%b1%ba%e7%ad%96%e6%b5%81%e7%a8%8b%e5%9c%96" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>當你準備新增 Index 時，請問自己以下三個問題：</p>
-<h4 id="第一步這是資料倉儲-dw-還是-線上交易系統-oltp">第一步：這是資料倉儲 (DW) 還是 線上交易系統 (OLTP)？</h4>
+
+<h4 class="relative group">第一步：這是資料倉儲 (DW) 還是 線上交易系統 (OLTP)？
+    <div id="第一步這是資料倉儲-dw-還是-線上交易系統-oltp" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%ac%ac%e4%b8%80%e6%ad%a5%e9%80%99%e6%98%af%e8%b3%87%e6%96%99%e5%80%89%e5%84%b2-dw-%e9%82%84%e6%98%af-%e7%b7%9a%e4%b8%8a%e4%ba%a4%e6%98%93%e7%b3%bb%e7%b5%b1-oltp" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li><strong>OLTP (頻繁增刪改)：</strong> 幾乎一律使用 <strong>B*Tree</strong>。</li>
 <li><strong>DW/BI (大量查詢，批次更新)：</strong> 可以考慮 <strong>Bitmap</strong>。</li>
 </ul>
-<h4 id="第二步欄位的基數高嗎">第二步：欄位的「基數」高嗎？</h4>
+
+<h4 class="relative group">第二步：欄位的「基數」高嗎？
+    <div id="第二步欄位的基數高嗎" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%ac%ac%e4%ba%8c%e6%ad%a5%e6%ac%84%e4%bd%8d%e7%9a%84%e5%9f%ba%e6%95%b8%e9%ab%98%e5%97%8e" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li><strong>高基數 (如 ID, 日期時間)：</strong> 使用 <strong>B*Tree</strong>。</li>
 <li><strong>低基數 (如 類別, 狀態碼)：</strong> * 如果是 OLTP，仍然建議 <strong>B*Tree</strong>。
@@ -353,571 +1325,474 @@ layui.use('element', function(){
 </ul>
 </li>
 </ul>
-<h4 id="第三步是否會頻繁進行-dml-insertupdatedelete">第三步：是否會頻繁進行 DML (Insert/Update/Delete)？</h4>
+
+<h4 class="relative group">第三步：是否會頻繁進行 DML (Insert/Update/Delete)？
+    <div id="第三步是否會頻繁進行-dml-insertupdatedelete" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%ac%ac%e4%b8%89%e6%ad%a5%e6%98%af%e5%90%a6%e6%9c%83%e9%a0%bb%e7%b9%81%e9%80%b2%e8%a1%8c-dml-insertupdatedelete" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li><strong>是：</strong> 絕對不要用 <strong>Bitmap</strong>。在 Bitmap 索引上的任何一筆更新都可能鎖定成千上萬行資料。</li>
 <li><strong>否 (多為唯讀或深夜批次轉檔)：</strong> <strong>Bitmap</strong> 是首選，因為它的壓縮率極高，掃描速度極快。</li>
 </ul>
 <hr>
-<h3 id="3-業界公認的最佳實踐-best-practices">3. 業界公認的最佳實踐 (Best Practices)</h3>
+
+<h3 class="relative group">3. 業界公認的最佳實踐 (Best Practices)
+    <div id="3-業界公認的最佳實踐-best-practices" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e6%a5%ad%e7%95%8c%e5%85%ac%e8%aa%8d%e7%9a%84%e6%9c%80%e4%bd%b3%e5%af%a6%e8%b8%90-best-practices" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <table>
-<thead>
-<tr>
-<th style="text-align:left">特性</th>
-<th style="text-align:left">B*Tree Index</th>
-<th style="text-align:left">Bitmap Index</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><strong>主要優勢</strong></td>
-<td style="text-align:left">搜尋特定列速度極快</td>
-<td style="text-align:left">節省空間、處理 <code>OR</code> 邏輯強</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>空間佔用</strong></td>
-<td style="text-align:left">較大</td>
-<td style="text-align:left">極小 (通常只有 B*Tree 的 1/10)</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>Null 值處理</strong></td>
-<td style="text-align:left">預設不存 Null (除非是複合索引)</td>
-<td style="text-align:left">會儲存 Null 值</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>推薦場景</strong></td>
-<td style="text-align:left">唯一鍵、外鍵、大部分交易表欄位</td>
-<td style="text-align:left">資料倉儲中的維度表 (Dimension Table)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">B*Tree Index</th>
+          <th style="text-align: left">Bitmap Index</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>主要優勢</strong></td>
+          <td style="text-align: left">搜尋特定列速度極快</td>
+          <td style="text-align: left">節省空間、處理 <code>OR</code> 邏輯強</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>空間佔用</strong></td>
+          <td style="text-align: left">較大</td>
+          <td style="text-align: left">極小 (通常只有 B*Tree 的 1/10)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Null 值處理</strong></td>
+          <td style="text-align: left">預設不存 Null (除非是複合索引)</td>
+          <td style="text-align: left">會儲存 Null 值</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>推薦場景</strong></td>
+          <td style="text-align: left">唯一鍵、外鍵、大部分交易表欄位</td>
+          <td style="text-align: left">資料倉儲中的維度表 (Dimension Table)</td>
+      </tr>
+  </tbody>
 </table>
 <hr>
-<h3 id="4-大師的特別提醒bitmap-join-index">4. 大師的特別提醒：Bitmap Join Index</h3>
+
+<h3 class="relative group">4. 大師的特別提醒：Bitmap Join Index
+    <div id="4-大師的特別提醒bitmap-join-index" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e5%a4%a7%e5%b8%ab%e7%9a%84%e7%89%b9%e5%88%a5%e6%8f%90%e9%86%92bitmap-join-index" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>在 19c 中，如果你在做資料倉儲優化，還有一個進階武器叫 <strong>Bitmap Join Index (BJI)</strong>。它可以預先將 Fact Table (事實表) 與 Dimension Table (維度表) 的關聯結果做成索引。這在處理「星狀架構 (Star Schema)」查詢時，效能簡直是神級的提升。</p>
-<h4 id="總結你的選擇建議">總結你的選擇建議：</h4>
+
+<h4 class="relative group">總結你的選擇建議：
+    <div id="總結你的選擇建議" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b8%bd%e7%b5%90%e4%bd%a0%e7%9a%84%e9%81%b8%e6%93%87%e5%bb%ba%e8%ad%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ol>
 <li><strong>如果你不確定，選 B*Tree 永遠是安全牌。</strong></li>
 <li><strong>只有在「資料幾乎不變」且「欄位值很少（低基數）」的統計報表需求下，才考慮 Bitmap。</strong></li>
 <li><strong>千萬不要在會被頻繁 Update 的欄位上建立 Bitmap Index。</strong></li>
 </ol>
-<h3 id="如何安全的建立-index">如何安全的建立 Index</h3>
-<h4 id="1-建立-btree-index-預設索引">1. 建立 B*Tree Index (預設索引)</h4>
+
+<h3 class="relative group">如何安全的建立 Index
+    <div id="如何安全的建立-index" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%a6%82%e4%bd%95%e5%ae%89%e5%85%a8%e7%9a%84%e5%bb%ba%e7%ab%8b-index" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+
+<h4 class="relative group">1. 建立 B*Tree Index (預設索引)
+    <div id="1-建立-btree-index-預設索引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e5%bb%ba%e7%ab%8b-btree-index-%e9%a0%90%e8%a8%ad%e7%b4%a2%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <p>在 Oracle 中，如果你在 <code>CREATE</code> 後面直接接 <code>INDEX</code>，預設就是建立 <strong>B*Tree</strong> 索引。</p>
-<h4 id="基本語法">基本語法：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_emp_id <span style="color:#66d9ef">ON</span> employees(employee_id);
-</span></span></code></pre></div><h5 id="業界推薦的進階下法-best-practice">業界推薦的進階下法 (Best Practice)：</h5>
+
+<h4 class="relative group">基本語法：
+    <div id="基本語法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%9f%ba%e6%9c%ac%e8%aa%9e%e6%b3%95" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_emp_id <span style="color:#66d9ef">ON</span> employees(employee_id);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h5 class="relative group">業界推薦的進階下法 (Best Practice)：
+    <div id="業界推薦的進階下法-best-practice" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%a5%ad%e7%95%8c%e6%8e%a8%e8%96%a6%e7%9a%84%e9%80%b2%e9%9a%8e%e4%b8%8b%e6%b3%95-best-practice" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>在生產環境，我們通常會加上一些參數來確保效能與空間管理：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_orders_date 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_orders_date 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> orders(order_date) 
 </span></span><span style="display:flex;"><span>TABLESPACE users_idx_tbs     <span style="color:#75715e">-- 指定獨立的索引表空間 (建議與 Data 分開)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ONLINE                       <span style="color:#75715e">-- [重要] 建立期間不鎖表，前端程式可繼續寫入資料
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PARALLEL <span style="color:#ae81ff">4</span>                   <span style="color:#75715e">-- 使用 4 個 CPU 核心同步建立，速度極快
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>NOLOGGING;                   <span style="color:#75715e">-- 減少產生的 Redo Log，加速大型索引建立 (注意：建立後需補備份)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>ONLINE                       <span style="color:#75715e">-- [重要] 建立期間不鎖表，前端程式可繼續寫入資料
+</span></span></span><span style="display:flex;"><span>PARALLEL <span style="color:#ae81ff">4</span>                   <span style="color:#75715e">-- 使用 4 個 CPU 核心同步建立，速度極快
+</span></span></span><span style="display:flex;"><span>NOLOGGING;                   <span style="color:#75715e">-- 減少產生的 Redo Log，加速大型索引建立 (注意：建立後需補備份)
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 建立完後，務必將平行度改回 1，避免往後 SQL 執行計畫誤判成本
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> idx_orders_date NOPARALLEL;
-</span></span></code></pre></div><hr>
-<h4 id="2-建立-bitmap-index-點陣圖索引">2. 建立 Bitmap Index (點陣圖索引)</h4>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> idx_orders_date NOPARALLEL;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h4 class="relative group">2. 建立 Bitmap Index (點陣圖索引)
+    <div id="2-建立-bitmap-index-點陣圖索引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e5%bb%ba%e7%ab%8b-bitmap-index-%e9%bb%9e%e9%99%a3%e5%9c%96%e7%b4%a2%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <p>要建立 Bitmap 索引，你必須顯式地加上 <strong><code>BITMAP</code></strong> 關鍵字。</p>
-<h5 id="基本語法-1">基本語法：</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> BITMAP <span style="color:#66d9ef">INDEX</span> idx_emp_gender <span style="color:#66d9ef">ON</span> employees(gender);
-</span></span></code></pre></div><h5 id="業界推薦的進階下法">業界推薦的進階下法：</h5>
+
+<h5 class="relative group">基本語法：
+    <div id="基本語法-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%9f%ba%e6%9c%ac%e8%aa%9e%e6%b3%95-1" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> BITMAP <span style="color:#66d9ef">INDEX</span> idx_emp_gender <span style="color:#66d9ef">ON</span> employees(gender);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h5 class="relative group">業界推薦的進階下法：
+    <div id="業界推薦的進階下法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%a5%ad%e7%95%8c%e6%8e%a8%e8%96%a6%e7%9a%84%e9%80%b2%e9%9a%8e%e4%b8%8b%e6%b3%95" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>由於 Bitmap 索引主要用於資料倉儲（DW），通常資料量極大，平行處理與路徑管理非常重要：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> BITMAP <span style="color:#66d9ef">INDEX</span> idx_cust_region 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> BITMAP <span style="color:#66d9ef">INDEX</span> idx_cust_region 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> customers(region_code) 
 </span></span><span style="display:flex;"><span>TABLESPACE dw_idx_tbs        <span style="color:#75715e">-- 通常放在專門給 DW 使用的表空間
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PCTFREE <span style="color:#ae81ff">0</span>                    <span style="color:#75715e">-- [技巧] Bitmap 索引很少更新，可將預留空間設為 0 以節省硬碟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PARALLEL <span style="color:#ae81ff">8</span>                   <span style="color:#75715e">-- 大型 DW 表建議加大平行度
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>NOLOGGING;
+</span></span></span><span style="display:flex;"><span>PCTFREE <span style="color:#ae81ff">0</span>                    <span style="color:#75715e">-- [技巧] Bitmap 索引很少更新，可將預留空間設為 0 以節省硬碟
+</span></span></span><span style="display:flex;"><span>PARALLEL <span style="color:#ae81ff">8</span>                   <span style="color:#75715e">-- 大型 DW 表建議加大平行度
+</span></span></span><span style="display:flex;"><span>NOLOGGING;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 同樣，建立完後記得關閉平行設定
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> idx_cust_region NOPARALLEL;
-</span></span></code></pre></div><hr>
-<h4 id="3-兩者語法與行為的關鍵對比">3. 兩者語法與行為的關鍵對比</h4>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">INDEX</span> idx_cust_region NOPARALLEL;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h4 class="relative group">3. 兩者語法與行為的關鍵對比
+    <div id="3-兩者語法與行為的關鍵對比" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e5%85%a9%e8%80%85%e8%aa%9e%e6%b3%95%e8%88%87%e8%a1%8c%e7%82%ba%e7%9a%84%e9%97%9c%e9%8d%b5%e5%b0%8d%e6%af%94" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <table>
-<thead>
-<tr>
-<th style="text-align:left">特性</th>
-<th style="text-align:left">B*Tree Index (預設)</th>
-<th style="text-align:left">Bitmap Index</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><strong>關鍵字</strong></td>
-<td style="text-align:left"><code>CREATE INDEX ...</code></td>
-<td style="text-align:left"><code>CREATE BITMAP INDEX ...</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>ONLINE 支援</strong></td>
-<td style="text-align:left"><strong>完全支援</strong>。11g/19c 都能在不中斷服務下建立。</td>
-<td style="text-align:left"><strong>有限支援</strong>。19c 之前無法在 ONLINE 狀態建立，19c 雖有改善但仍建議在維護時段做。</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>Unique 約束</strong></td>
-<td style="text-align:left">可以定義為 <code>UNIQUE INDEX</code>。</td>
-<td style="text-align:left"><strong>不可定義為 UNIQUE</strong>。</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>複合索引</strong></td>
-<td style="text-align:left">常見，如 <code>(last_name, first_name)</code>。</td>
-<td style="text-align:left">亦可，但通常多個單欄位 Bitmap 效果更好。</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">B*Tree Index (預設)</th>
+          <th style="text-align: left">Bitmap Index</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>關鍵字</strong></td>
+          <td style="text-align: left"><code>CREATE INDEX ...</code></td>
+          <td style="text-align: left"><code>CREATE BITMAP INDEX ...</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>ONLINE 支援</strong></td>
+          <td style="text-align: left"><strong>完全支援</strong>。11g/19c 都能在不中斷服務下建立。</td>
+          <td style="text-align: left"><strong>有限支援</strong>。19c 之前無法在 ONLINE 狀態建立，19c 雖有改善但仍建議在維護時段做。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Unique 約束</strong></td>
+          <td style="text-align: left">可以定義為 <code>UNIQUE INDEX</code>。</td>
+          <td style="text-align: left"><strong>不可定義為 UNIQUE</strong>。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>複合索引</strong></td>
+          <td style="text-align: left">常見，如 <code>(last_name, first_name)</code>。</td>
+          <td style="text-align: left">亦可，但通常多個單欄位 Bitmap 效果更好。</td>
+      </tr>
+  </tbody>
 </table>
 <hr>
-<h4 id="4-大師的實戰檢查清單">4. 大師的實戰檢查清單</h4>
+
+<h4 class="relative group">4. 大師的實戰檢查清單
+    <div id="4-大師的實戰檢查清單" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e5%a4%a7%e5%b8%ab%e7%9a%84%e5%af%a6%e6%88%b0%e6%aa%a2%e6%9f%a5%e6%b8%85%e5%96%ae" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <p>在你按下 <code>Enter</code> 鍵執行 SQL 之前，請幫我檢查這三點：</p>
 <ol>
 <li><strong>權限：</strong> 你是否擁有 <code>CREATE ANY INDEX</code> 權限？</li>
 <li><strong>空間：</strong> 檢查 <code>DBA_FREE_SPACE</code>。Bitmap 雖然省空間，但 B*Tree 的空間消耗通常是資料本身的 1.5 到 2 倍。</li>
 <li><strong>鎖定 (Locking)：</strong> 如果是 B*Tree，請養成習慣加上 <strong><code>ONLINE</code></strong>。如果是 Bitmap，請確認目前沒有任何 Batch 或應用程式正在更新那張表。</li>
 </ol>
-<h5 id="額外補充如何確認建立成功">額外補充：如何確認建立成功？</h5>
+
+<h5 class="relative group">額外補充：如何確認建立成功？
+    <div id="額外補充如何確認建立成功" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%a1%8d%e5%a4%96%e8%a3%9c%e5%85%85%e5%a6%82%e4%bd%95%e7%a2%ba%e8%aa%8d%e5%bb%ba%e7%ab%8b%e6%88%90%e5%8a%9f" aria-label="定位點">#</a>
+    </span>
+    
+</h5>
 <p>建立完後，你可以跑這條 SQL 來檢查索引類型：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> index_name, index_type, visibility, status 
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> index_name, index_type, visibility, status 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> dba_indexes 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> index_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;你的索引名稱&#39;</span>;
-</span></span></code></pre></div><p><em>(在 <code>INDEX_TYPE</code> 欄位中，你會看到 <code>NORMAL</code> 代表 B</em>Tree，而 <code>BITMAP</code> 則代表點陣圖索引。)*</p>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> index_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;你的索引名稱&#39;</span>;</span></span></code></pre></td></tr></table>
 </div>
-                <div>
-                    <script src="https://utteranc.es/client.js"
-                        repo="PolloChang/commentsforpollochang"
-                        issue-term="pathname"
-                        theme="github-light"
-                        crossorigin="anonymous"
-                        async>
-                    </script>
-                </div>
-            </div>
+</div></div>
+<p><em>(在 <code>INDEX_TYPE</code> 欄位中，你會看到 <code>NORMAL</code> 代表 B</em>Tree，而 <code>BITMAP</code> 則代表點陣圖索引。)*</p>
+
+          
+          
+          
         </div>
+        
+        
 
-        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/how-to-check-need-redo.size/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;How to check need redo size
+              </span>
+            </a>
             
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/how-to-check-need-redo.size/">
-                                <h3 class="">How to check need redo size</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-04-06</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
-        </a>
-    
-        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-file-design/">
-                                <h3 class="">Oracle files design</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-04-06</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
-        </a>
-    
-        <a href="/tags/%e5%ad%b8%e7%bf%92%e7%ad%86%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">學習筆記</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/maa-consolidation-tw/">
-                                <h3 class="">maa consolidation TW</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-04-05</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-encoding-history-al32utf8/">
-                                <h3 class="">AL32UTF8_編碼起源與發展</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-encoding-history-al32utf8-en/">
-                                <h3 class="">Oracle Encoding History - AL32UTF8</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-04-06T15:57:49&#43;08:00">April 6, 2026</time>
+              </span>
             
-
-            <div class="layui-card single-card">
-                <h2 class="single-title">Recent Posts</h2>
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/open-statspack/">
+              <span class="leading-6">
+                open Statspack&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
             
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/cns11643/">
-                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/cns11643/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
-        </a>
-    
-        <a href="/tags/java/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/db-postgresql-note/">
-                        <h3 class="">db-postgresql-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/postgresql/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/docker-note/">
-                        <h3 class="">docker-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/docker/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
-                        <h3 class="">關閉IPv6</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
-                        <h3 class="">輸入法相關</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-04-14T22:57:49&#43;08:00">April 14, 2026</time>
+              </span>
             
-            <br />
-            </div>
-        </div>
-
+          
+        </span>
+      </div>
     </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="捲動到頁頂"
+    title="捲動到頁頂">
+    &uarr;
+  </a>
 </div>
 
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          PolloChang
+      </p>
+    
 
-        </div><footer>
     
     
-    <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
-    </div>
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        以 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 製作
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
 </footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="http://pollochang.work/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜尋"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="關閉 (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
 
-</body>
+    </div>
+  </body>
+  
 </html>

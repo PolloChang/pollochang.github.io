@@ -1,866 +1,1567 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html
+  lang="zh-TW"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="dark"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="zh-TW">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
 
-    <title>PolloChang 工作筆記 - maa consolidation TW </title>
-    
-    
-    <meta content="Oracle, AI" name="keywords">
-    
-    <meta content="PolloChang 工作筆記 - Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南 資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 1。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 1。
-資料庫整合的定義與演進背景 資料庫整合本質上是指將多個獨立的資料庫部署到單一組運算基礎設施之上的過程。這與傳統的伺服器整合（Server Consolidation）雖有相似之處，但兩者在技術層次與管理範疇上存在本質區別。伺服器整合通常涉及將多個物理伺服器轉換為運行多個虛擬機器（VM）的單一物理節點，而資料庫整合則更進一步，專注於在資料庫引擎層級實現資源的高效共享與隔離 1。
-推動資料庫整合的主要動力在於現代硬體效能的飛躍發展。當前單一伺服器已能提供數百個處理器核心，若不進行整合，這些強大的運算資源將因負載不均而造成巨大的浪費。透過整合，企業能夠在更少的伺服器上運行更多的資料庫，這不僅降低了基礎設施的資本支出（CAPEX），更顯著減少了空間、電力、冷卻及人力維運等營運支出（OPEX）1。在 IT 資產管理中，每個物理伺服器或虛擬機器都被視為一個「配置項」（Configuration Item, CI），必須經過部署、網路連接、安全加固與持續維護。整合後的環境能減少 CI 數量，從而降低整體系統的複雜度 1。
-核心商業目標與整合驅動力 實施資料庫整合並非單純的硬體搬遷，而是一項旨在提升企業競爭力的戰略轉型。下表概述了資料庫整合的五大核心目標及其具體的實現價值：
-目標維度 描述與實現價值 預期業務成果 降低成本 透過提升運算資產利用率，減少硬體購買與維護費用；利用 Oracle 資源管理功能實現動態分配 1。 顯著降低總體擁有成本 (TCO) 與每筆交易成本。 簡化管理 透過標準化配置與減少需維護的系統數量（如使用多租戶架構管理多個 PDB），簡化日常維運 1。 提高資料庫管理員 (DBA) 的人機比，縮短維護窗口。 增強安全性 減少系統脆弱點，統一安全策略，並利用 Exadata 內建的安全加固功能強化隔離機制 1。 確保資料符合 PCI 與 HIPAA 等嚴格合規要求 1。 達成可用性目標 透過硬化系統防止故障擴散，部署多層隔離機制縮小「故障影響範圍」（Blast Radius）1。 實現關鍵業務系統的持續可用與零停機維護。 交付預期效能 確保單一資料庫的異常不會影響其他資料庫，精確分配 CPU、記憶體與 I/O 資源 1。 保證各部門應用程式在共享環境下仍能滿足其 SLA 要求。 虛擬機器與叢集技術在整合中的角色 在整合架構中，虛擬機器（Virtual Machines, VMs）與 Oracle Real Application Clusters (RAC) 扮演著截然不同但互補的角色。" name="description">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    
-        <link rel="icon" href="/images/logo.jpg">
-    
+  
+  
+    <title>maa consolidation TW &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="maa consolidation TW &middot; PolloChang 工作筆記">
+  
 
-    
+  
+  
+    <meta name="description" content="我是一隻雞">
+  
+  
+    <meta name="keywords" content="Oracle,AI,">
+  
+  
+  
+  <link rel="canonical" href="http://pollochang.work/oracle-database/maa-consolidation-tw/">
+  
+  
 
+  
+  
+    <meta name="author" content="PolloChang">
+  
+  
     
+      
         
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)};
-          gtag('js', new Date());
-          gtag('config', 'G-7QK0FBKQ5Q');
-        </script>
-    
-
-    
-
-    <link rel="stylesheet" href="/layui/css/layui.css">
-    <link rel="stylesheet" href="/self/css/default.css">
-    <script src=" /layui/layui.js"></script>
-
-    <link rel="stylesheet" async href="/self/css/markdown.min.css">
-    <link rel="stylesheet" async href="/self/css/gallery.css">
-    
-    
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-    <script async src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys=" crossorigin="anonymous"></script>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1566670915822395" crossorigin="anonymous"></script></head>
-
-<body>
-    
-    <header class="layui-header layui-bg-cyan">
-
-    
-        <a href=""><img src="/images/logo.jpg" class="layui-nav-img" style="margin-left:10px;margin-top:-10px"></a>
-    
-    
-    <a class="nav-self-logo" href="/">
-        PolloChang 工作筆記
-    </a>
-
-    <ul class="layui-nav layui-layout-right layui-bg-cyan" lay-filter="">
+          <link href="https://github.com/PolloChang" rel="me">
         
+      
+    
+      
         
+          <link href="https://www.linkedin.com/in/chang-pollo-903301219" rel="me">
         
-        
+      
+    
+  
 
-        
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/post/">文章</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/worknot/">工作隨手記</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/oracle-database/">oracle-database</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/k8s/">k8s</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/personal-zone/">個人經歷</a></li>
-            
-                <li class="layui-nav-item" id="nav_big"><a href="/about/">關於</a></li>
-            
-        
+  
+  <meta property="og:url" content="http://pollochang.work/oracle-database/maa-consolidation-tw/">
+  <meta property="og:site_name" content="PolloChang 工作筆記">
+  <meta property="og:title" content="maa consolidation TW">
+  <meta property="og:description" content="Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南 # 資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 1。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 1。">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="oracle-database">
+    <meta property="article:published_time" content="2026-04-05T16:23:49+08:00">
+    <meta property="article:modified_time" content="2026-04-05T16:23:49+08:00">
+    <meta property="article:tag" content="Oracle">
+    <meta property="article:tag" content="AI">
 
-        
-        <li class="layui-nav-item" id="nav_small">
-            <a href="javascript:;">
-                <i class="layui-icon layui-icon-app" style="font-size: 24px;"></i>
-            </a>
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="maa consolidation TW">
+  <meta name="twitter:description" content="Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南 # 資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 1。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 1。">
 
-            <dl class="layui-nav-child">
-                
-                
-                
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
 
-                
-                    
-                        <dd><a href="/post/">文章</a></dd>
-                    
-                        <dd><a href="/worknot/">工作隨手記</a></dd>
-                    
-                        <dd><a href="/oracle-database/">oracle-database</a></dd>
-                    
-                        <dd><a href="/k8s/">k8s</a></dd>
-                    
-                        <dd><a href="/personal-zone/">個人經歷</a></dd>
-                    
-                        <dd><a href="/about/">關於</a></dd>
-                    
-                
-            </dl>
-        </li>
-    </ul>
-</header>
+  
+  
+  
+  
+  
+  
 
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.07a8088c33086a4f22f8c0e9b9dd8b3d24774753ce35a341034d6f7c1e249b72e184af812c1341e6a62df443da9e4bb28feddf7f5c6f07b24a20a900ef559483.css"
+    integrity="sha512-B6gIjDMIak8i&#43;MDpud2LPSR3R1PONaNBA01vfB4km3LhhK&#43;BLBNB5qYt9EPankuyj&#43;3ff1xvB7JKIKkA71WUgw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+    
+    <script src="/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+  
+
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.0fa2a78284c4ed567ca02f5c37008b7b0127c3081f48b033f1c537c24766b8d57da49e0316c193c94bfd77da998acb9863844e045800340b2303522672e1ac79.js"
+      integrity="sha512-D6KngoTE7VZ8oC9cNwCLewEnwwgfSLAz8cU3wkdmuNV9pJ4DFsGTyUv9d9qZisuYY4ROBFgANAsjA1ImcuGseQ=="
+      data-copy="複製"
+      data-copied="已複製"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Oracle-Databases",
+    "name": "maa consolidation TW",
+    "headline": "maa consolidation TW",
+    
+    "inLanguage": "zh-TW",
+    "url" : "http://pollochang.work/oracle-database/maa-consolidation-tw/",
+    "author" : {
+      "@type": "Person",
+      "name": "PolloChang"
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-04-05T16:23:49\u002b08:00",
+    "datePublished": "2026-04-05T16:23:49\u002b08:00",
+    
+    "dateModified": "2026-04-05T16:23:49\u002b08:00",
+    
+    "keywords": ["Oracle","AI"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "6210"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+  <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-7QK0FBKQ5Q"></script>
 <script>
-layui.use('element', function(){
-  var element = layui.element;
-});
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7QK0FBKQ5Q');
 </script>
 
-        <div id="content" style="min-height:80%">
-<div class="layui-container" style="margin-bottom: 10px">
+
+
+
+
+  
+
+  
+  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-你的ID"
+     crossorigin="anonymous"></script>
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        快轉到主要內容
+      </a>
+    </div>
+    
+    
+      <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/" class="text-base font-medium truncate min-w-0 shrink">
+      PolloChang 工作筆記
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/post/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="文章"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          文章
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/worknot/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="工作隨手記"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          工作隨手記
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/oracle-database/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Oracle"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          Oracle
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/k8s/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="K8s"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          K8s
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/personal-zone/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="個人經歷"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          個人經歷
+        </span>
+      
+    </a>
+  
+
+    
+      
+  
+    <a
+      href="/about/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="關於"
+      title="">
+      
+      
+        <span class="text-base font-medium break-normal">
+          關於
+        </span>
+      
+    </a>
+  
+
+    
+  
+
+  
+
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search"
+      class="text-base bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Dark mode switcher"
+        type="button"
+        class="text-base bf-icon-color-hover">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      <div class="flex items-center h-14 gap-4">
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="搜尋 (/)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Dark mode switcher"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label for="mobile-menu-toggle" class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      role="dialog"
+      aria-modal="true"
+      style="scrollbar-gutter: stable;"
+      class="fixed inset-0 z-50 invisible overflow-y-auto px-6 py-20 opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100 bg-neutral-50/97 dark:bg-neutral-900/99
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        class="fixed end-8 top-5 flex items-center justify-center z-50 h-12 w-12 cursor-pointer select-none rounded-full bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <a
+        href="/post/"
+        aria-label="文章"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          文章
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/worknot/"
+        aria-label="工作隨手記"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          工作隨手記
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/oracle-database/"
+        aria-label="Oracle"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          Oracle
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/k8s/"
+        aria-label="K8s"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          K8s
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/personal-zone/"
+        aria-label="個人經歷"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          個人經歷
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+    
+    <div class="px-2">
+      <a
+        href="/about/"
+        aria-label="關於"
+        
+        class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+        
+        <span title="" class="text-2xl font-bold tracking-tight">
+          關於
+        </span>
+        
+      </a>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
     
 
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md8 layui-col-sm12 layui-col-xs12">
-            <div class="layui-card single-card">
-                <br />
-                <blockquote class="self-elem-quote self-elem-quote-bg-cyan markdown-body single-title" >
-                    <h1>maa consolidation TW</h1>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-04-05</span>
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        maa consolidation TW
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-04-05T16:23:49&#43;08:00">April 5, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>6210 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">13 分鐘</span>
+    
 
     
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
     
+  </div>
+
+  
+
+  
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
+      
+    
+    
+      
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="PolloChang"
+        src="/images/logo_hu_1397cd167e9991d2.jpg"
+        data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        作者
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        PolloChang
+      </div>
+    
+    
+      <div class="text-sm text-neutral-700 dark:text-neutral-400">我是一隻雞</div>
+    
+    <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://github.com/PolloChang"
+          
+          target="_blank"
+          aria-label="Github"
+          title="Github"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+        >
+      
+    
+      
+        
+        <a
+          class=" hover:text-primary-700 dark:hover:text-primary-400"
+          href="https://www.linkedin.com/in/chang-pollo-903301219"
+          
+          target="_blank"
+          aria-label="Linkedin"
+          title="Linkedin"
+          rel="me noopener noreferrer"
+          ><span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span></span></a
+        >
+      
+    
+  </div>
+
+</div>
+  </div>
+</div>
+
+  
+
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
 
     
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
 
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
 
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI</span>
-        </a>
-    
-    
-</h3>
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
 
-                </blockquote>
-                <div class="layui-card-body markdown-body single-content">
-                    <h1 id="oracle-資料庫整合最佳實踐深度研究報告基於-maa-參考架構與-ai-原生技術的全面實施指南">Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南</h1>
-<p>資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="資料庫整合的定義與演進背景">資料庫整合的定義與演進背景</h2>
-<p>資料庫整合本質上是指將多個獨立的資料庫部署到單一組運算基礎設施之上的過程。這與傳統的伺服器整合（Server Consolidation）雖有相似之處，但兩者在技術層次與管理範疇上存在本質區別。伺服器整合通常涉及將多個物理伺服器轉換為運行多個虛擬機器（VM）的單一物理節點，而資料庫整合則更進一步，專注於在資料庫引擎層級實現資源的高效共享與隔離 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<p>推動資料庫整合的主要動力在於現代硬體效能的飛躍發展。當前單一伺服器已能提供數百個處理器核心，若不進行整合，這些強大的運算資源將因負載不均而造成巨大的浪費。透過整合，企業能夠在更少的伺服器上運行更多的資料庫，這不僅降低了基礎設施的資本支出（CAPEX），更顯著減少了空間、電力、冷卻及人力維運等營運支出（OPEX）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。在 IT 資產管理中，每個物理伺服器或虛擬機器都被視為一個「配置項」（Configuration Item, CI），必須經過部署、網路連接、安全加固與持續維護。整合後的環境能減少 CI 數量，從而降低整體系統的複雜度 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="核心商業目標與整合驅動力">核心商業目標與整合驅動力</h2>
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">Oracle 資料庫整合最佳實踐深度研究報告：基於 MAA 參考架構與 AI 原生技術的全面實施指南
+    <div id="oracle-資料庫整合最佳實踐深度研究報告基於-maa-參考架構與-ai-原生技術的全面實施指南" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-%e8%b3%87%e6%96%99%e5%ba%ab%e6%95%b4%e5%90%88%e6%9c%80%e4%bd%b3%e5%af%a6%e8%b8%90%e6%b7%b1%e5%ba%a6%e7%a0%94%e7%a9%b6%e5%a0%b1%e5%91%8a%e5%9f%ba%e6%96%bc-maa-%e5%8f%83%e8%80%83%e6%9e%b6%e6%a7%8b%e8%88%87-ai-%e5%8e%9f%e7%94%9f%e6%8a%80%e8%a1%93%e7%9a%84%e5%85%a8%e9%9d%a2%e5%af%a6%e6%96%bd%e6%8c%87%e5%8d%97" aria-label="定位點">#</a>
+    </span>
+    
+</h1>
+<p>資訊技術（IT）組織在當今瞬息萬變的商業環境中，面臨著日益嚴苛的挑戰，必須在控管成本、提升業務敏捷性、確保系統持續可用、降低資安風險以及交付卓越效能之間取得平衡 <sup>1</sup>。為了達成這些目標，資料庫整合（Database Consolidation）已成為全球領先企業的核心策略，旨在優化運算資源的利用率，同時簡化紛繁複雜的維運環境。本報告將深入探討 Oracle 資料庫整合的最佳實踐，範圍涵蓋作業系統虛擬化、資源管理技術、多租戶架構、Oracle Exadata 平台，以及 2026 年最新發布的 Oracle AI 資料庫 26ai 與 Exascale 智能資料架構 <sup>1</sup>。</p>
+
+<h2 class="relative group">資料庫整合的定義與演進背景
+    <div id="資料庫整合的定義與演進背景" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%b3%87%e6%96%99%e5%ba%ab%e6%95%b4%e5%90%88%e7%9a%84%e5%ae%9a%e7%be%a9%e8%88%87%e6%bc%94%e9%80%b2%e8%83%8c%e6%99%af" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>資料庫整合本質上是指將多個獨立的資料庫部署到單一組運算基礎設施之上的過程。這與傳統的伺服器整合（Server Consolidation）雖有相似之處，但兩者在技術層次與管理範疇上存在本質區別。伺服器整合通常涉及將多個物理伺服器轉換為運行多個虛擬機器（VM）的單一物理節點，而資料庫整合則更進一步，專注於在資料庫引擎層級實現資源的高效共享與隔離 <sup>1</sup>。</p>
+<p>推動資料庫整合的主要動力在於現代硬體效能的飛躍發展。當前單一伺服器已能提供數百個處理器核心，若不進行整合，這些強大的運算資源將因負載不均而造成巨大的浪費。透過整合，企業能夠在更少的伺服器上運行更多的資料庫，這不僅降低了基礎設施的資本支出（CAPEX），更顯著減少了空間、電力、冷卻及人力維運等營運支出（OPEX）<sup>1</sup>。在 IT 資產管理中，每個物理伺服器或虛擬機器都被視為一個「配置項」（Configuration Item, CI），必須經過部署、網路連接、安全加固與持續維護。整合後的環境能減少 CI 數量，從而降低整體系統的複雜度 <sup>1</sup>。</p>
+
+<h2 class="relative group">核心商業目標與整合驅動力
+    <div id="核心商業目標與整合驅動力" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%a0%b8%e5%bf%83%e5%95%86%e6%a5%ad%e7%9b%ae%e6%a8%99%e8%88%87%e6%95%b4%e5%90%88%e9%a9%85%e5%8b%95%e5%8a%9b" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>實施資料庫整合並非單純的硬體搬遷，而是一項旨在提升企業競爭力的戰略轉型。下表概述了資料庫整合的五大核心目標及其具體的實現價值：</p>
 <table>
-<thead>
-<tr>
-<th><strong>目標維度</strong></th>
-<th><strong>描述與實現價值</strong></th>
-<th><strong>預期業務成果</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>降低成本</strong></td>
-<td>透過提升運算資產利用率，減少硬體購買與維護費用；利用 Oracle 資源管理功能實現動態分配 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-<td>顯著降低總體擁有成本 (TCO) 與每筆交易成本。</td>
-</tr>
-<tr>
-<td><strong>簡化管理</strong></td>
-<td>透過標準化配置與減少需維護的系統數量（如使用多租戶架構管理多個 PDB），簡化日常維運 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-<td>提高資料庫管理員 (DBA) 的人機比，縮短維護窗口。</td>
-</tr>
-<tr>
-<td><strong>增強安全性</strong></td>
-<td>減少系統脆弱點，統一安全策略，並利用 Exadata 內建的安全加固功能強化隔離機制 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-<td>確保資料符合 PCI 與 HIPAA 等嚴格合規要求 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-</tr>
-<tr>
-<td><strong>達成可用性目標</strong></td>
-<td>透過硬化系統防止故障擴散，部署多層隔離機制縮小「故障影響範圍」（Blast Radius）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-<td>實現關鍵業務系統的持續可用與零停機維護。</td>
-</tr>
-<tr>
-<td><strong>交付預期效能</strong></td>
-<td>確保單一資料庫的異常不會影響其他資料庫，精確分配 CPU、記憶體與 I/O 資源 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-<td>保證各部門應用程式在共享環境下仍能滿足其 SLA 要求。</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th><strong>目標維度</strong></th>
+          <th><strong>描述與實現價值</strong></th>
+          <th><strong>預期業務成果</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>降低成本</strong></td>
+          <td>透過提升運算資產利用率，減少硬體購買與維護費用；利用 Oracle 資源管理功能實現動態分配 <sup>1</sup>。</td>
+          <td>顯著降低總體擁有成本 (TCO) 與每筆交易成本。</td>
+      </tr>
+      <tr>
+          <td><strong>簡化管理</strong></td>
+          <td>透過標準化配置與減少需維護的系統數量（如使用多租戶架構管理多個 PDB），簡化日常維運 <sup>1</sup>。</td>
+          <td>提高資料庫管理員 (DBA) 的人機比，縮短維護窗口。</td>
+      </tr>
+      <tr>
+          <td><strong>增強安全性</strong></td>
+          <td>減少系統脆弱點，統一安全策略，並利用 Exadata 內建的安全加固功能強化隔離機制 <sup>1</sup>。</td>
+          <td>確保資料符合 PCI 與 HIPAA 等嚴格合規要求 <sup>1</sup>。</td>
+      </tr>
+      <tr>
+          <td><strong>達成可用性目標</strong></td>
+          <td>透過硬化系統防止故障擴散，部署多層隔離機制縮小「故障影響範圍」（Blast Radius）<sup>1</sup>。</td>
+          <td>實現關鍵業務系統的持續可用與零停機維護。</td>
+      </tr>
+      <tr>
+          <td><strong>交付預期效能</strong></td>
+          <td>確保單一資料庫的異常不會影響其他資料庫，精確分配 CPU、記憶體與 I/O 資源 <sup>1</sup>。</td>
+          <td>保證各部門應用程式在共享環境下仍能滿足其 SLA 要求。</td>
+      </tr>
+  </tbody>
 </table>
-<h2 id="虛擬機器與叢集技術在整合中的角色">虛擬機器與叢集技術在整合中的角色</h2>
+
+<h2 class="relative group">虛擬機器與叢集技術在整合中的角色
+    <div id="虛擬機器與叢集技術在整合中的角色" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%99%9b%e6%93%ac%e6%a9%9f%e5%99%a8%e8%88%87%e5%8f%a2%e9%9b%86%e6%8a%80%e8%a1%93%e5%9c%a8%e6%95%b4%e5%90%88%e4%b8%ad%e7%9a%84%e8%a7%92%e8%89%b2" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>在整合架構中，虛擬機器（Virtual Machines, VMs）與 Oracle Real Application Clusters (RAC) 扮演著截然不同但互補的角色。</p>
-<h3 id="虛擬機器的隔離價值">虛擬機器的隔離價值</h3>
-<p>虛擬機器允許單一物理伺服器同時運行多個獨立的作業系統（O/S）鏡像，實現層級間的內容隔離。每個作業系統被分配獨立的磁碟、記憶體、CPU 與虛擬網路接口 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。虛擬機器的主要優點在於提供 O/S 層級的安全性與環境分離。例如，可以使用 VM 將開發環境與測試環境分開，或隔離受監管的資料（如 PCI 資料）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。然而，由於每個 VM 都會帶來額外的維護負擔（如安裝、修補與安全監控），Oracle 建議避免「一資料庫一虛擬機器」的配置，轉而推薦在少量的高效能虛擬機器中運行多個資料庫或容器資料庫 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="oracle-rac-的持續可用性">Oracle RAC 的持續可用性</h3>
-<p>Oracle Real Application Clusters (RAC) 是整合環境中確保高可用性與可調整性的關鍵技術。RAC 允許一個 Oracle 資料庫跨越多個伺服器（或 VM）同時運行，形成主動-主動（Active/Active）叢集 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。當發生伺服器故障、作業系統崩潰或需進行軟體修補時，RAC 叢集能確保資料庫服務不中斷。搭配「應用程式連續性」（Application Continuity）技術，RAC 甚至可以在故障發生時重播執行中的交易，使用戶完全感受不到後端節點的切換 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="oracle-多租戶技術整合的最佳實踐">Oracle 多租戶技術：整合的最佳實踐</h2>
-<p>自 Oracle 資料庫 12c 引入，並在 19c、23ai 乃至最新 26ai 版本中不斷強化的多租戶（Multitenant）架構，已成為整合的黃金標準。該架構採用「容器資料庫」（Container Database, CDB）與「可插拔資料庫」（Pluggable Database, PDB）的概念，從根本上改變了資源管理與部署方式 <!-- raw HTML omitted -->3<!-- raw HTML omitted -->。</p>
+
+<h3 class="relative group">虛擬機器的隔離價值
+    <div id="虛擬機器的隔離價值" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%99%9b%e6%93%ac%e6%a9%9f%e5%99%a8%e7%9a%84%e9%9a%94%e9%9b%a2%e5%83%b9%e5%80%bc" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>虛擬機器允許單一物理伺服器同時運行多個獨立的作業系統（O/S）鏡像，實現層級間的內容隔離。每個作業系統被分配獨立的磁碟、記憶體、CPU 與虛擬網路接口 <sup>1</sup>。虛擬機器的主要優點在於提供 O/S 層級的安全性與環境分離。例如，可以使用 VM 將開發環境與測試環境分開，或隔離受監管的資料（如 PCI 資料）<sup>1</sup>。然而，由於每個 VM 都會帶來額外的維護負擔（如安裝、修補與安全監控），Oracle 建議避免「一資料庫一虛擬機器」的配置，轉而推薦在少量的高效能虛擬機器中運行多個資料庫或容器資料庫 <sup>1</sup>。</p>
+
+<h3 class="relative group">Oracle RAC 的持續可用性
+    <div id="oracle-rac-的持續可用性" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-rac-%e7%9a%84%e6%8c%81%e7%ba%8c%e5%8f%af%e7%94%a8%e6%80%a7" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>Oracle Real Application Clusters (RAC) 是整合環境中確保高可用性與可調整性的關鍵技術。RAC 允許一個 Oracle 資料庫跨越多個伺服器（或 VM）同時運行，形成主動-主動（Active/Active）叢集 <sup>1</sup>。當發生伺服器故障、作業系統崩潰或需進行軟體修補時，RAC 叢集能確保資料庫服務不中斷。搭配「應用程式連續性」（Application Continuity）技術，RAC 甚至可以在故障發生時重播執行中的交易，使用戶完全感受不到後端節點的切換 <sup>1</sup>。</p>
+
+<h2 class="relative group">Oracle 多租戶技術：整合的最佳實踐
+    <div id="oracle-多租戶技術整合的最佳實踐" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-%e5%a4%9a%e7%a7%9f%e6%88%b6%e6%8a%80%e8%a1%93%e6%95%b4%e5%90%88%e7%9a%84%e6%9c%80%e4%bd%b3%e5%af%a6%e8%b8%90" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>自 Oracle 資料庫 12c 引入，並在 19c、23ai 乃至最新 26ai 版本中不斷強化的多租戶（Multitenant）架構，已成為整合的黃金標準。該架構採用「容器資料庫」（Container Database, CDB）與「可插拔資料庫」（Pluggable Database, PDB）的概念，從根本上改變了資源管理與部署方式 <sup>3</sup>。</p>
 <ul>
-<li><strong>管理效率提升</strong>：多租戶架構允許將數百個 PDB 封裝在一個 CDB 中，實現「以一管多」的運作模式。DBA 僅需執行一次 CDB 層級的備份、修補或升級，所有關聯的 PDB 即可同步受益，極大降低了重複勞動力 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>極致的整合密度</strong>：根據 Oracle 內部測試，與傳統的 VM 整合方案相比，多租戶架構能支持更高的密度。在一項測試中，單一伺服器可支持 123 個 PDB，而同樣的硬體若採用 VM 方案則僅能負載 9 個資料庫，這主要是因為 PDB 共享了 CDB 的背景進程與共享記憶體（SGA）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>靈活的搬遷與隔離</strong>：PDB 可以在不同 CDB 之間快速「拔出」與「插入」。這在升級場景中尤為強大，DBA 可以將 PDB 從 19c 的 CDB 拔出，插入到 26ai 的新 CDB 中，從而完成快速升級 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
+<li><strong>管理效率提升</strong>：多租戶架構允許將數百個 PDB 封裝在一個 CDB 中，實現「以一管多」的運作模式。DBA 僅需執行一次 CDB 層級的備份、修補或升級，所有關聯的 PDB 即可同步受益，極大降低了重複勞動力 <sup>1</sup>。</li>
+<li><strong>極致的整合密度</strong>：根據 Oracle 內部測試，與傳統的 VM 整合方案相比，多租戶架構能支持更高的密度。在一項測試中，單一伺服器可支持 123 個 PDB，而同樣的硬體若採用 VM 方案則僅能負載 9 個資料庫，這主要是因為 PDB 共享了 CDB 的背景進程與共享記憶體（SGA）<sup>1</sup>。</li>
+<li><strong>靈活的搬遷與隔離</strong>：PDB 可以在不同 CDB 之間快速「拔出」與「插入」。這在升級場景中尤為強大，DBA 可以將 PDB 從 19c 的 CDB 拔出，插入到 26ai 的新 CDB 中，從而完成快速升級 <sup>1</sup>。</li>
 </ul>
-<p>自 Oracle 21c 版本起，多租戶架構已成為唯一的選擇，傳統的非 CDB 架構已正式終結，這進一步強調了掌握此項技術對現代 DBA 的重要性 <!-- raw HTML omitted -->3<!-- raw HTML omitted -->。</p>
-<h2 id="資源管理防範嘈雜鄰居效應">資源管理：防範「嘈雜鄰居」效應</h2>
-<p>在共享基礎設施的整合環境中，最擔心的莫過於一個失控的應用程式耗盡所有資源，導致其他業務受損。這被稱為「嘈雜鄰居」（Noisy Neighbor）問題。Oracle 透過資料庫資源管理員（DBRM）與 Exadata I/O 資源管理員（IORM）提供了精密且強大的控制手段 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="資源分配的階層結構">資源分配的階層結構</h3>
+<p>自 Oracle 21c 版本起，多租戶架構已成為唯一的選擇，傳統的非 CDB 架構已正式終結，這進一步強調了掌握此項技術對現代 DBA 的重要性 <sup>3</sup>。</p>
+
+<h2 class="relative group">資源管理：防範「嘈雜鄰居」效應
+    <div id="資源管理防範嘈雜鄰居效應" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%b3%87%e6%ba%90%e7%ae%a1%e7%90%86%e9%98%b2%e7%af%84%e5%98%88%e9%9b%9c%e9%84%b0%e5%b1%85%e6%95%88%e6%87%89" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>在共享基礎設施的整合環境中，最擔心的莫過於一個失控的應用程式耗盡所有資源，導致其他業務受損。這被稱為「嘈雜鄰居」（Noisy Neighbor）問題。Oracle 透過資料庫資源管理員（DBRM）與 Exadata I/O 資源管理員（IORM）提供了精密且強大的控制手段 <sup>1</sup>。</p>
+
+<h3 class="relative group">資源分配的階層結構
+    <div id="資源分配的階層結構" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%b3%87%e6%ba%90%e5%88%86%e9%85%8d%e7%9a%84%e9%9a%8e%e5%b1%a4%e7%b5%90%e6%a7%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>資源管理可以細化到以下層級：</p>
 <ul>
 <li><strong>物理伺服器與虛擬機器</strong>：基礎資源池的劃分。</li>
 <li><strong>資料庫與容器資料庫</strong>：跨資料庫間的資源競爭控制。</li>
 <li><strong>可插拔資料庫 (PDB)</strong>：CDB 內部的精細化分配。</li>
-<li><strong>消費者組 (Consumer Groups)</strong>：資料庫內部的用戶或任務優先級管理 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
+<li><strong>消費者組 (Consumer Groups)</strong>：資料庫內部的用戶或任務優先級管理 <sup>1</sup>。</li>
 </ul>
-<h3 id="過度訂閱over-subscription的科學指引">過度訂閱（Over-Subscription）的科學指引</h3>
+
+<h3 class="relative group">過度訂閱（Over-Subscription）的科學指引
+    <div id="過度訂閱over-subscription的科學指引" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%81%8e%e5%ba%a6%e8%a8%82%e9%96%b1over-subscription%e7%9a%84%e7%a7%91%e5%ad%b8%e6%8c%87%e5%bc%95" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <p>過度訂閱是提升利用率的手段，但必須謹慎使用，以免危害系統穩定性。</p>
 <ul>
-<li><strong>記憶體</strong>：絕不可過度訂閱。記憶體不足會導致系統分頁（Paging）或交換空間（Swapping）操作，進而引發節點重啟或嚴重效能衰減 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>CPU 與進程</strong>：可以適度過度訂閱。Oracle 建議針對關鍵生產環境，CPU 使用率應保持在物理線程數的 75% 以下，而測試與開發環境則可容忍 2 倍以上的過度訂閱 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>I/O 資源</strong>：在 Exadata 上，IORM 可以根據「份額」（Shares）與「限制」（Limits）動態調節各資料庫的 I/O 優先級，確保關鍵交易不被背景備份或批次處理作業延遲 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
+<li><strong>記憶體</strong>：絕不可過度訂閱。記憶體不足會導致系統分頁（Paging）或交換空間（Swapping）操作，進而引發節點重啟或嚴重效能衰減 <sup>1</sup>。</li>
+<li><strong>CPU 與進程</strong>：可以適度過度訂閱。Oracle 建議針對關鍵生產環境，CPU 使用率應保持在物理線程數的 75% 以下，而測試與開發環境則可容忍 2 倍以上的過度訂閱 <sup>1</sup>。</li>
+<li><strong>I/O 資源</strong>：在 Exadata 上，IORM 可以根據「份額」（Shares）與「限制」（Limits）動態調節各資料庫的 I/O 優先級，確保關鍵交易不被背景備份或批次處理作業延遲 <sup>1</sup>。</li>
 </ul>
 <p>下表展示了針對不同環境的過度訂閱建議指標：</p>
 <table>
-<thead>
-<tr>
-<th><strong>環境重要性</strong></th>
-<th><strong>CPU 線程建議</strong></th>
-<th><strong>建議進程數</strong></th>
-<th><strong>記憶體過度訂閱</strong></th>
-<th><strong>I/O 份額限制</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>關鍵生產</strong></td>
-<td>不超過 75%</td>
-<td>核心數 x 64</td>
-<td>禁止</td>
-<td>限制在 2x 份額內</td>
-</tr>
-<tr>
-<td><strong>非關鍵生產</strong></td>
-<td>等於實體線程</td>
-<td>核心數 x 64</td>
-<td>禁止</td>
-<td>限制在 2x 份額內</td>
-</tr>
-<tr>
-<td><strong>測試 / QA</strong></td>
-<td>2x 實體線程</td>
-<td>核心數 x 128</td>
-<td>僅限 PDB 層級 (50%)</td>
-<td>限制在 4x 份額內</td>
-</tr>
-<tr>
-<td><strong>開發</strong></td>
-<td>2x 實體線程</td>
-<td>核心數 x 128</td>
-<td>僅限 PDB 層級 (50%)</td>
-<td>限制在 4x 份額內</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th><strong>環境重要性</strong></th>
+          <th><strong>CPU 線程建議</strong></th>
+          <th><strong>建議進程數</strong></th>
+          <th><strong>記憶體過度訂閱</strong></th>
+          <th><strong>I/O 份額限制</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>關鍵生產</strong></td>
+          <td>不超過 75%</td>
+          <td>核心數 x 64</td>
+          <td>禁止</td>
+          <td>限制在 2x 份額內</td>
+      </tr>
+      <tr>
+          <td><strong>非關鍵生產</strong></td>
+          <td>等於實體線程</td>
+          <td>核心數 x 64</td>
+          <td>禁止</td>
+          <td>限制在 2x 份額內</td>
+      </tr>
+      <tr>
+          <td><strong>測試 / QA</strong></td>
+          <td>2x 實體線程</td>
+          <td>核心數 x 128</td>
+          <td>僅限 PDB 層級 (50%)</td>
+          <td>限制在 4x 份額內</td>
+      </tr>
+      <tr>
+          <td><strong>開發</strong></td>
+          <td>2x 實體線程</td>
+          <td>核心數 x 128</td>
+          <td>僅限 PDB 層級 (50%)</td>
+          <td>限制在 4x 份額內</td>
+      </tr>
+  </tbody>
 </table>
-<h2 id="oracle-exadata整合的最佳平台">Oracle Exadata：整合的最佳平台</h2>
-<p>雖然 Oracle 資料庫可以整合在各種平台上，但 Exadata 作為專為資料庫打造的工程系統（Engineered System），在效能與穩定性上具備絕對優勢。Exadata 透過將資料庫處理邏輯下推至儲存層（智慧掃描 Smart Scan），大幅減少了需在網路傳輸的資料量，這對於高密度整合環境至關重要 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="效能基準與密度">效能基準與密度</h3>
-<p>測試數據顯示，即使在較舊的 Exadata X8-2 四分之一機架上，也能在 3 毫秒內的響應時間內整合多達 300 個 OLTP 資料庫 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。隨著 2026 年 X11M 等新一代硬體的推出，單一節點可提供的 OCPU 數量與 Flash 儲存容量大幅增加，進一步推高了整合上限。</p>
-<h3 id="內建安全加固">內建安全加固</h3>
-<p>Exadata 提供「縱深防禦」的安全設計，包括預先掃描的系統軟體棧、最小化攻擊面以及自動化入侵檢測環境（A.I.D.E.）。A.I.D.E. 會利用 SHA256 雜湊簽名自動檢測關鍵檔案是否被竄改，為整合了眾多敏感資料的平台提供核心防護 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="oracle-ai-資料庫-26ai邁向-ai-原生整合">Oracle AI 資料庫 26ai：邁向 AI 原生整合</h2>
-<p>2025 年 10 月發布的 Oracle AI 資料庫 26ai，為整合策略注入了全新的動力。這是一個長期支持版本（LTS），不僅取代了 23ai，更標誌著資料庫正式進入「AI 原生」時代 <!-- raw HTML omitted -->2<!-- raw HTML omitted -->。</p>
-<h3 id="關鍵創新技術">關鍵創新技術</h3>
+
+<h2 class="relative group">Oracle Exadata：整合的最佳平台
+    <div id="oracle-exadata整合的最佳平台" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-exadata%e6%95%b4%e5%90%88%e7%9a%84%e6%9c%80%e4%bd%b3%e5%b9%b3%e5%8f%b0" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>雖然 Oracle 資料庫可以整合在各種平台上，但 Exadata 作為專為資料庫打造的工程系統（Engineered System），在效能與穩定性上具備絕對優勢。Exadata 透過將資料庫處理邏輯下推至儲存層（智慧掃描 Smart Scan），大幅減少了需在網路傳輸的資料量，這對於高密度整合環境至關重要 <sup>1</sup>。</p>
+
+<h3 class="relative group">效能基準與密度
+    <div id="效能基準與密度" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%95%88%e8%83%bd%e5%9f%ba%e6%ba%96%e8%88%87%e5%af%86%e5%ba%a6" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>測試數據顯示，即使在較舊的 Exadata X8-2 四分之一機架上，也能在 3 毫秒內的響應時間內整合多達 300 個 OLTP 資料庫 <sup>1</sup>。隨著 2026 年 X11M 等新一代硬體的推出，單一節點可提供的 OCPU 數量與 Flash 儲存容量大幅增加，進一步推高了整合上限。</p>
+
+<h3 class="relative group">內建安全加固
+    <div id="內建安全加固" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%85%a7%e5%bb%ba%e5%ae%89%e5%85%a8%e5%8a%a0%e5%9b%ba" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>Exadata 提供「縱深防禦」的安全設計，包括預先掃描的系統軟體棧、最小化攻擊面以及自動化入侵檢測環境（A.I.D.E.）。A.I.D.E. 會利用 SHA256 雜湊簽名自動檢測關鍵檔案是否被竄改，為整合了眾多敏感資料的平台提供核心防護 <sup>1</sup>。</p>
+
+<h2 class="relative group">Oracle AI 資料庫 26ai：邁向 AI 原生整合
+    <div id="oracle-ai-資料庫-26ai邁向-ai-原生整合" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-ai-%e8%b3%87%e6%96%99%e5%ba%ab-26ai%e9%82%81%e5%90%91-ai-%e5%8e%9f%e7%94%9f%e6%95%b4%e5%90%88" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>2025 年 10 月發布的 Oracle AI 資料庫 26ai，為整合策略注入了全新的動力。這是一個長期支持版本（LTS），不僅取代了 23ai，更標誌著資料庫正式進入「AI 原生」時代 <sup>2</sup>。</p>
+
+<h3 class="relative group">關鍵創新技術
+    <div id="關鍵創新技術" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e9%97%9c%e9%8d%b5%e5%89%b5%e6%96%b0%e6%8a%80%e8%a1%93" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ul>
-<li><strong>AI 向量搜尋（AI Vector Search）</strong>：26ai 將向量搜尋與關聯式、JSON 及圖形搜尋原生結合。企業不再需要為 AI 應用單獨建立向量資料庫，而是可以將其整合在統一的 26ai 引擎中，利用 Exadata 的效能處理海量的非結構化資料向量 <!-- raw HTML omitted -->2<!-- raw HTML omitted -->。</li>
-<li><strong>收斂式資料庫（Converged Database）</strong>：26ai 強化了對多種資料模型的支持，包括對 Apache Iceberg 開放表格格式的支援。這使得企業可以在同一個資料庫實例中整合分析、AI 與交易工作負載，減少了資料搬遷與維護多套專用資料庫的成本 <!-- raw HTML omitted -->2<!-- raw HTML omitted -->。</li>
-<li><strong>True Cache</strong>：這是一項應用透明的中間層快取技術，能自動保持交易一致性。在整合環境中，True Cache 可以顯著降低主資料庫的讀取負擔，提升前端應用的響應速度 <!-- raw HTML omitted -->6<!-- raw HTML omitted -->。</li>
-<li><strong>全方位 AI 整合</strong>：從 AI 驅動的自動化管理到針對開發者的資料註釋（Data Annotations），26ai 讓 AI 深入資料庫的每個角落，協助 DBA 更精確地優化整合後的複雜環境 <!-- raw HTML omitted -->2<!-- raw HTML omitted -->。</li>
+<li><strong>AI 向量搜尋（AI Vector Search）</strong>：26ai 將向量搜尋與關聯式、JSON 及圖形搜尋原生結合。企業不再需要為 AI 應用單獨建立向量資料庫，而是可以將其整合在統一的 26ai 引擎中，利用 Exadata 的效能處理海量的非結構化資料向量 <sup>2</sup>。</li>
+<li><strong>收斂式資料庫（Converged Database）</strong>：26ai 強化了對多種資料模型的支持，包括對 Apache Iceberg 開放表格格式的支援。這使得企業可以在同一個資料庫實例中整合分析、AI 與交易工作負載，減少了資料搬遷與維護多套專用資料庫的成本 <sup>2</sup>。</li>
+<li><strong>True Cache</strong>：這是一項應用透明的中間層快取技術，能自動保持交易一致性。在整合環境中，True Cache 可以顯著降低主資料庫的讀取負擔，提升前端應用的響應速度 <sup>6</sup>。</li>
+<li><strong>全方位 AI 整合</strong>：從 AI 驅動的自動化管理到針對開發者的資料註釋（Data Annotations），26ai 讓 AI 深入資料庫的每個角落，協助 DBA 更精確地優化整合後的複雜環境 <sup>2</sup>。</li>
 </ul>
-<p>對於已在運行 23ai 的客戶，只需套用 2025 年 10 月的更新包，即可平滑過渡到 26ai，無需進行耗時的升級或應用程式重測，這種持續演進的模式極大降低了整合維護的風險 <!-- raw HTML omitted -->7<!-- raw HTML omitted -->。</p>
-<h2 id="exadata-exascale超彈性智能資料架構">Exadata Exascale：超彈性智能資料架構</h2>
-<p>伴隨 Exadata 系統軟體 24.1 推出的 Exadata Exascale，是雲端整合技術的另一高峰。Exascale 將儲存管理從資料庫伺服器中解耦，構建了一個超彈性的資源池 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="exascale-對整合的變革">Exascale 對整合的變革</h3>
+<p>對於已在運行 23ai 的客戶，只需套用 2025 年 10 月的更新包，即可平滑過渡到 26ai，無需進行耗時的升級或應用程式重測，這種持續演進的模式極大降低了整合維護的風險 <sup>7</sup>。</p>
+
+<h2 class="relative group">Exadata Exascale：超彈性智能資料架構
+    <div id="exadata-exascale超彈性智能資料架構" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#exadata-exascale%e8%b6%85%e5%bd%88%e6%80%a7%e6%99%ba%e8%83%bd%e8%b3%87%e6%96%99%e6%9e%b6%e6%a7%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>伴隨 Exadata 系統軟體 24.1 推出的 Exadata Exascale，是雲端整合技術的另一高峰。Exascale 將儲存管理從資料庫伺服器中解耦，構建了一個超彈性的資源池 <sup>1</sup>。</p>
+
+<h3 class="relative group">Exascale 對整合的變革
+    <div id="exascale-對整合的變革" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#exascale-%e5%b0%8d%e6%95%b4%e5%90%88%e7%9a%84%e8%ae%8a%e9%9d%a9" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <ul>
-<li><strong>超彈性擴充</strong>：企業可以從小型 VM 叢集與極少量的儲存開始，並隨業務需求隨時擴展。這打破了傳統整合中「必須預購大量硬體」的限制 <!-- raw HTML omitted -->8<!-- raw HTML omitted -->。</li>
-<li><strong>精簡克隆（Thin Clones）</strong>：在整合環境中，開發與測試通常需要大量生產資料的副本。Exascale 的精簡克隆技術僅在資料變更時才佔用實際空間，這使企業能瞬間創建數百個資料庫副本，而不會耗盡儲存容量 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>集中化 VM 託管</strong>：VM 鏡像託管在中央儲存上，簡化了大規模伺服器整合的管理複雜性，並提升了資源共享效率 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
+<li><strong>超彈性擴充</strong>：企業可以從小型 VM 叢集與極少量的儲存開始，並隨業務需求隨時擴展。這打破了傳統整合中「必須預購大量硬體」的限制 <sup>8</sup>。</li>
+<li><strong>精簡克隆（Thin Clones）</strong>：在整合環境中，開發與測試通常需要大量生產資料的副本。Exascale 的精簡克隆技術僅在資料變更時才佔用實際空間，這使企業能瞬間創建數百個資料庫副本，而不會耗盡儲存容量 <sup>1</sup>。</li>
+<li><strong>集中化 VM 託管</strong>：VM 鏡像託管在中央儲存上，簡化了大規模伺服器整合的管理複雜性，並提升了資源共享效率 <sup>1</sup>。</li>
 </ul>
-<h2 id="最大可用性架構maa參考模型">最大可用性架構（MAA）參考模型</h2>
-<p>整合環境中，任何單一元件的故障都有可能擴散。因此，必須根據業務的 RTO（復原時間目標）與 RPO（復原點目標）將資料庫歸類為不同的 MAA 層級 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
+
+<h2 class="relative group">最大可用性架構（MAA）參考模型
+    <div id="最大可用性架構maa參考模型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%9c%80%e5%a4%a7%e5%8f%af%e7%94%a8%e6%80%a7%e6%9e%b6%e6%a7%8bmaa%e5%8f%83%e8%80%83%e6%a8%a1%e5%9e%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>整合環境中，任何單一元件的故障都有可能擴散。因此，必須根據業務的 RTO（復原時間目標）與 RPO（復原點目標）將資料庫歸類為不同的 MAA 層級 <sup>1</sup>。</p>
 <table>
-<thead>
-<tr>
-<th><strong>MAA 層級</strong></th>
-<th><strong>適用場景</strong></th>
-<th><strong>核心技術</strong></th>
-<th><strong>預期服務水平</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>銅級 (Bronze)</strong></td>
-<td>開發、測試、非關鍵生產</td>
-<td>單執行個體、Oracle Restart、備份還原</td>
-<td>成本最低，重啟需數分鐘，復原依賴備份 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-</tr>
-<tr>
-<td><strong>銀級 (Silver)</strong></td>
-<td>生產、部門級應用</td>
-<td>Oracle RAC、應用程式連續性</td>
-<td>實現在單一站點內的零停機維護與秒級故障切換 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-</tr>
-<tr>
-<td><strong>金級 (Gold)</strong></td>
-<td>關鍵任務應用</td>
-<td>Active Data Guard、Far Sync</td>
-<td>提供跨站點的災難復原，實現零資料遺失 (Zero Data Loss) <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-</tr>
-<tr>
-<td><strong>金剛級 (Platinum)</strong></td>
-<td>極致關鍵業務</td>
-<td>GoldenGate 雙向複製、分區技術 (Sharding)</td>
-<td>支援零停機升級與全球分佈式部署 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th><strong>MAA 層級</strong></th>
+          <th><strong>適用場景</strong></th>
+          <th><strong>核心技術</strong></th>
+          <th><strong>預期服務水平</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>銅級 (Bronze)</strong></td>
+          <td>開發、測試、非關鍵生產</td>
+          <td>單執行個體、Oracle Restart、備份還原</td>
+          <td>成本最低，重啟需數分鐘，復原依賴備份 <sup>1</sup>。</td>
+      </tr>
+      <tr>
+          <td><strong>銀級 (Silver)</strong></td>
+          <td>生產、部門級應用</td>
+          <td>Oracle RAC、應用程式連續性</td>
+          <td>實現在單一站點內的零停機維護與秒級故障切換 <sup>1</sup>。</td>
+      </tr>
+      <tr>
+          <td><strong>金級 (Gold)</strong></td>
+          <td>關鍵任務應用</td>
+          <td>Active Data Guard、Far Sync</td>
+          <td>提供跨站點的災難復原，實現零資料遺失 (Zero Data Loss) <sup>1</sup>。</td>
+      </tr>
+      <tr>
+          <td><strong>金剛級 (Platinum)</strong></td>
+          <td>極致關鍵業務</td>
+          <td>GoldenGate 雙向複製、分區技術 (Sharding)</td>
+          <td>支援零停機升級與全球分佈式部署 <sup>1</sup>。</td>
+      </tr>
+  </tbody>
 </table>
-<h2 id="實施資料庫整合的標準化流程">實施資料庫整合的標準化流程</h2>
+
+<h2 class="relative group">實施資料庫整合的標準化流程
+    <div id="實施資料庫整合的標準化流程" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%af%a6%e6%96%bd%e8%b3%87%e6%96%99%e5%ba%ab%e6%95%b4%e5%90%88%e7%9a%84%e6%a8%99%e6%ba%96%e5%8c%96%e6%b5%81%e7%a8%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>成功的整合需要詳盡的規劃與執行，以下是 Oracle 推薦的八大步驟實施框架：</p>
-<h3 id="1-建立資料庫清冊">1. 建立資料庫清冊</h3>
-<p>清查所有擬整合的資料庫，包括其名稱、版本、作業系統、關聯應用程式以及當前的 SLA 要求（MAA 層級）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="2-收集資源利用率與增長指標">2. 收集資源利用率與增長指標</h3>
-<p>利用 AWR 數據分析現有系統的 CPU、記憶體、I/O 與儲存空間佔用。必須同時考慮歷史增長率與未來的業務計畫 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="3-資源映射與規格校準">3. 資源映射與規格校準</h3>
-<p>諮詢硬體供應商，將舊系統的資源需求映射到新平台。例如，從傳統伺服器搬遷到 Exadata 時，由於智慧掃描技術的存在，CPU 需求通常可以減少 25% 至 50% <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="4-確定隔離要求">4. 確定隔離要求</h3>
-<p>根據資料治理（如 PCI、HIPAA）或環境區隔（開發 vs 生產），決定是採用物理伺服器隔離、VM 隔離還是 PDB 容器隔離 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="5-選擇整合方法">5. 選擇整合方法</h3>
-<p>優先考慮 Oracle 多租戶架構（CDB/PDB）。對於 19c 以前的舊版本，可能需先進行版本升級或採用「多資料庫共享伺服器」的過渡方案 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="6-按-ha-需求進行分組">6. 按 HA 需求進行分組</h3>
-<p>將具有相似 RTO/RPO 目標的資料庫分組到同一個叢集或容器中。這能優化災難復原架構的投資回报 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="7-執行裝箱bin-packing模擬">7. 執行裝箱（Bin-Packing）模擬</h3>
-<p>按照從大到小的順序，將資料庫分配到預設的「資源形狀」中。這是一個決定需要多少個 VM、多少核心與多少記憶體的關鍵過程 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h3 id="8-配置資源管理計畫">8. 配置資源管理計畫</h3>
-<p>實施 DBRM 與 IORM 計畫。針對大型關鍵資料庫設置獨立計畫，對大量小型資料庫則採用標準化的「配置設定檔」（Profiles）進行管理 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="標準化資源形狀resource-shapes設計">標準化資源形狀（Resource Shapes）設計</h2>
+
+<h3 class="relative group">1. 建立資料庫清冊
+    <div id="1-建立資料庫清冊" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e5%bb%ba%e7%ab%8b%e8%b3%87%e6%96%99%e5%ba%ab%e6%b8%85%e5%86%8a" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>清查所有擬整合的資料庫，包括其名稱、版本、作業系統、關聯應用程式以及當前的 SLA 要求（MAA 層級）<sup>1</sup>。</p>
+
+<h3 class="relative group">2. 收集資源利用率與增長指標
+    <div id="2-收集資源利用率與增長指標" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e6%94%b6%e9%9b%86%e8%b3%87%e6%ba%90%e5%88%a9%e7%94%a8%e7%8e%87%e8%88%87%e5%a2%9e%e9%95%b7%e6%8c%87%e6%a8%99" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>利用 AWR 數據分析現有系統的 CPU、記憶體、I/O 與儲存空間佔用。必須同時考慮歷史增長率與未來的業務計畫 <sup>1</sup>。</p>
+
+<h3 class="relative group">3. 資源映射與規格校準
+    <div id="3-資源映射與規格校準" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e8%b3%87%e6%ba%90%e6%98%a0%e5%b0%84%e8%88%87%e8%a6%8f%e6%a0%bc%e6%a0%a1%e6%ba%96" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>諮詢硬體供應商，將舊系統的資源需求映射到新平台。例如，從傳統伺服器搬遷到 Exadata 時，由於智慧掃描技術的存在，CPU 需求通常可以減少 25% 至 50% <sup>1</sup>。</p>
+
+<h3 class="relative group">4. 確定隔離要求
+    <div id="4-確定隔離要求" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4-%e7%a2%ba%e5%ae%9a%e9%9a%94%e9%9b%a2%e8%a6%81%e6%b1%82" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>根據資料治理（如 PCI、HIPAA）或環境區隔（開發 vs 生產），決定是採用物理伺服器隔離、VM 隔離還是 PDB 容器隔離 <sup>1</sup>。</p>
+
+<h3 class="relative group">5. 選擇整合方法
+    <div id="5-選擇整合方法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#5-%e9%81%b8%e6%93%87%e6%95%b4%e5%90%88%e6%96%b9%e6%b3%95" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>優先考慮 Oracle 多租戶架構（CDB/PDB）。對於 19c 以前的舊版本，可能需先進行版本升級或採用「多資料庫共享伺服器」的過渡方案 <sup>1</sup>。</p>
+
+<h3 class="relative group">6. 按 HA 需求進行分組
+    <div id="6-按-ha-需求進行分組" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#6-%e6%8c%89-ha-%e9%9c%80%e6%b1%82%e9%80%b2%e8%a1%8c%e5%88%86%e7%b5%84" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>將具有相似 RTO/RPO 目標的資料庫分組到同一個叢集或容器中。這能優化災難復原架構的投資回报 <sup>1</sup>。</p>
+
+<h3 class="relative group">7. 執行裝箱（Bin-Packing）模擬
+    <div id="7-執行裝箱bin-packing模擬" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#7-%e5%9f%b7%e8%a1%8c%e8%a3%9d%e7%ae%b1bin-packing%e6%a8%a1%e6%93%ac" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>按照從大到小的順序，將資料庫分配到預設的「資源形狀」中。這是一個決定需要多少個 VM、多少核心與多少記憶體的關鍵過程 <sup>1</sup>。</p>
+
+<h3 class="relative group">8. 配置資源管理計畫
+    <div id="8-配置資源管理計畫" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#8-%e9%85%8d%e7%bd%ae%e8%b3%87%e6%ba%90%e7%ae%a1%e7%90%86%e8%a8%88%e7%95%ab" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>實施 DBRM 與 IORM 計畫。針對大型關鍵資料庫設置獨立計畫，對大量小型資料庫則採用標準化的「配置設定檔」（Profiles）進行管理 <sup>1</sup>。</p>
+
+<h2 class="relative group">標準化資源形狀（Resource Shapes）設計
+    <div id="標準化資源形狀resource-shapes設計" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%a8%99%e6%ba%96%e5%8c%96%e8%b3%87%e6%ba%90%e5%bd%a2%e7%8b%80resource-shapes%e8%a8%ad%e8%a8%88" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>為了簡化大規模環境的管理，企業應定義一組標準化的資源分配範本。下表以 Exadata X11M 為例，展示了典型的 OLTP 工作負載資源形狀：</p>
 <table>
-<thead>
-<tr>
-<th><strong>形狀名稱</strong></th>
-<th><strong>分配核心數 (OCPU)</strong></th>
-<th><strong>記憶體分配</strong></th>
-<th><strong>SGA / PGA 建議</strong></th>
-<th><strong>會話數上限</strong></th>
-<th><strong>IORM 份額</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>OLTP Small</strong></td>
-<td>4</td>
-<td>30 GB</td>
-<td>15 GB / 7.5 GB</td>
-<td>128</td>
-<td>8</td>
-</tr>
-<tr>
-<td><strong>OLTP Medium</strong></td>
-<td>8</td>
-<td>60 GB</td>
-<td>30 GB / 15 GB</td>
-<td>256</td>
-<td>16</td>
-</tr>
-<tr>
-<td><strong>OLTP Large</strong></td>
-<td>16</td>
-<td>120 GB</td>
-<td>60 GB / 30 GB</td>
-<td>512</td>
-<td>32</td>
-</tr>
-<tr>
-<td><strong>OLTP 4X Large</strong></td>
-<td>64</td>
-<td>480 GB</td>
-<td>240 GB / 120 GB</td>
-<td>2048</td>
-<td>128</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th><strong>形狀名稱</strong></th>
+          <th><strong>分配核心數 (OCPU)</strong></th>
+          <th><strong>記憶體分配</strong></th>
+          <th><strong>SGA / PGA 建議</strong></th>
+          <th><strong>會話數上限</strong></th>
+          <th><strong>IORM 份額</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>OLTP Small</strong></td>
+          <td>4</td>
+          <td>30 GB</td>
+          <td>15 GB / 7.5 GB</td>
+          <td>128</td>
+          <td>8</td>
+      </tr>
+      <tr>
+          <td><strong>OLTP Medium</strong></td>
+          <td>8</td>
+          <td>60 GB</td>
+          <td>30 GB / 15 GB</td>
+          <td>256</td>
+          <td>16</td>
+      </tr>
+      <tr>
+          <td><strong>OLTP Large</strong></td>
+          <td>16</td>
+          <td>120 GB</td>
+          <td>60 GB / 30 GB</td>
+          <td>512</td>
+          <td>32</td>
+      </tr>
+      <tr>
+          <td><strong>OLTP 4X Large</strong></td>
+          <td>64</td>
+          <td>480 GB</td>
+          <td>240 GB / 120 GB</td>
+          <td>2048</td>
+          <td>128</td>
+      </tr>
+  </tbody>
 </table>
-<p>針對資料倉儲（DW）負載，應調整分配比例，將更多的空間分配給 PGA 以加速大批量數據的排序與聚合處理 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h2 id="維護與升級的進階策略">維護與升級的進階策略</h2>
+<p>針對資料倉儲（DW）負載，應調整分配比例，將更多的空間分配給 PGA 以加速大批量數據的排序與聚合處理 <sup>1</sup>。</p>
+
+<h2 class="relative group">維護與升級的進階策略
+    <div id="維護與升級的進階策略" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b6%ad%e8%ad%b7%e8%88%87%e5%8d%87%e7%b4%9a%e7%9a%84%e9%80%b2%e9%9a%8e%e7%ad%96%e7%95%a5" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>整合環境下的維護更具挑戰性，因為一個停機窗口會影響多個業務。</p>
 <ul>
-<li><strong>滾動式修補（Rolling Patching）</strong>：利用 RAC 技術，每次修補一個節點，同時讓其他節點繼續提供服務。這能實現零停機的季度安全修補 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>PDB 快速遷移升級</strong>：當需要將 PDB 從 19c 升級至 26ai 時，可以利用 PDB Relocate 功能。這能顯著縮短停機時間，因為數據檔案在背景拷貝，僅在切換瞬間有短暫中斷 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>GoldenGate 26ai 的自動架構演進</strong>：在金剛級層級中，最新的 GoldenGate 26ai 支援「自動架構演進」（Automatic Schema Evolution），當來源端資料庫結構發生變化時，目標端能自動同步，大幅減少了手動維護的工作量 <!-- raw HTML omitted -->9<!-- raw HTML omitted -->。</li>
+<li><strong>滾動式修補（Rolling Patching）</strong>：利用 RAC 技術，每次修補一個節點，同時讓其他節點繼續提供服務。這能實現零停機的季度安全修補 <sup>1</sup>。</li>
+<li><strong>PDB 快速遷移升級</strong>：當需要將 PDB 從 19c 升級至 26ai 時，可以利用 PDB Relocate 功能。這能顯著縮短停機時間，因為數據檔案在背景拷貝，僅在切換瞬間有短暫中斷 <sup>1</sup>。</li>
+<li><strong>GoldenGate 26ai 的自動架構演進</strong>：在金剛級層級中，最新的 GoldenGate 26ai 支援「自動架構演進」（Automatic Schema Evolution），當來源端資料庫結構發生變化時，目標端能自動同步，大幅減少了手動維護的工作量 <sup>9</sup>。</li>
 </ul>
-<h2 id="容量監控與後續優化">容量監控與後續優化</h2>
+
+<h2 class="relative group">容量監控與後續優化
+    <div id="容量監控與後續優化" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%b9%e9%87%8f%e7%9b%a3%e6%8e%a7%e8%88%87%e5%be%8c%e7%ba%8c%e5%84%aa%e5%8c%96" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
 <p>整合完成後，持續的監控是維持效能的關鍵。</p>
 <ul>
-<li><strong>監控 IORM 節流（Throttling）</strong>：若 DB_IO_WT_SM_RQ（小請求等待時間）大幅增加，說明該資料庫正在被 IORM 限流，管理員需決定是優化應用 SQL 還是增加其 I/O 份額 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>CPU 等待分析</strong>：監控 v$rsrcmgrmetric_history 中的 avg_waiting_sessions。若該值頻繁大於零，代表資料庫正受到資源管理器的 CPU 節流 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
-<li><strong>記憶體大頁檢驗</strong>：確保 SGA 始終駐留在 HugePages 中。如果 USE_LARGE_PAGES 設置為 ONLY 且資料庫無法啟動，說明系統層級的大頁分配不足，需及時調整作業系統核心參數（如 kernel.sem 相關設置）<!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</li>
+<li><strong>監控 IORM 節流（Throttling）</strong>：若 DB_IO_WT_SM_RQ（小請求等待時間）大幅增加，說明該資料庫正在被 IORM 限流，管理員需決定是優化應用 SQL 還是增加其 I/O 份額 <sup>1</sup>。</li>
+<li><strong>CPU 等待分析</strong>：監控 v$rsrcmgrmetric_history 中的 avg_waiting_sessions。若該值頻繁大於零，代表資料庫正受到資源管理器的 CPU 節流 <sup>1</sup>。</li>
+<li><strong>記憶體大頁檢驗</strong>：確保 SGA 始終駐留在 HugePages 中。如果 USE_LARGE_PAGES 設置為 ONLY 且資料庫無法啟動，說明系統層級的大頁分配不足，需及時調整作業系統核心參數（如 kernel.sem 相關設置）<sup>1</sup>。</li>
 </ul>
-<h2 id="結論">結論</h2>
-<p>資料庫整合是當代企業達成卓越維運（Operational Excellence）的基石。透過將多樣化的工作負載集中於 Oracle Exadata 平台，並利用 26ai 的 AI 原生能力與 Exascale 的雲端彈性，組織不僅能大幅降低基礎設施與授權成本，更能在確保安全與高可用性的前提下，交付足以驅動 AI 時代轉型的卓越效能 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<p>成功的整合之路取決於標準化的架構設計與精密的資源控制。遵循 Oracle MAA 最佳實踐，從詳細的清查、科學的資源映射到嚴謹的裝箱模擬，每一個步驟都是確保整合平台長期穩定運行的保障。隨著技術向 26ai 演進，未來的整合將不僅僅是物理資源的匯聚，更是資料語義與智慧處理能力的全面收斂，為企業提供更強大的競爭優勢 <!-- raw HTML omitted -->1<!-- raw HTML omitted -->。</p>
-<h4 id="引用的著作">引用的著作</h4>
+
+<h2 class="relative group">結論
+    <div id="結論" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b5%90%e8%ab%96" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>資料庫整合是當代企業達成卓越維運（Operational Excellence）的基石。透過將多樣化的工作負載集中於 Oracle Exadata 平台，並利用 26ai 的 AI 原生能力與 Exascale 的雲端彈性，組織不僅能大幅降低基礎設施與授權成本，更能在確保安全與高可用性的前提下，交付足以驅動 AI 時代轉型的卓越效能 <sup>1</sup>。</p>
+<p>成功的整合之路取決於標準化的架構設計與精密的資源控制。遵循 Oracle MAA 最佳實踐，從詳細的清查、科學的資源映射到嚴謹的裝箱模擬，每一個步驟都是確保整合平台長期穩定運行的保障。隨著技術向 26ai 演進，未來的整合將不僅僅是物理資源的匯聚，更是資料語義與智慧處理能力的全面收斂，為企業提供更強大的競爭優勢 <sup>1</sup>。</p>
+
+<h4 class="relative group">引用的著作
+    <div id="引用的著作" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%bc%95%e7%94%a8%e7%9a%84%e8%91%97%e4%bd%9c" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
 <ul>
 <li>maa-consolidation.pdf</li>
-<li>Oracle introduces its AI-native database, Oracle AI Database 26ai, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/database/ai-native-database-26ai/">https://www.oracle.com/database/ai-native-database-26ai/</a></li>
-<li>Oracle 資料庫變革：告別單租戶，擁抱多租戶CDB/PDB 架構 - 會通資訊, 檢索日期：4月 5, 2026， <a href="https://www.argotek.com.tw/argoerp-news20251001/">https://www.argotek.com.tw/argoerp-news20251001/</a></li>
-<li>Exadata 数据库云服务器整合最佳实践 - Oracle, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/cn/a/tech/docs/technical-resources/exadata-consolidation.pdf">https://www.oracle.com/cn/a/tech/docs/technical-resources/exadata-consolidation.pdf</a></li>
-<li>什麼是Oracle 高可用性？ | Everpure (前身為Pure Storage), 檢索日期：4月 5, 2026， <a href="https://www.purestorage.com/tw/knowledge/what-is-oracle-high-availability.html">https://www.purestorage.com/tw/knowledge/what-is-oracle-high-availability.html</a></li>
-<li>Oracle AI Database 26ai Powers the AI for Data Revolution, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/news/announcement/ai-world-database-26ai-powers-the-ai-for-data-revolution-2025-10-14/">https://www.oracle.com/news/announcement/ai-world-database-26ai-powers-the-ai-for-data-revolution-2025-10-14/</a></li>
-<li>Oracle AI Database 26ai: Next-Gen AI-Native Database for All Your Data - YouTube, 檢索日期：4月 5, 2026， <a href="https://www.youtube.com/watch?v=RsG94924cyo">https://www.youtube.com/watch?v=RsG94924cyo</a></li>
-<li>在Exascale 等級基礎架構上佈建Oracle Exadata Database Service, 檢索日期：4月 5, 2026， <a href="https://docs.oracle.com/zh-tw/learn/exadb-xs-db/">https://docs.oracle.com/zh-tw/learn/exadb-xs-db/</a></li>
-<li>Announcing Oracle GoldenGate 26ai smarter automation, broader compatibility, and simplified operations | dataintegration, 檢索日期：4月 5, 2026， <a href="https://blogs.oracle.com/dataintegration/announcing-oracle-goldengate-26ai-smarter-automation-broader-compatibility-and-simplified-operations">https://blogs.oracle.com/dataintegration/announcing-oracle-goldengate-26ai-smarter-automation-broader-compatibility-and-simplified-operations</a></li>
+<li>Oracle introduces its AI-native database, Oracle AI Database 26ai, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/database/ai-native-database-26ai/"  target="_blank" rel="noreferrer">https://www.oracle.com/database/ai-native-database-26ai/</a></li>
+<li>Oracle 資料庫變革：告別單租戶，擁抱多租戶CDB/PDB 架構 - 會通資訊, 檢索日期：4月 5, 2026， <a href="https://www.argotek.com.tw/argoerp-news20251001/"  target="_blank" rel="noreferrer">https://www.argotek.com.tw/argoerp-news20251001/</a></li>
+<li>Exadata 数据库云服务器整合最佳实践 - Oracle, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/cn/a/tech/docs/technical-resources/exadata-consolidation.pdf"  target="_blank" rel="noreferrer">https://www.oracle.com/cn/a/tech/docs/technical-resources/exadata-consolidation.pdf</a></li>
+<li>什麼是Oracle 高可用性？ | Everpure (前身為Pure Storage), 檢索日期：4月 5, 2026， <a href="https://www.purestorage.com/tw/knowledge/what-is-oracle-high-availability.html"  target="_blank" rel="noreferrer">https://www.purestorage.com/tw/knowledge/what-is-oracle-high-availability.html</a></li>
+<li>Oracle AI Database 26ai Powers the AI for Data Revolution, 檢索日期：4月 5, 2026， <a href="https://www.oracle.com/news/announcement/ai-world-database-26ai-powers-the-ai-for-data-revolution-2025-10-14/"  target="_blank" rel="noreferrer">https://www.oracle.com/news/announcement/ai-world-database-26ai-powers-the-ai-for-data-revolution-2025-10-14/</a></li>
+<li>Oracle AI Database 26ai: Next-Gen AI-Native Database for All Your Data - YouTube, 檢索日期：4月 5, 2026， <a href="https://www.youtube.com/watch?v=RsG94924cyo"  target="_blank" rel="noreferrer">https://www.youtube.com/watch?v=RsG94924cyo</a></li>
+<li>在Exascale 等級基礎架構上佈建Oracle Exadata Database Service, 檢索日期：4月 5, 2026， <a href="https://docs.oracle.com/zh-tw/learn/exadb-xs-db/"  target="_blank" rel="noreferrer">https://docs.oracle.com/zh-tw/learn/exadb-xs-db/</a></li>
+<li>Announcing Oracle GoldenGate 26ai smarter automation, broader compatibility, and simplified operations | dataintegration, 檢索日期：4月 5, 2026， <a href="https://blogs.oracle.com/dataintegration/announcing-oracle-goldengate-26ai-smarter-automation-broader-compatibility-and-simplified-operations"  target="_blank" rel="noreferrer">https://blogs.oracle.com/dataintegration/announcing-oracle-goldengate-26ai-smarter-automation-broader-compatibility-and-simplified-operations</a></li>
 </ul>
-</div>
-                <div>
-                    <script src="https://utteranc.es/client.js"
-                        repo="PolloChang/commentsforpollochang"
-                        issue-term="pathname"
-                        theme="github-light"
-                        crossorigin="anonymous"
-                        async>
-                    </script>
-                </div>
-            </div>
+
+          
+          
+          
         </div>
+        
+        
 
-        <div class="layui-col-md4 layui-col-sm12 layui-col-xs12">
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/oracle-encoding-history-al32utf8/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;AL32UTF8_編碼起源與發展
+              </span>
+            </a>
             
-            <div class="layui-card single-card">
-                <h2 class="single-title">Relevant Topics</h2>
-                
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-encoding-history-al32utf8/">
-                                <h3 class="">AL32UTF8_編碼起源與發展</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/oracle-encoding-history-al32utf8-en/">
-                                <h3 class="">Oracle Encoding History - AL32UTF8</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-03-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/ai-content/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">AI Content</span>
-        </a>
-    
-        <a href="/tags/encoding/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Encoding</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/deploy-oracle26ai-on-ol8/">
-                                <h3 class="">deploy Oracle26ai on Oracle Linux 8</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/deploy-oracle19c-rac-on-rhel9/">
-                                <h3 class="">deploy Oracle19c RAC on RHEL9</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-02-22</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-        <a href="/tags/rac/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">RAC</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                    <div style="margin-left: 10px;">
-                        <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                            <a href="/oracle-database/sql-tunning-task-mes/">
-                                <h3 class="">SQL tunning task MES</h3>
-                            </a>
-                            
-                            <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2026-01-31</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/oracle/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Oracle</span>
-        </a>
-    
-    
-</h3>
-
-                        </blockquote>
-                    </div>
-                	
-                
-                <br />
-            </div>
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-03-22T23:00:52&#43;08:00">March 22, 2026</time>
+              </span>
             
-
-            <div class="layui-card single-card">
-                <h2 class="single-title">Recent Posts</h2>
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+            <a
+              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/oracle-database/oracle-file-design/">
+              <span class="leading-6">
+                Oracle files design&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
+              </span>
+            </a>
             
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/cns11643/">
-                        <h3 class="">CNS11643 轉 UTF8 經驗</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-21</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/cns11643/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">CNS11643</span>
-        </a>
-    
-        <a href="/tags/java/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Java</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/db-postgresql-note/">
-                        <h3 class="">db-postgresql-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/postgresql/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">postgresql</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/docker-note/">
-                        <h3 class="">docker-note</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-03-15</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/docker/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">docker</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E9%97%9C%E9%96%89ipv6/">
-                        <h3 class="">關閉IPv6</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
-                <div style="margin-left: 10px;">
-                    <blockquote class="self-elem-quote self-elem-quote-bg-cyan" style="background-color:#FFFFFF;margin-top: 10px;">
-                    <a href="/post/2024-02-28-%E8%BC%B8%E5%85%A5%E6%B3%95%E7%9B%B8%E9%97%9C/">
-                        <h3 class="">輸入法相關</h3>
-                    </a>
-                    <h3 style="margin-top:10px; margin-bottom:10px"> 
-    <i class="layui-icon layui-icon-date" style="font-size: 28px; vertical-align: -2px;"></i>
-    <span>2024-02-28</span>
-
-    
-     
-    <i class="layui-icon layui-icon-list" style="font-size: 32px; vertical-align: -3px;"></i>
-    
-
-    
-        <a href="/categories/%e5%b7%a5%e4%bd%9c%e9%9b%9c%e8%a8%98/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">工作雜記</span>
-        </a>
-    
-
-    
-    <i class="layui-icon layui-icon-tabs" style="font-size: 22px; vertical-align: 1px;margin-right:2px;"></i>
-    
-
-    
-        <a href="/tags/linux/">
-            <span class="layui-badge layui-bg-green" style="vertical-align: 2px;">Linux</span>
-        </a>
-    
-    
-</h3>
-
-                    </blockquote>
-                </div>
-                
+              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-04-06T15:57:49&#43;08:00">April 6, 2026</time>
+              </span>
             
-            <br />
-            </div>
-        </div>
-
+          
+        </span>
+      </div>
     </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="捲動到頁頂"
+    title="捲動到頁頂">
+    &uarr;
+  </a>
 </div>
 
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          PolloChang
+      </p>
+    
 
-        </div><footer>
     
     
-    <div class="layui-container">
-        <p class="copyright">Copyright © 2024-2026, PolloChang; all rights reserved.</p>
-    </div>
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        以 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 製作
+      </p>
+    
+  </div>
+  
+    <script>
+      mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+        margin: 24,
+        background: "rgba(0,0,0,0.5)",
+        scrollOffset: 0,
+      });
+    </script>
+  
+  
+  
 </footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="http://pollochang.work/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="搜尋"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="關閉 (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
 
-</body>
+    </div>
+  </body>
+  
 </html>
