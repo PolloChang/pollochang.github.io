@@ -245,7 +245,7 @@
     "keywords": ["oracle linux","deploy"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "853"
+    "wordCount": "932"
   }]
   </script>
 
@@ -791,7 +791,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-05-01T20:20:17&#43;08:00">May 1, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>853 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">2 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-05-01T20:20:17&#43;08:00">May 1, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>932 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">2 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1030,10 +1030,14 @@
     </li>
     <li><a href="#不重啟的情況下修改部分參數">不重啟的情況下修改部分參數</a>
       <ul>
-        <li></li>
+        <li><a href="#檢查-archive-運作狀況">檢查 Archive 運作狀況</a></li>
       </ul>
     </li>
-    <li><a href="#error">ERROR</a></li>
+    <li><a href="#how-to-resolve-error">How to resolve ERROR</a>
+      <ul>
+        <li><a href="#unable-start-db-invalid-value-for-parameter-shared_buffers-4g">Unable start DB: invalid value for parameter &ldquo;shared_buffers&rdquo;: &ldquo;4G&rdquo;</a></li>
+      </ul>
+    </li>
     <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
@@ -1059,10 +1063,14 @@
     </li>
     <li><a href="#不重啟的情況下修改部分參數">不重啟的情況下修改部分參數</a>
       <ul>
-        <li></li>
+        <li><a href="#檢查-archive-運作狀況">檢查 Archive 運作狀況</a></li>
       </ul>
     </li>
-    <li><a href="#error">ERROR</a></li>
+    <li><a href="#how-to-resolve-error">How to resolve ERROR</a>
+      <ul>
+        <li><a href="#unable-start-db-invalid-value-for-parameter-shared_buffers-4g">Unable start DB: invalid value for parameter &ldquo;shared_buffers&rdquo;: &ldquo;4G&rdquo;</a></li>
+      </ul>
+    </li>
     <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
@@ -1369,12 +1377,12 @@
 </div>
 </div></div>
 
-<h3 class="relative group">
-    <div id="" class="anchor"></div>
+<h3 class="relative group">檢查 Archive 運作狀況
+    <div id="檢查-archive-運作狀況" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#" aria-label="定位點">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%aa%a2%e6%9f%a5-archive-%e9%81%8b%e4%bd%9c%e7%8b%80%e6%b3%81" aria-label="定位點">#</a>
     </span>
     
 </h3>
@@ -1386,16 +1394,47 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> pg_stat_archiver;</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>postgres<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> pg_stat_archiver;
+</span></span><span style="display:flex;"><span> archived_count <span style="color:#f92672">|</span>    last_archived_wal     <span style="color:#f92672">|</span>      last_archived_time       <span style="color:#f92672">|</span> failed_count <span style="color:#f92672">|</span> last_failed_wal <span style="color:#f92672">|</span> last_failed_time <span style="color:#f92672">|</span>          stats_reset      
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e">----------------+--------------------------+-------------------------------+--------------+-----------------+------------------+---------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">----
+</span></span></span><span style="display:flex;"><span>             <span style="color:#ae81ff">16</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">000000010000000000000010</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2026</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#ae81ff">15</span>:<span style="color:#ae81ff">52</span>:<span style="color:#ae81ff">20</span>.<span style="color:#ae81ff">072353</span><span style="color:#f92672">+</span><span style="color:#ae81ff">08</span> <span style="color:#f92672">|</span>            <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>                 <span style="color:#f92672">|</span>                  <span style="color:#f92672">|</span> <span style="color:#ae81ff">2026</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">30</span> <span style="color:#ae81ff">23</span>:<span style="color:#ae81ff">38</span>:<span style="color:#ae81ff">25</span>.<span style="color:#ae81ff">612094</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+</span><span style="color:#ae81ff">08</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 
-<h2 class="relative group">ERROR
-    <div id="error" class="anchor"></div>
+<h2 class="relative group">How to resolve ERROR
+    <div id="how-to-resolve-error" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#error" aria-label="定位點">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#how-to-resolve-error" aria-label="定位點">#</a>
     </span>
     
 </h2>
+
+<h3 class="relative group">Unable start DB: invalid value for parameter &ldquo;shared_buffers&rdquo;: &ldquo;4G&rdquo;
+    <div id="unable-start-db-invalid-value-for-parameter-shared_buffers-4g" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#unable-start-db-invalid-value-for-parameter-shared_buffers-4g" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>使用手動方式啟用檢查訊息</p>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -1404,6 +1443,7 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo -u postgres /usr/pgsql-16/bin/postgres -D /pg-data/</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<p>錯誤訊息如下</p>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
