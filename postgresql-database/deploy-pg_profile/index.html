@@ -56,7 +56,7 @@
   <meta property="og:url" content="http://pollochang.work/postgresql-database/deploy-pg_profile/">
   <meta property="og:site_name" content="PolloChang 工作筆記">
   <meta property="og:title" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11)">
-  <meta property="og:description" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11) # 一、 系統環境與檔案佈署 # 下載與解壓縮： 將 pg_profile 延伸模組檔案解壓縮至 PostgreSQL 的指定目錄。 1 2 wget https://github.com/zubkov-andrei/pg_profile/releases/download/4.11/pg_profile--4.11.tar.gz sudo tar xzf pg_profile-4.11.tar.gz --directory $(pg_config --sharedir)/extension 修改 PostgreSQL 配置 (postgresql.conf)： pg_profile 依賴於核心統計模組，需在啟動時預先載入。">
+  <meta property="og:description" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11) # 一、 系統環境與檔案佈署 # 下載與解壓縮： 將 pg_profile 延伸模組檔案解壓縮至 PostgreSQL 的指定目錄。 1 2 wget https://github.com/zubkov-andrei/pg_profile/releases/download/4.11/pg_profile--4.11.tar.gz tar -xzf pg_profile--4.11.tar.gz -C $(pg_config --sharedir)/extension 修改 PostgreSQL 配置 (postgresql.conf)： pg_profile 依賴於核心統計模組，需在啟動時預先載入。">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:type" content="article">
     <meta property="article:section" content="postgresql-database">
@@ -68,7 +68,7 @@
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11)">
-  <meta name="twitter:description" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11) # 一、 系統環境與檔案佈署 # 下載與解壓縮： 將 pg_profile 延伸模組檔案解壓縮至 PostgreSQL 的指定目錄。 1 2 wget https://github.com/zubkov-andrei/pg_profile/releases/download/4.11/pg_profile--4.11.tar.gz sudo tar xzf pg_profile-4.11.tar.gz --directory $(pg_config --sharedir)/extension 修改 PostgreSQL 配置 (postgresql.conf)： pg_profile 依賴於核心統計模組，需在啟動時預先載入。">
+  <meta name="twitter:description" content="PostgreSQL 效能分析利器：pg_profile 佈署 SOP (v4.11) # 一、 系統環境與檔案佈署 # 下載與解壓縮： 將 pg_profile 延伸模組檔案解壓縮至 PostgreSQL 的指定目錄。 1 2 wget https://github.com/zubkov-andrei/pg_profile/releases/download/4.11/pg_profile--4.11.tar.gz tar -xzf pg_profile--4.11.tar.gz -C $(pg_config --sharedir)/extension 修改 PostgreSQL 配置 (postgresql.conf)： pg_profile 依賴於核心統計模組，需在啟動時預先載入。">
 
   
   
@@ -245,7 +245,7 @@
     "keywords": ["oracle linux","deploy"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1065"
+    "wordCount": "1112"
   }]
   </script>
 
@@ -791,7 +791,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-05-02T20:20:17&#43;08:00">May 2, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1065 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">3 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-05-02T20:20:17&#43;08:00">May 2, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1112 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">3 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1101,7 +1101,7 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/zubkov-andrei/pg_profile/releases/download/4.11/pg_profile--4.11.tar.gz
-</span></span><span style="display:flex;"><span>sudo tar xzf pg_profile-4.11.tar.gz --directory <span style="color:#66d9ef">$(</span>pg_config --sharedir<span style="color:#66d9ef">)</span>/extension</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>tar -xzf pg_profile--4.11.tar.gz -C <span style="color:#66d9ef">$(</span>pg_config --sharedir<span style="color:#66d9ef">)</span>/extension</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 <ol start="2">
@@ -1121,11 +1121,17 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#75715e"># 必須重啟資料庫生效</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">shared_preload_libraries</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pg_stat_statements, pg_stat_kcache, pg_wait_sampling&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># .... 略 ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add settings for extensions here</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#------------------------------------------------------------------------------</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># pg_profile</span>
@@ -1148,6 +1154,17 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>host    all    profile_collector    127.0.0.1/32    scram-sha-256</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<ol start="4">
+<li>重起資料庫</li>
+</ol>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl restart postgresql-16</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 <hr>
 
 <h3 class="relative group">二、 資料庫環境初始化
@@ -1165,37 +1182,23 @@
 </ol>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">c</span> postgres postgres
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">SCHEMA</span> pgss;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">SCHEMA</span> pgsk;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">SCHEMA</span> pgws;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_stat_statements <span style="color:#66d9ef">SCHEMA</span> pgss;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_stat_kcache <span style="color:#66d9ef">SCHEMA</span> pgsk;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_wait_sampling <span style="color:#66d9ef">SCHEMA</span> pgws;</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 以超級使用者執行
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION dblink;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION dblink;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_stat_statements <span style="color:#66d9ef">SCHEMA</span> pgss;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_stat_kcache <span style="color:#66d9ef">SCHEMA</span> pgsk;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_wait_sampling <span style="color:#66d9ef">SCHEMA</span> pgws;
@@ -1203,7 +1206,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> EXTENSION pg_profile <span style="color:#66d9ef">SCHEMA</span> profile;</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
-<ol start="2">
+<ol>
 <li>check</li>
 </ol>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
@@ -1285,7 +1288,7 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> profile_collector <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;你的密碼&#39;</span>;
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> profile_collector <span style="color:#66d9ef">WITH</span> PASSWORD <span style="color:#e6db74">&#39;PASSWORD&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> pg_read_all_stats <span style="color:#66d9ef">TO</span> profile_collector;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 授權重置統計資訊的權限 (以確保數據準確)
@@ -1323,7 +1326,7 @@
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> profile.set_server_connstr(
 </span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;local&#39;</span>::name, 
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;host=127.0.0.1 dbname=postgres user=profile_collector password=你的密碼&#39;</span>::text
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;host=127.0.0.1 dbname=postgres user=profile_collector password=PASSWORD&#39;</span>::text
 </span></span><span style="display:flex;"><span>);</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
@@ -1430,6 +1433,22 @@
 </span></span><span style="display:flex;"><span><span style="color:#75715e">-- 確認 Result 欄位顯示 OK</span></span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>postgres=# SELECT * FROM profile.take_sample();
+</span></span><span style="display:flex;"><span> server | result |   elapsed   
+</span></span><span style="display:flex;"><span>--------+--------+-------------
+</span></span><span style="display:flex;"><span> local  | OK     | 00:00:04.64
+</span></span><span style="display:flex;"><span>(1 row)</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 <ol start="2">
 <li><strong>查看樣本列表</strong>：</li>
 </ol>
@@ -1439,6 +1458,24 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> profile.show_samples();</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>postgres=# SELECT * FROM profile.show_samples();
+</span></span><span style="display:flex;"><span> sample |      sample_time       | sizes_collected | dbstats_reset | clustats_reset | archstats_reset 
+</span></span><span style="display:flex;"><span>--------+------------------------+-----------------+---------------+----------------+-----------------
+</span></span><span style="display:flex;"><span>      1 | 2026-05-03 21:12:43+08 | f               |               |                | 
+</span></span><span style="display:flex;"><span>      2 | 2026-05-03 21:13:00+08 | f               |               |                | 
+</span></span><span style="display:flex;"><span>(2 rows)</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 <ol start="3">
@@ -1455,6 +1492,7 @@
 </span></span><span style="display:flex;"><span>psql -d postgres -Aqtc <span style="color:#e6db74">&#34;SELECT profile.get_report(1, 2)&#34;</span> -o pg_report_<span style="color:#66d9ef">$(</span>date +%F<span style="color:#66d9ef">)</span>.html</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<p><a href="/file/deploy-pg_profile/pg_report_example.html" >輸出結果如這份檔案</a></p>
 <hr>
 
 <h3 class="relative group">六、 日常維護建議
@@ -1494,6 +1532,7 @@
 </h2>
 <ul>
 <li><a href="https://github.com/zubkov-andrei/pg_profile/blob/master/doc/pg_profile.md"  target="_blank" rel="noreferrer">pg_profile module documentation</a></li>
+<li><a href="https://www.alibabacloud.com/help/tc/polardb/polardb-for-oracle/pg-profile"  target="_blank" rel="noreferrer">pg_profile（資源監控）</a></li>
 </ul>
 
           
