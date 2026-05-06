@@ -244,7 +244,7 @@
     "keywords": ["Oracle"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1419"
+    "wordCount": "1634"
   }]
   </script>
 
@@ -790,7 +790,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-02-28T10:57:49&#43;08:00">February 28, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1419 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">3 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-02-28T10:57:49&#43;08:00">February 28, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1634 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">4 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1009,10 +1009,6 @@
         <li><a href="#設定環境參數">設定環境參數</a></li>
         <li><a href="#安裝資料庫軟體">安裝資料庫軟體</a></li>
         <li><a href="#建立資料庫-instancecdbpdb">建立資料庫 instance(CDB,PDB)</a></li>
-      </ul>
-    </li>
-    <li><a href="#安裝完成後作業">安裝完成後作業</a>
-      <ul>
         <li><a href="#設定資料庫-開機時啟動">設定資料庫 開機時啟動</a></li>
         <li><a href="#設定-pdb-開機時啟動">設定 PDB 開機時啟動</a></li>
         <li><a href="#啟用-archive-mode">啟用 Archive Mode</a></li>
@@ -1045,10 +1041,6 @@
         <li><a href="#設定環境參數">設定環境參數</a></li>
         <li><a href="#安裝資料庫軟體">安裝資料庫軟體</a></li>
         <li><a href="#建立資料庫-instancecdbpdb">建立資料庫 instance(CDB,PDB)</a></li>
-      </ul>
-    </li>
-    <li><a href="#安裝完成後作業">安裝完成後作業</a>
-      <ul>
         <li><a href="#設定資料庫-開機時啟動">設定資料庫 開機時啟動</a></li>
         <li><a href="#設定-pdb-開機時啟動">設定 PDB 開機時啟動</a></li>
         <li><a href="#啟用-archive-mode">啟用 Archive Mode</a></li>
@@ -1677,7 +1669,17 @@
 </div>
 </div></div>
 
-<h2 class="relative group">安裝完成後作業
+<h3 class="relative group">設定資料庫 開機時啟動
+    <div id="設定資料庫-開機時啟動" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a%e8%b3%87%e6%96%99%e5%ba%ab-%e9%96%8b%e6%a9%9f%e6%99%82%e5%95%9f%e5%8b%95" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+
+<h4 class="relative group">安裝完成後作業
     <div id="安裝完成後作業" class="anchor"></div>
     
     <span
@@ -1685,7 +1687,7 @@
         <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%ae%89%e8%a3%9d%e5%ae%8c%e6%88%90%e5%be%8c%e4%bd%9c%e6%a5%ad" aria-label="定位點">#</a>
     </span>
     
-</h2>
+</h4>
 <ul>
 <li>設定註冊文件: <code>/etc/oratab</code></li>
 </ul>
@@ -1697,18 +1699,8 @@
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>db124:/u01/app/oracle/product/26/db:Y</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
-
-<h3 class="relative group">設定資料庫 開機時啟動
-    <div id="設定資料庫-開機時啟動" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a8%ad%e5%ae%9a%e8%b3%87%e6%96%99%e5%ba%ab-%e9%96%8b%e6%a9%9f%e6%99%82%e5%95%9f%e5%8b%95" aria-label="定位點">#</a>
-    </span>
-    
-</h3>
 <ul>
-<li>/home/oracle/scripts/start-all.sh</li>
+<li>設定開機腳本: /home/oracle/scripts/start-all.sh</li>
 </ul>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -1733,7 +1725,7 @@
 </div>
 </div></div>
 <ul>
-<li>/home/oracle/scripts/stop-all.sh</li>
+<li>設定關機腳本: <code>/home/oracle/scripts/stop-all.sh</code></li>
 </ul>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -1757,6 +1749,7 @@
 </span></span><span style="display:flex;"><span>dbshut $ORACLE_HOME</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<p>設定執行權限</p>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -1798,32 +1791,32 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>The Oracle Database Service
-</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>syslog.target network.target
-</span></span><span style="display:flex;"><span>Wants<span style="color:#f92672">=</span>network-online.target
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Ini" data-lang="Ini"><span style="display:flex;"><span><span style="color:#66d9ef">[Unit]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Description</span><span style="color:#f92672">=</span><span style="color:#e6db74">The Oracle Database Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">After</span><span style="color:#f92672">=</span><span style="color:#e6db74">syslog.target network.target</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Wants</span><span style="color:#f92672">=</span><span style="color:#e6db74">network-online.target</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Service]</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># systemd ignores PAM limits, so set any necessary limits in the service.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Not really a bug, but a feature.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># https://bugzilla.redhat.com/show_bug.cgi?id=754285</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>RemainAfterExit<span style="color:#f92672">=</span>yes
-</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>oracle
-</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>oinstall
-</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>no
-</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/bin/bash -c <span style="color:#e6db74">&#39;/home/oracle/scripts/start-all.sh&#39;</span>
-</span></span><span style="display:flex;"><span>ExecStop<span style="color:#f92672">=</span>/bin/bash -c <span style="color:#e6db74">&#39;/home/oracle/scripts/stop-all.sh&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">RemainAfterExit</span><span style="color:#f92672">=</span><span style="color:#e6db74">yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">User</span><span style="color:#f92672">=</span><span style="color:#e6db74">oracle</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Group</span><span style="color:#f92672">=</span><span style="color:#e6db74">oinstall</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Restart</span><span style="color:#f92672">=</span><span style="color:#e6db74">no</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ExecStart</span><span style="color:#f92672">=</span><span style="color:#e6db74">/bin/bash -c &#39;/home/oracle/scripts/start-all.sh&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ExecStop</span><span style="color:#f92672">=</span><span style="color:#e6db74">/bin/bash -c &#39;/home/oracle/scripts/stop-all.sh&#39;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Set resource limits</span>
-</span></span><span style="display:flex;"><span>LimitNOFILE<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
-</span></span><span style="display:flex;"><span>LimitNPROC<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
-</span></span><span style="display:flex;"><span>LimitSTACK<span style="color:#f92672">=</span>infinity
-</span></span><span style="display:flex;"><span>LimitMEMLOCK<span style="color:#f92672">=</span>infinity
-</span></span><span style="display:flex;"><span>TasksMax<span style="color:#f92672">=</span>infinity
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">LimitNOFILE</span><span style="color:#f92672">=</span><span style="color:#e6db74">65536</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">LimitNPROC</span><span style="color:#f92672">=</span><span style="color:#e6db74">65536</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">LimitSTACK</span><span style="color:#f92672">=</span><span style="color:#e6db74">infinity</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">LimitMEMLOCK</span><span style="color:#f92672">=</span><span style="color:#e6db74">infinity</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">TasksMax</span><span style="color:#f92672">=</span><span style="color:#e6db74">infinity</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Install]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">WantedBy</span><span style="color:#f92672">=</span><span style="color:#e6db74">multi-user.target</span></span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
@@ -1832,6 +1825,61 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start oracle</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>詳細設定如下</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>[root<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#75715e"># su - oracle</span>
+</span></span><span style="display:flex;"><span>Last login: Tue May  <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">14</span>:<span style="color:#ae81ff">38</span>:<span style="color:#ae81ff">12</span> CST <span style="color:#ae81ff">2026</span> on pts<span style="color:#f92672">/</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>[oracle<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#f92672">$</span> <span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>scripts<span style="color:#f92672">/</span>stop<span style="color:#f92672">-</span>all<span style="color:#f92672">.</span>sh
+</span></span><span style="display:flex;"><span>The Oracle base remains unchanged with value <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle
+</span></span><span style="display:flex;"><span>Processing Database instance <span style="color:#e6db74">&#34;db123&#34;</span>: log file <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db<span style="color:#f92672">/</span>rdbms<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>shutdown<span style="color:#f92672">.</span>log
+</span></span><span style="display:flex;"><span>[oracle<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#f92672">$</span> logout
+</span></span><span style="display:flex;"><span>[root<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#75715e"># systemctl start oracle</span>
+</span></span><span style="display:flex;"><span>[root<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#75715e"># systemctl status oracle</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">●</span> oracle<span style="color:#f92672">.</span>service <span style="color:#f92672">-</span> The Oracle Database Service
+</span></span><span style="display:flex;"><span>   Loaded: loaded (<span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>systemd<span style="color:#f92672">/</span>system<span style="color:#f92672">/</span>oracle<span style="color:#f92672">.</span>service; disabled; vendor preset: disabled)
+</span></span><span style="display:flex;"><span>   Active: active (running) since Tue <span style="color:#ae81ff">2026</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">54</span>:<span style="color:#ae81ff">48</span> CST; <span style="color:#ae81ff">7</span>s ago
+</span></span><span style="display:flex;"><span> Main PID: <span style="color:#ae81ff">1009</span> (start<span style="color:#f92672">-</span>all<span style="color:#f92672">.</span>sh)
+</span></span><span style="display:flex;"><span>   CGroup: <span style="color:#f92672">/</span>system<span style="color:#f92672">.</span>slice<span style="color:#f92672">/</span>oracle<span style="color:#f92672">.</span>service
+</span></span><span style="display:flex;"><span>           <span style="color:#960050;background-color:#1e0010">├─</span><span style="color:#ae81ff">1009</span> <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash <span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>scripts<span style="color:#f92672">/</span>start<span style="color:#f92672">-</span>all<span style="color:#f92672">.</span>sh
+</span></span><span style="display:flex;"><span>           <span style="color:#960050;background-color:#1e0010">├─</span><span style="color:#ae81ff">1025</span> <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>sh <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>dbstart <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db
+</span></span><span style="display:flex;"><span>           <span style="color:#960050;background-color:#1e0010">├─</span><span style="color:#ae81ff">1036</span> <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>tnslsnr LISTENER <span style="color:#f92672">-</span>inherit
+</span></span><span style="display:flex;"><span>           <span style="color:#960050;background-color:#1e0010">├─</span><span style="color:#ae81ff">1073</span> <span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>sh <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>dbstart <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db
+</span></span><span style="display:flex;"><span>           <span style="color:#960050;background-color:#1e0010">└─</span><span style="color:#ae81ff">1211</span> oracledb123 (DESCRIPTION<span style="color:#f92672">=</span>(LOCAL<span style="color:#f92672">=</span>YES)(ADDRESS<span style="color:#f92672">=</span>(PROTOCOL<span style="color:#f92672">=</span>beq)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">05</span> <span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">54</span>:<span style="color:#ae81ff">48</span> vm123<span style="color:#f92672">.</span>home<span style="color:#f92672">.</span>pollochang<span style="color:#f92672">.</span>work systemd[<span style="color:#ae81ff">1</span>]: Started The Oracle Database Service<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">05</span> <span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">54</span>:<span style="color:#ae81ff">48</span> vm123<span style="color:#f92672">.</span>home<span style="color:#f92672">.</span>pollochang<span style="color:#f92672">.</span>work bash[<span style="color:#ae81ff">1009</span>]: The Oracle base remains unchanged with value <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">05</span> <span style="color:#ae81ff">16</span>:<span style="color:#ae81ff">54</span>:<span style="color:#ae81ff">48</span> vm123<span style="color:#f92672">.</span>home<span style="color:#f92672">.</span>pollochang<span style="color:#f92672">.</span>work bash[<span style="color:#ae81ff">1009</span>]: Processing Database instance <span style="color:#e6db74">&#34;db123&#34;</span>: log file <span style="color:#f92672">/</span>u01<span style="color:#f92672">/</span>app<span style="color:#f92672">/</span>oracle<span style="color:#f92672">/</span>product<span style="color:#f92672">/</span><span style="color:#ae81ff">19</span><span style="color:#f92672">/</span>db<span style="color:#f92672">/</span>rdbms<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>startup<span style="color:#f92672">.</span>log
+</span></span><span style="display:flex;"><span>[root<span style="color:#960050;background-color:#1e0010">@</span>vm123 <span style="color:#f92672">~</span>]<span style="color:#75715e"># systemctl enable oracle</span>
+</span></span><span style="display:flex;"><span>Created symlink from <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>systemd<span style="color:#f92672">/</span>system<span style="color:#f92672">/</span>multi<span style="color:#f92672">-</span>user<span style="color:#f92672">.</span>target<span style="color:#f92672">.</span>wants<span style="color:#f92672">/</span>oracle<span style="color:#f92672">.</span>service to <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>systemd<span style="color:#f92672">/</span>system<span style="color:#f92672">/</span>oracle<span style="color:#f92672">.</span>service<span style="color:#f92672">.</span></span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
