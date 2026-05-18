@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle 9i ➡️ 19c 升級與遷移營運全景看板</title>
+    <!-- Tailwind CSS for modern layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 強制套用/明體字型家族，呈現古典、嚴謹、報表式的視覺外觀 */
+        body, button, table, input, select, textarea {
+            font-family: "PMingLiU", "MingLiU", "Noto Serif TC", "BiauKai", "Georgia", "Times New Roman", serif;
+        }
+        /* 粗體微調，確保在不同瀏覽器下皆有良好辨識度 */
+        h1, h2, h3, h4, th {
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        /* 列印樣式優化，方便營運團隊輸出實體紙張查檢 */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .print-card {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+    <!-- 頁首 Header -->
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white border-b-4 border-amber-600 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="bg-amber-600 text-slate-900 p-3 rounded shadow-inner">
+                    <i class="fa-solid fa-database text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-wider">Oracle 9i ➡️ 19c 升級與遷移營運全景看板</h1>
+                    <p class="text-sm text-slate-300 mt-1"> • 營運維運團隊專用策略指引</p>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-3 no-print">
+                <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded border border-slate-600 transition-all flex items-center space-x-2 text-sm shadow-sm">
+                    <i class="fa-solid fa-print"></i>
+                    <span>列印實體查檢表</span>
+                </button>
+                <div class="bg-amber-600/10 border border-amber-500/30 text-amber-400 px-4 py-2 rounded text-xs flex items-center space-x-2">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                    </span>
+                    <span>高風險跨世代遷移專案</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 頁面導覽 Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex space-x-1 overflow-x-auto py-2">
+                <button onclick="switchTab('roadmap')" id="tab-roadmap" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-amber-600 text-amber-700 focus:outline-none flex items-center space-x-2 shrink-0">
+                    <i class="fa-solid fa-route"></i>
+                    <span>1. 遷移路線圖 (Roadmap)</span>
+                </button>
+                <button onclick="switchTab('strategy')" id="tab-strategy" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 focus:outline-none flex items-center space-x-2 shrink-0">
+                    <i class="fa-solid fa-table-list"></i>
+                    <span>2. 升級策略速查表 (Strategy)</span>
+                </button>
+                <button onclick="switchTab('raci')" id="tab-raci" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 focus:outline-none flex items-center space-x-2 shrink-0">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>3. 團隊角色與 RACI 矩陣 (RACI Map)</span>
+                </button>
+                <button onclick="switchTab('dbrole')" id="tab-dbrole" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 focus:outline-none flex items-center space-x-2 shrink-0">
+                    <i class="fa-solid fa-key"></i>
+                    <span>4. 資料庫角色權限變更 (Privilege Map)</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主內容區 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8">
+
+        <!-- Tab 1: 遷移路線圖 (Roadmap) -->
+        <section id="content-roadmap" class="tab-content block space-y-6">
+            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm print-card">
+                <div class="flex items-center space-x-2 mb-4 border-b border-slate-100 pb-3">
+                    <i class="fa-solid fa-route text-amber-600 text-xl"></i>
+                    <h2 class="text-xl font-bold text-slate-900">整體升級流程：9i 到 19c 遷移路線圖 (GoldenGate 近乎零停機方案)</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                    此流程圖展示了如何利用 Oracle GoldenGate (OGG) 的「異質版本即時同步」優勢，將資料從過時的 9i (Source) 遷移至全新的 19c (Target)。<strong>請點擊下方任一步驟，查看該階段的詳細營運任務、指令與潛在風險。</strong>
+                </p>
+
+                <!-- 互動式流程圖 (Roadmap Graphic) -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8 relative">
+                    <!-- Step 1 -->
+                    <button onclick="selectRoadmapStep(1)" id="step-btn-1" class="step-card group text-left p-4 rounded border-2 border-amber-600 bg-amber-50/50 shadow-sm hover:shadow transition-all relative">
+                        <div class="absolute -top-3 left-4 bg-amber-600 text-slate-900 text-xs font-bold px-2 py-0.5 rounded">階段 01</div>
+                        <div class="text-slate-800 font-bold text-base mt-2 flex items-center justify-between">
+                            <span>評估與規劃</span>
+                            <i class="fa-solid fa-circle-check text-amber-600"></i>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-1">相容性評估與 OGG 版本選定</p>
+                    </button>
+
+                    <!-- Step 2 -->
+                    <button onclick="selectRoadmapStep(2)" id="step-btn-2" class="step-card group text-left p-4 rounded border border-slate-200 bg-white hover:border-slate-300 transition-all relative">
+                        <div class="absolute -top-3 left-4 bg-slate-400 text-white text-xs font-bold px-2 py-0.5 rounded">階段 02</div>
+                        <div class="text-slate-800 font-bold text-base mt-2 flex items-center justify-between">
+                            <span>19c 環境建置</span>
+                            <i class="fa-solid fa-circle-chevron-right text-slate-300 group-hover:text-slate-400"></i>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-1">全新 19c PDB 部署與 OGG 安裝</p>
+                    </button>
+
+                    <!-- Step 3 -->
+                    <button onclick="selectRoadmapStep(3)" id="step-btn-3" class="step-card group text-left p-4 rounded border border-slate-200 bg-white hover:border-slate-300 transition-all relative">
+                        <div class="absolute -top-3 left-4 bg-slate-400 text-white text-xs font-bold px-2 py-0.5 rounded">階段 03</div>
+                        <div class="text-slate-800 font-bold text-base mt-2 flex items-center justify-between">
+                            <span>初始化載入</span>
+                            <i class="fa-solid fa-circle-chevron-right text-slate-300 group-hover:text-slate-400"></i>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-1">舊版 Exp 匯出與 19c Impdp 載入</p>
+                    </button>
+
+                    <!-- Step 4 -->
+                    <button onclick="selectRoadmapStep(4)" id="step-btn-4" class="step-card group text-left p-4 rounded border border-slate-200 bg-white hover:border-slate-300 transition-all relative">
+                        <div class="absolute -top-3 left-4 bg-slate-400 text-white text-xs font-bold px-2 py-0.5 rounded">階段 04</div>
+                        <div class="text-slate-800 font-bold text-base mt-2 flex items-center justify-between">
+                            <span>即時變更追趕</span>
+                            <i class="fa-solid fa-circle-chevron-right text-slate-300 group-hover:text-slate-400"></i>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-1">OGG Extract 追趕追增量資料</p>
+                    </button>
+
+                    <!-- Step 5 -->
+                    <button onclick="selectRoadmapStep(5)" id="step-btn-5" class="step-card group text-left p-4 rounded border border-slate-200 bg-white hover:border-slate-300 transition-all relative">
+                        <div class="absolute -top-3 left-4 bg-slate-400 text-white text-xs font-bold px-2 py-0.5 rounded">階段 05</div>
+                        <div class="text-slate-800 font-bold text-base mt-2 flex items-center justify-between">
+                            <span>演練與安全切換</span>
+                            <i class="fa-solid fa-circle-chevron-right text-slate-300 group-hover:text-slate-400"></i>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-1">AP 驗證、9i 唯讀與正式切換</p>
+                    </button>
+                </div>
+
+                <!-- 互動式步驟說明區 (Dynamic Steps Details) -->
+                <div id="step-detail-container" class="bg-slate-50 p-6 rounded border border-slate-200">
+                    <!-- Step 1 Detail Content (Active by default) -->
+                    <div id="step-detail-1" class="step-detail-content block space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                <span class="bg-amber-600 text-slate-900 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">1</span>
+                                <span>階段 1：評估與規劃 (Assessment & Planning)</span>
+                            </h3>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-semibold">前置準備工作</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> 營運查檢清單 (Operational Checklist)</h4>
+                                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2">
+                                    <li>**資料型態評估**：9i 內是否含有被 19c 廢棄或變更行為的欄位（如大容量 `LONG` 欄位需評估轉為 `CLOB`）。</li>
+                                    <li>**OGG 版本挑選**：GoldenGate 19c 不能直接與 9i 資料庫對接。必須在 9i 安裝較早版本（如 OGG 11g/12c），並在中介伺服器或 19c 端部署 OGG 19c 進行 Trail 格式對應轉換。</li>
+                                    <li>**字元集（Character Set）確認**：務必確保 9i 與 19c 的 `NLS_CHARACTERSET` 一致（如皆為 `AL32UTF8` 或 `ZHT16MSWIN950`），避免轉換出現亂碼。</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-triangle-exclamation text-rose-500 mr-1"></i> 宗師提示與避坑指南</h4>
+                                <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                                    在 9i 中，很多 AP 開發人員習慣將密碼與帳號設為相同。**19c 預設啟動密碼區分大小寫且安全性原則嚴格**，請務必先清查所有連線使用者帳號，以免移轉後 AP 因密碼錯誤（ORA-01017）全面中斷。
+                                </p>
+                                <div class="bg-slate-50 p-2 rounded text-xs text-slate-600 border-l-4 border-amber-500">
+                                    <strong>查詢 9i 目前字元集 SQL：</strong><br>
+                                    <code class="block mt-1 bg-slate-900 text-slate-200 p-1.5 rounded overflow-x-auto">SELECT parameter, value FROM nls_database_parameters WHERE parameter='NLS_CHARACTERSET';</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 Detail Content (Hidden) -->
+                    <div id="step-detail-2" class="step-detail-content hidden space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                <span class="bg-amber-600 text-slate-900 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">2</span>
+                                <span>階段 2：19c 環境建置 (19c Target Setup)</span>
+                            </h3>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-semibold">目標端配置</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> 營運查檢清單 (Operational Checklist)</h4>
+                                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2">
+                                    <li>**安裝空的 19c 資料庫**：建議採用多租戶架構（Container Database, CDB / Pluggable Database, PDB），為未來雲端化做準備。</li>
+                                    <li>**建立對應的 Tablespace**：在 19c 中建立與 9i 名稱相同、容量充足的資料表空間，避免匯入時因空間不足中斷。</li>
+                                    <li>**網路通道設定**：防火牆必須開啟 9i 與 19c 主機之間的 **TCP Port 1521** (SQL*Net) 與 **TCP Port 7809** (OGG Manager 專用通訊埠)。</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-terminal text-amber-600 mr-1"></i> 建議的 19c 表空間建立指令</h4>
+                                <div class="bg-slate-900 text-slate-200 p-3 rounded text-xs space-y-1 overflow-x-auto">
+                                    <p class="text-slate-400">-- 在 19c PDB 容器中建立高彈性 Local Managed 表空間</p>
+                                    <code>CREATE TABLESPACE APP_DATA DATAFILE '/u01/app/oracle/oradata/ORCL/pdb1/app_data01.dbf' SIZE 10G AUTOEXTEND ON NEXT 1G MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 Detail Content (Hidden) -->
+                    <div id="step-detail-3" class="step-detail-content hidden space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                <span class="bg-amber-600 text-slate-900 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">3</span>
+                                <span>階段 3：初始化資料載入 (Initial Load & Data Seeding)</span>
+                            </h3>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-semibold">基底資料同步</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> 營運查檢清單 (Operational Checklist)</h4>
+                                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2">
+                                    <li>**啟動 9i OGG 擷取行程 (Extract)**：先將 9i 的 OGG Extract 啟動，用以捕捉資料初始化載入期間產生的所有即時 DML 變更（防止資料遺漏）。</li>
+                                    <li>**利用 9i 傳統 Export 匯出**：因為 9i 無 Data Pump，必須使用舊版 `exp` 指令進行 schema 級別匯出，**並務必在指令中加入 `CONSISTENT=Y` 確保匯出資料的時間點一致性**。</li>
+                                    <li>**記錄匯出時的 SCN (System Change Number)**：此 SCN 為後續 OGG 開始寫入的「起始基準點」。</li>
+                                    <li>**使用 19c Impdp 匯入**：利用 19c 的 `impdp` 指令將 `.dmp` 檔案匯入 19c 目標庫中。</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-200 space-y-3">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-file-export text-slate-600 mr-1"></i> 9i 端傳統匯出 (Export) 指令</h4>
+                                    <code class="block bg-slate-900 text-slate-200 p-2 rounded text-xs overflow-x-auto mt-1">exp system/passwd owner=ap_user file=exp_9i_ap.dmp log=exp_9i_ap.log consistent=y</code>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm"><i class="fa-solid fa-file-import text-slate-600 mr-1"></i> 19c 端 Data Pump 匯入 (Import) 指令</h4>
+                                    <code class="block bg-slate-900 text-slate-200 p-2 rounded text-xs overflow-x-auto mt-1">impdp system/passwd directory=DATA_PUMP_DIR dumpfile=exp_9i_ap.dmp logfile=imp_19c_ap.log remap_schema=ap_user:ap_user</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 Detail Content (Hidden) -->
+                    <div id="step-detail-4" class="step-detail-content hidden space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                <span class="bg-amber-600 text-slate-900 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">4</span>
+                                <span>階段 4：即時變更追趕 (Delta Synchronization)</span>
+                            </h3>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-semibold">雙軌同步追趕</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> 營運查檢清單 (Operational Checklist)</h4>
+                                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2">
+                                    <li>**啟動 19c 傳輸寫入端 (Replicat)**：配置 19c 端 OGG Replicat 參數，**指定起始點為階段 3 所記錄之 SCN 之後的交易**。</li>
+                                    <li>**監控即時同步延遲時間 (Lag Time)**：使用 OGG 監控工具定期檢查是否有長期延遲或阻塞。</li>
+                                    <li>**進行資料完整性比對**：在背景同步期間，可執行 OGG Veridata 或撰寫比對 Script，抽樣比對 9i 與 19c 資料列數與欄位雜湊值是否完全吻合。</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-chart-line text-amber-600 mr-1"></i> OGG 營運監控核心命令 (GGSCI)</h4>
+                                <div class="bg-slate-900 text-slate-200 p-3 rounded text-xs space-y-1 overflow-x-auto">
+                                    <p class="text-slate-400">-- 登入 OGG 控制台並檢查所有行程狀態</p>
+                                    <code>GGSCI> info all</code>
+                                    <p class="text-slate-400 mt-2">-- 檢查 19c 寫入端是否含有延遲（Lag）</p>
+                                    <code>GGSCI> info replicat rep_name, showch</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 Detail Content (Hidden) -->
+                    <div id="step-detail-5" class="step-detail-content hidden space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                <span class="bg-amber-600 text-slate-900 w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">5</span>
+                                <span>階段 5：切換 (Switchover - Go Live!)</span>
+                            </h3>
+                            <span class="text-xs bg-rose-100 text-rose-800 px-2 py-1 rounded font-semibold">停機與上線切換</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> 營運切換當日劇本 (Cutover Runbook)</h4>
+                                <ol class="list-decimal pl-5 text-sm text-slate-700 space-y-2">
+                                    <li>**停止 AP 寫入**：停止所有連結到 9i 的應用系統，以防產生新資料。</li>
+                                    <li>**將 9i 設定為唯讀 (ReadOnly)**：預防性將 9i 資料庫鎖定，防止不慎寫入。</li>
+                                    <li>**確認 OGG 延遲歸零**：等待 OGG 的 Lag 降為 0，確保最後一筆變更已寫入 19c。</li>
+                                    <li>**停止 OGG 所有服務**：完成歷史階段使命，關閉 Extract 與 Replicat。</li>
+                                    <li>**修改 AP 連線設定**：更換連線字串（如改為 19c SCAN IP 或更新 DNS 設定）。</li>
+                                    <li>**重啟 AP 服務並進行全功能驗證**。</li>
+                                </ol>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2"><i class="fa-solid fa-shield-halved text-rose-500 mr-1"></i> 應急回滾（Rollback）方案</h4>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    <strong>安全退路：</strong>如果新庫 19c 發生非預期的效能崩潰或相容性問題，因 9i 在切換前狀態被完整保留，且未遭受損壞，營運團隊只需將 AP 連線字串改回 9i 即可立即恢復生產，專案風險極低！
+                                </p>
+                                <div class="bg-red-50 p-2.5 rounded text-xs text-red-800 border-l-4 border-red-500 mt-3">
+                                    <strong>注意：</strong>若 19c 已經運行一段時間並產生了大量新交易，若要回滾，需在 19c 側架設反向 OGG Extract 同步回 9i。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: 升級策略速查表 (Strategy) -->
+        <section id="content-strategy" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm print-card">
+                <div class="flex items-center space-x-2 mb-4 border-b border-slate-100 pb-3">
+                    <i class="fa-solid fa-table-list text-amber-600 text-xl"></i>
+                    <h2 class="text-xl font-bold text-slate-900">Oracle 9i ➡️ 19c 升級與遷移策略速查表</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-4">
+                    這份速查表能協助營運與高層團隊，以客觀、量化的標準，快速理解為什麼我們在「9i 跨代遷移 19c」專案中，排除傳統 DBUA、冷不防地選用 GoldenGate 作為最安全、停機時間最短的解決方案。
+                </p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse border border-slate-200">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-800 text-sm">
+                                <th class="p-3 border-r border-slate-200 font-bold w-1/4">遷移/升級方式</th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-center w-20">9i➡️19c 支援</th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-slate-700">營運優點 (Pros)</th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-slate-700">營運缺點與代價 (Cons)</th>
+                                <th class="p-3 font-bold text-amber-800">停機時間與風險</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs sm:text-sm text-slate-700">
+                            <!-- GoldenGate -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200 bg-slate-50/30">
+                                    <div class="font-bold text-slate-900">Oracle GoldenGate</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">即時邏輯複製（異質版本）</div>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center">
+                                    <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold text-xs">✅ 支援</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 space-y-1">
+                                    <div>• <strong>近乎零停機時間 (Near-Zero Downtime)</strong>。</div>
+                                    <div>• 系統隨時可倒退回 9i，具有極高的安全退路。</div>
+                                    <div>• 支援跨 CPU 架構與作業系統遷移（如 AIX 移 Linux）。</div>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 space-y-1">
+                                    <div>• 需購買 OGG 授權，費用昂貴。</div>
+                                    <div>• 需要專業 OGG 架構調校（中介版本轉換 Trail file 格式）。</div>
+                                    <div>• 欄位若無 Primary Key (PK) 同步時容易出錯。</div>
+                                </td>
+                                <td class="p-3 bg-emerald-50/30">
+                                    <div class="font-bold text-emerald-800"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 分鐘級 (Minutes)</div>
+                                    <div class="text-xs text-slate-500 mt-1">風險等級：低 (Low)</div>
+                                </td>
+                            </tr>
+
+                            <!-- Export/Import -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200 bg-slate-50/30">
+                                    <div class="font-bold text-slate-900">傳統匯出匯入 (Exp/Impdp)</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">邏輯重新建立與元數據重建</div>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center">
+                                    <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold text-xs">⚠️ 需橋接</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 space-y-1">
+                                    <div>• 無需任何額外付費授權，內建工具。</div>
+                                    <div>• 匯入新庫時會自動重組資料塊，<strong>徹底消除碎片</strong>。</div>
+                                    <div>• 可以挑選部分 Schema 或 Table 移轉，具有高靈活性。</div>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 space-y-1">
+                                    <div>• 9i 不能直達 19c，需用 9i `exp` 產生的 `.dmp` 傳至 19c 使用 `impdp` 匯入，<strong>製程繁雜</strong>。</div>
+                                    <div>• 大資料量時耗時極長，AP 必須全程停機。</div>
+                                </td>
+                                <td class="p-3 bg-amber-50/30">
+                                    <div class="font-bold text-amber-800"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 小時至天級 (Hours/Days)</div>
+                                    <div class="text-xs text-slate-500 mt-1">風險等級：中 (Medium)</div>
+                                </td>
+                            </tr>
+
+                            <!-- DBUA -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200 bg-slate-50/30">
+                                    <div class="font-bold text-slate-900">傳統直接升級 (DBUA / AutoUpgrade)</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">原地二進位升級與資料庫字典轉換</div>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center">
+                                    <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold text-xs">❌ 不支援</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-slate-400 italic">
+                                    在 9i 升級 19c 的情境下不具備實用價值。
+                                </td>
+                                <td class="p-3 border-r border-slate-200 space-y-1">
+                                    <div>• 升級起點至少需要 11.2.0.4 才能直接原地升級。</div>
+                                    <div>• 9i 升級必須走多步跳躍法 (Multi-hop, 如 9i ➡️ 10g ➡️ 11g ➡️ 19c)，<strong>累積出錯率高達 99%</strong>。</div>
+                                </td>
+                                <td class="p-3 bg-rose-50/30">
+                                    <div class="font-bold text-rose-800"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 無法估計 / 極長</div>
+                                    <div class="text-xs text-slate-500 mt-1">風險等級：災難級 (High)</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+                    <h4 class="font-bold text-blue-900 text-sm">💡 營運總監決策指引：</h4>
+                    <p class="text-xs text-blue-800 mt-1 leading-relaxed">
+                        倘若系統可忍受 24 小時以上的維護停機（如內部開發用或不重要的報表系統），建議直接採取<strong>「傳統匯出匯入」</strong>以確保乾淨度。倘若屬於生產環境或核心交易系統，強烈建議申請預算使用<strong>「GoldenGate」</strong>，並提早於一個月前進行模擬演練。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: 團隊角色與 RACI 矩陣 (RACI Map) -->
+        <section id="content-raci" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm print-card">
+                <div class="flex items-center space-x-2 mb-4 border-b border-slate-100 pb-3">
+                    <i class="fa-solid fa-users-gear text-amber-600 text-xl"></i>
+                    <h2 class="text-xl font-bold text-slate-900">Team Role & RACI 權責分配矩陣</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-6">
+                    在複雜的遷移任務中，釐清角色分工可避免「互推皮球」的情況。以下是針對<strong> 9i 升級 19c 專案</strong>所規劃的 RACI 矩陣（R: 執行者, A: 負責人, C: 諮詢者, I: 被通知者）。
+                </p>
+
+                <!-- RACI Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse border border-slate-200">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-800 text-sm">
+                                <th class="p-3 border-r border-slate-200 font-bold w-1/3">關鍵專案任務 (Key Project Tasks)</th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-center">
+                                    <div class="font-bold">資料庫架構師</div>
+                                    <div class="text-xs text-slate-500">Lead DBA</div>
+                                </th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-center">
+                                    <div class="font-bold">系統網路管理員</div>
+                                    <div class="text-xs text-slate-500">Infrastructure</div>
+                                </th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-center">
+                                    <div class="font-bold">AP 開發團隊</div>
+                                    <div class="text-xs text-slate-500">Developer</div>
+                                </th>
+                                <th class="p-3 border-r border-slate-200 font-bold text-center">
+                                    <div class="font-bold">品質保證與測試</div>
+                                    <div class="text-xs text-slate-500">QA / Tester</div>
+                                </th>
+                                <th class="p-3 font-bold text-center">
+                                    <div class="font-bold">專案經理</div>
+                                    <div class="text-xs text-slate-500">PM</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-slate-700">
+                            <!-- Task 1 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">1. 遷移架構規劃與 OGG 相容性評估</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">C</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">C</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                            </tr>
+                            <!-- Task 2 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">2. 19c 資料庫安裝與作業系統優化</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                            </tr>
+                            <!-- Task 3 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">3. 9i 舊版語法與 AP SQL 相容性修改</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">C</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A / R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                            </tr>
+                            <!-- Task 4 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">4. GoldenGate 同步配置與初始資料載入</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A / R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                            </tr>
+                            <!-- Task 5 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">5. 資料一致性比對驗證 (Veridata)</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">C</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A / R</span></td>
+                                <td class="p-3 text-center"><span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded text-xs">I</span></td>
+                            </tr>
+                            <!-- Task 6 -->
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50">
+                                <td class="p-3 border-r border-slate-200">
+                                    <span class="font-bold">6. 切換當日演練、DNS 改向與正式上線</span>
+                                </td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 border-r border-slate-200 text-center"><span class="bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded text-xs">R</span></td>
+                                <td class="p-3 text-center"><span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded text-xs">A</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- RACI Definition Legend -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded border border-slate-200 text-xs">
+                    <div class="flex items-start space-x-2">
+                        <span class="bg-amber-600 text-slate-900 font-bold px-2 py-0.5 rounded shrink-0">A</span>
+                        <div><strong>Accountable (專案負責人)</strong>：決策者、對專案成敗負全責的角色。每項工作原則上只會有一位。</div>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <span class="bg-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded shrink-0">R</span>
+                        <div><strong>Responsible (主要執行者)</strong>：實際動手執行、進行操作與維運的核心成員。</div>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <span class="bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded shrink-0">C</span>
+                        <div><strong>Consulted (諮詢/專家)</strong>：提供領域知識支援，協助解決疑難排解、優化效能。</div>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <span class="bg-slate-100 text-slate-400 font-bold px-2 py-0.5 rounded shrink-0">I</span>
+                        <div><strong>Informed (被通知人)</strong>：知悉任務狀態，但無需參與實際規劃與工作。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: 資料庫角色權限變更 (Privilege Map) -->
+        <section id="content-dbrole" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm print-card">
+                <div class="flex items-center space-x-2 mb-4 border-b border-slate-100 pb-3">
+                    <i class="fa-solid fa-key text-amber-600 text-xl"></i>
+                    <h2 class="text-xl font-bold text-slate-900">Database Role Mapping (Oracle 9i ➡️ 19c 權限修正地圖)</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                    升級後最令營運團隊頭痛的是：<strong>「為什麼以前在 9i 跑得好好的 AP 帳號，移到 19c 就狂報 ORA 權限不足錯誤？」</strong><br>
+                    這是因為 Oracle 在 10g/11g/12c 以降大幅收緊了內建角色的權限。以下為您整理舊新版本行為變更，並附帶<strong>直接可在 19c 執行的權限修復指令 (Remap SQL)</strong>。
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Connect Role Change -->
+                    <div class="border border-slate-200 rounded p-4 space-y-4 bg-slate-50/50">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <span class="font-bold text-base text-slate-800"><i class="fa-solid fa-user-lock text-amber-600 mr-2"></i>CONNECT 角色收緊</span>
+                            <span class="text-xs bg-rose-100 text-rose-800 px-2 py-0.5 rounded">高影響度</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div class="bg-red-50 p-3 rounded border border-red-100">
+                                <div class="font-bold text-red-800 mb-1">Oracle 9i 舊版行為</div>
+                                內建 `CONNECT` 角色權限廣泛。只要獲得此角色，便會自動被授予：
+                                <ul class="list-disc pl-4 mt-2 space-y-1 text-slate-600">
+                                    <li>CREATE SESSION</li>
+                                    <li>CREATE TABLE</li>
+                                    <li>CREATE VIEW</li>
+                                    <li>CREATE SYNONYM 等...</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 p-3 rounded border border-amber-100">
+                                <div class="font-bold text-amber-800 mb-1">Oracle 19c 新版行為</div>
+                                為了遵循安全最小化原則，在 19c 中 `CONNECT` 被削弱。**目前僅剩下「CREATE SESSION」權限**。
+                                <div class="mt-2 text-rose-700 font-bold">
+                                    🔴 影響：AP 無法自動建立暫存表或視圖 (ORA-01031: insufficient privileges)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Remap SQL Connect -->
+                        <div class="bg-slate-900 rounded p-3 text-xs space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-amber-500 font-bold">19c 營運修復指令 (Remap SQL)：</span>
+                                <button onclick="copySql('sql-connect')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-copy"></i> 複製</button>
+                            </div>
+                            <pre id="sql-connect" class="text-slate-300 font-mono overflow-x-auto whitespace-pre">-- 1. 建立自訂的角色，補足 19c 被收回的常用開發權限
+CREATE ROLE AP_DEV_ROLE;
+GRANT CREATE TABLE, CREATE VIEW, CREATE SYNONYM, CREATE SEQUENCE TO AP_DEV_ROLE;
+
+-- 2. 將此新自訂角色授予您的 19c AP 帳號
+GRANT CONNECT, AP_DEV_ROLE TO your_ap_user;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Resource Role Change -->
+                    <div class="border border-slate-200 rounded p-4 space-y-4 bg-slate-50/50">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <span class="font-bold text-base text-slate-800"><i class="fa-solid fa-box-archive text-amber-600 mr-2"></i>RESOURCE 空間限制</span>
+                            <span class="text-xs bg-rose-100 text-rose-800 px-2 py-0.5 rounded">高影響度</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div class="bg-red-50 p-3 rounded border border-red-100">
+                                <div class="font-bold text-red-800 mb-1">Oracle 9i 舊版行為</div>
+                                當用戶被授予 `RESOURCE` 角色時，Oracle 9i 會在幕後自動對該用戶贈送 `UNLIMITED TABLESPACE` 系統權限。
+                            </div>
+                            <div class="bg-amber-50 p-3 rounded border border-amber-100">
+                                <div class="font-bold text-amber-800 mb-1">Oracle 19c 新版行為</div>
+                                基於多租戶資源隔離要求，授予 `RESOURCE` 角色**不再附贈 UNLIMITED TABLESPACE 系統權限**。
+                                <div class="mt-2 text-rose-700 font-bold">
+                                    🔴 影響：AP 寫入大筆資料時會隨時斷線 (ORA-01950: no privileges on tablespace)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Remap SQL Resource -->
+                        <div class="bg-slate-900 rounded p-3 text-xs space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-amber-500 font-bold">19c 營運修復指令 (Remap SQL)：</span>
+                                <button onclick="copySql('sql-resource')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-copy"></i> 複製</button>
+                            </div>
+                            <pre id="sql-resource" class="text-slate-300 font-mono overflow-x-auto whitespace-pre">-- 必須在 19c 手動顯式指定使用者的表空間配額限制
+ALTER USER your_ap_user QUOTA UNLIMITED ON users;
+
+-- 或者若有指定專屬資料表空間：
+ALTER USER your_ap_user QUOTA UNLIMITED ON APP_DATA;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-12 no-print text-center text-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Oracle 資料庫宗師維運工作坊 (Oracle Database Mastermind). 謹遵最佳實踐，專注極致效能與資料安全。</p>
+            <p class="text-xs text-slate-500 mt-1">此工具建議與 GoldenGate 管理系統、Oracle Enterprise Manager 搭配使用。</p>
+        </div>
+    </footer>
+
+    <!-- 剪貼簿提示 Snackbar -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-slate-800 text-white px-4 py-2 rounded shadow-lg text-sm border border-slate-700 opacity-0 transition-opacity duration-300 pointer-events-none flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span>指令已成功複製到剪貼簿！</span>
+    </div>
+
+    <!-- 交互式 JS 控制邏輯 -->
+    <script>
+        // 切換主頁籤 (Tabs)
+        function switchTab(tabId) {
+            // 隱藏所有內容區
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // 移除所有頁籤的選取樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-amber-600', 'text-amber-700');
+                btn.classList.add('border-transparent', 'text-slate-600', 'hover:text-slate-900', 'hover:border-slate-300');
+            });
+
+            // 顯示當前選取的內容區
+            const targetContent = document.getElementById('content-' + tabId);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            // 活化當前頁籤按鈕樣式
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-slate-600', 'hover:text-slate-900', 'hover:border-slate-300');
+                activeBtn.classList.add('border-amber-600', 'text-amber-700');
+            }
+        }
+
+        // 路線圖互動切換 (Roadmap Steps)
+        function selectRoadmapStep(stepNumber) {
+            // 隱藏所有說明內文
+            document.querySelectorAll('.step-detail-content').forEach(el => el.classList.add('hidden'));
+            
+            // 恢復所有流程卡片樣式為未選取
+            document.querySelectorAll('.step-card').forEach(btn => {
+                btn.classList.remove('border-amber-600', 'bg-amber-50/50', 'shadow-sm');
+                btn.classList.add('border-slate-200', 'bg-white');
+                
+                // 變更標章與箭頭樣式
+                const badge = btn.querySelector('.absolute');
+                if (badge) {
+                    badge.classList.remove('bg-amber-600');
+                    badge.classList.add('bg-slate-400');
+                    badge.classList.remove('text-slate-900');
+                    badge.classList.add('text-white');
+                }
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-circle-check', 'text-amber-600');
+                    icon.classList.add('fa-circle-chevron-right', 'text-slate-300');
+                }
+            });
+
+            // 顯示選定的步驟說明
+            const targetDetail = document.getElementById('step-detail-' + stepNumber);
+            if (targetDetail) targetDetail.classList.remove('hidden');
+
+            // 設定點選卡片的啟動樣式
+            const activeCard = document.getElementById('step-btn-' + stepNumber);
+            if (activeCard) {
+                activeCard.classList.remove('border-slate-200', 'bg-white');
+                activeCard.classList.add('border-amber-600', 'bg-amber-50/50', 'shadow-sm');
+                
+                const badge = activeCard.querySelector('.absolute');
+                if (badge) {
+                    badge.classList.remove('bg-slate-400');
+                    badge.classList.add('bg-amber-600');
+                    badge.classList.remove('text-white');
+                    badge.classList.add('text-slate-900');
+                }
+                const icon = activeCard.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-circle-chevron-right', 'text-slate-300');
+                    icon.classList.add('fa-circle-check', 'text-amber-600');
+                }
+            }
+        }
+
+        // 複製 SQL 到剪貼簿
+        function copySql(elementId) {
+            const preEl = document.getElementById(elementId);
+            if (!preEl) return;
+
+            // 建立一個臨時文字框
+            const tempText = document.createElement('textarea');
+            tempText.value = preEl.textContent;
+            document.body.appendChild(tempText);
+            tempText.select();
+            
+            try {
+                // 使用傳統指令相容於 iframe 安全政策
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('無法複製指令：', err);
+            }
+            document.body.removeChild(tempText);
+        }
+
+        // 顯示複製成功 Snackbar
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
