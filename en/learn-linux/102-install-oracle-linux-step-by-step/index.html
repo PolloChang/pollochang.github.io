@@ -15,8 +15,8 @@
 
   
   
-    <title>How to choose linux distro &middot; Pollo Tech Blog</title>
-    <meta name="title" content="How to choose linux distro &middot; Pollo Tech Blog">
+    <title>Installation Log of Oracle Linux 6 &middot; Pollo Tech Blog</title>
+    <meta name="title" content="Installation Log of Oracle Linux 6 &middot; Pollo Tech Blog">
   
 
   
@@ -28,17 +28,17 @@
   
   
   
-  <link rel="canonical" href="http://pollochang.work/en/learn-linux/101-how-to-choose-linux-distro/">
+  <link rel="canonical" href="http://pollochang.work/en/learn-linux/102-install-oracle-linux-step-by-step/">
   
     
       
       
-        <link rel="alternate" hreflang="zh-TW" href="http://pollochang.work/learn-linux/101-how-to-choose-linux-distro/">
+        <link rel="alternate" hreflang="zh-TW" href="http://pollochang.work/learn-linux/102-install-oracle-linux-step-by-step/">
       
     
       
       
-        <link rel="alternate" hreflang="en" href="http://pollochang.work/en/learn-linux/101-how-to-choose-linux-distro/">
+        <link rel="alternate" hreflang="en" href="http://pollochang.work/en/learn-linux/102-install-oracle-linux-step-by-step/">
       
     
   
@@ -83,23 +83,21 @@
   
 
   
-  <meta property="og:url" content="http://pollochang.work/en/learn-linux/101-how-to-choose-linux-distro/">
+  <meta property="og:url" content="http://pollochang.work/en/learn-linux/102-install-oracle-linux-step-by-step/">
   <meta property="og:site_name" content="Pollo Tech Blog">
-  <meta property="og:title" content="How to choose linux distro">
-  <meta property="og:description" content="zh-TW Whenever I start teaching someone Linux, the conversation inevitably turns to choosing a distribution. Is RedHat better? Or Ubuntu? Most beginners only think of these two options at first.
-In reality, there are roughly 300 active distributions in the Linux ecosystem. This number is hard to pin down precisely because the Linux Kernel is released under a free and open-source license—the GNU General Public License—and most accompanying software follows suit. Consequently, anyone with the technical know-how can take this foundation, tailor it to their specific needs (such as desktop use or supporting legacy/modern hardware), package it up, and redistribute it.">
+  <meta property="og:title" content="Installation Log of Oracle Linux 6">
+  <meta property="og:description" content="Installation Log of Oracle Linux 6 # In the past few months, I encountered an “antique” at work that needed to be installed on Oracle Linux 6. So I decided to log the installation process along the way. After all, resources on this are becoming increasingly scarce and are gradually disappearing. Who knows if Oracle will one day shut down this open-source resource, just like NetBeans 6.8.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="learn-linux">
-    <meta property="article:published_time" content="2026-05-24T20:21:17+08:00">
-    <meta property="article:modified_time" content="2026-05-24T20:21:17+08:00">
+    <meta property="article:published_time" content="2026-05-29T21:21:17+08:00">
+    <meta property="article:modified_time" content="2026-05-29T21:21:17+08:00">
     <meta property="article:tag" content="Linux">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="How to choose linux distro">
-  <meta name="twitter:description" content="zh-TW Whenever I start teaching someone Linux, the conversation inevitably turns to choosing a distribution. Is RedHat better? Or Ubuntu? Most beginners only think of these two options at first.
-In reality, there are roughly 300 active distributions in the Linux ecosystem. This number is hard to pin down precisely because the Linux Kernel is released under a free and open-source license—the GNU General Public License—and most accompanying software follows suit. Consequently, anyone with the technical know-how can take this foundation, tailor it to their specific needs (such as desktop use or supporting legacy/modern hardware), package it up, and redistribute it.">
+  <meta name="twitter:title" content="Installation Log of Oracle Linux 6">
+  <meta name="twitter:description" content="Installation Log of Oracle Linux 6 # In the past few months, I encountered an “antique” at work that needed to be installed on Oracle Linux 6. So I decided to log the installation process along the way. After all, resources on this are becoming increasingly scarce and are gradually disappearing. Who knows if Oracle will one day shut down this open-source resource, just like NetBeans 6.8.">
 
   
   
@@ -258,25 +256,25 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Learn-Linuxes",
-    "name": "How to choose linux distro",
-    "headline": "How to choose linux distro",
+    "name": "Installation Log of Oracle Linux 6",
+    "headline": "Installation Log of Oracle Linux 6",
     
     "inLanguage": "en",
-    "url" : "http://pollochang.work/en/learn-linux/101-how-to-choose-linux-distro/",
+    "url" : "http://pollochang.work/en/learn-linux/102-install-oracle-linux-step-by-step/",
     "author" : {
       "@type": "Person",
       "name": "PolloChang"
     },
     "copyrightYear": "2026",
-    "dateCreated": "2026-05-24T20:21:17\u002b08:00",
-    "datePublished": "2026-05-24T20:21:17\u002b08:00",
+    "dateCreated": "2026-05-29T21:21:17\u002b08:00",
+    "datePublished": "2026-05-29T21:21:17\u002b08:00",
     
-    "dateModified": "2026-05-24T20:21:17\u002b08:00",
+    "dateModified": "2026-05-29T21:21:17\u002b08:00",
     
     "keywords": ["linux"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "900"
+    "wordCount": "777"
   }]
   </script>
 
@@ -492,19 +490,19 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
         <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
     <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
       </span>
-      <span class="text-sm font-medium bf-icon-color-hover" title="How to choose linux distro">EN</span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="Installation Log of Oracle Linux 6">EN</span>
     </button>
     <ul class="menuhide">
       <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
         
-          <a href="/learn-linux/101-how-to-choose-linux-distro/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="如何選擇 Linux 發行版本">
+          <a href="/learn-linux/102-install-oracle-linux-step-by-step/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="安裝 Oracle Linux 6 記錄">
               
             </span>
           </a>
         
-          <a href="/en/learn-linux/101-how-to-choose-linux-distro/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="How to choose linux distro">
+          <a href="/en/learn-linux/102-install-oracle-linux-step-by-step/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="Installation Log of Oracle Linux 6">
               EN
             </span>
           </a>
@@ -736,19 +734,19 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
         <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
     <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
       </span>
-      <span class="text-sm font-medium bf-icon-color-hover" title="How to choose linux distro">EN</span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="Installation Log of Oracle Linux 6">EN</span>
     </button>
     <ul class="menuhide">
       <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
         
-          <a href="/learn-linux/101-how-to-choose-linux-distro/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="如何選擇 Linux 發行版本">
+          <a href="/learn-linux/102-install-oracle-linux-step-by-step/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="安裝 Oracle Linux 6 記錄">
               
             </span>
           </a>
         
-          <a href="/en/learn-linux/101-how-to-choose-linux-distro/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="How to choose linux distro">
+          <a href="/en/learn-linux/102-install-oracle-linux-step-by-step/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="Installation Log of Oracle Linux 6">
               EN
             </span>
           </a>
@@ -795,7 +793,7 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
     <header id="single_header" class="mt-5 max-w-prose">
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        How to choose linux distro
+        Installation Log of Oracle Linux 6
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -849,7 +847,7 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-05-24T20:21:17&#43;08:00">24 May 2026</time><span class="px-2 text-primary-500">&middot;</span><span>900 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-05-29T21:21:17&#43;08:00">29 May 2026</time><span class="px-2 text-primary-500">&middot;</span><span>777 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">4 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1121,14 +1119,31 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
     class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#installation-environment-configuration">Installation Environment Configuration</a></li>
+    <li><a href="#oracle-linux-6-installation-steps">Oracle Linux 6 Installation Steps</a>
       <ul>
-        <li><a href="#the-desktop-experience">The Desktop Experience</a></li>
-        <li><a href="#choosing-a-distribution">Choosing a Distribution</a></li>
-        <li><a href="#quick-recommendations">Quick Recommendations</a></li>
+        <li><a href="#1--initial-boot-menu-select-install-or-upgrade-an-existing-system">1. <strong>Initial Boot Menu</strong>: Select “Install or upgrade an existing system”.</a></li>
+        <li><a href="#2--hard-drive-detection-the-system-begins-checking-hard-drives-and-a-prompt-dialog-appears">2. <strong>Hard Drive Detection</strong>: The system begins checking hard drives and a prompt dialog appears.</a></li>
+        <li><a href="#3--device-check-prompt-asks-whether-to-check-the-current-target-device">3. <strong>Device Check Prompt</strong>: Asks whether to check the current target device.</a></li>
+        <li><a href="#4--reconfirmation-enter-the-reconfirmation-screen">4. <strong>Reconfirmation</strong>: Enter the reconfirmation screen.</a></li>
+        <li><a href="#5--installation-cd-check-asks-whether-to-check-the-installation-cd-of-the-current-target">5. <strong>Installation CD Check</strong>: Asks whether to check the installation CD of the current target.</a></li>
+        <li><a href="#6--installation-gui-start-click-next-when-the-graphical-installation-screen-appears">6. <strong>Installation GUI Start</strong>: Click “Next” when the graphical installation screen appears.</a></li>
+        <li><a href="#7--language-selection-select-the-language-to-install">7. <strong>Language Selection</strong>: Select the language to install.</a></li>
+        <li><a href="#8--keyboard-layout-selection-select-the-keyboard-layout">8. <strong>Keyboard Layout Selection</strong>: Select the keyboard layout.</a></li>
+        <li><a href="#9--storage-device-selection-select-basic-storage-devices">9. <strong>Storage Device Selection</strong>: Select “Basic Storage Devices”.</a></li>
+        <li><a href="#10-hostname-and-network-setup-enter-the-hostname-and-configure-network-card-settings">10. <strong>Hostname and Network Setup</strong>: Enter the hostname and configure network card settings.</a></li>
+        <li><a href="#11-select-network-card-choose-to-add-a-network-card">11. <strong>Select Network Card</strong>: Choose to add a network card.</a></li>
+        <li><a href="#12-configure-network-connection-after-configuring-network-connection-info-click-close">12. <strong>Configure Network Connection</strong>: After configuring network connection info, click “Close”.</a></li>
+        <li><a href="#13-time-zone-setting-set-the-time-zone">13. <strong>Time Zone Setting</strong>: Set the time zone.</a></li>
+        <li><a href="#14-root-password-input-enter-the-root-password">14. <strong>Root Password Input</strong>: Enter the root password.</a></li>
+        <li><a href="#15-disk-partitioningspace-allocation-select-disk-space-to-allow-linux-and-windows-to-coexist">15. <strong>Disk Partitioning/Space Allocation</strong>: Select disk space to allow Linux and Windows to coexist.</a></li>
+        <li><a href="#16-configuration-confirmation-the-confirmation-dialog-after-completing-hard-drive-setup">16. <strong>Configuration Confirmation</strong>: The confirmation dialog after completing hard drive setup.</a></li>
+        <li><a href="#17-installation-method-selection-select-the-minimal-installation-option">17. <strong>Installation Method Selection</strong>: Select the “Minimal” installation option.</a></li>
+        <li><a href="#18-installation-complete-click-restart-to-finish-installation">18. <strong>Installation Complete</strong>: Click “Restart” to finish installation.</a></li>
+        <li><a href="#19-boot-transition-screen-the-transition-screen-while-waiting-for-the-system-to-reboot">19. <strong>Boot Transition Screen</strong>: The transition screen while waiting for the system to reboot.</a></li>
+        <li><a href="#20-login-screen-enter-the-login-interface">20. <strong>Login Screen</strong>: Enter the login interface.</a></li>
       </ul>
     </li>
-    <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
   </div>
@@ -1142,14 +1157,31 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
     class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#installation-environment-configuration">Installation Environment Configuration</a></li>
+    <li><a href="#oracle-linux-6-installation-steps">Oracle Linux 6 Installation Steps</a>
       <ul>
-        <li><a href="#the-desktop-experience">The Desktop Experience</a></li>
-        <li><a href="#choosing-a-distribution">Choosing a Distribution</a></li>
-        <li><a href="#quick-recommendations">Quick Recommendations</a></li>
+        <li><a href="#1--initial-boot-menu-select-install-or-upgrade-an-existing-system">1. <strong>Initial Boot Menu</strong>: Select “Install or upgrade an existing system”.</a></li>
+        <li><a href="#2--hard-drive-detection-the-system-begins-checking-hard-drives-and-a-prompt-dialog-appears">2. <strong>Hard Drive Detection</strong>: The system begins checking hard drives and a prompt dialog appears.</a></li>
+        <li><a href="#3--device-check-prompt-asks-whether-to-check-the-current-target-device">3. <strong>Device Check Prompt</strong>: Asks whether to check the current target device.</a></li>
+        <li><a href="#4--reconfirmation-enter-the-reconfirmation-screen">4. <strong>Reconfirmation</strong>: Enter the reconfirmation screen.</a></li>
+        <li><a href="#5--installation-cd-check-asks-whether-to-check-the-installation-cd-of-the-current-target">5. <strong>Installation CD Check</strong>: Asks whether to check the installation CD of the current target.</a></li>
+        <li><a href="#6--installation-gui-start-click-next-when-the-graphical-installation-screen-appears">6. <strong>Installation GUI Start</strong>: Click “Next” when the graphical installation screen appears.</a></li>
+        <li><a href="#7--language-selection-select-the-language-to-install">7. <strong>Language Selection</strong>: Select the language to install.</a></li>
+        <li><a href="#8--keyboard-layout-selection-select-the-keyboard-layout">8. <strong>Keyboard Layout Selection</strong>: Select the keyboard layout.</a></li>
+        <li><a href="#9--storage-device-selection-select-basic-storage-devices">9. <strong>Storage Device Selection</strong>: Select “Basic Storage Devices”.</a></li>
+        <li><a href="#10-hostname-and-network-setup-enter-the-hostname-and-configure-network-card-settings">10. <strong>Hostname and Network Setup</strong>: Enter the hostname and configure network card settings.</a></li>
+        <li><a href="#11-select-network-card-choose-to-add-a-network-card">11. <strong>Select Network Card</strong>: Choose to add a network card.</a></li>
+        <li><a href="#12-configure-network-connection-after-configuring-network-connection-info-click-close">12. <strong>Configure Network Connection</strong>: After configuring network connection info, click “Close”.</a></li>
+        <li><a href="#13-time-zone-setting-set-the-time-zone">13. <strong>Time Zone Setting</strong>: Set the time zone.</a></li>
+        <li><a href="#14-root-password-input-enter-the-root-password">14. <strong>Root Password Input</strong>: Enter the root password.</a></li>
+        <li><a href="#15-disk-partitioningspace-allocation-select-disk-space-to-allow-linux-and-windows-to-coexist">15. <strong>Disk Partitioning/Space Allocation</strong>: Select disk space to allow Linux and Windows to coexist.</a></li>
+        <li><a href="#16-configuration-confirmation-the-confirmation-dialog-after-completing-hard-drive-setup">16. <strong>Configuration Confirmation</strong>: The confirmation dialog after completing hard drive setup.</a></li>
+        <li><a href="#17-installation-method-selection-select-the-minimal-installation-option">17. <strong>Installation Method Selection</strong>: Select the “Minimal” installation option.</a></li>
+        <li><a href="#18-installation-complete-click-restart-to-finish-installation">18. <strong>Installation Complete</strong>: Click “Restart” to finish installation.</a></li>
+        <li><a href="#19-boot-transition-screen-the-transition-screen-while-waiting-for-the-system-to-reboot">19. <strong>Boot Transition Screen</strong>: The transition screen while waiting for the system to reboot.</a></li>
+        <li><a href="#20-login-screen-enter-the-login-interface">20. <strong>Login Screen</strong>: Enter the login interface.</a></li>
       </ul>
     </li>
-    <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
   </div>
@@ -1166,83 +1198,479 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
         
 
         <div class="article-content max-w-prose mb-20">
-          <ul>
-<li><a href="/learn-Linux/101-how-to-choose-linux-distro-zh-TW" >zh-TW</a></li>
-</ul>
-<p>Whenever I start teaching someone Linux, the conversation inevitably turns to choosing a distribution. Is RedHat better? Or Ubuntu? Most beginners only think of these two options at first.</p>
-<p>In reality, there are roughly 300 active distributions in the Linux ecosystem. This number is hard to pin down precisely because the <a href="https://www.google.com/search?q=https://docs.kernel.org/translations/zh_TW/process/license-rules.html"  target="_blank" rel="noreferrer">Linux Kernel is released under a free and open-source license—the GNU</a> General Public License—and most accompanying software follows suit. Consequently, anyone with the technical know-how can take this foundation, tailor it to their specific needs (such as desktop use or supporting legacy/modern hardware), package it up, and redistribute it.</p>
-<p>Navigating this vast &ldquo;sea of distributions&rdquo; can be overwhelming, but someone thoughtfully created a tool to help you choose: <a href="https://www.google.com/search?q=https://distrochooser.de"  target="_blank" rel="noreferrer">distro chooser</a>. Using this tool might save you from spending three precious years of your life figuring it out through trial and error, like I did.</p>
-<p>Though, to be honest, I found the journey quite fun.</p>
-<p>Today, let me share my firsthand experiences and thoughts with you!</p>
-
-<h3 class="relative group">The Desktop Experience
-    <div id="the-desktop-experience" class="anchor"></div>
+          
+<h1 class="relative group">Installation Log of Oracle Linux 6
+    <div id="installation-log-of-oracle-linux-6" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#the-desktop-experience" aria-label="Anchor">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#installation-log-of-oracle-linux-6" aria-label="Anchor">#</a>
     </span>
     
-</h3>
-<p>Let&rsquo;s start with the desktop experience. Surprisingly, the desktop experience has less to do with the actual distribution and more to do with your choice of &ldquo;Desktop Environment&rdquo; (DE). Here are some of the most common DEs:</p>
-<ol>
-<li><strong>GNOME</strong>: Currently the most mainstream desktop environment. It features a modern, clean interface with an operating logic somewhat similar to macOS. It serves as the default desktop for Ubuntu, Fedora, and Debian.</li>
-<li><strong>KDE Plasma</strong>: Known for its extreme customizability. Its default interface layout aligns closely with the classic Windows user experience.</li>
-<li><strong>XFCE</strong>: A classic, lightweight desktop environment. If your computer hardware is on the older side—for example, an old IBM ThinkPad X200—XFCE is an excellent choice.</li>
-</ol>
-<p>That&rsquo;s the beauty of Linux: if you don&rsquo;t like your current desktop, you don&rsquo;t need to reinstall the entire operating system. You just run a single command using your package manager to completely switch styles. There are plenty of other desktop environments out there, but I&rsquo;m sticking to the ones I have personal experience with.</p>
-<p>I&rsquo;ve put together a list of other common options here for anyone interested: <a href="https://www.google.com/search?q=/worknot/linux-desktop-environments-zh-tw"  target="_blank" rel="noreferrer">Mainstream Linux Desktop Environments</a></p>
-<p>When it comes to daily usability, I&rsquo;d say most modern desktop environments are neck-and-neck in terms of user-friendliness. However, if you are installing Linux on a laptop, I highly recommend GNOME. Its default touchpad gestures feel remarkably similar to a Mac, making it incredibly smooth to use. Additionally, if your laptop features a touchscreen, GNOME shines even brighter because its large icons minimize accidental misclicks.</p>
-<hr>
-
-<h3 class="relative group">Choosing a Distribution
-    <div id="choosing-a-distribution" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#choosing-a-distribution" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-<p>Now, let’s talk about the distributions themselves.</p>
-<p>First, regarding server deployments: <strong>I unconditionally advise against installing a desktop environment (GUI).</strong> GUIs consume significant system resources, particularly RAM—averaging anywhere from 2 GB to 4 GB. From my experience, memory consumption from highest to lowest generally ranks as GNOME -&gt; KDE -&gt; XFCE. Save yourself the overhead and skip the GUI entirely on servers.</p>
-<p>Distributions can broadly be categorized into two major families: Red Hat-based and Debian-based.</p>
+</h1>
+<p>In the past few months, I encountered an &ldquo;antique&rdquo; at work that needed to be installed on Oracle Linux 6. So I decided to log the installation process along the way. After all, resources on this are becoming increasingly scarce and are gradually disappearing. Who knows if Oracle will one day shut down this open-source resource, just like NetBeans 6.8.</p>
+<p>To talk about the origin of Oracle Linux 6, we must turn back the clock to 2006. At that time, Oracle, in order to address the support and performance issues of its own database on Linux, announced the launch of the &ldquo;Unbreakable Linux&rdquo; program, directly building downstream versions based on the source code of Red Hat Enterprise Linux (RHEL) (commonly known as RHEL derivatives or downstream versions).</p>
+<p>Following Red Hat&rsquo;s release of the epoch-making RHEL 6 at the end of 2010, Oracle promptly launched <strong>Oracle Linux 6</strong> in <strong>February 2011</strong>.</p>
+<p>The most prominent hallmark of this generation in the history of Linux development was Oracle&rsquo;s establishment of the &ldquo;Dual-Kernel&rdquo; strategy:</p>
 <ul>
-<li><strong>Red Hat-based</strong> (e.g., RHEL, Fedora, Rocky Linux, Oracle Linux): Designed to fit production environments, their package management tends to ship a service with all its dependencies and companion tools fully bundled. Furthermore, they enable enterprise-grade security and performance tuning tools by default (such as SELinux and firewalld). While this allows enterprise sysadmins to rapidly deploy environments that meet strict compliance standards, it also means beginners face a steeper learning curve. For instance, if you set up a website but can&rsquo;t connect to it, troubleshooting will require deeper system administration knowledge to debug.</li>
-<li><strong>Debian-based</strong> (e.g., Debian, Ubuntu, Linux Mint): This camp leans heavily toward &ldquo;modularity&rdquo; and &ldquo;freedom of choice.&rdquo; Packages are broken down into granular components, and the default system environment remains bare-bones. This grants users precise control over exactly what gets installed, without pushing unnecessary bloatware. This lightweight philosophy is precisely why Debian and Ubuntu are the darlings of Docker base images and minimal system builds.</li>
+<li><strong>RHCK (Red Hat Compatible Kernel):</strong> To ensure 100% software compatibility, Oracle compiled a kernel identical to Red Hat&rsquo;s. If your application can only run on standard RHEL, switching to this kernel allows for a seamless transition.</li>
+<li><strong>UEK (Unbreakable Enterprise Kernel):</strong> This is Oracle&rsquo;s main attraction. Based on a newer upstream Linux kernel, they performed deep optimizations, introducing performance improvements tailored for large-capacity memory, multi-core processors, and Oracle&rsquo;s own database (such as caching and I/O mechanisms). In the Oracle Linux 6 era, UEK enabled many large enterprises to achieve significant database performance improvements without changing their hardware.</li>
 </ul>
-<p>There are also distinct behavioral differences post-installation. On Red Hat-based systems, most services do not start automatically. For example, after installing PostgreSQL, you must manually initialize the database and explicitly enable/start the service using a command like <code>systemctl enable --now postgresql</code>. Conversely, Debian-based systems typically complete the entire deployment and start the service automatically right after installation.</p>
-<hr>
+<p>Oracle Linux 6&rsquo;s standard Production Support officially ended in <strong>November 2020</strong>, subsequently entering the Extended Support phase.</p>
+<p>Today, it has long completed its historical mission and become an &ldquo;antique&rdquo; in IT archaeology. However, because of its extremely high adoption rate in enterprise database centers back then, many old legacy systems that have been running stably for over a decade—without source code updates—still heavily rely on this environment. As official resources and online documentation gradually disappear, every installation and debugging log becomes a precious spark to keep these corporate behemoths running.</p>
+<p>For those interested, let us appreciate the installation process of this antique together below.</p>
 
-<h3 class="relative group">Quick Recommendations
-    <div id="quick-recommendations" class="anchor"></div>
+<h2 class="relative group">Installation Environment Configuration
+    <div id="installation-environment-configuration" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#quick-recommendations" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-<p>If you are still suffering from decision paralysis, here is a quick summary to help you choose:</p>
-<ol>
-<li><strong>For a daily driver to browse the web and write code (Desktop)</strong>: I highly recommend starting with <strong>Ubuntu</strong> or <strong>Linux Mint</strong>. They offer the most comprehensive out-of-the-box hardware driver support, and their massive communities mean troubleshooting on Google is a breeze.</li>
-<li><strong>For a stable, lightweight server that doesn&rsquo;t require constant updates (Server)</strong>: You can opt for <strong>Debian</strong>, which is what I currently use.</li>
-<li><strong>For learning enterprise environments and prepping for career advancement (Server)</strong>: Look no further than <strong>Oracle Linux</strong> or <strong>Rocky Linux</strong> (both serve as flawless, enterprise-grade replacements following CentOS&rsquo;s shift in release strategy).</li>
-</ol>
-<p>Ultimately, there is no absolute right or wrong choice when picking a distribution. The most important thing is to find an environment that fits your current needs, and then <strong>dive right in and embrace it</strong>. Once you master the core mechanics of Linux—such as the file system hierarchy, permissions management, and command-line operations—switching to any other distribution in the future will be a walk in the park.</p>
-
-<h2 class="relative group">Referance
-    <div id="referance" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#referance" aria-label="Anchor">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#installation-environment-configuration" aria-label="Anchor">#</a>
     </span>
     
 </h2>
-<ul>
-<li><a href="https://www.kernel.org/doc/html/v4.18/process/license-rules.html"  target="_blank" rel="noreferrer">Linux kernel licensing rules</a></li>
-</ul>
+<p>My installation environment is inside KVM. Below is the KVM configuration:</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image.png"
+    ></figure>
+</p>
+
+<h2 class="relative group">Oracle Linux 6 Installation Steps
+    <div id="oracle-linux-6-installation-steps" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#oracle-linux-6-installation-steps" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Next, let&rsquo;s proceed with the installation steps:</p>
+
+<h3 class="relative group">1.  <strong>Initial Boot Menu</strong>: Select &ldquo;Install or upgrade an existing system&rdquo;.
+    <div id="1--initial-boot-menu-select-install-or-upgrade-an-existing-system" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1--initial-boot-menu-select-install-or-upgrade-an-existing-system" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>At the beginning, you will enter the selection menu. Here, I choose &quot;Install or upgrade an existing system&quot;.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-1.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">2.  <strong>Hard Drive Detection</strong>: The system begins checking hard drives and a prompt dialog appears.
+    <div id="2--hard-drive-detection-the-system-begins-checking-hard-drives-and-a-prompt-dialog-appears" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2--hard-drive-detection-the-system-begins-checking-hard-drives-and-a-prompt-dialog-appears" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>After entering, it will start scanning hard drives and a dialog box will appear once detected.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-2.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">3.  <strong>Device Check Prompt</strong>: Asks whether to check the current target device.
+    <div id="3--device-check-prompt-asks-whether-to-check-the-current-target-device" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3--device-check-prompt-asks-whether-to-check-the-current-target-device" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Next, it will ask if you want to check the current target device.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-3.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">4.  <strong>Reconfirmation</strong>: Enter the reconfirmation screen.
+    <div id="4--reconfirmation-enter-the-reconfirmation-screen" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#4--reconfirmation-enter-the-reconfirmation-screen" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-4.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">5.  <strong>Installation CD Check</strong>: Asks whether to check the installation CD of the current target.
+    <div id="5--installation-cd-check-asks-whether-to-check-the-installation-cd-of-the-current-target" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#5--installation-cd-check-asks-whether-to-check-the-installation-cd-of-the-current-target" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-5.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">6.  <strong>Installation GUI Start</strong>: Click &ldquo;Next&rdquo; when the graphical installation screen appears.
+    <div id="6--installation-gui-start-click-next-when-the-graphical-installation-screen-appears" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#6--installation-gui-start-click-next-when-the-graphical-installation-screen-appears" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-6.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">7.  <strong>Language Selection</strong>: Select the language to install.
+    <div id="7--language-selection-select-the-language-to-install" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#7--language-selection-select-the-language-to-install" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-7.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">8.  <strong>Keyboard Layout Selection</strong>: Select the keyboard layout.
+    <div id="8--keyboard-layout-selection-select-the-keyboard-layout" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#8--keyboard-layout-selection-select-the-keyboard-layout" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-8.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">9.  <strong>Storage Device Selection</strong>: Select &ldquo;Basic Storage Devices&rdquo;.
+    <div id="9--storage-device-selection-select-basic-storage-devices" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#9--storage-device-selection-select-basic-storage-devices" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Since I am installing this directly on the local host's hard drive, I select &quot;Basic Storage Devices&quot;.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-9.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">10. <strong>Hostname and Network Setup</strong>: Enter the hostname and configure network card settings.
+    <div id="10-hostname-and-network-setup-enter-the-hostname-and-configure-network-card-settings" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#10-hostname-and-network-setup-enter-the-hostname-and-configure-network-card-settings" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-10.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">11. <strong>Select Network Card</strong>: Choose to add a network card.
+    <div id="11-select-network-card-choose-to-add-a-network-card" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#11-select-network-card-choose-to-add-a-network-card" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-11.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">12. <strong>Configure Network Connection</strong>: After configuring network connection info, click &ldquo;Close&rdquo;.
+    <div id="12-configure-network-connection-after-configuring-network-connection-info-click-close" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#12-configure-network-connection-after-configuring-network-connection-info-click-close" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Once entered, click &quot;Close&quot;.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-12.png"
+    ></figure>
+</p>
+<p>After finishing inputs, click &ldquo;Close&rdquo;.</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-13.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">13. <strong>Time Zone Setting</strong>: Set the time zone.
+    <div id="13-time-zone-setting-set-the-time-zone" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#13-time-zone-setting-set-the-time-zone" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-14.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">14. <strong>Root Password Input</strong>: Enter the root password.
+    <div id="14-root-password-input-enter-the-root-password" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#14-root-password-input-enter-the-root-password" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-15.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">15. <strong>Disk Partitioning/Space Allocation</strong>: Select disk space to allow Linux and Windows to coexist.
+    <div id="15-disk-partitioningspace-allocation-select-disk-space-to-allow-linux-and-windows-to-coexist" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#15-disk-partitioningspace-allocation-select-disk-space-to-allow-linux-and-windows-to-coexist" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Select the disk space to install to. Here, the design is intended to allow Linux and Windows to coexist—truly a blast from the past!
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-16.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">16. <strong>Configuration Confirmation</strong>: The confirmation dialog after completing hard drive setup.
+    <div id="16-configuration-confirmation-the-confirmation-dialog-after-completing-hard-drive-setup" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#16-configuration-confirmation-the-confirmation-dialog-after-completing-hard-drive-setup" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>A confirmation dialog will appear after configuration.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-17.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">17. <strong>Installation Method Selection</strong>: Select the &ldquo;Minimal&rdquo; installation option.
+    <div id="17-installation-method-selection-select-the-minimal-installation-option" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#17-installation-method-selection-select-the-minimal-installation-option" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Choose the installation method. Here, I select &quot;Minimal&quot;.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-18.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">18. <strong>Installation Complete</strong>: Click &ldquo;Restart&rdquo; to finish installation.
+    <div id="18-installation-complete-click-restart-to-finish-installation" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#18-installation-complete-click-restart-to-finish-installation" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>Once confirmed, just wait for the installer to finish.
+Installation complete screen. Let's click &quot;Restart&quot;.
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-19.png"
+    ></figure>
+</p>
+<p>Installation complete screen. Here, we click &ldquo;Restart&rdquo;.</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-20.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">19. <strong>Boot Transition Screen</strong>: The transition screen while waiting for the system to reboot.
+    <div id="19-boot-transition-screen-the-transition-screen-while-waiting-for-the-system-to-reboot" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#19-boot-transition-screen-the-transition-screen-while-waiting-for-the-system-to-reboot" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-21.png"
+    ></figure>
+</p>
+
+<h3 class="relative group">20. <strong>Login Screen</strong>: Enter the login interface.
+    <div id="20-login-screen-enter-the-login-interface" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#20-login-screen-enter-the-login-interface" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<pre><code>The login screen—a view that makes most people feel intimidated?
+</code></pre>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/102-install-oracle-linux-step-by-step/image-22.png"
+    ></figure>
+</p>
 
           
           
@@ -1272,32 +1700,19 @@ In reality, there are roughly 300 active distributions in the Linux ecosystem. T
           
             <a
               class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/en/learn-linux/100-start-in-life/">
+              href="/en/learn-linux/101-how-to-choose-linux-distro/">
               <span class="leading-6">
-                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;Start Linux in Life
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;How to choose linux distro
               </span>
             </a>
             
               <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-05-21T20:21:17&#43;08:00">21 May 2026</time>
+                <time datetime="2026-05-24T20:21:17&#43;08:00">24 May 2026</time>
               </span>
             
           
         </span>
         <span class="flex flex-col items-end">
-          
-            <a
-              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/en/learn-linux/102-install-oracle-linux-step-by-step/">
-              <span class="leading-6">
-                Installation Log of Oracle Linux 6&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
-              </span>
-            </a>
-            
-              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-05-29T21:21:17&#43;08:00">29 May 2026</time>
-              </span>
-            
           
         </span>
       </div>
