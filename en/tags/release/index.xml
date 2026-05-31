@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Sat, 16 May 2026 08:44:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/en/tags/release/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 May 2026 20:56:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/en/tags/release/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SQL Console Release v0.3.0</title>
+      <link>http://pollochang.work/en/worknot/sql-console-release-v0.3.0/</link>
+      <pubDate>Sun, 31 May 2026 20:56:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/en/worknot/sql-console-release-v0.3.0/</guid>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;GitHub Repository&lt;/strong&gt;: &lt;a href=&#34;https://github.com/PolloChang/sql-console.git&#34;  target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;sql-console&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Development Guide&lt;/strong&gt;: Check out &lt;code&gt;DEVELOP.md&lt;/code&gt; in the repo root.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;AI Agent Skill for sql-console&lt;/strong&gt;: &lt;a href=&#34;https://github.com/PolloChang/sql-operator&#34;  target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;sql-operator&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Hello everyone, SQL Console v0.3.0 is officially released! 🎉&lt;/p&gt;&#xA;&lt;p&gt;In this update, we have significantly enhanced our support for Oracle databases and upgraded the overall system security:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;New Oracle-specific commands: You can now use &lt;code&gt;desc&lt;/code&gt; to view table structures and &lt;code&gt;show parameter&lt;/code&gt; to query system parameters directly, seamlessly aligning with your daily operational habits!&lt;/li&gt;&#xA;&lt;li&gt;Strict security enhancements: We introduced a whitelist-based validation mechanism to effectively intercept illegal inputs (SEC-403) and thoroughly defend against potential SQL Injection risks, strengthening security compliance in terminal environments.&lt;/li&gt;&#xA;&lt;li&gt;Architectural refactoring: We implemented a new Stateless Translator pattern, fully adhering to SOLID (SRP/OCP) principles. By separating the SQL translation logic from the execution logic, we&amp;rsquo;ve built a solid foundation for future extensions.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;This is an open-source tool designed specifically for SREs/DBAs who need to maintain multiple databases (PostgreSQL, Oracle, MSSQL, etc.) in the Terminal. Connected via JDBC, it saves you from frequently switching between different environments!&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>SQL Console Release v0.1.0</title>
