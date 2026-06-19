@@ -15,8 +15,8 @@
 
   
   
-    <title>SQL test 01 - Count Transformation &middot; PolloChang 工作筆記</title>
-    <meta name="title" content="SQL test 01 - Count Transformation &middot; PolloChang 工作筆記">
+    <title>SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index) &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index) &middot; PolloChang 工作筆記">
   
 
   
@@ -28,7 +28,7 @@
   
   
   
-  <link rel="canonical" href="http://pollochang.work/oracle-database/sql-test-01/">
+  <link rel="canonical" href="http://pollochang.work/oracle-database/sql-test-04/">
   
   
 
@@ -71,24 +71,22 @@
   
 
   
-  <meta property="og:url" content="http://pollochang.work/oracle-database/sql-test-01/">
+  <meta property="og:url" content="http://pollochang.work/oracle-database/sql-test-04/">
   <meta property="og:site_name" content="PolloChang 工作筆記">
-  <meta property="og:title" content="SQL test 01 - Count Transformation">
-  <meta property="og:description" content="SQL test 01 - Count Transformation # select count(x) from t
-在開發時，我們經常會需要計算資料表中的資料筆數。這時候你可能會用到 COUNT(*)、COUNT(PK欄位) 或是 COUNT(一般欄位)。但你知道它們在效能上有什麼顯著的差異嗎？">
+  <meta property="og:title" content="SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)">
+  <meta property="og:description" content="SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index) # 在上一篇 [SQL test 03] 中我們看到了，如果查詢條件「沒有 Index」，Oracle 為了避免做兩次全表掃描，會拒絕執行 OR Expansion。 那麼，如果我們幫查詢條件加上了 Index，優化器又會怎麼做呢？">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:type" content="article">
     <meta property="article:section" content="oracle-database">
-    <meta property="article:published_time" content="2026-06-19T12:50:53+08:00">
-    <meta property="article:modified_time" content="2026-06-19T12:50:53+08:00">
+    <meta property="article:published_time" content="2026-06-19T16:00:03+08:00">
+    <meta property="article:modified_time" content="2026-06-19T16:00:03+08:00">
     <meta property="article:tag" content="SQL Tuning">
     <meta property="article:tag" content="學習筆記">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="SQL test 01 - Count Transformation">
-  <meta name="twitter:description" content="SQL test 01 - Count Transformation # select count(x) from t
-在開發時，我們經常會需要計算資料表中的資料筆數。這時候你可能會用到 COUNT(*)、COUNT(PK欄位) 或是 COUNT(一般欄位)。但你知道它們在效能上有什麼顯著的差異嗎？">
+  <meta name="twitter:title" content="SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)">
+  <meta name="twitter:description" content="SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index) # 在上一篇 [SQL test 03] 中我們看到了，如果查詢條件「沒有 Index」，Oracle 為了避免做兩次全表掃描，會拒絕執行 OR Expansion。 那麼，如果我們幫查詢條件加上了 Index，優化器又會怎麼做呢？">
 
   
   
@@ -247,25 +245,25 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Oracle-Databases",
-    "name": "SQL test 01 - Count Transformation",
-    "headline": "SQL test 01 - Count Transformation",
+    "name": "SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)",
+    "headline": "SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)",
     
     "inLanguage": "zh-TW",
-    "url" : "http://pollochang.work/oracle-database/sql-test-01/",
+    "url" : "http://pollochang.work/oracle-database/sql-test-04/",
     "author" : {
       "@type": "Person",
       "name": "PolloChang"
     },
     "copyrightYear": "2026",
-    "dateCreated": "2026-06-19T12:50:53\u002b08:00",
-    "datePublished": "2026-06-19T12:50:53\u002b08:00",
+    "dateCreated": "2026-06-19T16:00:03\u002b08:00",
+    "datePublished": "2026-06-19T16:00:03\u002b08:00",
     
-    "dateModified": "2026-06-19T12:50:53\u002b08:00",
+    "dateModified": "2026-06-19T16:00:03\u002b08:00",
     
     "keywords": ["SQL tuning","學習筆記"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1318"
+    "wordCount": "2368"
   }]
   </script>
 
@@ -730,7 +728,7 @@
     <header id="single_header" class="mt-5 max-w-prose">
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        SQL test 01 - Count Transformation
+        SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -784,7 +782,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-06-19T12:50:53&#43;08:00">June 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1318 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">3 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-06-19T16:00:03&#43;08:00">June 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>2368 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">5 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1078,15 +1076,25 @@
     class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#測試環境與-ddl">測試環境與 DDL</a></li>
-    <li><a href="#測試結果與執行計畫-explain-plan">測試結果與執行計畫 (Explain Plan)</a>
+    <li><a href="#建立-index">建立 Index</a></li>
+    <li><a href="#測試情境">測試情境</a>
       <ul>
-        <li><a href="#1-測試countpk-欄位">1. 測試：COUNT(PK 欄位)</a></li>
-        <li><a href="#2-測試count">2. 測試：COUNT(*)</a></li>
-        <li><a href="#3-測試count一般欄位且未加-index">3. 測試：COUNT(一般欄位且未加 Index)</a></li>
+        <li><a href="#測試-sql-1-一般-or-寫法">測試 SQL 1 (一般 OR 寫法)</a></li>
+        <li><a href="#測試-sql-2-手動模擬-or-expansion">測試 SQL 2 (手動模擬 OR Expansion)</a></li>
       </ul>
     </li>
-    <li><a href="#總結與-tuning-建議">總結與 Tuning 建議</a></li>
+    <li><a href="#執行計畫-explain-plan-比較">執行計畫 (Explain Plan) 比較</a>
+      <ul>
+        <li><a href="#sql-1-的執行計畫-未展開">SQL 1 的執行計畫 (未展開)</a></li>
+        <li><a href="#sql-2-的執行計畫-手動展開">SQL 2 的執行計畫 (手動展開)</a></li>
+      </ul>
+    </li>
+    <li><a href="#觀察與總結">觀察與總結</a>
+      <ul>
+        <li><a href="#tuning-核心觀念">Tuning 核心觀念</a></li>
+      </ul>
+    </li>
+    <li><a href="#測試完成後動作">測試完成後動作</a></li>
   </ul>
 </nav>
   </div>
@@ -1100,15 +1108,25 @@
     class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#測試環境與-ddl">測試環境與 DDL</a></li>
-    <li><a href="#測試結果與執行計畫-explain-plan">測試結果與執行計畫 (Explain Plan)</a>
+    <li><a href="#建立-index">建立 Index</a></li>
+    <li><a href="#測試情境">測試情境</a>
       <ul>
-        <li><a href="#1-測試countpk-欄位">1. 測試：COUNT(PK 欄位)</a></li>
-        <li><a href="#2-測試count">2. 測試：COUNT(*)</a></li>
-        <li><a href="#3-測試count一般欄位且未加-index">3. 測試：COUNT(一般欄位且未加 Index)</a></li>
+        <li><a href="#測試-sql-1-一般-or-寫法">測試 SQL 1 (一般 OR 寫法)</a></li>
+        <li><a href="#測試-sql-2-手動模擬-or-expansion">測試 SQL 2 (手動模擬 OR Expansion)</a></li>
       </ul>
     </li>
-    <li><a href="#總結與-tuning-建議">總結與 Tuning 建議</a></li>
+    <li><a href="#執行計畫-explain-plan-比較">執行計畫 (Explain Plan) 比較</a>
+      <ul>
+        <li><a href="#sql-1-的執行計畫-未展開">SQL 1 的執行計畫 (未展開)</a></li>
+        <li><a href="#sql-2-的執行計畫-手動展開">SQL 2 的執行計畫 (手動展開)</a></li>
+      </ul>
+    </li>
+    <li><a href="#觀察與總結">觀察與總結</a>
+      <ul>
+        <li><a href="#tuning-核心觀念">Tuning 核心觀念</a></li>
+      </ul>
+    </li>
+    <li><a href="#測試完成後動作">測試完成後動作</a></li>
   </ul>
 </nav>
   </div>
@@ -1126,29 +1144,154 @@
 
         <div class="article-content max-w-prose mb-20">
           
-<h1 class="relative group">SQL test 01 - Count Transformation
-    <div id="sql-test-01---count-transformation" class="anchor"></div>
+<h1 class="relative group">SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)
+    <div id="sql-test-04---or-expansion-與-inlist-iterator-有-index" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#sql-test-01---count-transformation" aria-label="定位點">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#sql-test-04---or-expansion-%e8%88%87-inlist-iterator-%e6%9c%89-index" aria-label="定位點">#</a>
     </span>
     
 </h1>
-<p><code>select count(x) from t</code></p>
-<p>在開發時，我們經常會需要計算資料表中的資料筆數。這時候你可能會用到 <code>COUNT(*)</code>、<code>COUNT(PK欄位)</code> 或是 <code>COUNT(一般欄位)</code>。但你知道它們在效能上有什麼顯著的差異嗎？</p>
-<p>這篇文章將透過實際測試，帶你了解是否有 <strong>Index (索引)</strong> 對於 <code>COUNT</code> 聚合函數查詢的巨大影響，以及為什麼我們應該謹慎選擇 <code>COUNT</code> 裡面的參數。</p>
+<p>在上一篇 [SQL test 03] 中我們看到了，如果查詢條件「<strong>沒有 Index</strong>」，Oracle 為了避免做兩次全表掃描，會拒絕執行 OR Expansion。
+那麼，如果我們幫查詢條件加上了 Index，優化器又會怎麼做呢？</p>
+<p>這篇文章我們將在「<strong>有 Index</strong>」的情況下，測試 <code>WHERE ... OR ...</code> 的效能與執行計畫。</p>
 
-<h2 class="relative group">測試環境與 DDL
-    <div id="測試環境與-ddl" class="anchor"></div>
+<h2 class="relative group">建立 Index
+    <div id="建立-index" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6%e7%92%b0%e5%a2%83%e8%88%87-ddl" aria-label="定位點">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%bb%ba%e7%ab%8b-index" aria-label="定位點">#</a>
     </span>
     
 </h2>
-<p>我們準備了一張名為 <code>USERS_DETAILS_2023</code> 的資料表，其中 <code>MAL_ID</code> 是 Primary Key (主鍵)，這意味著它會自動建立一個 Unique Index，且不允許有 NULL 值。</p>
+<p>先針對 <code>LOCATION</code> 與 <code>GENDER</code> 兩個欄位分別建立 B-Tree Index，以模擬優化器有 Index 可以利用的情境。</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> USERS_DETAILS_2023_IDX1 <span style="color:#66d9ef">ON</span> USERS_DETAILS_2023 (<span style="color:#66d9ef">LOCATION</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> USERS_DETAILS_2023_IDX2 <span style="color:#66d9ef">ON</span> USERS_DETAILS_2023 (GENDER);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h2 class="relative group">測試情境
+    <div id="測試情境" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6%e6%83%85%e5%a2%83" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">測試 SQL 1 (一般 OR 寫法)
+    <div id="測試-sql-1-一般-or-寫法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6-sql-1-%e4%b8%80%e8%88%ac-or-%e5%af%ab%e6%b3%95" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>這是一般開發者最直覺的寫法。</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> pollo.USERS_DETAILS_2023 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> <span style="color:#66d9ef">LOCATION</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Calgary, AB&#39;</span> <span style="color:#66d9ef">or</span> GENDER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Male&#39;</span>;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p><strong>執行結果：</strong></p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>┌───────────┐
+</span></span><span style="display:flex;"><span>│ COUNT (*) │
+</span></span><span style="display:flex;"><span>├───────────┤
+</span></span><span style="display:flex;"><span>│ 126990    │
+</span></span><span style="display:flex;"><span>└───────────┘</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+<h3 class="relative group">測試 SQL 2 (手動模擬 OR Expansion)
+    <div id="測試-sql-2-手動模擬-or-expansion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6-sql-2-%e6%89%8b%e5%8b%95%e6%a8%a1%e6%93%ac-or-expansion" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>我們將原本的 <code>OR</code> 拆分成兩個獨立的查詢，並用 <code>UNION ALL</code> 組合。
+為了避免兩邊的條件有交集而導致資料重複計算，Oracle 在內部做 OR Expansion 時，通常會自動加上 <code>LNNVL</code> 函數來排除已經在第一個條件成立的資料。</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">from</span> pollo.USERS_DETAILS_2023 <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">LOCATION</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Calgary, AB&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">union</span> <span style="color:#66d9ef">all</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">from</span> pollo.USERS_DETAILS_2023 <span style="color:#66d9ef">where</span> GENDER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Male&#39;</span> <span style="color:#66d9ef">and</span> lnnvl(<span style="color:#66d9ef">LOCATION</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Calgary, AB&#39;</span>);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p><strong>執行結果：</strong></p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>┌───────────┐
+</span></span><span style="display:flex;"><span>│ COUNT (*) │
+</span></span><span style="display:flex;"><span>├───────────┤
+</span></span><span style="display:flex;"><span>│ 12        │
+</span></span><span style="display:flex;"><span>│ 126978    │
+</span></span><span style="display:flex;"><span>└───────────┘</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p><em>(註：兩者相加 12 + 126978 剛好等於 SQL 1 的總數 126990)</em></p>
+<hr>
+
+<h2 class="relative group">執行計畫 (Explain Plan) 比較
+    <div id="執行計畫-explain-plan-比較" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e5%9f%b7%e8%a1%8c%e8%a8%88%e7%95%ab-explain-plan-%e6%af%94%e8%bc%83" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+
+<h3 class="relative group">SQL 1 的執行計畫 (未展開)
+    <div id="sql-1-的執行計畫-未展開" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#sql-1-%e7%9a%84%e5%9f%b7%e8%a1%8c%e8%a8%88%e7%95%ab-%e6%9c%aa%e5%b1%95%e9%96%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
 <div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -1169,254 +1312,180 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> USERS_DETAILS_2023 (
-</span></span><span style="display:flex;"><span>    MAL_ID NUMBER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
-</span></span><span style="display:flex;"><span>    USERNAME NVARCHAR2(<span style="color:#ae81ff">255</span>),
-</span></span><span style="display:flex;"><span>    GENDER NVARCHAR2(<span style="color:#ae81ff">50</span>),
-</span></span><span style="display:flex;"><span>    BIRTHDAY NVARCHAR2(<span style="color:#ae81ff">100</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">LOCATION</span> NVARCHAR2(<span style="color:#ae81ff">500</span>),
-</span></span><span style="display:flex;"><span>    JOINED NVARCHAR2(<span style="color:#ae81ff">100</span>),
-</span></span><span style="display:flex;"><span>    DAYS_WATCHED NUMBER(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),
-</span></span><span style="display:flex;"><span>    MEAN_SCORE NUMBER(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">2</span>),
-</span></span><span style="display:flex;"><span>    WATCHING NUMBER,
-</span></span><span style="display:flex;"><span>    COMPLETED NUMBER,
-</span></span><span style="display:flex;"><span>    ON_HOLD NUMBER,
-</span></span><span style="display:flex;"><span>    DROPPED NUMBER,
-</span></span><span style="display:flex;"><span>    PLAN_TO_WATCH NUMBER,
-</span></span><span style="display:flex;"><span>    TOTAL_ENTRIES NUMBER,
-</span></span><span style="display:flex;"><span>    REWATCHED NUMBER,
-</span></span><span style="display:flex;"><span>    EPISODES_WATCHED NUMBER
-</span></span><span style="display:flex;"><span>);</span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+</span></span><span style="display:flex;"><span>│                                              PLAN TABLE OUTPUT                                               │
+</span></span><span style="display:flex;"><span>├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ Plan hash value: 2998711674                                                                                  │
+</span></span><span style="display:flex;"><span>│                                                                                                              │
+</span></span><span style="display:flex;"><span>│ ------------------------------------------------------------------------------------------------------------ │
+</span></span><span style="display:flex;"><span>│ | Id  | Operation                        | Name                    | Rows  | Bytes | Cost (%CPU)| Time     | │
+</span></span><span style="display:flex;"><span>│ ------------------------------------------------------------------------------------------------------------ │
+</span></span><span style="display:flex;"><span>│ |   0 | SELECT STATEMENT                 |                         |     1 |    11 |   392   (1)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ |   1 |  SORT AGGREGATE                  |                         |     1 |    11 |            |          | │
+</span></span><span style="display:flex;"><span>│ |   2 |   BITMAP CONVERSION COUNT        |                         |   126K|  1364K|   392   (1)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ |   3 |    BITMAP OR                     |                         |       |       |            |          | │
+</span></span><span style="display:flex;"><span>│ |   4 |     BITMAP CONVERSION FROM ROWIDS|                         |       |       |            |          | │
+</span></span><span style="display:flex;"><span>│ |*  5 |      INDEX RANGE SCAN            | USERS_DETAILS_2023_IDX2 |       |       |   389   (1)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ |   6 |     BITMAP CONVERSION FROM ROWIDS|                         |       |       |            |          | │
+</span></span><span style="display:flex;"><span>│ |*  7 |      INDEX RANGE SCAN            | USERS_DETAILS_2023_IDX1 |       |       |     3   (0)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ ------------------------------------------------------------------------------------------------------------ │
+</span></span><span style="display:flex;"><span>│                                                                                                              │
+</span></span><span style="display:flex;"><span>│ Predicate Information (identified by operation id):                                                          │
+</span></span><span style="display:flex;"><span>│ ---------------------------------------------------                                                          │
+</span></span><span style="display:flex;"><span>│                                                                                                              │
+</span></span><span style="display:flex;"><span>│ 5 - access(&#34;GENDER&#34;=U&#39;Male&#39;)                                                                                 │
+</span></span><span style="display:flex;"><span>│ 7 - access(&#34;LOCATION&#34;=U&#39;Calgary, AB&#39;)                                                                        │
+</span></span><span style="display:flex;"><span>└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
-<h2 class="relative group">測試結果與執行計畫 (Explain Plan)
-    <div id="測試結果與執行計畫-explain-plan" class="anchor"></div>
+<h3 class="relative group">SQL 2 的執行計畫 (手動展開)
+    <div id="sql-2-的執行計畫-手動展開" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6%e7%b5%90%e6%9e%9c%e8%88%87%e5%9f%b7%e8%a1%8c%e8%a8%88%e7%95%ab-explain-plan" aria-label="定位點">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#sql-2-%e7%9a%84%e5%9f%b7%e8%a1%8c%e8%a8%88%e7%95%ab-%e6%89%8b%e5%8b%95%e5%b1%95%e9%96%8b" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+</span></span><span style="display:flex;"><span>│                                        PLAN TABLE OUTPUT                                        │
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ Plan hash value: 242963651                                                                      │
+</span></span><span style="display:flex;"><span>│                                                                                                 │
+</span></span><span style="display:flex;"><span>│ ----------------------------------------------------------------------------------------------- │
+</span></span><span style="display:flex;"><span>│ | Id  | Operation           | Name                    | Rows  | Bytes | Cost (%CPU)| Time     | │
+</span></span><span style="display:flex;"><span>│ ----------------------------------------------------------------------------------------------- │
+</span></span><span style="display:flex;"><span>│ |   0 | SELECT STATEMENT    |                         |     2 |    18 |  3819   (1)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ |   1 |  UNION-ALL          |                         |       |       |            |          | │
+</span></span><span style="display:flex;"><span>│ |   2 |   SORT AGGREGATE    |                         |     1 |     7 |            |          | │
+</span></span><span style="display:flex;"><span>│ |*  3 |    INDEX RANGE SCAN | USERS_DETAILS_2023_IDX1 |     3 |    21 |     3   (0)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ |   4 |   SORT AGGREGATE    |                         |     1 |    11 |            |          | │
+</span></span><span style="display:flex;"><span>│ |*  5 |    TABLE ACCESS FULL| USERS_DETAILS_2023      |   126K|  1364K|  3816   (1)| 00:00:01 | │
+</span></span><span style="display:flex;"><span>│ ----------------------------------------------------------------------------------------------- │
+</span></span><span style="display:flex;"><span>│                                                                                                 │
+</span></span><span style="display:flex;"><span>│ Predicate Information (identified by operation id):                                             │
+</span></span><span style="display:flex;"><span>│ ---------------------------------------------------                                             │
+</span></span><span style="display:flex;"><span>│                                                                                                 │
+</span></span><span style="display:flex;"><span>│ 3 - access(&#34;LOCATION&#34;=U&#39;Calgary, AB&#39;)                                                           │
+</span></span><span style="display:flex;"><span>│ 5 - filter(&#34;GENDER&#34;=U&#39;Male&#39; AND LNNVL(&#34;LOCATION&#34;=U&#39;Calgary, AB&#39;))                               │
+</span></span><span style="display:flex;"><span>└─────────────────────────────────────────────────────────────────────────────────────────────────┘</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<hr>
+
+<h2 class="relative group">觀察與總結
+    <div id="觀察與總結" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e8%a7%80%e5%af%9f%e8%88%87%e7%b8%bd%e7%b5%90" aria-label="定位點">#</a>
     </span>
     
 </h2>
-<p>我們將分別測試三種不同的 <code>COUNT</code> 寫法，並觀察 Oracle 優化器 (Optimizer) 給出的執行計畫與 Cost (成本)。</p>
-
-<h3 class="relative group">1. 測試：COUNT(PK 欄位)
-    <div id="1-測試countpk-欄位" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e6%b8%ac%e8%a9%a6countpk-%e6%ac%84%e4%bd%8d" aria-label="定位點">#</a>
-    </span>
-    
-</h3>
-<p><code>MAL_ID</code> 是這張表的主鍵 (PK)，自帶 Index。</p>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(MAL_ID) <span style="color:#66d9ef">FROM</span> pollo.USERS_DETAILS_2023;</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-
-<h4 class="relative group">EXPLAIN PLAN
-    <div id="explain-plan" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#explain-plan" aria-label="定位點">#</a>
-    </span>
-    
-</h4>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Plan hash value: 3668018772
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>| Id  | Operation             | Name         | Rows  | Cost (%CPU)| Time     |
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>|   0 | SELECT STATEMENT      |              |     1 |   409   (0)| 00:00:01 |
-</span></span><span style="display:flex;"><span>|   1 |  SORT AGGREGATE       |              |     1 |            |          |
-</span></span><span style="display:flex;"><span>|   2 |   INDEX FAST FULL SCAN| SYS_C0010904 |   932K|   409   (0)| 00:00:01 |
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>Note
-</span></span><span style="display:flex;"><span>-----
-</span></span><span style="display:flex;"><span>   - dynamic statistics used: dynamic sampling (level=2)</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-<p><strong>分析</strong>：
-因為 <code>MAL_ID</code> 有 Index，資料庫不需要去讀取龐大的原始資料表（Table），只需要去掃描體積小得多的 Index（<code>INDEX FAST FULL SCAN</code>），就能計算出總筆數。這裡的執行成本 (Cost) 僅為 <strong>409</strong>。</p>
-<hr>
-
-<h3 class="relative group">2. 測試：COUNT(*)
-    <div id="2-測試count" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e6%b8%ac%e8%a9%a6count" aria-label="定位點">#</a>
-    </span>
-    
-</h3>
-<p>最常見的算總筆數寫法。</p>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">FROM</span> pollo.USERS_DETAILS_2023;</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-
-<h4 class="relative group">EXPLAIN PLAN
-    <div id="explain-plan-1" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#explain-plan-1" aria-label="定位點">#</a>
-    </span>
-    
-</h4>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Plan hash value: 3668018772
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>| Id  | Operation             | Name         | Rows  | Cost (%CPU)| Time     |
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>|   0 | SELECT STATEMENT      |              |     1 |   409   (0)| 00:00:01 |
-</span></span><span style="display:flex;"><span>|   1 |  SORT AGGREGATE       |              |     1 |            |          |
-</span></span><span style="display:flex;"><span>|   2 |   INDEX FAST FULL SCAN| SYS_C0010904 |   932K|   409   (0)| 00:00:01 |
-</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>Note
-</span></span><span style="display:flex;"><span>-----
-</span></span><span style="display:flex;"><span>   - dynamic statistics used: dynamic sampling (level=2)</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-<p><strong>分析</strong>：
-結果與 <code>COUNT(PK)</code> 完全相同！當使用 <code>COUNT(*)</code> 時，Oracle 的優化器非常聰明，它知道你只是想算「有幾列（Rows）」，所以它會自動挑選該表中最輕量的一個 Index (通常就是 PK Index) 來進行掃描，因此成本同樣保持在很低的 <strong>409</strong>。</p>
-<hr>
-
-<h3 class="relative group">3. 測試：COUNT(一般欄位且未加 Index)
-    <div id="3-測試count一般欄位且未加-index" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#3-%e6%b8%ac%e8%a9%a6count%e4%b8%80%e8%88%ac%e6%ac%84%e4%bd%8d%e4%b8%94%e6%9c%aa%e5%8a%a0-index" aria-label="定位點">#</a>
-    </span>
-    
-</h3>
-<p>如果我們改用一個沒有建立 Index 的欄位，例如 <code>USERNAME</code> 呢？</p>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(USERNAME) <span style="color:#66d9ef">FROM</span> pollo.USERS_DETAILS_2023;</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-
-<h4 class="relative group">EXPLAIN PLAN
-    <div id="explain-plan-2" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#explain-plan-2" aria-label="定位點">#</a>
-    </span>
-    
-</h4>
-<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Plan hash value: 4071893995
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>-----------------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>| Id  | Operation          | Name               | Rows  | Bytes | Cost (%CPU)| Time     |
-</span></span><span style="display:flex;"><span>-----------------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>|   0 | SELECT STATEMENT   |                    |     1 |   257 |  3814   (1)| 00:00:01 |
-</span></span><span style="display:flex;"><span>|   1 |  SORT AGGREGATE    |                    |     1 |   257 |            |          |
-</span></span><span style="display:flex;"><span>|   2 |   TABLE ACCESS FULL| USERS_DETAILS_2023 |   932K|   228M|  3814   (1)| 00:00:01 |
-</span></span><span style="display:flex;"><span>-----------------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>Note
-</span></span><span style="display:flex;"><span>-----
-</span></span><span style="display:flex;"><span>   - dynamic statistics used: dynamic sampling (level=2)</span></span></code></pre></td></tr></table>
-</div>
-</div></div>
-<p><strong>分析</strong>：
-這裡發生了 <code>TABLE ACCESS FULL</code>（全表掃描）！
-為什麼？因為 <code>COUNT(欄位)</code> 的真實意義是「計算該欄位<strong>不為 NULL</strong> 的資料有幾筆」。由於 <code>USERNAME</code> 沒有 Index，資料庫別無選擇，只能把整張資料表從頭到尾翻一遍，一筆一筆檢查 <code>USERNAME</code> 是否為空值。
-這導致查詢成本暴增將近 10 倍，Cost 來到了 <strong>3814</strong>！</p>
-<hr>
-
-<h2 class="relative group">總結與 Tuning 建議
-    <div id="總結與-tuning-建議" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e7%b8%bd%e7%b5%90%e8%88%87-tuning-%e5%bb%ba%e8%ad%b0" aria-label="定位點">#</a>
-    </span>
-    
-</h2>
-<p>透過上述實驗，我們可以得出幾個重要的結論：</p>
-<ol>
-<li><strong>效能差異巨大</strong>：有沒有使用到 Index，會讓 <code>COUNT</code> 的計算成本產生天壤之別（本例中成本是 <strong>409 vs 3814</strong>，相差近 10 倍）。在資料量高達幾百萬甚至上億筆時，這個差異會直接反映在查詢時間（幾秒鐘與幾十分鐘的區別）。</li>
-<li><strong>了解語意差異</strong>：
+<p>從執行計畫中，我們可以清楚看到巨大的成本差異：</p>
 <ul>
-<li><code>COUNT(*)</code>：計算資料表的「總列數」(無論是否為 NULL)。</li>
-<li><code>COUNT(欄位)</code>：計算該欄位中「不為 NULL」的筆數。</li>
+<li><strong>SQL 1 (一般 OR)</strong>：使用了 <code>BITMAP OR</code>，Cost 為 <strong>392</strong>。</li>
+<li><strong>SQL 2 (手動展開)</strong>：使用了 <code>INDEX RANGE SCAN</code> 加上 <code>TABLE ACCESS FULL</code>，Cost 為 <strong>3819</strong>。</li>
 </ul>
-</li>
-<li><strong>最佳實踐</strong>：如果你單純只是想知道「這張表有幾筆資料」，<strong>請永遠優先使用 <code>COUNT(*)</code> 或 <code>COUNT(PK)</code></strong>。優化器會自動幫你找最快的路徑 (走 Index Scan)。絕對要避免使用沒有 Index 的一般欄位來算總筆數，這會引發不必要的 Full Table Scan。</li>
-</ol>
+
+<h3 class="relative group">Tuning 核心觀念
+    <div id="tuning-核心觀念" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#tuning-%e6%a0%b8%e5%bf%83%e8%a7%80%e5%bf%b5" aria-label="定位點">#</a>
+    </span>
+    
+</h3>
+<p>可以看到，手動展開成 <code>UNION ALL</code> 的 SQL 2 的 Cost 居然是 SQL 1 的將近 <strong>10 倍</strong>！為什麼會這樣？</p>
+<p>在上一篇 [SQL test 03] 中我們學到，沒有 Index 時，拆成 <code>UNION ALL</code> 會導致做兩次全表掃描。
+那這次我們明明在 <code>LOCATION</code> 和 <code>GENDER</code> 都加上了 Index，為什麼手動做 OR Expansion 的成本還是比較高呢？</p>
+<p>這背後有兩個深刻的 Tuning 知識點：</p>
+
+<h4 class="relative group">1. 高成本的回表查詢 (Table Access By Index ROWID)
+    <div id="1-高成本的回表查詢-table-access-by-index-rowid" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#1-%e9%ab%98%e6%88%90%e6%9c%ac%e7%9a%84%e5%9b%9e%e8%a1%a8%e6%9f%a5%e8%a9%a2-table-access-by-index-rowid" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<p>在 SQL 2 的第二個查詢中：<code>GENDER = 'Male' AND LNNVL(LOCATION = 'Calgary, AB')</code>。
+雖然 <code>GENDER</code> 有 Index，但 <code>Male</code> 的資料量非常龐大 (約 12.6 萬筆)。如果走 Index，就必須透過 ROWID 回去原始資料表（回表）拿 <code>LOCATION</code> 欄位來做 <code>LNNVL</code> 驗證。這會產生高達十幾萬次的「隨機讀取 (Random I/O)」，成本遠比循序讀取還要高！
+因此，聰明的優化器在第二個分支直接放棄使用 <code>GENDER</code> 的 Index，改採「全表掃描 (<code>TABLE ACCESS FULL</code>)」。這也導致 SQL 2 的總成本飆升到 3819。</p>
+
+<h4 class="relative group">2. 強大的 BITMAP OR (位元圖轉換)
+    <div id="2-強大的-bitmap-or-位元圖轉換" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#2-%e5%bc%b7%e5%a4%a7%e7%9a%84-bitmap-or-%e4%bd%8d%e5%85%83%e5%9c%96%e8%bd%89%e6%8f%9b" aria-label="定位點">#</a>
+    </span>
+    
+</h4>
+<p>針對 SQL 1，優化器找到了一條更棒的捷徑：<strong>Bitmap Conversion (位元圖轉換)</strong>。
+既然 <code>LOCATION</code> 和 <code>GENDER</code> 都有獨立的 B-Tree Index，Oracle 可以將這兩個 Index 分別掃描出來的 ROWID，在記憶體中動態轉換成 <strong>Bitmap (位元圖)</strong>。接著直接對兩張 Bitmap 做 <code>OR</code> 邏輯運算（位元運算速度極快），最後再計算出總筆數（<code>BITMAP CONVERSION COUNT</code>）。
+整個過程幾乎不需要去撈取龐大的原始資料表，因此 Cost 僅有 <strong>392</strong>，達到了極致的效能！</p>
+<p><strong>結論</strong>：
+有了 Index 之後，Oracle 優化器依然會根據資料的分佈狀態（例如 <code>Male</code> 資料佔比極大、回表成本太高）來精算成本。在這個案例中，優化器完美運用了 <code>BITMAP OR</code> 的黑科技，秒殺了傳統的 <code>UNION ALL</code> 展開。
+這再次呼應了我們的核心觀念：<strong>盡可能在過濾條件上提供足夠的「武器 (Index)」，然後信任資料庫強大的優化器 (CBO)，通常就能得到最佳的執行路徑！</strong></p>
+
+<h2 class="relative group">測試完成後動作
+    <div id="測試完成後動作" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#%e6%b8%ac%e8%a9%a6%e5%ae%8c%e6%88%90%e5%be%8c%e5%8b%95%e4%bd%9c" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<p>刪除 index</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">INDEX</span> USERS_DETAILS_2023_IDX1;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">INDEX</span> USERS_DETAILS_2023_IDX2;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
 
           
           
@@ -1446,32 +1515,19 @@
           
             <a
               class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/oracle-database/sql-test-00/">
+              href="/oracle-database/sql-test-03/">
               <span class="leading-6">
-                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;SQL test 00 - test data
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;SQL test 03 - OR Expansion (OR 展開) - 沒有 Index
               </span>
             </a>
             
               <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-06-19T08:40:33&#43;08:00">June 19, 2026</time>
+                <time datetime="2026-06-19T14:34:00&#43;08:00">June 19, 2026</time>
               </span>
             
           
         </span>
         <span class="flex flex-col items-end">
-          
-            <a
-              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/oracle-database/sql-test-02/">
-              <span class="leading-6">
-                SQL test 02 - Filter Simplification (邏輯條件簡化)&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
-              </span>
-            </a>
-            
-              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-06-19T13:50:53&#43;08:00">June 19, 2026</time>
-              </span>
-            
           
         </span>
       </div>

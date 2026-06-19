@@ -7,7 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Fri, 19 Jun 2026 13:50:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/sql-tuning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Jun 2026 16:00:03 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/sql-tuning/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)</title>
+      <link>http://pollochang.work/oracle-database/sql-test-04/</link>
+      <pubDate>Fri, 19 Jun 2026 16:00:03 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/sql-test-04/</guid>
+      <description>&lt;h1 class=&#34;relative group&#34;&gt;SQL test 04 - OR Expansion 與 INLIST ITERATOR (有 Index)&#xA;    &lt;div id=&#34;sql-test-04---or-expansion-與-inlist-iterator-有-index&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#sql-test-04---or-expansion-%e8%88%87-inlist-iterator-%e6%9c%89-index&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h1&gt;&#xA;&lt;p&gt;在上一篇 [SQL test 03] 中我們看到了，如果查詢條件「&lt;strong&gt;沒有 Index&lt;/strong&gt;」，Oracle 為了避免做兩次全表掃描，會拒絕執行 OR Expansion。&#xA;那麼，如果我們幫查詢條件加上了 Index，優化器又會怎麼做呢？&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>SQL test 03 - OR Expansion (OR 展開) - 沒有 Index</title>
+      <link>http://pollochang.work/oracle-database/sql-test-03/</link>
+      <pubDate>Fri, 19 Jun 2026 14:34:00 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/sql-test-03/</guid>
+      <description>&lt;h1 class=&#34;relative group&#34;&gt;SQL test 03 - OR Expansion (OR 展開)&#xA;    &lt;div id=&#34;sql-test-03---or-expansion-or-展開&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#sql-test-03---or-expansion-or-%e5%b1%95%e9%96%8b&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h1&gt;&#xA;&lt;p&gt;在 SQL Tuning 中，遇到 &lt;code&gt;WHERE ... OR ...&lt;/code&gt; 的條件時，Oracle 優化器有時會啟動一種稱為 &lt;strong&gt;OR Expansion (OR 展開)&lt;/strong&gt; 的查詢轉換機制。它的原理是將一個帶有 &lt;code&gt;OR&lt;/code&gt; 的查詢，拆分成多個使用 &lt;code&gt;UNION ALL&lt;/code&gt; 的獨立查詢，以期能分別使用不同的 Index 來提升效能。&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>SQL test 02 - Filter Simplification (邏輯條件簡化)</title>
