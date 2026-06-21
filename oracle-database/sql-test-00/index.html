@@ -75,7 +75,7 @@
   <meta property="og:site_name" content="PolloChang 工作筆記">
   <meta property="og:title" content="SQL test 00 - test data">
   <meta property="og:description" content="這是 SQL Test 系列的測試資料，採用 Anime Dataset 2023
-Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset/ DDL Design for test case # 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 -- 1. 對應 anime-dataset-2023.csv CREATE TABLE ANIME_DATASET_2023 ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), ENGLISH_NAME NVARCHAR2(500), OTHER_NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), SYNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), STATUS NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANK NUMBER, POPULARITY NUMBER, FAVORITES NUMBER, SCORED_BY NUMBER, MEMBERS NUMBER, IMAGE_URL NVARCHAR2(1000) ); -- 2. 對應 anime-filtered.csv CREATE TABLE ANIME_FILTERED ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), ENGLISH_NAME NVARCHAR2(500), JAPANESE_NAME NVARCHAR2(500), SYPNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANKED NUMBER, POPULARITY NUMBER, MEMBERS NUMBER, FAVORITES NUMBER, WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER ); -- 3. 對應 final_animedataset.csv CREATE TABLE FINAL_ANIMEDATASET ( USERNAME NVARCHAR2(255), ANIME_ID NUMBER, MY_SCORE NUMBER, USER_ID NUMBER, GENDER NVARCHAR2(50), TITLE NVARCHAR2(500), TYPE NVARCHAR2(50), SOURCE NVARCHAR2(100), SCORE NUMBER(5,2), SCORED_BY NUMBER, RANK NUMBER, POPULARITY NUMBER, GENRE NVARCHAR2(1000) ); -- 4. 對應 user-filtered.csv CREATE TABLE USER_FILTERED ( USER_ID NUMBER, ANIME_ID NUMBER, RATING NUMBER ); -- 5. 對應 users-details-2023.csv CREATE TABLE USERS_DETAILS_2023 ( MAL_ID NUMBER PRIMARY KEY, USERNAME NVARCHAR2(255), GENDER NVARCHAR2(50), BIRTHDAY NVARCHAR2(100), LOCATION NVARCHAR2(500), JOINED NVARCHAR2(100), DAYS_WATCHED NUMBER(10,2), MEAN_SCORE NUMBER(5,2), WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER, PLAN_TO_WATCH NUMBER, TOTAL_ENTRIES NUMBER, REWATCHED NUMBER, EPISODES_WATCHED NUMBER ); -- 6. 對應 users-score-2023.csv CREATE TABLE USERS_SCORE_2023 ( USER_ID NUMBER, USERNAME NVARCHAR2(255), ANIME_ID NUMBER, ANIME_TITLE NVARCHAR2(500), RATING NUMBER );">
+Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset/ DDL Design for test case # 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 -- 1. 對應 anime-dataset-2023.csv CREATE TABLE ANIME_DATASET_2023 ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), ENGLISH_NAME NVARCHAR2(500), OTHER_NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), SYNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), STATUS NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANK NUMBER, POPULARITY NUMBER, FAVORITES NUMBER, SCORED_BY NUMBER, MEMBERS NUMBER, IMAGE_URL NVARCHAR2(1000) ); -- 2. 對應 anime-filtered.csv CREATE TABLE ANIME_FILTERED ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), ENGLISH_NAME NVARCHAR2(500), JAPANESE_NAME NVARCHAR2(500), SYPNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANKED NUMBER, POPULARITY NUMBER, MEMBERS NUMBER, FAVORITES NUMBER, WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER ); -- 3. 對應 final_animedataset.csv CREATE TABLE FINAL_ANIMEDATASET ( USERNAME NVARCHAR2(255), ANIME_ID NUMBER, MY_SCORE NUMBER, USER_ID NUMBER, GENDER NVARCHAR2(50), TITLE NVARCHAR2(500), TYPE NVARCHAR2(50), SOURCE NVARCHAR2(100), SCORE NUMBER(5,2), SCORED_BY NUMBER, RANK NUMBER, POPULARITY NUMBER, GENRE NVARCHAR2(1000) ); -- 4. 對應 user-filtered.csv CREATE TABLE USER_FILTERED ( USER_ID NUMBER, ANIME_ID NUMBER, RATING NUMBER ); -- 5. 對應 users-details-2023.csv CREATE TABLE USERS_DETAILS_2023 ( MAL_ID NUMBER PRIMARY KEY, USERNAME NVARCHAR2(255), GENDER NVARCHAR2(50), BIRTHDAY NVARCHAR2(100), LOCATION NVARCHAR2(500), JOINED NVARCHAR2(100), DAYS_WATCHED NUMBER(10,2), MEAN_SCORE NUMBER(5,2), WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER, PLAN_TO_WATCH NUMBER, TOTAL_ENTRIES NUMBER, REWATCHED NUMBER, EPISODES_WATCHED NUMBER ); -- 6. 對應 users-score-2023.csv CREATE TABLE USERS_SCORE_2023 ( USER_ID NUMBER, USERNAME NVARCHAR2(255), ANIME_ID NUMBER, ANIME_TITLE NVARCHAR2(500), RATING NUMBER ); 以下是這 7 張表之間的邏輯關係圖（以 Mermaid 語法繪製）：">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:type" content="article">
     <meta property="article:section" content="oracle-database">
@@ -88,7 +88,7 @@ Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanim
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="SQL test 00 - test data">
   <meta name="twitter:description" content="這是 SQL Test 系列的測試資料，採用 Anime Dataset 2023
-Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset/ DDL Design for test case # 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 -- 1. 對應 anime-dataset-2023.csv CREATE TABLE ANIME_DATASET_2023 ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), ENGLISH_NAME NVARCHAR2(500), OTHER_NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), SYNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), STATUS NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANK NUMBER, POPULARITY NUMBER, FAVORITES NUMBER, SCORED_BY NUMBER, MEMBERS NUMBER, IMAGE_URL NVARCHAR2(1000) ); -- 2. 對應 anime-filtered.csv CREATE TABLE ANIME_FILTERED ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), ENGLISH_NAME NVARCHAR2(500), JAPANESE_NAME NVARCHAR2(500), SYPNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANKED NUMBER, POPULARITY NUMBER, MEMBERS NUMBER, FAVORITES NUMBER, WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER ); -- 3. 對應 final_animedataset.csv CREATE TABLE FINAL_ANIMEDATASET ( USERNAME NVARCHAR2(255), ANIME_ID NUMBER, MY_SCORE NUMBER, USER_ID NUMBER, GENDER NVARCHAR2(50), TITLE NVARCHAR2(500), TYPE NVARCHAR2(50), SOURCE NVARCHAR2(100), SCORE NUMBER(5,2), SCORED_BY NUMBER, RANK NUMBER, POPULARITY NUMBER, GENRE NVARCHAR2(1000) ); -- 4. 對應 user-filtered.csv CREATE TABLE USER_FILTERED ( USER_ID NUMBER, ANIME_ID NUMBER, RATING NUMBER ); -- 5. 對應 users-details-2023.csv CREATE TABLE USERS_DETAILS_2023 ( MAL_ID NUMBER PRIMARY KEY, USERNAME NVARCHAR2(255), GENDER NVARCHAR2(50), BIRTHDAY NVARCHAR2(100), LOCATION NVARCHAR2(500), JOINED NVARCHAR2(100), DAYS_WATCHED NUMBER(10,2), MEAN_SCORE NUMBER(5,2), WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER, PLAN_TO_WATCH NUMBER, TOTAL_ENTRIES NUMBER, REWATCHED NUMBER, EPISODES_WATCHED NUMBER ); -- 6. 對應 users-score-2023.csv CREATE TABLE USERS_SCORE_2023 ( USER_ID NUMBER, USERNAME NVARCHAR2(255), ANIME_ID NUMBER, ANIME_TITLE NVARCHAR2(500), RATING NUMBER );">
+Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset/ DDL Design for test case # 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 -- 1. 對應 anime-dataset-2023.csv CREATE TABLE ANIME_DATASET_2023 ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), ENGLISH_NAME NVARCHAR2(500), OTHER_NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), SYNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), STATUS NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANK NUMBER, POPULARITY NUMBER, FAVORITES NUMBER, SCORED_BY NUMBER, MEMBERS NUMBER, IMAGE_URL NVARCHAR2(1000) ); -- 2. 對應 anime-filtered.csv CREATE TABLE ANIME_FILTERED ( ANIME_ID NUMBER PRIMARY KEY, NAME NVARCHAR2(500), SCORE NUMBER(5,2), GENRES NVARCHAR2(1000), ENGLISH_NAME NVARCHAR2(500), JAPANESE_NAME NVARCHAR2(500), SYPNOPSIS CLOB, TYPE NVARCHAR2(50), EPISODES NUMBER, AIRED NVARCHAR2(100), PREMIERED NVARCHAR2(100), PRODUCERS NVARCHAR2(1000), LICENSORS NVARCHAR2(1000), STUDIOS NVARCHAR2(1000), SOURCE NVARCHAR2(100), DURATION NVARCHAR2(100), RATING NVARCHAR2(200), RANKED NUMBER, POPULARITY NUMBER, MEMBERS NUMBER, FAVORITES NUMBER, WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER ); -- 3. 對應 final_animedataset.csv CREATE TABLE FINAL_ANIMEDATASET ( USERNAME NVARCHAR2(255), ANIME_ID NUMBER, MY_SCORE NUMBER, USER_ID NUMBER, GENDER NVARCHAR2(50), TITLE NVARCHAR2(500), TYPE NVARCHAR2(50), SOURCE NVARCHAR2(100), SCORE NUMBER(5,2), SCORED_BY NUMBER, RANK NUMBER, POPULARITY NUMBER, GENRE NVARCHAR2(1000) ); -- 4. 對應 user-filtered.csv CREATE TABLE USER_FILTERED ( USER_ID NUMBER, ANIME_ID NUMBER, RATING NUMBER ); -- 5. 對應 users-details-2023.csv CREATE TABLE USERS_DETAILS_2023 ( MAL_ID NUMBER PRIMARY KEY, USERNAME NVARCHAR2(255), GENDER NVARCHAR2(50), BIRTHDAY NVARCHAR2(100), LOCATION NVARCHAR2(500), JOINED NVARCHAR2(100), DAYS_WATCHED NUMBER(10,2), MEAN_SCORE NUMBER(5,2), WATCHING NUMBER, COMPLETED NUMBER, ON_HOLD NUMBER, DROPPED NUMBER, PLAN_TO_WATCH NUMBER, TOTAL_ENTRIES NUMBER, REWATCHED NUMBER, EPISODES_WATCHED NUMBER ); -- 6. 對應 users-score-2023.csv CREATE TABLE USERS_SCORE_2023 ( USER_ID NUMBER, USERNAME NVARCHAR2(255), ANIME_ID NUMBER, ANIME_TITLE NVARCHAR2(500), RATING NUMBER ); 以下是這 7 張表之間的邏輯關係圖（以 Mermaid 語法繪製）：">
 
   
   
@@ -265,7 +265,7 @@ Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanim
     "keywords": ["SQL tuning","學習筆記"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "377"
+    "wordCount": "5700"
   }]
   </script>
 
@@ -784,7 +784,7 @@ Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanim
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-06-19T08:40:33&#43;08:00">June 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>377 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-06-19T08:40:33&#43;08:00">June 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>5700 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">12 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1357,6 +1357,602 @@ Test Data # Anime Dataset 2023: https://www.kaggle.com/datasets/dbdmobile/myanim
 </span></span><span style="display:flex;"><span>    ANIME_TITLE NVARCHAR2(<span style="color:#ae81ff">500</span>),
 </span></span><span style="display:flex;"><span>    RATING NUMBER
 </span></span><span style="display:flex;"><span>);</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>以下是這 7 張表之間的邏輯關係圖（以 Mermaid 語法繪製）：</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="low"
+    alt="alt text"
+    src="/images/ai-sikll-try-001.png"
+    ></figure>
+</p>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>erDiagram
+</span></span><span style="display:flex;"><span>        ANIME_DATASET_2023 {
+</span></span><span style="display:flex;"><span>            NUMBER ANIME_ID PK &#34;動畫唯一識別 ID&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 NAME &#34;動畫原始語言名稱&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 ENGLISH_NAME &#34;動畫英文名稱&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 OTHER_NAME &#34;動畫其他名稱&#34;
+</span></span><span style="display:flex;"><span>            NUMBER SCORE &#34;動畫平均評分&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 GENRES &#34;動畫類型風格&#34;
+</span></span><span style="display:flex;"><span>            CLOB SYNOPSIS &#34;動畫劇情簡介&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 TYPE &#34;動畫播放類型&#34;
+</span></span><span style="display:flex;"><span>            NUMBER EPISODES &#34;總集數&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 AIRED &#34;播出日期範圍&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 PREMIERED &#34;首播季度與年份&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 STATUS &#34;播出狀態&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 PRODUCERS &#34;製作人/企劃公司&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 LICENSORS &#34;版權代理商/授權平台&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 STUDIOS &#34;動畫製作公司&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 SOURCE &#34;原作來源&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 DURATION &#34;單集播映時間&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_400 RATING &#34;家長分級&#34;
+</span></span><span style="display:flex;"><span>            NUMBER RANK &#34;評分排名&#34;
+</span></span><span style="display:flex;"><span>            NUMBER POPULARITY &#34;人氣排名&#34;
+</span></span><span style="display:flex;"><span>            NUMBER FAVORITES &#34;被收藏為最愛人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER SCORED_BY &#34;參與評分的使用者總數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER MEMBERS &#34;將此動畫加入清單人數&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 IMAGE_URL &#34;動畫封面海報連結&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        ANIME_FILTERED {
+</span></span><span style="display:flex;"><span>            NUMBER ANIME_ID PK &#34;動畫唯一識別 ID&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 NAME &#34;動畫名稱&#34;
+</span></span><span style="display:flex;"><span>            NUMBER SCORE &#34;動畫平均評分&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 GENRES &#34;動畫類型風格&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 ENGLISH_NAME &#34;動畫英文名稱&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 JAPANESE_NAME &#34;動畫日文原名&#34;
+</span></span><span style="display:flex;"><span>            CLOB SYPNOPSIS &#34;動畫劇情簡介 (欄位拼寫為 SYPNOPSIS)&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 TYPE &#34;動畫播放類型&#34;
+</span></span><span style="display:flex;"><span>            NUMBER EPISODES &#34;總集數&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 AIRED &#34;播出日期範圍&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 PREMIERED &#34;首播季度與年份&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 PRODUCERS &#34;製作人/企劃公司&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 LICENSORS &#34;版權代理商/授權平台&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 STUDIOS &#34;動畫製作公司&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 SOURCE &#34;原作來源&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 DURATION &#34;單集播映時間&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_400 RATING &#34;家長分級&#34;
+</span></span><span style="display:flex;"><span>            NUMBER RANKED &#34;評分排名 (欄位拼寫為 RANKED)&#34;
+</span></span><span style="display:flex;"><span>            NUMBER POPULARITY &#34;人氣排名&#34;
+</span></span><span style="display:flex;"><span>            NUMBER MEMBERS &#34;將此動畫加入清單人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER FAVORITES &#34;被收藏為最愛人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER WATCHING &#34;目前正在觀看人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER COMPLETED &#34;已經看完人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER ON_HOLD &#34;暫停觀看人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER DROPPED &#34;已棄追人數&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        USERS_DETAILS_2023 {
+</span></span><span style="display:flex;"><span>            NUMBER MAL_ID PK &#34;使用者唯一識別 ID&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_510 USERNAME UK &#34;使用者帳號名稱&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 GENDER &#34;性別&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 BIRTHDAY &#34;生日&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 LOCATION &#34;居住地或國家&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 JOINED &#34;加入平台日期&#34;
+</span></span><span style="display:flex;"><span>            NUMBER DAYS_WATCHED &#34;總計觀看動漫天數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER MEAN_SCORE &#34;平均分數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER WATCHING &#34;正在觀看動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER COMPLETED &#34;已看完動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER ON_HOLD &#34;暫停觀看動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER DROPPED &#34;已棄追動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER PLAN_TO_WATCH &#34;計畫觀看動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER TOTAL_ENTRIES &#34;清單動漫總數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER REWATCHED &#34;重複觀看動畫數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER EPISODES_WATCHED &#34;累計觀看集數&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        USERS_SCORE_2023 {
+</span></span><span style="display:flex;"><span>            NUMBER USER_ID FK &#34;使用者 ID (對應 MAL_ID)&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_510 USERNAME &#34;使用者帳號名稱&#34;
+</span></span><span style="display:flex;"><span>            NUMBER ANIME_ID FK &#34;動畫 ID (對應 ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 ANIME_TITLE &#34;動畫標題&#34;
+</span></span><span style="display:flex;"><span>            NUMBER RATING &#34;評分 (1-10)&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        USER_FILTERED {
+</span></span><span style="display:flex;"><span>            NUMBER USER_ID FK &#34;使用者 ID (對應 MAL_ID)&#34;
+</span></span><span style="display:flex;"><span>            NUMBER ANIME_ID FK &#34;動畫 ID (對應 ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>            NUMBER RATING &#34;評分 (0-10)&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        FINAL_ANIMEDATASET {
+</span></span><span style="display:flex;"><span>            NVARCHAR2_510 USERNAME &#34;使用者帳號名稱&#34;
+</span></span><span style="display:flex;"><span>            NUMBER ANIME_ID FK &#34;動畫 ID (對應 ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>            NUMBER MY_SCORE &#34;評分 (0-10)&#34;
+</span></span><span style="display:flex;"><span>            NUMBER USER_ID FK &#34;使用者 ID (對應 MAL_ID)&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 GENDER &#34;使用者性別&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_1000 TITLE &#34;動畫標題&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 TYPE &#34;動畫類型&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 SOURCE &#34;原作來源&#34;
+</span></span><span style="display:flex;"><span>            NUMBER SCORE &#34;平台平均評分&#34;
+</span></span><span style="display:flex;"><span>            NUMBER SCORED_BY &#34;平台評分人數&#34;
+</span></span><span style="display:flex;"><span>            NUMBER RANK &#34;平台評分排名&#34;
+</span></span><span style="display:flex;"><span>            NUMBER POPULARITY &#34;平台人氣排名&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_2000 GENRE &#34;動畫風格類型&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>        GOV_DATASET_REGISTRY {
+</span></span><span style="display:flex;"><span>            NUMBER OBJID PK &#34;紀錄唯一識別碼&#34;
+</span></span><span style="display:flex;"><span>            NUMBER DATASET_ID &#34;開放資料集 ID&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_400 DATASET_NAME &#34;資料集名稱&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 DATA_PROVIDER_ATTR &#34;資料提供者屬性&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 SERVICE_CATEGORY &#34;服務分類&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_40 QUALITY_CHECK &#34;品質檢驗狀態&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 FILE_FORMAT &#34;資料檔案格式&#34;
+</span></span><span style="display:flex;"><span>            VARCHAR2_2000 DOWNLOAD_URL &#34;資料下載網址&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 ENCODING_FORMAT &#34;字元編碼格式&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 PUBLISH_METHOD &#34;發布方式描述&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_4000 DATASET_DESC &#34;資料集詳細說明&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_4000 MAIN_FIELDS &#34;主要欄位說明&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 PROVIDER_AGENCY &#34;資料提供機關&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 UPDATE_FREQUENCY &#34;資料更新頻率&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 LICENSE_TYPE &#34;授權類型說明&#34;
+</span></span><span style="display:flex;"><span>            VARCHAR2_1000 RELATED_URL &#34;相關連結網址&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 BILLING_TYPE &#34;計費方式&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 CONTACT_NAME &#34;聯絡人姓名&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_100 CONTACT_PHONE &#34;聯絡人電話&#34;
+</span></span><span style="display:flex;"><span>            DATE PUBLISH_DATE &#34;發布日期&#34;
+</span></span><span style="display:flex;"><span>            DATE METADATA_UPDATE_TIME &#34;中介資料更新時間&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_4000 REMARKS &#34;備註&#34;
+</span></span><span style="display:flex;"><span>            NVARCHAR2_200 DATA_VOLUME &#34;資料量描述&#34;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        %% 關聯定義
+</span></span><span style="display:flex;"><span>        ANIME_DATASET_2023 ||--o| ANIME_FILTERED : &#34;1 對 0或1 (ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>        ANIME_DATASET_2023 ||--o{ USERS_SCORE_2023 : &#34;1 對 多 (ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>        ANIME_DATASET_2023 ||--o{ USER_FILTERED : &#34;1 對 多 (ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>        ANIME_DATASET_2023 ||--o{ FINAL_ANIMEDATASET : &#34;1 對 多 (ANIME_ID)&#34;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        USERS_DETAILS_2023 ||--o{ USERS_SCORE_2023 : &#34;1 對 多 (MAL_ID = USER_ID)&#34;
+</span></span><span style="display:flex;"><span>        USERS_DETAILS_2023 ||--o{ USER_FILTERED : &#34;1 對 多 (MAL_ID = USER_ID)&#34;
+</span></span><span style="display:flex;"><span>        USERS_DETAILS_2023 ||--o{ FINAL_ANIMEDATASET : &#34;1 對 多 (MAL_ID = USER_ID)&#34;</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- MyAnimeList 2023 Database Schema DDL Comments
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Schema Name: POLLO
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Date: 2026-06-20
+</span></span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 1. POLLO.ANIME_DATASET_2023 (2023 年動畫完整元數據表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.ANIME_DATASET_2023 <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;2023 年動畫完整元數據表 (未篩選)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.ANIME_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫唯一識別 ID (主鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫原始語言名稱 (如日文或羅馬拼音)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.ENGLISH_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫英文名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.OTHER_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫其他名稱 (如日文原名或別名)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.SCORE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平均評分 (1-10)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.GENRES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫類型/風格 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.SYNOPSIS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫劇情簡介&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.<span style="color:#66d9ef">TYPE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫類型 (如 TV, Movie, OVA, Special 等)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.EPISODES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;總集數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.AIRED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;播出日期範圍描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.PREMIERED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;首播季度與年份 (如 Spring 2021)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.STATUS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;播出狀態 (如 Finished Airing, Currently Airing)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.PRODUCERS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;製作人/企劃公司 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.LICENSORS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;版權代理商/授權平台 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.STUDIOS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫製作公司 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.<span style="color:#66d9ef">SOURCE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;原作來源 (如 Manga, Light Novel, Original)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.DURATION <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;單集播映時間&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.RATING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;家長分級 (如 PG-13, R - 17+)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.RANK <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;評分排名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.POPULARITY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;人氣排名 (以成員數計算)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.FAVORITES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;被收藏為最愛的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.SCORED_BY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;參與評分的使用者總數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.MEMBERS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;將此動畫加入清單的使用者總數 (成員數)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_DATASET_2023.IMAGE_URL <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫封面海報連結&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 2. POLLO.ANIME_FILTERED (經過篩選的動畫元數據表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.ANIME_FILTERED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;經過篩選與清洗後的動畫元數據表 (候選集)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.ANIME_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫唯一識別 ID (主鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.SCORE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平均評分 (1-10)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.GENRES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫類型/風格 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.ENGLISH_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫英文名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.JAPANESE_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫日文原名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.SYPNOPSIS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫劇情簡介 (欄位拼寫為 SYPNOPSIS)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.<span style="color:#66d9ef">TYPE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫類型 (如 TV, Movie, OVA)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.EPISODES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;總集數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.AIRED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;播出日期範圍描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.PREMIERED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;首播季度與年份&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.PRODUCERS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;製作人/企劃公司&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.LICENSORS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;版權代理商/授權平台&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.STUDIOS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫製作公司&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.<span style="color:#66d9ef">SOURCE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;原作來源&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.DURATION <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;單集播映時間&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.RATING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;家長分級&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.RANKED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;評分排名 (欄位拼寫為 RANKED)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.POPULARITY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;人氣排名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.MEMBERS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;將此動畫加入清單的使用者總數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.FAVORITES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;被收藏為最愛的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.WATCHING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;目前正在觀看的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.COMPLETED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;已經看完的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.ON_HOLD <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;暫停觀看的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.ANIME_FILTERED.DROPPED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;已棄追的人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 3. POLLO.USERS_DETAILS_2023 (使用者帳號詳細資訊表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.USERS_DETAILS_2023 <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;2023 年使用者帳號詳細資訊表 (使用者維度表)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.MAL_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者唯一識別 ID (主鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.USERNAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者帳號名稱 (唯一值)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.GENDER <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;性別 (如 Male, Female, Non-Binary 等)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.BIRTHDAY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;生日 (ISO 格式/字串)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.<span style="color:#66d9ef">LOCATION</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;居住地或國家&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.JOINED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;加入 MyAnimeList 平台日期 (ISO 格式/字串)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.DAYS_WATCHED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;總計觀看動漫天數 (時長累計)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.MEAN_SCORE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;該使用者給出的平均分數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.WATCHING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;目前正在觀看的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.COMPLETED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;已看完的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.ON_HOLD <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;暫停觀看的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.DROPPED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;已棄追的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.PLAN_TO_WATCH <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;計畫觀看的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.TOTAL_ENTRIES <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;清單中的動漫總數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.REWATCHED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;重複觀看的動畫數量&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_DETAILS_2023.EPISODES_WATCHED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;累計觀看的動畫集數&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 4. POLLO.USERS_SCORE_2023 (使用者評分事實表 - 顯式評分)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.USERS_SCORE_2023 <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;2023 年使用者評分事實表 (僅限顯式評分 1-10 分)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_SCORE_2023.USER_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_SCORE_2023.USERNAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者帳號名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_SCORE_2023.ANIME_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_SCORE_2023.ANIME_TITLE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫標題&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USERS_SCORE_2023.RATING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者給出的評分 (1-10)&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 5. POLLO.USER_FILTERED (經過篩選的評分行為事實表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.USER_FILTERED <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;經過過濾的使用者評分行為表 (包含評分 0 代表未評分/計畫觀看等隱式行為)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USER_FILTERED.USER_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USER_FILTERED.ANIME_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.USER_FILTERED.RATING <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者評分 (0 代表未評分，1-10 代表已評分)&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 6. POLLO.FINAL_ANIMEDATASET (反正規化評分分析寬表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.FINAL_ANIMEDATASET <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;反正規化動畫評分分析寬表 (已合併使用者細節與動畫屬性)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.USERNAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者帳號名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.ANIME_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.MY_SCORE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者給出的評分 (0-10，0代表未評分)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.USER_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者 ID (外鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.GENDER <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;使用者性別 (無 NULL 值)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.TITLE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫標題&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.<span style="color:#66d9ef">TYPE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫類型&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.<span style="color:#66d9ef">SOURCE</span> <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;原作來源&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.SCORE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平台平均評分&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.SCORED_BY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平台評分人數&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.RANK <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平台評分排名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.POPULARITY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫平台人氣排名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.FINAL_ANIMEDATASET.GENRE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;動畫風格類型 (逗號分隔)&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 7. POLLO.GOV_DATASET_REGISTRY (政府開放資料集註冊中介資料表)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- =========================================================================
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">TABLE</span> POLLO.GOV_DATASET_REGISTRY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;政府開放資料集註冊中介資料表&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.OBJID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;紀錄唯一識別碼 (主鍵)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DATASET_ID <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;開放資料集 ID&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DATASET_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料集名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DATA_PROVIDER_ATTR <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料提供者屬性定義&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.SERVICE_CATEGORY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;服務分類&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.QUALITY_CHECK <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;品質檢驗狀態描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.FILE_FORMAT <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料檔案格式 (如 CSV, XML)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DOWNLOAD_URL <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料下載 URL 網址&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.ENCODING_FORMAT <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;字元編碼格式 (如 UTF-8)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.PUBLISH_METHOD <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;發布方式描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DATASET_DESC <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料集詳細說明描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.MAIN_FIELDS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;主要欄位說明描述&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.PROVIDER_AGENCY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料提供機關名稱&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.UPDATE_FREQUENCY <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料更新頻率&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.LICENSE_TYPE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;授權類型說明&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.RELATED_URL <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;相關連結網址&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.BILLING_TYPE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;計費方式 (如免費)&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.CONTACT_NAME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;業務聯絡人姓名&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.CONTACT_PHONE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;業務聯絡人電話&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.PUBLISH_DATE <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;發布日期&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.METADATA_UPDATE_TIME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;中介資料更新時間&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.REMARKS <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;備註欄位&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COMMENT</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">COLUMN</span> POLLO.GOV_DATASET_REGISTRY.DATA_VOLUME <span style="color:#66d9ef">IS</span> <span style="color:#e6db74">&#39;資料量描述&#39;</span>;</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
