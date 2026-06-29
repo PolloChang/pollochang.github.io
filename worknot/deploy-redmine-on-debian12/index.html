@@ -74,7 +74,7 @@
   <meta property="og:url" content="http://pollochang.work/worknot/deploy-redmine-on-debian12/">
   <meta property="og:site_name" content="PolloChang 工作筆記">
   <meta property="og:title" content="Deploy Redmine on Debian12">
-  <meta property="og:description" content="環境 # OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 # 1 2 3 4 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev 1 2 3 4 5 6 7 8 wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml 1 2 3 4 5 6 production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; install 6.1">
+  <meta property="og:description" content="環境 # OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 # 1 2 3 4 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev 1 2 3 4 5 6 7 8 wget https://www.redmine.org/releases/redmine-6.1.3.tar.gz sudo tar -zxf redmine-6.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-6.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml 1 2 3 4 5 6 production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; 1 2 3 4 5 6 7 8 -- 1. 建立獨立的資料庫使用者（角色），並設定密碼 CREATE ROLE username WITH LOGIN PASSWORD &#39;password&#39;; -- 2. 建立 Redmine 使用的資料庫，並將擁有權指定給該使用者 CREATE DATABASE redmine_db WITH OWNER username ENCODING &#39;UTF8&#39;; -- 3. 賦予該使用者在該資料庫的所有權限（確保未來建立資料表沒問題） GRANT ALL PRIVILEGES ON DATABASE redmine_db TO username; install 6.1">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:type" content="article">
     <meta property="article:section" content="worknot">
@@ -85,7 +85,7 @@
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Deploy Redmine on Debian12">
-  <meta name="twitter:description" content="環境 # OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 # 1 2 3 4 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev 1 2 3 4 5 6 7 8 wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-5.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml 1 2 3 4 5 6 production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; install 6.1">
+  <meta name="twitter:description" content="環境 # OS: Debain 12 DB: 10.192.1.105 redmine_db 安裝步驟 # 1 2 3 4 sudo apt install -y gnupg2 sudo gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB curl -sSL https://get.rvm.io | bash -s stable sudo apt -y install ruby-full build-essential libpq-dev 1 2 3 4 5 6 7 8 wget https://www.redmine.org/releases/redmine-6.1.3.tar.gz sudo tar -zxf redmine-6.1.3.tar.gz -C /opt/ cd /opt/ sudo ln -s redmine-6.1.3 redmine cd /opt/redmine sudo cp /opt/redmine/config/configuration.yml{.example,} sudo cp /opt/redmine/public/dispatch.fcgi{.example,} sudo cp /opt/redmine/config/database.yml{.example,} config/database.yml 1 2 3 4 5 6 production: adapter: postgresql database: redmine_db host: 127.0.0.1 username: username password: &#34;password&#34; 1 2 3 4 5 6 7 8 -- 1. 建立獨立的資料庫使用者（角色），並設定密碼 CREATE ROLE username WITH LOGIN PASSWORD &#39;password&#39;; -- 2. 建立 Redmine 使用的資料庫，並將擁有權指定給該使用者 CREATE DATABASE redmine_db WITH OWNER username ENCODING &#39;UTF8&#39;; -- 3. 賦予該使用者在該資料庫的所有權限（確保未來建立資料表沒問題） GRANT ALL PRIVILEGES ON DATABASE redmine_db TO username; install 6.1">
 
   
   
@@ -262,7 +262,7 @@
     "keywords": ["Redmine"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "469"
+    "wordCount": "620"
   }]
   </script>
 
@@ -781,7 +781,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2024-08-25T20:17:23&#43;08:00">August 25, 2024</time><span class="px-2 text-primary-500">&middot;</span><span>469 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2024-08-25T20:17:23&#43;08:00">August 25, 2024</time><span class="px-2 text-primary-500">&middot;</span><span>620 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">2 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1147,10 +1147,10 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://www.redmine.org/releases/redmine-5.1.3.tar.gz
-</span></span><span style="display:flex;"><span>sudo tar -zxf redmine-5.1.3.tar.gz -C /opt/
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://www.redmine.org/releases/redmine-6.1.3.tar.gz
+</span></span><span style="display:flex;"><span>sudo tar -zxf redmine-6.1.3.tar.gz -C /opt/
 </span></span><span style="display:flex;"><span>cd /opt/
-</span></span><span style="display:flex;"><span>sudo ln -s redmine-5.1.3 redmine
+</span></span><span style="display:flex;"><span>sudo ln -s redmine-6.1.3 redmine
 </span></span><span style="display:flex;"><span>cd /opt/redmine
 </span></span><span style="display:flex;"><span>sudo cp /opt/redmine/config/configuration.yml<span style="color:#f92672">{</span>.example,<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>sudo cp /opt/redmine/public/dispatch.fcgi<span style="color:#f92672">{</span>.example,<span style="color:#f92672">}</span>
@@ -1176,6 +1176,28 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">username</span>: <span style="color:#ae81ff">username</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">password</span>: <span style="color:#e6db74">&#34;password&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight-wrapper"><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 1. 建立獨立的資料庫使用者（角色），並設定密碼
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ROLE</span> username <span style="color:#66d9ef">WITH</span> LOGIN PASSWORD <span style="color:#e6db74">&#39;password&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 建立 Redmine 使用的資料庫，並將擁有權指定給該使用者
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> redmine_db <span style="color:#66d9ef">WITH</span> <span style="color:#66d9ef">OWNER</span> username <span style="color:#66d9ef">ENCODING</span> <span style="color:#e6db74">&#39;UTF8&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 3. 賦予該使用者在該資料庫的所有權限（確保未來建立資料表沒問題）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">DATABASE</span> redmine_db <span style="color:#66d9ef">TO</span> username;</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 <p>install 6.1</p>
@@ -1265,6 +1287,7 @@
 </span></span><span style="display:flex;"><span>bundle exec rails server -u webrick -e production</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
+<p>預設帳號: admin/admin</p>
 <ul>
 <li>/etc/systemd/system/redmine.service</li>
 </ul>
@@ -1352,9 +1375,6 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>upstream redmine {
@@ -1362,25 +1382,22 @@
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>server {
 </span></span><span style="display:flex;"><span>    listen       80;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    root /opt/redmine/public;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    location ~ /redmine/(stylesheets|javascripts|images|favicon)(.*)$
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        proxy_pass http://app/$1$2;
+</span></span><span style="display:flex;"><span>    server_name 192.168.122.114;
+</span></span><span style="display:flex;"><span>    root /opt/redmine/public
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    # 處理根目錄與所有一般請求
+</span></span><span style="display:flex;"><span>    location / {
+</span></span><span style="display:flex;"><span>        try_files $uri $uri/index.html $uri.html @redmine;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    location /redmine {
-</span></span><span style="display:flex;"><span>        proxy_pass  http://redmine;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    # 當找不到靜態檔案時，將請求轉交給後端的 Redmine 應用程式處理
 </span></span><span style="display:flex;"><span>    location @redmine {
-</span></span><span style="display:flex;"><span>        proxy_pass http://redmine;
-</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_pass http://redmine
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;                                                                                       
 </span></span><span style="display:flex;"><span>        proxy_set_header Host $http_host;
 </span></span><span style="display:flex;"><span>        proxy_redirect off;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
