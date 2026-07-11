@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Mon, 29 Jun 2026 22:00:24 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jul 2026 12:00:47 +0800</lastBuildDate><atom:link href="http://pollochang.work/worknot/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SQL Console Release v0.3.1</title>
+      <link>http://pollochang.work/worknot/sql-console-release-v0.3.1/</link>
+      <pubDate>Sat, 11 Jul 2026 12:00:47 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/sql-console-release-v0.3.1/</guid>
+      <description>&lt;h2 class=&#34;relative group&#34;&gt;[v0.3.1]-2026-07-11&#xA;    &lt;div id=&#34;v031-2026-07-11&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#v031-2026-07-11&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Fix: Implement JSON unmarshaling compatibility fallback for legacy array format in profiles.json.&lt;/li&gt;&#xA;&lt;li&gt;Chore: Bump version to 0.3.1.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;最近在做網頁版的 sql editer ，核心有用到 sql-console daemon，發現 Java 與 go 預設寫入與讀取的 json 格式不一樣，所以有做修正&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>AI 技巧練習紀錄: 002 - Linux 防火牆設定 與 nginx 設定</title>

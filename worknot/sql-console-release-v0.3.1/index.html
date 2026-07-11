@@ -5,7 +5,6 @@
   class="scroll-smooth"
   data-default-appearance="dark"
   data-auto-appearance="true"><head>
-	<meta name="generator" content="Hugo 0.160.1">
   <meta charset="utf-8">
   
     <meta http-equiv="content-language" content="zh-TW">
@@ -16,8 +15,8 @@
 
   
   
-    <title>PolloChang 工作筆記</title>
-    <meta name="title" content="PolloChang 工作筆記">
+    <title>SQL Console Release v0.3.1 &middot; PolloChang 工作筆記</title>
+    <meta name="title" content="SQL Console Release v0.3.1 &middot; PolloChang 工作筆記">
   
 
   
@@ -25,28 +24,24 @@
     <meta name="description" content="我是一隻雞">
   
   
+    <meta name="keywords" content="release,">
   
   
-  <link rel="canonical" href="http://pollochang.work/">
   
+  <link rel="canonical" href="http://pollochang.work/worknot/sql-console-release-v0.3.1/">
+  
+    
+      
+      
+        <link rel="alternate" hreflang="zh-TW" href="http://pollochang.work/worknot/sql-console-release-v0.3.1/">
+      
     
       
       
-        <link rel="alternate" hreflang="zh-TW" href="http://pollochang.work/">
-      
-    
-      
-      
-        <link rel="alternate" hreflang="en" href="http://pollochang.work/en/">
+        <link rel="alternate" hreflang="en" href="http://pollochang.work/en/worknot/sql-console-release-v0.3.1/">
       
     
   
-  
-    
-      <link rel="alternate" type="application/rss+xml" href="/index.xml" title="PolloChang 工作筆記" />
-  
-    
-      <link rel="alternate" type="application/json" href="/index.json" title="PolloChang 工作筆記" />
   
 
   
@@ -88,17 +83,21 @@
   
 
   
-  <meta property="og:url" content="http://pollochang.work/">
+  <meta property="og:url" content="http://pollochang.work/worknot/sql-console-release-v0.3.1/">
   <meta property="og:site_name" content="PolloChang 工作筆記">
-  <meta property="og:title" content="PolloChang 工作筆記">
-  <meta property="og:description" content="我是一隻雞，專注於 Oracle Database 與 Linux 技術。">
+  <meta property="og:title" content="SQL Console Release v0.3.1">
+  <meta property="og:description" content="[v0.3.1]-2026-07-11 # Fix: Implement JSON unmarshaling compatibility fallback for legacy array format in profiles.json. Chore: Bump version to 0.3.1. 最近在做網頁版的 sql editer ，核心有用到 sql-console daemon，發現 Java 與 go 預設寫入與讀取的 json 格式不一樣，所以有做修正">
   <meta property="og:locale" content="zh_TW">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="worknot">
+    <meta property="article:published_time" content="2026-07-11T12:00:47+08:00">
+    <meta property="article:modified_time" content="2026-07-11T12:00:47+08:00">
+    <meta property="article:tag" content="Release">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="PolloChang 工作筆記">
-  <meta name="twitter:description" content="我是一隻雞，專注於 Oracle Database 與 Linux 技術。">
+  <meta name="twitter:title" content="SQL Console Release v0.3.1">
+  <meta name="twitter:description" content="[v0.3.1]-2026-07-11 # Fix: Implement JSON unmarshaling compatibility fallback for legacy array format in profiles.json. Chore: Bump version to 0.3.1. 最近在做網頁版的 sql editer ，核心有用到 sql-console daemon，發現 Java 與 go 預設寫入與讀取的 json 格式不一樣，所以有做修正">
 
   
   
@@ -158,6 +157,12 @@
   
   
   
+  
+    
+    <script
+      type="text/javascript"
+      src="/js/zen-mode.min.9814dee9614d32aeb56239d118edfe20acd6231424f9b19c2dd48835038414130a5e946c0d1c9087d60e60e31840c9babfd217e3d4b95643dc8d651a71ccdf4a.js"
+      integrity="sha512-mBTe6WFNMq61YjnRGO3&#43;IKzWIxQk&#43;bGcLdSINQOEFBMKXpRsDRyQh9YOYOMYQMm6v9IX49S5VkPcjWUacczfSg=="></script>
   
   
     
@@ -247,20 +252,30 @@
 
   
   <script type="application/ld+json">
-  {
+  [{
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "http://pollochang.work/",
-    "name": "PolloChang 工作筆記",
-    "description": "我是一隻雞",
-    "inLanguage": "zh-TW",
-    "url": "http://pollochang.work/",
+    "@type": "Article",
+    "articleSection": "Worknots",
+    "name": "SQL Console Release v0.3.1",
+    "headline": "SQL Console Release v0.3.1",
     
-    "publisher" : {
+    "inLanguage": "zh-TW",
+    "url" : "http://pollochang.work/worknot/sql-console-release-v0.3.1/",
+    "author" : {
       "@type": "Person",
       "name": "PolloChang"
-    }
-  }
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-07-11T12:00:47\u002b08:00",
+    "datePublished": "2026-07-11T12:00:47\u002b08:00",
+    
+    "dateModified": "2026-07-11T12:00:47\u002b08:00",
+    
+    "keywords": ["release"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "69"
+  }]
   </script>
 
 
@@ -475,19 +490,19 @@
         <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
     <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
       </span>
-      <span class="text-sm font-medium bf-icon-color-hover" title="">繁體中文</span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="SQL Console Release v0.3.1">繁體中文</span>
     </button>
     <ul class="menuhide">
       <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
         
-          <a href="/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="">
+          <a href="/worknot/sql-console-release-v0.3.1/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="SQL Console Release v0.3.1">
               
             </span>
           </a>
         
-          <a href="/en/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="Pollo Tech Blog">
+          <a href="/en/worknot/sql-console-release-v0.3.1/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="SQL Console Release v0.3.1">
               EN
             </span>
           </a>
@@ -719,19 +734,19 @@
         <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
     <path fill="currentColor" d="M0 128C0 92.7 28.7 64 64 64H256h48 16H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H320 304 256 64c-35.3 0-64-28.7-64-64V128zm320 0V384H576V128H320zM178.3 175.9c-3.2-7.2-10.4-11.9-18.3-11.9s-15.1 4.7-18.3 11.9l-64 144c-4.5 10.1 .1 21.9 10.2 26.4s21.9-.1 26.4-10.2l8.9-20.1h73.6l8.9 20.1c4.5 10.1 16.3 14.6 26.4 10.2s14.6-16.3 10.2-26.4l-64-144zM160 233.2L179 276H141l19-42.8zM448 164c11 0 20 9 20 20v4h44 16c11 0 20 9 20 20s-9 20-20 20h-2l-1.6 4.5c-8.9 24.4-22.4 46.6-39.6 65.4c.9 .6 1.8 1.1 2.7 1.6l18.9 11.3c9.5 5.7 12.5 18 6.9 27.4s-18 12.5-27.4 6.9l-18.9-11.3c-4.5-2.7-8.8-5.5-13.1-8.5c-10.6 7.5-21.9 14-34 19.4l-3.6 1.6c-10.1 4.5-21.9-.1-26.4-10.2s.1-21.9 10.2-26.4l3.6-1.6c6.4-2.9 12.6-6.1 18.5-9.8l-12.2-12.2c-7.8-7.8-7.8-20.5 0-28.3s20.5-7.8 28.3 0l14.6 14.6 .5 .5c12.4-13.1 22.5-28.3 29.8-45H448 376c-11 0-20-9-20-20s9-20 20-20h52v-4c0-11 9-20 20-20z"/></svg></span>
       </span>
-      <span class="text-sm font-medium bf-icon-color-hover" title="">繁體中文</span>
+      <span class="text-sm font-medium bf-icon-color-hover" title="SQL Console Release v0.3.1">繁體中文</span>
     </button>
     <ul class="menuhide">
       <li class="rounded-xl backdrop-blur shadow-2xl p-2 flex flex-col gap-1">
         
-          <a href="/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="">
+          <a href="/worknot/sql-console-release-v0.3.1/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="SQL Console Release v0.3.1">
               
             </span>
           </a>
         
-          <a href="/en/" class="flex items-center bf-icon-color-hover px-3 py-1">
-            <span class="text-sm font-sm" title="Pollo Tech Blog">
+          <a href="/en/worknot/sql-console-release-v0.3.1/" class="flex items-center bf-icon-color-hover px-3 py-1">
+            <span class="text-sm font-sm" title="SQL Console Release v0.3.1">
               EN
             </span>
           </a>
@@ -770,43 +785,204 @@
       <main id="main-content" class="grow">
         
   
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        SQL Console Release v0.3.1
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
   
     
-<article
-  class=" flex flex-col items-center justify-center text-center">
-  <header class="relative px-1 py-1 flex flex-col items-center mb-3">
+  
+
+  
+
+  
     
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-07-11T12:00:47&#43;08:00">July 11, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>69 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+  <span
+    id="zen-mode-button"
+    class="text-lg hover:text-primary-500"
+    title="啟用閱讀模式"
+    data-title-i18n-disable="啟用閱讀模式"
+    data-title-i18n-enable="停用閱讀模式">
+    <span class="inline-block align-text-bottom"><span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
+    <path fill="currentColor" d="M 12.980469 4 C 9.1204688 4 5.9804688 7.14 5.9804688 11 L 6 26 L 9.9804688 26 L 9.9804688 11 C 9.9804688 9.35 11.320469 8 12.980469 8 L 40.019531 8 C 41.679531 8 43.019531 9.35 43.019531 11 L 43.019531 39 C 43.019531 40.65 41.679531 42 40.019531 42 L 29 42 C 29 43.54 28.420938 44.94 27.460938 46 L 40.019531 46 C 43.879531 46 47.019531 42.86 47.019531 39 L 47.019531 11 C 47.019531 7.14 43.879531 4 40.019531 4 L 12.980469 4 z M 7 28 C 4.794 28 3 29.794 3 32 L 3 42 C 3 44.206 4.794 46 7 46 L 23 46 C 25.206 46 27 44.206 27 42 L 27 32 C 27 29.794 25.206 28 23 28 L 7 28 z M 7 32 L 23 32 L 23.001953 42 L 7 42 L 7 32 z"/>
+</svg></span></span>
+  </span>
+</span>
+
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+    <div class="flex flex-row flex-wrap items-center">
       
-      
-        
-      
-      
-        
-        
         
           
-          
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/categories/sql-console/">
+                  
+                  <span class="flex cursor-pointer">
+  
+  
+  
+    
+    
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Sql-Console
+  </span>
+</span>
+
+                </a>
+              
+            
+            
+              
+            
           
         
-        <img
-          class="mb-2 h-36 w-36 rounded-full"
-          width="144"
-          height="144"
-          alt="PolloChang"
-          src="/images/logo_hu_4e1e0f2088cc1dc8.jpg"
-          data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+      
+        
+          
+            
+              
+            
+            
+              
+                <a class="relative mt-[0.5rem] me-2" href="/tags/release/">
+                  <span class="flex cursor-pointer">
+  
+  
+  
+  
+    <span
+      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+  
+    Release
+  </span>
+</span>
+
+                </a>
+              
+            
+          
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+    
+<div class="flex author">
+  
+    
+    
       
     
-    <h1 class="text-4xl font-extrabold">
-      PolloChang
-    </h1>
     
-      <h2 class="text-xl text-neutral-500 dark:text-neutral-400">
-        歡迎來到 PolloChang 工作筆記
-      </h2>
-    
-    <div class="mt-1 text-2xl">
       
+      
+      
+        
+        
+        
+      
+      <img
+        class="!mt-0 !mb-0 h-24 w-24 rounded-full me-4"
+        width="96"
+        height="96"
+        alt="PolloChang"
+        src="/images/logo_hu_1397cd167e9991d2.jpg"
+        data-zoom-src="/images/logo_hu_6841f8cbf87181d.jpg">
+    
+  
+  <div class="place-self-center">
+    
+      <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+        作者
+      </div>
+      <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+        PolloChang
+      </div>
+    
+    
+      <div class="text-sm text-neutral-700 dark:text-neutral-400">我是一隻雞</div>
+    
+    <div class="text-2xl sm:text-lg">
   <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500 space-x-2">
     
       
@@ -907,1030 +1083,140 @@
     
   </div>
 
-
-    </div>
-  </header>
-  <section class="prose dark:prose-invert w-full"><p>我是一隻雞，專注於 Oracle Database 與 Linux 技術。</p>
-</section>
-</article>
-<section>
-  
-
+</div>
+  </div>
+</div>
 
   
-    
-  
-  <h2 class="mt-8 text-2xl font-extrabold mb-10">最近的文章</h2>
 
   
-    
-
-
-
-<section class="space-y-10 w-full">
-  
-    
-
-
-
-
-
-
-
 
   
-  
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-    
-    
-      
-      
-        
-      
-        
-      
-        
-      
-    
-
-    
-    
-      
-      
-    
-
-    
-    
-      
-    
+    <div class="mb-5"></div>
   
 
-
-
-<article class="article-link--simple flex flex-col md:flex-row relative">
-  
-  <div class=" mt-3 md:mt-0">
-    <header class="items-center text-start text-xl font-semibold">
-      <a
-        
-          href="/worknot/sql-console-release-v0.2.1-en/"
-        
-        class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
-        <h2>
-          SQL Console Release v0.2.1
-          
-        </h2>
-      </a>
-      
       
     </header>
-    <div class="text-sm text-neutral-500 dark:text-neutral-400">
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
       
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  <div class="flex flex-row flex-wrap items-center">
-    
-    
-      <time datetime="2026-05-19T21:56:47&#43;08:00">May 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>32 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span>
-    
-
-    
-    
+      
+      
+      
+      
+        <div class="order-first lg:ms-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-10">
+            <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain bf-scrollbar rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    目錄
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#v031-2026-07-11">[v0.3.1]-2026-07-11</a></li>
+  </ul>
+</nav>
   </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    目錄
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#v031-2026-07-11">[v0.3.1]-2026-07-11</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
 
-  
 
-  
-  
-    <div class="flex flex-row flex-wrap items-center">
+
+          </div>
+        </div>
       
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
         
+
+        <div class="article-content max-w-prose mb-20">
           
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/categories/sql-console/">
-                  
-                  <span class="flex cursor-pointer">
-  
-  
+<h2 class="relative group">[v0.3.1]-2026-07-11
+    <div id="v031-2026-07-11" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#v031-2026-07-11" aria-label="定位點">#</a>
+    </span>
+    
+</h2>
+<ul>
+<li>Fix: Implement JSON unmarshaling compatibility fallback for legacy array format in profiles.json.</li>
+<li>Chore: Bump version to 0.3.1.</li>
+</ul>
+<p>最近在做網頁版的 sql editer ，核心有用到 sql-console daemon，發現 Java 與 go 預設寫入與讀取的 json 格式不一樣，所以有做修正</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
   
     
     
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Sql-Console
-  </span>
-</span>
-
-                </a>
-              
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/worknot/ai-sikll-try-002-firewalld-ssh/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;AI 技巧練習紀錄: 002 - Linux 防火牆設定 與 nginx 設定
+              </span>
+            </a>
             
-            
-              
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-06-29T22:00:24&#43;08:00">June 29, 2026</time>
+              </span>
             
           
-        
-      
-        
+        </span>
+        <span class="flex flex-col items-end">
           
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/release/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Release
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-        
-      
+        </span>
+      </div>
     </div>
   
 
 
-    </div>
-    
-  </div>
-  <div class="px-6 pt-4 pb-2"></div>
-</article>
-
-  
-    
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-    
-    
       
-      
-        
-      
-        
-      
-        
-      
-    
-
-    
-    
-      
-      
-    
-
-    
-    
-      
-    
-  
-
-
-
-<article class="article-link--simple flex flex-col md:flex-row relative">
-  
-  <div class=" mt-3 md:mt-0">
-    <header class="items-center text-start text-xl font-semibold">
-      <a
-        
-          href="/worknot/sql-console-release-v0.2.1/"
-        
-        class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
-        <h2>
-          SQL Console Release v0.2.1
-          
-        </h2>
-      </a>
-      
-      
-    </header>
-    <div class="text-sm text-neutral-500 dark:text-neutral-400">
-      
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  <div class="flex flex-row flex-wrap items-center">
-    
-    
-      <time datetime="2026-05-19T21:56:47&#43;08:00">May 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>32 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span>
-    
-
-    
-    
-  </div>
-
-  
-
-  
-  
-    <div class="flex flex-row flex-wrap items-center">
-      
-        
-          
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/categories/sql-console/">
-                  
-                  <span class="flex cursor-pointer">
-  
-  
-  
-    
-    
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Sql-Console
-  </span>
-</span>
-
-                </a>
-              
-            
-            
-              
-            
-          
-        
-      
-        
-          
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/release/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Release
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-        
-      
-    </div>
-  
-
-
-    </div>
-    
-  </div>
-  <div class="px-6 pt-4 pb-2"></div>
-</article>
-
-  
-    
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-    
-    
-      
-      
-        
-      
-        
-      
-        
-      
-    
-
-    
-    
-      
-      
-    
-
-    
-    
-      
-    
-  
-
-
-
-<article class="article-link--simple flex flex-col md:flex-row relative">
-  
-  <div class=" mt-3 md:mt-0">
-    <header class="items-center text-start text-xl font-semibold">
-      <a
-        
-          href="/worknot/gitbucket-api/"
-        
-        class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
-        <h2>
-          gitbucket api
-          
-        </h2>
-      </a>
-      
-      
-    </header>
-    <div class="text-sm text-neutral-500 dark:text-neutral-400">
-      
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  <div class="flex flex-row flex-wrap items-center">
-    
-    
-      <time datetime="2026-05-19T21:16:39&#43;08:00">May 19, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>505 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">2 分鐘</span>
-    
-
-    
-    
-  </div>
-
-  
-
-  
-  
-    <div class="flex flex-row flex-wrap items-center">
-      
-        
-          
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/categories/%E5%B7%A5%E4%BD%9C%E9%9B%9C%E8%A8%98/">
-                  
-                  <span class="flex cursor-pointer">
-  
-  
-  
-    
-    
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    工作雜記
-  </span>
-</span>
-
-                </a>
-              
-            
-            
-              
-            
-          
-        
-      
-        
-          
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/gitbucket/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Gitbucket
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/api/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Api
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-        
-      
-    </div>
-  
-
-
-    </div>
-    
-  </div>
-  <div class="px-6 pt-4 pb-2"></div>
-</article>
-
-  
-    
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-    
-    
-      
-      
-        
-      
-        
-      
-        
-      
-    
-
-    
-    
-      
-      
-    
-
-    
-    
-      
-    
-  
-
-
-
-<article class="article-link--simple flex flex-col md:flex-row relative">
-  
-  <div class=" mt-3 md:mt-0">
-    <header class="items-center text-start text-xl font-semibold">
-      <a
-        
-          href="/worknot/sql-console-release-v0.2.0-en/"
-        
-        class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
-        <h2>
-          SQL Console Release v0.2.0
-          
-        </h2>
-      </a>
-      
-      
-    </header>
-    <div class="text-sm text-neutral-500 dark:text-neutral-400">
-      
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  <div class="flex flex-row flex-wrap items-center">
-    
-    
-      <time datetime="2026-05-17T20:44:47&#43;08:00">May 17, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>192 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span>
-    
-
-    
-    
-  </div>
-
-  
-
-  
-  
-    <div class="flex flex-row flex-wrap items-center">
-      
-        
-          
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/categories/sql-console/">
-                  
-                  <span class="flex cursor-pointer">
-  
-  
-  
-    
-    
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Sql-Console
-  </span>
-</span>
-
-                </a>
-              
-            
-            
-              
-            
-          
-        
-      
-        
-          
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/release/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Release
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-        
-      
-    </div>
-  
-
-
-    </div>
-    
-  </div>
-  <div class="px-6 pt-4 pb-2"></div>
-</article>
-
-  
-    
-
-
-
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-    
-    
-      
-      
-        
-      
-        
-      
-        
-      
-    
-
-    
-    
-      
-      
-    
-
-    
-    
-      
-    
-  
-
-
-
-<article class="article-link--simple flex flex-col md:flex-row relative">
-  
-  <div class=" mt-3 md:mt-0">
-    <header class="items-center text-start text-xl font-semibold">
-      <a
-        
-          href="/worknot/sql-console-release-v0.2.0/"
-        
-        class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
-        <h2>
-          SQL Console Release v0.2.0
-          
-        </h2>
-      </a>
-      
-      
-    </header>
-    <div class="text-sm text-neutral-500 dark:text-neutral-400">
-      
-
-
-
-
-
-
-
-  
-
-  
-  
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-
-  
-    
-  
-
-  
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  <div class="flex flex-row flex-wrap items-center">
-    
-    
-      <time datetime="2026-05-17T20:44:47&#43;08:00">May 17, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>192 字</span><span class="px-2 text-primary-500">&middot;</span><span title="預計閱讀時間">1 分鐘</span>
-    
-
-    
-    
-  </div>
-
-  
-
-  
-  
-    <div class="flex flex-row flex-wrap items-center">
-      
-        
-          
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/categories/sql-console/">
-                  
-                  <span class="flex cursor-pointer">
-  
-  
-  
-    
-    
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Sql-Console
-  </span>
-</span>
-
-                </a>
-              
-            
-            
-              
-            
-          
-        
-      
-        
-          
-            
-              
-            
-            
-              
-                <a class="relative mt-[0.5rem] me-2" href="/tags/release/">
-                  <span class="flex cursor-pointer">
-  
-  
-  
-  
-    <span
-      class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
-  
-    Release
-  </span>
-</span>
-
-                </a>
-              
-            
-          
-        
-      
-    </div>
-  
-
-
-    </div>
-    
-  </div>
-  <div class="px-6 pt-4 pb-2"></div>
-</article>
-
-  
-</section>
-
-  
-
-  
-
-
-</section>
-
-  
+    </footer>
+  </article>
 
         
 
