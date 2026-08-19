@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Wed, 29 Jul 2026 21:22:00 +0800</lastBuildDate><atom:link href="http://pollochang.work/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Aug 2026 23:50:53 +0800</lastBuildDate><atom:link href="http://pollochang.work/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>test-case-01 - OCI TAF Test</title>
+      <link>http://pollochang.work/oracle-database/test-case-01/</link>
+      <pubDate>Tue, 18 Aug 2026 23:50:53 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/test-case-01/</guid>
+      <description>&lt;p&gt;在 Oracle 19c RAC 環境中設計 TAF（Transparent Application Failover）實驗，主要關鍵在於&lt;strong&gt;Client 端必須使用基於 OCI（Oracle Call Interface）的連線工具&lt;/strong&gt;（例如 Linux 下的 SQL*Plus 或 OCI 程式），因為 JDBC Thin 驅動程式並不支援 TAF。&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>oracle-sqldeveloper-old-version-url</title>
