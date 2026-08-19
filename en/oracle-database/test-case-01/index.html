@@ -278,7 +278,7 @@ Below is a complete step-by-step guide for validating TAF via TNS on a Linux cli
     "keywords": ["Oracle"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1566"
+    "wordCount": "1576"
   }]
   </script>
 
@@ -851,7 +851,7 @@ Below is a complete step-by-step guide for validating TAF via TNS on a Linux cli
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-08-18T23:50:53&#43;08:00">18 August 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1566 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
+      <time datetime="2026-08-18T23:50:53&#43;08:00">18 August 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1576 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span><span class="px-2 text-primary-500">&middot;</span><span class="mb-[2px]">
   <span
     id="zen-mode-button"
     class="text-lg hover:text-primary-500"
@@ -1130,6 +1130,7 @@ Below is a complete step-by-step guide for validating TAF via TNS on a Linux cli
         <li><a href="#3-practical-observations-and-considerations">3. Practical Observations and Considerations</a></li>
       </ul>
     </li>
+    <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
   </div>
@@ -1150,6 +1151,7 @@ Below is a complete step-by-step guide for validating TAF via TNS on a Linux cli
         <li><a href="#3-practical-observations-and-considerations">3. Practical Observations and Considerations</a></li>
       </ul>
     </li>
+    <li><a href="#referance">Referance</a></li>
   </ul>
 </nav>
   </div>
@@ -1829,6 +1831,21 @@ During an actual failover, the client will experience a few seconds of pause. Th
 <li><strong>Application Compatibility</strong>
 TAF is a legacy high-availability feature specifically designed for OCI. For web applications using standard Java JDBC Thin Drivers (such as Spring Boot, WebLogic, or Tomcat), configuring TAF in <code>tnsnames.ora</code> has no effect. In modern RAC environments, such applications should use UCP combined with FCF (Fast Connection Failover) or TAC (Transparent Application Continuity).</li>
 </ol>
+
+<h2 class="relative group">Referance
+    <div id="referance" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#referance" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<ul>
+<li><a href="https://github.com/marhar/oracle-taf"  target="_blank" rel="noreferrer">https://github.com/marhar/oracle-taf</a></li>
+<li><a href="https://www.51cto.com/article/771628.html"  target="_blank" rel="noreferrer">https://www.51cto.com/article/771628.html</a></li>
+<li>MOS: KB895599, KB293567, KB833432, KB358566 ,KB195198</li>
+</ul>
 
           
           
