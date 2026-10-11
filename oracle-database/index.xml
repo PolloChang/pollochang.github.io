@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Wed, 19 Aug 2026 23:57:49 +0800</lastBuildDate><atom:link href="http://pollochang.work/oracle-database/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Sep 2026 22:50:43 +0800</lastBuildDate><atom:link href="http://pollochang.work/oracle-database/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Troubleshooting Oracle RAC Node VIP Unreachability and Switch MAC Table Sync Issues</title>
+      <link>http://pollochang.work/oracle-database/troubleshooting-oracle-rac-node-vip-unreachability-and-switch-mac-table-sync-issues/</link>
+      <pubDate>Tue, 08 Sep 2026 22:50:43 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/troubleshooting-oracle-rac-node-vip-unreachability-and-switch-mac-table-sync-issues/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Troubleshooting Oracle RAC Node VIP Unreachability and Switch MAC Table Sync Issues&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;一、 狀況描述&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;現象&lt;/strong&gt;：應用程式或用戶端使用 SCAN Domain（或直接指定特定節點 VIP）連線時，出現連線不穩定，時通時斷；但直接使用各節點的實體 Public IP 連線資料庫皆正常。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;影響範圍&lt;/strong&gt;：連線剛好被 SCAN 導向至問題節點 VIP，或直接指向該節點 VIP 的連線請求會失敗（常見報錯：&lt;code&gt;IO 錯誤: Socket read interrupted&lt;/code&gt; 或連線逾時）。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;二、 根本原因分析&lt;/strong&gt;&#xA;Oracle RAC 的 VIP 是綁定在實體網卡上的 Secondary IP。當 VIP 資源重啟或節點重開機後，若實體網路交換機（Switch）的 MAC 位址表未即時更新，或因安全原則限制而未學習到該 VIP 對應的 MAC 位址，將導致外部主機的封包被交換機丟棄或轉發至錯誤連接埠。&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>export-ddl-with-dql</title>
@@ -346,6 +356,16 @@
       
       <guid>http://pollochang.work/oracle-database/oracle-ocfs2-1/</guid>
       <description>&lt;p&gt;Oracle Cluster File System 2 (OCFS2) 文件系统&lt;/p&gt;&#xA;&#xA;&lt;h2 class=&#34;relative group&#34;&gt;指令&#xA;    &lt;div id=&#34;指令&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#%e6%8c%87%e4%bb%a4&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h2&gt;&#xA;&#xA;&lt;h3 class=&#34;relative group&#34;&gt;手動掛載&#xA;    &lt;div id=&#34;手動掛載&#34; class=&#34;anchor&#34;&gt;&lt;/div&gt;&#xA;    &#xA;    &lt;span&#xA;        class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none&#34;&gt;&#xA;        &lt;a class=&#34;text-primary-300 dark:text-neutral-700 !no-underline&#34; href=&#34;#%e6%89%8b%e5%8b%95%e6%8e%9b%e8%bc%89&#34; aria-label=&#34;定位點&#34;&gt;#&lt;/a&gt;&#xA;    &lt;/span&gt;&#xA;    &#xA;&lt;/h3&gt;&#xA;&lt;div class=&#34;highlight-wrapper&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&#xA;&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&#xA;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&#xA;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mount -t ocfs2 /dev/xvdb1 /data&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&lt;/div&gt;&#xA;&lt;p&gt;處理結果&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://pollochang.work/oracle-database/table-design-001/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/table-design-001/</guid>
+      <description>&lt;p&gt;DBMS_XPLAN.DISPLAY_AWR&lt;/p&gt;&#xA;&lt;p&gt;The &lt;code&gt;plan_hash_value&lt;/code&gt; requires &lt;code&gt;BIGINT&lt;/code&gt; or &lt;code&gt;NUMERIC&lt;/code&gt; in PostgreSQL due to potential values exce&amp;hellip; 針對透過 Oracle DBMS_XPLAN.DISPLAY_AWR 匯出的文字檔（如 sql-plan-DBANME-[export_date].[SQL_ID].txt），將其寫入 PostgreSQL 資料庫 report 時，資料表設計與實務考量如下：&#xA;──────&lt;/p&gt;</description>
       
     </item>
     

@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ai on PolloChang 工作筆記</title>
+    <title>AI on PolloChang 工作筆記</title>
     <link>http://pollochang.work/tags/ai/</link>
-    <description>Recent content in Ai on PolloChang 工作筆記</description>
+    <description>Recent content in AI on PolloChang 工作筆記</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-TW</language>
     <copyright>© 2026 PolloChang</copyright>
-    <lastBuildDate>Mon, 29 Jun 2026 22:00:24 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 Oct 2026 12:00:24 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>The Death of the Junior Dev? How AI is Changing the Game</title>
+      <link>http://pollochang.work/worknot/ai--collaboration-record/</link>
+      <pubDate>Sun, 11 Oct 2026 12:00:24 +0800</pubDate>
+      
+      <guid>http://pollochang.work/worknot/ai--collaboration-record/</guid>
+      <description>&lt;p&gt;在 Linux 上與 AI Agent 獨立帳號協作，最理想的做法是建立一個共享的工作目錄，並利用「共享群組（Group）」搭配「SGID（Set Group ID）」與「POSIX ACL」，讓你們雙方建立的檔案都能自動繼承群組讀寫權限，避免互相卡權限。&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>AI 技巧練習紀錄: 002 - Linux 防火牆設定 與 nginx 設定</title>

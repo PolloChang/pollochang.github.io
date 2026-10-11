@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Troubleshooting on PolloChang 工作筆記</title>
+    <link>http://pollochang.work/tags/troubleshooting/</link>
+    <description>Recent content in Troubleshooting on PolloChang 工作筆記</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-TW</language>
+    <copyright>© 2026 PolloChang</copyright>
+    <lastBuildDate>Tue, 08 Sep 2026 22:50:43 +0800</lastBuildDate><atom:link href="http://pollochang.work/tags/troubleshooting/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Troubleshooting Oracle RAC Node VIP Unreachability and Switch MAC Table Sync Issues</title>
+      <link>http://pollochang.work/oracle-database/troubleshooting-oracle-rac-node-vip-unreachability-and-switch-mac-table-sync-issues/</link>
+      <pubDate>Tue, 08 Sep 2026 22:50:43 +0800</pubDate>
+      
+      <guid>http://pollochang.work/oracle-database/troubleshooting-oracle-rac-node-vip-unreachability-and-switch-mac-table-sync-issues/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Troubleshooting Oracle RAC Node VIP Unreachability and Switch MAC Table Sync Issues&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;一、 狀況描述&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;現象&lt;/strong&gt;：應用程式或用戶端使用 SCAN Domain（或直接指定特定節點 VIP）連線時，出現連線不穩定，時通時斷；但直接使用各節點的實體 Public IP 連線資料庫皆正常。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;影響範圍&lt;/strong&gt;：連線剛好被 SCAN 導向至問題節點 VIP，或直接指向該節點 VIP 的連線請求會失敗（常見報錯：&lt;code&gt;IO 錯誤: Socket read interrupted&lt;/code&gt; 或連線逾時）。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;二、 根本原因分析&lt;/strong&gt;&#xA;Oracle RAC 的 VIP 是綁定在實體網卡上的 Secondary IP。當 VIP 資源重啟或節點重開機後，若實體網路交換機（Switch）的 MAC 位址表未即時更新，或因安全原則限制而未學習到該 VIP 對應的 MAC 位址，將導致外部主機的封包被交換機丟棄或轉發至錯誤連接埠。&lt;/p&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>
